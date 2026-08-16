@@ -1,0 +1,601 @@
+# Edit this file, then run: scripts/build-course
+#
+# Standard block cards are inferred from episode, reading, vignette, and
+# homework fields. Titles, card types, thumbnails, icons, navigation anchors,
+# and conventional filenames are generated automatically.
+
+parts:
+  A:
+    title: A Very Big Idea
+    tagline: specialization and trade can benefit everyone
+    introduction: >-
+      Part A explores one of the most profound insights in all of social science: why humans have a fundamental drive to cooperate and coordinate with one another. The ideas you'll discover here — opportunity cost, the production possibility frontier, and comparative advantage—reveal that cooperation isn't just nice, it's economically inevitable. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. These aren't just abstract theories; they're the invisible forces that make civilization possible.
+    homework_defaults:
+      due: Sunday, September 4
+      file: A
+      solutions: true
+    sections:
+      - block: A1
+        nav: Econ
+        title: What is microeconomics?
+        description: >-
+          Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
+        episode:
+          video: qMDU1QYKYss
+          description: What is microeconomics?
+        reading:
+          chapter: 1
+          topic: The principles of microeconomics
+        vignette:
+          description: No vignette in this block
+          empty: true
+
+      - block: A2
+        nav: PPF
+        title: The production possibility frontier
+        description: The PPF shows us what's attainable as individuals and as a society.
+        episode:
+          video: po4kip5m_QY
+          description: The landscape of what's possible
+        reading:
+          chapter: 2
+          topic: Thinking like an economist
+        vignette:
+          description: PPF practice problems
+
+      - block: A3
+        nav: Specialization
+        title: Comparative advantage and specialization
+        description: >-
+          Minimizing opportunity cost by specializing in one's comparative advantage can bend out the PPF.
+        episode:
+          video: nclNGfY-3eA
+          description: Specialization
+        reading:
+          chapter: 3
+          topic: Gains from trade
+        vignette:
+          description: Specialization practice problems
+
+      - block: A4
+        nav: Trade
+        title: Trade
+        description: Trade based on comparative advantage makes both parties better off simultaneously.
+        episode:
+          video: v_s4dO1AD5Y
+          description: Trade
+        reading:
+          name: Chapter 4
+          description: No reading in this block
+          empty: true
+        vignette:
+          description: Trade practice problems
+
+      - recitations:
+          - name: A1r
+            files: A1
+
+      - exam:
+          description: >-
+            MiniExam A will be held on *Wednesday September 11th* and covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
+          demos:
+            - name: A
+              video: KH0MkPxWsig
+
+  B:
+    title: How Competitive Markets Work
+    tagline: prices can coordinate buyers and sellers
+    introduction: >-
+      Part B reveals how markets solve the coordination problem from Part A. Through the elegant dance of supply and demand, prices emerge to coordinate economic activity and guide society toward efficiency. These aren't just abstract curves—they're the invisible forces that determine what gets produced, who gets what, and how resources flow through the economy. By the end of Part B, you'll understand why competitive markets are one of humanity's greatest innovations for creating prosperity.
+    sections:
+      - block: B1
+        nav: Demand
+        title: Demand
+        description: Demand curves show how much consumers are willing to buy at each price.
+        episode:
+          video: 9HUh9qWDSr4
+          description: "*This video introduces the demand curve as a way of organizing buyers' preferences.*"
+        reading:
+          chapter: 4
+          topic: Market forces of supply and demand
+        vignette:
+          description: "*Demand practice problems*"
+          files: B1
+        homework:
+          due: Wednesday September 25
+          file: B1
+          solutions: true
+
+      - block: B2
+        nav: Supply
+        title: Supply
+        description: Supply curves show how much producers are willing to sell at each price.
+        episode:
+          video: 0WoBKpFMLwo
+          description: "*This video introduces the supply curve and how it helps answer Part B's questions.*"
+        reading:
+          name: Chapter (continued)
+          description: Continues Chapter 4 from Block B1
+          empty: true
+        vignette:
+          description: "*Supply practice problems*"
+          files: B2
+
+      - block: B3
+        nav: Equilibrium
+        title: Equilibrium
+        description: Markets find the equilibrium price where quantity supplied equals quantity demanded.
+        episode:
+          video: 8CQ3D2Kv2i0
+          description: >-
+            *This video introduces shortage and surplus and the incentives of buyers and sellers to move prices toward equilibrium.*
+        reading:
+          chapter: 6
+          topic: Government policies
+        vignette:
+          description: "*Markets practice problems*"
+          files: B3
+        extras:
+          - kind: video
+            name: External Video
+            video: PNtKXWNKGN8
+            description: "*Simulating a Market - excellent video from one of my favorite Youtube channels!*"
+
+      - block: B4
+        nav: Efficiency
+        title: Efficiency
+        description: Competitive markets maximize total surplus, achieving social efficiency.
+        episode:
+          video: RC9vcoqQm-U
+          description: >-
+            *This video introduces government price controls to show that the market maximizes total surplus in some environments.*
+        reading:
+          chapter: 7
+          topic: The efficiency of markets
+        vignette:
+          description: "*Efficiency practice problems*"
+
+      - block: B5
+        nav: Elasticity
+        title: Elasticity
+        description: Elasticity measures how responsive quantity is to changes in price, income, or other factors.
+        episode:
+          description: "*Elasticity measures responsiveness*"
+        reading:
+          name: Reading B5
+        vignette:
+          description: "*Elasticity practice problems*"
+
+      - block: B6
+        nav: Comparative Statics
+        title: Comparative Statics
+        description: Comparative statics analyzes how equilibrium changes when supply or demand conditions shift.
+        episode:
+          description: "*How markets respond to changes*"
+        reading:
+          name: Reading B6
+        vignette:
+          description: "*Comparative statics practice problems*"
+
+      - block: B7
+        nav: Tariffs
+        title: Tariffs
+        description: >-
+          International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs.
+        episode:
+          video: Kxq2E69dpCA
+          description: "*International Trade*"
+        reading:
+          chapter: 9
+          topic: Markets and international trade
+        vignette:
+          description: "*International trade practice problems*"
+          files: C1
+
+      - recitations:
+          - name: B1r
+            files: B1
+          - name: B2r
+            files: B2
+          - name: B3r
+            files: B3
+
+      - exam:
+          description: >-
+            MiniExam B will be held on *Wednesday October 2nd* and covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
+          demos:
+            - name: B
+              video: yG7ahMJe8iA
+
+  C:
+    title: Externalities
+    tagline: externalized costs and benefits lead to inefficient markets
+    introduction: >-
+      Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C reveals the dark side of markets—when private incentives misalign with social welfare, creating externalities and market failures that require government intervention to restore efficiency. You'll discover how pollution, taxes, and corrective policies can either harm or heal market outcomes.
+    homework_defaults:
+      file: C
+      solutions: true
+    sections:
+      - block: C1
+        nav: Externalities
+        title: Externalities
+        description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
+        episode:
+          video: uxPoYbtzYbM
+          description: "*Externalities*"
+        reading:
+          chapter: 10
+          topic: Externalities
+          video: prohFxS0E1I
+        vignette:
+          video: xKK5JBPXGsg
+          description: "*Externalities practice problems*"
+          files: C1
+        homework:
+          due: Due Date TBD
+          practice: hwc
+
+      - block: C2
+        nav: Taxes
+        title: Taxes
+        description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
+        episode:
+          video: R2NctbU80y0
+          description: "*Taxes and Welfare*"
+        reading:
+          chapter: 8
+          topic: Taxes and markets
+          video: AYJh3NefuUM
+        vignette:
+          description: "*Taxes practice problems*"
+          files: C2
+          solutions: false
+        homework:
+          due: Friday October 18
+
+      - block: C3
+        nav: Corrective Taxes
+        title: Corrective Taxes
+        description: Pigouvian taxes can internalize externalities and restore market efficiency by aligning private and social costs.
+        episode:
+          video: W0eAtssLxmk
+          description: "*Corrective Taxes*"
+        reading:
+          chapter: 10
+          topic: Externalities
+          video: prohFxS0E1I
+        vignette:
+          description: "*Corrective taxes practice problems*"
+        homework:
+          due: Due Date TBD
+
+      - recitations:
+          - name: C1r
+            files: C1
+          - name: C2r
+            files: C2
+            solutions: false
+
+      - exam:
+          description: >-
+            MiniExam C will be held on *Monday October 21st* and covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
+          demos:
+            - name: C
+              video: lna7UhNOOro
+
+  D:
+    title: Strategic Interaction
+    tagline: strategic interaction often leads to inefficient markets
+    introduction: >-
+      Part D pushes beyond market failures to explore situations where markets aren't even the right framework. Here we encounter public goods and common resources—goods that are entirely externalities with no private component. These situations demand a completely different approach: strategic thinking and game theory. You'll discover why cooperation is sometimes impossible even when everyone would benefit, and how understanding these dynamics reveals the hidden logic behind everything from environmental policy to international relations.
+    homework_defaults:
+      file: D
+      solutions: false
+    sections:
+      - block: D1
+        nav: Common Resources
+        title: Common Resources
+        description: >-
+          Common resources create market failures through the tragedy of the commons—when shared resources are overused because private incentives don't align with social benefits.
+        episode:
+          video: wd8LSB8nF7o
+          description: "*Introducing non-excludable goods*"
+        reading:
+          chapter: 11
+          topic: Public goods and common resources
+        vignette:
+          description: "*Non-excludable goods practice problems*"
+          files: D1
+        homework:
+          due: Friday November 1st
+
+      - block: D2
+        nav: Public Goods
+        title: Public Goods
+        description: >-
+          Public goods create free-rider problems because they are non-excludable and non-rivalrous, leading to under-provision by private markets and the need for government intervention.
+        episode:
+          video: s_ed6uwHOQI
+          description: "*Baby game theory*"
+        reading:
+          chapter: 11
+          topic: Public goods and common resources
+        vignette:
+          description: "*Game theory practice problems*"
+          files: D2
+        homework:
+          due: Due Date TBD
+
+      - block: D3
+        nav: Game Theory
+        title: Game Theory
+        description: >-
+          Strategic interaction and Nash equilibrium provide a framework for analyzing decisions when outcomes depend on what others do, revealing why cooperation often fails even when it would benefit everyone.
+        episode:
+          video: s_ed6uwHOQI
+          description: "*Baby game theory*"
+        reading:
+          name: Reading D3
+        vignette:
+          description: "*Game theory practice problems*"
+          files: D3
+        homework:
+          due: Due Date TBD
+
+      - block: D4
+        nav: Voting
+        title: Voting
+        description: >-
+          Voting systems and collective choice reveal how individual preferences aggregate into social decisions, often leading to paradoxes and inefficiencies in democratic decision-making.
+        episode:
+          description: "*Voting and collective choice*"
+        reading:
+          name: Reading D4
+        vignette:
+          description: "*Voting systems practice problems*"
+          files: D4
+        homework:
+          due: Due Date TBD
+
+      - carousel:
+          id: extras
+          title: Extras
+          description: >-
+            Additional content including demos, supplementary videos, and extra materials to deepen your understanding of strategic interaction and public goods.
+          resources:
+            - kind: video
+              name: Veritasium Game Theory
+              video: mScpHTIi-kM
+              description: "*External Video: Veritasium Game Theory - excellent content*"
+            - kind: lecture
+              name: Lecture Oct 30
+              video: Is0CQbUM-j8
+              description: "*Class notes and recording from October 30th*"
+              links:
+                - label: Notes
+                  file: Notes/Class_On_Oct_30.pdf
+
+      - recitations:
+          - name: D1r
+            files: D1
+          - name: D2r
+            files: D2
+
+      - exam:
+          description: >-
+            MiniExam D will be held on *Monday November 4th* and covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
+          demos:
+            - name: D
+              video: BYrsSbLdJuQ
+              file: D1
+
+  E:
+    title: Sellers
+    tagline: market power leads to inefficient markets
+    introduction: >-
+      We've mastered coordination and market efficiency—now it's time to explore what happens when sellers have market power. Part E reveals how firms convert inputs to outputs, minimize costs, and maximize profits. You'll discover the dramatic difference between perfect competition and monopoly, and why market structure fundamentally determines economic outcomes. These insights unlock the mystery of why some markets thrive while others exploit consumers—and what we can do about it.
+    sections:
+      - block: E1
+        nav: Costs
+        title: Costs of Production
+        description: Firms transform inputs into outputs through production functions and minimize costs to determine their supply decisions.
+        episode:
+          video: J0Y6XzwSfls
+          description: "*The costs of production*"
+        reading:
+          chapter: 13
+          topic: Costs of production
+        vignette:
+          description: "*Production costs practice problems*"
+          files: E1
+        homework:
+          due: Sunday November 10th
+          file: E1
+          solutions: true
+
+      - block: E2
+        nav: Competition
+        title: Competitive Firms
+        description: Perfect competition emerges when firms are price-takers with no individual market power over the equilibrium price.
+        episode:
+          video: YN4ZkPBS_O8
+          description: "*Competitive firms*"
+        reading:
+          chapter: 14
+          topic: Competitive markets
+        vignette:
+          description: "*Competitive firms practice problems*"
+          files: E2
+        homework:
+          due: Monday November 18th
+          file: E2
+          solutions: true
+
+      - block: E3
+        nav: Monopoly
+        title: Monopoly
+        description: Market power allows firms to influence prices and capture profits at the expense of consumer welfare and economic efficiency.
+        episode:
+          video: N0mbUXYMwdw
+          description: "*Monopoly firms*"
+        reading:
+          chapter: 15
+          topic: Monopoly
+        vignette:
+          description: "*Monopoly practice problems*"
+        homework:
+          due: Due Date TBD
+          file: E1
+          solutions: true
+
+      - block: E4
+        nav: Market Structures
+        title: Market Structures
+        description: Comparing perfect competition, monopolistic competition, oligopoly, and monopoly reveals how market structure determines economic outcomes.
+        episode:
+          video: UIXf362W-rU
+          description: "*Comparing market structures*"
+          links:
+            - label: Notes
+              file: Notes/Episode_E4_Three_Markets.pdf
+        reading:
+          chapter: 16
+          topic: Monopolistic competition
+        vignette:
+          description: "*Market structures practice problems*"
+        homework:
+          due: Due Date TBD
+
+      - recitations:
+          - name: E1r
+            files: E1
+          - name: E2r
+            files: E2
+
+      - carousel:
+          id: past-demos
+          title: Past Demos
+          resources:
+            - kind: demo
+              name: Demo E1
+              video: UZDvSTNbv0w
+              files: E1
+              description: "*A subsidy in a competitive market*"
+            - kind: demo
+              name: Demo E2
+              video: JpAfyhAxiVE
+              files: E2
+              description: "*A lump sum tax on a Monopolist*"
+            - kind: demo
+              name: Demo E3
+              video: jwxiRNAPBLc
+              files: E3
+              description: "*A merger of two Duopolist firms*"
+            - kind: demo
+              name: Demo E4
+              video: SIwcx2GgCFE
+              files: E4
+              description: "*A subsidy in two environments*"
+
+      - exam:
+          description: >-
+            MiniExam E will be held on *Wednesday November 20th* and covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
+          demos:
+            - name: E
+              video: UZDvSTNbv0w
+              file: E
+              include_demo: false
+
+  F:
+    title: Buyers
+    tagline: people respond to many interacting incentives
+    introduction: >-
+      Part F completes our economic journey by revealing the elegant mathematics of human choice. After exploring how markets work and fail, we now discover how budget constraints and preferences create the demand curves that drive everything. You'll learn why consumers make the choices they do, how income from factor markets shapes purchasing power, and how utility maximization creates the predictable patterns we see in real markets. These insights don't just explain buyer behavior—they reveal the hidden logic behind every purchase decision you'll ever make.
+    homework_defaults:
+      file: F
+      solutions: false
+    sections:
+      - block: F1
+        nav: Factor Markets
+        title: Factor Markets
+        description: Factor markets determine the income that households earn from selling their labor and capital, which becomes the budget constraint for consumer choice.
+        episode:
+          description: "*Factor markets*"
+        reading:
+          chapter: 18
+          topic: Factor markets
+        vignette:
+          video: n3LpswjCp6w
+          description: "*Factor markets practice problems with video walkthrough*"
+          files: F1
+        homework:
+          due: Sunday December 8th
+        extras:
+          - kind: demo
+            name: Demo F1
+            video: zkn0CXaNOJY
+            files: F1
+            description: "*A change in the labor market - challenging demo*"
+
+      - block: F2
+        nav: Consumer Choice
+        title: Consumer Choice
+        description: Given their budget constraint from factor markets, consumers maximize utility by choosing the optimal combination of goods where marginal utility per dollar is equal across all goods.
+        episode:
+          description: "*Consumer choice*"
+        reading:
+          chapter: 21
+          topic: Consumer choice
+        vignette:
+          video: l2uq30_Cg10
+          description: "*Consumer choice practice problems with video walkthrough*"
+          files: F2
+          solution_file: Vignettes/Vignette_F2_sols_new.pdf
+        homework:
+          due: Due Date TBD
+          solutions: true
+
+      - recitations:
+          - name: F1r
+            files: F1
+          - name: F2r
+            files: F2
+            solution_file: Vignettes/Vignette_F2_sols_new.pdf
+
+      - homework_notes:
+          title: Homework F Details
+          nav: Homework Details
+          name: Homework F
+          due: Sunday December 8th
+          file: F
+          questions:
+            - In the graph for question 1, show Hagrid's initial budget constraint
+            - For question 2, in the graph below question 1, show Hagrid's optimal consumption bundle on the budget constraint they already drew (using indifference curves), then on the same graph, show how Hagrid's optimal consumption bundle would change using shifts in budget constraints and indifference curves.
+            - In the graph below question 3, show Hagrid's budget constraint from question 2, then show the shift in the budget constraint on the budget constraint for the same graph.
+            - Show the optimal consumption bundles (using indifference curves) on the budget constraints
+
+      - exam:
+          title: MiniExams
+          description: >-
+            MiniExam F will be held during finals week on *Thursday December 12* at 2:00 PM if you're in the 10AM section or at 3:00 PM if you're in the 11AM section. MiniExam Z (comprehensive review) will be held after a 5 minute break. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
+          demos:
+            - name: F1
+              video: zkn0CXaNOJY
+              description: "*A change in the labor market - challenging demo*"
+            - name: F2
+              video: DVHvgb_kJDY
+              description: "*Consumer choice optimization - challenging demo*"
+          footer: >-
+            *Demo F1 is very similar to what you'll see on MiniExam F. Try solving first to catch your weak points. Then use the video and solutions to check your work. Note: this demo is a bit difficult so focus on Vignette F2.*
+
+      - standalone:
+          id: demo-z
+          title: Demo Z
+          description: >-
+            Demo Z provides a comprehensive bird's eye view of everything we've learned this semester, connecting all the economic concepts from supply and demand through consumer choice.
+          resource:
+            kind: demo
+            name: Demo Z
+            files: Z
+            solutions: false
+            description: "*A bird's eye view of the semester - synthesizing all major economic concepts covered in Parts A through F*"

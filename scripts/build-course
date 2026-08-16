@@ -1,0 +1,713 @@
+#!/usr/bin/env ruby
+
+require 'cgi'
+require 'pathname'
+require 'set'
+require 'yaml'
+
+ROOT = Pathname.new(__dir__).parent.expand_path
+CONTENT_PATH = ROOT.join('course-content.yml')
+CHECK_ONLY = ARGV.include?('--check')
+
+COURSE = {
+  'code' => 'ECON 0100',
+  'brand' => ['MICRO', '-ECON'],
+  'syllabus' => 'Syllabus.pdf',
+  'stylesheet' => 'https://tayweid.github.io/course-assets/styles/main.css',
+  'script' => 'https://tayweid.github.io/course-assets/scripts/main.js',
+  'reading_video' => 'uwYCeUVcx4E'
+}.freeze
+
+KNOWN_MISSING = %w[
+  Vignettes/Vignette_D3.pdf
+  Vignettes/Vignette_D3_sols.pdf
+  Vignettes/Vignette_D4.pdf
+  Vignettes/Vignette_D4_sols.pdf
+  Homework/HW_E2_sols.pdf
+  Homework/HW_F_sols.pdf
+].to_set.freeze
+
+def escape(value)
+  CGI.escapeHTML(value.to_s)
+end
+
+def inline_text(value)
+  escape(value).gsub(/\*([^*]+)\*/, '<i>\1</i>')
+end
+
+def youtube_thumbnail(video)
+  "https://img.youtube.com/vi/#{video}/maxresdefault.jpg"
+end
+
+def link(label, href)
+  icon, css = if label == 'Practice'
+                ['fa fa-pencil', 'practice-link']
+              else
+                ['fa fa-file-pdf-o', 'download-link']
+              end
+  %(<a href="#{escape(href)}" class="#{css}" target="_blank" rel="noopener"><i class="#{icon}" aria-hidden="true"></i> #{escape(label)}</a>)
+end
+
+def title_links(items)
+  Array(items).map { |item| link(item.fetch('label'), item.fetch('file')) }
+end
+
+def reading_file(chapter)
+  candidates = [
+    "Reading/Ch_#{chapter.to_s.rjust(2, '0')}.pdf",
+    "Reading/Ch_#{chapter}.pdf"
+  ].uniq
+  candidates.find { |candidate| ROOT.join(candidate).exist? } || candidates.last
+end
+
+def file_pair(folder, prefix, base, options = {})
+  links = []
+  if options.fetch('file', true)
+    file_base = options['file'].is_a?(String) ? options['file'] : base
+    links << { 'label' => options.fetch('file_label', prefix), 'file' => "#{folder}/#{prefix}_#{file_base}.pdf" }
+  end
+  if options.fetch('solutions', true)
+    solution_base = options['solution_file'] || (options['file'].is_a?(String) ? options['file'] : base)
+    links << { 'label' => 'Solutions', 'file' => "#{folder}/#{prefix}_#{solution_base}_sols.pdf" }
+  end
+  links
+end
+
+def vignette_links(config, default_base)
+  return [] unless config.key?('files') && config['files']
+
+  base = config['files'] == true ? default_base : config['files'].to_s
+  items = [{ 'label' => 'Vignette', 'file' => "Vignettes/Vignette_#{base}.pdf" }]
+  if config.fetch('solutions', true)
+    solution_file = config['solution_file'] || "Vignettes/Vignette_#{base}_sols.pdf"
+    items << { 'label' => 'Solutions', 'file' => solution_file }
+  end
+  items
+end
+
+def homework_config(part, block)
+  defaults = part.fetch('homework_defaults', {})
+  overrides = block.fetch('homework', {}) || {}
+  defaults.merge(overrides)
+end
+
+def standard_card(kind, name:, description:, video: nil, topic: nil, links: [], empty: false, standalone: false, play_icon: '▶')
+  type = case kind
+         when 'homework' then 'homework'
+         when 'vignette', 'demo' then 'exercise'
+         else 'concept'
+         end
+  classes = ["#{type}-card"]
+  classes << 'placeholder' if empty
+  classes << (standalone == :plain ? 'standalone' : 'standalone-card') if standalone
+
+  {
+    'type' => type,
+    'classes' => classes,
+    'name' => name,
+    'topic' => topic,
+    'description' => description,
+    'video' => video,
+    'links' => links,
+    'empty' => empty,
+    'play_icon' => play_icon
+  }
+end
+
+def generic_card(resource, standalone: false)
+  kind = resource.fetch('kind')
+  links = Array(resource['links'])
+  if kind == 'demo'
+    base = resource['files'] || resource.fetch('name').sub(/^Demo\s+/, '')
+    links += file_pair('Demos', 'Demo', base, {
+      'file' => resource.fetch('file', true),
+      'solutions' => resource.fetch('solutions', true),
+      'solution_file' => resource['solution_file'],
+      'file_label' => 'Demo'
+    })
+  elsif kind == 'vignette'
+    links += vignette_links(resource, resource.fetch('name').sub(/^Vignette\s+/, ''))
+  end
+
+  standard_card(
+    kind,
+    name: resource.fetch('name'),
+    description: inline_text(resource.fetch('description', '')),
+    video: resource['video'],
+    links: links,
+    empty: resource.fetch('empty', false),
+    standalone: standalone
+  )
+end
+
+def block_cards(part, block)
+  block_id = block.fetch('block')
+  episode = block.fetch('episode')
+  reading = block.fetch('reading')
+  vignette = block.fetch('vignette')
+  homework = homework_config(part, block)
+
+  episode_links = Array(episode['links'])
+  cards = [standard_card(
+    'episode',
+    name: episode.fetch('name', "Episode #{block_id}"),
+    description: inline_text(episode.fetch('description')),
+    video: episode['video'],
+    links: episode_links,
+    empty: episode.fetch('empty', false)
+  )]
+
+  reading_name = if reading['chapter']
+                   "Chapter #{reading['chapter']}:"
+                 else
+                   reading.fetch('name')
+                 end
+  reading_links = []
+  if reading['chapter'] && reading.fetch('file', true)
+    reading_links << { 'label' => 'Reading', 'file' => reading['file'].is_a?(String) ? reading['file'] : reading_file(reading['chapter']) }
+  end
+  reading_links += Array(reading['links'])
+  reading_video = if reading.key?('video')
+                    reading['video']
+                  elsif reading['chapter']
+                    COURSE['reading_video']
+                  end
+  cards << standard_card(
+    'reading',
+    name: reading_name,
+    topic: reading['topic'],
+    description: inline_text(reading.fetch('description', '*Skim the text to understand the main ideas*')),
+    video: reading_video,
+    links: reading_links,
+    empty: reading.fetch('empty', false),
+    play_icon: block_id.start_with?('A') ? '▶' : '🎧'
+  )
+
+  cards << standard_card(
+    'vignette',
+    name: vignette.fetch('name', "Vignette #{block_id}"),
+    description: inline_text(vignette.fetch('description')),
+    video: vignette['video'],
+    links: vignette_links(vignette, block_id),
+    empty: vignette.fetch('empty', false)
+  )
+
+  practice = homework.fetch('practice', "hw#{block_id.downcase}")
+  homework_links = practice ? [{ 'label' => 'Practice', 'file' => "Practice/#{practice}.html" }] : []
+  if homework['file']
+    homework_links << { 'label' => 'Assignment', 'file' => "Homework/HW_#{homework['file']}.pdf" }
+  end
+  if homework['solutions']
+    solution_base = homework['solution_file'] || homework['file']
+    homework_links << { 'label' => 'Solutions', 'file' => "Homework/HW_#{solution_base}_sols.pdf" }
+  end
+  homework_name = "Homework #{block_id}#{homework['due'] ? ':' : ''}"
+  cards << standard_card(
+    'homework',
+    name: homework_name,
+    topic: homework['due'],
+    description: 'Unlimited practice. Instant feedback. Submit to <a href="https://gradescope.com" target="_blank" rel="noopener">Gradescope</a>.',
+    links: homework_links
+  )
+
+  cards + Array(block['extras']).map { |resource| generic_card(resource) }
+end
+
+def render_card(card, indent = '                ')
+  classes = ['carousel-card', *card.fetch('classes')].join(' ')
+  video_attribute = card['video'] ? %( data-video-id="#{escape(card['video'])}") : ''
+  image = if card['empty']
+            ''
+          elsif card['video']
+            %(<img src="#{youtube_thumbnail(card['video'])}" alt="#{escape(card['name'])} thumbnail">\n#{indent}        <div class="play-button">#{card['play_icon']}</div>)
+          else
+            %(<img src="https://img.youtube.com/vi/default/maxresdefault.jpg" alt="#{escape(card['name'])} thumbnail" class="placeholder-bg">)
+          end
+  topic = card['topic'] ? %( <span class="chapter-topic">#{escape(card['topic'])}</span>) : ''
+  links = card.fetch('links').empty? ? '' : " #{title_links(card['links']).join(' ')}"
+
+  html = <<~HTML.chomp
+    <div class="#{classes}"#{video_attribute}>
+        <div class="card-video">
+            #{image}
+        </div>
+        <div class="card-content">
+            <h3 class="card-title">#{escape(card['name'])}#{topic}#{links}</h3>
+            <p class="card-description">#{card['description']}</p>
+        </div>
+    </div>
+  HTML
+  html.lines.map { |line| line.strip.empty? ? '' : "#{indent}#{line.rstrip}" }.join("\n")
+end
+
+def render_carousel(id:, title:, description:, cards:)
+  description_html = description.to_s.empty? ? '' : %(
+        <p class="block-description">#{description}</p>)
+  rendered_cards = cards.map { |card| render_card(card) }.join("\n\n")
+  <<~HTML.chomp
+        <div class="carousel-container" id="#{escape(id)}">
+            <h1 class="subtitle">#{escape(title)}</h1>#{description_html}
+            <div class="carousel">
+                <button class="carousel-arrow carousel-arrow-left" aria-label="Previous resource" type="button">
+                    <span aria-hidden="true">‹</span>
+                </button>
+                <div class="carousel-track">
+    #{rendered_cards}
+                </div>
+                <button class="carousel-arrow carousel-arrow-right" aria-label="Next resource" type="button">
+                    <span aria-hidden="true">›</span>
+                </button>
+                <div class="carousel-indicator"></div>
+            </div>
+        </div>
+  HTML
+end
+
+def render_recitations(config)
+  items = Array(config)
+  cards = items.map do |item|
+    name = item.fetch('name')
+    description = item.fetch('description', "*Vignette #{name} is an extended Vignette we examine in Recitation.*")
+    generic_card({
+      'kind' => 'vignette',
+      'name' => "Vignette #{name}",
+      'description' => description,
+      'files' => item.fetch('files', name.sub(/r$/, '')),
+      'solutions' => item.fetch('solutions', true),
+      'solution_file' => item['solution_file']
+    })
+  end
+  description = 'Come to Recitations prepared to work through extended Vignettes in both small groups and as a class. Your Recitation Instructor will guide you through a less structured economic problem, similar to what was covered in class and what you\'ll see on the next MiniExam. Submit your work to <a href="https://gradescope.com" target="_blank" rel="noopener">Gradescope</a> at the end of Recitation.'
+  render_carousel(id: 'recitations', title: 'Recitations', description: description, cards: cards)
+end
+
+def render_exam(part_id, exam)
+  title = exam.fetch('title', 'MiniExam')
+  demos = Array(exam.fetch('demos')).map do |demo|
+    name = demo.fetch('name')
+    description = demo.fetch('description', "Demo #{name} is very similar to what you'll see on MiniExam #{part_id}. Try solving first to catch your weak points. Then use the video and solutions to check your work.")
+    generic_card({
+      'kind' => 'demo',
+      'name' => "Demo #{name}",
+      'description' => description,
+      'video' => demo['video'],
+      'files' => demo.fetch('file', name),
+      'file' => demo.fetch('include_demo', true),
+      'solutions' => demo.fetch('solutions', true),
+      'solution_file' => demo['solution_file']
+    }, standalone: demos_length(exam) == 1)
+  end
+
+  content = if demos.length == 1
+              render_card(demos.first, '        ')
+            else
+              render_carousel(id: '', title: '', description: '', cards: demos)
+                .sub(/ id=""/, '')
+                .sub(/\s*<h1 class="subtitle"><\/h1>/, '')
+                .gsub(/^        /, '        ')
+            end
+  footer = exam['footer'] ? %(
+        <p style="margin-top: 20px;">#{inline_text(exam['footer'])}</p>) : ''
+  <<~HTML.chomp
+        <div id="miniexam">
+            <h1 class="subtitle">#{escape(title)}</h1>
+            <p>#{inline_text(exam.fetch('description'))}</p>
+
+    #{content}
+    #{footer}
+        </div>
+  HTML
+end
+
+def demos_length(exam)
+  Array(exam.fetch('demos')).length
+end
+
+def render_homework_notes(config)
+  questions = Array(config.fetch('questions')).map { |question| "                    <li>#{escape(question)}</li>" }.join("\n")
+  file = "Homework/HW_#{config.fetch('file')}.pdf"
+  <<~HTML.chomp
+        <div id="#{escape(config.fetch('id', 'homework-details'))}">
+            <h1 class="subtitle">#{escape(config.fetch('title'))}</h1>
+            <p>#{escape(config.fetch('name'))} is due on Gradescope on <i>#{escape(config.fetch('due'))}</i>.</p>
+
+            <div class="carousel-card homework-card standalone">
+                <div class="card-video" style="padding-bottom: 30%; background: var(--main-md-color);">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+                        <h3>Homework FAQs</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">#{escape(config.fetch('name'))} #{link('Assignment', file)}</h3>
+                    <div class="card-description">
+                        <p><strong>Some FAQs:</strong></p>
+                        <ol style="margin: 10px 0; padding-left: 20px;">
+    #{questions}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+  HTML
+end
+
+def section_id_and_nav(part_id, section)
+  if section['block']
+    ["part-#{section['block'].downcase}", "#{section['block']} | #{section.fetch('nav')}"]
+  elsif section['recitations']
+    ['recitations', 'Recitations']
+  elsif section['carousel']
+    config = section['carousel']
+    [config.fetch('id'), config.fetch('nav', config.fetch('title'))]
+  elsif section['exam']
+    ['miniexam', section['exam'].fetch('nav', section['exam'].fetch('title', 'MiniExam'))]
+  elsif section['homework_notes']
+    config = section['homework_notes']
+    [config.fetch('id', 'homework-details'), config.fetch('nav', config.fetch('title'))]
+  elsif section['standalone']
+    config = section['standalone']
+    [config.fetch('id'), config.fetch('nav', config.fetch('title'))]
+  else
+    raise "Part #{part_id}: unknown section type"
+  end
+end
+
+def render_section(part_id, part, section)
+  if section['block']
+    block_id = section.fetch('block')
+    render_carousel(
+      id: "part-#{block_id.downcase}",
+      title: "Block #{block_id} ~ #{section.fetch('title')}",
+      description: escape(section.fetch('description')),
+      cards: block_cards(part, section)
+    )
+  elsif section['recitations']
+    render_recitations(section['recitations'])
+  elsif section['carousel']
+    config = section['carousel']
+    render_carousel(
+      id: config.fetch('id'),
+      title: config.fetch('title'),
+      description: inline_text(config.fetch('description', '')),
+      cards: Array(config.fetch('resources')).map { |resource| generic_card(resource) }
+    )
+  elsif section['exam']
+    render_exam(part_id, section['exam'])
+  elsif section['homework_notes']
+    render_homework_notes(section['homework_notes'])
+  elsif section['standalone']
+    config = section['standalone']
+    card = generic_card(config.fetch('resource'), standalone: :plain)
+    <<~HTML.chomp
+          <div id="#{escape(config.fetch('id'))}">
+              <h1 class="subtitle">#{escape(config.fetch('title'))}</h1>
+              <p>#{inline_text(config.fetch('description'))}</p>
+
+      #{render_card(card, '        ')}
+          </div>
+    HTML
+  end
+end
+
+def render_left_navigation(part_ids, active_part)
+  parts = part_ids.map do |part_id|
+    active = part_id == active_part ? ' class="active" aria-current="page"' : ''
+    %(            <li><a#{active} href="part-#{part_id.downcase}.html">Part #{escape(part_id)}</a></li>)
+  end.join("\n")
+  brand = COURSE['brand'].map { |line| "            <span>#{escape(line)}</span>" }.join("\n")
+  <<~HTML.chomp
+    <div class="left_div">
+        <nav aria-label="Course">
+            <ul>
+    #{brand}
+                <hr class="nav-hr">
+                <li class="nav-item-no-margin"><a class="btn" href="#{COURSE['syllabus']}" target="_blank" rel="noopener">Syllabus</a></li>
+                <hr class="nav-hr-top">
+    #{parts}
+            </ul>
+        </nav>
+    </div>
+  HTML
+end
+
+def render_right_navigation(part_id, sections)
+  links = sections.each_with_index.map do |section, index|
+    id, label = section_id_and_nav(part_id, section)
+    li_class = index.zero? ? ' class="nav-item-no-margin"' : ''
+    active = index.zero? ? ' active' : ''
+    %(            <li#{li_class}><a href="##{escape(id)}" class="nav-link-right#{active}">#{escape(label)}</a></li>)
+  end.join("\n")
+  <<~HTML.chomp
+    <div class="right_div">
+        <nav aria-label="On this page">
+            <ul>
+                <span>Contents</span>
+                <hr class="nav-hr-right">
+    #{links}
+            </ul>
+        </nav>
+    </div>
+  HTML
+end
+
+def render_part(part_id, part, part_ids)
+  sections = part.fetch('sections')
+  rendered_sections = sections.map { |section| render_section(part_id, part, section) }.join("\n\n")
+  <<~HTML
+    <!doctype html>
+    <!-- Generated from course-content.yml by scripts/build-course. Do not edit this file directly. -->
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Microeconomics | Part #{escape(part_id)}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="#{COURSE['stylesheet']}">
+    </head>
+    <body>
+    <div class="wrapper course-econ-0100">
+    #{render_left_navigation(part_ids, part_id)}
+
+    <main class="content">
+        <div class="description">
+            <h1 class="title title-tight">Part #{escape(part_id)} | #{escape(part.fetch('title'))}</h1>
+            <i class="subtitle-text">// #{escape(part.fetch('tagline'))} //</i>
+            <p>#{escape(part.fetch('introduction'))}</p>
+        </div>
+
+    #{rendered_sections}
+
+        <div class="bottom-spacer"></div>
+    </main>
+
+    #{render_right_navigation(part_id, sections)}
+    </div>
+    <script src="#{COURSE['script']}"></script>
+    </body>
+    </html>
+  HTML
+end
+
+def render_index(first_part)
+  file = "part-#{first_part.downcase}.html"
+  <<~HTML
+    <!doctype html>
+    <!-- Generated from course-content.yml by scripts/build-course. Do not edit this file directly. -->
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="refresh" content="0; url=#{file}">
+        <link rel="canonical" href="#{file}">
+        <title>#{COURSE['code']} | Microeconomics</title>
+    </head>
+    <body>
+        <p><a href="#{file}">Continue to #{COURSE['code']}</a></p>
+    </body>
+    </html>
+  HTML
+end
+
+def check_keys(value, allowed, path, errors)
+  unless value.is_a?(Hash)
+    errors << "#{path} must be a mapping"
+    return
+  end
+  (value.keys - allowed).each { |key| errors << "#{path}: unknown field #{key}" }
+end
+
+def require_keys(value, required, path, errors)
+  return unless value.is_a?(Hash)
+
+  required.each { |key| errors << "#{path}: missing required field #{key}" unless value.key?(key) }
+end
+
+def check_links(value, path, errors)
+  Array(value).each_with_index do |item, index|
+    check_keys(item, %w[label file], "#{path}[#{index}]", errors)
+    require_keys(item, %w[label file], "#{path}[#{index}]", errors)
+  end
+end
+
+def check_resource(resource, path, errors)
+  check_keys(resource, %w[kind name video description links files file solutions solution_file empty], path, errors)
+  return unless resource.is_a?(Hash)
+
+  require_keys(resource, %w[kind name description], path, errors)
+  check_links(resource['links'], "#{path}.links", errors)
+end
+
+def validate_schema(parts)
+  errors = []
+  unless parts.is_a?(Hash)
+    return ['parts must be a mapping']
+  end
+
+  parts.each do |part_id, part|
+    path = "parts.#{part_id}"
+    check_keys(part, %w[title tagline introduction homework_defaults sections], path, errors)
+    require_keys(part, %w[title tagline introduction sections], path, errors)
+    next unless part.is_a?(Hash)
+
+    check_keys(part['homework_defaults'], %w[due file solutions solution_file practice], "#{path}.homework_defaults", errors) if part['homework_defaults']
+    unless part['sections'].is_a?(Array)
+      errors << "#{path}.sections must be a list"
+      next
+    end
+
+    part['sections'].each_with_index do |section, index|
+      section_path = "#{path}.sections[#{index}]"
+      unless section.is_a?(Hash)
+        errors << "#{section_path} must be a mapping"
+        next
+      end
+
+      if section['block']
+        check_keys(section, %w[block nav title description episode reading vignette homework extras], section_path, errors)
+        require_keys(section, %w[block nav title description episode reading vignette], section_path, errors)
+        check_keys(section['episode'], %w[name video description links empty], "#{section_path}.episode", errors)
+        require_keys(section['episode'], %w[description], "#{section_path}.episode", errors)
+        check_links(section.dig('episode', 'links'), "#{section_path}.episode.links", errors)
+        check_keys(section['reading'], %w[chapter name topic description video file links empty], "#{section_path}.reading", errors)
+        if section['reading'].is_a?(Hash) && !section['reading'].key?('chapter') && !section['reading'].key?('name')
+          errors << "#{section_path}.reading: provide chapter or name"
+        end
+        check_links(section.dig('reading', 'links'), "#{section_path}.reading.links", errors)
+        check_keys(section['vignette'], %w[name description video files solutions solution_file empty], "#{section_path}.vignette", errors)
+        require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
+        check_keys(section['homework'], %w[due file solutions solution_file practice], "#{section_path}.homework", errors) if section['homework']
+        Array(section['extras']).each_with_index { |resource, resource_index| check_resource(resource, "#{section_path}.extras[#{resource_index}]", errors) }
+      elsif section['recitations']
+        check_keys(section, %w[recitations], section_path, errors)
+        Array(section['recitations']).each_with_index do |item, item_index|
+          check_keys(item, %w[name description files solutions solution_file], "#{section_path}.recitations[#{item_index}]", errors)
+          require_keys(item, %w[name], "#{section_path}.recitations[#{item_index}]", errors)
+        end
+      elsif section['carousel']
+        check_keys(section, %w[carousel], section_path, errors)
+        config = section['carousel']
+        check_keys(config, %w[id title nav description resources], "#{section_path}.carousel", errors)
+        require_keys(config, %w[id title resources], "#{section_path}.carousel", errors)
+        Array(config['resources']).each_with_index { |resource, resource_index| check_resource(resource, "#{section_path}.carousel.resources[#{resource_index}]", errors) } if config.is_a?(Hash)
+      elsif section['exam']
+        check_keys(section, %w[exam], section_path, errors)
+        config = section['exam']
+        check_keys(config, %w[title nav description demos footer], "#{section_path}.exam", errors)
+        require_keys(config, %w[description demos], "#{section_path}.exam", errors)
+        Array(config['demos']).each_with_index do |demo, demo_index|
+          check_keys(demo, %w[name video description file include_demo solutions solution_file], "#{section_path}.exam.demos[#{demo_index}]", errors)
+          require_keys(demo, %w[name], "#{section_path}.exam.demos[#{demo_index}]", errors)
+        end if config.is_a?(Hash)
+      elsif section['homework_notes']
+        check_keys(section, %w[homework_notes], section_path, errors)
+        check_keys(section['homework_notes'], %w[id title nav name due file questions], "#{section_path}.homework_notes", errors)
+        require_keys(section['homework_notes'], %w[title name due file questions], "#{section_path}.homework_notes", errors)
+      elsif section['standalone']
+        check_keys(section, %w[standalone], section_path, errors)
+        config = section['standalone']
+        check_keys(config, %w[id title nav description resource], "#{section_path}.standalone", errors)
+        require_keys(config, %w[id title description resource], "#{section_path}.standalone", errors)
+        check_resource(config['resource'], "#{section_path}.standalone.resource", errors) if config.is_a?(Hash)
+      else
+        errors << "#{section_path}: unknown section type"
+      end
+    end
+  end
+  errors
+end
+
+def validate_video_ids!(parts)
+  errors = []
+  walk = lambda do |value, path|
+    case value
+    when Hash
+      value.each do |key, child|
+        if key == 'video' && child && child !~ /\A[A-Za-z0-9_-]{11}\z/
+          errors << "#{path}: invalid YouTube video ID #{child}"
+        else
+          walk.call(child, "#{path}.#{key}")
+        end
+      end
+    when Array
+      value.each_with_index { |child, index| walk.call(child, "#{path}[#{index}]") }
+    end
+  end
+  walk.call(parts, 'parts')
+  errors
+end
+
+def validate_outputs(outputs)
+  errors = []
+  warnings = []
+  outputs.each do |filename, html|
+    ids = html.scan(/\sid="([^"]+)"/).flatten
+    id_counts = ids.each_with_object(Hash.new(0)) { |id, counts| counts[id] += 1 }
+    id_counts.each { |id, count| errors << "#{filename}: duplicate id #{id}" if count > 1 }
+    html.scan(/\bhref="([^"]+)"/).flatten.each do |href|
+      next if href.empty? || href.match?(%r{\A(?:[a-z]+:|#|//)}i)
+
+      decoded = CGI.unescape(href.split(/[?#]/, 2).first)
+      resolved = ROOT.join(decoded).cleanpath
+      unless resolved.to_s.start_with?(ROOT.to_s + File::SEPARATOR)
+        errors << "#{filename}: local link escapes project: #{href}"
+        next
+      end
+      next if resolved.exist?
+
+      if KNOWN_MISSING.include?(decoded)
+        warnings << "#{filename}: known missing file #{decoded}"
+      else
+        errors << "#{filename}: missing local file #{decoded}"
+      end
+    end
+  end
+  [errors.uniq, warnings.uniq]
+end
+
+begin
+  data = YAML.safe_load(CONTENT_PATH.read, permitted_classes: [], permitted_symbols: [], aliases: false)
+rescue Psych::Exception => error
+  warn "Error: invalid YAML in #{CONTENT_PATH.basename}: #{error.message}"
+  exit 1
+end
+
+parts = data.fetch('parts')
+part_ids = parts.keys
+errors = validate_schema(parts)
+errors.concat(validate_video_ids!(parts))
+errors << 'At least one part is required.' if part_ids.empty?
+errors.concat(part_ids.reject { |id| id.match?(/\A[A-Z]\z/) }.map { |id| "Invalid part ID: #{id}" })
+
+unless errors.empty?
+  errors.uniq.each { |error| warn "Error: #{error}" }
+  exit 1
+end
+
+outputs = {}
+parts.each { |part_id, part| outputs["part-#{part_id.downcase}.html"] = render_part(part_id, part, part_ids) }
+outputs['index.html'] = render_index(part_ids.first) unless part_ids.empty?
+output_errors, warnings = validate_outputs(outputs)
+errors.concat(output_errors)
+
+warnings.each { |warning| warn "Warning: #{warning}" }
+unless errors.empty?
+  errors.uniq.each { |error| warn "Error: #{error}" }
+  exit 1
+end
+
+stale = false
+outputs.each do |filename, contents|
+  path = ROOT.join(filename)
+  if CHECK_ONLY
+    if !path.exist? || path.read != contents
+      stale = true
+      warn "Generated file is stale: #{filename}"
+    end
+  else
+    path.write(contents)
+    puts "Generated #{filename}"
+  end
+end
+
+exit 1 if stale
+puts 'Generated pages are up to date.' if CHECK_ONLY
