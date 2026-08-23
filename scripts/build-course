@@ -11,7 +11,7 @@ CHECK_ONLY = ARGV.include?('--check')
 
 COURSE = {
   'code' => 'ECON 0100',
-  'brand' => ['MICRO', '-ECON'],
+  'brand' => ['MICRO', 'ECON'],
   'syllabus' => 'Syllabus.pdf',
   'stylesheet' => 'https://tayweid.github.io/course-assets/course.css',
   'script' => 'https://tayweid.github.io/course-assets/course.js',
@@ -377,7 +377,7 @@ def render_section(part_id, part, section)
     block_id = section.fetch('block')
     render_carousel(
       id: "part-#{block_id.downcase}",
-      title: "Block #{block_id} ~ #{section.fetch('title')}",
+      title: "Block #{block_id} | #{section.fetch('title')}",
       description: escape(section.fetch('description')),
       cards: block_cards(part, section)
     )
@@ -470,7 +470,7 @@ def render_part(part_id, part, part_ids)
     <main class="content">
         <div class="description">
             <h1 class="title title-tight">Part #{escape(part_id)} | #{escape(part.fetch('title'))}</h1>
-            <i class="subtitle-text">// #{escape(part.fetch('tagline'))} //</i>
+            <i class="subtitle-text">&gt; #{escape(part.fetch('tagline'))}</i>
             <p>#{escape(part.fetch('introduction'))}</p>
         </div>
 
