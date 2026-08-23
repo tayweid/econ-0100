@@ -369,46 +369,53 @@ def render_block(part, block)
   HTML
 end
 
-def render_exam(part_id, exam)
-  title = exam.fetch('title', 'MiniExam')
-  demos = Array(exam.fetch('demos')).map do |demo|
-    name = demo.fetch('name')
-    description = demo.fetch('description', "Demo #{name} is very similar to what you'll see on MiniExam #{part_id}. Try solving first to catch your weak points. Then use the video and solutions to check your work.")
-    generic_card({
-      'kind' => 'demo',
-      'name' => "Demo #{name}",
-      'description' => description,
-      'video' => demo['video'],
-      'files' => demo.fetch('file', name),
-      'file' => demo.fetch('include_demo', true),
-      'solutions' => demo.fetch('solutions', true),
-      'solution_file' => demo['solution_file']
-    }, standalone: demos_length(exam) == 1)
+def render_checkpoint(part_id, config)
+  demo = config.fetch('demo')
+  indent = '        '
+  video = demo['video']
+  video_attribute = video ? %( data-video-id="#{escape(video)}") : ''
+  image = if video
+            %(<img src="#{youtube_thumbnail(video)}" alt="Demo #{escape(part_id)} thumbnail">\n#{indent}            <div class="play-button">▶</div>)
+          else
+            %(<img alt="" class="placeholder-bg">)
+          end
+  base = demo.fetch('file', part_id)
+  demo_links = []
+  ["Demos/Demo_#{base}.pdf", "Demos/Demo_#{base}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
+    demo_links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
   end
+  demo_desc = demo['description'] ? %( <span class="path-desc">#{inline_text(demo['description']).gsub(%r{</?i>}, '')}</span>) : ''
+  when_label = config['when'] || (config['date'] ? "in class · #{short_date(config['date'])}" : 'in class')
+  date_attribute = config['date'] ? %( data-date="#{escape(config['date'])}") : ''
 
-  content = if demos.length == 1
-              render_card(demos.first, '        ')
-            else
-              render_carousel(id: '', title: '', description: '', cards: demos)
-                .sub(/ id=""/, '')
-                .sub(/\s*<h1 class="subtitle"><\/h1>/, '')
-                .gsub(/^        /, '        ')
-            end
-  footer = exam['footer'] ? %(
-        <p style="margin-top: 20px;">#{inline_text(exam['footer'])}</p>) : ''
   <<~HTML.chomp
-        <div id="miniexam">
-            <h1 class="subtitle">#{escape(title)}</h1>
-            <p>#{inline_text(exam.fetch('description'))}</p>
-
-    #{content}
-    #{footer}
-        </div>
+    #{indent}<div class="block checkpoint" id="checkpoint">
+    #{indent}    <h1 class="subtitle">Checkpoint #{escape(part_id)}</h1>
+    #{indent}    <p class="block-description">#{inline_text(config.fetch('description'))}</p>
+    #{indent}    <div class="path">
+    #{indent}        <div class="path-episode"#{video_attribute}>
+    #{indent}            <div class="card-video">
+    #{indent}                #{image}
+    #{indent}            </div>
+    #{indent}            <p class="path-name">Demo #{escape(part_id)}#{demo_desc}</p>
+    #{indent}        </div>
+    #{indent}        <ol class="path-steps path-steps-end">
+    #{path_step("Demo #{part_id}", 'home', demo_links, nil, indent + '            ')}
+    #{indent}            <li class="path-step"#{date_attribute}>
+    #{indent}                <span class="path-dot" aria-hidden="true"></span>
+    #{indent}                <div>
+    #{indent}                    <p class="path-name">Checkpoint #{escape(part_id)} <span class="path-where">#{escape(when_label)}</span></p>
+    #{indent}                </div>
+    #{indent}                <span class="path-branch" aria-hidden="true"></span>
+    #{indent}                <span class="path-dot path-dot-alt" aria-hidden="true"></span>
+    #{indent}                <div class="path-alt">
+    #{indent}                    <p class="path-name">Reattempt <span class="path-where">#{escape(config.fetch('reattempt', 'TBA'))}</span></p>
+    #{indent}                </div>
+    #{indent}            </li>
+    #{indent}        </ol>
+    #{indent}    </div>
+    #{indent}</div>
   HTML
-end
-
-def demos_length(exam)
-  Array(exam.fetch('demos')).length
 end
 
 def render_homework_notes(config)
@@ -445,8 +452,8 @@ def section_id_and_nav(part_id, section)
   elsif section['carousel']
     config = section['carousel']
     [config.fetch('id'), config.fetch('nav', config.fetch('title'))]
-  elsif section['exam']
-    ['miniexam', section['exam'].fetch('nav', section['exam'].fetch('title', 'MiniExam'))]
+  elsif section['checkpoint']
+    ['checkpoint', 'Checkpoint']
   elsif section['homework_notes']
     config = section['homework_notes']
     [config.fetch('id', 'homework-details'), config.fetch('nav', config.fetch('title'))]
@@ -469,8 +476,8 @@ def render_section(part_id, part, section)
       description: inline_text(config.fetch('description', '')),
       cards: Array(config.fetch('resources')).map { |resource| generic_card(resource) }
     )
-  elsif section['exam']
-    render_exam(part_id, section['exam'])
+  elsif section['checkpoint']
+    render_checkpoint(part_id, section['checkpoint'])
   elsif section['homework_notes']
     render_homework_notes(section['homework_notes'])
   elsif section['standalone']
@@ -663,15 +670,12 @@ def validate_schema(parts)
         check_keys(config, %w[id title nav description resources], "#{section_path}.carousel", errors)
         require_keys(config, %w[id title resources], "#{section_path}.carousel", errors)
         Array(config['resources']).each_with_index { |resource, resource_index| check_resource(resource, "#{section_path}.carousel.resources[#{resource_index}]", errors) } if config.is_a?(Hash)
-      elsif section['exam']
-        check_keys(section, %w[exam], section_path, errors)
-        config = section['exam']
-        check_keys(config, %w[title nav description demos footer], "#{section_path}.exam", errors)
-        require_keys(config, %w[description demos], "#{section_path}.exam", errors)
-        Array(config['demos']).each_with_index do |demo, demo_index|
-          check_keys(demo, %w[name video description file include_demo solutions solution_file], "#{section_path}.exam.demos[#{demo_index}]", errors)
-          require_keys(demo, %w[name], "#{section_path}.exam.demos[#{demo_index}]", errors)
-        end if config.is_a?(Hash)
+      elsif section['checkpoint']
+        check_keys(section, %w[checkpoint], section_path, errors)
+        config = section['checkpoint']
+        check_keys(config, %w[date when description demo reattempt], "#{section_path}.checkpoint", errors)
+        require_keys(config, %w[description demo], "#{section_path}.checkpoint", errors)
+        check_keys(config['demo'], %w[video description file], "#{section_path}.checkpoint.demo", errors) if config.is_a?(Hash)
       elsif section['homework_notes']
         check_keys(section, %w[homework_notes], section_path, errors)
         check_keys(section['homework_notes'], %w[id title nav name due file questions], "#{section_path}.homework_notes", errors)

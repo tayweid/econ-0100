@@ -94,12 +94,12 @@ parts:
           recitation: '2026-09-04'
           homework: '2026-09-06'
 
-      - exam:
+      - checkpoint:
+          date: '2026-09-09'
           description: >-
-            MiniExam A will be held on *Wednesday September 11th* and covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
-          demos:
-            - name: A
-              video: KH0MkPxWsig
+            Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          demo:
+            video: KH0MkPxWsig
 
   B:
     title: How Competitive Markets Work
@@ -238,12 +238,12 @@ parts:
           recitation: '2026-10-02'
           homework: '2026-10-04'
 
-      - exam:
+      - checkpoint:
+          date: '2026-09-30'
           description: >-
-            MiniExam B will be held on *Wednesday October 2nd* and covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
-          demos:
-            - name: B
-              video: yG7ahMJe8iA
+            Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          demo:
+            video: yG7ahMJe8iA
 
   C:
     title: Externalities
@@ -319,12 +319,12 @@ parts:
           recitation: '2026-10-16'
           homework: '2026-10-18'
 
-      - exam:
+      - checkpoint:
+          date: '2026-10-14'
           description: >-
-            MiniExam C will be held on *Monday October 21st* and covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
-          demos:
-            - name: C
-              video: lna7UhNOOro
+            Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          demo:
+            video: lna7UhNOOro
 
   D:
     title: Strategic Interaction
@@ -434,13 +434,13 @@ parts:
                 - label: Notes
                   file: Notes/Class_On_Oct_30.pdf
 
-      - exam:
+      - checkpoint:
+          date: '2026-10-28'
           description: >-
-            MiniExam D will be held on *Monday November 4th* and covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
-          demos:
-            - name: D
-              video: BYrsSbLdJuQ
-              file: D1
+            Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          demo:
+            video: BYrsSbLdJuQ
+            file: D1
 
   E:
     title: Sellers
@@ -535,39 +535,12 @@ parts:
           recitation: '2026-11-13'
           homework: '2026-11-15'
 
-      - carousel:
-          id: past-demos
-          title: Past Demos
-          resources:
-            - kind: demo
-              name: Demo E1
-              video: UZDvSTNbv0w
-              files: E1
-              description: "*A subsidy in a competitive market*"
-            - kind: demo
-              name: Demo E2
-              video: JpAfyhAxiVE
-              files: E2
-              description: "*A lump sum tax on a Monopolist*"
-            - kind: demo
-              name: Demo E3
-              video: jwxiRNAPBLc
-              files: E3
-              description: "*A merger of two Duopolist firms*"
-            - kind: demo
-              name: Demo E4
-              video: SIwcx2GgCFE
-              files: E4
-              description: "*A subsidy in two environments*"
-
-      - exam:
+      - checkpoint:
+          date: '2026-11-30'
           description: >-
-            MiniExam E will be held on *Wednesday November 20th* and covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
-          demos:
-            - name: E
-              video: UZDvSTNbv0w
-              file: E
-              include_demo: false
+            Checkpoint E covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          demo:
+            video: UZDvSTNbv0w
 
   F:
     title: Buyers
@@ -638,19 +611,13 @@ parts:
             - In the graph below question 3, show Hagrid's budget constraint from question 2, then show the shift in the budget constraint on the budget constraint for the same graph.
             - Show the optimal consumption bundles (using indifference curves) on the budget constraints
 
-      - exam:
-          title: MiniExams
+      - checkpoint:
+          when: Final Exam Period
           description: >-
-            MiniExam F will be held during finals week on *Thursday December 12* at 2:00 PM if you're in the 10AM section or at 3:00 PM if you're in the 11AM section. MiniExam Z (comprehensive review) will be held after a 5 minute break. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
-          demos:
-            - name: F1
-              video: zkn0CXaNOJY
-              description: "*A change in the labor market - challenging demo*"
-            - name: F2
-              video: DVHvgb_kJDY
-              description: "*Consumer choice optimization - challenging demo*"
-          footer: >-
-            *Demo F1 is very similar to what you'll see on MiniExam F. Try solving first to catch your weak points. Then use the video and solutions to check your work. Note: this demo is a bit difficult so focus on Vignette F2.*
+            You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          demo:
+            video: zkn0CXaNOJY
+            description: "*A change in the labor market - challenging demo*"
 
       - standalone:
           id: demo-z
