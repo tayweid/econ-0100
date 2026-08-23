@@ -369,24 +369,6 @@ def render_block(part, block)
   HTML
 end
 
-def render_recitations(config)
-  items = Array(config)
-  cards = items.map do |item|
-    name = item.fetch('name')
-    description = item.fetch('description', "*Vignette #{name} is an extended Vignette we examine in Recitation.*")
-    generic_card({
-      'kind' => 'vignette',
-      'name' => "Vignette #{name}",
-      'description' => description,
-      'files' => item.fetch('files', name.sub(/r$/, '')),
-      'solutions' => item.fetch('solutions', true),
-      'solution_file' => item['solution_file']
-    })
-  end
-  description = 'Come to Recitations prepared to work through extended Vignettes in both small groups and as a class. Your Recitation Instructor will guide you through a less structured economic problem, similar to what was covered in class and what you\'ll see on the next MiniExam. Submit your work to <a href="https://gradescope.com" target="_blank" rel="noopener">Gradescope</a> at the end of Recitation.'
-  render_carousel(id: 'recitations', title: 'Recitations', description: description, cards: cards)
-end
-
 def render_exam(part_id, exam)
   title = exam.fetch('title', 'MiniExam')
   demos = Array(exam.fetch('demos')).map do |demo|
@@ -460,8 +442,6 @@ end
 def section_id_and_nav(part_id, section)
   if section['block']
     ["part-#{section['block'].downcase}", "#{section['block']} | #{section.fetch('nav')}"]
-  elsif section['recitations']
-    ['recitations', 'Recitations']
   elsif section['carousel']
     config = section['carousel']
     [config.fetch('id'), config.fetch('nav', config.fetch('title'))]
@@ -481,8 +461,6 @@ end
 def render_section(part_id, part, section)
   if section['block']
     render_block(part, section)
-  elsif section['recitations']
-    render_recitations(section['recitations'])
   elsif section['carousel']
     config = section['carousel']
     render_carousel(
@@ -679,12 +657,6 @@ def validate_schema(parts)
         require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
         check_keys(section['homework'], %w[due file solutions solution_file practice], "#{section_path}.homework", errors) if section['homework']
         Array(section['extras']).each_with_index { |resource, resource_index| check_resource(resource, "#{section_path}.extras[#{resource_index}]", errors) }
-      elsif section['recitations']
-        check_keys(section, %w[recitations], section_path, errors)
-        Array(section['recitations']).each_with_index do |item, item_index|
-          check_keys(item, %w[name description files solutions solution_file], "#{section_path}.recitations[#{item_index}]", errors)
-          require_keys(item, %w[name], "#{section_path}.recitations[#{item_index}]", errors)
-        end
       elsif section['carousel']
         check_keys(section, %w[carousel], section_path, errors)
         config = section['carousel']

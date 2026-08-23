@@ -94,10 +94,6 @@ parts:
           recitation: '2026-09-04'
           homework: '2026-09-06'
 
-      - recitations:
-          - name: A1r
-            files: A1
-
       - exam:
           description: >-
             MiniExam A will be held on *Wednesday September 11th* and covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
@@ -242,14 +238,6 @@ parts:
           recitation: '2026-10-02'
           homework: '2026-10-04'
 
-      - recitations:
-          - name: B1r
-            files: B1
-          - name: B2r
-            files: B2
-          - name: B3r
-            files: B3
-
       - exam:
           description: >-
             MiniExam B will be held on *Wednesday October 2nd* and covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
@@ -330,13 +318,6 @@ parts:
           class: '2026-10-12'
           recitation: '2026-10-16'
           homework: '2026-10-18'
-
-      - recitations:
-          - name: C1r
-            files: C1
-          - name: C2r
-            files: C2
-            solutions: false
 
       - exam:
           description: >-
@@ -453,12 +434,6 @@ parts:
                 - label: Notes
                   file: Notes/Class_On_Oct_30.pdf
 
-      - recitations:
-          - name: D1r
-            files: D1
-          - name: D2r
-            files: D2
-
       - exam:
           description: >-
             MiniExam D will be held on *Monday November 4th* and covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the MiniExam.
@@ -560,12 +535,6 @@ parts:
           recitation: '2026-11-13'
           homework: '2026-11-15'
 
-      - recitations:
-          - name: E1r
-            files: E1
-          - name: E2r
-            files: E2
-
       - carousel:
           id: past-demos
           title: Past Demos
@@ -656,13 +625,6 @@ parts:
           class: '2026-12-02'
           recitation: '2026-12-04'
           homework: '2026-12-06'
-
-      - recitations:
-          - name: F1r
-            files: F1
-          - name: F2r
-            files: F2
-            solution_file: Vignettes/Vignette_F2_sols_new.pdf
 
       - homework_notes:
           title: Homework F Details
