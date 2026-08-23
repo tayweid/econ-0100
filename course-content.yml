@@ -7,9 +7,9 @@
 #
 # Optional per block:
 #   dates:                 # yyyy-mm-dd; the page marks the current step
-#     class: 2026-08-31
-#     recitation: 2026-09-02
-#     homework: 2026-09-04
+#     class: '2026-08-31'
+#     recitation: '2026-09-02'
+#     homework: '2026-09-04'
 #   exercise:              # only if the in-class exercise has downloads
 #     links: [{label: Exercise, file: Classwork/Classwork_A1.pdf}]
 
@@ -37,7 +37,10 @@ parts:
           topic: The principles of microeconomics
         vignette:
           description: No vignette in this block
-          empty: true
+        dates:
+          class: '2026-08-24'
+          recitation: '2026-08-27'
+          homework: '2026-08-31'
 
       - block: A2
         nav: PPF
@@ -51,6 +54,10 @@ parts:
           topic: Thinking like an economist
         vignette:
           description: PPF practice problems
+        dates:
+          class: '2026-08-26'
+          recitation: '2026-08-27'
+          homework: '2026-08-31'
 
       - block: A3
         nav: Specialization
@@ -65,6 +72,10 @@ parts:
           topic: Gains from trade
         vignette:
           description: Specialization practice problems
+        dates:
+          class: '2026-08-31'
+          recitation: '2026-09-03'
+          homework: '2026-09-07'
 
       - block: A4
         nav: Trade
@@ -76,9 +87,12 @@ parts:
         reading:
           name: Chapter 4
           description: No reading in this block
-          empty: true
         vignette:
           description: Trade practice problems
+        dates:
+          class: '2026-09-02'
+          recitation: '2026-09-03'
+          homework: '2026-09-07'
 
       - recitations:
           - name: A1r
@@ -114,6 +128,10 @@ parts:
           due: Wednesday September 25
           file: B1
           solutions: true
+        dates:
+          class: '2026-09-14'
+          recitation: '2026-09-17'
+          homework: '2026-09-21'
 
       - block: B2
         nav: Supply
@@ -125,10 +143,13 @@ parts:
         reading:
           name: Chapter (continued)
           description: Continues Chapter 4 from Block B1
-          empty: true
         vignette:
           description: "*Supply practice problems*"
           files: B2
+        dates:
+          class: '2026-09-16'
+          recitation: '2026-09-17'
+          homework: '2026-09-21'
 
       - block: B3
         nav: Equilibrium
@@ -149,6 +170,10 @@ parts:
             name: External Video
             video: PNtKXWNKGN8
             description: "*Simulating a Market - excellent video from one of my favorite Youtube channels!*"
+        dates:
+          class: '2026-09-21'
+          recitation: '2026-09-24'
+          homework: '2026-09-28'
 
       - block: B4
         nav: Efficiency
@@ -163,6 +188,10 @@ parts:
           topic: The efficiency of markets
         vignette:
           description: "*Efficiency practice problems*"
+        dates:
+          class: '2026-09-23'
+          recitation: '2026-09-24'
+          homework: '2026-09-28'
 
       - block: B5
         nav: Elasticity
@@ -174,6 +203,10 @@ parts:
           name: Reading B5
         vignette:
           description: "*Elasticity practice problems*"
+        dates:
+          class: '2026-09-28'
+          recitation: '2026-10-01'
+          homework: '2026-10-05'
 
       - block: B6
         nav: Comparative Statics
@@ -185,6 +218,10 @@ parts:
           name: Reading B6
         vignette:
           description: "*Comparative statics practice problems*"
+        dates:
+          class: '2026-09-28'
+          recitation: '2026-10-01'
+          homework: '2026-10-05'
 
       - block: B7
         nav: Tariffs
@@ -200,6 +237,10 @@ parts:
         vignette:
           description: "*International trade practice problems*"
           files: C1
+        dates:
+          class: '2026-09-28'
+          recitation: '2026-10-01'
+          homework: '2026-10-05'
 
       - recitations:
           - name: B1r
@@ -243,6 +284,10 @@ parts:
         homework:
           due: Due Date TBD
           practice: hwc
+        dates:
+          class: '2026-10-05'
+          recitation: '2026-10-08'
+          homework: '2026-10-12'
 
       - block: C2
         nav: Taxes
@@ -261,6 +306,10 @@ parts:
           solutions: false
         homework:
           due: Friday October 18
+        dates:
+          class: '2026-10-07'
+          recitation: '2026-10-08'
+          homework: '2026-10-12'
 
       - block: C3
         nav: Corrective Taxes
@@ -277,6 +326,10 @@ parts:
           description: "*Corrective taxes practice problems*"
         homework:
           due: Due Date TBD
+        dates:
+          class: '2026-10-12'
+          recitation: '2026-10-15'
+          homework: '2026-10-19'
 
       - recitations:
           - name: C1r
@@ -317,6 +370,10 @@ parts:
           files: D1
         homework:
           due: Friday November 1st
+        dates:
+          class: '2026-10-19'
+          recitation: '2026-10-22'
+          homework: '2026-10-26'
 
       - block: D2
         nav: Public Goods
@@ -334,6 +391,10 @@ parts:
           files: D2
         homework:
           due: Due Date TBD
+        dates:
+          class: '2026-10-21'
+          recitation: '2026-10-22'
+          homework: '2026-10-26'
 
       - block: D3
         nav: Game Theory
@@ -350,6 +411,10 @@ parts:
           files: D3
         homework:
           due: Due Date TBD
+        dates:
+          class: '2026-10-26'
+          recitation: '2026-10-29'
+          homework: '2026-11-02'
 
       - block: D4
         nav: Voting
@@ -365,6 +430,10 @@ parts:
           files: D4
         homework:
           due: Due Date TBD
+        dates:
+          class: '2026-10-26'
+          recitation: '2026-10-29'
+          homework: '2026-11-02'
 
       - carousel:
           id: extras
@@ -421,6 +490,10 @@ parts:
           due: Sunday November 10th
           file: E1
           solutions: true
+        dates:
+          class: '2026-11-02'
+          recitation: '2026-11-05'
+          homework: '2026-11-09'
 
       - block: E2
         nav: Competition
@@ -439,6 +512,10 @@ parts:
           due: Monday November 18th
           file: E2
           solutions: true
+        dates:
+          class: '2026-11-04'
+          recitation: '2026-11-05'
+          homework: '2026-11-09'
 
       - block: E3
         nav: Monopoly
@@ -456,6 +533,10 @@ parts:
           due: Due Date TBD
           file: E1
           solutions: true
+        dates:
+          class: '2026-11-09'
+          recitation: '2026-11-12'
+          homework: '2026-11-16'
 
       - block: E4
         nav: Market Structures
@@ -474,6 +555,10 @@ parts:
           description: "*Market structures practice problems*"
         homework:
           due: Due Date TBD
+        dates:
+          class: '2026-11-11'
+          recitation: '2026-11-12'
+          homework: '2026-11-16'
 
       - recitations:
           - name: E1r
@@ -545,6 +630,10 @@ parts:
             video: zkn0CXaNOJY
             files: F1
             description: "*A change in the labor market - challenging demo*"
+        dates:
+          class: '2026-11-30'
+          recitation: '2026-12-03'
+          homework: '2026-12-07'
 
       - block: F2
         nav: Consumer Choice
@@ -563,6 +652,10 @@ parts:
         homework:
           due: Due Date TBD
           solutions: true
+        dates:
+          class: '2026-12-02'
+          recitation: '2026-12-03'
+          homework: '2026-12-07'
 
       - recitations:
           - name: F1r
