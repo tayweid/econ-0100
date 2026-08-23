@@ -384,7 +384,7 @@ def render_checkpoint(part_id, config)
   ["Demos/Demo_#{base}.pdf", "Demos/Demo_#{base}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
     demo_links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
   end
-  demo_desc = demo['description'] ? %( <span class="path-desc">#{inline_text(demo['description']).gsub(%r{</?i>}, '')}</span>) : ''
+  walkthrough = demo.fetch('description', "Attempt Demo #{part_id} first, then walk through with me.")
   when_label = config['when'] || (config['date'] ? "in class · #{short_date(config['date'])}" : 'in class')
   date_attribute = config['date'] ? %( data-date="#{escape(config['date'])}") : ''
 
@@ -397,18 +397,19 @@ def render_checkpoint(part_id, config)
     #{indent}            <div class="card-video">
     #{indent}                #{image}
     #{indent}            </div>
-    #{indent}            <p class="path-name">Demo #{escape(part_id)}#{demo_desc}</p>
+    #{indent}            <p class="path-name">Demo #{escape(part_id)} Walkthrough <span class="path-desc">#{inline_text(walkthrough).gsub(%r{</?i>}, '')}</span></p>
     #{indent}        </div>
-    #{indent}        <ol class="path-steps path-steps-end">
+    #{indent}        <ol class="path-steps path-checkpoint">
     #{path_step("Demo #{part_id}", 'home', demo_links, nil, indent + '            ')}
-    #{indent}            <li class="path-step"#{date_attribute}>
-    #{indent}                <span class="path-dot" aria-hidden="true"></span>
+    #{indent}            <li class="path-step path-step-checkpoint"#{date_attribute}>
+    #{indent}                <span class="path-dot path-dot-big" aria-hidden="true"></span>
     #{indent}                <div>
     #{indent}                    <p class="path-name">Checkpoint #{escape(part_id)} <span class="path-where">#{escape(when_label)}</span></p>
     #{indent}                </div>
-    #{indent}                <span class="path-branch" aria-hidden="true"></span>
+    #{indent}            </li>
+    #{indent}            <li class="path-step path-step-alt">
     #{indent}                <span class="path-dot path-dot-alt" aria-hidden="true"></span>
-    #{indent}                <div class="path-alt">
+    #{indent}                <div>
     #{indent}                    <p class="path-name">Reattempt <span class="path-where">#{escape(config.fetch('reattempt', 'TBA'))}</span></p>
     #{indent}                </div>
     #{indent}            </li>
