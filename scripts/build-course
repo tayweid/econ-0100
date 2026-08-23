@@ -311,7 +311,7 @@ end
 
 # Optional material hangs off the end of a block's path: dashed dot, quieter text,
 # and a small thumbnail on the right when it is a video.
-def extra_step(extra, indent)
+def extra_step(extra, indent, bend: false)
   video = extra['video']
   links = Array(extra['links'])
   if extra['files']   # a demo: Demos/Demo_<files>.pdf and its solutions, when they exist
@@ -322,7 +322,7 @@ def extra_step(extra, indent)
   video_attribute = video ? %( data-video-id="#{escape(video)}") : ''
   thumb = path_thumb(video, indent)
   <<~HTML.chomp
-    #{indent}<li class="path-step path-step-alt path-step-extra"#{video_attribute}>
+    #{indent}<li class="path-step path-step-alt #{bend ? 'path-step-bend' : 'path-step-extra'}"#{video_attribute}>
     #{indent}    <span class="path-dot path-dot-alt" aria-hidden="true"></span>
     #{indent}    <div>
     #{indent}        <p class="path-name">#{escape(extra.fetch('name'))} <span class="path-where">optional</span></p>#{path_links(links, indent + '        ')}
@@ -412,6 +412,10 @@ def render_checkpoint(part_id, config)
   when_line = config['when'] || (config['date'] ? short_date(config['date']) : nil)
   when_html = when_line ? %(\n#{indent}                    <p class="path-due">#{escape(when_line)}</p>) : ''
   date_attribute = config['date'] ? %( data-date="#{escape(config['date'])}") : ''
+  extras = Array(config['extras'])
+  extras_html = extras.each_with_index.map do |extra, i|
+    "\n" + extra_step(extra, indent + '            ', bend: i.zero?)
+  end.join
 
   <<~HTML.chomp
     #{indent}<div class="block checkpoint" id="checkpoint">
@@ -425,8 +429,8 @@ def render_checkpoint(part_id, config)
     #{indent}            <p class="path-name">Demo #{escape(part_id)} Walkthrough <span class="path-desc">#{inline_text(walkthrough).gsub(%r{</?i>}, '')}</span></p>
     #{indent}        </div>
     #{indent}        <ol class="path-steps path-checkpoint">
-    #{path_step("Demo #{part_id}", 'home', demo_links, nil, indent + '            ')}
-    #{indent}            <li class="path-step path-step-checkpoint"#{date_attribute}>
+    #{path_step("Demo #{part_id}", 'home', demo_links, nil, indent + '            ')}#{extras_html}
+    #{indent}            <li class="path-step path-step-checkpoint#{extras.empty? ? '' : ' path-step-cont'}"#{date_attribute}>
     #{indent}                <span class="path-dot path-dot-big" aria-hidden="true"></span>
     #{indent}                <div>
     #{indent}                    <p class="path-name">Checkpoint #{escape(part_id)} <span class="path-where">in class</span></p>#{when_html}
@@ -702,7 +706,7 @@ def validate_schema(parts)
       elsif section['checkpoint']
         check_keys(section, %w[checkpoint], section_path, errors)
         config = section['checkpoint']
-        check_keys(config, %w[date when description demo reattempt], "#{section_path}.checkpoint", errors)
+        check_keys(config, %w[date when description demo reattempt extras], "#{section_path}.checkpoint", errors)
         require_keys(config, %w[description demo], "#{section_path}.checkpoint", errors)
         check_keys(config['demo'], %w[video description file], "#{section_path}.checkpoint.demo", errors) if config.is_a?(Hash)
       elsif section['homework_notes']

@@ -529,6 +529,11 @@ parts:
             Checkpoint E covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: UZDvSTNbv0w
+          extras:
+            - name: Demo E3
+              video: jwxiRNAPBLc
+              files: E3
+
 
   F:
     title: Buyers
@@ -588,4 +593,7 @@ parts:
           demo:
             video: zkn0CXaNOJY
             file: F1
-
+          extras:
+            - name: Demo F2
+              video: DVHvgb_kJDY
+              files: F2
