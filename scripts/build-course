@@ -42,6 +42,8 @@ end
 def link(label, href)
   icon, css = if label == 'Practice'
                 ['fa fa-pencil', 'practice-link']
+              elsif href.start_with?('http')
+                ['fa fa-external-link', 'download-link']
               else
                 ['fa fa-file-pdf-o', 'download-link']
               end
@@ -263,6 +265,99 @@ def render_carousel(id:, title:, description:, cards:)
   HTML
 end
 
+# ---------------------------------------------------------------------------
+# Block = episode (+ reading) on the left, the three practice steps on the
+# right: exercise in class, vignette in recitation, homework at home.
+# Optional per-block `dates:` (ISO yyyy-mm-dd) let course.js mark the current step.
+# ---------------------------------------------------------------------------
+
+def path_links(items, indent)
+  return '' if items.empty?
+
+  %(\n#{indent}<div class="path-links">#{title_links(items).join(' ')}</div>)
+end
+
+def path_step(name, where, links, date, indent, note: nil)
+  date_attribute = date ? %( data-date="#{escape(date)}") : ''
+  note_html = note ? %(\n#{indent}        <p class="path-note">#{note}</p>) : ''
+  <<~HTML.chomp
+    #{indent}<li class="path-step"#{date_attribute}>
+    #{indent}    <span class="path-dot" aria-hidden="true"></span>
+    #{indent}    <div>
+    #{indent}        <p class="path-name">#{escape(name)} <span class="path-where">#{escape(where)}</span></p>#{note_html}#{path_links(links, indent + '        ')}
+    #{indent}    </div>
+    #{indent}</li>
+  HTML
+end
+
+def render_block(part, block)
+  block_id = block.fetch('block')
+  episode = block.fetch('episode')
+  reading = block.fetch('reading')
+  vignette = block.fetch('vignette')
+  homework = homework_config(part, block)
+  dates = block.fetch('dates', {}) || {}
+  indent = '        '
+
+  # episode + reading
+  episode_name = episode.fetch('name', "Episode #{block_id}")
+  video = episode['video']
+  video_attribute = video ? %( data-video-id="#{escape(video)}") : ''
+  image = if video
+            %(<img src="#{youtube_thumbnail(video)}" alt="#{escape(episode_name)} thumbnail">\n#{indent}            <div class="play-button">▶</div>)
+          else
+            %(<img alt="" class="placeholder-bg">)
+          end
+  episode_links = Array(episode['links'])
+  if reading['chapter'] && reading.fetch('file', true)
+    file = reading['file'].is_a?(String) ? reading['file'] : reading_file(reading['chapter'])
+    episode_links << { 'label' => "Chapter #{reading['chapter']}", 'file' => file }
+  elsif reading['name']
+    episode_links += Array(reading['links'])
+  end
+  Array(block['extras']).each do |extra|
+    next unless extra['video']
+
+    episode_links << { 'label' => extra.fetch('name'), 'file' => "https://www.youtube.com/watch?v=#{extra['video']}" }
+  end
+
+  # steps
+  exercise = block.fetch('exercise', {}) || {}
+  vignette_note = vignette.fetch('empty', false) ? inline_text(vignette.fetch('description', 'No vignette in this block')) : nil
+  practice = homework.fetch('practice', "hw#{block_id.downcase}")
+  homework_links = practice ? [{ 'label' => 'Practice', 'file' => "Practice/#{practice}.html" }] : []
+  homework_links << { 'label' => 'Assignment', 'file' => "Homework/HW_#{homework['file']}.pdf" } if homework['file']
+  if homework['solutions']
+    solution_base = homework['solution_file'] || homework['file']
+    homework_links << { 'label' => 'Solutions', 'file' => "Homework/HW_#{solution_base}_sols.pdf" }
+  end
+  homework_where = homework['due'] ? "home · due #{homework['due']}" : 'home'
+
+  steps = [
+    path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', Array(exercise['links']), dates['class'], indent + '            '),
+    path_step(vignette.fetch('name', "Vignette #{block_id}"), 'recitation', vignette_links(vignette, block_id), dates['recitation'], indent + '            ', note: vignette_note),
+    path_step("Homework #{block_id}", homework_where, homework_links, dates['homework'], indent + '            ')
+  ].join("\n")
+
+  <<~HTML.chomp
+    #{indent}<div class="block" id="part-#{block_id.downcase}">
+    #{indent}    <h1 class="subtitle">Block #{escape(block_id)} | #{escape(block.fetch('title'))}</h1>
+    #{indent}    <p class="block-description">#{escape(block.fetch('description'))}</p>
+    #{indent}    <div class="path">
+    #{indent}        <div class="path-episode"#{video_attribute}>
+    #{indent}            <div class="card-video">
+    #{indent}                #{image}
+    #{indent}            </div>
+    #{indent}            <p class="path-name">#{escape(episode_name)} <span class="path-desc">#{inline_text(episode.fetch('description')).gsub(%r{</?i>}, '')}</span></p>#{path_links(episode_links, indent + '            ')}
+    #{indent}        </div>
+    #{indent}        <ol class="path-steps">
+    #{steps}
+    #{indent}        </ol>
+    #{indent}    </div>
+    #{indent}</div>
+  HTML
+end
+
 def render_recitations(config)
   items = Array(config)
   cards = items.map do |item|
@@ -374,13 +469,7 @@ end
 
 def render_section(part_id, part, section)
   if section['block']
-    block_id = section.fetch('block')
-    render_carousel(
-      id: "part-#{block_id.downcase}",
-      title: "Block #{block_id} | #{section.fetch('title')}",
-      description: escape(section.fetch('description')),
-      cards: block_cards(part, section)
-    )
+    render_block(part, section)
   elsif section['recitations']
     render_recitations(section['recitations'])
   elsif section['carousel']
@@ -562,7 +651,9 @@ def validate_schema(parts)
       end
 
       if section['block']
-        check_keys(section, %w[block nav title description episode reading vignette homework extras], section_path, errors)
+        check_keys(section, %w[block nav title description episode reading vignette homework extras exercise dates], section_path, errors)
+        check_keys(section['exercise'], %w[name links], "#{section_path}.exercise", errors) if section['exercise']
+        check_keys(section['dates'], %w[class recitation homework], "#{section_path}.dates", errors) if section['dates']
         require_keys(section, %w[block nav title description episode reading vignette], section_path, errors)
         check_keys(section['episode'], %w[name video description links empty], "#{section_path}.episode", errors)
         require_keys(section['episode'], %w[description], "#{section_path}.episode", errors)

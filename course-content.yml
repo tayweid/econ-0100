@@ -1,8 +1,17 @@
 # Edit this file, then run: scripts/build-course
 #
-# Standard block cards are inferred from episode, reading, vignette, and
-# homework fields. Titles, card types, thumbnails, icons, navigation anchors,
-# and conventional filenames are generated automatically.
+# Each block renders as the episode (+ reading) on the left and the practice
+# path on the right: exercise in class, vignette in recitation, homework at
+# home. Titles, thumbnails, icons, navigation anchors, and conventional
+# filenames are generated automatically.
+#
+# Optional per block:
+#   dates:                 # yyyy-mm-dd; the page marks the current step
+#     class: 2026-08-31
+#     recitation: 2026-09-02
+#     homework: 2026-09-04
+#   exercise:              # only if the in-class exercise has downloads
+#     links: [{label: Exercise, file: Classwork/Classwork_A1.pdf}]
 
 parts:
   A:
