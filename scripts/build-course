@@ -291,13 +291,13 @@ end
 
 def path_step(name, where, links, date, indent, due: nil)
   date_attribute = date ? %( data-date="#{escape(date)}") : ''
-  due_html = due ? %(<span class="path-due">Due #{escape(due)}</span>) : ''
-  links_html = links.empty? && due.nil? ? '' : %(\n#{indent}        <div class="path-links">#{(title_links(links) + [due_html]).reject(&:empty?).join(' ')}</div>)
+  due_html = due ? %(\n#{indent}        <p class="path-due">Due #{escape(due)}</p>) : ''
+  links_html = links.empty? ? '' : %(\n#{indent}        <div class="path-links">#{title_links(links).join(' ')}</div>)
   <<~HTML.chomp
     #{indent}<li class="path-step"#{date_attribute}>
     #{indent}    <span class="path-dot" aria-hidden="true"></span>
     #{indent}    <div>
-    #{indent}        <p class="path-name">#{escape(name)} <span class="path-where">#{escape(where)}</span></p>#{links_html}
+    #{indent}        <p class="path-name">#{escape(name)} <span class="path-where">#{escape(where)}</span></p>#{links_html}#{due_html}
     #{indent}    </div>
     #{indent}</li>
   HTML
@@ -571,6 +571,7 @@ def render_part(part_id, part, part_ids)
         <div class="description">
             <h1 class="title title-tight">Part #{escape(part_id)} | #{escape(part.fetch('title'))}</h1>
             <i class="subtitle-text">#{escape(part.fetch('tagline').sub(/\A./, &:upcase))}</i>
+            <hr class="title-rule">
             <p>#{escape(part.fetch('introduction'))}</p>
         </div>
 
