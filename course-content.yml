@@ -166,8 +166,7 @@ parts:
           description: "*Markets practice problems*"
           files: B3
         extras:
-          - kind: video
-            name: External Video
+          - name: Simulating a Market
             video: PNtKXWNKGN8
             description: "*Simulating a Market - excellent video from one of my favorite Youtube channels!*"
         dates:
@@ -366,7 +365,7 @@ parts:
         description: >-
           Public goods create free-rider problems because they are non-excludable and non-rivalrous, leading to under-provision by private markets and the need for government intervention.
         episode:
-          video: s_ed6uwHOQI
+          video: Is0CQbUM-j8
           description: "*Baby game theory*"
         reading:
           chapter: 11
@@ -401,6 +400,9 @@ parts:
           recitation: '2026-10-30'
           homework: '2026-11-01'
 
+        extras:
+          - name: Veritasium Game Theory
+            video: mScpHTIi-kM
       - block: D4
         nav: Voting
         title: Voting
@@ -419,24 +421,6 @@ parts:
           class: '2026-10-26'
           recitation: '2026-10-30'
           homework: '2026-11-01'
-
-      - carousel:
-          id: extras
-          title: Extras
-          description: >-
-            Additional content including demos, supplementary videos, and extra materials to deepen your understanding of strategic interaction and public goods.
-          resources:
-            - kind: video
-              name: Veritasium Game Theory
-              video: mScpHTIi-kM
-              description: "*External Video: Veritasium Game Theory - excellent content*"
-            - kind: lecture
-              name: Lecture Oct 30
-              video: Is0CQbUM-j8
-              description: "*Class notes and recording from October 30th*"
-              links:
-                - label: Notes
-                  file: Notes/Class_On_Oct_30.pdf
 
       - checkpoint:
           date: '2026-10-28'
@@ -571,8 +555,7 @@ parts:
         homework:
           due: Sunday December 8th
         extras:
-          - kind: demo
-            name: Demo F1
+          - name: Demo F1
             video: zkn0CXaNOJY
             files: F1
             description: "*A change in the labor market - challenging demo*"

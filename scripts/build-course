@@ -313,13 +313,19 @@ end
 # and a small thumbnail on the right when it is a video.
 def extra_step(extra, indent)
   video = extra['video']
+  links = Array(extra['links'])
+  if extra['files']   # a demo: Demos/Demo_<files>.pdf and its solutions, when they exist
+    ["Demos/Demo_#{extra['files']}.pdf", "Demos/Demo_#{extra['files']}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
+      links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
+    end
+  end
   video_attribute = video ? %( data-video-id="#{escape(video)}") : ''
   thumb = path_thumb(video, indent)
   <<~HTML.chomp
     #{indent}<li class="path-step path-step-alt path-step-extra"#{video_attribute}>
     #{indent}    <span class="path-dot path-dot-alt" aria-hidden="true"></span>
     #{indent}    <div>
-    #{indent}        <p class="path-name">#{escape(extra.fetch('name'))} <span class="path-where">optional</span></p>#{path_links(Array(extra['links']), indent + '        ')}
+    #{indent}        <p class="path-name">#{escape(extra.fetch('name'))} <span class="path-where">optional</span></p>#{path_links(links, indent + '        ')}
     #{indent}    </div>#{thumb}
     #{indent}</li>
   HTML
@@ -683,7 +689,10 @@ def validate_schema(parts)
         check_keys(section['vignette'], %w[name description video files solutions solution_file empty], "#{section_path}.vignette", errors)
         require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
         check_keys(section['homework'], %w[due file solutions solution_file practice video], "#{section_path}.homework", errors) if section['homework']
-        Array(section['extras']).each_with_index { |resource, resource_index| check_resource(resource, "#{section_path}.extras[#{resource_index}]", errors) }
+        Array(section['extras']).each_with_index do |extra, extra_index|
+          check_keys(extra, %w[name video description links files], "#{section_path}.extras[#{extra_index}]", errors)
+          require_keys(extra, %w[name], "#{section_path}.extras[#{extra_index}]", errors)
+        end
       elsif section['carousel']
         check_keys(section, %w[carousel], section_path, errors)
         config = section['carousel']
