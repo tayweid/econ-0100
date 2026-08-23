@@ -385,7 +385,8 @@ def render_checkpoint(part_id, config)
     demo_links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
   end
   walkthrough = demo.fetch('description', "Attempt Demo #{part_id} first, then walk through with me.")
-  when_label = config['when'] || (config['date'] ? "in class · #{short_date(config['date'])}" : 'in class')
+  when_line = config['when'] || (config['date'] ? short_date(config['date']) : nil)
+  when_html = when_line ? %(\n#{indent}                    <p class="path-due">#{escape(when_line)}</p>) : ''
   date_attribute = config['date'] ? %( data-date="#{escape(config['date'])}") : ''
 
   <<~HTML.chomp
@@ -404,7 +405,7 @@ def render_checkpoint(part_id, config)
     #{indent}            <li class="path-step path-step-checkpoint"#{date_attribute}>
     #{indent}                <span class="path-dot path-dot-big" aria-hidden="true"></span>
     #{indent}                <div>
-    #{indent}                    <p class="path-name">Checkpoint #{escape(part_id)} <span class="path-where">#{escape(when_label)}</span></p>
+    #{indent}                    <p class="path-name">Checkpoint #{escape(part_id)} <span class="path-where">in class</span></p>#{when_html}
     #{indent}                </div>
     #{indent}            </li>
     #{indent}            <li class="path-step path-step-alt">
