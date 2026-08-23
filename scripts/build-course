@@ -11,7 +11,7 @@ CHECK_ONLY = ARGV.include?('--check')
 
 COURSE = {
   'code' => 'ECON 0100',
-  'brand' => ['INTRO', 'MICRO', 'ECON'],
+  'brand' => ['MICRO', 'ECON'],
   'syllabus' => 'Syllabus.pdf',
   'stylesheet' => 'https://tayweid.github.io/course-assets/course.css',
   'script' => 'https://tayweid.github.io/course-assets/course.js',
