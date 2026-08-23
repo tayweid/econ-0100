@@ -554,11 +554,6 @@ parts:
           files: F1
         homework:
           due: Sunday December 8th
-        extras:
-          - name: Demo F1
-            video: zkn0CXaNOJY
-            files: F1
-            description: "*A change in the labor market - challenging demo*"
         dates:
           class: '2026-11-30'
           recitation: '2026-12-04'
@@ -586,34 +581,11 @@ parts:
           recitation: '2026-12-04'
           homework: '2026-12-06'
 
-      - homework_notes:
-          title: Homework F Details
-          nav: Homework Details
-          name: Homework F
-          due: Sunday December 8th
-          file: F
-          questions:
-            - In the graph for question 1, show Hagrid's initial budget constraint
-            - For question 2, in the graph below question 1, show Hagrid's optimal consumption bundle on the budget constraint they already drew (using indifference curves), then on the same graph, show how Hagrid's optimal consumption bundle would change using shifts in budget constraints and indifference curves.
-            - In the graph below question 3, show Hagrid's budget constraint from question 2, then show the shift in the budget constraint on the budget constraint for the same graph.
-            - Show the optimal consumption bundles (using indifference curves) on the budget constraints
-
       - checkpoint:
           when: Final Exam Period
           description: >-
             You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: zkn0CXaNOJY
-            description: "*A change in the labor market - challenging demo*"
+            file: F1
 
-      - standalone:
-          id: demo-z
-          title: Demo Z
-          description: >-
-            Demo Z provides a comprehensive bird's eye view of everything we've learned this semester, connecting all the economic concepts from supply and demand through consumer choice.
-          resource:
-            kind: demo
-            name: Demo Z
-            files: Z
-            solutions: false
-            description: "*A bird's eye view of the semester - synthesizing all major economic concepts covered in Parts A through F*"
