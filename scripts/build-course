@@ -13,8 +13,8 @@ COURSE = {
   'code' => 'ECON 0100',
   'brand' => ['MICRO', '-ECON'],
   'syllabus' => 'Syllabus.pdf',
-  'stylesheet' => 'https://tayweid.github.io/course-assets/styles/main.css',
-  'script' => 'https://tayweid.github.io/course-assets/scripts/main.js',
+  'stylesheet' => 'https://tayweid.github.io/course-assets/course.css',
+  'script' => 'https://tayweid.github.io/course-assets/course.js',
   'reading_video' => 'uwYCeUVcx4E'
 }.freeze
 
@@ -221,7 +221,7 @@ def render_card(card, indent = '                ')
           elsif card['video']
             %(<img src="#{youtube_thumbnail(card['video'])}" alt="#{escape(card['name'])} thumbnail">\n#{indent}        <div class="play-button">#{card['play_icon']}</div>)
           else
-            %(<img src="https://img.youtube.com/vi/default/maxresdefault.jpg" alt="#{escape(card['name'])} thumbnail" class="placeholder-bg">)
+            %(<img alt="" class="placeholder-bg">)
           end
   topic = card['topic'] ? %( <span class="chapter-topic">#{escape(card['topic'])}</span>) : ''
   links = card.fetch('links').empty? ? '' : " #{title_links(card['links']).join(' ')}"
@@ -461,7 +461,6 @@ def render_part(part_id, part, part_ids)
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Microeconomics | Part #{escape(part_id)}</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="#{COURSE['stylesheet']}">
     </head>
     <body>
