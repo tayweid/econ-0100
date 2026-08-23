@@ -289,7 +289,13 @@ def path_links(items, indent)
   %(\n#{indent}<div class="path-links">#{title_links(items).join(' ')}</div>)
 end
 
-def path_step(name, where, links, date, indent, due: nil)
+def path_thumb(video, indent)
+  return '' unless video
+
+  %(\n#{indent}    <a class="path-thumb" href="https://www.youtube.com/watch?v=#{escape(video)}" target="_blank" rel="noopener"><img src="#{youtube_thumbnail(video)}" alt=""></a>)
+end
+
+def path_step(name, where, links, date, indent, due: nil, video: nil)
   date_attribute = date ? %( data-date="#{escape(date)}") : ''
   due_html = due ? %(\n#{indent}        <p class="path-due">Due #{escape(due)}</p>) : ''
   links_html = links.empty? ? '' : %(\n#{indent}        <div class="path-links">#{title_links(links).join(' ')}</div>)
@@ -298,7 +304,7 @@ def path_step(name, where, links, date, indent, due: nil)
     #{indent}    <span class="path-dot" aria-hidden="true"></span>
     #{indent}    <div>
     #{indent}        <p class="path-name">#{escape(name)} <span class="path-where">#{escape(where)}</span></p>#{links_html}#{due_html}
-    #{indent}    </div>
+    #{indent}    </div>#{path_thumb(video, indent)}
     #{indent}</li>
   HTML
 end
@@ -308,9 +314,9 @@ end
 def extra_step(extra, indent)
   video = extra['video']
   video_attribute = video ? %( data-video-id="#{escape(video)}") : ''
-  thumb = video ? %(\n#{indent}    <a class="path-thumb" href="https://www.youtube.com/watch?v=#{escape(video)}" target="_blank" rel="noopener"><img src="#{youtube_thumbnail(video)}" alt=""></a>) : ''
+  thumb = path_thumb(video, indent)
   <<~HTML.chomp
-    #{indent}<li class="path-step path-step-alt"#{video_attribute}>
+    #{indent}<li class="path-step path-step-alt path-step-extra"#{video_attribute}>
     #{indent}    <span class="path-dot path-dot-alt" aria-hidden="true"></span>
     #{indent}    <div>
     #{indent}        <p class="path-name">#{escape(extra.fetch('name'))} <span class="path-where">optional</span></p>#{path_links(Array(extra['links']), indent + '        ')}
@@ -356,12 +362,11 @@ def render_block(part, block)
   due = dates['homework'] ? short_date(dates['homework']) : homework['due']
 
   steps = [
-    path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', Array(exercise['links']), dates['class'], indent + '            '),
-    path_step(vignette.fetch('name', "Vignette #{block_id}"), 'recitation', vignette_links(vignette, block_id), dates['recitation'], indent + '            '),
-    path_step("Homework #{block_id}", 'home', homework_links, dates['homework'], indent + '            ', due: due)
+    path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', Array(exercise['links']), dates['class'], indent + '            ', video: exercise['video']),
+    path_step(vignette.fetch('name', "Vignette #{block_id}"), 'recitation', vignette_links(vignette, block_id), dates['recitation'], indent + '            ', video: vignette['video']),
+    path_step("Homework #{block_id}", 'home', homework_links, dates['homework'], indent + '            ', due: due, video: homework['video'])
   ]
-  steps += Array(block['extras']).map { |extra| extra_step(extra, indent + '            ') }
-  steps = steps.join("\n")
+  steps = (Array(block['extras']).map { |extra| extra_step(extra, indent + '            ') } + steps).join("\n")
 
   <<~HTML.chomp
     #{indent}<div class="block" id="part-#{block_id.downcase}">
@@ -664,7 +669,7 @@ def validate_schema(parts)
 
       if section['block']
         check_keys(section, %w[block nav title description episode reading vignette homework extras exercise dates], section_path, errors)
-        check_keys(section['exercise'], %w[name links], "#{section_path}.exercise", errors) if section['exercise']
+        check_keys(section['exercise'], %w[name links video], "#{section_path}.exercise", errors) if section['exercise']
         check_keys(section['dates'], %w[class recitation homework], "#{section_path}.dates", errors) if section['dates']
         require_keys(section, %w[block nav title description episode reading vignette], section_path, errors)
         check_keys(section['episode'], %w[name video description links empty], "#{section_path}.episode", errors)
@@ -677,7 +682,7 @@ def validate_schema(parts)
         check_links(section.dig('reading', 'links'), "#{section_path}.reading.links", errors)
         check_keys(section['vignette'], %w[name description video files solutions solution_file empty], "#{section_path}.vignette", errors)
         require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
-        check_keys(section['homework'], %w[due file solutions solution_file practice], "#{section_path}.homework", errors) if section['homework']
+        check_keys(section['homework'], %w[due file solutions solution_file practice video], "#{section_path}.homework", errors) if section['homework']
         Array(section['extras']).each_with_index { |resource, resource_index| check_resource(resource, "#{section_path}.extras[#{resource_index}]", errors) }
       elsif section['carousel']
         check_keys(section, %w[carousel], section_path, errors)

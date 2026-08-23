@@ -10,8 +10,12 @@
 #     class: '2026-08-31'
 #     recitation: '2026-09-04'
 #     homework: '2026-09-06'
-#   exercise:              # only if the in-class exercise has downloads
+#   exercise:              # only if the in-class exercise has downloads or a video
 #     links: [{label: Exercise, file: Classwork/Classwork_A1.pdf}]
+#     video: <youtube id>  # also allowed on vignette: and homework: — shows a small thumbnail on the step
+#   extras:                # optional material; sits on the path above the episode
+#     - name: Simulating a Market
+#       video: <youtube id>
 
 parts:
   A:
