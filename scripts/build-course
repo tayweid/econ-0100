@@ -11,7 +11,7 @@ CHECK_ONLY = ARGV.include?('--check')
 
 COURSE = {
   'code' => 'ECON 0100',
-  'brand' => ['MICRO', 'ECON'],
+  'brand' => ['INTRO', 'MICRO', 'ECON'],
   'syllabus' => 'Syllabus.pdf',
   'stylesheet' => 'https://tayweid.github.io/course-assets/course.css',
   'script' => 'https://tayweid.github.io/course-assets/course.js',
@@ -460,7 +460,7 @@ def render_part(part_id, part, part_ids)
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Microeconomics | Part #{escape(part_id)}</title>
+        <title>#{COURSE['code']} | Part #{escape(part_id)}</title>
         <link rel="stylesheet" href="#{COURSE['stylesheet']}">
     </head>
     <body>
