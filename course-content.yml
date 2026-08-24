@@ -19,8 +19,8 @@
 
 parts:
   A:
-    title: A Very Big Idea
-    tagline: specialization and trade can benefit everyone
+    title: The Core Economic Idea
+    tagline: better choices can benefit everyone
     introduction: >-
       Part A explores one of the most profound insights in all of social science: why humans have a fundamental drive to cooperate and coordinate with one another. The ideas you'll discover here — opportunity cost, the production possibility frontier, and comparative advantage—reveal that cooperation isn't just nice, it's economically inevitable. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. These aren't just abstract theories; they're the invisible forces that make civilization possible.
     homework_defaults:
@@ -28,8 +28,9 @@ parts:
       file: A
       solutions: true
     sections:
-      - block: A1
+      - block: A0
         nav: Econ
+        practice: false
         title: What is microeconomics?
         description: >-
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
@@ -39,14 +40,8 @@ parts:
         reading:
           chapter: 1
           topic: The principles of microeconomics
-        vignette:
-          description: No vignette in this block
-        dates:
-          class: '2026-08-24'
-          recitation: '2026-08-28'
-          homework: '2026-08-30'
 
-      - block: A2
+      - block: A1
         nav: PPF
         title: The production possibility frontier
         description: The PPF shows us what's attainable as individuals and as a society.
@@ -63,7 +58,7 @@ parts:
           recitation: '2026-08-28'
           homework: '2026-08-30'
 
-      - block: A3
+      - block: A2
         nav: Specialization
         title: Comparative advantage and specialization
         description: >-
@@ -81,7 +76,7 @@ parts:
           recitation: '2026-09-04'
           homework: '2026-09-06'
 
-      - block: A4
+      - block: A3
         nav: Trade
         title: Trade
         description: Trade based on comparative advantage makes both parties better off simultaneously.

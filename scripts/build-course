@@ -335,7 +335,7 @@ def render_block(part, block)
   block_id = block.fetch('block')
   episode = block.fetch('episode')
   reading = block.fetch('reading')
-  vignette = block.fetch('vignette')
+  vignette = block.fetch('vignette', {})
   homework = homework_config(part, block)
   dates = block.fetch('dates', {}) || {}
   indent = '        '
@@ -374,17 +374,34 @@ def render_block(part, block)
   ]
   steps = (Array(block['extras']).map { |extra| extra_step(extra, indent + '            ') } + steps).join("\n")
 
-  <<~HTML.chomp
-    #{indent}<div class="block" id="part-#{block_id.downcase}">
-    #{indent}    <h1 class="subtitle">Block #{escape(block_id)} | #{escape(block.fetch('title'))}</h1>
-    #{indent}    <p class="block-description">#{escape(block.fetch('description'))}</p>
-    #{indent}    <div class="path">
+  episode_html = <<~EPISODE.chomp
     #{indent}        <div class="path-episode"#{video_attribute}>
     #{indent}            <div class="card-video">
     #{indent}                #{image}
     #{indent}            </div>
     #{indent}            <p class="path-name">#{escape(episode_name)} <span class="path-desc">#{inline_text(episode.fetch('description')).gsub(%r{</?i>}, '')}</span></p>#{path_links(episode_links, indent + '            ')}
     #{indent}        </div>
+  EPISODE
+
+  # an intro block carries no practice: just the episode, no rail
+  if block['practice'] == false
+    return <<~HTML.chomp
+      #{indent}<div class="block" id="part-#{block_id.downcase}">
+      #{indent}    <h1 class="subtitle">Block #{escape(block_id)} | #{escape(block.fetch('title'))}</h1>
+      #{indent}    <p class="block-description">#{escape(block.fetch('description'))}</p>
+      #{indent}    <div class="path path-solo">
+      #{episode_html}
+      #{indent}    </div>
+      #{indent}</div>
+    HTML
+  end
+
+  <<~HTML.chomp
+    #{indent}<div class="block" id="part-#{block_id.downcase}">
+    #{indent}    <h1 class="subtitle">Block #{escape(block_id)} | #{escape(block.fetch('title'))}</h1>
+    #{indent}    <p class="block-description">#{escape(block.fetch('description'))}</p>
+    #{indent}    <div class="path">
+#{episode_html}
     #{indent}        <ol class="path-steps">
     #{steps}
     #{indent}        </ol>
@@ -678,10 +695,11 @@ def validate_schema(parts)
       end
 
       if section['block']
-        check_keys(section, %w[block nav title description episode reading vignette homework extras exercise dates], section_path, errors)
+        check_keys(section, %w[block nav title description episode reading vignette homework extras exercise dates practice], section_path, errors)
         check_keys(section['exercise'], %w[name links video], "#{section_path}.exercise", errors) if section['exercise']
         check_keys(section['dates'], %w[class recitation homework], "#{section_path}.dates", errors) if section['dates']
-        require_keys(section, %w[block nav title description episode reading vignette], section_path, errors)
+        require_keys(section, %w[block nav title description episode reading], section_path, errors)
+        require_keys(section, %w[vignette], section_path, errors) unless section['practice'] == false
         check_keys(section['episode'], %w[name video description links empty], "#{section_path}.episode", errors)
         require_keys(section['episode'], %w[description], "#{section_path}.episode", errors)
         check_links(section.dig('episode', 'links'), "#{section_path}.episode.links", errors)
@@ -690,8 +708,10 @@ def validate_schema(parts)
           errors << "#{section_path}.reading: provide chapter or name"
         end
         check_links(section.dig('reading', 'links'), "#{section_path}.reading.links", errors)
-        check_keys(section['vignette'], %w[name description video files solutions solution_file empty], "#{section_path}.vignette", errors)
-        require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
+        if section['practice'] != false
+          check_keys(section['vignette'], %w[name description video files solutions solution_file empty], "#{section_path}.vignette", errors)
+          require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
+        end
         check_keys(section['homework'], %w[due file solutions solution_file practice video], "#{section_path}.homework", errors) if section['homework']
         Array(section['extras']).each_with_index do |extra, extra_index|
           check_keys(extra, %w[name video description links files], "#{section_path}.extras[#{extra_index}]", errors)
