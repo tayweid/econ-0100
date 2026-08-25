@@ -25,14 +25,13 @@ parts:
       Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. These are the models that make it possible to see the invisible forces that make civilization possible.
     homework_defaults:
       due: Sunday, September 4
-      file: A
-      solutions: true
     sections:
       - block: A0
         nav: Econ
         steps:
           - name: Syllabus Quiz
             where: home
+            due: Sunday, August 30
         title: What is microeconomics?
         description: >-
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
@@ -123,8 +122,6 @@ parts:
           files: B1
         homework:
           due: Wednesday September 25
-          file: B1
-          solutions: true
         dates:
           class: '2026-09-14'
           recitation: '2026-09-18'
@@ -250,9 +247,6 @@ parts:
     tagline: externalized costs and benefits lead to inefficient markets
     introduction: >-
       Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C reveals the dark side of markets—when private incentives misalign with social welfare, creating externalities and market failures that require government intervention to restore efficiency. You'll discover how pollution, taxes, and corrective policies can either harm or heal market outcomes.
-    homework_defaults:
-      file: C
-      solutions: true
     sections:
       - block: C1
         nav: Externalities
@@ -331,9 +325,6 @@ parts:
     tagline: strategic interaction often leads to inefficient markets
     introduction: >-
       Part D pushes beyond market failures to explore situations where markets aren't even the right framework. Here we encounter public goods and common resources—goods that are entirely externalities with no private component. These situations demand a completely different approach: strategic thinking and game theory. You'll discover why cooperation is sometimes impossible even when everyone would benefit, and how understanding these dynamics reveals the hidden logic behind everything from environmental policy to international relations.
-    homework_defaults:
-      file: D
-      solutions: false
     sections:
       - block: D1
         nav: Common Resources
@@ -448,8 +439,6 @@ parts:
           files: E1
         homework:
           due: Sunday November 10th
-          file: E1
-          solutions: true
         dates:
           class: '2026-11-02'
           recitation: '2026-11-06'
@@ -470,8 +459,6 @@ parts:
           files: E2
         homework:
           due: Monday November 18th
-          file: E2
-          solutions: true
         dates:
           class: '2026-11-04'
           recitation: '2026-11-06'
@@ -491,8 +478,6 @@ parts:
           description: "*Monopoly practice problems*"
         homework:
           due: Due Date TBD
-          file: E1
-          solutions: true
         dates:
           class: '2026-11-09'
           recitation: '2026-11-13'
@@ -537,9 +522,6 @@ parts:
     tagline: people respond to many interacting incentives
     introduction: >-
       Part F completes our economic journey by revealing the elegant mathematics of human choice. After exploring how markets work and fail, we now discover how budget constraints and preferences create the demand curves that drive everything. You'll learn why consumers make the choices they do, how income from factor markets shapes purchasing power, and how utility maximization creates the predictable patterns we see in real markets. These insights don't just explain buyer behavior—they reveal the hidden logic behind every purchase decision you'll ever make.
-    homework_defaults:
-      file: F
-      solutions: false
     sections:
       - block: F1
         nav: Factor Markets
@@ -577,7 +559,6 @@ parts:
           solution_file: Vignettes/Vignette_F2_sols_new.pdf
         homework:
           due: Due Date TBD
-          solutions: true
         dates:
           class: '2026-12-02'
           recitation: '2026-12-04'
