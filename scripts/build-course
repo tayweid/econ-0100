@@ -23,7 +23,18 @@ KNOWN_MISSING = %w[
   Vignettes/Vignette_D3_sols.pdf
   Vignettes/Vignette_D4.pdf
   Vignettes/Vignette_D4_sols.pdf
+  Homework/HW_A.pdf
+  Homework/HW_A_sols.pdf
+  Homework/HW_B1.pdf
+  Homework/HW_B1_sols.pdf
+  Homework/HW_C.pdf
+  Homework/HW_C_sols.pdf
+  Homework/HW_D.pdf
+  Homework/HW_E1.pdf
+  Homework/HW_E1_sols.pdf
+  Homework/HW_E2.pdf
   Homework/HW_E2_sols.pdf
+  Homework/HW_F.pdf
   Homework/HW_F_sols.pdf
 ].to_set.freeze
 
@@ -614,6 +625,7 @@ def render_part(part_id, part, part_ids)
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>#{COURSE['code']} | Part #{escape(part_id)}</title>
         <link rel="stylesheet" href="#{COURSE['stylesheet']}">
+        <script>if (window.self !== window.top) document.documentElement.classList.add('embedded');</script>
     </head>
     <body>
     <div class="wrapper course-econ-0100">
