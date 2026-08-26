@@ -39,6 +39,7 @@ parts:
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
         episode:
           video: qMDU1QYKYss
+          links: [{label: Animations, file: animations/A0/, icon: fa fa-desktop}]
           description: Economics is not *about* money.
         reading:
           chapter: 1
