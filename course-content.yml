@@ -40,7 +40,6 @@ parts:
         episode:
           video: qMDU1QYKYss
           description: Economics is not *about* money.
-          links: [{label: Textbook, file: Reading/Principles_of_Microeconomics_3e.pdf}]
         reading:
           chapter: 1
           topic: Welcome to economics
