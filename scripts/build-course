@@ -39,21 +39,22 @@ def youtube_thumbnail(video)
   "https://img.youtube.com/vi/#{video}/maxresdefault.jpg"
 end
 
-def link(label, href, optional: false)
-  icon, css = if label == 'Practice'
+def link(label, href, optional: false, icon: nil)
+  default_icon, css = if label == 'Practice'
                 ['fa fa-pencil', 'practice-link']
               elsif href.start_with?('http')
                 ['fa fa-external-link', 'download-link']
               else
                 ['fa fa-file-pdf-o', 'download-link']
               end
+  icon ||= default_icon
   css += ' chip-optional' if optional
   label = "#{label} · optional" if optional
   %(<a href="#{escape(href)}" class="#{css}" target="_blank" rel="noopener"><i class="#{icon}" aria-hidden="true"></i> #{escape(label)}</a>)
 end
 
 def title_links(items)
-  Array(items).map { |item| link(item.fetch('label'), item.fetch('file'), optional: item['optional'] || false) }
+  Array(items).map { |item| link(item.fetch('label'), item.fetch('file'), optional: item['optional'] || false, icon: item['icon']) }
 end
 
 def reading_file(chapter)
@@ -684,7 +685,7 @@ end
 
 def check_links(value, path, errors)
   Array(value).each_with_index do |item, index|
-    check_keys(item, %w[label file], "#{path}[#{index}]", errors)
+    check_keys(item, %w[label file optional icon], "#{path}[#{index}]", errors)
     require_keys(item, %w[label file], "#{path}[#{index}]", errors)
   end
 end
