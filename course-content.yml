@@ -50,6 +50,7 @@ parts:
         description: The PPF shows us what's attainable as individuals and as a society.
         episode:
           video: po4kip5m_QY
+          links: [{label: Animations, file: animations/A1/, icon: fa fa-desktop}]
           description: The landscape of what's possible
         reading:
           chapter: 2
