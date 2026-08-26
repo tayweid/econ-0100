@@ -21,6 +21,7 @@ parts:
   A:
     title: The Core Economic Idea
     tagline: better choices can benefit everyone
+    links: [{label: Skillsheet, file: Skillsheets/A_Skillsheet.pdf}]
     introduction: >-
       Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. These are the models that make it possible to see the invisible forces that make civilization possible.
     homework_defaults:
@@ -58,6 +59,8 @@ parts:
           links: [{label: Exercise, file: Exercises/Exercise_A1.pdf}]
         vignette:
           description: PPF practice problems
+        homework:
+          file: A1
         dates:
           class: '2026-08-26'
           recitation: '2026-09-04'

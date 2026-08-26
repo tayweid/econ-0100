@@ -628,7 +628,7 @@ def render_part(part_id, part, part_ids)
     <main class="content">
         <div class="description">
             <h1 class="title title-tight">Part #{escape(part_id)} | #{escape(part.fetch('title'))}</h1>
-            <i class="subtitle-text">#{escape(part.fetch('tagline').sub(/\A./, &:upcase))}</i>
+            <i class="subtitle-text">#{escape(part.fetch('tagline').sub(/\A./, &:upcase))}</i>#{part['links'] ? " #{title_links(part['links']).join(' ')}" : ''}
             <hr class="title-rule">
             <p>#{escape(part.fetch('introduction'))}</p>
         </div>
@@ -703,9 +703,11 @@ def validate_schema(parts)
 
   parts.each do |part_id, part|
     path = "parts.#{part_id}"
-    check_keys(part, %w[title tagline introduction homework_defaults sections], path, errors)
+    check_keys(part, %w[title tagline introduction homework_defaults sections links], path, errors)
     require_keys(part, %w[title tagline introduction sections], path, errors)
     next unless part.is_a?(Hash)
+
+    check_links(part['links'], "#{path}.links", errors)
 
     check_keys(part['homework_defaults'], %w[due file solutions solution_file practice], "#{path}.homework_defaults", errors) if part['homework_defaults']
     unless part['sections'].is_a?(Array)
@@ -861,7 +863,7 @@ stale = false
 outputs.each do |filename, contents|
   path = ROOT.join(filename)
   if CHECK_ONLY
-    if !path.exist? || path.read != contents
+    if !path.exist? || path.binread != contents.b
       stale = true
       warn "Generated file is stale: #{filename}"
     end
