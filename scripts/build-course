@@ -39,7 +39,7 @@ def youtube_thumbnail(video)
   "https://img.youtube.com/vi/#{video}/maxresdefault.jpg"
 end
 
-def link(label, href)
+def link(label, href, optional: false)
   icon, css = if label == 'Practice'
                 ['fa fa-pencil', 'practice-link']
               elsif href.start_with?('http')
@@ -47,11 +47,13 @@ def link(label, href)
               else
                 ['fa fa-file-pdf-o', 'download-link']
               end
+  css += ' chip-optional' if optional
+  label = "#{label} · optional" if optional
   %(<a href="#{escape(href)}" class="#{css}" target="_blank" rel="noopener"><i class="#{icon}" aria-hidden="true"></i> #{escape(label)}</a>)
 end
 
 def title_links(items)
-  Array(items).map { |item| link(item.fetch('label'), item.fetch('file')) }
+  Array(items).map { |item| link(item.fetch('label'), item.fetch('file'), optional: item['optional'] || false) }
 end
 
 def reading_file(chapter)
@@ -352,7 +354,7 @@ def render_block(part, block)
   episode_links = Array(episode['links'])
   if reading['chapter'] && reading.fetch('file', true)
     file = reading['file'].is_a?(String) ? reading['file'] : reading_file(reading['chapter'])
-    episode_links << { 'label' => "Chapter #{reading['chapter']}", 'file' => file }
+    episode_links << { 'label' => "Ch. #{reading['chapter']}", 'file' => file, 'optional' => true }
   elsif reading['name']
     episode_links += Array(reading['links'])
   end
