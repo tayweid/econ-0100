@@ -367,11 +367,16 @@ def render_block(part, block)
   end
   due = dates['homework'] ? short_date(dates['homework']) : homework['due']
 
+  # Steps render in chronological order when all three dates are given, so a
+  # vignette dated after the homework (e.g. covered in the following recitation)
+  # sits below it on the path.
   steps = [
-    path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', Array(exercise['links']), dates['class'], indent + '            ', video: exercise['video']),
-    path_step(vignette.fetch('name', "Vignette #{block_id}"), 'recitation', vignette_links(vignette, block_id), dates['recitation'], indent + '            ', video: vignette['video']),
-    path_step("Homework #{block_id}", 'home', homework_links, dates['homework'], indent + '            ', due: due, video: homework['video'])
+    [dates['class'], path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', Array(exercise['links']), dates['class'], indent + '            ', video: exercise['video'])],
+    [dates['recitation'], path_step(vignette.fetch('name', "Vignette #{block_id}"), 'recitation', vignette_links(vignette, block_id), dates['recitation'], indent + '            ', video: vignette['video'])],
+    [dates['homework'], path_step("Homework #{block_id}", 'home', homework_links, dates['homework'], indent + '            ', due: due, video: homework['video'])]
   ]
+  steps = steps.sort_by.with_index { |(date, _), index| [date, index] } if steps.all? { |date, _| date }
+  steps = steps.map { |_, html| html }
   steps = (Array(block['extras']).map { |extra| extra_step(extra, indent + '            ') } + steps).join("\n")
 
   episode_html = <<~EPISODE.chomp
