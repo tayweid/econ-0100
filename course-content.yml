@@ -32,15 +32,17 @@ parts:
           - name: Syllabus Quiz
             where: home
             due: Sunday, August 30
+            links: [{label: Syllabus, file: Syllabus.pdf}]
         title: What is microeconomics?
         description: >-
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
         episode:
           video: qMDU1QYKYss
           description: Economics is not *about* money.
+          links: [{label: Textbook, file: Reading/Principles_of_Microeconomics_3e.pdf}]
         reading:
           chapter: 1
-          topic: The principles of microeconomics
+          topic: Welcome to economics
 
       - block: A1
         nav: PPF
@@ -51,7 +53,9 @@ parts:
           description: The landscape of what's possible
         reading:
           chapter: 2
-          topic: Thinking like an economist
+          topic: Choice in a world of scarcity
+        exercise:
+          links: [{label: Exercise, file: Exercises/Exercise_A1.pdf}]
         vignette:
           description: PPF practice problems
         dates:
@@ -68,8 +72,8 @@ parts:
           video: nclNGfY-3eA
           description: Specialization
         reading:
-          chapter: 3
-          topic: Gains from trade
+          chapter: 19
+          topic: International trade
         vignette:
           description: Specialization practice problems
         dates:
@@ -85,7 +89,7 @@ parts:
           video: v_s4dO1AD5Y
           description: Trade
         reading:
-          name: Chapter 4
+          name: Reading A3
           description: No reading in this block
         vignette:
           description: Trade practice problems
@@ -115,8 +119,8 @@ parts:
           video: 9HUh9qWDSr4
           description: "*This video introduces the demand curve as a way of organizing buyers' preferences.*"
         reading:
-          chapter: 4
-          topic: Market forces of supply and demand
+          chapter: 3
+          topic: Demand and supply
         vignette:
           description: "*Demand practice problems*"
           files: B1
@@ -136,7 +140,7 @@ parts:
           description: "*This video introduces the supply curve and how it helps answer Part B's questions.*"
         reading:
           name: Chapter (continued)
-          description: Continues Chapter 4 from Block B1
+          description: Continues Chapter 3 from Block B1
         vignette:
           description: "*Supply practice problems*"
           files: B2
@@ -154,8 +158,8 @@ parts:
           description: >-
             *This video introduces shortage and surplus and the incentives of buyers and sellers to move prices toward equilibrium.*
         reading:
-          chapter: 6
-          topic: Government policies
+          chapter: 3
+          topic: Price ceilings and price floors
         vignette:
           description: "*Markets practice problems*"
           files: B3
@@ -177,8 +181,8 @@ parts:
           description: >-
             *This video introduces government price controls to show that the market maximizes total surplus in some environments.*
         reading:
-          chapter: 7
-          topic: The efficiency of markets
+          chapter: 3
+          topic: Demand, supply, and efficiency
         vignette:
           description: "*Efficiency practice problems*"
         dates:
@@ -225,8 +229,8 @@ parts:
           video: Kxq2E69dpCA
           description: "*International Trade*"
         reading:
-          chapter: 9
-          topic: Markets and international trade
+          chapter: 20
+          topic: Globalization and protectionism
         vignette:
           description: "*International trade practice problems*"
           files: C1
@@ -256,8 +260,8 @@ parts:
           video: uxPoYbtzYbM
           description: "*Externalities*"
         reading:
-          chapter: 10
-          topic: Externalities
+          chapter: 12
+          topic: Environmental protection and negative externalities
           video: prohFxS0E1I
         vignette:
           video: xKK5JBPXGsg
@@ -279,8 +283,8 @@ parts:
           video: R2NctbU80y0
           description: "*Taxes and Welfare*"
         reading:
-          chapter: 8
-          topic: Taxes and markets
+          chapter: 5
+          topic: Elasticity and tax incidence
           video: AYJh3NefuUM
         vignette:
           description: "*Taxes practice problems*"
@@ -301,8 +305,8 @@ parts:
           video: W0eAtssLxmk
           description: "*Corrective Taxes*"
         reading:
-          chapter: 10
-          topic: Externalities
+          chapter: 12
+          topic: Environmental protection and negative externalities
           video: prohFxS0E1I
         vignette:
           description: "*Corrective taxes practice problems*"
@@ -335,8 +339,8 @@ parts:
           video: wd8LSB8nF7o
           description: "*Introducing non-excludable goods*"
         reading:
-          chapter: 11
-          topic: Public goods and common resources
+          chapter: 13
+          topic: Positive externalities and public goods
         vignette:
           description: "*Non-excludable goods practice problems*"
           files: D1
@@ -356,8 +360,8 @@ parts:
           video: Is0CQbUM-j8
           description: "*Baby game theory*"
         reading:
-          chapter: 11
-          topic: Public goods and common resources
+          chapter: 13
+          topic: Positive externalities and public goods
         vignette:
           description: "*Game theory practice problems*"
           files: D2
@@ -432,8 +436,8 @@ parts:
           video: J0Y6XzwSfls
           description: "*The costs of production*"
         reading:
-          chapter: 13
-          topic: Costs of production
+          chapter: 7
+          topic: Production, costs, and industry structure
         vignette:
           description: "*Production costs practice problems*"
           files: E1
@@ -452,8 +456,8 @@ parts:
           video: YN4ZkPBS_O8
           description: "*Competitive firms*"
         reading:
-          chapter: 14
-          topic: Competitive markets
+          chapter: 8
+          topic: Perfect competition
         vignette:
           description: "*Competitive firms practice problems*"
           files: E2
@@ -472,7 +476,7 @@ parts:
           video: N0mbUXYMwdw
           description: "*Monopoly firms*"
         reading:
-          chapter: 15
+          chapter: 9
           topic: Monopoly
         vignette:
           description: "*Monopoly practice problems*"
@@ -494,8 +498,8 @@ parts:
             - label: Notes
               file: Notes/Episode_E4_Three_Markets.pdf
         reading:
-          chapter: 16
-          topic: Monopolistic competition
+          chapter: 10
+          topic: Monopolistic competition and oligopoly
         vignette:
           description: "*Market structures practice problems*"
         homework:
@@ -530,8 +534,8 @@ parts:
         episode:
           description: "*Factor markets*"
         reading:
-          chapter: 18
-          topic: Factor markets
+          chapter: 4
+          topic: Labor and financial markets
         vignette:
           video: n3LpswjCp6w
           description: "*Factor markets practice problems with video walkthrough*"
@@ -550,8 +554,8 @@ parts:
         episode:
           description: "*Consumer choice*"
         reading:
-          chapter: 21
-          topic: Consumer choice
+          chapter: 6
+          topic: Consumer choices
         vignette:
           video: l2uq30_Cg10
           description: "*Consumer choice practice problems with video walkthrough*"
