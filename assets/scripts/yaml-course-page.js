@@ -123,7 +123,7 @@
     }
 
     function extraStep(extra, bend) {
-        return pathStep({
+        const step = pathStep({
             name: extra.name,
             where: 'optional',
             links: items(extra.links),
@@ -131,6 +131,8 @@
             classes: `path-step-alt ${bend ? 'path-step-bend' : 'path-step-extra'}`,
             dotClasses: 'path-dot-alt'
         });
+        if (extra.video) step.dataset.videoId = extra.video;
+        return step;
     }
 
     function videoPanel(name, video) {
@@ -180,19 +182,10 @@
         return panel;
     }
 
-    function explicitVignetteLinks(vignette, blockId) {
-        const vignetteLinks = items(vignette.links).map(item => ({ ...item }));
-        if (vignette.files) {
-            const base = typeof vignette.files === 'string' ? vignette.files : blockId;
-            vignetteLinks.push({ label: 'Vignette', file: `Vignettes/Vignette_${base}.pdf` });
-            if (vignette.solutions === true) {
-                vignetteLinks.push({
-                    label: 'Solutions',
-                    file: vignette.solution_file || `Vignettes/Vignette_${base}_sols.pdf`
-                });
-            }
-        }
-        return vignetteLinks;
+    function explicitVignetteLinks(vignette) {
+        // A browser cannot safely list a server directory to discover conventional
+        // files. Runtime pages therefore expose only public links named in YAML.
+        return items(vignette.links).map(item => ({ ...item }));
     }
 
     function blockSteps(part, block) {
@@ -240,7 +233,7 @@
                 node: pathStep({
                     name: vignette.name || `Vignette ${blockId}`,
                     where: 'recitation',
-                    links: explicitVignetteLinks(vignette, blockId),
+                    links: explicitVignetteLinks(vignette),
                     date: dates.recitation,
                     video: vignette.video
                 })
@@ -340,11 +333,13 @@
     }
 
     function renderDescription(container, part) {
+        const errorMessage = container.querySelector('[data-course-error]');
         container.replaceChildren();
         container.append(element('h1', 'title title-tight', `Part ${partId} | ${part.title}`));
 
         const tagline = String(part.tagline || '');
         container.append(element('i', 'subtitle-text', tagline.charAt(0).toUpperCase() + tagline.slice(1)));
+        if (errorMessage) container.append(errorMessage);
         items(part.links).forEach(item => container.append(document.createTextNode(' '), resourceLink(item)));
         container.append(element('hr', 'title-rule'), element('p', null, part.introduction));
     }
@@ -361,19 +356,54 @@
 
     function renderPart(part) {
         const sections = items(part.sections);
-        const blocks = new Map(sections.filter(section => section.block).map(section => [section.block, section]));
+        const unsupported = sections.filter(section => !section.block && !section.checkpoint);
+        if (unsupported.length) throw new Error(`Part ${partId} contains a section type this runtime does not support.`);
+
+        const blockSections = sections.filter(section => section.block);
+        const blockIds = blockSections.map(section => section.block);
+        if (new Set(blockIds).size !== blockIds.length) {
+            throw new Error(`Part ${partId} contains duplicate block IDs.`);
+        }
+        const checkpoints = sections.filter(section => section.checkpoint);
+        if (checkpoints.length > 1) throw new Error(`Part ${partId} contains more than one checkpoint.`);
+
+        const blocks = new Map(blockSections.map(section => [section.block, section]));
         const slots = Array.from(page.querySelectorAll('[data-course-block]'));
         const slotIds = slots.map(slot => slot.dataset.courseBlock);
-        const blockIds = Array.from(blocks.keys());
         if (slotIds.join('|') !== blockIds.join('|')) {
             throw new Error(`The Part ${partId} HTML block shells (${slotIds.join(', ')}) do not match the YAML (${blockIds.join(', ')}).`);
+        }
+        const expectedElementIds = blockIds.map(blockId => `part-${blockId.toLowerCase()}`);
+        const actualElementIds = slots.map(slot => slot.id);
+        if (actualElementIds.join('|') !== expectedElementIds.join('|')) {
+            throw new Error(`The Part ${partId} HTML block IDs (${actualElementIds.join(', ')}) should be ${expectedElementIds.join(', ')}.`);
+        }
+
+        const checkpoint = checkpoints[0];
+        const checkpointSlot = page.querySelector('[data-course-checkpoint]');
+        if (Boolean(checkpoint) !== Boolean(checkpointSlot) || (checkpointSlot && checkpointSlot.id !== 'checkpoint')) {
+            throw new Error(`The Part ${partId} checkpoint shell does not match the YAML.`);
+        }
+
+        const pageNavigation = document.querySelector('[data-course-page-nav]');
+        const actualNavigation = pageNavigation
+            ? Array.from(pageNavigation.querySelectorAll('.nav-link-right')).map(link => ({
+                href: link.getAttribute('href'),
+                block: link.dataset.navBlock || null
+            }))
+            : [];
+        const expectedNavigation = blockIds.map((blockId, index) => ({
+            href: `#${expectedElementIds[index]}`,
+            block: blockId
+        }));
+        if (checkpoint) expectedNavigation.push({ href: '#checkpoint', block: null });
+        if (JSON.stringify(actualNavigation) !== JSON.stringify(expectedNavigation)) {
+            throw new Error(`The Part ${partId} right-navigation shell does not match the YAML.`);
         }
 
         renderDescription(page.querySelector('[data-course-description]'), part);
         slots.forEach(slot => renderBlock(slot, part, blocks.get(slot.dataset.courseBlock)));
 
-        const checkpoint = sections.find(section => section.checkpoint);
-        const checkpointSlot = page.querySelector('[data-course-checkpoint]');
         if (checkpoint && checkpointSlot) renderCheckpoint(checkpointSlot, checkpoint.checkpoint);
         else if (checkpointSlot) checkpointSlot.hidden = true;
         updatePageNavigation(sections);

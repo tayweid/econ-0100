@@ -81,6 +81,7 @@ end
 # Links whichever of Vignettes/Vignette_<base>.pdf and its _sols exist on disk;
 # `files:` overrides the base name, `files: false` suppresses, `solutions: false` drops the key.
 def vignette_links(config, default_base)
+  return Array(config['links']).dup if config.key?('links')
   return [] if config['files'] == false
 
   base = config['files'].is_a?(String) ? config['files'] : default_base
@@ -127,15 +128,17 @@ def generic_card(resource, standalone: false)
   kind = resource.fetch('kind')
   links = Array(resource['links'])
   if kind == 'demo'
-    base = resource['files'] || resource.fetch('name').sub(/^Demo\s+/, '')
-    links += file_pair('Demos', 'Demo', base, {
-      'file' => resource.fetch('file', true),
-      'solutions' => resource.fetch('solutions', true),
-      'solution_file' => resource['solution_file'],
-      'file_label' => 'Demo'
-    })
+    unless resource.key?('links')
+      base = resource['files'] || resource.fetch('name').sub(/^Demo\s+/, '')
+      links = file_pair('Demos', 'Demo', base, {
+        'file' => resource.fetch('file', true),
+        'solutions' => resource.fetch('solutions', true),
+        'solution_file' => resource['solution_file'],
+        'file_label' => 'Demo'
+      })
+    end
   elsif kind == 'vignette'
-    links += vignette_links(resource, resource.fetch('name').sub(/^Vignette\s+/, ''))
+    links = vignette_links(resource, resource.fetch('name').sub(/^Vignette\s+/, ''))
   end
 
   standard_card(
@@ -317,7 +320,7 @@ end
 def extra_step(extra, indent, bend: false)
   video = extra['video']
   links = Array(extra['links'])
-  if extra['files']   # a demo: Demos/Demo_<files>.pdf and its solutions, when they exist
+  if !extra.key?('links') && extra['files']   # explicit links override conventional discovery
     ["Demos/Demo_#{extra['files']}.pdf", "Demos/Demo_#{extra['files']}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
       links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
     end
@@ -449,9 +452,11 @@ def render_checkpoint(part_id, config)
             %(<img alt="" class="placeholder-bg">)
           end
   base = demo.fetch('file', part_id)
-  demo_links = []
-  ["Demos/Demo_#{base}.pdf", "Demos/Demo_#{base}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
-    demo_links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
+  demo_links = Array(demo['links']).dup
+  unless demo.key?('links')
+    ["Demos/Demo_#{base}.pdf", "Demos/Demo_#{base}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
+      demo_links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
+    end
   end
   walkthrough = demo.fetch('description', "Attempt Demo #{part_id} first, then walk through with me.")
   when_line = config['when'] || (config['date'] ? short_date(config['date']) : nil)
@@ -745,13 +750,15 @@ def validate_schema(parts)
         end
         check_links(section.dig('reading', 'links'), "#{section_path}.reading.links", errors)
         if section['practice'] != false && !section['steps']
-          check_keys(section['vignette'], %w[name description video files solutions solution_file empty], "#{section_path}.vignette", errors)
+          check_keys(section['vignette'], %w[name description video links files solutions solution_file empty], "#{section_path}.vignette", errors)
           require_keys(section['vignette'], %w[description], "#{section_path}.vignette", errors)
+          check_links(section.dig('vignette', 'links'), "#{section_path}.vignette.links", errors)
         end
         check_keys(section['homework'], %w[due file solutions solution_file practice video], "#{section_path}.homework", errors) if section['homework']
         Array(section['extras']).each_with_index do |extra, extra_index|
           check_keys(extra, %w[name video description links files], "#{section_path}.extras[#{extra_index}]", errors)
           require_keys(extra, %w[name], "#{section_path}.extras[#{extra_index}]", errors)
+          check_links(extra['links'], "#{section_path}.extras[#{extra_index}].links", errors)
         end
       elsif section['carousel']
         check_keys(section, %w[carousel], section_path, errors)
@@ -764,7 +771,15 @@ def validate_schema(parts)
         config = section['checkpoint']
         check_keys(config, %w[date when description demo reattempt extras], "#{section_path}.checkpoint", errors)
         require_keys(config, %w[description demo], "#{section_path}.checkpoint", errors)
-        check_keys(config['demo'], %w[video description file], "#{section_path}.checkpoint.demo", errors) if config.is_a?(Hash)
+        if config.is_a?(Hash)
+          check_keys(config['demo'], %w[video description file links], "#{section_path}.checkpoint.demo", errors)
+          check_links(config.dig('demo', 'links'), "#{section_path}.checkpoint.demo.links", errors)
+          Array(config['extras']).each_with_index do |extra, extra_index|
+            check_keys(extra, %w[name video description links files], "#{section_path}.checkpoint.extras[#{extra_index}]", errors)
+            require_keys(extra, %w[name], "#{section_path}.checkpoint.extras[#{extra_index}]", errors)
+            check_links(extra['links'], "#{section_path}.checkpoint.extras[#{extra_index}].links", errors)
+          end
+        end
       elsif section['homework_notes']
         check_keys(section, %w[homework_notes], section_path, errors)
         check_keys(section['homework_notes'], %w[id title nav name due file questions], "#{section_path}.homework_notes", errors)

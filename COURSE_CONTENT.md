@@ -11,9 +11,9 @@ Edit `course-content.yml`. The six `part-*.html` pages are generated and should 
 
 The `--check` command does not rewrite anything. It reports an error if the generated pages are stale.
 
-## Experimental no-build Part A
+## Experimental no-build pages
 
-`part-a-yaml.html` is a parallel pilot that keeps the current page frame but reads the visible Part A content directly from `course-content.yml` in the browser. The existing `part-a.html` remains the standard page and is the pilot's fallback.
+`part-a-yaml.html` through `part-f-yaml.html` are a parallel pilot set. Each keeps its current page frame but reads the visible content directly from `course-content.yml` in the browser. The existing `part-a.html` through `part-f.html` remain the standard pages and their corresponding fallbacks.
 
 To preview the pilot, serve the repository over HTTP and open `http://127.0.0.1:8765/part-a-yaml.html`:
 
@@ -21,7 +21,9 @@ To preview the pilot, serve the repository over HTTP and open `http://127.0.0.1:
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-While the server is running, an edit to Part A in `course-content.yml` appears after a browser refresh; there is no build step. The HTML shell only needs an edit when the page structure changes, such as adding or removing a block. Because browsers do not allow a local HTML file to fetch a neighboring YAML file safely, this pilot will not work by double-clicking it; use the local server or the deployed site.
+While the server is running, an edit to any part in `course-content.yml` appears after a browser refresh; there is no build step. The HTML shell only needs an edit when the page structure changes, such as adding or removing a block. Because browsers do not allow a local HTML file to fetch a neighboring YAML file safely, these pilots will not work by double-clicking them; use the local server or the deployed site.
+
+Runtime pages expose vignette, demo, and extra downloads only when they are explicitly listed under `links:` in the YAML. Explicit links—including an empty list—also override the older `files:` shorthand in the builder. That shorthand depends on checking whether a conventional PDF exists on disk, which a browser cannot safely reproduce. Chapter and homework links continue to follow their existing structured conventions.
 
 ## A normal block
 
@@ -49,11 +51,11 @@ That is enough to generate the block heading, navigation link, Episode A2 title,
 - A block ID supplies the standard episode, vignette, homework, navigation-anchor, and practice names.
 - A reading `chapter` supplies its title and PDF path. Add `topic` for the descriptive title.
 - A `video` is only the eleven-character YouTube ID; its thumbnail is automatic.
-- `files: A1` adds the conventional vignette/demo PDF and solutions links.
+- `files: A1` asks the builder to add conventional vignette/demo links when those files exist. Runtime pages use explicit `links:` entries instead.
 - `homework_defaults` at the part level supplies repeated due dates and assignment sets.
 - Put words between `*asterisks*` when a short description should be italicized.
 - Use `extras` for an unusual resource inside a standard block.
 
-Recitations, MiniExams, past-demo collections, the Part F FAQ, and standalone resources also have compact structured forms in the same file. None require embedded HTML.
+The current runtime pilot supports the block and checkpoint sections used by Parts A–F. Legacy carousel, homework-notes, and standalone section forms remain builder-only unless runtime support is added later.
 
 The builder validates YAML syntax, YouTube IDs, duplicate section IDs, generated-page freshness, and local file links. The six already-known missing PDFs remain warnings so they do not block unrelated updates.
