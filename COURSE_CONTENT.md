@@ -11,6 +11,18 @@ Edit `course-content.yml`. The six `part-*.html` pages are generated and should 
 
 The `--check` command does not rewrite anything. It reports an error if the generated pages are stale.
 
+## Experimental no-build Part A
+
+`part-a-yaml.html` is a parallel pilot that keeps the current page frame but reads the visible Part A content directly from `course-content.yml` in the browser. The existing `part-a.html` remains the standard page and is the pilot's fallback.
+
+To preview the pilot, serve the repository over HTTP and open `http://127.0.0.1:8765/part-a-yaml.html`:
+
+```sh
+python3 -m http.server 8765 --bind 127.0.0.1
+```
+
+While the server is running, an edit to Part A in `course-content.yml` appears after a browser refresh; there is no build step. The HTML shell only needs an edit when the page structure changes, such as adding or removing a block. Because browsers do not allow a local HTML file to fetch a neighboring YAML file safely, this pilot will not work by double-clicking it; use the local server or the deployed site.
+
 ## A normal block
 
 ```yaml
