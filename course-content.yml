@@ -32,6 +32,7 @@ parts:
         steps:
           - name: Syllabus Quiz
             where: home
+            date: '2026-08-30'
             due: Sunday, August 30
             links: [{label: Syllabus, file: Syllabus.pdf}]
         title: What is microeconomics?
@@ -74,10 +75,13 @@ parts:
           Minimizing opportunity cost by specializing in one's comparative advantage can bend out the PPF.
         episode:
           video: nclNGfY-3eA
+          links: [{label: Animations, file: animations/A2/, icon: fa fa-desktop}]
           description: Specialization
         reading:
           chapter: 19
           topic: International trade
+        exercise:
+          links: [{label: Exercise, file: Exercises/Exercise_A2.pdf}]
         vignette:
           description: Specialization practice problems
         dates:
