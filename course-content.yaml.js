@@ -5,8 +5,8 @@
 // inside the YAML, a backtick and the pair ${ -- scripts/check-course refuses both.
 window.COURSE_CONTENT_YAML = String.raw`
 # ECON 0100 course content. The part-*.html pages read this in the browser, so an edit
-# shows up on the next refresh with no build. scripts/check-course validates it and
-# confirms each page shell still matches its part; run it before committing.
+# shows up on the next refresh with no build. scripts/check-course validates it; run it
+# before committing. The format is documented in tayweid.github.io/course-assets/COURSE_CONTENT.md.
 #
 # Each block renders as the episode (+ reading) on the left and the practice
 # path on the right: exercise in class, vignette in recitation, homework at
@@ -35,8 +35,21 @@ window.COURSE_CONTENT_YAML = String.raw`
 #     - name: Simulating a Market
 #       video: <youtube id>
 #     - name: A podcast    # no video: give it links, and an image for the thumbnail,
+#       description: one short line under the name
 #       links: [{label: Episode, file: https://...}]   # which opens the first link
 #       image: https://... or Blocks/<folder>/media/<file>
+
+course:
+  code: ECON 0100
+  title: Microeconomics
+  brand: [MICRO, ECON]
+  nav:
+    - label: Syllabus
+      file: Syllabus/Syllabus.pdf
+      button: true
+  checkpoint: Checkpoint
+  reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
+  materials: Blocks               # conventional PDFs live under Blocks/<folder>/
 
 parts:
   A:
@@ -130,6 +143,7 @@ parts:
           homework: '2026-09-06'
 
       - checkpoint:
+          reattempt: TBA
           date: '2026-09-09'
           description: >-
             Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -275,6 +289,7 @@ parts:
           homework: '2026-10-04'
 
       - checkpoint:
+          reattempt: TBA
           date: '2026-09-30'
           description: >-
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -308,6 +323,7 @@ parts:
           practice: hwc
         extras:
           - name: Planet Money
+            description: A carbon tax to fix climate change
             image: 'https://media.npr.org/assets/img/2013/07/12/ross-sea-iceberg_wide-aa15abc1c67c120ac22f22f29ba3ffbebfdefb3f.jpg?s=600&c=85&f=jpeg'
             links:
               - {label: Episode 472, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
@@ -362,6 +378,7 @@ parts:
           homework: '2026-10-18'
 
       - checkpoint:
+          reattempt: TBA
           date: '2026-10-14'
           description: >-
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -463,6 +480,7 @@ parts:
           homework: '2026-11-01'
 
       - checkpoint:
+          reattempt: TBA
           date: '2026-10-28'
           description: >-
             Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -562,6 +580,7 @@ parts:
           homework: '2026-11-15'
 
       - checkpoint:
+          reattempt: TBA
           date: '2026-11-30'
           description: >-
             Checkpoint E covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -623,6 +642,7 @@ parts:
           homework: '2026-12-06'
 
       - checkpoint:
+          reattempt: TBA
           when: Final Exam Period
           description: >-
             You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.

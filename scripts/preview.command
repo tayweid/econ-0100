@@ -1,9 +1,8 @@
 #!/bin/sh
-# Optional. Every part page also opens by double-clicking it: course-content.yaml.js
-# is a <script>, which a page opened from disk may load, and the conventional PDFs are
-# found with the same kind of element load. Serve the folder instead when you want the
-# exact deployed behaviour -- over HTTP the PDFs are discovered with HEAD requests, which
-# see only what is actually published, not untracked files sitting in the working tree.
+# Optional. Every part page also opens by double-clicking it, and from disk it previews the
+# sibling tayweid.github.io checkout's renderer and stylesheet. Serve the folder instead when
+# you want the exact deployed behaviour: the published shared code, and conventional PDFs
+# discovered with HEAD requests, which see only what is actually served.
 #
 # Double-click this in Finder, or run it from a terminal.
 set -e

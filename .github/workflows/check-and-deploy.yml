@@ -1,0 +1,102 @@
+# Validate the course content on every push and pull request, and publish the site only
+# when validation passes, so a broken YAML never replaces the last good site. The checker
+# is shared with every course site and lives in tayweid.github.io/course-assets.
+#
+# Publishing this way needs one setting on GitHub: Settings > Pages > Source = GitHub Actions.
+# Until that is flipped the deploy job fails harmlessly and the branch deployment continues.
+name: Check and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  issues: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check course content
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+        with:
+          path: site
+      - name: Check out the shared course code
+        uses: actions/checkout@v4
+        with:
+          repository: tayweid/tayweid.github.io
+          path: shared
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run the shared checker's own tests
+        run: node --test shared/course-assets/tests/*.test.js
+      - name: Check this site
+        run: node shared/course-assets/check-course site
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  report-failure:
+    name: Open or update the failure issue
+    needs: check
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.check.result == 'failure' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Course content validation failed';
+            const { owner, repo } = context.repo;
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const message = [`@${context.actor}, course content validation failed on \`${context.sha}\`, so the site was not republished.`, '', `Workflow run: ${runUrl}`].join('\n');
+            const issues = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
+            const issue = issues.find(candidate => !candidate.pull_request && candidate.title === title);
+            if (!issue) { await github.rest.issues.create({ owner, repo, title, body: message }); return; }
+            if (issue.state !== 'open') await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'open' });
+            await github.rest.issues.createComment({ owner, repo, issue_number: issue.number, body: message });
+
+  report-recovery:
+    name: Close the failure issue after recovery
+    needs: check
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.check.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'Course content validation failed';
+            const { owner, repo } = context.repo;
+            const issues = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'open', per_page: 100 });
+            const issue = issues.find(candidate => !candidate.pull_request && candidate.title === title);
+            if (!issue) return;
+            await github.rest.issues.createComment({ owner, repo, issue_number: issue.number, body: `Validation recovered on \`${context.sha}\`.` });
+            await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
