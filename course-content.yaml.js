@@ -24,7 +24,7 @@ window.COURSE_CONTENT_YAML = String.raw`
 #                          # solutions stay opt-in via solutions: true.
 #
 # Optional per block:
-#   dates:                 # yyyy-mm-dd; the page marks the current step
+#   dates:                 # yyyy-mm-dd; a step's dot turns blue once its date has passed
 #     class: '2026-08-31'
 #     recitation: '2026-09-04'
 #     homework: '2026-09-06'
