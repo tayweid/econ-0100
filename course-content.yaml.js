@@ -323,7 +323,7 @@ parts:
           practice: hwc
         extras:
           - name: Planet Money
-            description: A carbon tax to fix climate change
+            description: Tax carbon, fix the climate
             image: 'https://media.npr.org/assets/img/2013/07/12/ross-sea-iceberg_wide-aa15abc1c67c120ac22f22f29ba3ffbebfdefb3f.jpg?s=600&c=85&f=jpeg'
             links:
               - {label: Episode 472, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
