@@ -7,6 +7,7 @@
 
     const partId = page.dataset.coursePart;
     const source = page.dataset.courseSource || 'course-content.yml';
+    let discoveredFiles = {};
     let courseScriptInitialized = false;
     document.addEventListener('DOMContentLoaded', () => {
         courseScriptInitialized = true;
@@ -182,10 +183,92 @@
         return panel;
     }
 
-    function explicitVignetteLinks(vignette) {
-        // A browser cannot safely list a server directory to discover conventional
-        // files. Runtime pages therefore expose only public links named in YAML.
-        return items(vignette.links).map(item => ({ ...item }));
+    // Conventional per-block files, mirroring block_file in scripts/build-course:
+    // Parts/<PART>/<folder>/<Type>/<Type>_<base>[_sols].pdf. The folder slug is the only
+    // piece a browser cannot derive, so course-content.yml now carries it; existence is
+    // settled with a HEAD request, the runtime equivalent of Ruby's File.exist?.
+    function explicitPath(value) {
+        return typeof value === 'string' && value.includes('/');
+    }
+
+    function conventionalPath(blockId, folder, type, base, suffix) {
+        const name = [type, base, suffix].filter(Boolean).join('_');
+        return `Parts/${blockId[0]}/${folder}/${type}/${name}.pdf`;
+    }
+
+    async function exists(path) {
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+            try {
+                return (await fetch(path, { method: 'HEAD' })).ok;
+            } catch (error) {
+                // A rejected fetch is a transport fault, not a 404; give it one more try.
+                if (attempt) return false;
+            }
+        }
+        return false;
+    }
+
+    function blockCandidates(section) {
+        const blockId = section.block;
+        const folder = section.folder;
+        if (!blockId || !folder || section.steps) return [];
+        const wanted = [];
+
+        // Exercise and vignette are discovered whether or not the YAML names them --
+        // the generator stats these paths for every block, so the runtime must too.
+        const exercise = section.exercise || {};
+        if (!exercise.links) {
+            wanted.push(['exercise', conventionalPath(blockId, folder, 'Exercise', blockId)]);
+        }
+
+        const homework = section.homework || {};
+        if (!homework.links) {
+            if (homework.file && !explicitPath(homework.file)) {
+                wanted.push(['homework', conventionalPath(blockId, folder, 'Homework', blockId)]);
+            }
+            // Opt-in, not opt-out: a solutions PDF merely sitting on disk must never
+            // put a link on the public site. Same rule the generator enforces.
+            if (homework.solutions === true && !explicitPath(homework.solution_file)) {
+                wanted.push(['homework_sols', conventionalPath(blockId, folder, 'Homework', blockId, 'sols')]);
+            }
+        }
+
+        const vignette = section.vignette || {};
+        if (!vignette.links && vignette.files !== false) {
+            const base = typeof vignette.files === 'string' ? vignette.files : blockId;
+            if (!explicitPath(base)) {
+                wanted.push(['vignette', conventionalPath(blockId, folder, 'Vignette', base)]);
+                if (vignette.solutions === true) {
+                    wanted.push(['vignette_sols', conventionalPath(blockId, folder, 'Vignette', base, 'sols')]);
+                }
+            }
+        }
+        return wanted;
+    }
+
+    async function discoverBlockFiles(part) {
+        const probes = [];
+        items(part.sections).forEach(section => {
+            blockCandidates(section).forEach(([key, path]) => {
+                probes.push(exists(path).then(ok => ({ block: section.block, key, path, ok })));
+            });
+        });
+        const found = {};
+        (await Promise.all(probes)).filter(result => result.ok).forEach(result => {
+            (found[result.block] ||= {})[result.key] = result.path;
+        });
+        return found;
+    }
+
+    function vignetteLinks(vignette, blockFiles) {
+        if (vignette.links) return items(vignette.links).map(item => ({ ...item }));
+        if (vignette.files === false) return [];
+        const found = [];
+        if (blockFiles.vignette) found.push({ label: 'Vignette', file: blockFiles.vignette });
+        if (vignette.solutions === true && blockFiles.vignette_sols) {
+            found.push({ label: 'Solutions', file: blockFiles.vignette_sols });
+        }
+        return found;
     }
 
     function blockSteps(part, block) {
@@ -207,15 +290,17 @@
         const exercise = block.exercise || {};
         const vignette = block.vignette || {};
         const homework = { ...(part.homework_defaults || {}), ...(block.homework || {}) };
-        // Conventional per-block files come pre-resolved from course-content.js, because
-        // the browser can neither find the <BLOCK>_<Slug> folder nor check what exists.
-        const blockFiles = (window.COURSE_BLOCK_FILES || {})[blockId] || {};
+        const blockFiles = discoveredFiles[blockId] || {};
         const homeworkLinks = [];
-        if (homework.file && blockFiles.homework) {
-            homeworkLinks.push({ label: 'Homework', file: blockFiles.homework });
-        }
-        if (homework.solutions === true && blockFiles.homework_sols) {
-            homeworkLinks.push({ label: 'Solutions', file: blockFiles.homework_sols });
+        if (homework.links) {
+            homeworkLinks.push(...items(homework.links).map(item => ({ ...item })));
+        } else {
+            const file = explicitPath(homework.file) ? homework.file : blockFiles.homework;
+            if (homework.file && file) homeworkLinks.push({ label: 'Homework', file });
+            if (homework.solutions === true) {
+                const sols = explicitPath(homework.solution_file) ? homework.solution_file : blockFiles.homework_sols;
+                if (sols) homeworkLinks.push({ label: 'Solutions', file: sols });
+            }
         }
 
         const due = dates.homework ? shortDate(dates.homework) : homework.due;
@@ -238,7 +323,7 @@
                 node: pathStep({
                     name: vignette.name || `Vignette ${blockId}`,
                     where: 'recitation',
-                    links: explicitVignetteLinks(vignette),
+                    links: vignetteLinks(vignette, blockFiles),
                     date: dates.recitation,
                     video: vignette.video
                 })
@@ -464,6 +549,7 @@
             const part = data && data.parts && data.parts[partId];
             if (!part) throw new Error(`Part ${partId} is missing from ${source}.`);
 
+            discoveredFiles = await discoverBlockFiles(part);
             renderPart(part);
             page.removeAttribute('aria-busy');
             page.dataset.courseReady = 'true';

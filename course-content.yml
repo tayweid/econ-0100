@@ -5,6 +5,16 @@
 # home. Titles, thumbnails, icons, navigation anchors, and conventional
 # filenames are generated automatically.
 #
+# Required per block:
+#   folder: A1_The_PPF     # the block's directory under Parts/<PART>/. It is the one
+#                          # thing a browser cannot work out for itself, and the runtime
+#                          # pages build conventional paths from it:
+#                          #   Parts/<PART>/<folder>/Exercise/Exercise_<BLOCK>.pdf
+#                          #   Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
+#                          #   Parts/<PART>/<folder>/Homework/Homework_<BLOCK>.pdf
+#                          # Drop a conventionally named PDF in and it appears on its own;
+#                          # solutions stay opt-in via `solutions: true`.
+#
 # Optional per block:
 #   dates:                 # yyyy-mm-dd; the page marks the current step
 #     class: '2026-08-31'
@@ -28,6 +38,7 @@ parts:
       due: Sunday, September 4
     sections:
       - block: A0
+        folder: A0_Welcome
         nav: Econ
         steps:
           - name: Syllabus Quiz
@@ -47,6 +58,7 @@ parts:
           topic: Welcome to economics
 
       - block: A1
+        folder: A1_The_PPF
         nav: PPF
         title: The production possibility frontier
         description: The PPF shows us what's attainable as individuals and as a society.
@@ -68,6 +80,7 @@ parts:
           homework: '2026-08-30'
 
       - block: A2
+        folder: A2_Advantage
         nav: Specialization
         title: Comparative advantage and specialization
         description: >-
@@ -88,6 +101,7 @@ parts:
           homework: '2026-09-06'
 
       - block: A3
+        folder: A3_Trade
         nav: Trade
         title: Trade
         description: Trade based on comparative advantage makes both parties better off simultaneously.
@@ -118,6 +132,7 @@ parts:
       Part B reveals how markets solve the coordination problem from Part A. Through the elegant dance of supply and demand, prices emerge to coordinate economic activity and guide society toward efficiency. These aren't just abstract curves—they're the invisible forces that determine what gets produced, who gets what, and how resources flow through the economy. By the end of Part B, you'll understand why competitive markets are one of humanity's greatest innovations for creating prosperity.
     sections:
       - block: B1
+        folder: B1_Demand_and_Supply
         nav: Demand
         title: Demand
         description: Demand curves show how much consumers are willing to buy at each price.
@@ -138,6 +153,7 @@ parts:
           homework: '2026-09-20'
 
       - block: B2
+        folder: B2_Equilibrium_and_Welfare
         nav: Supply
         title: Supply
         description: Supply curves show how much producers are willing to sell at each price.
@@ -156,6 +172,7 @@ parts:
           homework: '2026-09-20'
 
       - block: B3
+        folder: B3_Market_Changes
         nav: Equilibrium
         title: Equilibrium
         description: Markets find the equilibrium price where quantity supplied equals quantity demanded.
@@ -179,6 +196,7 @@ parts:
           homework: '2026-09-27'
 
       - block: B4
+        folder: B4_Price_Controls
         nav: Efficiency
         title: Efficiency
         description: Competitive markets maximize total surplus, achieving social efficiency.
@@ -259,6 +277,7 @@ parts:
       Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C reveals the dark side of markets—when private incentives misalign with social welfare, creating externalities and market failures that require government intervention to restore efficiency. You'll discover how pollution, taxes, and corrective policies can either harm or heal market outcomes.
     sections:
       - block: C1
+        folder: C1_Taxes_and_Subsidies
         nav: Externalities
         title: Externalities
         description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
@@ -282,6 +301,7 @@ parts:
           homework: '2026-10-11'
 
       - block: C2
+        folder: C2_Trade_and_Tariffs
         nav: Taxes
         title: Taxes
         description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
@@ -304,6 +324,7 @@ parts:
           homework: '2026-10-11'
 
       - block: C3
+        folder: C3_Externalities
         nav: Corrective Taxes
         title: Corrective Taxes
         description: Pigouvian taxes can internalize externalities and restore market efficiency by aligning private and social costs.
@@ -337,6 +358,7 @@ parts:
       Part D pushes beyond market failures to explore situations where markets aren't even the right framework. Here we encounter public goods and common resources—goods that are entirely externalities with no private component. These situations demand a completely different approach: strategic thinking and game theory. You'll discover why cooperation is sometimes impossible even when everyone would benefit, and how understanding these dynamics reveals the hidden logic behind everything from environmental policy to international relations.
     sections:
       - block: D1
+        folder: D1_Games
         nav: Common Resources
         title: Common Resources
         description: >-
@@ -358,6 +380,7 @@ parts:
           homework: '2026-10-25'
 
       - block: D2
+        folder: D2_The_Commons
         nav: Public Goods
         title: Public Goods
         description: >-
@@ -379,6 +402,7 @@ parts:
           homework: '2026-10-25'
 
       - block: D3
+        folder: D3_Public_Goods_and_Voting
         nav: Game Theory
         title: Game Theory
         description: >-
@@ -402,6 +426,7 @@ parts:
           - name: Veritasium Game Theory
             video: mScpHTIi-kM
       - block: D4
+        folder: D4_Sequential_Games
         nav: Voting
         title: Voting
         description: >-
@@ -435,6 +460,7 @@ parts:
       We've mastered coordination and market efficiency—now it's time to explore what happens when sellers have market power. Part E reveals how firms convert inputs to outputs, minimize costs, and maximize profits. You'll discover the dramatic difference between perfect competition and monopoly, and why market structure fundamentally determines economic outcomes. These insights unlock the mystery of why some markets thrive while others exploit consumers—and what we can do about it.
     sections:
       - block: E1
+        folder: E1_Costs
         nav: Costs
         title: Costs of Production
         description: Firms transform inputs into outputs through production functions and minimize costs to determine their supply decisions.
@@ -455,6 +481,7 @@ parts:
           homework: '2026-11-08'
 
       - block: E2
+        folder: E2_Competition
         nav: Competition
         title: Competitive Firms
         description: Perfect competition emerges when firms are price-takers with no individual market power over the equilibrium price.
@@ -475,6 +502,7 @@ parts:
           homework: '2026-11-08'
 
       - block: E3
+        folder: E3_Monopoly
         nav: Monopoly
         title: Monopoly
         description: Market power allows firms to influence prices and capture profits at the expense of consumer welfare and economic efficiency.
@@ -494,6 +522,7 @@ parts:
           homework: '2026-11-15'
 
       - block: E4
+        folder: E4_Duopoly
         nav: Market Structures
         title: Market Structures
         description: Comparing perfect competition, monopolistic competition, oligopoly, and monopoly reveals how market structure determines economic outcomes.
@@ -534,6 +563,7 @@ parts:
       Part F completes our economic journey by revealing the elegant mathematics of human choice. After exploring how markets work and fail, we now discover how budget constraints and preferences create the demand curves that drive everything. You'll learn why consumers make the choices they do, how income from factor markets shapes purchasing power, and how utility maximization creates the predictable patterns we see in real markets. These insights don't just explain buyer behavior—they reveal the hidden logic behind every purchase decision you'll ever make.
     sections:
       - block: F1
+        folder: F1_The_Consumers_Problem
         nav: Factor Markets
         title: Factor Markets
         description: Factor markets determine the income that households earn from selling their labor and capital, which becomes the budget constraint for consumer choice.
@@ -554,6 +584,7 @@ parts:
           homework: '2026-12-06'
 
       - block: F2
+        folder: F2_Factor_Markets
         nav: Consumer Choice
         title: Consumer Choice
         description: Given their budget constraint from factor markets, consumers maximize utility by choosing the optimal combination of goods where marginal utility per dollar is equal across all goods.

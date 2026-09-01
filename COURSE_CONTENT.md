@@ -23,6 +23,27 @@ python3 -m http.server 8765 --bind 127.0.0.1
 
 While the server is running, an edit to any part in `course-content.yml` appears after a browser refresh; there is no build step. The HTML shell only needs an edit when the page structure changes, such as adding or removing a block. Because browsers do not allow a local HTML file to fetch a neighboring YAML file safely, these pilots will not work by double-clicking them; use the local server or the deployed site.
 
+### How they find files
+
+These pages read `course-content.yml` alone -- they no longer depend on anything the
+generator emits. Each block carries a `folder:` naming its directory under `Parts/<PART>/`,
+which is the one fact a browser cannot derive, and conventional paths are built from it:
+
+    Parts/<PART>/<folder>/Exercise/Exercise_<BLOCK>.pdf
+    Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
+    Parts/<PART>/<folder>/Homework/Homework_<BLOCK>.pdf
+
+Existence is settled with a HEAD request per candidate, the runtime equivalent of the
+`File.exist?` calls in `scripts/build-course`. Drop a conventionally named PDF into the
+right folder and its chip appears on the next load, with no YAML edit and no build.
+Solutions remain opt-in through `solutions: true`, so an answer key sitting on disk never
+surfaces by itself.
+
+Two consequences worth knowing. A HEAD probe asks the deployed site, so it sees only what
+is committed -- more accurate than a local `File.exist?`, which also sees untracked files
+that were never published. And probing needs HTTP, so opening a page over `file://` renders
+everything except these conventional chips.
+
 Runtime pages expose vignette, demo, and extra downloads only when they are explicitly listed under `links:` in the YAML. Explicit links—including an empty list—also override the older `files:` shorthand in the builder. That shorthand depends on checking whether a conventional PDF exists on disk, which a browser cannot safely reproduce. Chapter and homework links continue to follow their existing structured conventions.
 
 ## A normal block
