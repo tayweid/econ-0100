@@ -184,7 +184,7 @@ Fall 2024: I didn't like the timing of this part of the semester this semester. 
 + Break
 + The Map | Episode A5, the four-quadrant PPF
 
-// ED: added the Map here — its script (in Blocks/_Extra/AX_Extra) opens "Today is the first day of the rest of the class," written for exactly this post-Checkpoint slot: reopen with the two questions Part A left, prices answer them, launch Part B. Your existing line below ("We've avoided the question of how to choose where on the PPF to live. Prices can answer that question...") is this beat's thesis. Delete the bullet if you'd rather not spend the time here.
+// ED: added the Map here — its script (Episode A5, no longer in the tree) opens "Today is the first day of the rest of the class," written for exactly this post-Checkpoint slot: reopen with the two questions Part A left, prices answer them, launch Part B. Your existing line below ("We've avoided the question of how to choose where on the PPF to live. Prices can answer that question...") is this beat's thesis. Delete the bullet if you'd rather not spend the time here.
 
 + Simulation B | Demand
   
