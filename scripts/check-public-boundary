@@ -41,8 +41,16 @@ forbidden_path = lambda do |file_path|
   downcase = normalized.downcase
   base_name = File.basename(downcase)
 
-  downcase.match?(%r{(?:^|/)(?:[^/]*_)?miniexams?(?:/|$)}) ||
-    base_name.include?('miniexam') ||
+  # Past-semester assessment papers kept under an _archive/ directory are
+  # published as student practice material; the live equivalents are not.
+  # Parts/Z stays private regardless of where it sits.
+  archived = downcase.include?('/_archive/')
+
+  (!archived &&
+    (downcase.match?(%r{(?:^|/)(?:[^/]*_)?miniexams?(?:/|$)}) ||
+      base_name.include?('miniexam') ||
+      base_name.match?(/\A(?:me)[_-]/) ||
+      base_name.match?(/_rubric(?:_email)?\.[^.]+\z/))) ||
     downcase.start_with?('parts/z/') ||
     downcase == 'parts/me_template.typ' ||
     downcase.start_with?('24f/') ||
@@ -60,8 +68,6 @@ forbidden_path = lambda do |file_path|
     downcase.start_with?('simulations/24f/') ||
     downcase.match?(%r{^simulations/.*pre24f}) ||
     downcase.end_with?('.gsheet') ||
-    base_name.match?(/\A(?:me)[_-]/) ||
-    base_name.match?(/_rubric(?:_email)?\.[^.]+\z/) ||
     downcase == '.env' ||
     (downcase.start_with?('.env.') && downcase != '.env.example') ||
     %w[.pem .key].include?(File.extname(downcase)) ||

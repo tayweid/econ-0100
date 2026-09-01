@@ -15,9 +15,12 @@ Icon
 /Parts/_ToAdd.typ
 /Parts/Z/
 /Parts/ME_template.typ
-/Parts/**/*MiniExam*
-/Parts/**/*_MiniExam/
-/Parts/**/MiniExam*/
+# MiniExam material is private, except the archived past-semester papers, which
+# are published as student practice. Exclude the directory contents rather than
+# the directory itself, so the _archive/ carve-out can re-include.
+/Parts/**/*MiniExam*/*
+!/Parts/**/*MiniExam*/_archive/
+/Parts/**/*MiniExam*.*
 /syllabi/24F/
 /simulations/24F/
 /simulations/*pre24F*
