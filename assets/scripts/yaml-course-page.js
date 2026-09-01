@@ -89,20 +89,23 @@
         }).format(date).replace(',', '');
     }
 
-    function pathThumbnail(video) {
-        if (!video) return null;
+    // The small thumbnail beside a step: a YouTube frame when the step has a video,
+    // otherwise an image the YAML names (a podcast's episode art, say) linking to the
+    // step's first link.
+    function pathThumbnail(video, image, href) {
+        if (!video && !(image && href)) return null;
         const link = element('a', 'path-thumb');
-        link.href = `https://www.youtube.com/watch?v=${video}`;
+        link.href = video ? `https://www.youtube.com/watch?v=${video}` : href;
         link.target = '_blank';
         link.rel = 'noopener';
-        const image = element('img');
-        image.src = thumbnail(video);
-        image.alt = '';
-        link.append(image);
+        const imageNode = element('img');
+        imageNode.src = video ? thumbnail(video) : String(image);
+        imageNode.alt = '';
+        link.append(imageNode);
         return link;
     }
 
-    function pathStep({ name, where, links: stepLinks = [], date, due, video, classes = '', dotClasses = '' }) {
+    function pathStep({ name, where, links: stepLinks = [], date, due, video, image, classes = '', dotClasses = '' }) {
         const step = element('li', `path-step${classes ? ` ${classes}` : ''}`);
         if (date) step.dataset.date = date;
 
@@ -118,7 +121,7 @@
         if (due) body.append(element('p', 'path-due', due));
 
         step.append(dot, body);
-        const thumb = pathThumbnail(video);
+        const thumb = pathThumbnail(video, image, stepLinks.length ? String(stepLinks[0].file) : null);
         if (thumb) step.append(thumb);
         return step;
     }
@@ -129,6 +132,7 @@
             where: 'optional',
             links: items(extra.links),
             video: extra.video,
+            image: extra.image,
             classes: `path-step-alt ${bend ? 'path-step-bend' : 'path-step-extra'}`,
             dotClasses: 'path-dot-alt'
         });

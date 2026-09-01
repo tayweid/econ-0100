@@ -34,6 +34,9 @@ window.COURSE_CONTENT_YAML = String.raw`
 #   extras:                # optional material; sits on the path above the episode
 #     - name: Simulating a Market
 #       video: <youtube id>
+#     - name: A podcast    # no video: give it links, and an image for the thumbnail,
+#       links: [{label: Episode, file: https://...}]   # which opens the first link
+#       image: https://... or Blocks/<folder>/media/<file>
 
 parts:
   A:
@@ -304,9 +307,10 @@ parts:
           due: Due Date TBD
           practice: hwc
         extras:
-          - name: Planet Money on a carbon tax
+          - name: Planet Money
+            image: 'https://media.npr.org/assets/img/2013/07/12/ross-sea-iceberg_wide-aa15abc1c67c120ac22f22f29ba3ffbebfdefb3f.jpg?s=600&c=85&f=jpeg'
             links:
-              - {label: The One-Page Plan, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
+              - {label: Episode 472, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
               - {label: Revisited, file: 'https://www.npr.org/sections/money/2018/07/18/630267782/episode-472-the-one-page-plan-to-fix-global-warming-revisited'}
         dates:
           class: '2026-10-05'

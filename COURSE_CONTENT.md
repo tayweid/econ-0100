@@ -91,6 +91,8 @@ markup.
 - A block ID supplies the standard episode, vignette, homework, and navigation-anchor names.
 - A reading `chapter` supplies its title and PDF path. Add `topic` for the descriptive title.
 - A `video` is only the eleven-character YouTube ID; its thumbnail is automatic.
+- An extra with no video can carry an `image` (a URL or a local path) for its thumbnail,
+  which opens the extra's first link.
 - `files: A1` overrides the base name used for conventional vignette links.
 - `homework_defaults` at the part level supplies repeated due dates and assignment sets.
 - Put words between `*asterisks*` when a short description should be italicized.

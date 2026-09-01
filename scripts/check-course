@@ -67,7 +67,8 @@ end
 
 def check_extras(value, path, errors)
   Array(value).each_with_index do |extra, index|
-    check_keys(extra, %w[name video description links files], "#{path}[#{index}]", errors)
+    check_keys(extra, %w[name video image description links files], "#{path}[#{index}]", errors)
+    errors << "#{path}[#{index}]: image needs a link for the thumbnail to open" if extra.is_a?(Hash) && extra['image'] && Array(extra['links']).empty?
     require_keys(extra, %w[name], "#{path}[#{index}]", errors)
     check_links(extra['links'], "#{path}[#{index}].links", errors)
   end
@@ -194,7 +195,7 @@ def validate_files(parts)
       value.each do |key, child|
         if key == 'solution_file' && value['solutions'] != true
           next
-        elsif %w[file solution_file].include?(key) && local_path?(child)
+        elsif %w[file solution_file image].include?(key) && local_path?(child)
           errors << "#{path}.#{key}: missing local file #{child}" unless local_exists?(child)
         elsif key == 'chapter' && child && !value.key?('file')
           file = "Reading/Ch_#{child.to_s.rjust(2, '0')}.pdf"
