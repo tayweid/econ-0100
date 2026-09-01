@@ -36,12 +36,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: tayweid/tayweid.github.io
+          ref: main
           path: shared
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      # Fail loudly if the shared code is not there (a glob with no matches would pass
+      # silently); this happens when a site is pushed before tayweid.github.io is.
+      - name: Confirm the shared checker is present
+        run: test -f shared/course-assets/check-course && test -f shared/course-assets/tests/check-course.test.js
       - name: Run the shared checker's own tests
-        run: node --test shared/course-assets/tests/*.test.js
+        run: node --test shared/course-assets/tests/check-course.test.js
       - name: Check this site
         run: node shared/course-assets/check-course site
 
