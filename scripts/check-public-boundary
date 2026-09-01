@@ -51,7 +51,11 @@ forbidden_path = lambda do |file_path|
     (downcase.match?(%r{(?:^|/)(?:[^/]*_)?miniexams?(?:/|$)}) ||
       base_name.include?('miniexam') ||
       base_name.match?(/\A(?:me)[_-]/) ||
-      base_name.match?(/_rubric(?:_email)?\.[^.]+\z/))) ||
+      base_name.match?(/_rubric\.[^.]+\z/))) ||
+    # Rubric emails are correspondence about individual students' grades, not
+    # practice material. Archiving must never publish one, so this rule sits
+    # outside the _archive/ exemption.
+    base_name.match?(/_rubric_email\.[^.]+\z/) ||
     (!archived && downcase.start_with?('parts/z/')) ||
     downcase == 'parts/me_template.typ' ||
     downcase.start_with?('24f/') ||

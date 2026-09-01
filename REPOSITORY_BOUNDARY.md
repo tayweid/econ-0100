@@ -29,8 +29,12 @@ equivalents outside `_archive/` stay private. Retiring a paper therefore means
 moving it into `_archive/`, not renaming it.
 
 This holds for `Parts/Z/` as well: `Parts/Z/_archive/` carries the retired Z
-papers and is public, while the Z sources, drafts and rubric emails beside it
-stay private.
+papers and is public, while the Z sources and drafts beside it stay private.
+
+Rubric *emails* are the one thing `_archive/` does not release. A
+`*_rubric_email.*` file is correspondence about individual students' grades, so
+it is rejected wherever it sits, archived or not. Plain `*_rubric.*` files are
+grading criteria and archive normally.
 
 Built presentation viewers are also public. `Parts/**/media/` is otherwise
 development-only, with `*_present/` carved out, since that is what the site
