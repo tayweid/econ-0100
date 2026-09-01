@@ -1,0 +1,20 @@
+<!-- renamed from 24F_Vignette_B1.md -->
+<!-- from extract-past-semester-assessments: Part_C/Vignette_C/24F_Vignette_B1.md | filed by: high: Q1 text matches C2_Trade_and_Tariffs docs (88%) -->
+## ECON 0100 | Vignette B1
+
+#### Q1 (of 2) | Global Broomstick Market
+
+In the British wizarding world, the demand for enchanted broomsticks has always been high. For nearly all of recent history the Ministry of Magic required broomsticks to be made and purchased locally. The ministry got wind of some economics ideas around opening the domestic market to international trade and has hired you to offer advise on the impact this policy would have on the domestic broomstick market. The world price for enchanted broomsticks is 6 galleons and the supply and demand curves for enchanted broomsticks are as follows:
+$$
+P = 16 - \frac{1}{4} Q_b
+$$
+
+$$
+P = 4 + \frac{1}{4} Q_s
+$$
+
+Use a market model to analyze the impact. Give special focus to the welfare impacts on buyers and sellers. No need to calculate welfare measures. Do calculate the impact to prices and quantities.
+
+#### Q2 (of 2) | Global Broomstick Market
+
+If instead of a price of 6 galleons in Question 1 the global price had been 14 what would have been the distributional impact of opening the domestic market for trade? No need to do math here. Simply use a graph to show the impact on the market.
