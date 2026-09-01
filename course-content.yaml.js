@@ -303,6 +303,11 @@ parts:
         homework:
           due: Due Date TBD
           practice: hwc
+        extras:
+          - name: Planet Money on a carbon tax
+            links:
+              - {label: The One-Page Plan, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
+              - {label: Revisited, file: 'https://www.npr.org/sections/money/2018/07/18/630267782/episode-472-the-one-page-plan-to-fix-global-warming-revisited'}
         dates:
           class: '2026-10-05'
           recitation: '2026-10-09'
