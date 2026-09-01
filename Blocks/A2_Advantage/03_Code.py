@@ -15,7 +15,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../_Assets'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
 from style import *          # palette tokens, frame config, title(), bumper(), exercise_card(), ...
 from style import axes as style_axes
 from Video import PPF_Molly, PPF_Andrew, PPF_Coop
@@ -39,7 +39,7 @@ ANDREW_AT = FARM_X + UP * (BODY_MID - (FARM + FARM_GAP) / 2)
 # The office-hours photo: pre-rounded (alpha baked in) because maniml's
 # ImageMobject cannot be masked. See _Assets/Max_Photos/.
 OFFICE_PHOTO = os.path.join(os.path.dirname(__file__),
-                            '../../_Assets/Max_Photos/2026_08_31_rounded.png')
+                            '../_Assets/Max_Photos/2026_08_31_rounded.png')
 
 
 def farm_cards():

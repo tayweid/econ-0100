@@ -31,14 +31,13 @@ def read_content_yaml
   yaml
 end
 
-# The block's directory under Parts/<PART>/, found by its ID prefix. nil when there is
-# no unique match.
+# The block's directory under Blocks/, found by its ID prefix. nil when there is no
+# unique match.
 def block_dir(block_id)
   $block_dirs ||= {}
   return $block_dirs[block_id] if $block_dirs.key?(block_id)
 
-  part = block_id[0]
-  matches = Dir.glob(ROOT.join('Parts', part, "#{block_id}_*").to_s)
+  matches = Dir.glob(ROOT.join('Blocks', "#{block_id}_*").to_s)
                 .select { |path| File.directory?(path) }
                 .map { |path| Pathname.new(path).relative_path_from(ROOT).to_s }
                 .sort
@@ -112,7 +111,7 @@ def validate_schema(parts)
         # soon as the block has a directory on disk; a block with no material yet may omit it.
         globbed = block_dir(section['block'])
         if section['folder']
-          declared = "Parts/#{section['block'][0]}/#{section['folder']}"
+          declared = "Blocks/#{section['folder']}"
           if !ROOT.join(declared).directory?
             errors << "#{section_path}.folder: no such directory #{declared}"
           elsif globbed && globbed != declared

@@ -13,7 +13,7 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../_Assets'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
 from style import *          # palette tokens, frame config, title(), bumper(), ...
 from style import axes as style_axes
 

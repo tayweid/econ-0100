@@ -4,7 +4,7 @@ from manim import *
 import numpy as np
 import os, sys, warnings, random
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../_Assets'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
 from style import *          # palette tokens, frame config, beat(), title(), bumper(), ...
 from style import axes as style_axes
 from Video import *          # PPF_Molly / PPF_Andrew / PPF_Guild -- the numbers of record

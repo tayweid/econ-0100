@@ -8,4 +8,4 @@ course site: `~/Projects/Graphite`, github.com/tayweid/Graphite.
 - The web surface (tokens, type, layout, figures in pages, slides) is `docs/web.md` there.
 - This site takes all of it from the shared stylesheet, `https://tayweid.github.io/course-assets/course.css`, and loads nothing else.
 
-Local to this repo: the animation guide, `Parts/_Style_Guide.md`, is the full system applied to the ECON 0100 video series. Animators read that. `Parts/_Assets/style.py` is the same system as code, and episodes import it.
+Local to this repo: the animation guide, `Blocks/_Style_Guide.md`, is the full system applied to the ECON 0100 video series. Animators read that. `Blocks/_Assets/style.py` is the same system as code, and episodes import it.

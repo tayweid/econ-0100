@@ -1,4 +1,4 @@
-"""ECON 0100 video series — shared style (see Parts/_Style_Guide.md).
+"""ECON 0100 video series — shared style (see Blocks/_Style_Guide.md).
 
 Episodes import this once and never re-declare colors, frame, or card idioms:
 

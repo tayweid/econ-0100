@@ -184,16 +184,16 @@
     }
 
     // Conventional per-block files, the same shape scripts/check-course expects:
-    // Parts/<PART>/<folder>/<Type>/<Type>_<base>[_sols].pdf. The folder slug is the only
-    // piece a browser cannot derive, so the YAML carries it; existence is settled by
-    // asking for the file, the runtime equivalent of Ruby's File.exist?.
+    // Blocks/<folder>/<Type>/<Type>_<base>[_sols].pdf. The folder slug is the only piece
+    // a browser cannot derive, so the YAML carries it; existence is settled by asking
+    // for the file, the runtime equivalent of Ruby's File.exist?.
     function explicitPath(value) {
         return typeof value === 'string' && value.includes('/');
     }
 
-    function conventionalPath(blockId, folder, type, base, suffix) {
+    function conventionalPath(folder, type, base, suffix) {
         const name = [type, base, suffix].filter(Boolean).join('_');
-        return `Parts/${blockId[0]}/${folder}/${type}/${name}.pdf`;
+        return `Blocks/${folder}/${type}/${name}.pdf`;
     }
 
     // A page opened from disk has an opaque origin where every fetch is refused, but the
@@ -235,18 +235,18 @@
         // the generator stats these paths for every block, so the runtime must too.
         const exercise = section.exercise || {};
         if (!exercise.links) {
-            wanted.push(['exercise', conventionalPath(blockId, folder, 'Exercise', blockId)]);
+            wanted.push(['exercise', conventionalPath(folder, 'Exercise', blockId)]);
         }
 
         const homework = section.homework || {};
         if (!homework.links) {
             if (homework.file && !explicitPath(homework.file)) {
-                wanted.push(['homework', conventionalPath(blockId, folder, 'Homework', blockId)]);
+                wanted.push(['homework', conventionalPath(folder, 'Homework', blockId)]);
             }
             // Opt-in, not opt-out: a solutions PDF merely sitting on disk must never
             // put a link on the public site. Same rule the generator enforces.
             if (homework.solutions === true && !explicitPath(homework.solution_file)) {
-                wanted.push(['homework_sols', conventionalPath(blockId, folder, 'Homework', blockId, 'sols')]);
+                wanted.push(['homework_sols', conventionalPath(folder, 'Homework', blockId, 'sols')]);
             }
         }
 
@@ -254,9 +254,9 @@
         if (!vignette.links && vignette.files !== false) {
             const base = typeof vignette.files === 'string' ? vignette.files : blockId;
             if (!explicitPath(base)) {
-                wanted.push(['vignette', conventionalPath(blockId, folder, 'Vignette', base)]);
+                wanted.push(['vignette', conventionalPath(folder, 'Vignette', base)]);
                 if (vignette.solutions === true) {
-                    wanted.push(['vignette_sols', conventionalPath(blockId, folder, 'Vignette', base, 'sols')]);
+                    wanted.push(['vignette_sols', conventionalPath(folder, 'Vignette', base, 'sols')]);
                 }
             }
         }

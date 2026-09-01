@@ -13,13 +13,13 @@ window.COURSE_CONTENT_YAML = String.raw`
 # home. Titles, thumbnails, icons, navigation anchors, and conventional
 # filenames are generated automatically.
 #
-# Per block (folder is required once the block has a directory under Parts/):
-#   folder: A1_The_PPF     # the block's directory under Parts/<PART>/. It is the one
-#                          # thing a browser cannot work out for itself, and the runtime
-#                          # pages build conventional paths from it:
-#                          #   Parts/<PART>/<folder>/Exercise/Exercise_<BLOCK>.pdf
-#                          #   Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
-#                          #   Parts/<PART>/<folder>/Homework/Homework_<BLOCK>.pdf
+# Per block (folder is required once the block has a directory under Blocks/):
+#   folder: A1_The_PPF     # the block's directory under Blocks/. It is the one thing a
+#                          # browser cannot work out for itself, and the runtime pages
+#                          # build conventional paths from it:
+#                          #   Blocks/<folder>/Exercise/Exercise_<BLOCK>.pdf
+#                          #   Blocks/<folder>/Vignette/Vignette_<BLOCK>.pdf
+#                          #   Blocks/<folder>/Homework/Homework_<BLOCK>.pdf
 #                          # Drop a conventionally named PDF in and it appears on its own;
 #                          # solutions stay opt-in via solutions: true.
 #
@@ -39,7 +39,7 @@ parts:
   A:
     title: The Core Economic Idea
     tagline: better choices can benefit everyone
-    links: [{label: Skillsheet, file: Parts/A/A_Skillsheet.pdf}]
+    links: [{label: Skillsheet, file: Blocks/A_Skillsheet.pdf}]
     introduction: >-
       Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. These are the models that make it possible to see the invisible forces that make civilization possible.
     homework_defaults:
@@ -59,7 +59,7 @@ parts:
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
         episode:
           video: qMDU1QYKYss
-          links: [{label: Animations, file: Parts/A/A0_Welcome/media/Episode0_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Blocks/A0_Welcome/media/Episode0_present/, icon: fa fa-desktop}]
           description: Economics is not *about* money.
         reading:
           chapter: 1
@@ -72,7 +72,7 @@ parts:
         description: The PPF shows us what's attainable as individuals and as a society.
         episode:
           video: po4kip5m_QY
-          links: [{label: Animations, file: Parts/A/A1_The_PPF/media/EpisodeA1_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Blocks/A1_The_PPF/media/EpisodeA1_present/, icon: fa fa-desktop}]
           description: The landscape of what's possible
         reading:
           chapter: 2
@@ -95,7 +95,7 @@ parts:
           Minimizing opportunity cost by specializing in one's comparative advantage can bend out the PPF.
         episode:
           video: nclNGfY-3eA
-          links: [{label: Animations, file: Parts/A/A2_Advantage/media/EpisodeA2_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Blocks/A2_Advantage/media/EpisodeA2_present/, icon: fa fa-desktop}]
           description: Specialization
         reading:
           chapter: 19
@@ -539,7 +539,7 @@ parts:
           description: "*Comparing market structures*"
           links:
             - label: Notes
-              file: Parts/E/E4_Duopoly/04_Handwritten.pdf
+              file: Blocks/E4_Duopoly/04_Handwritten.pdf
         reading:
           chapter: 10
           topic: Monopolistic competition and oligopoly

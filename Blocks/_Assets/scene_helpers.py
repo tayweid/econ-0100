@@ -4,7 +4,7 @@ Canonical home for helpers used by more than one animation file. Put this
 directory on the path and import from it:
 
     import os, sys
-    sys.path.append(os.path.join(os.path.dirname(__file__), '../../Assets'))
+    sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
     from scene_helpers import Raster_Font
 
 Deliberately not named ``scenes``: ``Audio_Overview/`` already contains a

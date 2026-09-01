@@ -74,19 +74,19 @@ Buyers decisions shape the demand curve.
 
 ### Overview
 
-This project contains educational animations for an economics course, organized into 6 parts (A-F) with multiple episodes in each part. Each episode follows a consistent flat file structure that supports the animation production workflow.
+This project contains educational animations for an economics course, organized into 6 parts (A-F) with multiple episodes in each part. Blocks/ is a flat list of block directories; the part is the letter prefix. Each episode follows a consistent flat file structure that supports the animation production workflow.
 
 ### Directory Structure
 
 ```
-Parts/
-├── Part_A/           # Foundational Economics Concepts
-├── Part_B/           # Supply and Demand
-├── Part_C/           # Market Structures and Failures
-├── Part_D/           # Policy and Elasticity
-├── Part_E/           # Production and Market Competition
-├── Part_F/           # Consumer Choice Theory
-└── PROJECT_STRUCTURE.md
+Blocks/
+├── _Assets/          # shared style.py, images, sound
+├── A0_Welcome/       # one directory per block, prefixed by part letter and block number
+├── A1_The_PPF/
+├── A_Skillsheet.typ  # part-level material sits beside its blocks, prefixed by the letter
+├── B0_Markets/
+├── ...
+└── F3_Linked_Markets/
 ```
 
 ### File Descriptions

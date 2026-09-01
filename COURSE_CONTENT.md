@@ -40,12 +40,12 @@ disagree; `scripts/check-course` reports the same thing before you commit.
 
 ## How they find files
 
-Each block carries a `folder:` naming its directory under `Parts/<PART>/`, which is the one
-fact a browser cannot derive, and conventional paths are built from it:
+Each block carries a `folder:` naming its directory under `Blocks/`, which is the one fact
+a browser cannot derive, and conventional paths are built from it:
 
-    Parts/<PART>/<folder>/Exercise/Exercise_<BLOCK>.pdf
-    Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
-    Parts/<PART>/<folder>/Homework/Homework_<BLOCK>.pdf
+    Blocks/<folder>/Exercise/Exercise_<BLOCK>.pdf
+    Blocks/<folder>/Vignette/Vignette_<BLOCK>.pdf
+    Blocks/<folder>/Homework/Homework_<BLOCK>.pdf
 
 Existence is settled by asking for each candidate. Drop a conventionally named PDF into the
 right folder and its chip appears on the next load, with no YAML edit. Solutions remain
