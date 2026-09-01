@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'cgi'
+require 'json'
 require 'pathname'
 require 'set'
 require 'yaml'
@@ -12,19 +13,15 @@ CHECK_ONLY = ARGV.include?('--check')
 COURSE = {
   'code' => 'ECON 0100',
   'brand' => ['MICRO', 'ECON'],
-  'syllabus' => 'Syllabus.pdf',
+  'syllabus' => 'Syllabus/Syllabus.pdf',
   'stylesheet' => 'https://tayweid.github.io/course-assets/course.css',
   'script' => 'https://tayweid.github.io/course-assets/course.js',
   'reading_video' => 'uwYCeUVcx4E'
 }.freeze
 
+# Paths the site links to that are not on disk yet. The flat-layout entries that
+# used to live here became unreachable when material moved under Parts/.
 KNOWN_MISSING = %w[
-  Vignettes/Vignette_D3.pdf
-  Vignettes/Vignette_D3_sols.pdf
-  Vignettes/Vignette_D4.pdf
-  Vignettes/Vignette_D4_sols.pdf
-  Homework/HW_E2_sols.pdf
-  Homework/HW_F_sols.pdf
 ].to_set.freeze
 
 def escape(value)
@@ -57,6 +54,56 @@ def title_links(items)
   Array(items).map { |item| link(item.fetch('label'), item.fetch('file'), optional: item['optional'] || false, icon: item['icon']) }
 end
 
+# --- Course-material layout -------------------------------------------------
+# Authored material lives in the Parts/ tree, in the Part A shape:
+#   Parts/<PART>/<BLOCK>_<Slug>/Exercise/Exercise_<BLOCK>.pdf
+#   Parts/<PART>/<BLOCK>_<Slug>/Homework/Homework_<BLOCK>.pdf   (+ _sols)
+#   Parts/<PART>/<PART>_Skillsheet.pdf
+# The block directory is found by its <BLOCK>_ prefix, so the slug never has to
+# be repeated in course-content.yml. Reading/ (textbook scans), Syllabus.pdf and
+# animations/ are not authored material and keep their top-level homes.
+#
+# Any `file:` value containing a "/" is treated as an explicit path and used
+# verbatim, which is the escape hatch for anything the convention misses.
+
+def explicit_path?(value)
+  value.is_a?(String) && value.include?('/')
+end
+
+# Parts/<PART>/<BLOCK>_* — memoized; nil when the block has not been laid out yet.
+def block_dir(block_id)
+  $block_dirs ||= {}
+  return $block_dirs[block_id] if $block_dirs.key?(block_id)
+
+  part = block_id[0]
+  matches = Dir.glob(ROOT.join('Parts', part, "#{block_id}_*").to_s)
+                .select { |path| File.directory?(path) }
+                .map { |path| Pathname.new(path).relative_path_from(ROOT).to_s }
+                .sort
+  $block_dirs[block_id] = matches.length == 1 ? matches.first : nil
+end
+
+# A conventional path inside a block, e.g. block_file('A1', 'Homework', 'Homework')
+# => "Parts/A/A1_The_PPF/Homework/Homework_A1.pdf"
+def block_file(block_id, folder, prefix, suffix = nil)
+  dir = block_dir(block_id)
+  return nil unless dir
+
+  name = [prefix, block_id, suffix].compact.join('_')
+  "#{dir}/#{folder}/#{name}.pdf"
+end
+
+# Explicit `links:` win; otherwise the block's conventional exercise PDF is used
+# when it is actually on disk.
+def exercise_links(config, block_id)
+  return Array(config['links']).dup if config.key?('links')
+
+  file = block_file(block_id, 'Exercise', 'Exercise')
+  return [] unless file && ROOT.join(file).exist?
+
+  [{ 'label' => 'Exercise', 'file' => file }]
+end
+
 def reading_file(chapter)
   candidates = [
     "Reading/Ch_#{chapter.to_s.rjust(2, '0')}.pdf",
@@ -86,11 +133,14 @@ def vignette_links(config, default_base)
 
   base = config['files'].is_a?(String) ? config['files'] : default_base
   items = []
-  file = "Vignettes/Vignette_#{base}.pdf"
-  items << { 'label' => 'Vignette', 'file' => file } if ROOT.join(file).exist?
-  if config.fetch('solutions', true)
-    solution_file = config['solution_file'] || "Vignettes/Vignette_#{base}_sols.pdf"
-    items << { 'label' => 'Solutions', 'file' => solution_file } if ROOT.join(solution_file).exist?
+  file = explicit_path?(base) ? base : block_file(base, 'Vignette', 'Vignette')
+  items << { 'label' => 'Vignette', 'file' => file } if file && ROOT.join(file).exist?
+  # Opt-in, not opt-out: with material under Parts/, a solutions PDF merely existing
+  # on disk must not put a link on the public site. Set `solutions: true` on the block
+  # when the answers are meant to be out.
+  if config.fetch('solutions', false)
+    solution_file = config['solution_file'] || block_file(base, 'Vignette', 'Vignette', 'sols')
+    items << { 'label' => 'Solutions', 'file' => solution_file } if solution_file && ROOT.join(solution_file).exist?
   end
   items
 end
@@ -207,11 +257,12 @@ def block_cards(part, block)
   practice = homework.fetch('practice', "hw#{block_id.downcase}")
   homework_links = practice ? [{ 'label' => 'Practice', 'file' => "Practice/#{practice}.html" }] : []
   if homework['file']
-    homework_links << { 'label' => 'Assignment', 'file' => "Homework/HW_#{homework['file']}.pdf" }
+    file = explicit_path?(homework['file']) ? homework['file'] : block_file(block_id, 'Homework', 'Homework')
+    homework_links << { 'label' => 'Assignment', 'file' => file } if file
   end
   if homework['solutions']
-    solution_base = homework['solution_file'] || homework['file']
-    homework_links << { 'label' => 'Solutions', 'file' => "Homework/HW_#{solution_base}_sols.pdf" }
+    file = explicit_path?(homework['solution_file']) ? homework['solution_file'] : block_file(block_id, 'Homework', 'Homework', 'sols')
+    homework_links << { 'label' => 'Solutions', 'file' => file } if file
   end
   homework_name = "Homework #{block_id}#{homework['due'] ? ':' : ''}"
   cards << standard_card(
@@ -321,8 +372,8 @@ def extra_step(extra, indent, bend: false)
   video = extra['video']
   links = Array(extra['links'])
   if !extra.key?('links') && extra['files']   # explicit links override conventional discovery
-    ["Demos/Demo_#{extra['files']}.pdf", "Demos/Demo_#{extra['files']}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
-      links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
+    [block_file(extra['files'], 'Demo', 'Demo'), block_file(extra['files'], 'Demo', 'Demo', 'sols')].zip(%w[Demo Solutions]).each do |file, label|
+      links << { 'label' => label, 'file' => file } if file && ROOT.join(file).exist?
     end
   end
   video_attribute = video ? %( data-video-id="#{escape(video)}") : ''
@@ -366,10 +417,13 @@ def render_block(part, block)
   # steps
   exercise = block.fetch('exercise', {}) || {}
   homework_links = []
-  homework_links << { 'label' => 'Homework', 'file' => "Homework/HW_#{homework['file']}.pdf" } if homework['file']
+  if homework['file']
+    file = explicit_path?(homework['file']) ? homework['file'] : block_file(block_id, 'Homework', 'Homework')
+    homework_links << { 'label' => 'Homework', 'file' => file } if file
+  end
   if homework['solutions']
-    solution_base = homework['solution_file'] || homework['file']
-    homework_links << { 'label' => 'Solutions', 'file' => "Homework/HW_#{solution_base}_sols.pdf" }
+    file = explicit_path?(homework['solution_file']) ? homework['solution_file'] : block_file(block_id, 'Homework', 'Homework', 'sols')
+    homework_links << { 'label' => 'Solutions', 'file' => file } if file
   end
   due = dates['homework'] ? short_date(dates['homework']) : homework['due']
 
@@ -377,7 +431,7 @@ def render_block(part, block)
   # vignette dated after the homework (e.g. covered in the following recitation)
   # sits below it on the path.
   steps = [
-    [dates['class'], path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', Array(exercise['links']), dates['class'], indent + '            ', video: exercise['video'])],
+    [dates['class'], path_step(exercise.fetch('name', "Exercise #{block_id}"), 'in class', exercise_links(exercise, block_id), dates['class'], indent + '            ', video: exercise['video'])],
     [dates['recitation'], path_step(vignette.fetch('name', "Vignette #{block_id}"), 'recitation', vignette_links(vignette, block_id), dates['recitation'], indent + '            ', video: vignette['video'])],
     [dates['homework'], path_step("Homework #{block_id}", 'home', homework_links, dates['homework'], indent + '            ', due: due, video: homework['video'])]
   ]
@@ -454,8 +508,8 @@ def render_checkpoint(part_id, config)
   base = demo.fetch('file', part_id)
   demo_links = Array(demo['links']).dup
   unless demo.key?('links')
-    ["Demos/Demo_#{base}.pdf", "Demos/Demo_#{base}_sols.pdf"].zip(%w[Demo Solutions]).each do |file, label|
-      demo_links << { 'label' => label, 'file' => file } if ROOT.join(file).exist?
+    [block_file(base, 'Demo', 'Demo'), block_file(base, 'Demo', 'Demo', 'sols')].zip(%w[Demo Solutions]).each do |file, label|
+      demo_links << { 'label' => label, 'file' => file } if file && ROOT.join(file).exist?
     end
   end
   walkthrough = demo.fetch('description', "Attempt Demo #{part_id} first, then walk through with me.")
@@ -500,7 +554,8 @@ end
 
 def render_homework_notes(config)
   questions = Array(config.fetch('questions')).map { |question| "                    <li>#{escape(question)}</li>" }.join("\n")
-  file = "Homework/HW_#{config.fetch('file')}.pdf"
+  requested = config.fetch('file')
+  file = explicit_path?(requested) ? requested : block_file(requested, 'Homework', 'Homework')
   <<~HTML.chomp
         <div id="#{escape(config.fetch('id', 'homework-details'))}">
             <h1 class="subtitle">#{escape(config.fetch('title'))}</h1>
@@ -822,6 +877,8 @@ def validate_outputs(outputs)
   errors = []
   warnings = []
   outputs.each do |filename, html|
+    next unless filename.end_with?('.html')
+
     ids = html.scan(/\sid="([^"]+)"/).flatten
     id_counts = ids.each_with_object(Hash.new(0)) { |id, counts| counts[id] += 1 }
     id_counts.each { |id, count| errors << "#{filename}: duplicate id #{id}" if count > 1 }
@@ -868,6 +925,32 @@ end
 outputs = {}
 parts.each { |part_id, part| outputs["part-#{part_id.downcase}.html"] = render_part(part_id, part, part_ids) }
 outputs['index.html'] = render_index(part_ids.first) unless part_ids.empty?
+# Sidecar copy of the YAML as a plain script assignment. Opening a -yaml.html page
+# straight from the filesystem gives it an opaque origin, so fetch('course-content.yml')
+# is refused; a <script> tag has no such restriction. Generated here so `--check`
+# reports it stale whenever course-content.yml moves ahead of it.
+# Conventional per-block files, resolved and existence-checked here because a browser
+# can neither glob Parts/ for the <BLOCK>_<Slug> folder nor stat a file. Emitting the
+# resolved set keeps the runtime pages on exactly the same links as the generated HTML.
+block_files = parts.each_with_object({}) do |(_part_id, part), map|
+  Array(part['sections']).each do |section|
+    id = section['block']
+    next unless id
+
+    found = {
+      'exercise' => block_file(id, 'Exercise', 'Exercise'),
+      'homework' => block_file(id, 'Homework', 'Homework'),
+      'homework_sols' => block_file(id, 'Homework', 'Homework', 'sols')
+    }.select { |_key, path| path && ROOT.join(path).exist? }
+    map[id] = found unless found.empty?
+  end
+end
+
+outputs['course-content.js'] = <<~JS
+  // Generated from course-content.yml by scripts/build-course. Do not edit this file directly.
+  window.COURSE_CONTENT_YAML = #{CONTENT_PATH.read(encoding: Encoding::UTF_8).to_json};
+  window.COURSE_BLOCK_FILES = #{JSON.generate(block_files)};
+JS
 output_errors, warnings = validate_outputs(outputs)
 errors.concat(output_errors)
 

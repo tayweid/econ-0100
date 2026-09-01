@@ -207,11 +207,15 @@
         const exercise = block.exercise || {};
         const vignette = block.vignette || {};
         const homework = { ...(part.homework_defaults || {}), ...(block.homework || {}) };
+        // Conventional per-block files come pre-resolved from course-content.js, because
+        // the browser can neither find the <BLOCK>_<Slug> folder nor check what exists.
+        const blockFiles = (window.COURSE_BLOCK_FILES || {})[blockId] || {};
         const homeworkLinks = [];
-        if (homework.file) homeworkLinks.push({ label: 'Homework', file: `Homework/HW_${homework.file}.pdf` });
-        if (homework.solutions === true) {
-            const base = homework.solution_file || homework.file;
-            homeworkLinks.push({ label: 'Solutions', file: `Homework/HW_${base}_sols.pdf` });
+        if (homework.file && blockFiles.homework) {
+            homeworkLinks.push({ label: 'Homework', file: blockFiles.homework });
+        }
+        if (homework.solutions === true && blockFiles.homework_sols) {
+            homeworkLinks.push({ label: 'Solutions', file: blockFiles.homework_sols });
         }
 
         const due = dates.homework ? shortDate(dates.homework) : homework.due;
@@ -222,7 +226,8 @@
                 node: pathStep({
                     name: exercise.name || `Exercise ${blockId}`,
                     where: 'in class',
-                    links: items(exercise.links),
+                    links: exercise.links ? items(exercise.links)
+                        : (blockFiles.exercise ? [{ label: 'Exercise', file: blockFiles.exercise }] : []),
                     date: dates.class,
                     video: exercise.video
                 })
@@ -436,14 +441,26 @@
         console.error(error);
     }
 
+    // Served over http(s), the YAML is fetched so a reload picks up edits immediately.
+    // Opened straight from the filesystem the page has an opaque origin and fetch() is
+    // refused, so fall back to course-content.js — a <script> tag has no such limit.
+    async function readSource(source) {
+        try {
+            const response = await fetch(source, { cache: 'no-cache' });
+            if (!response.ok) throw new Error(`${source} returned ${response.status}.`);
+            return await response.text();
+        } catch (error) {
+            if (typeof window.COURSE_CONTENT_YAML === 'string') return window.COURSE_CONTENT_YAML;
+            throw error;
+        }
+    }
+
     async function load() {
         try {
             if (!window.jsyaml || typeof window.jsyaml.load !== 'function') {
                 throw new Error('The YAML reader did not load.');
             }
-            const response = await fetch(source, { cache: 'no-cache' });
-            if (!response.ok) throw new Error(`${source} returned ${response.status}.`);
-            const data = window.jsyaml.load(await response.text());
+            const data = window.jsyaml.load(await readSource(source));
             const part = data && data.parts && data.parts[partId];
             if (!part) throw new Error(`Part ${partId} is missing from ${source}.`);
 
