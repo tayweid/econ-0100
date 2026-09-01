@@ -43,7 +43,8 @@ forbidden_path = lambda do |file_path|
 
   # Past-semester assessment papers kept under an _archive/ directory are
   # published as student practice material; the live equivalents are not.
-  # Parts/Z stays private regardless of where it sits.
+  # This applies to Parts/Z too: its retired papers are public, its sources
+  # and rubric emails are not.
   archived = downcase.include?('/_archive/')
 
   (!archived &&
@@ -51,7 +52,7 @@ forbidden_path = lambda do |file_path|
       base_name.include?('miniexam') ||
       base_name.match?(/\A(?:me)[_-]/) ||
       base_name.match?(/_rubric(?:_email)?\.[^.]+\z/))) ||
-    downcase.start_with?('parts/z/') ||
+    (!archived && downcase.start_with?('parts/z/')) ||
     downcase == 'parts/me_template.typ' ||
     downcase.start_with?('24f/') ||
     downcase.start_with?('grading/') ||

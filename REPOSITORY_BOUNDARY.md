@@ -25,9 +25,12 @@ Past-semester MiniExam papers, their solutions, and their rubrics are published
 as student practice once they are retired. The marker is location: a file under
 an `_archive/` directory is treated as retired, and the boundary check exempts
 it from the MiniExam, `me_`-prefix and rubric rules on that basis. The live
-equivalents outside `_archive/` stay private, and `Parts/Z/` stays private
-wherever it sits. Retiring a paper therefore means moving it into `_archive/`,
-not renaming it.
+equivalents outside `_archive/` stay private. Retiring a paper therefore means
+moving it into `_archive/`, not renaming it.
+
+This holds for `Parts/Z/` as well: `Parts/Z/_archive/` carries the retired Z
+papers and is public, while the Z sources, drafts and rubric emails beside it
+stay private.
 
 Built presentation viewers are also public. `Parts/**/media/` is otherwise
 development-only, with `*_present/` carved out, since that is what the site

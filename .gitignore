@@ -13,7 +13,9 @@ Icon
 /_Journal.typ
 /_S27.typ
 /Parts/_ToAdd.typ
-/Parts/Z/
+# Parts/Z is private except its retired papers, same _archive/ rule as elsewhere.
+/Parts/Z/*
+!/Parts/Z/_archive/
 /Parts/ME_template.typ
 # MiniExam material is private, except the archived past-semester papers, which
 # are published as student practice. Exclude the directory contents rather than
