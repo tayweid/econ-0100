@@ -25,9 +25,8 @@ While the server is running, an edit to any part in `course-content.yml` appears
 
 ### How they find files
 
-These pages read `course-content.yml` alone -- they no longer depend on anything the
-generator emits. Each block carries a `folder:` naming its directory under `Parts/<PART>/`,
-which is the one fact a browser cannot derive, and conventional paths are built from it:
+Each block carries a `folder:` naming its directory under `Parts/<PART>/`, which is the one
+fact a browser cannot derive, and conventional paths are built from it:
 
     Parts/<PART>/<folder>/Exercise/Exercise_<BLOCK>.pdf
     Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
@@ -39,12 +38,19 @@ right folder and its chip appears on the next load, with no YAML edit and no bui
 Solutions remain opt-in through `solutions: true`, so an answer key sitting on disk never
 surfaces by itself.
 
-Two consequences worth knowing. A HEAD probe asks the deployed site, so it sees only what
-is committed -- more accurate than a local `File.exist?`, which also sees untracked files
-that were never published. And probing needs HTTP, so opening a page over `file://` renders
-everything except these conventional chips.
+A HEAD probe asks the server, so it sees only what is actually published -- more accurate
+than a local `File.exist?`, which also counts untracked files that never reached the site.
 
-Runtime pages expose vignette, demo, and extra downloads only when they are explicitly listed under `links:` in the YAML. Explicit links—including an empty list—also override the older `files:` shorthand in the builder. That shorthand depends on checking whether a conventional PDF exists on disk, which a browser cannot safely reproduce. Chapter and homework links continue to follow their existing structured conventions.
+Probing needs HTTP, though, and a page opened by double-clicking has an opaque origin where
+every fetch is refused. For that case `scripts/build-course` still writes
+`window.COURSE_BLOCK_FILES` into `course-content.js`, holding the same paths resolved at
+build time. Served over http(s) it is ignored entirely in favour of the live probe; it is
+consulted only over `file://`, or when a probe cannot be answered at all, so a dropped
+connection falls back to the build-time answer instead of quietly hiding a link. Run
+`scripts/build-course` if you want a newly added PDF to show up when double-clicking; over
+HTTP and on the deployed site it appears on its own.
+
+Runtime pages discover conventional exercise, vignette, and homework PDFs as described above. Demo and extra downloads are still shown only when explicitly listed under `links:` in the YAML, because the builder resolves those through the `files:` shorthand, which names a base rather than a path. Explicit links—including an empty list—override discovery in both the builder and the runtime pages. Chapter and homework links continue to follow their existing structured conventions.
 
 ## A normal block
 
@@ -72,7 +78,7 @@ That is enough to generate the block heading, navigation link, Episode A2 title,
 - A block ID supplies the standard episode, vignette, homework, navigation-anchor, and practice names.
 - A reading `chapter` supplies its title and PDF path. Add `topic` for the descriptive title.
 - A `video` is only the eleven-character YouTube ID; its thumbnail is automatic.
-- `files: A1` asks the builder to add conventional vignette/demo links when those files exist. Runtime pages use explicit `links:` entries instead.
+- `files: A1` overrides the base name used for conventional vignette links; runtime pages honour it too. For demo and extra downloads it remains builder-only, so list those under `links:` if the runtime pages should show them.
 - `homework_defaults` at the part level supplies repeated due dates and assignment sets.
 - Put words between `*asterisks*` when a short description should be italicized.
 - Use `extras` for an unusual resource inside a standard block.

@@ -196,16 +196,18 @@
         return `Parts/${blockId[0]}/${folder}/${type}/${name}.pdf`;
     }
 
+    // true or false, or null when the question could not be asked at all: over file://
+    // every fetch is refused, and a flaky connection can do the same over http(s).
     async function exists(path) {
         for (let attempt = 0; attempt < 2; attempt += 1) {
             try {
                 return (await fetch(path, { method: 'HEAD' })).ok;
             } catch (error) {
                 // A rejected fetch is a transport fault, not a 404; give it one more try.
-                if (attempt) return false;
+                if (attempt) return null;
             }
         }
-        return false;
+        return null;
     }
 
     function blockCandidates(section) {
@@ -246,7 +248,13 @@
         return wanted;
     }
 
+    // COURSE_BLOCK_FILES is the generator's build-time answer to the same question. Over
+    // http(s) it is ignored in favour of a live probe; it is what a page opened by
+    // double-clicking has to go on, and what an unanswered probe falls back to.
     async function discoverBlockFiles(part) {
+        const generated = window.COURSE_BLOCK_FILES || {};
+        if (location.protocol === 'file:') return generated;
+
         const probes = [];
         items(part.sections).forEach(section => {
             blockCandidates(section).forEach(([key, path]) => {
@@ -254,8 +262,11 @@
             });
         });
         const found = {};
-        (await Promise.all(probes)).filter(result => result.ok).forEach(result => {
-            (found[result.block] ||= {})[result.key] = result.path;
+        (await Promise.all(probes)).forEach(result => {
+            const path = result.ok === null
+                ? (generated[result.block] || {})[result.key]
+                : (result.ok ? result.path : null);
+            if (path) (found[result.block] ||= {})[result.key] = path;
         });
         return found;
     }
