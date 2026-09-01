@@ -1,14 +1,16 @@
 #!/usr/bin/env ruby
 
+# Everything committed to econ-0100 is published. Material that should not be
+# published belongs in ECON_0100 instead: the repository a file is in IS the
+# policy, and this script does not try to second-guess it by inspecting names.
+#
+# All it still refuses are the things that are never course material and never
+# recoverable once pushed -- credentials and per-student records.
+
 require 'open3'
 require 'pathname'
-require 'set'
 
 ROOT = Pathname.new(__dir__).parent.expand_path
-DENYLISTS = %w[
-  private-assessment-blobs.txt
-  private-sensitive-blobs.txt
-].map { |name| ROOT.join('scripts', name) }.freeze
 
 def capture_nul(*command)
   output, status = Open3.capture2(*command, chdir: ROOT.to_s)
@@ -16,105 +18,43 @@ def capture_nul(*command)
   output.split("\0").reject(&:empty?)
 end
 
-mode = :staged
-base = nil
-
 if ARGV.empty?
+  label = 'staged additions or changes'
   paths = capture_nul('git', 'diff', '--cached', '--diff-filter=ACMRT', '--name-only', '-z')
 elsif ARGV.length == 2 && ARGV.first == '--range'
-  mode = :range
   base = ARGV.fetch(1)
   system('git', 'rev-parse', '--verify', "#{base}^{commit}", out: File::NULL, err: File::NULL, chdir: ROOT.to_s) ||
     abort("unknown base commit: #{base}")
+  label = "additions or changes since #{base}"
   paths = capture_nul('git', 'diff', '--diff-filter=ACMRT', '--name-only', '-z', base, 'HEAD')
 else
   abort 'usage: scripts/check-public-boundary [--range BASE_COMMIT]'
 end
 
 if paths.empty?
-  puts(mode == :staged ? 'public boundary: no staged additions or changes' : "public boundary: no additions or changes since #{base}")
+  puts "public boundary: no #{label}"
   exit 0
 end
 
-forbidden_path = lambda do |file_path|
-  normalized = file_path.tr('\\', '/')
-  downcase = normalized.downcase
-  base_name = File.basename(downcase)
+never_publish = lambda do |file_path|
+  name = file_path.tr('\\', '/').downcase
+  base = File.basename(name)
 
-  # Past-semester assessment papers kept under an _archive/ directory are
-  # published as student practice material; the live equivalents are not.
-  # This applies to Parts/Z too: its retired papers are public, its sources
-  # and rubric emails are not.
-  archived = downcase.include?('/_archive/')
-
-  (!archived &&
-    (downcase.match?(%r{(?:^|/)(?:[^/]*_)?miniexams?(?:/|$)}) ||
-      base_name.include?('miniexam') ||
-      base_name.match?(/\A(?:me)[_-]/) ||
-      base_name.match?(/_rubric\.[^.]+\z/))) ||
-    # Rubric emails are correspondence about individual students' grades, not
-    # practice material. Archiving must never publish one, so this rule sits
-    # outside the _archive/ exemption.
-    base_name.match?(/_rubric_email\.[^.]+\z/) ||
-    (!archived && downcase.start_with?('parts/z/')) ||
-    downcase == 'parts/me_template.typ' ||
-    downcase.start_with?('24f/') ||
-    downcase.start_with?('grading/') ||
-    downcase.start_with?('interesting_assessments/') ||
-    downcase.start_with?('team/') ||
-    downcase.start_with?('lecture_archive/') ||
-    downcase.start_with?('blocks/') ||
-    downcase.start_with?('.claude/') ||
-    %w[_journal.typ _s27.typ].include?(downcase) ||
-    downcase == 'parts/_toadd.typ' ||
-    (downcase.match?(%r{^parts/.*/media(?:_a4)?/}) &&
-      !downcase.match?(%r{^parts/.*/media/[^/]+_present/})) ||
-    downcase.start_with?('syllabi/24f/') ||
-    downcase.start_with?('simulations/24f/') ||
-    downcase.match?(%r{^simulations/.*pre24f}) ||
-    downcase.end_with?('.gsheet') ||
-    downcase == '.env' ||
-    (downcase.start_with?('.env.') && downcase != '.env.example') ||
-    %w[.pem .key].include?(File.extname(downcase)) ||
-    base_name.match?(/\A(?:roster|student[-_ ]?records?|grades?)[-_.]/)
+  base == '.env' ||
+    (base.start_with?('.env.') && base != '.env.example') ||
+    %w[.pem .key].include?(File.extname(name)) ||
+    base.match?(/\A(?:roster|student[-_ ]?records?|grades?)[-_.]/)
 end
 
-denied_blobs = DENYLISTS.each_with_object(Set.new) do |denylist, hashes|
-  abort "missing boundary denylist: #{denylist.relative_path_from(ROOT)}" unless denylist.file?
-  denylist.each_line do |line|
-    hash = line.strip
-    hashes << hash unless hash.empty? || hash.start_with?('#')
-  end
-end
+errors = paths.uniq.sort.select { |file_path| never_publish.call(file_path) }
+                        .map { |file_path| "credential or student record: #{file_path}" }
 
-indexed_files = if mode == :staged
-                  capture_nul('git', 'ls-files', '-s', '-z').to_h do |entry|
-                    metadata, file_path = entry.split("\t", 2)
-                    file_mode, blob = metadata.split
-                    [file_path, { mode: file_mode, blob: blob }]
-                  end
-                else
-                  capture_nul('git', 'ls-tree', '-r', '-z', 'HEAD').to_h do |entry|
-                    metadata, file_path = entry.split("\t", 2)
-                    file_mode, _type, blob = metadata.split
-                    [file_path, { mode: file_mode, blob: blob }]
-                  end
-                end
-
-errors = []
-paths.uniq.sort.each do |file_path|
-  errors << "private-only path: #{file_path}" if forbidden_path.call(file_path)
-  indexed = indexed_files[file_path]
-  errors << "path is absent from the #{mode == :staged ? 'index' : 'HEAD tree'}: #{file_path}" unless indexed
-  errors << "unsupported non-file mode #{indexed[:mode]}: #{file_path}" if indexed && !%w[100644 100755].include?(indexed[:mode])
-  errors << "exact copy of a private artifact: #{file_path}" if indexed && denied_blobs.include?(indexed[:blob])
-end
-
-if errors.any?
+unless errors.empty?
   warn 'public boundary check failed:'
   errors.each { |error| warn "  - #{error}" }
+  warn ''
+  warn 'These never belong in a public repository. Move them to ECON_0100.'
   exit 1
 end
 
-label = mode == :staged ? 'staged additions/changes' : "additions/changes since #{base}"
 puts "public boundary: #{paths.uniq.length} #{label} passed"

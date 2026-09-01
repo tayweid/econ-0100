@@ -1,43 +1,21 @@
+# Everything committed to this repository is published.
+#
+# Material that should not be published belongs in ECON_0100 -- not behind an
+# ignore rule here. This file only excludes machine noise, regenerable build
+# output, and credentials.
+
+# Machine noise
 .DS_Store
-.ipynb_checkpoints/
 Icon
 .claude/
 
-# Private course-development material belongs in ../ECON_0100.
-/24F/
-/Grading/
-/Interesting_Assessments/
-/Team/
-/Lecture_Archive/
-/blocks/
-/_Journal.typ
-/_S27.typ
-/Parts/_ToAdd.typ
-# Parts/Z is private except its retired papers, same _archive/ rule as elsewhere.
-/Parts/Z/*
-!/Parts/Z/_archive/
-/Parts/ME_template.typ
-# MiniExam material is private, except the archived past-semester papers, which
-# are published as student practice. Exclude the directory contents rather than
-# the directory itself, so the _archive/ carve-out can re-include.
-/Parts/**/*MiniExam*/*
-!/Parts/**/*MiniExam*/_archive/
-/Parts/**/*MiniExam*.*
-/syllabi/24F/
-/simulations/24F/
-/simulations/*pre24F*
-*.gsheet
-
-# Generated Manim/Jupyter/Python output is development-only, except the built
-# presentation viewers, which are published to students. Exclude media/ contents
-# rather than media/ itself, since git cannot re-include from an excluded directory.
-/Parts/**/media/*
-!/Parts/**/media/*_present/
-/Parts/**/media_A4/
+# Regenerable render and build output
+**/*_checkpoints/
+.ipynb_checkpoints/
 __pycache__/
 *.py[cod]
 
-# Credentials and student records must never be committed here.
+# Credentials
 .env
 .env.*
 !.env.example

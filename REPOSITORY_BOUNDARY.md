@@ -1,61 +1,38 @@
 # Public and private course repositories
 
-This repository, `econ-0100`, is the canonical home for material that may be
-published on the course website. Treat every committed file here as public,
-even when the website does not currently link to it.
+Everything committed to `econ-0100` is published. Treat every file here as
+public, whether or not the website currently links to it.
 
-The adjacent `ECON_0100` repository is the private development side. Keep these
-categories there:
+Anything that should not be published goes in the adjacent `ECON_0100`
+repository instead. That is the whole rule: **the repository a file lives in is
+the decision**. There is no second classification step, no naming convention
+that makes a file private, and no ignore rule standing in for judgement.
 
-- live MiniExams, other interesting assessments, rubrics, and any duplicate of
-  an assessment artifact still in use;
-- team documents, journals, planning notes, student records, and grading data;
-- the historical Fall 2024 course tree and related 24F syllabus/simulation
-  material;
-- generated media caches, local shortcuts, credentials, and machine-specific
-  files.
+In practice `ECON_0100` holds live assessments, grading data, student records,
+team and planning documents, and render output too large or too transient to be
+worth publishing. But that list is a description, not a policy -- if something
+belongs on the public side, move it here and commit it.
 
-Homework and homework solutions may be public. The exception is a file that is
-also an assessment artifact: the private classification follows the content,
-not the filename or folder where a duplicate happens to live.
+## The guardrail
 
-## Retired assessments are practice material
-
-Past-semester MiniExam papers, their solutions, and their rubrics are published
-as student practice once they are retired. The marker is location: a file under
-an `_archive/` directory is treated as retired, and the boundary check exempts
-it from the MiniExam, `me_`-prefix and rubric rules on that basis. The live
-equivalents outside `_archive/` stay private. Retiring a paper therefore means
-moving it into `_archive/`, not renaming it.
-
-This holds for `Parts/Z/` as well: `Parts/Z/_archive/` carries the retired Z
-papers and is public, while the Z sources and drafts beside it stay private.
-
-Rubric *emails* are the one thing `_archive/` does not release. A
-`*_rubric_email.*` file is correspondence about individual students' grades, so
-it is rejected wherever it sits, archived or not. Plain `*_rubric.*` files are
-grading criteria and archive normally.
-
-Built presentation viewers are also public. `Parts/**/media/` is otherwise
-development-only, with `*_present/` carved out, since that is what the site
-links to for the animations.
-
-## Normal workflow
-
-Develop public-facing notes, storyboards, code, homework, solutions, specs,
-syllabi, and simulations directly in this repository. Develop material that is
-never meant for the website directly in `ECON_0100`. There is no recurring
-whole-repository sync step.
-
-Before committing public material, stage it and run:
+`scripts/check-public-boundary` refuses exactly two things: credentials
+(`.env`, `*.pem`, `*.key`) and per-student records (`roster*`, `grades*`,
+`student_records*`). Those are never course material and cannot be unpublished
+once pushed. Everything else is your call.
 
 ```sh
-scripts/check-public-boundary
+scripts/check-public-boundary            # staged changes
+scripts/check-public-boundary --range <commit>
 ```
 
-The check rejects known private paths and exact-content copies of the private
-assessment/planning artifacts present at the reorganization checkpoint. It is
-a guardrail, not a substitute for reviewing what is being published.
+## `.gitignore`
 
-The reorganization does not rewrite old public Git history. The boundary check
-prevents new private material from being introduced from this point forward.
+One file, at the root. It excludes machine noise (`.DS_Store`), regenerable
+build output (`*_checkpoints/`, `__pycache__/`), and credentials. It is not a
+privacy mechanism -- material that should stay private belongs in `ECON_0100`,
+where it is not one `git add -f` away from being published.
+
+## History
+
+The reorganization did not rewrite old public Git history, so material removed
+from the tree may still be reachable in earlier commits.
