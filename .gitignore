@@ -23,8 +23,11 @@ Icon
 /simulations/*pre24F*
 *.gsheet
 
-# Generated Manim/Jupyter/Python output is development-only.
-/Parts/**/media/
+# Generated Manim/Jupyter/Python output is development-only, except the built
+# presentation viewers, which are published to students. Exclude media/ contents
+# rather than media/ itself, since git cannot re-include from an excluded directory.
+/Parts/**/media/*
+!/Parts/**/media/*_present/
 /Parts/**/media_A4/
 __pycache__/
 *.py[cod]

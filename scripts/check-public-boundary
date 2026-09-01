@@ -54,7 +54,8 @@ forbidden_path = lambda do |file_path|
     downcase.start_with?('.claude/') ||
     %w[_journal.typ _s27.typ].include?(downcase) ||
     downcase == 'parts/_toadd.typ' ||
-    downcase.match?(%r{^parts/.*/media(?:_a4)?/}) ||
+    (downcase.match?(%r{^parts/.*/media(?:_a4)?/}) &&
+      !downcase.match?(%r{^parts/.*/media/[^/]+_present/})) ||
     downcase.start_with?('syllabi/24f/') ||
     downcase.start_with?('simulations/24f/') ||
     downcase.match?(%r{^simulations/.*pre24f}) ||

@@ -40,7 +40,7 @@ parts:
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
         episode:
           video: qMDU1QYKYss
-          links: [{label: Animations, file: animations/A0/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Parts/A/A0_Welcome/media/Episode0_present/, icon: fa fa-desktop}]
           description: Economics is not *about* money.
         reading:
           chapter: 1
@@ -52,7 +52,7 @@ parts:
         description: The PPF shows us what's attainable as individuals and as a society.
         episode:
           video: po4kip5m_QY
-          links: [{label: Animations, file: animations/A1/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Parts/A/A1_The_PPF/media/EpisodeA1_present/, icon: fa fa-desktop}]
           description: The landscape of what's possible
         reading:
           chapter: 2
@@ -74,7 +74,7 @@ parts:
           Minimizing opportunity cost by specializing in one's comparative advantage can bend out the PPF.
         episode:
           video: nclNGfY-3eA
-          links: [{label: Animations, file: animations/A2/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Parts/A/A2_Advantage/media/EpisodeA2_present/, icon: fa fa-desktop}]
           description: Specialization
         reading:
           chapter: 19
