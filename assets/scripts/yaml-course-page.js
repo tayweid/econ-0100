@@ -6,7 +6,7 @@
     page.setAttribute('aria-busy', 'true');
 
     const partId = page.dataset.coursePart;
-    const source = page.dataset.courseSource || 'course-content.yml';
+    const source = 'course-content.yaml.js';
     let discoveredFiles = {};
     let courseScriptInitialized = false;
     document.addEventListener('DOMContentLoaded', () => {
@@ -185,8 +185,8 @@
 
     // Conventional per-block files, mirroring block_file in scripts/build-course:
     // Parts/<PART>/<folder>/<Type>/<Type>_<base>[_sols].pdf. The folder slug is the only
-    // piece a browser cannot derive, so course-content.yml now carries it; existence is
-    // settled with a HEAD request, the runtime equivalent of Ruby's File.exist?.
+    // piece a browser cannot derive, so the YAML carries it; existence is settled by
+    // asking for the file, the runtime equivalent of Ruby's File.exist?.
     function explicitPath(value) {
         return typeof value === 'string' && value.includes('/');
     }
@@ -196,18 +196,33 @@
         return `Parts/${blockId[0]}/${folder}/${type}/${name}.pdf`;
     }
 
-    // true or false, or null when the question could not be asked at all: over file://
-    // every fetch is refused, and a flaky connection can do the same over http(s).
+    // A page opened from disk has an opaque origin where every fetch is refused, but the
+    // browser still lets it load a neighbouring <link> or <script>, and those fire load or
+    // error according to whether the file is there. A stylesheet link is the quiet way to
+    // ask: nothing is executed, and the element is removed the moment it answers.
+    function existsOnDisk(path) {
+        return new Promise(resolve => {
+            const probe = document.createElement('link');
+            probe.rel = 'stylesheet';
+            probe.onload = () => { probe.remove(); resolve(true); };
+            probe.onerror = () => { probe.remove(); resolve(false); };
+            probe.href = path;
+            document.head.append(probe);
+        });
+    }
+
+    // Served over http(s) a HEAD request answers directly and sees exactly what is
+    // published. From disk the link probe above stands in for it.
     async function exists(path) {
+        if (location.protocol === 'file:') return existsOnDisk(path);
         for (let attempt = 0; attempt < 2; attempt += 1) {
             try {
                 return (await fetch(path, { method: 'HEAD' })).ok;
             } catch (error) {
                 // A rejected fetch is a transport fault, not a 404; give it one more try.
-                if (attempt) return null;
             }
         }
-        return null;
+        return false;
     }
 
     function blockCandidates(section) {
@@ -248,13 +263,7 @@
         return wanted;
     }
 
-    // COURSE_BLOCK_FILES is the generator's build-time answer to the same question. Over
-    // http(s) it is ignored in favour of a live probe; it is what a page opened by
-    // double-clicking has to go on, and what an unanswered probe falls back to.
     async function discoverBlockFiles(part) {
-        const generated = window.COURSE_BLOCK_FILES || {};
-        if (location.protocol === 'file:') return generated;
-
         const probes = [];
         items(part.sections).forEach(section => {
             blockCandidates(section).forEach(([key, path]) => {
@@ -263,10 +272,7 @@
         });
         const found = {};
         (await Promise.all(probes)).forEach(result => {
-            const path = result.ok === null
-                ? (generated[result.block] || {})[result.key]
-                : (result.ok ? result.path : null);
-            if (path) (found[result.block] ||= {})[result.key] = path;
+            if (result.ok) (found[result.block] ||= {})[result.key] = result.path;
         });
         return found;
     }
@@ -537,18 +543,15 @@
         console.error(error);
     }
 
-    // Served over http(s), the YAML is fetched so a reload picks up edits immediately.
-    // Opened straight from the filesystem the page has an opaque origin and fetch() is
-    // refused, so fall back to course-content.js — a <script> tag has no such limit.
-    async function readSource(source) {
-        try {
-            const response = await fetch(source, { cache: 'no-cache' });
-            if (!response.ok) throw new Error(`${source} returned ${response.status}.`);
-            return await response.text();
-        } catch (error) {
-            if (typeof window.COURSE_CONTENT_YAML === 'string') return window.COURSE_CONTENT_YAML;
-            throw error;
+    // course-content.yaml.js is a <script> that assigns the YAML to a global. Loading a
+    // neighbouring script is the one thing a page opened straight from the filesystem is
+    // allowed to do, and it works identically when served, so there is no fetch and no
+    // second copy of the content to fall out of date.
+    function readSource() {
+        if (typeof window.COURSE_CONTENT_YAML !== 'string') {
+            throw new Error(`${source} did not load.`);
         }
+        return window.COURSE_CONTENT_YAML;
     }
 
     async function load() {
@@ -556,7 +559,7 @@
             if (!window.jsyaml || typeof window.jsyaml.load !== 'function') {
                 throw new Error('The YAML reader did not load.');
             }
-            const data = window.jsyaml.load(await readSource(source));
+            const data = window.jsyaml.load(readSource());
             const part = data && data.parts && data.parts[partId];
             if (!part) throw new Error(`Part ${partId} is missing from ${source}.`);
 

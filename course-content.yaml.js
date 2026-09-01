@@ -1,4 +1,12 @@
-# Edit this file, then run: scripts/build-course
+// ECON 0100 course content. Edit the YAML between the two backtick lines and leave the
+// wrapper alone. This is a .js file rather than a .yml for one reason: a page opened by
+// double-clicking may load a neighbouring <script> and nothing else, so this is what lets
+// the site work straight from disk as well as when served. Two things are off limits
+// inside the YAML, a backtick and the pair ${ -- scripts/build-course refuses both.
+window.COURSE_CONTENT_YAML = String.raw`
+# ECON 0100 course content. The part-*-yaml.html pages read this in the browser, so an
+# edit shows up on the next refresh with no build. scripts/build-course reads the same
+# text to validate it and to generate the standard part-*.html pages.
 #
 # Each block renders as the episode (+ reading) on the left and the practice
 # path on the right: exercise in class, vignette in recitation, homework at
@@ -13,7 +21,7 @@
 #                          #   Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
 #                          #   Parts/<PART>/<folder>/Homework/Homework_<BLOCK>.pdf
 #                          # Drop a conventionally named PDF in and it appears on its own;
-#                          # solutions stay opt-in via `solutions: true`.
+#                          # solutions stay opt-in via solutions: true.
 #
 # Optional per block:
 #   dates:                 # yyyy-mm-dd; the page marks the current step
@@ -616,3 +624,4 @@ parts:
             - name: Demo F2
               video: DVHvgb_kJDY
               files: F2
+`;

@@ -1,13 +1,11 @@
 #!/bin/sh
+# Optional. Every -yaml.html page also opens by double-clicking it: course-content.yaml.js
+# is a <script>, which a page opened from disk may load, and the conventional PDFs are
+# found with the same kind of element load. Serve the folder instead when you want the
+# exact deployed behaviour -- over HTTP the PDFs are discovered with HEAD requests, which
+# see only what is actually published, not untracked files sitting in the working tree.
+#
 # Double-click this in Finder, or run it from a terminal.
-#
-# Serving the folder is what makes the -yaml.html pages behave exactly as they do once
-# deployed: they read course-content.yml live and find the conventional PDFs with HEAD
-# requests, so an edit or a newly dropped file shows up on the next refresh with no build.
-#
-# Opening a page by double-clicking it instead gives it an opaque origin, where browsers
-# refuse every local read -- fetch, XHR and HEAD alike. That route can only fall back to
-# what scripts/build-course last wrote into course-content.js, which is why it needs a build.
 set -e
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 PORT=${1:-8765}

@@ -1,35 +1,34 @@
 # Editing the ECON 0100 website
 
-Edit `course-content.yml`. The six `part-*.html` pages are generated and should not be edited directly.
+All course content lives in `course-content.yaml.js`. It is YAML wrapped in a one-line
+JavaScript assignment: edit the YAML between the two backtick lines and leave the wrapper
+alone. Two things may not appear inside the YAML, a backtick and the pair `${`; the builder
+refuses both. The file is JavaScript rather than plain YAML for one reason: a page opened by
+double-clicking may load a neighbouring `<script>` and nothing else, so this is what lets the
+site work straight from disk as well as when served.
+
+## Two kinds of page
+
+`part-a-yaml.html` through `part-f-yaml.html` render in the browser from
+`course-content.yaml.js`. Edit the YAML, refresh, done. There is no build step, and they
+work the same whether double-clicked, served locally, or deployed. The HTML shell only
+needs an edit when the page structure changes, such as adding or removing a block.
+
+`part-a.html` through `part-f.html` are generated from the same file by
+`scripts/build-course` and are the standard pages for now. They are the fallback each
+`-yaml` page points at when something fails. Do not edit them directly.
 
 ## Typical workflow
 
-1. Edit `course-content.yml`.
-2. Run `scripts/build-course`.
-3. Open the affected page and verify it visually.
-4. Run `scripts/build-course --check` before committing.
+1. Edit `course-content.yaml.js`.
+2. Open the affected `-yaml` page (double-click it, or run `scripts/preview.command`) and refresh.
+3. Run `scripts/build-course` to regenerate the standard pages, and `scripts/build-course --check` before committing.
 
-The `--check` command does not rewrite anything. It reports an error if the generated pages are stale.
+`--check` does not rewrite anything. It validates the YAML and reports an error if the
+generated pages are stale.
 
-## Experimental no-build pages
-
-`part-a-yaml.html` through `part-f-yaml.html` are a parallel pilot set. Each keeps its current page frame but reads the visible content directly from `course-content.yml` in the browser. The existing `part-a.html` through `part-f.html` remain the standard pages and their corresponding fallbacks.
-
-To preview the pilot, run `scripts/preview.command` -- double-click it in Finder or run it
-from a terminal. It serves the repository and opens Part A. Equivalently, by hand:
-
-```sh
-python3 -m http.server 8765 --bind 127.0.0.1
-```
-
-Serve it; do not open the pages by double-clicking them. A page opened straight from the
-filesystem has an opaque origin, and browsers refuse every local read from one -- `fetch`,
-`XMLHttpRequest` and HEAD alike. Such a page can only fall back to what
-`scripts/build-course` last wrote into `course-content.js`, so it shows stale content until
-you rebuild. Served over HTTP nothing is refused, and neither a YAML edit nor a newly
-dropped PDF needs a build to appear.
-
-While the server is running, an edit to any part in `course-content.yml` appears after a browser refresh; there is no build step. The HTML shell only needs an edit when the page structure changes, such as adding or removing a block. Because browsers do not allow a local HTML file to fetch a neighboring YAML file safely, these pilots will not work by double-clicking them; use the local server or the deployed site.
+`scripts/preview.command` is optional. It serves the repository and opens Part A, which
+reproduces the deployed behaviour exactly; see below for the one difference from disk.
 
 ### How they find files
 
@@ -40,23 +39,18 @@ fact a browser cannot derive, and conventional paths are built from it:
     Parts/<PART>/<folder>/Vignette/Vignette_<BLOCK>.pdf
     Parts/<PART>/<folder>/Homework/Homework_<BLOCK>.pdf
 
-Existence is settled with a HEAD request per candidate, the runtime equivalent of the
+Existence is settled by asking for each candidate, the runtime equivalent of the
 `File.exist?` calls in `scripts/build-course`. Drop a conventionally named PDF into the
 right folder and its chip appears on the next load, with no YAML edit and no build.
 Solutions remain opt-in through `solutions: true`, so an answer key sitting on disk never
 surfaces by itself.
 
-A HEAD probe asks the server, so it sees only what is actually published -- more accurate
-than a local `File.exist?`, which also counts untracked files that never reached the site.
-
-Probing needs HTTP, though, and a page opened by double-clicking has an opaque origin where
-every fetch is refused. For that case `scripts/build-course` still writes
-`window.COURSE_BLOCK_FILES` into `course-content.js`, holding the same paths resolved at
-build time. Served over http(s) it is ignored entirely in favour of the live probe; it is
-consulted only over `file://`, or when a probe cannot be answered at all, so a dropped
-connection falls back to the build-time answer instead of quietly hiding a link. Run
-`scripts/build-course` if you want a newly added PDF to show up when double-clicking; over
-HTTP and on the deployed site it appears on its own.
+Served over http(s) the question is a HEAD request, which sees only what is actually
+published. A page opened from disk has an opaque origin where every fetch is refused, but
+the browser still lets it load a neighbouring `<link>` or `<script>`, and those report
+whether the file was there; the page uses a stylesheet link for this, which executes nothing
+and is removed as soon as it answers. The one difference is that from disk the probe sees
+the working tree, untracked files included, while over HTTP it sees only what was served.
 
 Runtime pages discover conventional exercise, vignette, and homework PDFs as described above. Demo and extra downloads are still shown only when explicitly listed under `links:` in the YAML, because the builder resolves those through the `files:` shorthand, which names a base rather than a path. Explicit links—including an empty list—override discovery in both the builder and the runtime pages. Chapter and homework links continue to follow their existing structured conventions.
 
