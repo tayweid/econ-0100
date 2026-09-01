@@ -1,0 +1,11 @@
+inequality data from https://wid.world/data/
+
+us_private_wealth_1870_2010.csv — Piketty & Zucman, "Capital is Back" (QJE 2014), Table US.1,
+  https://gabriel-zucman.eu/files/capitalisback/USA.xlsx (annual; nominal & 2010$ billions; W/Y ratio)
+nasa_black_marble_2016_*.jpg — NASA Earth Observatory Black Marble 2016 (public domain),
+  https://eoimages.gsfc.nasa.gov/images/imagerecords/144000/144898/BlackMarble_2016_3km.jpg
+world_population_density_2005_cc0.png — Wikimedia Commons, CC0,
+  https://commons.wikimedia.org/wiki/File:World_human_population_density_map.png
+largest_cities_2018.csv — UN DESA, World Urbanization Prospects 2018, "The World's Cities in 2018"
+  (top 30 urban agglomerations, 2018 population). Coordinates approximate city centres; `port`
+  flag is a judgement call (sea or navigable-river port = 1) — edit freely.

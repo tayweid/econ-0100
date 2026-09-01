@@ -1,0 +1,31 @@
+rank,city,country,pop_millions_2018,lat,lon,port,note
+1,Tokyo,Japan,37.4,35.69,139.69,1,Tokyo Bay
+2,Delhi,India,28.5,28.61,77.21,0,inland
+3,Shanghai,China,25.6,31.23,121.47,1,Yangtze mouth; busiest container port
+4,Sao Paulo,Brazil,21.7,-23.55,-46.63,0,inland (Santos is 60 km away)
+5,Mexico City,Mexico,21.6,19.43,-99.13,0,inland
+6,Cairo,Egypt,20.1,30.04,31.24,0,Nile; treated as inland
+7,Mumbai,India,20.0,19.08,72.88,1,Arabian Sea
+8,Beijing,China,19.6,39.90,116.40,0,inland
+9,Dhaka,Bangladesh,19.6,23.81,90.41,1,river port (Buriganga/Ganges delta)
+10,Osaka,Japan,19.3,34.69,135.50,1,Osaka Bay
+11,New York,United States,18.8,40.71,-74.01,1,Hudson estuary
+12,Karachi,Pakistan,15.4,24.86,67.01,1,Arabian Sea
+13,Buenos Aires,Argentina,15.0,-34.60,-58.38,1,Rio de la Plata
+14,Chongqing,China,14.8,29.56,106.55,1,Yangtze river port
+15,Istanbul,Turkey,14.8,41.01,28.98,1,Bosphorus
+16,Kolkata,India,14.7,22.57,88.36,1,Hooghly river port
+17,Manila,Philippines,13.5,14.60,120.98,1,Manila Bay
+18,Lagos,Nigeria,13.5,6.52,3.38,1,Gulf of Guinea
+19,Rio de Janeiro,Brazil,13.3,-22.91,-43.17,1,Guanabara Bay
+20,Tianjin,China,13.2,39.08,117.20,1,Bohai Sea
+21,Kinshasa,DR Congo,13.2,-4.32,15.31,1,Congo river port
+22,Guangzhou,China,12.6,23.13,113.26,1,Pearl River
+23,Los Angeles,United States,12.5,34.05,-118.24,1,Pacific
+24,Moscow,Russia,12.4,55.76,37.62,0,inland
+25,Shenzhen,China,11.9,22.54,114.06,1,Pearl River delta
+26,Lahore,Pakistan,11.7,31.55,74.34,0,inland
+27,Bangalore,India,11.4,12.97,77.59,0,inland
+28,Paris,France,10.9,48.86,2.35,0,inland
+29,Bogota,Colombia,10.6,4.71,-74.07,0,inland
+30,Jakarta,Indonesia,10.5,-6.21,106.85,1,Java Sea
