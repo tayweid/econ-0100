@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+
+require 'open3'
+require 'pathname'
+require 'set'
+
+ROOT = Pathname.new(__dir__).parent.expand_path
+DENYLISTS = %w[
+  private-assessment-blobs.txt
+  private-sensitive-blobs.txt
+].map { |name| ROOT.join('scripts', name) }.freeze
+
+def capture_nul(*command)
+  output, status = Open3.capture2(*command, chdir: ROOT.to_s)
+  abort "command failed: #{command.join(' ')}" unless status.success?
+  output.split("\0").reject(&:empty?)
+end
+
+mode = :staged
+base = nil
+
+if ARGV.empty?
+  paths = capture_nul('git', 'diff', '--cached', '--diff-filter=ACMRT', '--name-only', '-z')
+elsif ARGV.length == 2 && ARGV.first == '--range'
+  mode = :range
+  base = ARGV.fetch(1)
+  system('git', 'rev-parse', '--verify', "#{base}^{commit}", out: File::NULL, err: File::NULL, chdir: ROOT.to_s) ||
+    abort("unknown base commit: #{base}")
+  paths = capture_nul('git', 'diff', '--diff-filter=ACMRT', '--name-only', '-z', base, 'HEAD')
+else
+  abort 'usage: scripts/check-public-boundary [--range BASE_COMMIT]'
+end
+
+if paths.empty?
+  puts(mode == :staged ? 'public boundary: no staged additions or changes' : "public boundary: no additions or changes since #{base}")
+  exit 0
+end
+
+forbidden_path = lambda do |file_path|
+  normalized = file_path.tr('\\', '/')
+  downcase = normalized.downcase
+  base_name = File.basename(downcase)
+
+  downcase.match?(%r{(?:^|/)(?:[^/]*_)?miniexams?(?:/|$)}) ||
+    base_name.include?('miniexam') ||
+    downcase.start_with?('parts/z/') ||
+    downcase == 'parts/me_template.typ' ||
+    downcase.start_with?('24f/') ||
+    downcase.start_with?('grading/') ||
+    downcase.start_with?('interesting_assessments/') ||
+    downcase.start_with?('team/') ||
+    downcase.start_with?('lecture_archive/') ||
+    downcase.start_with?('blocks/') ||
+    downcase.start_with?('.claude/') ||
+    %w[_journal.typ _s27.typ].include?(downcase) ||
+    downcase == 'parts/_toadd.typ' ||
+    downcase.match?(%r{^parts/.*/media(?:_a4)?/}) ||
+    downcase.start_with?('syllabi/24f/') ||
+    downcase.start_with?('simulations/24f/') ||
+    downcase.match?(%r{^simulations/.*pre24f}) ||
+    downcase.end_with?('.gsheet') ||
+    base_name.match?(/\A(?:me)[_-]/) ||
+    base_name.match?(/_rubric(?:_email)?\.[^.]+\z/) ||
+    downcase == '.env' ||
+    (downcase.start_with?('.env.') && downcase != '.env.example') ||
+    %w[.pem .key].include?(File.extname(downcase)) ||
+    base_name.match?(/\A(?:roster|student[-_ ]?records?|grades?)[-_.]/)
+end
+
+denied_blobs = DENYLISTS.each_with_object(Set.new) do |denylist, hashes|
+  abort "missing boundary denylist: #{denylist.relative_path_from(ROOT)}" unless denylist.file?
+  denylist.each_line do |line|
+    hash = line.strip
+    hashes << hash unless hash.empty? || hash.start_with?('#')
+  end
+end
+
+indexed_files = if mode == :staged
+                  capture_nul('git', 'ls-files', '-s', '-z').to_h do |entry|
+                    metadata, file_path = entry.split("\t", 2)
+                    file_mode, blob = metadata.split
+                    [file_path, { mode: file_mode, blob: blob }]
+                  end
+                else
+                  capture_nul('git', 'ls-tree', '-r', '-z', 'HEAD').to_h do |entry|
+                    metadata, file_path = entry.split("\t", 2)
+                    file_mode, _type, blob = metadata.split
+                    [file_path, { mode: file_mode, blob: blob }]
+                  end
+                end
+
+errors = []
+paths.uniq.sort.each do |file_path|
+  errors << "private-only path: #{file_path}" if forbidden_path.call(file_path)
+  indexed = indexed_files[file_path]
+  errors << "path is absent from the #{mode == :staged ? 'index' : 'HEAD tree'}: #{file_path}" unless indexed
+  errors << "unsupported non-file mode #{indexed[:mode]}: #{file_path}" if indexed && !%w[100644 100755].include?(indexed[:mode])
+  errors << "exact copy of a private artifact: #{file_path}" if indexed && denied_blobs.include?(indexed[:blob])
+end
+
+if errors.any?
+  warn 'public boundary check failed:'
+  errors.each { |error| warn "  - #{error}" }
+  exit 1
+end
+
+label = mode == :staged ? 'staged additions/changes' : "additions/changes since #{base}"
+puts "public boundary: #{paths.uniq.length} #{label} passed"

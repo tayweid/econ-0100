@@ -2,3 +2,36 @@
 .ipynb_checkpoints/
 Icon
 .claude/
+
+# Private course-development material belongs in ../ECON_0100.
+/24F/
+/Grading/
+/Interesting_Assessments/
+/Team/
+/Lecture_Archive/
+/blocks/
+/_Journal.typ
+/_S27.typ
+/Parts/_ToAdd.typ
+/Parts/Z/
+/Parts/ME_template.typ
+/Parts/**/*MiniExam*
+/Parts/**/*_MiniExam/
+/Parts/**/MiniExam*/
+/syllabi/24F/
+/simulations/24F/
+/simulations/*pre24F*
+*.gsheet
+
+# Generated Manim/Jupyter/Python output is development-only.
+/Parts/**/media/
+/Parts/**/media_A4/
+__pycache__/
+*.py[cod]
+
+# Credentials and student records must never be committed here.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
