@@ -15,11 +15,19 @@ The `--check` command does not rewrite anything. It reports an error if the gene
 
 `part-a-yaml.html` through `part-f-yaml.html` are a parallel pilot set. Each keeps its current page frame but reads the visible content directly from `course-content.yml` in the browser. The existing `part-a.html` through `part-f.html` remain the standard pages and their corresponding fallbacks.
 
-To preview the pilot, serve the repository over HTTP and open `http://127.0.0.1:8765/part-a-yaml.html`:
+To preview the pilot, run `scripts/preview.command` -- double-click it in Finder or run it
+from a terminal. It serves the repository and opens Part A. Equivalently, by hand:
 
 ```sh
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
+
+Serve it; do not open the pages by double-clicking them. A page opened straight from the
+filesystem has an opaque origin, and browsers refuse every local read from one -- `fetch`,
+`XMLHttpRequest` and HEAD alike. Such a page can only fall back to what
+`scripts/build-course` last wrote into `course-content.js`, so it shows stale content until
+you rebuild. Served over HTTP nothing is refused, and neither a YAML edit nor a newly
+dropped PDF needs a build to appear.
 
 While the server is running, an edit to any part in `course-content.yml` appears after a browser refresh; there is no build step. The HTML shell only needs an edit when the page structure changes, such as adding or removing a block. Because browsers do not allow a local HTML file to fetch a neighboring YAML file safely, these pilots will not work by double-clicking them; use the local server or the deployed site.
 
