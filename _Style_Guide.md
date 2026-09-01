@@ -10,8 +10,8 @@ Authority chain: canonical values live in the **Graphite repo**
 palette checker) → `course.css`, served from
 `https://tayweid.github.io/course-assets/course.css` → this site's pages.
 The *animation* style guide (models, colors-in-context, motion, beats) is
-`ECON_0100/Parts/_Style_Guide.md` in the course repo — animators read that;
-this file covers only the website.
+`Parts/_Style_Guide.md` in this repository — animators read that; this file
+covers only the website.
 
 ## The one rule for this repo
 
