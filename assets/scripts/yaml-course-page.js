@@ -183,7 +183,7 @@
         return panel;
     }
 
-    // Conventional per-block files, mirroring block_file in scripts/build-course:
+    // Conventional per-block files, the same shape scripts/check-course expects:
     // Parts/<PART>/<folder>/<Type>/<Type>_<base>[_sols].pdf. The folder slug is the only
     // piece a browser cannot derive, so the YAML carries it; existence is settled by
     // asking for the file, the runtime equivalent of Ruby's File.exist?.
@@ -534,11 +534,6 @@
         if (message) {
             message.hidden = false;
             message.replaceChildren(document.createTextNode(`The course content could not be loaded. ${error.message}`));
-            if (page.dataset.courseFallback) {
-                const fallback = element('a', null, 'Open the standard page.');
-                fallback.href = page.dataset.courseFallback;
-                message.append(document.createTextNode(' '), fallback);
-            }
         }
         console.error(error);
     }

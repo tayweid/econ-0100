@@ -2,18 +2,18 @@
 // wrapper alone. This is a .js file rather than a .yml for one reason: a page opened by
 // double-clicking may load a neighbouring <script> and nothing else, so this is what lets
 // the site work straight from disk as well as when served. Two things are off limits
-// inside the YAML, a backtick and the pair ${ -- scripts/build-course refuses both.
+// inside the YAML, a backtick and the pair ${ -- scripts/check-course refuses both.
 window.COURSE_CONTENT_YAML = String.raw`
-# ECON 0100 course content. The part-*-yaml.html pages read this in the browser, so an
-# edit shows up on the next refresh with no build. scripts/build-course reads the same
-# text to validate it and to generate the standard part-*.html pages.
+# ECON 0100 course content. The part-*.html pages read this in the browser, so an edit
+# shows up on the next refresh with no build. scripts/check-course validates it and
+# confirms each page shell still matches its part; run it before committing.
 #
 # Each block renders as the episode (+ reading) on the left and the practice
 # path on the right: exercise in class, vignette in recitation, homework at
 # home. Titles, thumbnails, icons, navigation anchors, and conventional
 # filenames are generated automatically.
 #
-# Required per block:
+# Per block (folder is required once the block has a directory under Parts/):
 #   folder: A1_The_PPF     # the block's directory under Parts/<PART>/. It is the one
 #                          # thing a browser cannot work out for itself, and the runtime
 #                          # pages build conventional paths from it:
