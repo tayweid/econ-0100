@@ -17,9 +17,11 @@
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 
 #text(size: 20pt, weight: "bold")[Econ 0100 | Fall 2026] \
-#text(size: 15pt)[Taylor J. Weidman] \
-#text(size: 13pt)[Office Hours: 2:30 - 3:30 Wed/Thurs] \ 
-#text(size: 13pt)[4702 Posvar | taylorjweidman\@pitt.edu]
+#text(size: 13pt, weight: "bold")[Teaching Team] \
+#text(size: 13pt)[Taylor J. Weidman, PhD · 4702 Posvar · taylorjweidman\@pitt.edu] \
+#text(size: 13pt)[#h(1em) Office hours Wed & Thu 2:30–3:30] \
+#text(size: 13pt)[Zoe Bergschneider, Undergraduate TA · 4925 Posvar] \
+#text(size: 13pt)[#h(1em) Office hours Tue & Thu 11–12 and 2:30–3:30]
 
 == Course Description
 
@@ -35,14 +37,14 @@ Classes meet in David Lawrence 120 on most Mondays and Wednesdays at 12PM an 1PM
 
 Core course resources include:
 
-- *Teaching Assistants* are highly trained economists in the graduate department who are 1) your first person of contact with questions, and 2) facilitate weekly recitations. Do not hesitate to be in touch with your TA.
+- *Teaching Assistants* are highly trained economists in the graduate department who are 1) your first person of contact with questions, and 2) facilitate weekly recitations. Do not hesitate to be in touch with your TA. Office hours for the teaching team are at the top of this syllabus.
 - *Course Website* holds the class together, where you'll find:
   
   - *The Skillsheet* lists every assessed skill your grade is built from.
   - *Videos*~cover core content.
   - *Homework* for your practice.
   - *Demos*~as extra practice problem videos for the Checkpoints.
-  - *Office Hours* are a great resource. Come see me or your TA!
+  - *Office Hours* are a great resource. Come see any of us!
 - *Canvas*~records your passed skills and my announcements.
 - *Gradescope* will be the portal to collect and return assignments.
 

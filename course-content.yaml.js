@@ -44,6 +44,13 @@ course:
   title: Microeconomics
   brand: [MICRO, ECON]
   nav:
+    - label: Office Hours
+      lines:
+        - '*Taylor* · Posvar 4702'
+        - 'Wed & Thu 2:30–3:30'
+        - '*Zoe* · Posvar 4925'
+        - 'Tue & Thu 11–12'
+        - 'Tue & Thu 2:30–3:30'
     - label: Syllabus
       file: Syllabus/Syllabus.pdf
       button: true
