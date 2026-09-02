@@ -146,6 +146,8 @@ parts:
           description: No reading in this block
         vignette:
           description: Trade practice problems
+        homework:
+          file: A3
         dates:
           class: '2026-09-02'
           recitation: '2026-09-04'
