@@ -56,7 +56,8 @@ DWL_OPACITY = 0.5
 # Part A world
 MOLLY = BLUE
 ANDREW = RED
-GUILD = PURPLE
+CO_OP = PURPLE
+GUILD = CO_OP            # deprecated alias (guild -> co-op rename, 2026-09-02); pre-rename episode code still references it
 CARROTS = ORANGE
 SPINACH = GREEN
 TRADE = PINK             # exchange lines, post-trade bundles, gains-from-trade regions

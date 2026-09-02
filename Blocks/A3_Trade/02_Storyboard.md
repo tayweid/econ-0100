@@ -1,201 +1,240 @@
-# Episode A3 | *Specializing and trading can make both parties better off at the same time* — Storyboard (v1, 2026-09-01)
+# Episode A3 | *Specializing and trading can make both parties better off at the same time* — Storyboard (v5, 2026-09-02)
 
-Source: `01_Notes.md` (FINAL, 2026-09-01 editor session — history detour opens the episode
-after the recap, Pareto christened at the accept moment, Society's PPF parked at
-`Societys_PPF.md`, the episode ends on "Welcome!"). Code: `03_Code.py`, one scene `EpisodeA3`, one flat `construct()`,
-pause-anchored (`# Bxx` sections, unnamed `self.pause()`). The stage-1 verbatim merge of the old
-scenes is archived at `_archive/03_Code_stage1_merge.py`. Render: `maniml 03_Code.py EpisodeA3 --render`.
+> v5 (nit pass on the v4 render): the derivation pieces pin to the separator's math axis; the
+> Spinach caption sits right above the y-axis, off the plot; every offer/endowment point
+> carries dashed drop-lines and a LIVE (x, y) readout (commas on the baseline), including the
+> wandering white endowment dot; offer dots and the white benchmarks draw above the curves;
+> relabels drop onto the true baseline. ⚠ ANDREW'S COUNTER IS NOW 24 S FOR 4 C (RATE 6), not
+> rate 5: at rate 5 both offer points coincide at exactly (4, 20) — correct but it reads as a
+> bug on screen. The notes' line 25 ("$3.5$" → now "$5$ spinach") needs its one-word swap to
+> **6**. The closer reads *We've specialized, traded, and improved with no co-op!* and the
+> benchmarks get their own pause before the riders run.
+>
+> v4 (director's pass on the v3 render): the recap subtitle is *The PPF defines the terms of
+> the self-trade* — the Molly-will-accept criterion is saved for its own beat (B06b) right
+> before her proposal. The endowment exploration moves the QUIET white dot (it leaves its
+> self-trade spot, tries endowments, returns to the specialization point, fades into the glow);
+> both specialization points are larger 0.5-opacity GLOW dots, and Andrew's white autarky
+> marker is not shown in the offer beats (both markers return as benchmarks for the big trade).
+> Captions are baseline-aligned pieces with a smaller (Rate: …) parenthetical. After the
+> Pareto definition screen the scene returns at the specialization points and the caption is
+> relabelled `Pareto Improvement:`; the closing line is gold CMU — *We've specialized and
+> traded with no co-op!*. The window inequality builds piece by piece (1 C · for · 2 S from
+> Andrew's boxed entry · < · x S · < · 4 S from Molly's), and the exercise cards now match
+> Exercise_A3.md — Q2 | Trade and Q3 | Workable Rates (Changing Labor is parked). Reciprocals
+> line: *Opportunity costs are always reciprocals. A workable exchange rate always exists.*
+>
+> v3 (director's pass on the v2 render): offers are POINTS + bars only — the connecting
+> segment and all trade lines are gone (the point vs the PPF is the accept test). Andrew's red
+> specialization dot is kept visibly on top of the bars. The caption reads `Molly's proposal:
+> 6 S for 4 C (Rate: 1 C = 1.5 S)` — gold label, the rate filing in from the on-screen
+> derivation. The negotiation is ONE live tracker: the caption's decimals and both offer
+> points roll together (6 → 20 → 12 S). accepts/rejects sit directly UNDER each farmer's rate
+> line. Pareto improvement gets a full-frame definition screen (fade out, define, fade back).
+> "Still no preferences" is cut. The table screen opens with the gold question `How do we find
+> exchange rates that improve both sides?` and the inequality carries units — `1 C for
+> 2 S < x S < 4 S` — its bounds flying in from the boxed table entries. The end-of-episode
+> number nudge is cut (numbers never change without need).
+>
+> v2 (director's pass on the v1 render): the co-op recap OPENS the model work — after the
+> history card — with the specialization point riding outside the no-specialization line; the
+> section title from the self-trade recap on is **Trade**. The trade device is now built from
+> ONE concrete proposal at a time: the offer point GROWS out of the endowment with the
+> given-up/gained bars (A2's grammar), the exchange rate is set-equal-and-solved on screen
+> (`Derivation`) and kept standing top-right, and the negotiation is COUNTER-OFFERS — no
+> rate-tracker line sweeps. The dots-become-a-line build, the `Grow/Trade` choice pairs, the
+> endowment sweeps, and the ?-corner ride are all cut (the last two deferred to Part B). The
+> window inequality lives on the op-cost table, centre screen, and nudges there for the
+> nothing-special beat. The final screen is questions + gold `Welcome!` together (gloss and
+> `YES!` cut).
 
-The episode's stage is A2's closing stage, carried forward: the two same-scale panels (Molly
-left, Andrew right), farmer names under the axes grown into their self-trade rates, autarky
-markers at (3, 28) and (4, 8). The new device is the **trade line**: TRADE-pink, drawn through
-an endowment, pivoting on it (never anchored to the intercepts — the contrast the notes flag),
-its slope the exchange rate, driven by a rate tracker so offers, rejections, the window, and the
-corner sweeps are all one mechanism.
+Source: `01_Notes.md` (final; rates 1.5 / 5 / 3). Code: `03_Code.py`, one scene `EpisodeA3`,
+one flat `construct()`, pause-anchored, 25 stops. Stage-1 verbatim merge of the old scenes:
+`_archive/03_Code_stage1_merge.py`. Render: `maniml 03_Code.py EpisodeA3 --render`.
 
-**Numbers** (RESOLVED 2026-09-01 — the notes now carry the corrected set). Window: any rate
-strictly between the self-trade rates 2 and 4 benefits both. The demo/opening rate is **1.5**
-(the notes' one-unit example, and Molly's dream deal — Andrew's line falls inside his PPF, he
-rejects), Andrew's counter is **5** (Molly rejects), the middle is **3** (both accept; *Pareto
-improvement*). The concrete point-trade is give 6 S / get 4 C at 1.5: Molly (0,40)→(4,34)
-outside her PPF, Andrew (8,0)→(4,6) INSIDE his — the point beats answer both accept questions
-before the line exists. The worked ending trade is unchanged: at rate 3,
-3.5 C for 10.5 S; post-trade Molly (3.5, 29.5), Andrew (4.5, 10.5) — both better in both goods
-than autarky.
-
-**Old-element map** (everything serves a beat): bumper → B01; last_time → B02; the guild-recap
-scene → B03; the questions/gains scene → B18–B19; animation_4's trade-line intro → B06–B08; the
-animation_5 tracker machine (trade lines, rate sweeps, benefit beats) → B07–B12 and B16; the
-v1/v2 drafts and the vertical-number-line fragment are earlier versions of the same device —
-their beats all appear via the final machinery; animation_old was unused in the original.
+**Numbers.** Window (2, 4). Molly's opening proposal: 6 S for 4 C (rate 1.5, her dream deal) —
+her offer point (4, 34) outside her PPF, Andrew's (4, 6) INSIDE his. Andrew counters 4 C for
+20 S (rate 5) — his (4, 20) outside, hers (4, 20) inside. Molly counters 12 S for 4 C (rate 3)
+— both outside: *Pareto improvement*. Big trade: 3.5 C for 10.5 S at rate 3 → (3.5, 29.5) and
+(4.5, 10.5), both better in both goods. Nothing-special nudge on the table: costs 5 / 1/5 and
+2.5 / 2/5, window (2.5, 5).
 
 ## Beats
 
 ### B01 / B01b / B01c | (cold open)
-- Bumper: raster MICROECONOMICS fades in; flicker; `Part A | Episode 3`.
-- Thesis line: *Specializing and trading can make both parties better off at the same time.*
-- Pause lands at B01c, as in A1/A2.
+- Bumper: raster MICROECONOMICS; flicker; `Part A | Episode 3`; thesis line. Pause at B01c.
 
 ### B02 | (silent)
 - `Last Time...` card.
 
-### B03 | "Last time we introduced the idea of a co-op… without needing to work more or to develop better technology."
-- A2's closing stage rebuilds: both panels, PPFs, autarky markers, under-axis rate lines
-  (`Molly: 1 C = 4 S`, `Andrew: 1 C = 2 S`).
+### B03 | "…if not feudalism… or mercantilism… then what?"
+- Full-frame gold question: `If not feudalism, then what?` (mostly cam).
 
-### B03b | "The choices themselves ARE the technology."
-- The line writes in the centred subtitle slot, DEFINITION gold — the recap's keeper.
+### B03b | "One of the first rigorous answers… David Ricardo, writing in 1817."
+- Attribution joins: `— David Ricardo, 1817`.
 
-### B04 | "…the origin of the study of economics… began as a question… if not feudalism… or mercantilism… then what?"
-- FadeAll; the question writes full-frame, gold: `If not feudalism, then what?`
-- Mostly cam; the card holds under the history paragraph.
+### B04 | "Last time we introduced the idea of a co-op…"
+- The co-op graph rebuilds (A2's stage): Molly/Andrew/Co-op PPFs, dots at the equal split.
+- Gold line, top: `The choices themselves ARE the technology.`
 
-### B04b | "One of the first rigorous answers came from the model we started last time, David Ricardo, writing in 1817."
-- Attribution joins, quote-style: `— David Ricardo, 1817` (CAPTION, offset right).
+### B04b | (specialization recap)
+- The dots ride to the corners; the co-op dot lands at (8, 40), OUTSIDE the line; FOCUS wiggle.
 
-### B05 | "We talked about self-trades along the PPF and left by asking what exchange rates each farmer would accept…"
-- FadeAll; the two-panel stage returns; the FOCUS self-trade arrows re-draw on both panels.
-- Gold line, top: *Molly will accept any trade that's a better deal than her self-trade.* (A2's hook, answered this episode).
+### B05 | "We talked about self-trades along the PPF…"
+- FadeAll; title **Trade**; the two-panel stage (PPFs, under-axis rates, autarky markers).
+- The FOCUS self-trade arrows re-draw; gold subtitle: *Molly will accept any trade that's a
+  better deal than her self-trade.*
 
-### B06 | "Let's pick some initial endowment… If Molly grows only spinach, her initial endowment is all spinach, (0, 40)."
-- Title *The Trade Line*; Molly's panel front and centre (Andrew's steps off, as A2's B16).
-- Definition line, bottom strip: `Initial Endowment` *is how much of both goods Molly has.*
-- FOCUS ring lands on the endowment dot at (0, 40).
+### B06 | "Let's pick some initial endowment…"
+- Andrew's panel steps off; definition line in the subtitle slot.
+- Molly's endowment dot tries a few spots along her PPF — (0,40) → (5,20) → (2,32) → settles
+  all-spinach (0, 40).
 
-### B06b | (director 2026-09-01: one specific trade first, as a point — no line yet)
-- Gold question, subtitle slot: `Would Molly accept this trade?`
-- The trade: give 6 S, get 4 C. TRADE dot at (4, 34) with dashed drops; A2-style bars on the
-  axes — carrots gained (0→4, CARROTS), spinach given up (34→40, SPINACH).
-- The point sits visibly OUTSIDE her PPF — the accept criterion, planted before the line exists.
+### B06b | "Molly proposes: 6 S for 4 C" (director: one concrete trade, grown on screen)
+- Caption: `Molly proposes: 6 S for 4 C`.
+- The offer point GROWS out of the endowment to (4, 34) — the TRADE segment extending and the
+  bars growing with it (carrots gained on x, spinach given up on y): giving up one for the other.
 
-### B06c | (the exchange rate, derived on screen the op-cost way)
-- `Derivation` (A2's numerals-only machinery) on the right: `4 C = 6 S` → divide by 4 → `1 C = 1.5 S`.
+### B06c | (the exchange rate, set equal and solved)
+- `Derivation` right of the panel: `4 C = 6 S` → divide by 4 → `1 C = 1.5 S`; it condenses to a
+  standing line, top-right: `Exchange Rate: 1 C = 1.5 S` (updates with every offer).
+- The full trade line extends through the offer point — outside her PPF: `accepts` joins her
+  under-axis rate line.
 
-### B06d | (the same trade, from Andrew's side)
-- Andrew's panel returns (it stays for the rest of the episode); gold question: `Would Andrew accept the same trade?`
-- TRADE dot at (4, 6) — he gives 4 C (bar 4→8), gains 6 S (bar 0→6); INSIDE his PPF — he won't accept.
+### B06d | "…it is not terms that Andrew will accept."
+- Molly's panel fades; the proposal caption STAYS. Andrew's panel returns; his endowment is the
+  red specialization point (8, 0); his white autarky marker stays throughout.
+- His offer point grows in to (4, 6) with his bars — landing INSIDE his PPF: `rejects`.
 
-### B06e | "If she kept trading at this rate, we can see all her possible endowments after trade." ***Show in one-unit increments.***
-- Points and bars clear; the standing rate takes the subtitle slot: `Exchange Rate: 1 C = 1.5 S`.
-- TRADE dots step in one per unit: (1, 38.5), (2, 37), (3, 35.5), (4, 34), (5, 32.5), (6, 31);
-  caption at the first step: `+1 C, −1.5 S`.
+### B07 | "Andrew could counter offer… very nice for him."
+- Molly's panel returns. Caption: `Andrew counters: 4 C for 20 S`; standing rate → `1 C = 5 S`.
+- Both offer points and trade lines PIVOT on the endowments: his (4, 20) outside → `accepts`;
+  hers (4, 20) inside → `rejects`.
 
-### B06f | "We can represent these points with a line. Just like with the PPF, the slope of the line represents the exchange rate."
-- The trade line Creates through the dots (TRADE); dots fade into it.
-- Caption near the line: `slope = exchange rate`.
+### B08 | "Molly counter offers… somewhere in the middle."
+- Caption: `Molly counters: 12 S for 4 C`; standing rate → `1 C = 3 S`; pivots again: (4, 28)
+  and (4, 12), both OUTSIDE → both `accepts`.
 
-### B07 | ***Show: the trade line doesn't anchor to the axis intercepts — it pivots on the initial endowment. Draw that contrast deliberately.***
-- FOCUS pulses on the PPF's two intercepts (its anchors), then a FOCUS ring on the endowment dot.
-- The rate tracker wiggles (2.5 → 3.2 → 1.8 → 2.5): the line visibly pivots on the endowment
-  while the PPF stands still.
+### B08b | "Trading like this is what we call a Pareto improvement."
+- Definition line takes the caption slot: `Pareto improvement`: a trade that makes both parties
+  better off.
 
-### B08 | "If the trade line lives outside Molly's PPF… she will accept. If it is on the inside… she will reject."
-- Rate sweeps to 4.5: line falls inside her PPF → `rejects` (NASH) joins her under-axis line.
-- B08b: back out to 1.5 → `accepts` (EFFICIENT).
+### B09 | "If they trade 3.5 carrots for 10.5 spinach…"
+- Offer artifacts clear; TRADE riders run the big trade: (0,40)→(3.5, 29.5), (8,0)→(4.5, 10.5);
+  FOCUS wiggles beside the autarky markers — better in BOTH goods.
+- Caption: *No co-op required — we've simply specialized and traded.*
 
-### B09 | "For a trade to work, both sides must be willing… While this example is very nice for Molly, it is not terms that Andrew will accept."
-- Andrew's trade line joins on his panel (present since B06d), through his endowment (8, 0).
-- The rate already sits at 1.5 (Molly's dream deal): his line draws inside his PPF → `rejects`.
+### B09b | "…we STILL haven't imposed preferences."
+- Caption: *Still no preferences — just the frontier.*
 
-### B09b | "Andrew could counter offer with terms that are very nice for him…"
-- Rate sweeps to **5**: Andrew `accepts`, Molly `rejects`.
+### B10 | "…so long as the exchange rate lives between the two farmers' terms of self-trade…"
+- FadeAll; title **Trade**; the op-cost table, centre screen (numerals INK, letters colored).
 
-### B09c | "Molly counter offers with a trade that lives somewhere in the middle… Trading like this is what we call a Pareto improvement."
-- Rate settles at **3**: both `accept` (both EFFICIENT).
-- Definition line, bottom strip: `Pareto improvement` — a trade that makes both parties better off. [term gold; wording from the notes when final]
+### B10b | (the window)
+- FOCUS boxes on the two carrots-column costs (the bounds); the inequality writes below:
+  `2 < exchange rate < 4` (gold).
 
-### B10 | "What I've shown here is a small trade… If they trade 3.5 carrots for 10.5 spinach, both farmers have more of both crops…"
-- The endowment dots ride their trade lines: Molly (0,40) → (3.5, 29.5); Andrew (8,0) → (4.5, 10.5).
-- The autarky markers ghost beside them; EFFICIENT wiggle on both riders — better in BOTH goods.
-- Caption: *no co-op required — we've simply specialized and traded.*
+### B11 | ***Cut to Exercise A3 | Q1.***
 
-### B10b | "And it's important to note here that we STILL haven't imposed preferences."
-- Caption line, bottom strip: *Still no preferences — just the frontier.*
+### B12 | "…opportunity costs are reciprocals."
+- Caption over the table: *Opportunity costs are reciprocals — a workable exchange rate always
+  exists.*
 
-### B11 | "You can see that so long as the exchange rate lives between the two farmers' terms of self-trade, they can be made better off…"
-- The two under-axis rate lines FOCUS-box (the bounds); a live rate readout joins: `r = 3`.
-- Rate sweeps 3 → 4 (Molly's accept flips exactly at 4) → 3 → 2 (Andrew's flips) → 3.
-- The window lands as a gold line: `2 < rate < 4`.
+### B13 | ***Cut to Exercise A3 | Q2.***
 
-### B12 | "Growing a carrot herself costs Molly 4 spinach but buying one costs 3… Both farmers go all the way to their corners."
-- Choice pairs, A0's green/red boxes: Molly `Grow(1 C) = 4 S` (NASH) vs `Trade(1 C) = 3 S` (EFFICIENT); Andrew mirrored (`1/2 C` vs `1/3 C`).
+### B14 | "No matter what the original production levels were…"
+- The table's costs nudge (5 / 1/5, 2.5 / 2/5) and the window moves with them:
+  `2.5 < exchange rate < 5` — nothing special about the numbers.
 
-### B12b / B12c | ***Show: slide Molly's endowment along her PPF toward all-spinach — the trade line pivots with it and sweeps outward, reaching furthest at the corner. Then the same on Andrew's side.***
-- Molly's endowment tracker slides (3, 28) → (0, 40), the trade line translating with it — furthest reach at the corner. Pause.
-- Andrew's slides (4, 8) → (8, 0), same sweep. Pause.
+### B15 / B15b / B15c | "This leaves us two questions… Welcome! We have a lot to do."
+- Title *Two Questions*; `1. Where on the PPF should we live?`; `2. Who benefits? How do we
+  decide what exchange rate to set?` (white serif, numbered).
+- `Welcome! We have a lot to do.` writes in GOLD under the questions, same screen — Part A's
+  last word. Runs to black.
 
-### B13 | ***Cut to Exercise A3 | Q1.***
-- Exercise card (sans body): specialize and trade — 1 R for ___ F.
+## Director notes 6 (2026-09-02, editor session — riders on Taylor's final four)
 
-### B14 | "…each farmer will always have a comparative advantage in one of the goods… opportunity costs are reciprocals."
-- Caption line: *Opportunity costs are reciprocals — an exchange rate that works always exists.*
+1. **Note #1 (derivation → caption)**: the proposal caption never transforms — it stands whole,
+   and the derivation's result CREATES beside it as the `(Rate: 1 C = 1.5 S)` parenthetical:
+   the math produces the rate and nothing else. With the always-on dashed drops and (x, y)
+   labels: bind EVERYTHING to the one tracker — dots, drops, coordinate labels, caption
+   decimals — Molly's label rides (4, 40−x), Andrew's (4, x). One tracker, one source of truth;
+   nothing can drift out of sync during the rolls.
+2. **Note #2 (Molly's-counter wonk) — a suspect**: B08's caption takes two changes in quick
+   succession (label swap to `Molly counters:`, then the post-definition relabel to
+   `Pareto Improvement:`). If both are staged as whole-line transforms, that's exactly the
+   note-#3 violation — check that each step transforms ONLY the changing piece.
+3. **Note #3's rule is a keeper beyond this episode**: *transform only the text that changes* —
+   candidate for the style guide's transitions section after the crunch.
+4. **Note #4**: the new pause after the autarky ghosts land makes the stop count 26 — re-anchor.
+   Closing caption text to confirm: `We've specialized, traded and improved with no co-op!`
+   (serial comma optional — Taylor's call, he uses both).
 
-### B15 | ***Cut to Exercise A3 | Q2.***
-- Exercise card: McGonagall doubles her hours — old and new PPF, new opportunity cost, effect on the trade.
+## Director notes 5 (2026-09-02, editor session — riders on Taylor's seven v3-render notes)
 
-### B16 | "This isn't some mathematical sleight of hand. No matter what the original production levels were…"
-- Both PPFs nudge (Molly's intercept 40 → 44, Andrew's 16 → 20) with the rate-3 trade lines held: both still `accept` — nothing special about the numbers.
+1. **Note #1 (B05 subtitle)**: new line for the text list — `The PPF defines the terms of the
+   self-trade.` The script's "Molly will accept any trade that's a better deal than her
+   self-trade" stays as VO; its on-screen moment moves later (it's B06b's accept question now).
+2. **Note #2 semantics, to confirm**: the BLUE specialization dot (0, 40) never moves; the
+   WHITE dot starts where it has been standing (the autarky marker (3, 28)), tours a few
+   endowments along the PPF, returns to the specialization corner, and fades INTO the blue glow
+   — endowments are choices, and we've chosen all-spinach. If "the initial self trade" meant a
+   different start point, correct this.
+3. **Note #4 coupling — DECIDED (Taylor, 2026-09-02)**: the two autarky ghosts fade IN at B09
+   with the "goal is to do better than the highlighted points in autarky" VO line, take the
+   better-in-BOTH-goods wiggle comparison beside the trade riders, then fade out. They exist
+   only for this beat; everywhere else the panels carry just the glowing specialization points.
+4. **Note #5**: suggest the caption read `We've specialized and traded with no co-op!` —
+   hyphenated co-op, matching the course-wide rename.
+5. **Note #6 final caption text**: `Opportunity costs are always reciprocals. A workable
+   exchange rate always exists.` — two sentences, full stop, no dash.
+6. **Note #7 — the exercise cards are two revisions stale.** The current Exercise_A3 is:
+   Q1 | Specialization, Q2 | Trade, Q3 | Workable Rates (Q4 is the follow-up, gradescope-only —
+   no card). Changing Labor is DROPPED (parked at Practice_Bank/Parked_Q_Changing_Labor.md), so
+   the second cut beat dies. The notes put all three questions at ONE stop, after the
+   shift-toward-specialties paragraph. Staging suggestion: three sequential cards with pauses
+   (B11 / B11b / B11c), one question each — matching how the class actually runs (work Q1, work
+   Q2 and collect answers on the board, then Q3 names the window the board is already showing).
+   Card texts verbatim from Exercise_A3.md.
 
-### B17 | "We've done something extraordinary here…" (cam)
-- No code; the two-panel stage holds.
+## Director notes 4 (2026-09-01, editor session — riders on Taylor's nine v2-render notes)
 
-### B18 | ***Show: the specialization corner rides along the PPF with a "?" — hold it as the two questions land.***
-- A FOCUS `?` dot rides Molly's PPF away from the corner and back.
-
-### B18b / B18c | "This leaves us two questions…"
-- Title *Two Questions*; numbered, white CMU serif (the A2 pattern):
-  `1. Where on the PPF should we live?`
-  `2. Who benefits? How do we decide what exchange rate to set?`
-
-### B18d | "Notice every rate in the window splits the gains differently. Close to 2 is Molly's dream deal. Close to 4 is Andrew's."
-- The gloss joins under the questions, narrator sans, CAPTION: `Close to 2 is Molly's dream deal. Close to 4 is Andrew's.`
-
-### B19 | "Is there some coordination device that would make this possible? The answer here again is YES!"
-- `YES!` in FOCUS, A2's scale.
-
-### B20 | "Interaction between decision-makers like this is central to what we do in microeconomics. Welcome! We have a lot to do."
-- `Welcome! We have a lot to do.` writes, INK, full-frame — Part A's last word.
-- No next-time card: the notes end here; runs to black.
+1. **Note #1's full sweep**: the leftover line artifacts live in three places, not one — B06b's
+   TRADE segment, B06c's "full trade line extends through the offer point," and B07's "trade
+   lines PIVOT." All three go; accept/reject reads off the POINT against the PPF everywhere.
+   (This completes the line-out-of-A3 decision — nothing line-shaped remains.)
+2. **Notes #3 + #4 interplay**: with the number tracker, the caption can't flip give-order per
+   proposer — keep one canonical caption `x S for 4 C` with x rolling 6 → 20 → 12, and let the
+   SPEAKER LABEL carry who's proposing. Two label wordings are now in play ("Molly proposes:"
+   v2 / "Molly's proposal:" this round) — pick one and hold it.
+3. **Note #4 bonus check**: with C fixed at 4, the rolling x moves both offer points PURELY
+   VERTICALLY — Molly's slides (4, 40−x), Andrew's (4, x) — so the tracker morph is a clean
+   two-dot elevator, no diagonal drift. (The fixed-4C design pays for itself here.)
+4. **Note #8 staging**: the two boxed table entries travel INTO the inequality — Andrew's `2 S`
+   cell to the left bound, Molly's `4 S` cell to the right, the unknown `x S` (TRADE) between:
+   `for 1 C:  2 S < x S < 4 S`. New subtitle question for the text-review list: `How do we find
+   exchange rates that improve both sides?`
+5. **Note #9**: B14 goes static — no nudge, no number changes; the nothing-special sentence
+   runs as VO over the standing table (a FOCUS pulse at most).
+6. **Note #2**: Andrew's red specialization dot (8, 0) is staged at B06d but evidently not
+   rendering — surface it from the moment his panel returns, white autarky marker (4, 8) alongside.
+7. **Note #7 script coupling**: the "STILL haven't imposed preferences" sentence in the notes is
+   now redundant with the closing question's own gloss ("Nothing we've done so far has said
+   anything about preferences") — struck in the notes as an optional cut, Taylor's call.
 
 ## On-screen text for review (animator-written)
-- `The Trade Line`, `Two Questions` (section titles); `Would Molly accept this trade?` /
-  `Would Andrew accept the same trade?`; `Exchange Rate: 1 C = 2.5 S`; `slope = exchange rate`, `+1 C, −2.5 S`,
-  `r = 3`, `2 < rate < 4`, `accepts` / `rejects`; the B10/B10b/B14 caption lines (distilled from
-  the notes' sentences); `If not feudalism, then what?` (his words).
+- `Trade`, `Two Questions` (titles); `Molly proposes: 6 S for 4 C`, `Andrew counters: 4 C for
+  20 S`, `Molly counters: 12 S for 4 C`; `Exchange Rate: 1 C = …` (standing, top-right);
+  `accepts` / `rejects`; `2 < exchange rate < 4` and its nudged form; the B09/B09b/B12 caption
+  lines; `If not feudalism, then what?`.
 
-## Director notes (2026-09-01, editor session — responding to Taylor's render notes; additive, beats above untouched)
+## Deferred (director, 2026-09-01)
+- The endowment sweep along the PPF (trade line pivoting to the corner) and the ?-corner ride —
+  both saved for Part B (B0 opens on exactly that question).
+- The one-unit-increments / dots-become-a-line build — cut in favour of the grown offer point.
 
-1. **Rate swap RESOLVED**: the notes now read 1.5 / 5 / 3 (¶ fills swapped; endowment walk lands
-   at (1, 38.5)). One consequence: the one-unit demo (B06b) should run at **1.5 too, not 2.5** —
-   the script's "This example so far has been very nice for Molly… not terms Andrew will accept"
-   refers to the demo's own rate, so the demo and B09 must share it. New dots: (1, 38.5),
-   (2, 37), (3, 35.5), (4, 34), (5, 32.5), (6, 31); caption `+1 C, −1.5 S`; B08's accept-return
-   goes to 1.5.
-
-2. **Taylor's render note — one specific trade first, as a point, no line.** Proposed restage of
-   the trade-line intro, numbers worked out (all consistent with the staged 1.5/5/3 set):
-   - *The offer*: one specific trade, big enough to see — **3 C for 4.5 S**. A TRADE dot lands at
-     (3, 35.5) from Molly's endowment (0, 40), with A2-style dashed guides to both axes:
-     `+3 C`, `−4.5 S`. No line yet.
-   - *Would she accept?* Compare to her self-trade: growing 3 C herself costs 12 S (ghost the
-     move along her PPF); this trade costs 4.5 S. Accept.
-   - *Rate derivation* (Taylor's second render note): `4.5 S = 3 C` → divide through by 3 — A1's
-     op-cost move in the A2 Derivation pattern, numerals transform, letters pinned — landing
-     `1.5 S = 1 C`, christened `exchange rate`.
-   - *Same trade, Andrew's panel*: (8, 0) → (5, 4.5), guides `−3 C`, `+4.5 S`. His self-trade for
-     those 3 C would yield 6 S > 4.5 → reject. Both-sides logic lands on POINTS before any line
-     exists.
-   - *Then* the existing line beats (B06c/B07/B08) reframed as "every trade at this rate at
-     once": one-unit dots trace, line through them, pivot contrast, accept/reject geometry.
-   - *Counter and middle as exact trades, derived on screen*: `15 S = 3 C → 5 S = 1 C`;
-     `9 S = 3 C → 3 S = 1 C`. The ending trade then derives `10.5 S = 3.5 C → 3 S = 1 C` — the
-     SAME rate as the small middle deal. Two different-sized trades, one rate: that invariance is
-     the reason we simplify to a rate at all, and it is the B1 bridge (a price is a rate).
-   - **Script coupling**: this restage puts Andrew's point-check before the trade line; the
-     notes currently introduce the line first (¶15–23). If Taylor adopts it, the notes need a
-     reorder pass (editor side, after Wednesday). The current beat order stays teachable as-is
-     meanwhile — the point beats can live inside B06b before B06c without contradicting the VO.
-
-## Open questions
-- The B16 robustness nudge is staged minimally (one intercept nudge per farmer); could grow into
-  a proper tracker sweep if it earns it.
+## Old-element map
+Bumper → B01; last_time → B02; guild-recap scene → B04; questions scene → B15; animation_4's
+trade intro → B06–B06d; the animation_5 tracker machine → the offer pivots (B07–B08) and the
+standing rate; drafts v1/v2, the vertical number lines, and animation_old were earlier versions
+of the same device (stage-1 archive holds them verbatim).

@@ -139,7 +139,7 @@ but note `BLUE`'s *value* is a deep teal.
 | `ORANGE` | `#E2803A` | `SUPPLY` (also MPC, MSC, MC); PS fill | `CARROTS` | — | — |
 | `GREEN` | `#34B57A` | `GOV` (tax revenue / subsidy cost / "expenditure") | `SPINACH` | `EFFICIENT` cell box | `GOOD_B` (y-axis) |
 | `RED` | `#C63944` | `GUIDE`: dashed P\*/Q\* lines, equilibrium dot, readouts. One accent, always red. | `ANDREW` | `NASH` cell box | `INCOME`, `BUDGET` |
-| `PURPLE` | `#A99CF2` | `TOTAL` (total surplus as one region) | `GUILD` <!-- ED 2026-08-30: "guild" renamed "co-op" in the F26 prose (A2/A3 notes, schedule); rename this token and the code's guild identifiers with the A2 animation rebuild. Same rebuild note: the Part A "numbers of record" below (PPF_Molly/Andrew/Guild) are still the OLD numbers and orientation — new set is Molly 10C/40S, Andrew 8C/16S, carrots horizontal. --> | — | — |
+| `PURPLE` | `#A99CF2` | `TOTAL` (total surplus as one region) | `CO_OP` (renamed from `GUILD` 2026-09-02 with the prose; `GUILD` stays in `style.py` as a deprecated alias until pre-rename episode code migrates) | — | — |
 | `PINK` | `#C95AC0` | `EXT` (the externality wedge) | `TRADE` (exchange lines, post-trade bundles, gains regions) | `ROW_PLAYER` (you / Player 1) | — |
 
 Why demand is teal and not blue-blue: azure is reserved for the voice, and the
@@ -248,7 +248,7 @@ matching metrics.
 
 | Model | Fixed by convention |
 |---|---|
-| PPF | straight lines until a bowed PPF is deliberately introduced; character colors; `Video.py` functions (`PPF_Molly = 5 − s/9`, `PPF_Andrew = 4 − s/4.5`, `PPF_Guild = 9 − s/7`) are the numbers of record |
+| PPF | straight lines until a bowed PPF is deliberately introduced; character colors; `Video.py` functions on the canonical set (`PPF_Molly(c) = 40 − 4c`, `PPF_Andrew(c) = 16 − 2c`, `PPF_Coop(c) = 56 − 28c/9`; carrots horizontal, each PPF plots as S(C)) are the numbers of record — updated 2026-09-02 from the pre-flip spinach-first trio |
 | S&D (spinach) | `S: P = 2Q/5`, `D: P = 8 − Q/5`, `Q* = 40/3`, `P* = 16/3`; Q in thousands of lb/month |
 | S&D (generic, C) | `D: P = 10 − Q/10`, `S: P = 2 + Q/10`, eq (40, 6), axes 0–100 × 0–10 |
 | Tax | wedge is a vertical segment parked **left of the axes**, slid in from the left until it "gets stuck between the curves"; `p_B` label above-left, `p_S` below-left; incidence stacked off-axis, buyer share `DEMAND`, seller share `SUPPLY` |
@@ -263,6 +263,10 @@ matching metrics.
 - **One continuous motion = one `play`.** Drive it with a `ValueTracker`; never loop short plays (each eases in/out → stutter).
 - **Eased by default.** Sweeps, data draws and item moves use `rate_func=smooth` (ease in and out); `linear` only when a constant rate is itself the message.
 - **No `Create` for boxes.** Choice boxes fade in — green first, then red — and *move* to swap. `Create` is for curves and lines.
+- **Transform only the text that changes.** A caption or line whose label, number, or one clause updates transforms exactly that piece; the rest stands. Whole-line transforms are both the flicker and, in practice, the bug (A3's counter-wonk was this). Settled 2026-09-02.
+- **Numbers are stable; when they change, they roll.** An on-screen number never changes without a pedagogical reason, and when it must, it moves as a visible tracker roll (decimals rolling, points riding) — never a swap or teleport. Changing numbers cost trust; rolling numbers *are* the content. Settled 2026-09-02 (A3's one-tracker negotiation).
+- **One tracker, one source of truth.** Every representation of the same quantity — dot, dashed drops, coordinate label, caption decimals — binds to a single `ValueTracker`. Nothing can drift out of sync mid-roll; wonk becomes structurally impossible instead of hand-fixed.
+- **A derivation produces exactly one new object.** The `Derivation` machinery transforms numerals with letters pinned (§9), and its *output* `Create`s beside the standing text — nothing already on screen transforms. The math makes the rate and nothing else (A3's proposal → rate beat).
 - Default `run_time`: reveal 1, build 2–3, sweep 4–8. Bare `self.wait()` only as a VO beat; longer holds are explicit.
 - Vocabulary → animation:
   | storyboard verb | manim |
@@ -293,7 +297,8 @@ matching metrics.
 | Section title | `This class is about behavior.` pattern: a page title (§3), persists across the beats it governs |
 | Last time… | `Tex('Last Time...').scale(3)`, 0.5 s in/out, then a 2–3 item recap in `notes` mode |
 | Next time… | `title('Next time...')` + one line + framebox reveal |
-| Definition card | §3 |
+| Definition card | §3; a concept christened mid-scene may instead take a **full-frame definition screen** — fade the scene out, write the definition (term in `DEFINITION` gold), fade the scene back to exactly where it stood (A3's *Pareto improvement*) |
+| Tracked point | a dot driven by a tracker carries **always-on dashed drops to both axes and a live `(x, y)` label**, all bound to the same tracker (A3's offer points) |
 | Principle line | §3 |
 | Six-parts card | six rows, each built in three fades: `Part X.` in `CAPTION` → part name in `DEFINITION` gold → subtitle in `INK`; labels are the `_Parts.md` headings; rows scale to fit the frame width |
 | Choice boxes (`choice_boxes`) | `EFFICIENT` green = chosen, `NASH` red = given up; **same size** for both; fade in green then red; swapping a choice moves the boxes |
@@ -338,6 +343,12 @@ Settled 2026-08-25/26 (the Graphite pass — see the design document for evidenc
 - **The Narrator rule (supersedes same-week "board speaks CM, always")**: the frame has three speakers — title = the course (CMU Serif, azure), prose under the title = the narrator (CMU Sans via `\textsf`), material = the book (CMU Serif: math, model labels, definition/principle cards). Carve-out: an under-title line that is or becomes math stays serif. One switch, `NARRATOR_SANS` in `style.py`; adopted with the render test outstanding (§3 has the fallback ladder). Any stage sans is CMU Sans, never Source Sans.
 - **Tick numerals never take good colors; axis captions do.**
 - **One system, three surfaces**: the same tokens back `style.py` and `course.css`; thumbnails are stage frames with the raster mark; the raster mark is the channel identity.
+
+Settled 2026-09-02 (the A3 render passes):
+
+- **The screen carries only what the current beat needs.** Benchmarks and reference marks (autarky ghosts, standing rates) enter for the beat that uses them and leave after; a mark with no job in the current beat is clutter. The A3 autarky markers exist for one beat — the better-in-both-goods comparison — and nowhere else.
+- **Abstractions are earned: one concrete instance first.** Every device arrives as a specific instance with real numbers (one trade, one proposal, one point) before any general object; the general object appears only when a beat *needs* it, and defers to a later episode if none does. A3's trade line was cut on exactly this test — the re-entry principle ("the exchange rate maps out a line") is parked in its notes for Part B, where the price line earns it. This is the phenomenon-first christening pattern (PPF, comparative advantage, Pareto improvement) stated as a staging rule.
+- The four transition rules of §6 (transform only what changes; numbers roll; one tracker; derivations output one object) date from the same passes.
 
 Deferred (not needed until Part B/C):
 
