@@ -82,7 +82,7 @@ parts:
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
         episode:
           video: qMDU1QYKYss
-          links: [{label: Animations, file: Blocks/A0_Welcome/media/Episode0_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Blocks/A0_Welcome/media/EpisodeA0_present/, icon: fa fa-desktop}]
           description: Economics is not *about* money.
         reading:
           chapter: 1
@@ -140,7 +140,8 @@ parts:
         description: Trade based on comparative advantage makes both parties better off simultaneously.
         episode:
           video: v_s4dO1AD5Y
-          description: Trade
+          links: [{label: Animations, file: Blocks/A3_Trade/media/EpisodeA3_present/, icon: fa fa-desktop}]
+          description: Trade can make both parities better off.
         reading:
           name: Reading A3
           description: No reading in this block
