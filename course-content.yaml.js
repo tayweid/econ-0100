@@ -126,6 +126,8 @@ parts:
         exercise:
         vignette:
           description: Specialization practice problems
+        homework:
+          file: A2
         dates:
           class: '2026-08-31'
           recitation: '2026-09-04'
