@@ -50,7 +50,7 @@ Not every exchange rate works for both bakers. What is the range of exchange rat
 ( ) Between $$2/3$$ and $$2$$ fruitcakes per rock cake
 (x) Between $$1/2$$ and $$3/2$$ fruitcakes per rock cake
 ( ) Between $$5$$ and $$30$$ fruitcakes per rock cake
-( ) Any rate — trade always makes both better off
+( ) Any rate: trade always makes both better off
 ```
 
 ---
@@ -62,12 +62,12 @@ Graded for completion: any selection earns the point — mark every option corre
 **Gradescope-only** (per 2026-09-01): intentionally absent from Exercise_A3.md and the printed PDF — the print sheet ends at Q3. Don't "fix" the mismatch when regenerating.
 
 ```
-Which concept (if any) from this block would you want explained in more detail in lecture or recitation?
+Which concepts (if any) from this block would you want explained in more detail in lecture or recitation?
 
-( ) Pareto improvement
-( ) Initial endowment
-( ) The trade line
-( ) Workable exchange rates
-( ) Specialization
-( ) Nothing — all clear
+[ ] Pareto improvement
+[ ] Initial endowment
+[ ] The trade line
+[ ] Workable exchange rates
+[ ] Specialization
+[ ] Nothing: all clear
 ```
