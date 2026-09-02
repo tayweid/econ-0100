@@ -69,7 +69,7 @@ def rate_tex(name, s_num):
 
 def autarky_marker(ax_, c, s):
     p = ax_.c2p(c, s)
-    dot = Dot(p, color=INK, z_index=14)
+    dot = Dot(p, color=INK, z_index=15)
     v = DashedLine(ax_.c2p(c, 0), p, color=MUTED)
     h = DashedLine(ax_.c2p(0, s), p, color=MUTED)
     lab = Tex(f'({c}, {s})').scale(SCALE_CAPTION).set_color(CAPTION).next_to(p, DL, buff=0.15)
@@ -204,6 +204,7 @@ class EpisodeA3(Scene):
                   FadeIn(axm), FadeIn(caps_m), FadeIn(ppf_m), FadeIn(rate_m), FadeIn(mark_m),
                   FadeIn(axa), FadeIn(caps_a), FadeIn(ppf_a), FadeIn(rate_a), FadeIn(mark_a),
                   FadeIn(em_glow), FadeIn(ea_glow))
+        self.bring_to_front(mark_m[0], mark_a[0])   # play-introduced groups ignore z: lift the dots
         arrow_m = CurvedArrow(axm.c2p(0, 40), axm.c2p(3, 28), angle=-PI / 3, color=FOCUS)
         arrow_a = CurvedArrow(axa.c2p(8, 0), axa.c2p(4, 8), angle=PI / 3, color=FOCUS)
         self.play(Create(arrow_m), Create(arrow_a))
@@ -403,28 +404,33 @@ class EpisodeA3(Scene):
             return VGroup(point_readout(axa, 4, s), andrew_bars(4, s))
 
         self.remove(offer_m, offer_a)
-        molly_stage.remove(offer_m)
+        molly_stage.remove(offer_m, m_lab)
         live_m = always_redraw(molly_live_draw)
         live_a = always_redraw(andrew_live_draw)
         self.add(live_m, live_a)
         self.bring_to_front(em_glow, ea_glow)
-        self.play(FadeOut(cap), FadeIn(live_cap))
+        # new terms are on the table: the old accept/reject labels are stale
+        self.play(FadeOut(cap), FadeIn(live_cap), FadeOut(m_lab), FadeOut(a_lab))
         self.play(s_amt.animate.set_value(24), run_time=3)
         # -- predict beat: who accepts at this rate? --
         self.pause()
-        self.play(Transform(a_lab, Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_a, DOWN, buff=0.15)),
-                  Transform(m_lab, Tex('rejects').scale(0.7).set_color(NASH).next_to(rate_m, DOWN, buff=0.15)))
+        a_lab = Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_a, DOWN, buff=0.15)
+        m_lab = Tex('rejects').scale(0.7).set_color(NASH).next_to(rate_m, DOWN, buff=0.15)
+        self.play(FadeIn(a_lab), FadeIn(m_lab))
         self.pause()
 
         # B08 ---------------------------------------------------------
         # Molly counters in the middle: the numbers roll to 12 S (rate 3)
 
         self.play(Transform(live_lab, Tex("Molly's counter:").scale(0.9).set_color(DEFINITION)
-                            .align_to(live_lab, RIGHT).align_to(live_lab, DOWN).shift(DOWN * 0.08)))
+                            .align_to(live_lab, RIGHT).align_to(live_lab, DOWN).shift(DOWN * 0.08)),
+                  FadeOut(m_lab), FadeOut(a_lab))
         self.play(s_amt.animate.set_value(12), run_time=3)
         # -- predict beat: and now? --
         self.pause()
-        self.play(Transform(m_lab, Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_m, DOWN, buff=0.15)))
+        m_lab = Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_m, DOWN, buff=0.15)
+        a_lab = Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_a, DOWN, buff=0.15)
+        self.play(FadeIn(m_lab), FadeIn(a_lab))
         self.pause()
 
         # B08b --------------------------------------------------------
@@ -460,6 +466,7 @@ class EpisodeA3(Scene):
         mark_m = autarky_marker(axm, 3, 28)
         mark_a = autarky_marker(axa, 4, 8)
         self.play(FadeIn(mark_m), FadeIn(mark_a))
+        self.bring_to_front(mark_m[0], mark_a[0])
         self.pause()
 
         # B09b --------------------------------------------------------
