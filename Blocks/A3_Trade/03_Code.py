@@ -73,35 +73,9 @@ def autarky_marker(ax_, c, s):
     v = DashedLine(ax_.c2p(c, 0), p, color=MUTED)
     h = DashedLine(ax_.c2p(0, s), p, color=MUTED)
     lab = Tex(f'({c}, {s})').scale(SCALE_CAPTION).set_color(CAPTION).next_to(p, DL, buff=0.15)
-    return VGroup(v, h, dot, lab)
-
-
-class Derivation:
-    """A one-line derivation whose LETTERS never move and never re-render
-    (ported from A2). Layout is `[numeral] C  =  [numeral] S`; step() returns
-    the two Transforms that touch only the numerals."""
-
-    def __init__(self, at, left_num, left_letter, right_num, right_letter,
-                 sep='=', scale=1.2, sep_gap=0.8, num_room=0.75, num_gap=0.2,
-                 left_color=CARROTS, right_color=SPINACH):
-        self.scale_f = scale
-        self.num_gap = num_gap
-        self.sep = Tex(sep).scale(scale).move_to(at)
-        self.lL = (Tex(left_letter).scale(scale).set_color(left_color)
-                   .next_to(self.sep, LEFT, buff=sep_gap).match_y(self.sep))
-        self.lR = (Tex(right_letter).scale(scale).set_color(right_color)
-                   .next_to(self.sep, RIGHT, buff=sep_gap + num_room + num_gap).match_y(self.sep))
-        self.nL = self._num(left_num, self.lL)
-        self.nR = self._num(right_num, self.lR)
-        self.group = VGroup(self.nL, self.lL, self.sep, self.nR, self.lR)
-
-    def _num(self, txt, letter):
-        return (Tex(txt).scale(self.scale_f).set_color(INK)
-                .next_to(letter, LEFT, buff=self.num_gap).match_y(self.sep))
-
-    def step(self, left_num, right_num):
-        return [Transform(self.nL, self._num(left_num, self.lL)),
-                Transform(self.nR, self._num(right_num, self.lR))]
+    # the dot's z_index keeps it above the drop lines (maniml sorts
+    # within groups, CE-style, since 2026-09-02)
+    return VGroup(dot, lab, v, h)
 
 
 def focus_box(*mobs, buff=0.2):
@@ -147,25 +121,25 @@ class EpisodeA3(Scene):
         self.pause()
 
         # B02 ---------------------------------------------------------
-
-        FadeAll(self)
-        last_card = Tex('Last Time...').scale(SCALE_CARD)
-        self.play(FadeIn(last_card), run_time=1 / 2)
-        self.pause()
-
-        # B03 ---------------------------------------------------------
         # the history detour: out of feudalism, into mercantilism -- then what?
 
-        self.play(FadeOut(last_card), run_time=1 / 2)
+        FadeAll(self)
         hist = Tex('If not feudalism, then what?').scale(1.2).set_color(DEFINITION)
         self.play(Write(hist))
         self.pause()
 
-        # B03b --------------------------------------------------------
+        # B02b --------------------------------------------------------
 
         ricardo = (Tex(narration('--- David Ricardo, 1817')).scale(SCALE_CAPTION)
                    .set_color(CAPTION).next_to(hist, DOWN, buff=0.6).align_to(hist, RIGHT).shift(RIGHT * 1.2))
         self.play(FadeIn(ricardo))
+        self.pause()
+
+        # B03 ---------------------------------------------------------
+
+        FadeAll(self)
+        last_card = Tex('Last Time...').scale(SCALE_CARD)
+        self.play(FadeIn(last_card), run_time=1 / 2)
         self.pause()
 
         # B04 ---------------------------------------------------------
@@ -192,9 +166,12 @@ class EpisodeA3(Scene):
         dm = Dot(axc.c2p(5, 20), color=MOLLY, z_index=10)
         da = Dot(axc.c2p(4, 8), color=ANDREW, z_index=10)
         dc = Dot(axc.c2p(9, 28), color=GUILD, z_index=10)
+        glow_cm = Dot(axc.c2p(0, 40), radius=0.14, color=MOLLY).set_opacity(0.5)
+        glow_ca = Dot(axc.c2p(8, 0), radius=0.14, color=ANDREW).set_opacity(0.5)
         self.play(Write(tech_line), FadeIn(axc), FadeIn(cap_c), FadeIn(cap_s),
                   FadeIn(ppf_cm), FadeIn(ppf_ca), FadeIn(coop_line),
                   FadeIn(lab_cm), FadeIn(lab_ca), FadeIn(lab_cc),
+                  FadeIn(glow_cm), FadeIn(glow_ca),
                   FadeIn(dm), FadeIn(da), FadeIn(dc))
         self.pause()
 
@@ -258,7 +235,8 @@ class EpisodeA3(Scene):
                          Tex(')').scale(SCALE_TICK)).set_color(CAPTION)
             lab.arrange(RIGHT, buff=0.06).next_to(p, UR, buff=0.12)
             lab[2].align_to(lab[1], DOWN).shift(DOWN * 0.07)   # commas descend below the baseline
-            return VGroup(v, h, lab, Dot(p, radius=0.09, color=color, z_index=15))
+            # the dot's z_index keeps it above the drop lines
+            return VGroup(Dot(p, radius=0.09, color=color, z_index=15), lab, v, h)
 
         e_tr = ValueTracker(3.0)
 
@@ -267,8 +245,8 @@ class EpisodeA3(Scene):
             return point_readout(axm, e, PPF_Molly(e), color=INK)
 
         wander = always_redraw(wander_draw)
-        self.play(FadeOut(mark_m))
-        self.add(wander)
+        self.remove(mark_m)          # the readout takes over in the same frame:
+        self.add(wander)             # same dot, same dashes -- no crossfade
         self.play(e_tr.animate.set_value(6), run_time=1.4)
         self.play(e_tr.animate.set_value(1), run_time=1.2)
         self.play(e_tr.animate.set_value(0), run_time=1.2)
@@ -298,33 +276,53 @@ class EpisodeA3(Scene):
 
         grow_t = ValueTracker(0.0)
 
+        def molly_bars(c, sp):
+            gain = Line(axm.c2p(0, 0), axm.c2p(max(c, 0.001), 0), color=CARROTS, stroke_width=6)
+            give = Line(axm.c2p(0, sp), axm.c2p(0, 40), color=SPINACH, stroke_width=6)
+            gain_n = (DecimalNumber(c, num_decimal_places=1, color=CARROTS).scale(SCALE_TICK)
+                      .next_to(axm.c2p(c / 2, 0), DOWN, buff=0.25))
+            give_n = (DecimalNumber(40 - sp, num_decimal_places=1, color=SPINACH).scale(SCALE_TICK)
+                      .next_to(axm.c2p(0, (sp + 40) / 2), LEFT, buff=0.25))
+            return VGroup(gain, give, gain_n, give_n)
+
         def molly_offer_draw():
             t = grow_t.get_value()
             c, sp = 4 * t, 40 - 6 * t
-            gain = Line(axm.c2p(0, 0), axm.c2p(max(c, 0.001), 0), color=CARROTS, stroke_width=6)
-            give = Line(axm.c2p(0, sp), axm.c2p(0, 40), color=SPINACH, stroke_width=6)
-            return VGroup(gain, give, point_readout(axm, c, sp))
+            return VGroup(point_readout(axm, c, sp), molly_bars(c, sp))
 
         offer_m = always_redraw(molly_offer_draw)
         self.add(offer_m)
         self.bring_to_front(em_glow)
         self.play(grow_t.animate.set_value(1), run_time=3)
         offer_m.clear_updaters()
+        self.remove(grow_t)
         self.pause()
 
         # B06d --------------------------------------------------------
         # the exchange rate: set the sides equal, solve on screen; the result
         # files into the caption -- and the point is outside her PPF: accepts
 
-        deal = Derivation(RIGHT * 3.9 + UP * 0.8, '4', 'C', '6', 'S')
-        self.play(FadeIn(deal.group))
-        self.play(*deal.step(r'$\frac{4}{4}$', r'$\frac{6}{4}$'))
-        self.play(*deal.step('1', '1.5'))
+        equal = Tex('=').scale(1.2).move_to(RIGHT * 3.9 + UP * 0.8)
+
+        def c_tex(t):
+            return Tex(f'{{{{{t}}}}} {{{{C}}}}').scale(1.2).next_to(equal, LEFT, buff=0.6).set_color_by_tex_to_color_map({'C': CARROTS})
+
+        def s_tex(t):
+            return Tex(f'{{{{{t}}}}} {{{{S}}}}').scale(1.2).next_to(equal, RIGHT, buff=0.6).set_color_by_tex_to_color_map({'S': SPINACH})
+
+        c_side = c_tex('4')
+        s_side = s_tex('6')
+        self.play(FadeIn(c_side), FadeIn(equal), FadeIn(s_side))
+        self.play(Transform(c_side, c_tex(r'$\frac{4}{4}$')), Transform(s_side, s_tex(r'$\frac{6}{4}$')))
+        self.play(Transform(c_side, c_tex('1')), Transform(s_side, s_tex('1.5')))
+        eq_group = VGroup(c_side, equal, s_side)
         cap_par = (Tex('(Rate: {{1}} {{C}} $=$ {{1.5}} {{S}})').scale(0.65)
                    .set_color_by_tex_to_color_map({'S': SPINACH, 'C': CARROTS})
                    .next_to(prop_cap, RIGHT, buff=0.25).align_to(prop_cap, DOWN).shift(UP * 0.05))
-        self.play(Transform(deal.group, cap_par))
-        cap = VGroup(prop_cap, deal.group)
+        self.play(Transform(eq_group, cap_par))
+        cap = VGroup(prop_cap, eq_group)
+        # -- predict beat: would Molly accept this deal? --
+        self.pause()
         m_lab = Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_m, DOWN, buff=0.15)
         self.play(FadeIn(m_lab))
         self.pause()
@@ -340,18 +338,28 @@ class EpisodeA3(Scene):
 
         grow_ta = ValueTracker(0.0)
 
+        def andrew_bars(c, sp):
+            give = Line(axa.c2p(c, 0), axa.c2p(8, 0), color=CARROTS, stroke_width=6)
+            gain = Line(axa.c2p(0, 0), axa.c2p(0, max(sp, 0.001)), color=SPINACH, stroke_width=6)
+            give_n = (DecimalNumber(8 - c, num_decimal_places=1, color=CARROTS).scale(SCALE_TICK)
+                      .next_to(axa.c2p((c + 8) / 2, 0), DOWN, buff=0.25))
+            gain_n = (DecimalNumber(sp, num_decimal_places=1, color=SPINACH).scale(SCALE_TICK)
+                      .next_to(axa.c2p(0, sp / 2), LEFT, buff=0.25))
+            return VGroup(give, gain, give_n, gain_n)
+
         def andrew_offer_draw():
             t = grow_ta.get_value()
             c, sp = 8 - 4 * t, 6 * t
-            give = Line(axa.c2p(c, 0), axa.c2p(8, 0), color=CARROTS, stroke_width=6)
-            gain = Line(axa.c2p(0, 0), axa.c2p(0, max(sp, 0.001)), color=SPINACH, stroke_width=6)
-            return VGroup(give, gain, point_readout(axa, c, sp))
+            return VGroup(point_readout(axa, c, sp), andrew_bars(c, sp))
 
         offer_a = always_redraw(andrew_offer_draw)
         self.add(offer_a)
         self.bring_to_front(ea_glow)
         self.play(grow_ta.animate.set_value(1), run_time=3)
         offer_a.clear_updaters()
+        self.remove(grow_ta)
+        # -- predict beat: would Andrew accept the same deal? --
+        self.pause()
         a_lab = Tex('rejects').scale(0.7).set_color(NASH).next_to(rate_a, DOWN, buff=0.15)
         self.play(FadeIn(a_lab))
         self.pause()
@@ -388,16 +396,11 @@ class EpisodeA3(Scene):
 
         def molly_live_draw():
             s = s_amt.get_value()
-            sp = 40 - s
-            gain = Line(axm.c2p(0, 0), axm.c2p(4, 0), color=CARROTS, stroke_width=6)
-            give = Line(axm.c2p(0, sp), axm.c2p(0, 40), color=SPINACH, stroke_width=6)
-            return VGroup(gain, give, point_readout(axm, 4, sp))
+            return VGroup(point_readout(axm, 4, 40 - s), molly_bars(4, 40 - s))
 
         def andrew_live_draw():
             s = s_amt.get_value()
-            give = Line(axa.c2p(4, 0), axa.c2p(8, 0), color=CARROTS, stroke_width=6)
-            gain = Line(axa.c2p(0, 0), axa.c2p(0, s), color=SPINACH, stroke_width=6)
-            return VGroup(give, gain, point_readout(axa, 4, s))
+            return VGroup(point_readout(axa, 4, s), andrew_bars(4, s))
 
         self.remove(offer_m, offer_a)
         molly_stage.remove(offer_m)
@@ -407,6 +410,8 @@ class EpisodeA3(Scene):
         self.bring_to_front(em_glow, ea_glow)
         self.play(FadeOut(cap), FadeIn(live_cap))
         self.play(s_amt.animate.set_value(24), run_time=3)
+        # -- predict beat: who accepts at this rate? --
+        self.pause()
         self.play(Transform(a_lab, Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_a, DOWN, buff=0.15)),
                   Transform(m_lab, Tex('rejects').scale(0.7).set_color(NASH).next_to(rate_m, DOWN, buff=0.15)))
         self.pause()
@@ -417,6 +422,8 @@ class EpisodeA3(Scene):
         self.play(Transform(live_lab, Tex("Molly's counter:").scale(0.9).set_color(DEFINITION)
                             .align_to(live_lab, RIGHT).align_to(live_lab, DOWN).shift(DOWN * 0.08)))
         self.play(s_amt.animate.set_value(12), run_time=3)
+        # -- predict beat: and now? --
+        self.pause()
         self.play(Transform(m_lab, Tex('accepts').scale(0.7).set_color(EFFICIENT).next_to(rate_m, DOWN, buff=0.15)))
         self.pause()
 
@@ -443,7 +450,7 @@ class EpisodeA3(Scene):
         self.play(FadeOut(pareto))
         self.play(Restore(scene_stage))
         self.play(Transform(live_lab, Tex('Pareto Improvement:').scale(0.9).set_color(DEFINITION)
-                            .align_to(live_lab, RIGHT).align_to(live_lab, DOWN).shift(DOWN * 0.08)))
+                            .align_to(live_lab, RIGHT).align_to(live_lab, DOWN).shift(DOWN * 0.02)))
         self.pause()
 
         # B09 ---------------------------------------------------------
@@ -452,29 +459,51 @@ class EpisodeA3(Scene):
 
         mark_m = autarky_marker(axm, 3, 28)
         mark_a = autarky_marker(axa, 4, 8)
-        rider_m = Dot(axm.c2p(0, 40), color=TRADE, z_index=12)
-        rider_a = Dot(axa.c2p(8, 0), color=TRADE, z_index=12)
         self.play(FadeIn(mark_m), FadeIn(mark_a))
         self.pause()
 
         # B09b --------------------------------------------------------
-        # the riders run the big trade from the specialization points
+        # the riders run the big trade from the specialization points, with
+        # dashes, live readouts, and the traded amounts on the axes
 
-        self.play(FadeIn(rider_m), FadeIn(rider_a))
-        self.play(rider_m.animate.move_to(axm.c2p(3.5, 29.5)),
-                  rider_a.animate.move_to(axa.c2p(4.5, 10.5)), run_time=3)
-        lab_rm = Tex('(3.5, 29.5)').scale(SCALE_TICK).set_color(CAPTION).next_to(axm.c2p(3.5, 29.5), UR, buff=0.25)
-        lab_ra = Tex('(4.5, 10.5)').scale(SCALE_TICK).set_color(CAPTION).next_to(axa.c2p(4.5, 10.5), UR, buff=0.25)
-        self.play(FadeIn(lab_rm), FadeIn(lab_ra))
-        self.play(Indicate(rider_m, color=FOCUS), Indicate(rider_a, color=FOCUS))
+        bt = ValueTracker(0.0)
+
+        def rider_m_draw():
+            t = bt.get_value()
+            return VGroup(point_readout(axm, 3.5 * t, 40 - 10.5 * t), molly_bars(3.5 * t, 40 - 10.5 * t))
+
+        def rider_a_draw():
+            t = bt.get_value()
+            return VGroup(point_readout(axa, 8 - 3.5 * t, 10.5 * t), andrew_bars(8 - 3.5 * t, 10.5 * t))
+
+        rider_m = always_redraw(rider_m_draw)
+        rider_a = always_redraw(rider_a_draw)
+        self.add(rider_m, rider_a)
+        self.bring_to_front(em_glow, ea_glow)
+        self.play(bt.animate.set_value(1), run_time=3)
+        rider_m.clear_updaters()
+        rider_a.clear_updaters()
+        self.remove(bt)
+        self.play(Indicate(rider_m[0][0], color=FOCUS), Indicate(rider_a[0][0], color=FOCUS))
         noco = (Tex("We've specialized, traded, and improved with no co-op!")
                 .scale(0.85).set_color(DEFINITION).next_to(head, DOWN, buff=0.25).set_x(0))
         self.play(FadeOut(live_cap), FadeIn(noco))
         self.pause()
 
         # B10 ---------------------------------------------------------
+
+        self.drop_frame()            # trackers and camera frames would break the card's stage grab
+        stage_q2, card_q2 = exercise_card(self, 'Exercise A3 $|$ Q2', [
+            'Suppose Hagrid and McGonagall decide they want to specialize and trade goods.',
+            'After they specialize, what is a trade that would make them both better off?',
+            '1 $R$ for $\\underline{\\hspace{1.2cm}}$ $F$',
+        ])
+        self.pause()
+
+        # B11 ---------------------------------------------------------
         # finding rates that improve both sides: the op-cost table, centred
 
+        self.play(FadeOut(card_q2), Restore(stage_q2))
         self.reset_frame()
         FadeAll(self)
         head = title('Trade')
@@ -491,7 +520,7 @@ class EpisodeA3(Scene):
         self.play(FadeIn(cost))
         self.pause()
 
-        # B10b --------------------------------------------------------
+        # B11b --------------------------------------------------------
         # the bounds fly in from the boxed entries, one piece at a time:
         # 1 C   for   2 S < x S < 4 S
 
@@ -518,18 +547,8 @@ class EpisodeA3(Scene):
         self.play(Transform(fly_hi, hi), run_time=1.2)
         self.pause()
 
-        # B11 ---------------------------------------------------------
-
-        stage_q2, card_q2 = exercise_card(self, 'Exercise A3 $|$ Q2', [
-            'Suppose Hagrid and McGonagall decide they want to specialize and trade goods.',
-            'After they specialize, what is a trade that would make them both better off?',
-            '1 $R$ for $\\underline{\\hspace{1.2cm}}$ $F$',
-        ])
-        self.pause()
-
         # B12 ---------------------------------------------------------
 
-        self.play(FadeOut(card_q2), Restore(stage_q2))
         recip_cap = (Tex(narration('Opportunity costs are always reciprocals. A workable exchange rate always exists.'))
                      .scale(0.8).set_color(CAPTION).to_edge(DOWN, buff=0.45).set_x(0))
         self.play(Write(recip_cap))

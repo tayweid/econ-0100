@@ -1,5 +1,23 @@
-# Episode A3 | *Specializing and trading can make both parties better off at the same time* — Storyboard (v5, 2026-09-02)
+# Episode A3 | *Specializing and trading can make both parties better off at the same time* — Storyboard (v7, 2026-09-02)
 
+> v7: the exchange-rate derivation returns to A1's grammar — each side is ONE Tex re-rendered
+> whole and re-seated `next_to` the `=` at every step, so the spacing stays symmetric (the
+> pinned-letter Derivation class is gone). Four PREDICT PAUSES added in the offer sequence —
+> before Molly's accepts, before Andrew's rejects, and after each counter's numbers roll but
+> before the accept/reject labels flip — so the class commits to an answer before the screen
+> does. 31 stops.
+>
+> v6 (fresh-eyes pass): `Last Time...` moves AFTER the feudalism card (episode cold-opens on
+> the history question); the co-op recap carries the two glowing specialization points; the
+> ORIGINAL white autarky dot is the endowment wanderer (same-frame handoff, no crossfade); the
+> derivation is tighter and symmetric about the `=`; every trade bar carries its amount outside
+> the axes (spinach left, carrots below), on the offers, the negotiation, AND the big-trade
+> riders (which are now tracker-driven with dashes and live readouts); the PI label sits on the
+> true baseline; the Trade exercise (Q2) comes BEFORE the table screen. Dot-over-dash layering
+> fixed everywhere: maniml draws VGroup children in REVERSE order (first child on top) and does
+> not honor z_index within groups — readout/marker groups now list the dot first (upstream
+> maniml bug flagged).
+>
 > v5 (nit pass on the v4 render): the derivation pieces pin to the separator's math axis; the
 > Spinach caption sits right above the y-axis, off the plot; every offer/endowment point
 > carries dashed drop-lines and a LIVE (x, y) readout (commas on the baseline), including the
