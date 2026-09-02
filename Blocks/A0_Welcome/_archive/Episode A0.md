@@ -160,7 +160,7 @@ This is an example of when your preferences depend on the choices of others in y
 
 This is the starting point for a long and interesting journey to build up some big ideas for how we organize society. You may be familiar with some of the ideas in economics, but I can almost guarantee you that unless you know the field already, many of the results will surprise you. 
 
-Next time, we're going to take a trip back to 1800s Brittish philosophy at the dawn of the industrial revolution as Feudalism gave way to Merchantilism which opened big questions about how we might best organize society. These questions sprouted the field of modern economics we know today and is where we'll start next time.
+Next time, we're going to take a trip back to 1800s Brittish philosophy at the dawn of the industrial revolution as Feudalism gave way to Mercantilism which opened big questions about how we might best organize society. These questions sprouted the field of modern economics we know today and is where we'll start next time.
 
 
 

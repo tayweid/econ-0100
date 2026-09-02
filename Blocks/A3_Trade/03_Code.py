@@ -1,2004 +1,593 @@
-# maniml 03_Code.py animation_0
+# maniml 03_Code.py EpisodeA3
+#
+# Episode A3 | Specializing and trading can make both parties better off
+# One scene; beats follow 02_Storyboard.md (B01...B21). The stage is A2's
+# closing stage carried forward (two panels, under-axis rate lines, autarky
+# markers); the new device is the TRADE-pink trade line, pivoting on the
+# endowment, driven by a rate tracker. Staged offer rates are 1.5 / 5 / 3
+# (see the storyboard's Numbers note — the notes' 2.5/3.5 contradict the
+# window math and are flagged for the prose swap). The stage-1 verbatim
+# merge of the old scenes is archived at _archive/03_Code_stage1_merge.py.
 
 from manim import *
 import numpy as np
-import os, sys, warnings, random
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
-from style import *          # palette tokens, frame config, beat(), title(), bumper(), ...
-from style import axes as style_axes
-from Video import *          # PPF_Molly / PPF_Andrew / PPF_Guild -- the numbers of record
+import os
+import sys
+import warnings
 
 warnings.filterwarnings('ignore')
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
+from style import *          # palette tokens, frame config, title(), bumper(), exercise_card(), ...
+from style import axes as style_axes
+from Video import PPF_Molly, PPF_Andrew
 
-class animation_0(Scene):
-
-    """Animation 0 | Intro Sequence"""
-
-    def construct(self):
-        bumper(self, 'A', 3)
-
-
-class animation_1(Scene):
-
-    """Animation 1 | Last Time..."""
-
-    def construct(self):
-        last_time(self)
-        self.wait()
-
-
-class animation_2(Scene):
-
-    """Animation 2 | The Specialized Guild"""
-
-    def construct(self):
-        
-        # ---- Definitions
-        
-        PPF_axis = style_axes(            
-            x_range=[0, 65, 5],
-            x_length = 7,
-            ticks=True,
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 65, 15),
-                "numbers_with_elongated_ticks": np.arange(0, 65, 10),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":SPINACH,
-                },
-            },
-            y_range=[0, 10, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 11, 2),
-                "numbers_with_elongated_ticks": np.arange(0, 11, 5),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":CARROTS,
-                }
-            },
-        )
-        
-        # ---- Starting Objects
-        
-        axes = PPF_axis.shift(RIGHT*2).scale(0.8)
-        
-        ppf_molly_graph = axes.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        molly = Rectangle(height=3, width=3, color=MOLLY).move_to(LEFT*4.5 + UP*2)
-        molly.z_index = 2
-        molly_name = Tex("Molly").scale(1.5).next_to(molly,LEFT,buff=-1/2).set_color(MOLLY).rotate(np.pi/2)
-        molly_cost = Tex("$1C=9S$").next_to(molly,RIGHT,buff=-0.6).set_color(MOLLY).rotate(np.pi/2)
-        molly_group = VGroup(molly,molly_name,molly_cost)
-        
-        m_carrots = Rectangle(height=3/2, width=3, color=CARROTS, fill_opacity=1)
-        m_spinach = Rectangle(height=3/2, width=3, color=SPINACH, fill_opacity=1)
-        molly_crops = VGroup(m_carrots,m_spinach.next_to(m_carrots,DOWN,buff=0)).move_to(molly)
-        
-        ppf_andrew_graph = axes.plot(PPF_Andrew, color=ANDREW, x_range=(0, 18))
-        andrew = Rectangle(height=3, width=3, color=ANDREW).move_to(LEFT*4.5 + DOWN*2)
-        andrew.z_index = 2
-        andrew_name = Tex("Andrew").scale(1.5).next_to(andrew,LEFT,buff=-0.8).set_color(ANDREW).rotate(np.pi/2)
-        andrew_cost = Tex("$1C=4.5S$").next_to(andrew,RIGHT,buff=-0.8).set_color(ANDREW).rotate(np.pi/2)
-        andrew_group = VGroup(andrew,andrew_name,andrew_cost)
-        
-        a_carrots = Rectangle(height=3/2, width=3, color=CARROTS, fill_opacity=1)
-        a_spinach = Rectangle(height=3/2, width=3, color=SPINACH, fill_opacity=1)
-        andrew_crops = VGroup(a_carrots,a_spinach.next_to(a_carrots,DOWN,buff=0)).move_to(andrew)
-        
-        ppf_guild_graph = axes.plot(PPF_Guild, color=GUILD, x_range=(0, 63))
-    
-        p1m = axes.coords_to_point(22.5, 2.5)
-        p1a = axes.coords_to_point(9, 2)
-        p1g = axes.coords_to_point(31.5, 4.5)
-        dotm = Dot(p1m)
-        dotm.z_index = 2
-        dota = Dot(p1a)
-        dota.z_index = 2
-        dotg = Dot(p1g)
-        dotg.z_index = 2
-        
-        guild_name = Tex("Guild PPF").scale(1.2).next_to(axes, UP).set_color(GUILD)
-
-        spinach_advantage = Tex("Spinach").rotate(np.pi/2).set_color(SPINACH).next_to(molly_group,RIGHT)
-        carrot_advantage = Tex("Carrots").rotate(np.pi/2).set_color(CARROTS).next_to(andrew_group,RIGHT)
-        
-        # ---- Setup
-        self.add(dotm,dota,dotg,spinach_advantage,carrot_advantage)
-        self.add(axes,molly_group,molly_crops,andrew_group,andrew_crops,ppf_molly_graph,ppf_andrew_graph,guild_name,ppf_guild_graph)
-        self.wait()
-        
-        # ---- Show Comparative Advantages
-        
-        molly_ad = axes.coords_to_point(45,0)
-        molly_ad = Dot(molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        molly_ad.z_index = 0
-        
-        andrew_ad = axes.coords_to_point(0,4)
-        andrew_ad = Dot(andrew_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        andrew_ad.z_index = 0
-        
-        self.play(FadeIn(molly_ad),FadeIn(andrew_ad))
-        self.wait()
-        
-        # ---- Specialize
-        
-        alpha_pairs = [[1,0],[0,1]]
-        for pair in alpha_pairs:
-            alpha_m = pair[0]
-            alpha_a = pair[1]
-
-            m_carrots_new = Rectangle(height=alpha_m*3, width=3, color=CARROTS, fill_opacity=1)
-            m_spinach_new = Rectangle(height=(1-alpha_m)*3, width=3, color=SPINACH, fill_opacity=1)
-            molly_crops_new = VGroup(m_carrots_new,m_spinach_new.next_to(m_carrots_new,DOWN,buff=0)).move_to(molly)
-
-            a_carrots_new = Rectangle(height=alpha_a*3, width=3, color=CARROTS, fill_opacity=1)
-            a_spinach_new = Rectangle(height=(1-alpha_a)*3, width=3, color=SPINACH, fill_opacity=1)
-            andrew_crops_new = VGroup(a_carrots_new,a_spinach_new.next_to(a_carrots_new,DOWN,buff=0)).move_to(andrew)
-
-            p2m = axes.coords_to_point(45*(1-alpha_m), 5*alpha_m)
-            p2a = axes.coords_to_point(18*(1-alpha_a), 4*alpha_a)
-            p2g = axes.coords_to_point(45*(1-alpha_m)+18*(1-alpha_a), 5*alpha_m+4*alpha_a)
-
-            self.play(dotm.animate.move_to(p2m),dota.animate.move_to(p2a),dotg.animate.move_to(p2g),
-                      Transform(molly_crops,molly_crops_new),Transform(andrew_crops,andrew_crops_new))
-            self.wait()
-            
-        # ---- Trace The Specialized Guild
-            
-        path = VMobject(color=TRADE)
-        path.set_points_as_corners([dotg.get_center(), dotg.get_center()])
-        def update_path(path):
-            previous_path = path.copy()
-            previous_path.add_points_as_corners([dotg.get_center()])
-            path.become(previous_path)
-        path.add_updater(update_path)
-        self.add(path, dotg)
-        
-        self.play(ppf_guild_graph.animate.set_opacity(0.1))
-        
-        alpha_pairs = [[1,1],[0,1],[0,0]]
-        for pair in alpha_pairs:
-            alpha_m = pair[0]
-            alpha_a = pair[1]
-
-            m_carrots_new = Rectangle(height=alpha_m*3, width=3, color=CARROTS, fill_opacity=1)
-            m_spinach_new = Rectangle(height=(1-alpha_m)*3, width=3, color=SPINACH, fill_opacity=1)
-            molly_crops_new = VGroup(m_carrots_new,m_spinach_new.next_to(m_carrots_new,DOWN,buff=0)).move_to(molly)
-
-            a_carrots_new = Rectangle(height=alpha_a*3, width=3, color=CARROTS, fill_opacity=1)
-            a_spinach_new = Rectangle(height=(1-alpha_a)*3, width=3, color=SPINACH, fill_opacity=1)
-            andrew_crops_new = VGroup(a_carrots_new,a_spinach_new.next_to(a_carrots_new,DOWN,buff=0)).move_to(andrew)
-
-            p2m = axes.coords_to_point(45*(1-alpha_m), 5*alpha_m)
-            p2a = axes.coords_to_point(18*(1-alpha_a), 4*alpha_a)
-            p2g = axes.coords_to_point(45*(1-alpha_m)+18*(1-alpha_a), 5*alpha_m+4*alpha_a)
-
-            self.play(dotm.animate.move_to(p2m),dota.animate.move_to(p2a),dotg.animate.move_to(p2g),
-                      Transform(molly_crops,molly_crops_new),Transform(andrew_crops,andrew_crops_new))
-            self.wait(1/10)
-            
-        # ---- Show Gains From Specialization
-        
-        a = axes.coords_to_point(63, 0)
-        b = axes.coords_to_point(45, 4)
-        c = axes.coords_to_point(0, 9)
-        
-        gains = Polygon(a,b,c, color=TRADE, fill_opacity=1)
-        gains.z_index = 0
-        gains_text = Tex('Gains From Specialization').scale(1.2).set_color(TRADE).next_to(gains, UP*3).shift(RIGHT/2)
-        
-        self.play(FadeOut(guild_name),FadeIn(gains),FadeIn(gains_text))
-        self.wait()
-        
-        # ---- Do More Pairs
-        
-        alpha_pairs = [[0,1],[0.1,1],[0.2,1],[0.3,1],[0.4,1],[0.5,1],[0.6,1],[0.7,1],[0.8,1],[0.9,1],[1,1]] + [[0,0.9],[0,0.8],[0,0.7],[0,0.6],[0,0.5],[0,0.4],[0,0.3],[0,0.2],[0,0.1],[0,0], [0,1]]
-        random.shuffle(alpha_pairs)
-        for pair in alpha_pairs:
-            alpha_m = pair[0]
-            alpha_a = pair[1]
-
-            m_carrots_new = Rectangle(height=alpha_m*3, width=3, color=CARROTS, fill_opacity=1)
-            m_spinach_new = Rectangle(height=(1-alpha_m)*3, width=3, color=SPINACH, fill_opacity=1)
-            molly_crops_new = VGroup(m_carrots_new,m_spinach_new.next_to(m_carrots_new,DOWN,buff=0)).move_to(molly)
-
-            a_carrots_new = Rectangle(height=alpha_a*3, width=3, color=CARROTS, fill_opacity=1)
-            a_spinach_new = Rectangle(height=(1-alpha_a)*3, width=3, color=SPINACH, fill_opacity=1)
-            andrew_crops_new = VGroup(a_carrots_new,a_spinach_new.next_to(a_carrots_new,DOWN,buff=0)).move_to(andrew)
-
-            p2m = axes.coords_to_point(45*(1-alpha_m), 5*alpha_m)
-            p2a = axes.coords_to_point(18*(1-alpha_a), 4*alpha_a)
-            p2g = axes.coords_to_point(45*(1-alpha_m)+18*(1-alpha_a), 5*alpha_m+4*alpha_a)
-
-            self.play(dotm.animate.move_to(p2m),dota.animate.move_to(p2a),dotg.animate.move_to(p2g),
-                      Transform(molly_crops,molly_crops_new),Transform(andrew_crops,andrew_crops_new))
-            self.wait(1/10)
-
-        self.wait()
-
-
-class animation_3(MovingCameraScene):
-
-    """Animation 3 | Setup The Questions"""
-
-    def construct(self):
-        
-        # ---- Definitions
-        
-        PPF_axis = style_axes(            
-            x_range=[0, 65, 5],
-            x_length = 7,
-            ticks=True,
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 65, 15),
-                "numbers_with_elongated_ticks": np.arange(0, 65, 10),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":SPINACH,
-                },
-            },
-            y_range=[0, 10, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 11, 2),
-                "numbers_with_elongated_ticks": np.arange(0, 11, 5),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":CARROTS,
-                }
-            },
-        )
-        
-        # ---- Starting Objects
-        
-        axes = PPF_axis.shift(RIGHT*2).scale(0.8)
-        
-        ppf_molly_graph = axes.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        molly = Rectangle(height=3, width=3, color=MOLLY).move_to(LEFT*4.5 + UP*2)
-        molly.z_index = 2
-        molly_name = Tex("Molly").scale(1.5).next_to(molly,LEFT,buff=-1/2).set_color(MOLLY).rotate(np.pi/2)
-        molly_cost = Tex("$1C=9S$").next_to(molly,RIGHT,buff=-0.6).set_color(MOLLY).rotate(np.pi/2)
-        molly_group = VGroup(molly,molly_name,molly_cost)
-        
-        m_carrots = Rectangle(height=3/2, width=3, color=CARROTS, fill_opacity=1)
-        m_spinach = Rectangle(height=3/2, width=3, color=SPINACH, fill_opacity=1)
-        molly_crops = VGroup(m_carrots,m_spinach.next_to(m_carrots,DOWN,buff=0)).move_to(molly)
-        
-        ppf_andrew_graph = axes.plot(PPF_Andrew, color=ANDREW, x_range=(0, 18))
-        andrew = Rectangle(height=3, width=3, color=ANDREW).move_to(LEFT*4.5 + DOWN*2)
-        andrew.z_index = 2
-        andrew_name = Tex("Andrew").scale(1.5).next_to(andrew,LEFT,buff=-0.8).set_color(ANDREW).rotate(np.pi/2)
-        andrew_cost = Tex("$1C=4.5S$").next_to(andrew,RIGHT,buff=-0.8).set_color(ANDREW).rotate(np.pi/2)
-        andrew_group = VGroup(andrew,andrew_name,andrew_cost)
-        
-        a_carrots = Rectangle(height=3/2, width=3, color=CARROTS, fill_opacity=1)
-        a_spinach = Rectangle(height=3/2, width=3, color=SPINACH, fill_opacity=1)
-        andrew_crops = VGroup(a_carrots,a_spinach.next_to(a_carrots,DOWN,buff=0)).move_to(andrew)
-            
-        p1m = axes.coords_to_point(45, 0)
-        p1a = axes.coords_to_point(0, 4)
-        p1g = axes.coords_to_point(45, 4)
-        dotm = Dot(p1m)
-        dotm.z_index = 2
-        dota = Dot(p1a)
-        dota.z_index = 2
-        dotg = Dot(p1g)
-        dotg.z_index = 2
-        
-        spinach_advantage = Tex("Spinach").rotate(np.pi/2).set_color(SPINACH).next_to(molly_group,RIGHT)
-        carrot_advantage = Tex("Carrots").rotate(np.pi/2).set_color(CARROTS).next_to(andrew_group,RIGHT)
-        
-        # ---- Setup
-        self.add(dotm,dota,dotg,spinach_advantage,carrot_advantage)
-        self.add(axes,molly_group,molly_crops,andrew_group,andrew_crops,ppf_molly_graph,ppf_andrew_graph)
-        
-        # ---- Show Comparative Advantages
-        
-        molly_ad = axes.coords_to_point(45,0)
-        molly_ad = Dot(molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        molly_ad.z_index = 0
-        
-        andrew_ad = axes.coords_to_point(0,4)
-        andrew_ad = Dot(andrew_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        andrew_ad.z_index = 0
-        
-        self.add(molly_ad, andrew_ad)
-        self.add(dotg)
-        
-        # ---- Show Gains From Specialization
-        
-        a = axes.coords_to_point(63, 0)
-        b = axes.coords_to_point(45, 4)
-        c = axes.coords_to_point(0, 9)
-        
-        gains = Polygon(a,b,c, color=TRADE, fill_opacity=1)
-        gains.z_index = 0
-        gains_text = Tex('Gains From Specialization').scale(1.2).set_color(TRADE).next_to(gains, UP*3).shift(RIGHT/2)
-        
-        self.add(gains, gains_text)
-        self.wait()
-        
-        # ---- Setup Questions
-
-        question1 = Tex('But is a guild necessary?').scale(1.3).set_color(FOCUS).next_to(axes, RIGHT, buff=-1/2)
-        frame_group = VGroup(axes, question1)
-        
-        self.play(
-            self.camera.frame.animate.shift(RIGHT*5),
-            FadeOut(molly_group), FadeOut(molly_crops), 
-            FadeOut(andrew_group), FadeOut(andrew_crops),
-            FadeOut(spinach_advantage), FadeOut(carrot_advantage),
-            FadeOut(gains_text),
-            FadeIn(question1)
-        )
-        
-        self.wait()
-        
-        # ---- Make PPFs
-        
-        PPF_axis_small = style_axes(            
-            x_range=[0, 65, 5],
-            x_length = 7,
-            ticks=True,
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 50, 15),
-                "numbers_with_elongated_ticks": np.arange(0, 50, 10),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":SPINACH,
-                },
-            },
-            y_range=[0, 6, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 6, 1),
-                "numbers_with_elongated_ticks": np.arange(0, 6, 5),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":CARROTS,
-                }
-            },
-        )
-        
-        axes_m = PPF_axis_small.copy().move_to(axes).shift(RIGHT)
-
-        molly_name_new = Tex("Molly's PPF").scale(1.5).rotate(np.pi/2).set_color(MOLLY).next_to(axes_m,LEFT)#.set_x(self.camera.frame.get_left()[0]+2/5)
-
-        new_frame_group = VGroup(axes_m, molly_name, question1)
-        
-        new_molly_ad = axes_m.coords_to_point(45,0)
-        new_molly_ad = Dot(new_molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        new_molly_ad.z_index = 0
-        
-        new_ppf_molly_graph = axes_m.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        
-        p1m = axes_m.coords_to_point(45, 0)
-        dotm_new = Dot(p1m)
-        dotm_new.z_index = 2
-
-        self.play(
-            FadeOut(gains), FadeOut(dotg),
-            question1.animate.to_edge(UP).set_x(self.camera.frame.get_center()[0]),      
-            Transform(molly_ad, new_molly_ad), 
-            Transform(ppf_molly_graph, new_ppf_molly_graph),
-            Transform(dotm, dotm_new),
-            FadeIn(molly_name_new),
-            Transform(axes, axes_m),
-            FadeOut(ppf_andrew_graph, dota, andrew_ad),
-        )
-        self.wait()
-        vertical_axis = NumberLine(
-            x_range=[-5, 5, 1],  # Range from -5 to 5 with step size 1
-            length=4,            # Length of the axis
-            color=MUTED,         # Color of the line
-            include_numbers=False, # Include numbers on the axis
-            include_ticks=False,
-            label_direction=LEFT  # Place numbers to the left of the line
-        ).rotate(PI / 2)  # Rotate by 90 degrees (PI / 2 radians) to make it vertical
-
-        # Correct the orientation of each number label to be horizontal
-        #or number in vertical_axis.numbers:
-            #number.rotate(-PI / 2)  # Rotate labels back to horizontal orientation
-            #number.shift(LEFT * 0.3)
-
-        vertical_carrots = vertical_axis.copy().next_to(axes, RIGHT, buff=2)
-        vertical_spinach = vertical_axis.copy().next_to(vertical_carrots, RIGHT, buff=1/2)
-        
-        # Add the vertical axis to the scene
-        self.play(FadeIn(vertical_carrots, vertical_spinach))
-        self.wait(2)
-
-        # Create a point to place on the NumberLine
-        point = Dot(color=GUIDE)
-
-        # Position the point at the number 2 on the NumberLine
-        point_position = vertical_carrots.number_to_point(2)  # Convert number 2 to coordinates
-        point.move_to(point_position)  # Move the point to the calculated position
-
-        # Add the point to the scene
-        self.add(point)
-
-        self.wait(2)
-
-
-PPF_axis = style_axes(            
-    x_range=[0, 65, 5],
-    x_length = 7,
-    ticks=True,
-    x_axis_config={
-        "numbers_to_include": np.arange(0, 65, 15),
-        "numbers_with_elongated_ticks": np.arange(0, 65, 10),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":SPINACH,
-        },
-    },
-    y_range=[0, 10, 1],
-    y_length = 6,
-    y_axis_config={
-        "numbers_to_include": np.arange(0, 11, 2),
-        "numbers_with_elongated_ticks": np.arange(0, 11, 5),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":CARROTS,
-        }
-    },
+# The shared two-panel stage, verbatim from A2's B15 block so the recap is
+# literally the screen A2 ended on (guide §1: peers share the band centre).
+PANEL_KWARGS = dict(
+    x_range=[0, 11, 1], y_range=[0, 45, 5], x_length=4.6, y_length=4.3, ticks=True,
 )
-
-PPF_axis_small = style_axes(            
-    x_range=[0, 65, 5],
-    x_length = 7,
-    ticks=True,
-    x_axis_config={
-        "numbers_to_include": np.arange(0, 50, 45),
-        "numbers_with_elongated_ticks": np.arange(0, 50, 10),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":SPINACH,
-        },
-    },
-    y_range=[0, 8, 1],
-    y_length = 6,
-    y_axis_config={
-        "numbers_to_include": np.arange(0, 6, 5),
-        "numbers_with_elongated_ticks": np.arange(0, 6, 5),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":CARROTS,
-        }
-    },
-)
-
-vertical_spinach_axis = NumberLine(
-    x_range=[0, 50, 1],  # Range from -5 to 5 with step size 1
-    length=4,            # Length of the axis
-    color=MUTED,         # Color of the line
-    include_numbers=False, # Include numbers on the axis
-    include_ticks=False,
-    label_direction=LEFT  # Place numbers to the left of the line
-).rotate(PI / 2)  # Rotate by 90 degrees (PI / 2 radians) to make it vertical
-
-vertical_carrot_axis = NumberLine(
-    x_range=[0, 8, 1],  # Range from -5 to 5 with step size 1
-    length=4,            # Length of the axis
-    color=MUTED,         # Color of the line
-    include_numbers=False, # Include numbers on the axis
-    include_ticks=False,
-    label_direction=LEFT  # Place numbers to the left of the line
-).rotate(PI / 2)  # Rotate by 90 degrees (PI / 2 radians) to make it vertical
-
-
-class animation_4(MovingCameraScene):
-
-    def construct(self):
-        
-        # ---- Starting Objects
-        
-        axes = PPF_axis.shift(RIGHT*2).scale(0.8)
-        axes_m = PPF_axis_small.copy().move_to(axes).shift(RIGHT)
-
-        question1 = Tex('But is a guild necessary?').scale(1.3).set_color(FOCUS).next_to(axes, RIGHT, buff=-1/2)
-        molly_name = Tex("Molly's PPF").scale(1.5).rotate(np.pi/2).set_color(MOLLY).next_to(axes_m,LEFT)
-        
-        molly_ad = axes_m.coords_to_point(45,0)
-        molly_ad = Dot(molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        molly_ad.z_index = 0
-        
-        ppf_molly_graph = axes_m.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        
-        p1m = axes_m.coords_to_point(45, 0)
-        dotm = Dot(p1m)
-        dotm.z_index = 2
-
-
-        self.camera.frame.shift(RIGHT*5)
-        quetion1 = question1.to_edge(UP).set_x(self.camera.frame.get_center()[0])
-        self.add(
-            question1, molly_name, molly_ad,
-            ppf_molly_graph, dotm, axes_m
-        )
-
-        p1m_self = axes_m.coords_to_point(45-27, 3)
-        dotm_self = Dot(p1m_self)
-
-        # Create a CurvedArrow
-        curved_arrow = CurvedArrow(p1m, p1m_self, color=GUIDE, angle=PI / 4).shift(RIGHT/5+UP/5)
-
-        p2m = axes_m.coords_to_point(45, 0)
-        dot2m = Dot(p1m)
-        dotm.z_index = 2
-
-        m_value = ValueTracker(45)
-
-        def Move_M():
-            x = m_value.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=1).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=1/4).set_value(x)
-            y = PPF_Molly(x)
-            y_int = axes_m.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=1).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT,buff=0).set_value(y).rotate(np.pi/2)
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            y_intercept = axes_m.coords_to_point(0,0)
-
-            carrot_line = Line(start=p2m, end=x_int, color=SPINACH, stroke_width=8)
-            spinach_line = Line(start=y_intercept, end=y_int, color=CARROTS, stroke_width=8)
-            
-            return VGroup(dot,vline,hline,x_label,y_label,carrot_line,spinach_line)#,exchange_spinach,exchange_carrot)
-            
-        self.remove(dotm)
-        dotm = always_redraw(Move_M)
-        self.add(dotm)
-
-        # ---- Op Cost Math 1
-
-        self.play(Create(curved_arrow), m_value.animate.set_value(45-27),run_time=3)
-
-        x = m_value.get_value()
-        y = PPF_Molly(x)
-        y_ex_p = axes_m.coords_to_point(0,y/2)
-        x_ex_p = axes_m.coords_to_point((45+x)/2,0)
-        
-        exchange_carrot = Tex('{{3}} {{C}}').set_color(CARROTS).scale(0.8).next_to(y_ex_p,RIGHT,buff=1/4).set_value(y)
-        exchange_spinach = Tex('{{27}} {{S}}').set_color(SPINACH).scale(0.8).next_to(x_ex_p,UP,buff=1/4).set_value(45-x)
-
-        self.play(FadeIn(exchange_spinach, exchange_carrot))
-
-        self.wait(1/2)
-
-        OR = Tex("or").next_to(axes_m,RIGHT,buff=2).scale(1.5)
-        equal = Tex("=").next_to(axes_m,RIGHT,buff=2).scale(1.5)
-        
-        self.play(FadeIn(OR),exchange_spinach.animate.next_to(OR,RIGHT,buff=1).scale(1.5/0.8),exchange_carrot.animate.next_to(OR,LEFT,buff=1).scale(1.5/0.8))
-        self.wait(1/2)
-        self.play(Transform(OR,equal))
-        self.wait(1/2)
-        
-        exchange_carrot_new = Tex(r"$\frac{3}{3}$ {{C}}").scale(1.5).next_to(OR,LEFT,buff=1).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-            })
-        exchange_spinach_new = Tex(r"{{$\frac{27}{3}$}} {{S}}").scale(1.5).next_to(OR,RIGHT,buff=1).set_color_by_tex_to_color_map({
-                "S": SPINACH,
-            })
-        self.play(Transform(exchange_carrot[0],exchange_carrot_new[0]),Transform(exchange_spinach[0],exchange_spinach_new[0]))
-        self.wait(1/2)
-
-        exchange_carrot_new = Tex('{{1}} {{C}}').scale(1.5).next_to(OR,LEFT,buff=1).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-            })
-        exchange_spinach_new = Tex('{{9}} {{S}}').scale(1.5).next_to(OR,RIGHT,buff=1).set_color_by_tex_to_color_map({
-                "S": SPINACH,
-            })
-        self.play(Transform(exchange_carrot[0],exchange_carrot_new[0]),Transform(exchange_spinach[0],exchange_spinach_new[0]))
-        self.wait(1/2)
-
-        self.play(FadeOut(exchange_spinach, curved_arrow, OR, exchange_carrot))
-
-        self.wait(1/2)
-
-        # ---- Op Cost Math 2
-
-        p1m_self = axes_m.coords_to_point(45-18, 2)
-        dotm_self = Dot(p1m_self)
-
-        # Create a CurvedArrow
-        curved_arrow = CurvedArrow(p1m, p1m_self, color=GUIDE, angle=PI / 4).shift(RIGHT/5+UP/5)
-
-        self.play(Create(curved_arrow), m_value.animate.set_value(45-18),run_time=3)
-
-        x = m_value.get_value()
-        y = PPF_Molly(x)
-        y_ex_p = axes_m.coords_to_point(0,y/2)
-        x_ex_p = axes_m.coords_to_point((45+x)/2,0)
-
-        exchange_carrot = Tex('{{2}} {{C}}').set_color(CARROTS).scale(0.8).next_to(y_ex_p,RIGHT,buff=1/4).set_value(y)
-        exchange_spinach = Tex('{{18}} {{S}}').set_color(SPINACH).scale(0.8).next_to(x_ex_p,UP,buff=1/4).set_value(45-x)
-
-        self.play(FadeIn(exchange_spinach, exchange_carrot))
-
-        self.wait(1/2)
-
-        OR = Tex("or").next_to(axes_m,RIGHT,buff=2).scale(1.5)
-        equal = Tex("=").next_to(axes_m,RIGHT,buff=2).scale(1.5)
-        
-        self.play(FadeIn(OR),exchange_spinach.animate.next_to(OR,RIGHT,buff=1).scale(1.5/0.8),exchange_carrot.animate.next_to(OR,LEFT,buff=1).scale(1.5/0.8))
-        self.wait(1/2)
-        self.play(Transform(OR,equal))
-        self.wait(1/2)
-        
-        exchange_carrot_new = Tex(r"$\frac{2}{2}$ {{C}}").scale(1.5).next_to(OR,LEFT,buff=1).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-            })
-        exchange_spinach_new = Tex(r"{{$\frac{18}{2}$}} {{S}}").scale(1.5).next_to(OR,RIGHT,buff=1).set_color_by_tex_to_color_map({
-                "S": SPINACH,
-            })
-        self.play(Transform(exchange_carrot[0],exchange_carrot_new[0]),Transform(exchange_spinach[0],exchange_spinach_new[0]))
-        self.wait(1/2)
-
-        exchange_carrot_new = Tex('{{1}} {{C}}').scale(1.5).next_to(OR,LEFT,buff=1).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-            })
-        exchange_spinach_new = Tex('{{9}} {{S}}').scale(1.5).next_to(OR,RIGHT,buff=1).set_color_by_tex_to_color_map({
-                "S": SPINACH,
-            })
-        self.play(Transform(exchange_carrot[0],exchange_carrot_new[0]),Transform(exchange_spinach[0],exchange_spinach_new[0]))
-        self.wait(1/2)
-        
-        molly_exchange = VGroup(exchange_spinach, OR, exchange_carrot)
-        molly_exchange_new = Tex('1 C = 9 S').set_color(MOLLY).next_to(axes_m,UP,buff=-1)
-
-        self.play(Transform(molly_exchange, molly_exchange_new))
-        self.wait(1/2)
-
-        # ---- Trade Deal: Offer Molly 3 instead of 2
-
-        c_X = ValueTracker(3)
-        s_X = ValueTracker(27)
-
-        def Move_MX():
-            x = s_X.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-
-            y = c_X.get_value()
-            y_int = axes_m.coords_to_point(0,y)
-            
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(GUILD)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            start = axes_m.coords_to_point(0.4,0)
-            end = axes_m.coords_to_point(0.4,y)
-            carrot_line = Line(start=start, end=end, color=TRADE, stroke_width=8)
-            y_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(y_int,RIGHT,buff=0).set_value(y).rotate(np.pi/2)
-
-            start = axes_m.coords_to_point(45,0.4/9)
-            end = axes_m.coords_to_point(x,0.4/9)
-            spinach_line = Line(start=start, end=end, color=GUILD, stroke_width=8)
-            x_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(x_int,UP,buff=1/4).set_value(x)
-
-            return VGroup(dot,vline,hline,y_label,carrot_line,spinach_line,x_label)#,exchange_spinach,exchange_carrot)
-            
-        dotmx = always_redraw(Move_MX)
-        
-        exchange_carrot = Tex('{{3}} {{C}}').set_color(GUILD).scale(0.8).next_to(dotmx[4],RIGHT,buff=0)
-        exchange_spinach = Tex('{{18}} {{S}}').set_color(GUILD).scale(0.8).next_to(dotmx[5],UP,buff=0)
-
-        self.play(FadeIn(dotmx), FadeIn(exchange_carrot, exchange_spinach), FadeOut(curved_arrow))
-
-        self.wait(1/2)
-
-        OR = Tex("or").next_to(axes_m,RIGHT,buff=2).scale(1.5)
-        equal = Tex("=").next_to(axes_m,RIGHT,buff=2).scale(1.5)
-        
-        self.play(FadeIn(OR),exchange_spinach.animate.next_to(OR,RIGHT,buff=1).scale(1.5/0.8),exchange_carrot.animate.next_to(OR,LEFT,buff=1).scale(1.5/0.8))
-        self.wait(1/2)
-        self.play(Transform(OR,equal))
-        self.wait(1/2)
-        
-        exchange_carrot_new = Tex(r"$\frac{3}{3}$ {{C}}").scale(1.5).next_to(OR,LEFT,buff=1).set_color_by_tex_to_color_map({
-                "C": GUILD,
-            })
-        exchange_spinach_new = Tex(r"{{$\frac{18}{3}$}} {{S}}").scale(1.5).next_to(OR,RIGHT,buff=1).set_color_by_tex_to_color_map({
-                "S": GUILD,
-            })
-        self.play(Transform(exchange_carrot[0],exchange_carrot_new[0]),Transform(exchange_spinach[0],exchange_spinach_new[0]))
-        self.wait(1/2)
-
-        exchange_carrot_new = Tex('{{1}} {{C}}').scale(1.5).next_to(OR,LEFT,buff=1).set_color_by_tex_to_color_map({
-                "C": GUILD,
-            })
-        exchange_spinach_new = Tex('{{6}} {{S}}').scale(1.5).next_to(OR,RIGHT,buff=1).set_color_by_tex_to_color_map({
-                "S": GUILD,
-            })
-        self.play(Transform(exchange_carrot[0],exchange_carrot_new[0]),Transform(exchange_spinach[0],exchange_spinach_new[0]))
-        self.wait(1/2)
-
-        exchange_rate = VGroup(exchange_spinach, OR, exchange_carrot)
-        
-        exchange_rate_new = Tex('1 C = {{6}} S').set_color(GUILD)
-        exchange_rate_new.next_to(molly_exchange, RIGHT, buff=2)
-        
-        self.play(Transform(exchange_rate, exchange_rate_new))
-        self.wait(1/2)
-
-        e_box = SurroundingRectangle(exchange_rate, buff=1/4)
-        self.play(Create(e_box))
-        
-        m_box = SurroundingRectangle(molly_exchange, buff=1/4)
-        self.play(Create(m_box))
-        
-        self.wait(1/2)
-
-        self.play(FadeOut(e_box),FadeOut(m_box))
-
-        #trade_point_new = axes_m.coords_to_point(, )
-        #trade_dot_new = Dot(trade_point_new).set_color(GUILD)
-        #trade_dot_new.z_index = 3
-
-        self.wait(1/2)
-
-        self.play(
-            s_X.animate.set_value(45-27),
-            c_X.animate.set_value(27/6),
-            m_value.animate.set_value(45-27)
-        )
-
-        self.wait(1/2)
-        # Then show the trade line when it's good like this
-
-        alpha_m = 0
-        alpha_a = 1
-        c_x = ValueTracker(1)
-        s_x = ValueTracker(6)
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x.get_value()/s_x.get_value()
-
-        trade_line = DashedVMobject(axes_m.plot(trade_molly, color=TRADE, x_range=(0, 45)))
-
-        self.play(FadeIn(trade_line))
-
-        self.wait(1/2)
-
-        # ---- Then change the exchange rate 1 for 4
-        
-        # exchange rate label
-        exchange_rate_new = Tex('1 C = {{4}} S').set_color(GUILD).next_to(molly_exchange, RIGHT, buff=2)
-
-        # exchange rate line
-        s_x.set_value(4)
-        
-        trade_line_new = DashedVMobject(axes_m.plot(trade_molly, color=TRADE, x_range=(0, 45)))
-
-        self.play(
-            c_X.animate.set_value(27/4),
-            Transform(exchange_rate,exchange_rate_new),
-            Transform(trade_line,trade_line_new)
-        )
-        self.wait(1/2)
-
-        self.play(
-            c_X.animate.set_value((45-24)/4),
-            s_X.animate.set_value(24)
-        )
-        self.wait(1/2)
-
-
-PPF_axis = style_axes(            
-    x_range=[0, 65, 5],
-    x_length = 7,
-    ticks=True,
-    x_axis_config={
-        "numbers_to_include": np.arange(0, 65, 15),
-        "numbers_with_elongated_ticks": np.arange(0, 65, 10),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":SPINACH,
-        },
-    },
-    y_range=[0, 10, 1],
-    y_length = 6,
-    y_axis_config={
-        "numbers_to_include": np.arange(0, 11, 2),
-        "numbers_with_elongated_ticks": np.arange(0, 11, 5),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":CARROTS,
-        }
-    },
-)
-
-PPF_axis_small = style_axes(            
-    x_range=[0, 65, 5],
-    x_length = 7,
-    ticks=True,
-    x_axis_config={
-        "numbers_to_include": np.arange(0, 50, 45),
-        "numbers_with_elongated_ticks": np.arange(0, 50, 10),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":SPINACH,
-        },
-    },
-    y_range=[0, 8, 1],
-    y_length = 6,
-    y_axis_config={
-        "numbers_to_include": np.arange(0, 6, 5),
-        "numbers_with_elongated_ticks": np.arange(0, 6, 5),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-            "color":CARROTS,
-        }
-    },
-)
-
-vertical_spinach_axis = NumberLine(
-    x_range=[0, 50, 1],  # Range from -5 to 5 with step size 1
-    length=4,            # Length of the axis
-    color=MUTED,         # Color of the line
-    include_numbers=False, # Include numbers on the axis
-    include_ticks=False,
-    label_direction=LEFT  # Place numbers to the left of the line
-).rotate(PI / 2)  # Rotate by 90 degrees (PI / 2 radians) to make it vertical
-
-vertical_carrot_axis = NumberLine(
-    x_range=[0, 8, 1],  # Range from -5 to 5 with step size 1
-    length=4,            # Length of the axis
-    color=MUTED,         # Color of the line
-    include_numbers=False, # Include numbers on the axis
-    include_ticks=False,
-    label_direction=LEFT  # Place numbers to the left of the line
-).rotate(PI / 2)  # Rotate by 90 degrees (PI / 2 radians) to make it vertical
-
-
-# shadowed duplicate, kept for the rewrite
-class animation_5_v1(MovingCameraScene):
+PANEL_DROP = DOWN * 0.30
+NAME_Y = -3.30                 # the under-axis band: names / stored rate lines
+
+
+def molly_axes():
+    return style_axes(
+        x_axis_config={'numbers_to_include': [10],
+                       'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
+        y_axis_config={'numbers_to_include': [40],
+                       'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
+        **PANEL_KWARGS).shift(LEFT * 3.8 + PANEL_DROP)
+
+
+def andrew_axes():
+    return style_axes(
+        x_axis_config={'numbers_to_include': [8],
+                       'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
+        y_axis_config={'numbers_to_include': [16],
+                       'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
+        **PANEL_KWARGS).shift(RIGHT * 3.2 + PANEL_DROP)
+
+
+def panel_caps(ax_):
+    return VGroup(
+        Tex('Carrots').scale(SCALE_TICK).set_color(CARROTS).next_to(ax_.c2p(11, 0), RIGHT, buff=0.2),
+        Tex('Spinach').scale(SCALE_TICK).set_color(SPINACH).next_to(ax_.c2p(0, 42), RIGHT, buff=0.2))
+
+
+def under_axis(ax_, mob):
+    """Park a line centred under a panel's x-axis (the A2 name/rate band)."""
+    return mob.move_to(np.array([ax_.c2p(5.5, 0)[0], NAME_Y, 0]))
+
+
+def rate_tex(name, s_num):
+    """An under-axis stored-rate line: numerals INK, letters colored."""
+    return Tex(f'{name}: {{{{1}}}} {{{{C}}}} $=$ {{{{{s_num}}}}} {{{{S}}}}').scale(0.9).set_color_by_tex_to_color_map({
+        'C': CARROTS, 'S': SPINACH})
+
+
+def autarky_marker(ax_, c, s):
+    p = ax_.c2p(c, s)
+    dot = Dot(p, color=INK, z_index=10)
+    v = DashedLine(ax_.c2p(c, 0), p, color=MUTED)
+    h = DashedLine(ax_.c2p(0, s), p, color=MUTED)
+    lab = Tex(f'({c}, {s})').scale(SCALE_CAPTION).set_color(CAPTION).next_to(p, DL, buff=0.15)
+    return VGroup(v, h, dot, lab)
+
+
+class Derivation:
+    """A one-line derivation whose LETTERS never move and never re-render
+    (ported from A2). Layout is `[numeral] C  =  [numeral] S`; step() returns
+    the two Transforms that touch only the numerals."""
+
+    def __init__(self, at, left_num, left_letter, right_num, right_letter,
+                 sep='=', scale=1.2, sep_gap=0.8, num_room=0.75, num_gap=0.2,
+                 left_color=CARROTS, right_color=SPINACH):
+        self.scale_f = scale
+        self.num_gap = num_gap
+        self.sep = Tex(sep).scale(scale).move_to(at)
+        self.lL = (Tex(left_letter).scale(scale).set_color(left_color)
+                   .next_to(self.sep, LEFT, buff=sep_gap))
+        self.lR = (Tex(right_letter).scale(scale).set_color(right_color)
+                   .next_to(self.sep, RIGHT, buff=sep_gap + num_room + num_gap))
+        self.nL = self._num(left_num, self.lL)
+        self.nR = self._num(right_num, self.lR)
+        self.group = VGroup(self.nL, self.lL, self.sep, self.nR, self.lR)
+
+    def _num(self, txt, letter):
+        return (Tex(txt).scale(self.scale_f).set_color(INK)
+                .next_to(letter, LEFT, buff=self.num_gap))
+
+    def step(self, left_num, right_num):
+        return [Transform(self.nL, self._num(left_num, self.lL)),
+                Transform(self.nR, self._num(right_num, self.lR))]
+
+
+def focus_box(*mobs, buff=0.2):
+    return SurroundingRectangle(VGroup(*mobs), color=FOCUS, buff=buff, stroke_width=2.5)
+
+
+class EpisodeA3(Scene):
+    """Episode A3 | Trade. One flat construct(); each `# Bxx` section is
+    self-contained and ends at the pause() the viewer parks on."""
+
+    def reset_frame(self):
+        """Camera home. Called before every FadeAll transition (A1's B10 idiom)."""
+        self.camera.frame.move_to(ORIGIN).set(width=FRAME_W)
+        self.drop_frame()
+
+    def drop_frame(self):
+        """Take camera frames (bare Mobjects maniml puts in scene.mobjects)
+        back out, so exercise_card()'s VGroup(*mobjects) never chokes."""
+        for m in list(self.mobjects):
+            if not isinstance(m, (VMobject, ImageMobject)):
+                self.remove(m)
 
     def construct(self):
 
-        self.camera.frame.shift(RIGHT*5)
-        
-        # ---- Starting Axes
-        
-        axes = PPF_axis.shift(RIGHT*2).scale(0.8)
-        axes_m = PPF_axis_small.copy().move_to(axes).shift(RIGHT)
-
-        vertical_spinach = vertical_spinach_axis.copy().next_to(axes_m, RIGHT, buff=2)
-        vertical_carrots = vertical_carrot_axis.copy().next_to(vertical_spinach, RIGHT, buff=1/2)
-
-        axes_a = PPF_axis_small.copy().next_to(vertical_carrots, buff=1).shift(RIGHT)
-
-        # ---- Starting Text
-
-        question1 = Tex('But is a guild necessary?').scale(1.3).set_color(FOCUS).next_to(axes, RIGHT, buff=-1/2)
-        quetion1 = question1.to_edge(UP).set_x(self.camera.frame.get_center()[0])
-
-        molly_name = Tex("Molly's PPF").scale(1.5).rotate(np.pi/2).set_color(MOLLY).next_to(axes_m,LEFT)
-        molly_exchange = Tex('1 C = 9 S').set_color(MOLLY).rotate(np.pi/2).next_to(axes_m,RIGHT,buff=1/2)
-        
-        # ---- Starting Graph Objects
-        
-        molly_ad = axes_m.coords_to_point(45,0)
-        molly_ad = Dot(molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        molly_ad.z_index = 0
-        
-        ppf_molly_graph = axes_m.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        ppf_andrew_graph = axes_a.plot(PPF_Andrew, color=ANDREW, x_range=(0, 18))
-
-
-        alpha_m = 0
-        alpha_a = 1
-        c_x = ValueTracker(27/4)
-        s_x = ValueTracker(27)
-        m_value = ValueTracker(45-27)
-
-        def Move_X():
-            cx = c_x.get_value()
-            sx = s_x.get_value()
-            
-            c_t_point = Dot(color=GUILD)
-            c_t_point_position = vertical_carrots.number_to_point(cx)
-            c_t_point.move_to(c_t_point_position)
-            c_t_point.z_index = 3
-
-            s_t_point = Dot(color=GUILD)
-            s_t_point_position = vertical_spinach.number_to_point(sx)
-            s_t_point.move_to(s_t_point_position)
-            s_t_point.z_index = 3
-
-            trade_point = axes_m.coords_to_point(45-sx, sx/4)
-            trade_dot = Dot(trade_point).set_color(GUILD)
-            trade_dot.z_index = 3
-
-            first = Tex("1 C = ")
-            second = DecimalNumber(sx/cx, num_decimal_places=0)
-            third = Tex(" S")
-            exchange_rate = VGroup(first,second,third).arrange(RIGHT).set_color(GUILD)
-            exchange_rate = exchange_rate.next_to(VGroup(vertical_spinach, vertical_carrots), DOWN, buff=1/2)
-
-            def trade_molly(s):
-                x = s - (1-alpha_m)*45
-                return alpha_m * 5 - x * cx/sx
-            
-            trade_line_m = DashedVMobject(axes_m.plot(trade_molly, color=TRADE, x_range=(0, 45)))
-
-            def trade_andrew(s):
-                x = s - (1-alpha_a)*18
-                return alpha_a*4 - x*cx/sx
-                
-            trade_line_a = DashedVMobject(axes_a.plot(trade_andrew, color=TRADE, x_range=(0, 45)))
-        
-            return VGroup(
-                c_t_point, s_t_point, trade_dot,
-                trade_line_m, exchange_rate,
-                trade_line_a
-            )
-        dotx = always_redraw(Move_X)
-
-        def Move_M():
-            p1m_self = axes_m.coords_to_point(45-27, 3)
-            dotm_self = Dot(p1m_self)
-    
-            p1m = axes_m.coords_to_point(45, 0)
-            dotm = Dot(p1m)
-            dotm.z_index = 2
-    
-            p2m = axes_m.coords_to_point(45, 0)
-            dot2m = Dot(p1m)
-            dotm.z_index = 2
-            
-            x = m_value.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=1).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=1/4).set_value(x)
-            
-            y = PPF_Molly(x)
-            y_int = axes_m.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=1).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT,buff=0).set_value(y).rotate(np.pi/2)
-            
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            y_intercept = axes_m.coords_to_point(0,0)
-
-            carrot_line = Line(start=p2m, end=x_int, color=SPINACH, stroke_width=8)
-            spinach_line = Line(start=y_intercept, end=y_int, color=CARROTS, stroke_width=8)
-
-            start_point = vertical_carrots.n2p(0)
-            end_point = vertical_carrots.n2p(y)
-            c_line = Line(start=start_point, end=end_point, color=CARROTS, stroke_width=8)
-            c_line.z_index = 1
-            
-            c_label = DecimalNumber(num_decimal_places=1).set_value(y).scale(0.8).set_color(CARROTS)
-            c_label.next_to(end_point, RIGHT)
-    
-            start_point = vertical_spinach.n2p(0)
-            end_point = vertical_spinach.n2p(45-x) 
-            s_line = Line(start=start_point, end=end_point, color=SPINACH, stroke_width=8)
-            s_line.z_index = 1
-
-            s_label = DecimalNumber(num_decimal_places=1).set_value(45-x).scale(0.8).set_color(SPINACH)
-            s_label.next_to(end_point, LEFT)
-            
-            return VGroup(
-                dot,vline,hline,x_label,y_label,carrot_line,spinach_line,
-                c_line,c_label, s_line, s_label
-                         )
-
-        dotm = always_redraw(Move_M)
-
-        def Move_A():
-            p1a_self = axes_a.coords_to_point(45-27, 3)
-            dota_self = Dot(p1a_self)
-    
-            p1a = axes_a.coords_to_point(45, 0)
-            dota = Dot(p1a)
-            dota.z_index = 2
-    
-            p2a = axes_a.coords_to_point(45, 0)
-            dot2a = Dot(p1a)
-            dota.z_index = 2
-        
-            x = m_value.get_value()
-            x_int = axes_a.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=1).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=1/4).set_value(x)
-            
-            y = PPF_Andrew(x)
-            y_int = axes_a.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=1).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT,buff=0).set_value(y).rotate(np.pi/2)
-            
-            p = axes_a.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            y_intercept = axes_a.coords_to_point(0,0)
-
-            carrot_line = Line(start=p2a, end=x_int, color=SPINACH, stroke_width=8)
-            spinach_line = Line(start=y_intercept, end=y_int, color=CARROTS, stroke_width=8)
-
-            start_point = vertical_carrots.n2p(0)
-            end_point = vertical_carrots.n2p(y)
-            c_line = Line(start=start_point, end=end_point, color=CARROTS, stroke_width=8)
-            c_line.z_index = 1
-            
-            c_label = DecimalNumber(num_decimal_places=1).set_value(y).scale(0.8).set_color(CARROTS)
-            c_label.next_to(end_point, RIGHT)
-
-            start_point = vertical_spinach.n2p(0)
-            end_point = vertical_spinach.n2p(45-x) 
-            s_line = Line(start=start_point, end=end_point, color=SPINACH, stroke_width=8)
-            s_line.z_index = 1
-
-            s_label = DecimalNumber(num_decimal_places=1).set_value(45-x).scale(0.8).set_color(SPINACH)
-            s_label.next_to(end_point, LEFT)
-            
-            return VGroup(
-                dot,vline,hline,x_label,y_label,carrot_line,spinach_line,
-                c_line,c_label, s_line, s_label
-                         )
-
-        dota = always_redraw(Move_A)
-
-        # ---- Add Objects
-        
-        self.add(
-            question1, 
-            molly_name, 
-            molly_ad,
-            ppf_molly_graph, 
-            dotm,
-            dotx,
-            axes_m,
-            dotm,
-            molly_exchange,
-            vertical_carrots, 
-            vertical_spinach,
-            #c_t_point,
-            #s_t_point,
-            #trade_dot,
-            #exchange_rate,
-            #trade_line,
-        )
-
-        self.play(
-            FadeIn(axes_a, dota, ppf_andrew_graph),
-            #self.camera.frame.animate,
-            self.camera.frame.animate.set(width=23).shift(RIGHT*4+UP),
-            question1.animate.shift(RIGHT*3.5+UP*3).scale(1.5)
-        )
-        self.wait()
-
-        #self.play(m_value.animate.set_value(0))
-
-# the colored lines on the ppf graph are enough
-# take them off the vertical lines and use the vertical lines only later
-# how to show trade then?
-# show a purple line on the ppf graph, like the orange and green
-# do the op cost math thing with trade
-# then put the exchange rate right below the question
-
-# show the trade vertical lines with color and a purple dot
-# show the purple line on the ppf graphs
-
-
-# shadowed duplicate, kept for the rewrite
-class animation_5_v2(MovingCameraScene):
-
-    def construct(self):
-        # ---- Make PPFs
-        
-        PPF_axis_small = style_axes(            
-            x_range=[0, 65, 5],
-            x_length = 7,
-            ticks=True,
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 50, 45),
-                "numbers_with_elongated_ticks": np.arange(0, 50, 10),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":SPINACH,
-                },
-            },
-            y_range=[0, 6, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 6, 5),
-                "numbers_with_elongated_ticks": np.arange(0, 6, 5),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":CARROTS,
-                }
-            },
-        )
-        
-        axes_a = PPF_axis_small.copy()
-        ppf_andrew_graph = axes_a.plot(PPF_Andrew, color=ANDREW, x_range=(0, 18))
-        andrew_name = Tex("Andrew").scale(1.2).next_to(axes_a,UP,buff=1/2).set_color(ANDREW)
-
-        axes_m = PPF_axis_small.copy().next_to(axes_a, LEFT*2)
-        ppf_molly_graph = axes_m.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        molly_name = Tex("Molly").scale(1.2).next_to(axes_m,UP,buff=1/2).set_color(MOLLY)
-        
-        molly_ad = axes_m.coords_to_point(45,0)
-        molly_ad = Dot(molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        molly_ad.z_index = 0
-        
-        andrew_ad = axes_a.coords_to_point(0,4)
-        andrew_ad = Dot(andrew_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        andrew_ad.z_index = 0
-        
-        p1m = axes_m.coords_to_point(45, 0)
-        p1a = axes_a.coords_to_point(0, 4)
-        
-        dotm = Dot(p1m)
-        dotm.z_index = 2
-        dota = Dot(p1a)
-        dota.z_index = 2
-        
-        frame_group = VGroup(
-            axes_m, dotm, molly_name, ppf_molly_graph, molly_ad,
-            axes_a, dota, andrew_name, ppf_andrew_graph, andrew_ad,
-        )
-        title = Tex('But is a guild necessary?').scale(1.3).set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-
-        self.add(frame_group, title)
-        self.camera.frame.move_to(frame_group).set(width=frame_group.width*1.3),
-        
-        self.wait()
-        
-        # ---- Self Trade
-        
-        m_value = ValueTracker(45)
-        a_value = ValueTracker(0)
-
-        def Move_M():
-            x = m_value.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=2).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=2/3).set_value(x)
-            y = PPF_Molly(x)
-            y_int = axes_m.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=2).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT).set_value(y)
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            p2m = axes_m.coords_to_point(45, 0)
-            y_intercept = axes_m.coords_to_point(0,0)
-
-            carrot_line = Line(start=p2m, end=x_int, color=SPINACH, stroke_width=8)
-            spinach_line = Line(start=y_intercept, end=y_int, color=CARROTS, stroke_width=8)
-            
-
-            return VGroup(dot,vline,hline,x_label,y_label, carrot_line, spinach_line)
-        
-        def Move_A():
-            x = a_value.get_value()
-            x_int = axes_a.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=2).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=2/3).set_value(x)
-            y = PPF_Andrew(x)
-            y_int = axes_a.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=2).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT).set_value(y)
-            p = axes_a.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            p2a = axes_a.coords_to_point(0, 0)
-            y_intercept = axes_a.coords_to_point(0,4)
-
-            spinach_line = Line(start=p2a, end=x_int, color=SPINACH, stroke_width=8)
-            carrot_line = Line(start=y_intercept, end=y_int, color=CARROTS, stroke_width=8)
-            
-            return VGroup(dot,vline,hline,x_label,y_label, carrot_line, spinach_line)
-
-        self.remove(dotm)
-        dotm = always_redraw(Move_M)
-        self.add(dotm)
-        
-        self.play(m_value.animate.set_value(36),run_time=3)
-        self.wait()
-        
-        molly_cost = Tex("1C"," for ","9S").set_color(MOLLY).next_to(molly_name,DOWN)
-        self.play(FadeIn(molly_cost))
-        self.wait()
-        
-        m_box = SurroundingRectangle(molly_cost[2], buff=1/4)
-        self.play(FadeIn(m_box))
-        self.wait()
-        
-        self.play(m_value.animate.set_value(45),run_time=3)
-        new_title = Tex('Molly benefits if she trades away less than 9S.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-
-        self.remove(dota)
-        dota = always_redraw(Move_A)
-        self.add(dota)
-        self.remove(dotm)
-        
-        self.play(a_value.animate.set_value(9/2),run_time=3)
-        self.wait()
-        
-        andrew_cost = Tex("1C"," for ","4.5S").set_color(ANDREW).next_to(andrew_name,DOWN)
-        self.play(FadeIn(andrew_cost))
-        self.wait()
-        
-        a_box = SurroundingRectangle(andrew_cost[2], buff=1/4)
-        self.play(FadeIn(a_box))
-        self.wait()
-        
-        new_title = Tex('Andrew benefits if he trades for more than 4.5S.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        
-        self.play(a_value.animate.set_value(0),run_time=3)
-        self.wait()
-
-        self.remove(dota)
-        
-        # ---- Exchange Rate
-        
-        c_x = ValueTracker(1)
-        s_x = ValueTracker(6)
-        def Exchange():
-            c = c_x.get_value()
-            c_value = DecimalNumber(num_decimal_places=0).set_value(c)
-            s = s_x.get_value()
-            s_value = DecimalNumber(num_decimal_places=1).set_value(s)
-
-            return Tex(f"{int(c)} C"," for ",f"{round(s,1)} S").set_color(TRADE).scale(1.2).next_to(frame_group,UP, buff=-1/4)
-        exchange = always_redraw(Exchange)
-        self.play(FadeIn(exchange))
-        self.wait()
-        
-        e_box = SurroundingRectangle(exchange[2], buff=1/4)
-        self.play(FadeIn(e_box))
-        self.wait()
-        
-        alpha_m = 0
-        alpha_a = 1
-        
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x.get_value()/s_x.get_value()
-        
-        def Trade_M():
-            trade_line = DashedVMobject(axes_m.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-            
-            x = m_value.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-            y = trade_molly(x)
-            y_int = axes_m.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(y_int,LEFT,buff=1).set_value(y)
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(GUILD)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            start = axes_m.coords_to_point(0.4,0)
-            end = axes_m.coords_to_point(0.4,y)
-            carrot_line = Line(start=start, end=end, color=TRADE, stroke_width=8)
-            #y_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(y_int,RIGHT,buff=0).set_value(y).rotate(np.pi/2)
-
-            start = axes_m.coords_to_point(45,0.4/9)
-            end = axes_m.coords_to_point(x,0.4/9)
-            spinach_line = Line(start=start, end=end, color=GUILD, stroke_width=8)
-            x_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(x_int,UP,buff=1/4).set_value(x)
-            
-            return VGroup(trade_line,dot,vline,hline,y_label,x_label,carrot_line,spinach_line)
-        
-        trade_m = always_redraw(Trade_M)
-        
-        
-        def trade_andrew(s):
-            x = s - (1-alpha_a)*18
-            return alpha_a*4 - x*c_x.get_value()/s_x.get_value()
-        
-        def Trade_A():
-            trade_line = DashedVMobject(axes_a.plot(trade_andrew, color=GUILD, x_range=(0, 50)))
-            
-            x = a_value.get_value()
-            x_int = axes_a.coords_to_point(x,0)
-            y = trade_andrew(x)
-            y_int = axes_a.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(y_int,LEFT,buff=1).set_value(y)
-            p = axes_a.coords_to_point(x,y)
-            dot = Dot(p).set_color(GUILD)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-
-            start = axes_a.coords_to_point(0.4,4)
-            end = axes_a.coords_to_point(0.4,y)
-            carrot_line = Line(start=start, end=end, color=TRADE, stroke_width=8)
-            #y_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(y_int,RIGHT,buff=0).set_value(y).rotate(np.pi/2)
-
-            start = axes_a.coords_to_point(0,0.4/9)
-            end = axes_a.coords_to_point(x,0.4/9)
-            spinach_line = Line(start=start, end=end, color=GUILD, stroke_width=8)
-            x_label = DecimalNumber(num_decimal_places=1).set_color(GUILD).scale(0.8).next_to(x_int,UP,buff=1/4).set_value(x)
-            
-            return VGroup(trade_line,dot,vline,hline,y_label,x_label,carrot_line,spinach_line)
-        
-        trade_a = always_redraw(Trade_A)
-        
-        self.play(FadeIn(trade_m))
-        self.play(m_value.animate.set_value(45-27),run_time=2)
-        self.wait()
-        new_title = Tex('Molly benefits from this exchange rate.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        self.play(FadeIn(trade_a), FadeOut(trade_m))
-        self.wait()
-        self.play(a_value.animate.set_value(9),run_time=2)
-        self.wait()
-        new_title = Tex('Andrew also benefits from this exchange rate.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0),run_time=2)
-        self.wait()
-        
-        # ---- Trade 2 C for 12 S
-        
-        self.play(FadeIn(trade_m))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        new_title = Tex('Both benefit.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        # ---- Change the exchange rate
-
-        self.play(FadeOut(title), s_x.animate.set_value(10))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        title = Tex('Only Andrew benefits.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(FadeIn(title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        self.play(FadeOut(title),s_x.animate.set_value(4))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        title = Tex('Only Molly benefits.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(FadeIn(title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        self.play(FadeOut(title), s_x.animate.set_value(6))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        title = Tex('Both benefit.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(FadeIn(title))
-        self.wait()
-        #self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        #self.wait()
-
-        # ---- Better than a specific point.
-
-        m_value.set_value(34)
-        a_value.set_value(11)
-
-        self.play(
-            FadeIn(dotm, dota)
-        )
-        
-        # ---- Unspecialize
-        
-        # in progress
-        
-        # ---- Conclusions
-        
-        new_title = Tex("Exchanging 1C for anything between ", "9S"," and ","4.5S", " works!").set_color(FOCUS).set_color_by_tex_to_color_map({
-                "9S": MOLLY,
-                "4.5S": ANDREW,
-            }).move_to(title)
-        self.play(Transform(title, new_title))#, self.camera.frame.animate.move_to(final_group).set(width=final_group.width*1.3))
-
-
-class animation_5(MovingCameraScene):
-
-    """Two-Sided Trade"""
-
-    def construct(self):
-        # ---- Make PPFs
-        
-        PPF_axis_small = style_axes(            
-            x_range=[0, 65, 5],
-            x_length = 7,
-            ticks=True,
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 50, 45),
-                "numbers_with_elongated_ticks": np.arange(0, 50, 10),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":SPINACH,
-                },
-            },
-            y_range=[0, 6, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 6, 5),
-                "numbers_with_elongated_ticks": np.arange(0, 6, 5),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":CARROTS,
-                }
-            },
-        )
-        
-        axes_a = PPF_axis_small.copy()
-        ppf_andrew_graph = axes_a.plot(PPF_Andrew, color=ANDREW, x_range=(0, 18))
-        andrew_name = Tex("Andrew").scale(1.2).next_to(axes_a,UP,buff=1/2).set_color(ANDREW)
-
-        axes_m = PPF_axis_small.copy().next_to(axes_a, LEFT*2)
-        ppf_molly_graph = axes_m.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        molly_name = Tex("Molly").scale(1.2).next_to(axes_m,UP,buff=1/2).set_color(MOLLY)
-        
-        molly_ad = axes_m.coords_to_point(45,0)
-        molly_ad = Dot(molly_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        molly_ad.z_index = 0
-        
-        andrew_ad = axes_a.coords_to_point(0,4)
-        andrew_ad = Dot(andrew_ad, radius=0.2, stroke_width=0, fill_opacity=0.3, color=INK)
-        andrew_ad.z_index = 0
-        
-        p1m = axes_m.coords_to_point(45, 0)
-        p1a = axes_a.coords_to_point(0, 4)
-        dotm = Dot(p1m)
-        dotm.z_index = 2
-        dota = Dot(p1a)
-        dota.z_index = 2
-        
-        frame_group = VGroup(
-            axes_m, dotm, molly_name, ppf_molly_graph, molly_ad,
-            axes_a, dota, andrew_name, ppf_andrew_graph, andrew_ad,
-        )
-        title = Tex('But is a guild necessary?').scale(1.3).set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-
-        self.add(frame_group, title)
-        self.camera.frame.move_to(frame_group).set(width=frame_group.width*1.3),
-        
-        self.wait()
-        
-        # ---- Self Trade
-        
-        m_value = ValueTracker(45)
-        a_value = ValueTracker(0)
-
-        def Move_M():
-            x = m_value.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=2).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=2/3).set_value(x)
-            y = PPF_Molly(x)
-            y_int = axes_m.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=2).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT).set_value(y)
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-            
-            return VGroup(dot,vline,hline,x_label,y_label)
-        
-        def Move_A():
-            x = a_value.get_value()
-            x_int = axes_a.coords_to_point(x,0)
-            x_label = DecimalNumber(num_decimal_places=2).set_color(SPINACH).scale(0.8).next_to(x_int,DOWN,buff=2/3).set_value(x)
-            y = PPF_Andrew(x)
-            y_int = axes_a.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=2).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT).set_value(y)
-            p = axes_a.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-            
-            return VGroup(dot,vline,hline,x_label,y_label)
-                
-        self.remove(dotm)
-        dotm = always_redraw(Move_M)
-        self.add(dotm)
-        
-        self.play(m_value.animate.set_value(36),run_time=3)
-        self.wait()
-        
-        molly_cost = Tex("1C"," for ","9S").set_color(MOLLY).next_to(molly_name,DOWN)
-        self.play(FadeIn(molly_cost))
-        self.wait()
-        
-        m_box = SurroundingRectangle(molly_cost[2], buff=1/4)
-        m_sign = Tex("-").scale(1.5).next_to(m_box, DOWN).set_color(FOCUS)
-        self.play(FadeIn(m_box), FadeIn(m_sign))
-        self.wait()
-        
-        self.play(m_value.animate.set_value(45),run_time=3)
-        new_title = Tex('Molly benefits if she trades away less than 9S.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        
-        self.remove(dota)
-        dota = always_redraw(Move_A)
-        self.add(dota)
-
-        self.play(a_value.animate.set_value(9/2),run_time=3)
-        self.wait()
-        
-        andrew_cost = Tex("1C"," for ","4.5S").set_color(ANDREW).next_to(andrew_name,DOWN)
-        self.play(FadeIn(andrew_cost))
-        self.wait()
-        
-        a_box = SurroundingRectangle(andrew_cost[2], buff=1/4)
-        a_sign = Tex("+").scale(1.5).next_to(a_box, DOWN).set_color(FOCUS)
-        self.play(FadeIn(a_box), FadeIn(a_sign))
-        self.wait()
-        
-        new_title = Tex('Andrew benefits if he trades for more than 4.5S.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        
-        self.play(a_value.animate.set_value(0),run_time=3)
-        self.wait()
-        
-        # ---- Exchange Rate
-        
-        c_x = ValueTracker(1)
-        s_x = ValueTracker(6)
-        def Exchange():
-            c = c_x.get_value()
-            c_value = DecimalNumber(num_decimal_places=0).set_value(c)
-            s = s_x.get_value()
-            s_value = DecimalNumber(num_decimal_places=1).set_value(s)
-
-            return Tex(f"{int(c)} C"," for ",f"{round(s,1)} S").set_color(TRADE).scale(1.2).next_to(frame_group,UP, buff=-1/4)
-        exchange = always_redraw(Exchange)
-        self.play(FadeIn(exchange))
-        self.wait()
-        
-        e_box = SurroundingRectangle(exchange[2], buff=1/4)
-        self.play(FadeIn(e_box))
-        self.wait()
-        
-        alpha_m = 0
-        alpha_a = 1
-        
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x.get_value()/s_x.get_value()
-        
-        def Trade_M():
-            trade_line = DashedVMobject(axes_m.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-            
-            x = m_value.get_value()
-            x_int = axes_m.coords_to_point(x,0)
-            y = trade_molly(x)
-            y_int = axes_m.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=2).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT,buff=1).set_value(y)
-            p = axes_m.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-            
-            return VGroup(trade_line,dot,vline,hline,y_label)
-        
-        trade_m = always_redraw(Trade_M)
-        
-        
-        def trade_andrew(s):
-            x = s - (1-alpha_a)*18
-            return alpha_a*4 - x*c_x.get_value()/s_x.get_value()
-        
-        def Trade_A():
-            trade_line = DashedVMobject(axes_a.plot(trade_andrew, color=TRADE, x_range=(0, 50)))
-            
-            x = a_value.get_value()
-            x_int = axes_a.coords_to_point(x,0)
-            y = trade_andrew(x)
-            y_int = axes_a.coords_to_point(0,y)
-            y_label = DecimalNumber(num_decimal_places=2).set_color(CARROTS).scale(0.8).next_to(y_int,LEFT,buff=1).set_value(y)
-            p = axes_a.coords_to_point(x,y)
-            dot = Dot(p).set_color(INK)
-            dot.z_index = 2
-            vline = DashedLine(x_int,p).set_color(MUTED)
-            hline = DashedLine(y_int,p).set_color(MUTED)
-            
-            return VGroup(trade_line,dot,vline,hline,y_label)
-        
-        trade_a = always_redraw(Trade_A)
-        
-        self.play(FadeIn(trade_m))
-        self.play(m_value.animate.set_value(45-27),run_time=2)
-        self.wait()
-        new_title = Tex('Molly benefits from this exchange rate.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        self.play(FadeIn(trade_a), FadeOut(trade_m))
-        self.wait()
-        self.play(a_value.animate.set_value(9),run_time=2)
-        self.wait()
-        new_title = Tex('Andrew also benefits from this exchange rate.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0),run_time=2)
-        self.wait()
-        
-        # ---- Trade 2 C for 12 S
-        
-        self.play(FadeIn(trade_m))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        new_title = Tex('Both benefit.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        # ---- Change the exchange rate
-        
-        self.play(s_x.animate.set_value(10))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        new_title = Tex('Only Andrew benefits.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        self.play(s_x.animate.set_value(4))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        new_title = Tex('Only Molly benefits.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        self.play(s_x.animate.set_value(6))
-        self.wait()
-        self.play(a_value.animate.set_value(12), m_value.animate.set_value(45-12),run_time=2)
-        self.wait()
-        new_title = Tex('Both benefit.').set_color(FOCUS).next_to(frame_group, UP, buff=1/2)
-        self.play(Transform(title, new_title))
-        self.wait()
-        self.play(a_value.animate.set_value(0), m_value.animate.set_value(45),run_time=2)
-        self.wait()
-        
-        # ---- Unspecialize
-        
-        # in progress
-        
-        # ---- Conclusions
-        
-        new_title = Tex("Exchanging 1C for anything between ", "9S"," and ","4.5S", " works!").set_color(FOCUS).set_color_by_tex_to_color_map({
-                "9S": MOLLY,
-                "4.5S": ANDREW,
-            }).move_to(title)
-        self.play(Transform(title, new_title))#, self.camera.frame.animate.move_to(final_group).set(width=final_group.width*1.3))
-
-
-class animation_old(Scene):      
-
-    """Animation 5 | Trade With Another (unused)"""
-
-    def construct(self):
-        
-        # ---- Definitions
-        
-        PPF_axis = style_axes(            
-            x_range=[0, 65, 5],
-            x_length = 7,
-            ticks=True,
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 65, 15),
-                "numbers_with_elongated_ticks": np.arange(0, 65, 10),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":SPINACH,
-                },
-            },
-            y_range=[0, 10, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 11, 2),
-                "numbers_with_elongated_ticks": np.arange(0, 11, 5),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":CARROTS,
-                }
-            },
-        )
-
-        alpha_m = 2/3
-        alpha_a = 1/3
-        
-        # ---- Starting Objects
-        
-        axes = PPF_axis.shift(RIGHT*2).scale(0.8)
-        
-        ppf_molly_graph = axes.plot(PPF_Molly, color=MOLLY, x_range=(0, 45))
-        molly = Rectangle(height=3, width=3, color=MOLLY).move_to(LEFT*4.5 + UP*2)
-        molly.z_index = 2
-        molly_name = Tex("Molly").scale(1.5).next_to(molly,LEFT,buff=-1/2).set_color(MOLLY).rotate(np.pi/2)
-        molly_cost = Tex("$1C=9S$").next_to(molly,RIGHT,buff=-0.6).set_color(MOLLY).rotate(np.pi/2)
-        molly_group = VGroup(molly,molly_name,molly_cost)
-        
-        m_carrots = Rectangle(height=alpha_m*3, width=3, color=CARROTS, fill_opacity=1)
-        m_spinach = Rectangle(height=(1-alpha_m)*3, width=3, color=SPINACH, fill_opacity=1)
-        molly_crops = VGroup(m_carrots,m_spinach.next_to(m_carrots,DOWN,buff=0)).move_to(molly)
-        
-        ppf_andrew_graph = axes.plot(PPF_Andrew, color=ANDREW, x_range=(0, 18))
-        andrew = Rectangle(height=3, width=3, color=ANDREW).move_to(LEFT*4.5 + DOWN*2)
-        andrew.z_index = 2
-        andrew_name = Tex("Andrew").scale(1.5).next_to(andrew,LEFT,buff=-0.8).set_color(ANDREW).rotate(np.pi/2)
-        andrew_cost = Tex("$1C=4.5S$").next_to(andrew,RIGHT,buff=-0.8).set_color(ANDREW).rotate(np.pi/2)
-        andrew_group = VGroup(andrew,andrew_name,andrew_cost)
-        
-        a_carrots = Rectangle(height=alpha_a*3, width=3, color=CARROTS, fill_opacity=1)
-        a_spinach = Rectangle(height=(1-alpha_a)*3, width=3, color=SPINACH, fill_opacity=1)
-        andrew_crops = VGroup(a_carrots,a_spinach.next_to(a_carrots,DOWN,buff=0)).move_to(andrew)
-    
-        p1m = axes.coords_to_point((1-alpha_m)*45, alpha_m*5)
-        p1a = axes.coords_to_point((1-alpha_a)*18, alpha_a*4)
-        dotm = Dot(p1m)
-        dota = Dot(p1a)
-        
-        # ---- Setup
-        
-        self.add(axes,molly_group,molly_crops,andrew_group,andrew_crops,ppf_molly_graph,ppf_andrew_graph,dotm,dota)
-        self.wait(1/2)
-        
-        # ---- Introduce The Exchange Rate
-        
-        c_x,s_x = 1,20
-        exchange = Tex(str(c_x)+' {{C}} for '+str(s_x)+' {{S}}').move_to(UP*2+RIGHT*3).scale(1.5).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-                "S": SPINACH,
-            })
-        
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x/s_x
-        trade_molly_graph = DashedVMobject(axes.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-        
-        def trade_andrew(s):
-            x = s - (1-alpha_a)*18
-            return alpha_a*4 - x*c_x/s_x
-        trade_andrew_graph = DashedVMobject(axes.plot(trade_andrew, color=TRADE, x_range=(0, 50)))
-        
-        self.play(FadeIn(exchange))
-        self.wait(1/2)
-        framebox1 = SurroundingRectangle(exchange, buff = 0.3).set_color(TRADE)
-        self.play(Create(framebox1))
-        self.wait(1/2)
-        self.play(dota.animate.set_opacity(0.1),ppf_andrew_graph.animate.set_opacity(0.1))
-        self.wait(1/2)
-        self.play(Create(trade_molly_graph))
-        self.wait(1/2)
-        
-        c_x,s_x = 1,30
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x/s_x
-        trade_molly_graph_new = DashedVMobject(axes.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-        exchange_new = Tex(str(c_x)+' {{C}} for '+str(s_x)+' {{S}}').move_to(UP*2+RIGHT*3).scale(1.5).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-                "S": SPINACH,
-            })
-        self.play(Transform(trade_molly_graph,trade_molly_graph_new),Transform(exchange,exchange_new))
-        
-        c_x,s_x = 1,2
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x/s_x
-        trade_molly_graph_new = DashedVMobject(axes.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-        exchange_new = Tex(str(c_x)+' {{C}} for '+str(s_x)+' {{S}}').move_to(UP*2+RIGHT*3).scale(1.5).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-                "S": SPINACH,
-            })
-        self.play(Transform(trade_molly_graph,trade_molly_graph_new),Transform(exchange,exchange_new))
-        
-        b = axes.coords_to_point(45, 0)
-        c = axes.coords_to_point(50, trade_molly(50))
-        if c_x/s_x > 1/9:
-            b = axes.coords_to_point(0, 5)
-            c = axes.coords_to_point(0, trade_molly(0))
-        trade_region_molly = Polygon(p1m,b,c, color=MOLLY,fill_opacity=0)
-        #self.play(Create(trade_region_molly))
-        self.play(trade_region_molly.animate.set_fill(MOLLY, opacity=0.5))
-        self.wait(1/2)
-        
-        for c_x,s_x in [[1,80]]: #something's not right with andrew's area when s_x is less than 4.5...
-            def trade_molly(s):
-                x = s - (1-alpha_m)*45
-                return alpha_m*5 - x*c_x/s_x
-            def trade_molly_inv(c):
-                return alpha_m*5*(s_x/c_x) - c*(s_x/c_x) + (1-alpha_m)*45
-            trade_molly_graph_new = DashedVMobject(axes.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-            exchange_new = Tex(str(c_x)+' {{C}} for '+str(s_x)+' {{S}}').move_to(UP*2+RIGHT*3).scale(1.5).set_color_by_tex_to_color_map({
-                    "C": CARROTS,
-                    "S": SPINACH,})
-            self.play(Transform(trade_molly_graph,trade_molly_graph_new),Transform(exchange,exchange_new),FadeOut(trade_region_molly))
-            b = axes.coords_to_point(45, 0)
-            c = axes.coords_to_point(trade_molly_inv(0),0)
-            if c_x/s_x > 1/9:
-                b = axes.coords_to_point(0, 5)
-                c = axes.coords_to_point(0, trade_molly(0))
-            trade_region_molly = Polygon(p1m,b,c, color=MOLLY,fill_opacity=0).set_fill(MOLLY, opacity=0.5)
-            self.play(FadeIn(trade_region_molly))
-            self.wait(1/2)
-
-            self.play(dota.animate.set_opacity(1),ppf_andrew_graph.animate.set_opacity(1))
-
-            def trade_andrew(s):
-                x = s - (1-alpha_a)*18
-                return alpha_a*4 - x*c_x/s_x
-            def trade_andrew_inv(c):
-                return alpha_a*4*(s_x/c_x) - c*(s_x/c_x) + (1-alpha_a)*18
-            trade_andrew_graph = DashedVMobject(axes.plot(trade_andrew, color=TRADE, x_range=(0, 50)))
-
-            self.play(Create(trade_andrew_graph))
-            b = axes.coords_to_point(0, 4)
-            c = axes.coords_to_point(0,0)
-            if c_x/s_x < 1/4.5:
-                b = axes.coords_to_point(18, 0)
-                c = axes.coords_to_point(trade_andrew_inv(0), 0)
-            trade_region_andrew = Polygon(p1a,b,c, color=ANDREW,fill_opacity=0).set_fill(ANDREW, opacity=0.5)
-            self.play(FadeIn(trade_region_andrew))
-
-            arrow_molly = Arrow(np.array([0, 0, 0]), np.array([2, -1/2, 0]), color=MOLLY, buff=0).next_to(dotm,DOWN+RIGHT,buff=0)
-            arrow_andrew = Arrow(np.array([0, 0, 0]), np.array([2, -1/2, 0]), color=ANDREW, buff=0).next_to(dota,DOWN+RIGHT,buff=0)
-
-            self.play(FadeIn(arrow_molly),FadeIn(arrow_andrew))
-            self.play(FadeOut(arrow_molly),FadeOut(arrow_andrew))
-        
-
-        c_x,s_x = 1,80
-        alpha_m = 0
-        alpha_a = 1
-        
-        m_carrots_new = Rectangle(height=alpha_m*3, width=3, color=CARROTS, fill_opacity=1)
-        m_spinach_new = Rectangle(height=(1-alpha_m)*3, width=3, color=SPINACH, fill_opacity=1)
-        molly_crops_new = VGroup(m_carrots_new,m_spinach_new.next_to(m_carrots_new,DOWN,buff=0)).move_to(molly)
-        
-        a_carrots_new = Rectangle(height=alpha_a*3, width=3, color=CARROTS, fill_opacity=1)
-        a_spinach_new = Rectangle(height=(1-alpha_a)*3, width=3, color=SPINACH, fill_opacity=1)
-        andrew_crops_new = VGroup(a_carrots_new,a_spinach_new.next_to(a_carrots_new,DOWN,buff=0)).move_to(andrew)
-        
-        p1m = axes.coords_to_point((1-alpha_m)*45, alpha_m*5)
-        p1a = axes.coords_to_point((1-alpha_a)*18, alpha_a*4)
-        dotm_new = Dot(p1m)
-        dota_new = Dot(p1a)
-        
-        def trade_molly(s):
-            x = s - (1-alpha_m)*45
-            return alpha_m*5 - x*c_x/s_x
-        def trade_molly_inv(c):
-            return alpha_m*5*(s_x/c_x) - c*(s_x/c_x) + (1-alpha_m)*45
-        trade_molly_graph_new = DashedVMobject(axes.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-        exchange_new = Tex(str(c_x)+' {{C}} for '+str(s_x)+' {{S}}').move_to(UP*2+RIGHT*3).scale(1.5).set_color_by_tex_to_color_map({
-                "C": CARROTS,
-                "S": SPINACH,})        
-        def trade_andrew(s):
-            x = s - (1-alpha_a)*18
-            return alpha_a*4 - x*c_x/s_x
-        def trade_andrew_inv(c):
-            return alpha_a*4*(s_x/c_x) - c*(s_x/c_x) + (1-alpha_a)*18
-        trade_andrew_graph_new = DashedVMobject(axes.plot(trade_andrew, color=TRADE, x_range=(0, 50)))
-        self.play(Transform(trade_molly_graph,trade_molly_graph_new),Transform(trade_andrew_graph,trade_andrew_graph_new),
-                  Transform(dotm,dotm_new),Transform(dota,dota_new),
-                  Transform(exchange,exchange_new),
-                  FadeOut(trade_region_molly),FadeOut(trade_region_andrew),
-                  Transform(molly_crops,molly_crops_new),Transform(andrew_crops,andrew_crops_new))
-        
-        b = axes.coords_to_point(45, 0)
-        c = axes.coords_to_point(trade_molly_inv(0),0)
-        if c_x/s_x > 1/9:
-            b = axes.coords_to_point(0, 5)
-            c = axes.coords_to_point(0, trade_molly(0))
-        trade_region_molly = Polygon(p1m,b,c, color=MOLLY,fill_opacity=0).set_fill(MOLLY, opacity=0.5)
-        
-        b = axes.coords_to_point(0, 4)
-        c = axes.coords_to_point(0,0)
-        if c_x/s_x < 1/4.5:
-            b = axes.coords_to_point(18, 0)
-            c = axes.coords_to_point(trade_andrew_inv(0), 0)
-        trade_region_andrew = Polygon(p1a,b,c, color=ANDREW,fill_opacity=0).set_fill(ANDREW, opacity=0.5)
-        
-        self.play(FadeIn(trade_region_molly),FadeIn(trade_region_andrew))
-        self.wait()
-        
-        
-        alpha_m = 0
-        alpha_a = 1
-        for pair in [[1,6],[1,4.55],[1,9],[1,6]]:
-            c_x,s_x = pair[0],pair[1]
-
-            def trade_molly(s):
-                x = s - (1-alpha_m)*45
-                return alpha_m*5 - x*c_x/s_x
-            def trade_molly_inv(c):
-                return alpha_m*5*(s_x/c_x) - c*(s_x/c_x) + (1-alpha_m)*45
-            trade_molly_graph_new = DashedVMobject(axes.plot(trade_molly, color=TRADE, x_range=(0, 50)))
-            exchange_new = Tex(str(c_x)+' {{C}} for '+str(s_x)+' {{S}}').move_to(UP*2+RIGHT*3).scale(1.5).set_color_by_tex_to_color_map({
-                    "C": CARROTS,
-                    "S": SPINACH,})        
-            def trade_andrew(s):
-                x = s - (1-alpha_a)*18
-                return alpha_a*4 - x*c_x/s_x
-            def trade_andrew_inv(c):
-                return alpha_a*4*(s_x/c_x) - c*(s_x/c_x) + (1-alpha_a)*18
-            trade_andrew_graph_new = DashedVMobject(axes.plot(trade_andrew, color=TRADE, x_range=(0, 50)))
-            self.play(Transform(trade_molly_graph,trade_molly_graph_new),Transform(trade_andrew_graph,trade_andrew_graph_new),
-                      Transform(exchange,exchange_new),
-                      FadeOut(trade_region_molly),FadeOut(trade_region_andrew))
-
-            b = axes.coords_to_point(45, 0)
-            c = axes.coords_to_point(trade_molly_inv(0),0)
-            if c_x/s_x > 1/9:
-                b = axes.coords_to_point(0, 5)
-                c = axes.coords_to_point(0, trade_molly(0))
-            trade_region_molly = Polygon(p1m,b,c, color=MOLLY,fill_opacity=0).set_fill(MOLLY, opacity=0.5)
-
-            b = axes.coords_to_point(0, 4)
-            c = axes.coords_to_point(0,0)
-            if c_x/s_x < 1/4.5:
-                b = axes.coords_to_point(18, 0)
-                c = axes.coords_to_point(trade_andrew_inv(0), 0)
-            trade_region_andrew = Polygon(p1a,b,c, color=ANDREW,fill_opacity=0).set_fill(ANDREW, opacity=0.5)
-
-            self.play(FadeIn(trade_region_molly),FadeIn(trade_region_andrew))
-            self.wait()
-            
-        c_x,s_x = 1,6
-        dotm_trade = Dot(color=TRADE).move_to(dotm)
-        dota_trade = Dot(color=TRADE).move_to(dota)
-        for i in [1,2,3,4,3,2]:
-            p1m = axes.coords_to_point((1-alpha_m)*45 - s_x/c_x*i, alpha_m*5 + i)
-            p1a = axes.coords_to_point((1-alpha_a)*18 + s_x/c_x*i, alpha_a*4 - i)
-            self.play(dotm_trade.animate.move_to(p1m),dota_trade.animate.move_to(p1a),)
-        self.wait()
-        
-        alpha_m = 1/3.5
-        alpha_a = 2/5
-        p1m = axes.coords_to_point((1-alpha_m)*45, alpha_m*5)
-        p1a = axes.coords_to_point((1-alpha_a)*18, alpha_a*4)
-        dotm = Dot(p1m)
-        dota = Dot(p1a)
-        self.play(FadeIn(dotm),FadeIn(dota))
-        self.wait()
+        # B01 ---------------------------------------------------------
+
+        squares = bumper_raster(self)
+
+        # B01b --------------------------------------------------------
+
+        flicker(self, squares)
+
+        # B01c --------------------------------------------------------
+
+        label = bumper_title(self, squares, 'A', 3)
+        thesis = Tex('\\textit{Specializing and trading can make both parties better off.}').scale(1.1).set_color(CAPTION).next_to(label, DOWN, buff=0.5)
+        self.play(FadeIn(thesis))
+        self.pause()
+
+        # B02 ---------------------------------------------------------
+
+        FadeAll(self)
+        last_card = Tex('Last Time...').scale(SCALE_CARD)
+        self.play(FadeIn(last_card), run_time=1 / 2)
+        self.pause()
+
+        # B03 ---------------------------------------------------------
+        # the recap IS A2's closing stage: both panels, rates, autarky markers
+
+        self.play(FadeOut(last_card), run_time=1 / 2)
+        axm = molly_axes()
+        axa = andrew_axes()
+        caps_m, caps_a = panel_caps(axm), panel_caps(axa)
+        ppf_m = axm.plot(PPF_Molly, color=MOLLY, x_range=(0, 10))
+        ppf_a = axa.plot(PPF_Andrew, color=ANDREW, x_range=(0, 8))
+        rate_m = under_axis(axm, rate_tex('Molly', '4'))
+        rate_a = under_axis(axa, rate_tex('Andrew', '2'))
+        mark_m = autarky_marker(axm, 3, 28)
+        mark_a = autarky_marker(axa, 4, 8)
+        self.play(FadeIn(axm), FadeIn(caps_m), FadeIn(ppf_m), FadeIn(rate_m), FadeIn(mark_m),
+                  FadeIn(axa), FadeIn(caps_a), FadeIn(ppf_a), FadeIn(rate_a), FadeIn(mark_a))
+        self.pause()
+
+        # B03b --------------------------------------------------------
+
+        tech_line = (Tex('The choices themselves ARE the technology.')
+                     .scale(0.9).set_color(DEFINITION).to_edge(UP, buff=0.5).set_x(0))
+        self.play(Write(tech_line))
+        self.pause()
+
+        # B04 ---------------------------------------------------------
+        # the history detour (A1's promise, delivered): out of feudalism, into
+        # mercantilism, into the industrial revolution -- then what?
+
+        self.reset_frame()
+        FadeAll(self)
+        hist = Tex('If not feudalism, then what?').scale(1.2).set_color(DEFINITION)
+        self.play(Write(hist))
+        self.pause()
+
+        # B04b --------------------------------------------------------
+        # one of the first rigorous answers: the model we started last time
+
+        ricardo = (Tex(narration('--- David Ricardo, 1817')).scale(SCALE_CAPTION)
+                   .set_color(CAPTION).next_to(hist, DOWN, buff=0.6).align_to(hist, RIGHT).shift(RIGHT * 1.2))
+        self.play(FadeIn(ricardo))
+        self.pause()
+
+        # B05 ---------------------------------------------------------
+        # self-trade recap: the stage returns; the A2 arrows re-draw; the hook
+
+        FadeAll(self)
+        self.play(FadeIn(axm), FadeIn(caps_m), FadeIn(ppf_m), FadeIn(rate_m), FadeIn(mark_m),
+                  FadeIn(axa), FadeIn(caps_a), FadeIn(ppf_a), FadeIn(rate_a), FadeIn(mark_a))
+        arrow_m = CurvedArrow(axm.c2p(0, 40), axm.c2p(3, 28), angle=-PI / 3, color=FOCUS)
+        arrow_a = CurvedArrow(axa.c2p(8, 0), axa.c2p(4, 8), angle=PI / 3, color=FOCUS)
+        self.play(Create(arrow_m), Create(arrow_a))
+        hook = Tex("Molly will accept any trade that's a better deal than her self-trade.").scale(0.7).set_color(DEFINITION)
+        if hook.get_width() > FRAME_W - 2:
+            hook.scale((FRAME_W - 2) / hook.get_width())
+        hook.to_edge(UP, buff=0.55).set_x(0)
+        self.play(Write(hook))
+        self.pause()
+
+        # B06 ---------------------------------------------------------
+        # the trade line: Molly's panel front and centre
+
+        FadeAll(self)
+        head = title('The Trade Line')
+        axm = molly_axes()
+        caps_m = panel_caps(axm)
+        ppf_m = axm.plot(PPF_Molly, color=MOLLY, x_range=(0, 10))
+        rate_m = under_axis(axm, rate_tex('Molly', '4'))
+        mark_m = autarky_marker(axm, 3, 28)
+        endow_def = (definition('Initial Endowment', 'is how much of both goods Molly has.')
+                     .scale(0.9).next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(FadeIn(head), FadeIn(axm), FadeIn(caps_m), FadeIn(ppf_m),
+                  FadeIn(rate_m), FadeIn(mark_m))
+        self.play(Write(endow_def))
+
+        rate = ValueTracker(1.5)
+        endow_m = ValueTracker(0.0)
+
+        def em_dot_draw():
+            e = endow_m.get_value()
+            return Dot(axm.c2p(e, PPF_Molly(e)), color=MOLLY, z_index=11)
+
+        em_dot = always_redraw(em_dot_draw)
+        self.add(em_dot)
+        self.play(Indicate(em_dot, color=FOCUS, scale_factor=2))
+        self.pause()
+
+        # B06b --------------------------------------------------------
+        # ONE specific trade first, as a point: give 6 S, get 4 C (rate 1.5)
+
+        offer_q = (Tex('Would Molly accept this trade?').scale(0.9).set_color(DEFINITION)
+                   .next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(Transform(endow_def, offer_q))
+        pt_m = Dot(axm.c2p(4, 34), color=TRADE, z_index=12)
+        pt_m_lab = Tex('(4, 34)').scale(SCALE_TICK).set_color(CAPTION).next_to(axm.c2p(4, 34), UR, buff=0.15)
+        vm = DashedLine(axm.c2p(4, 0), axm.c2p(4, 34), color=MUTED)
+        hm = DashedLine(axm.c2p(0, 34), axm.c2p(4, 34), color=MUTED)
+        gain_m = Line(axm.c2p(0, 0), axm.c2p(4, 0), color=CARROTS, stroke_width=6)
+        give_m = Line(axm.c2p(0, 34), axm.c2p(0, 40), color=SPINACH, stroke_width=6)
+        self.play(FadeIn(vm), FadeIn(hm), FadeIn(pt_m), FadeIn(pt_m_lab))
+        self.play(Create(give_m), Create(gain_m))
+        self.pause()
+
+        # B06c --------------------------------------------------------
+        # the exchange rate, derived on screen the op-cost way
+
+        deal = Derivation(RIGHT * 3.9 + UP * 0.8, '4', 'C', '6', 'S')
+        self.play(FadeIn(deal.group))
+        self.play(*deal.step(r'$\frac{4}{4}$', r'$\frac{6}{4}$'))
+        self.play(*deal.step('1', '1.5'))
+        self.pause()
+
+        # B06d --------------------------------------------------------
+        # the same trade, from Andrew's side
+
+        axa = andrew_axes()
+        caps_a = panel_caps(axa)
+        ppf_a = axa.plot(PPF_Andrew, color=ANDREW, x_range=(0, 8))
+        rate_a = under_axis(axa, rate_tex('Andrew', '2'))
+        mark_a = autarky_marker(axa, 4, 8)
+        self.play(FadeOut(deal.group),
+                  FadeIn(axa), FadeIn(caps_a), FadeIn(ppf_a), FadeIn(rate_a), FadeIn(mark_a))
+        offer_q_a = (Tex('Would Andrew accept the same trade?').scale(0.9).set_color(DEFINITION)
+                     .next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(Transform(endow_def, offer_q_a))
+        ea_pt = Dot(axa.c2p(4, 6), color=TRADE, z_index=12)
+        ea_pt_lab = Tex('(4, 6)').scale(SCALE_TICK).set_color(CAPTION).next_to(axa.c2p(4, 6), DR, buff=0.15)
+        va = DashedLine(axa.c2p(4, 0), axa.c2p(4, 6), color=MUTED)
+        ha = DashedLine(axa.c2p(0, 6), axa.c2p(4, 6), color=MUTED)
+        give_a = Line(axa.c2p(4, 0), axa.c2p(8, 0), color=CARROTS, stroke_width=6)
+        gain_a = Line(axa.c2p(0, 0), axa.c2p(0, 6), color=SPINACH, stroke_width=6)
+        self.play(FadeIn(va), FadeIn(ha), FadeIn(ea_pt), FadeIn(ea_pt_lab))
+        self.play(Create(give_a), Create(gain_a))
+        self.pause()
+
+        # B06e --------------------------------------------------------
+        # the standing rate takes the top slot; back to Molly, one-unit steps
+
+        rate_cap = (Tex('Exchange Rate: {{1}} {{C}} $=$ {{1.5}} {{S}}').scale(0.9)
+                    .set_color_by_tex_to_color_map({'C': CARROTS, 'S': SPINACH})
+                    .next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(Transform(endow_def, rate_cap),
+                  FadeOut(pt_m), FadeOut(pt_m_lab), FadeOut(vm), FadeOut(hm),
+                  FadeOut(gain_m), FadeOut(give_m),
+                  FadeOut(ea_pt), FadeOut(ea_pt_lab), FadeOut(va), FadeOut(ha),
+                  FadeOut(give_a), FadeOut(gain_a))
+
+        steps = VGroup(*[Dot(axm.c2p(k, 40 - 1.5 * k), color=TRADE, z_index=10) for k in range(1, 7)])
+        step_cap = Tex('{{+1}} {{C}}, {{$-$1.5}} {{S}}').scale(SCALE_TICK).set_color_by_tex_to_color_map({
+            'C': CARROTS, 'S': SPINACH}).next_to(axm.c2p(1, 38.5), UR, buff=0.15)
+        self.play(FadeIn(steps[0]), FadeIn(step_cap))
+        self.play(LaggedStart(*[FadeIn(d) for d in steps[1:]], lag_ratio=0.35), run_time=2)
+        self.pause()
+
+        # B06f --------------------------------------------------------
+        # the line through the steps; from here it lives on the rate tracker
+
+        def trade_line_m():
+            r = rate.get_value()
+            e = endow_m.get_value()
+            es = PPF_Molly(e)
+            return axm.plot(lambda c: es - r * (c - e), color=TRADE,
+                            x_range=(0, min(10.8, e + es / r)))
+
+        tl_static = trade_line_m()
+        slope_cap = (Tex(narration('slope $=$ exchange rate')).scale(SCALE_TICK)
+                     .set_color(CAPTION).next_to(axm.c2p(7, 22.5), UR, buff=0.15))
+        self.play(Create(tl_static), FadeOut(steps), FadeOut(step_cap))
+        self.play(FadeIn(slope_cap))
+        tl_m = always_redraw(trade_line_m)
+        self.remove(tl_static)
+        self.add(tl_m)
+        self.pause()
+
+        # B07 ---------------------------------------------------------
+        # the contrast: the PPF anchors to its intercepts; the trade line
+        # pivots on the endowment
+
+        anchor_1 = Dot(axm.c2p(10, 0), color=FOCUS, z_index=11)
+        anchor_2 = Dot(axm.c2p(0, 40), color=FOCUS, z_index=11)
+        self.play(FadeIn(anchor_1), FadeIn(anchor_2))
+        self.play(FadeOut(anchor_1), FadeOut(anchor_2))
+        pivot_ring = Circle(radius=0.22, color=FOCUS, stroke_width=3).move_to(axm.c2p(0, 40))
+        self.play(FadeIn(pivot_ring))
+        self.play(rate.animate.set_value(2.2), run_time=1.2)
+        self.play(rate.animate.set_value(0.9), run_time=1.2)
+        self.play(rate.animate.set_value(1.5), run_time=1.2)
+        self.play(FadeOut(pivot_ring))
+        self.pause()
+
+        # B08 ---------------------------------------------------------
+        # outside -> accept; inside -> reject
+
+        self.play(rate.animate.set_value(4.5), run_time=2)
+        m_lab = Tex('rejects').scale(0.8).set_color(NASH).next_to(rate_m, RIGHT, buff=0.35)
+        self.play(FadeIn(m_lab))
+        self.pause()
+
+        # B08b --------------------------------------------------------
+
+        self.play(rate.animate.set_value(1.5), run_time=2)
+        self.play(Transform(m_lab, Tex('accepts').scale(0.8).set_color(EFFICIENT).next_to(rate_m, RIGHT, buff=0.35)),
+                  FadeOut(slope_cap))
+        self.pause()
+
+        # B09 ---------------------------------------------------------
+        # Andrew joins; a rate very nice for Molly (1.5) — he rejects
+
+        endow_a = ValueTracker(8.0)      # Andrew's panel has been on stage since B06d
+
+        def ea_dot_draw():
+            e = endow_a.get_value()
+            return Dot(axa.c2p(e, PPF_Andrew(e)), color=ANDREW, z_index=11)
+
+        def trade_line_a():
+            r = rate.get_value()
+            e = endow_a.get_value()
+            es = PPF_Andrew(e)
+            return axa.plot(lambda c: es - r * (c - e), color=TRADE,
+                            x_range=(0, min(10.8, e + es / r)))
+
+        ea_dot = always_redraw(ea_dot_draw)
+        tl_a = always_redraw(trade_line_a)
+        self.play(FadeOut(endow_def))
+        self.add(ea_dot, tl_a)      # the rate already sits at 1.5, Molly's dream deal
+        a_lab = Tex('rejects').scale(0.8).set_color(NASH).next_to(rate_a, RIGHT, buff=0.35)
+        self.play(FadeIn(a_lab))
+        self.pause()
+
+        # B09b --------------------------------------------------------
+        # Andrew's counter (5) — Molly rejects
+
+        self.play(rate.animate.set_value(5), run_time=3)
+        self.play(Transform(a_lab, Tex('accepts').scale(0.8).set_color(EFFICIENT).next_to(rate_a, RIGHT, buff=0.35)),
+                  Transform(m_lab, Tex('rejects').scale(0.8).set_color(NASH).next_to(rate_m, RIGHT, buff=0.35)))
+        self.pause()
+
+        # B09c --------------------------------------------------------
+        # the middle (3) — both accept: a Pareto improvement
+
+        self.play(rate.animate.set_value(3), run_time=2)
+        self.play(Transform(m_lab, Tex('accepts').scale(0.8).set_color(EFFICIENT).next_to(rate_m, RIGHT, buff=0.35)))
+        pareto_def = (definition('Pareto improvement', ': a trade that makes both parties better off.')
+                      .scale(0.9).next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(Write(pareto_def))
+        self.pause()
+
+        # B10 ---------------------------------------------------------
+        # the big trade at rate 3: 3.5 C for 10.5 S, both better in BOTH goods
+
+        rider_m = Dot(axm.c2p(0, 40), color=TRADE, z_index=12)
+        rider_a = Dot(axa.c2p(8, 0), color=TRADE, z_index=12)
+        self.play(FadeIn(rider_m), FadeIn(rider_a))
+        self.play(rider_m.animate.move_to(axm.c2p(3.5, 29.5)),
+                  rider_a.animate.move_to(axa.c2p(4.5, 10.5)), run_time=3)
+        lab_rm = Tex('(3.5, 29.5)').scale(SCALE_TICK).set_color(CAPTION).next_to(axm.c2p(3.5, 29.5), UR, buff=0.25)
+        lab_ra = Tex('(4.5, 10.5)').scale(SCALE_TICK).set_color(CAPTION).next_to(axa.c2p(4.5, 10.5), UR, buff=0.25)
+        self.play(FadeIn(lab_rm), FadeIn(lab_ra))
+        self.play(Indicate(rider_m, color=FOCUS), Indicate(rider_a, color=FOCUS))
+        coop_cap = (Tex(narration("No co-op required --- we've simply specialized and traded."))
+                    .scale(0.8).set_color(CAPTION).next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(Transform(pareto_def, coop_cap))
+        self.pause()
+
+        # B10b --------------------------------------------------------
+
+        pref_cap = (Tex(narration('Still no preferences --- just the frontier.'))
+                    .scale(0.8).set_color(CAPTION).next_to(head, DOWN, buff=0.25).set_x(0))
+        self.play(Transform(pareto_def, pref_cap))
+        self.pause()
+
+        # B11 ---------------------------------------------------------
+        # the window: any rate between the two self-trade rates works
+
+        box_m = focus_box(rate_m)
+        box_a = focus_box(rate_a)
+        self.play(FadeIn(box_m), FadeIn(box_a), FadeOut(pareto_def),
+                  FadeOut(rider_m), FadeOut(rider_a), FadeOut(lab_rm), FadeOut(lab_ra))
+
+        def rate_read():
+            return VGroup(Tex('exchange rate $=$').scale(0.8),
+                          DecimalNumber(rate.get_value(), num_decimal_places=1, color=INK).scale(0.8)
+                          ).arrange(RIGHT, buff=0.2).move_to(UP * 2.55)
+
+        readout = always_redraw(rate_read)
+        self.add(readout)
+        self.play(rate.animate.set_value(4.3), run_time=2)
+        self.play(Transform(m_lab, Tex('rejects').scale(0.8).set_color(NASH).next_to(rate_m, RIGHT, buff=0.35)))
+        self.play(rate.animate.set_value(3), run_time=1.5)
+        self.play(Transform(m_lab, Tex('accepts').scale(0.8).set_color(EFFICIENT).next_to(rate_m, RIGHT, buff=0.35)))
+        self.play(rate.animate.set_value(1.7), run_time=2)
+        self.play(Transform(a_lab, Tex('rejects').scale(0.8).set_color(NASH).next_to(rate_a, RIGHT, buff=0.35)))
+        self.play(rate.animate.set_value(3), run_time=1.5)
+        self.play(Transform(a_lab, Tex('accepts').scale(0.8).set_color(EFFICIENT).next_to(rate_a, RIGHT, buff=0.35)))
+        readout.clear_updaters()
+        window_line = Tex('{{2}} $<$ exchange rate $<$ {{4}}').scale(0.9).set_color(DEFINITION).move_to(UP * 2.55)
+        self.play(Transform(readout, window_line), FadeOut(box_m), FadeOut(box_a))
+        self.pause()
+
+        # B12 ---------------------------------------------------------
+        # buying beats growing: both farmers go to their corners
+
+        grow_m = Tex('Grow({{1}} {{C}}) $=$ {{4}} {{S}}').scale(0.7).set_color_by_tex_to_color_map({'C': CARROTS, 'S': SPINACH})
+        buy_m = Tex('Trade({{1}} {{C}}) $=$ {{3}} {{S}}').scale(0.7).set_color_by_tex_to_color_map({'C': CARROTS, 'S': SPINACH})
+        pair_m = VGroup(grow_m, buy_m).arrange(DOWN, buff=0.45, aligned_edge=LEFT).move_to(axm.c2p(7, 33))
+        grow_a = Tex('Grow({{1}} {{S}}) $=$ {{1/2}} {{C}}').scale(0.7).set_color_by_tex_to_color_map({'C': CARROTS, 'S': SPINACH})
+        buy_a = Tex('Trade({{1}} {{S}}) $=$ {{1/3}} {{C}}').scale(0.7).set_color_by_tex_to_color_map({'C': CARROTS, 'S': SPINACH})
+        pair_a = VGroup(grow_a, buy_a).arrange(DOWN, buff=0.45, aligned_edge=LEFT).move_to(axa.c2p(6.5, 33))
+
+        def choice_boxes(a, b, buff=0.18):
+            w = max(a.get_width(), b.get_width()) + 2 * buff
+            h = max(a.get_height(), b.get_height()) + 2 * buff
+            return (Rectangle(width=w, height=h, color=NASH, stroke_width=2.5).move_to(a),
+                    Rectangle(width=w, height=h, color=EFFICIENT, stroke_width=2.5).move_to(b))
+
+        no_m, yes_m = choice_boxes(grow_m, buy_m)
+        no_a, yes_a = choice_boxes(grow_a, buy_a)
+        self.play(FadeIn(pair_m))
+        self.play(FadeIn(yes_m))
+        self.play(FadeIn(no_m))
+        self.play(FadeIn(pair_a))
+        self.play(FadeIn(yes_a), FadeIn(no_a))
+        self.pause()
+
+        # B12b --------------------------------------------------------
+        # Molly's endowment slides: the line pivots with it, furthest at the corner
+
+        choices = VGroup(pair_m, pair_a, no_m, yes_m, no_a, yes_a)
+        self.play(FadeOut(choices))
+        self.play(endow_m.animate.set_value(3), run_time=2.5)
+        self.play(endow_m.animate.set_value(0), run_time=2.5)
+        self.pause()
+
+        # B12c --------------------------------------------------------
+
+        self.play(endow_a.animate.set_value(4), run_time=2.5)
+        self.play(endow_a.animate.set_value(8), run_time=2.5)
+        for live in (tl_m, tl_a, em_dot, ea_dot):
+            live.clear_updaters()
+        for tr in (rate, endow_m, endow_a):
+            self.remove(tr)
+        self.pause()
+
+        # B13 ---------------------------------------------------------
+
+        stage_q1, card_q1 = exercise_card(self, 'Exercise A3 $|$ Q1', [
+            'Suppose Hagrid and McGonagall decide they want to specialize and trade goods.',
+            'After they specialize, what is a trade that would make them both better off?',
+            '1 $R$ for $\\underline{\\hspace{1.2cm}}$ $F$',
+        ])
+        self.pause()
+
+        # B14 ---------------------------------------------------------
+
+        self.play(FadeOut(card_q1), Restore(stage_q1))
+        recip_cap = (Tex(narration('Opportunity costs are reciprocals --- a workable exchange rate always exists.'))
+                     .scale(0.8).set_color(CAPTION).move_to(UP * 2.55))
+        self.play(Transform(readout, recip_cap))
+        self.pause()
+
+        # B15 ---------------------------------------------------------
+
+        stage_q2, card_q2 = exercise_card(self, 'Exercise A3 $|$ Q2', [
+            'It turns out McGonagall receives great enjoyment from her side gig as a baker',
+            'and wants to double her hours.',
+            "Set up McGonagall's old and new PPF on the same graph.",
+            'What is her new opportunity cost of rock cakes ($R$)?',
+            'Write a short description of how this would impact the trade you found in Q1.',
+        ])
+        self.pause()
+
+        # B16 ---------------------------------------------------------
+        # nothing special about these numbers: nudge both frontiers, the
+        # rate-3 trade still works
+
+        self.play(FadeOut(card_q2), Restore(stage_q2))
+        ppf_m_new = axm.plot(lambda c: 44 - 4.4 * c, color=MOLLY, x_range=(0, 10))
+        ppf_a_new = axa.plot(lambda c: 20 - 2.5 * c, color=ANDREW, x_range=(0, 8))
+        tl_m_new = axm.plot(lambda c: 44 - 3 * c, color=TRADE, x_range=(0, 10.8))
+        tl_a_new = axa.plot(lambda c: 3 * (8 - c), color=TRADE, x_range=(0, 8))
+        self.play(Transform(ppf_m, ppf_m_new), Transform(ppf_a, ppf_a_new),
+                  Transform(tl_m, tl_m_new), Transform(tl_a, tl_a_new),
+                  Transform(em_dot, Dot(axm.c2p(0, 44), color=MOLLY, z_index=11)),
+                  Transform(rate_m, under_axis(axm, rate_tex('Molly', '4.4'))),
+                  Transform(rate_a, under_axis(axa, rate_tex('Andrew', '2.5'))),
+                  run_time=2)
+        self.pause()
+
+        # B17 (cam) ----------------------------------------------------
+        # "We've done something extraordinary here..." — no code; stage holds.
+
+        # B18 ---------------------------------------------------------
+        # the corner rides the PPF with a ? — where should we live?
+
+        qmark = VGroup(Dot(axm.c2p(0, 44), color=FOCUS, z_index=12),
+                       Tex('?').scale(0.9).set_color(FOCUS))
+        qmark[1].next_to(qmark[0], UR, buff=0.1)
+        self.play(FadeIn(qmark))
+        self.play(qmark.animate.move_to(axm.c2p(5, 22) + UP * 0.15 + RIGHT * 0.15), run_time=2)
+        self.play(qmark.animate.move_to(axm.c2p(0, 44) + UP * 0.15 + RIGHT * 0.15), run_time=2)
+        self.pause()
+
+        # B18b --------------------------------------------------------
+
+        self.reset_frame()
+        FadeAll(self)
+        head = title('Two Questions')
+        q1 = Tex('1. Where on the PPF should we live?').scale(SCALE_TITLE)
+        q2 = Tex('2. Who benefits? How do we decide what exchange rate to set?').scale(SCALE_TITLE)
+        qs = VGroup(q1, q2).arrange(DOWN, buff=0.6, aligned_edge=LEFT)
+        if qs.get_width() > FRAME_W - 3:               # rows scale to fit, never wrap (guide S3)
+            qs.scale((FRAME_W - 3) / qs.get_width())
+        qs.move_to(UP * 0.8)
+        self.play(FadeIn(head))
+        self.play(Write(q1))
+        self.pause()
+
+        # B18c --------------------------------------------------------
+
+        self.play(Write(q2))
+        self.pause()
+
+        # B18d --------------------------------------------------------
+        # every rate in the window splits the gains differently
+
+        gloss = (Tex(narration("Close to 2 is Molly's dream deal. Close to 4 is Andrew's."))
+                 .scale(0.8).set_color(CAPTION).next_to(qs, DOWN, buff=0.6).set_x(0))
+        self.play(FadeIn(gloss))
+        self.pause()
+
+        # B19 ---------------------------------------------------------
+
+        yes = Tex('YES!').scale(1.4).set_color(FOCUS).next_to(gloss, DOWN, buff=0.9).set_x(0)
+        self.play(Write(yes))
+        self.pause()
+
+        # B20 ---------------------------------------------------------
+        # the notes end here: Welcome is Part A's last word (no next-time card)
+
+        FadeAll(self)
+        welcome = Tex('Welcome! We have a lot to do.').scale(1.2)
+        self.play(Write(welcome))
+        self.pause()
+
+        FadeAll(self)
