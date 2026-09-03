@@ -166,7 +166,7 @@ parts:
     title: How Competitive Markets Work
     tagline: prices can coordinate buyers and sellers
     introduction: >-
-      Part B reveals how markets solve the coordination problem from Part A. Through the elegant dance of supply and demand, prices emerge to coordinate economic activity and guide society toward efficiency. These aren't just abstract curves—they're the invisible forces that determine what gets produced, who gets what, and how resources flow through the economy. By the end of Part B, you'll understand why competitive markets are one of humanity's greatest innovations for creating prosperity.
+      Part B reveals how markets solve the coordination problem from Part A.
     sections:
       - block: B1
         folder: B1_Demand_and_Supply
@@ -312,7 +312,7 @@ parts:
     title: Externalities
     tagline: externalized costs and benefits lead to inefficient markets
     introduction: >-
-      Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C reveals the dark side of markets—when private incentives misalign with social welfare, creating externalities and market failures that require government intervention to restore efficiency. You'll discover how pollution, taxes, and corrective policies can either harm or heal market outcomes.
+      Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. You'll discover how pollution, taxes, and corrective policies can harm or correct market outcomes.
     sections:
       - block: C1
         folder: C1_Taxes_and_Subsidies
