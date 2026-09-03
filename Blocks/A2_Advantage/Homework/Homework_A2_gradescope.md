@@ -11,7 +11,7 @@ Answer check: production table is Honeydukes $100$F or $75$M, Zonkos $200$F or $
 ## Question 1 — title: `Absolute Advantage` · 2 pts
 
 ```
-Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Answer clearly and completely on paper, and show your work so you can later understand your thought process. You are welcomed and encouraged to work in groups as long as your work is your own. Each answer here is a selection, so keep your paper handy.
+Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Answer clearly and completely on paper, and show your work so you can later understand your thought process. You are welcomed and encouraged to work in groups as long as your work is your own. Solve first on paper or in your notes, then enter your answer here as a selection.
 
 **The Hogsmeade Candy Shop Saga.** Honeydukes and Zonkos are two candy shops in Hogsmeade. Both shops make two types of popular candy, Chocolate Frogs ($$F$$) and Ice Mice ($$M$$). Devoting all their resources to one good, Honeydukes can make $$100$$ pounds of $$F$$ or $$75$$ pounds of $$M$$ each week, and Zonkos can make $$200$$ pounds of $$F$$ or $$100$$ pounds of $$M$$.
 
