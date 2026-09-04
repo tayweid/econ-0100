@@ -43,5 +43,3 @@ a) After both changes, which shop has the absolute advantage in each good?
 b) After both changes, what is Honeydukes' opportunity cost of $1$F? What is Zonkos'?
 
 c) After both changes, which shop has the comparative advantage in each good?
-
-<!-- The questions are free response on paper; students submit selections on Gradescope. The selection form and answer key live in Homework_A2_gradescope.md. ANSWER KEY (not for students) Production table: Honeydukes 100F or 75M; Zonkos 200F or 100M. OC table: Honeydukes OC(1F) = 3/4 M, OC(1M) = 4/3 F; Zonkos OC(1F) = 1/2 M, OC(1M) = 2 F. Q1a: Zonkos   Q1b: Zonkos Q2a: 4/3 pounds of F   Q2b: 1/2 pound of M   Q2c: 2 pounds of F Q3a: Zonkos (1/2 < 3/4)   Q3b: Honeydukes (4/3 < 2) Q3c: opportunity costs are reciprocals, so a lower OC in one good means a higher OC in the other; whoever gives up less F per M must give up more M per F After the changes: Honeydukes 300F or 225M; Zonkos 200F or 200M. Q4a: Honeydukes in both goods Q4b: Honeydukes 3/4 pound of M (unchanged; tripling labor shifts the PPF without changing its slope); Zonkos 1 pound of M Q4c: Honeydukes in Chocolate Frogs (3/4 < 1), Zonkos in Ice Mice (1 < 4/3) -->

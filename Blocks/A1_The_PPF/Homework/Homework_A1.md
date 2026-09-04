@@ -39,5 +39,3 @@ Neville visits Honeydukes with one galleon, enough to buy exactly one item: a po
 a) What is Neville's opportunity cost of buying the Chocolate Frogs?
 
 b) Honeydukes adds Fizzing Whizzbees to the shelf, also one galleon. Neville likes them more than Sugar Quills but less than Chocolate Frogs. What is his opportunity cost of the Chocolate Frogs now?
-
-<!-- The questions are free response on paper; students submit selections on Gradescope. The selection form and answer key live in Homework_A1_gradescope.md. ANSWER KEY (not for students) Q1a: M = 75 - (3/4)F   Q1b: 3/4 pound of M Q2a: Inefficient   Q2b: Efficient   Q2c: Unattainable Q3a: doubling labor shifts out to 200F or 150M; the cracked mold pivots F in to 100F or 150M Q3b: OC of 1F = 3/2 M; OC of 1M = 2/3 F Q4a: A Sugar Quill Q4b: A Fizzing Whizzbee -->
