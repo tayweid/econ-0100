@@ -16,6 +16,60 @@
 #show math.equation.where(block: true): set block(above: 17.192pt, below: 18.962pt)
 #set text(size: 10pt, font: "New Computer Modern", hyphenate: true)
 
+// ---------------------------------------------------------------------------
+// EDITOR'S NOTES (Claude, 2026-09-07). Plass deletes these comments on save:
+// read them before editing in Plass, or edit this file in a text editor.
+//
+// SOURCE. The F24 Demo A (Colin Creevey 20 pasties or 5 cakes; Katie Bell 15
+// or 8), from ECON_0100/Checkpoints/A/_Archive/24F_Demo_A.md, in the Checkpoint
+// page layout. Q2 and Q3 wording taken from the exam versions because the F24
+// Demo's Q2 asked yes/no attainability and its Q3 sentence was garbled.
+// Solutions to the unsplit original: _Archive/Demo_A_sols.pdf ("Taylor's
+// Version" scan). Note: this Demo is Vignettes A1-A3 word for word.
+//
+// SPLIT along skill lines, one question per skill, skill code in the heading:
+// old Q1 -> Q1 and Q2(a); old Q2 -> Q2(b); old Q3 -> Q3; old Q4 -> Q4(b);
+// old Q5 -> Q2(h) and Q4(d). Stems restated so each question stands alone.
+//
+// TAYLOR'S TEXT: everything not tagged. Boilerplate is the Checkpoint's with
+// "Checkpoint" and "20 minutes" substituted, plus the Demo paragraph with the
+// email dropped and "classmakes" corrected. The sentence "Each question is
+// labeled with the skill it practices from Skillsheet A" is Claude's, kept at
+// Taylor's request.
+//
+// CLAUDE'S ADDITIONS, each tagged *[Claude]* in the text for Taylor to rewrite
+// and untag. They give the Demo every question type that appears on Checkpoint
+// A, copying the Arthur exam's wording with Colin's numbers:
+//   Q2(c)-(e)  yes/no attainability: 20P yes (efficient); 20P and 1C no;
+//              19P yes (inefficient).
+//   Q2(f)-(g)  shift vs pivot. Lead-in point 8P and 3C is efficient
+//              (20 - 4*3 = 8). Pasty spell x3 -> pivot out -> inefficient.
+//              Labor cut -> shift in -> unattainable.
+//   Q4 table   given OC table so Q4 stands alone and shows the read-a-table
+//              type: Colin 1/4 C per P, 4 P per C; Katie 8/15 C per P,
+//              15/8 P per C.
+//   Q4(a)      who specializes in cakes: Katie (15/8 < 4).
+//   Q4(c)      select-all for 1 cake: 2 and 3 pasties work (range 15/8 to 4);
+//              1 and 5 do not. Two correct options where F24 lists had one.
+//
+// ANSWERS to the original items. Q1: 4 P. Q2(b): inefficient (frontier 12 P
+// at 2 C). Q2(h): 8-hour PPF has intercepts 32 P and 8 C, parallel. Q3: AA in
+// pasties Colin, CA in pasties Colin (OC of a pasty 1/4 C vs 8/15 C).
+// Q4(b): any rate between 15/8 and 4 P per cake. Q4(d): still 4 P; hours
+// shift the PPF without changing its slope.
+//
+// SKILLSHEET BULLETS STILL UNCOVERED, for Taylor to write: A1.1 next best
+// alternative, reciprocals; A1.2 slope as the OC of the horizontal good;
+// A2.1 AA and CA in cakes, and AA-in-both (the numbers can't show it: Colin
+// has AA in pasties, Katie in cakes); A3.1 range of rates as a range, beyond
+// autarky and who rejects, effect of the capacity change on the trade.
+//
+// LAYOUT. Graph padding removed so the Demo fits one sheet front and back;
+// Q2 flows onto the back. The website link in course-content.yaml.js points
+// at Blocks/A_MiniExam/Demo_A.pdf, exported from Plass; scripts/check-course
+// reports it missing until that export exists.
+// ---------------------------------------------------------------------------
+
 #align(center, text(size: 1.55em, weight: 700)[ECON 0100 | Fall 2026 | Demo A])
 
 #align(center, line(length: 96pt, stroke: 0.5pt))
