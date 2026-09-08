@@ -1,5 +1,5 @@
 // Exported from Plass
-#set page(paper: "us-letter", margin: 0.6in)
+#set page(paper: "us-letter", margin: 0.6in, numbering: "1", number-align: center)
 #set par(justify: true, leading: 8.172pt, spacing: 17.172pt)
 #set list(spacing: 10.672pt)
 #set enum(spacing: 10.672pt)
@@ -15,131 +15,76 @@
 #show raw.where(block: false): set text(font: "DejaVu Sans Mono", size: 8.000pt)
 #show math.equation.where(block: true): set block(above: 17.192pt, below: 18.962pt)
 #set text(size: 10pt, font: "New Computer Modern", hyphenate: true)
+#import "@preview/mitex:0.2.5": mi, mitex
 
-// ---------------------------------------------------------------------------
-// EDITOR'S NOTES (Claude, 2026-09-07). Plass deletes these comments on save:
-// read them before editing in Plass, or edit this file in a text editor.
-//
-// SOURCE. The F24 Demo A (Colin Creevey 20 pasties or 5 cakes; Katie Bell 15
-// or 8), from ECON_0100/Checkpoints/A/_Archive/24F_Demo_A.md, in the Checkpoint
-// page layout. Q2 and Q3 wording taken from the exam versions because the F24
-// Demo's Q2 asked yes/no attainability and its Q3 sentence was garbled.
-// Solutions to the unsplit original: _Archive/Demo_A_sols.pdf ("Taylor's
-// Version" scan). Note: this Demo is Vignettes A1-A3 word for word.
-//
-// SPLIT along skill lines, one question per skill, skill code in the heading:
-// old Q1 -> Q1 and Q2(a); old Q2 -> Q2(b); old Q3 -> Q3; old Q4 -> Q4(a);
-// old Q5 -> Q2(c) and Q4(b). Stems restated so each question stands alone.
-// Original sub-parts come first in every question and the additions follow,
-// so the F24 walkthrough video covers the opening parts of each question.
-//
-// TAYLOR'S TEXT: everything not tagged. Boilerplate is the Checkpoint's with
-// "Checkpoint" and "20 minutes" substituted, plus the Demo paragraph with the
-// email dropped and "classmakes" corrected. The sentence "Each question is
-// labeled with the skill it practices from Skillsheet A" is Claude's, kept at
-// Taylor's request.
-//
-// CLAUDE'S ADDITIONS, each tagged *[Claude]* in the text for Taylor to rewrite
-// and untag. They give the Demo every question type that appears on Checkpoint
-// A, copying the Arthur exam's wording with Colin's numbers:
-//   Q2(d)-(f)  yes/no attainability: 20P yes (efficient); 20P and 1C no;
-//              19P yes (inefficient).
-//   Q2(g)-(h)  shift vs pivot. Lead-in point 8P and 3C is efficient
-//              (20 - 4*3 = 8). Pasty spell x3 -> pivot out -> inefficient.
-//              Labor cut -> shift in -> unattainable.
-//   Q4 table   given OC table so Q4 stands alone and shows the read-a-table
-//              type: Colin 1/4 C per P, 4 P per C; Katie 8/15 C per P,
-//              15/8 P per C.
-//   Q4(c)      who specializes in cakes: Katie (15/8 < 4).
-//   Q4(d)      select-all for 1 cake: 2 and 3 pasties work (range 15/8 to 4);
-//              1 and 5 do not. Two correct options where F24 lists had one.
-//
-// ANSWERS to the original items. Q1: 4 P. Q2(b): inefficient (frontier 12 P
-// at 2 C). Q2(c): 8-hour PPF has intercepts 32 P and 8 C, parallel. Q3: AA in
-// pasties Colin, CA in pasties Colin (OC of a pasty 1/4 C vs 8/15 C).
-// Q4(a): any rate between 15/8 and 4 P per cake. Q4(b): still 4 P; hours
-// shift the PPF without changing its slope.
-//
-// SKILLSHEET BULLETS STILL UNCOVERED, for Taylor to write: A1.1 next best
-// alternative, reciprocals; A1.2 slope as the OC of the horizontal good;
-// A2.1 AA and CA in cakes, and AA-in-both (the numbers can't show it: Colin
-// has AA in pasties, Katie in cakes); A3.1 range of rates as a range, beyond
-// autarky and who rejects, effect of the capacity change on the trade.
-//
-// LAYOUT. Graph padding removed so the Demo fits one sheet front and back;
-// Q2 flows onto the back. Q1's answer blank sits inline after the question
-// (the F24 sheet had it on a labeled line below) to save the last line. The website link in course-content.yaml.js points
-// at Blocks/A_MiniExam/Demo_A.pdf, exported from Plass; scripts/check-course
-// reports it missing until that export exists.
-// ---------------------------------------------------------------------------
+= ECON 0100 | Demo A
 
-#align(center, text(size: 1.55em, weight: 700)[ECON 0100 | Fall 2026 | Demo A])
+Demos are similar to Checkpoints, often taken directly from past semesters. Work through the problems and check your work against mine. Practice answering clearly and completely. Show your work so someone else can understand your thought process. You are encouraged to work in small groups. Find a study room, grab some classmates, and work together on a whiteboard.
 
-#align(center, line(length: 96pt, stroke: 0.5pt))
+_This Demo is updated from the Fall 2024 Demo A in the walkthrough video: the story and numbers are the same, each question opens with the parts the video covers, and the parts that follow are new since then._
 
-This Checkpoint will take 20 minutes with quick break to follow. Checkpoints are designed to both test your knowledge and challenge you to apply familiar concepts in new environments. Treat it as if you're trying to show me that you understand the material. Answer clearly and completely.
+== Q1 | Opportunity Cost (A1.1)
 
-Demos are similar to Checkpoints, often taken directly from past semesters. The goal is to both test your knowledge and provide a venue for practice. Work through the problems and check your work against mine. Practice answering clearly and completely. Show your work so someone else can understand your thought process. You are encouraged to work in small groups. Find a study room, grab some classmates, and work together on a whiteboard. Each question is labeled with the skill it practices from Skillsheet A.
+Colin Creevey can bake #mi(`20`) cornish pasties or #mi(`5`) cauldron cakes in one day.
 
-== Academic Conduct Code
+a) What is Colin's opportunity cost of producing #mi(`1`) cake?~\_\_\_\_\_\_\_\_\_\_
 
-The following academic conduct code is designed to protect the integrity of your work. Print your name/initials beside the three academic honesty agreements. I pledge to my fellow students, the university, and the instructor, that:
+b) What is Colin's opportunity cost of producing #mi(`1`) pasty?~\_\_\_\_\_\_\_\_\_\_
 
-\_\_\_\_ I will complete this Checkpoint solely using my own work.
+c) Colin would rather bake than clean the kitchen. A food photography job comes up that he likes more than cleaning but less than baking. 
 
-\_\_\_\_ I will not use any digital resources unless explicitly allowed by the instructor.
+~(i) What is his opportunity cost of baking? \_\_\_\_\_\_\_\_\_\_
 
-\_\_\_\_ I will not communicate directly or indirectly with others during the Checkpoint.
+~(ii) What is his opportunity cost of this new food photography job?
 
-== Q1 | A1.1 | Opportunity Cost
+== Q2 | Colin's PPF (A1.2)
 
-Colin Creevey can bake $20$ cornish pasties or $5$ cauldron cakes in one day. What is Colin's opportunity cost of producing $1$ cake? \_\_\_\_\_\_\_\_\_\_
+Colin Creevey can bake #mi(`20`) cornish pasties or #mi(`5`) cauldron cakes in one day. There are two graphs, one for (a) and one for (b). For both graphs, draw Colin's PPF, pasties on the vertical axis and cakes on the horizontal. Label the intercepts.
 
-== Q2 | A1.2 | The PPF
+~
 
-Colin Creevey can bake $20$ cornish pasties or $5$ cauldron cakes in one day.
+a) For each daily output, write whether it is unattainable, inefficient, or efficient, and mark it on the first graph.
 
-a) Set up Colin's PPF on an $x$,$y$ graph with pasties on the vertical and cakes on the horizontal.
+#quote(block: true)[
+  (i) #mi(`20`) pasties \_\_\_\_\_\_\_\_\_\_
 
-b) Suppose Colin bakes $10$ pasties and $2$ cakes in one day. Is this inefficient, efficient, or unattainable? Use the graph above or algebra to justify your answer.
+  (ii) #mi(`20`) pasties and #mi(`1`) cake \_\_\_\_\_\_\_\_\_\_
 
-Inefficient, Efficient, or Unattainable: \_\_\_\_\_\_\_\_\_\_
+  (iii) #mi(`10`) pasties and #mi(`2`) cakes \_\_\_\_\_\_\_\_\_\_
 
-c) It turns out Colin wants to add hours to his job. So he increases from $5$ to $8$ hours per day. Set up Colin's old and new PPF on the same graph.
+  #align(center, grid(columns: (200pt, 200pt), gutter: 36pt,
+  box(width: 100%, height: 150pt, inset: 6pt, stroke: (left: 0.5pt + luma(150), bottom: 0.5pt + luma(150))),
+  box(width: 100%, height: 150pt, inset: 6pt, stroke: (left: 0.5pt + luma(150), bottom: 0.5pt + luma(150))),
+))
 
-d) *[Claude]* Is a daily output of $20$ pasties attainable for him? \_\_\_\_\_\_\_\_\_\_
+]
 
-e) *[Claude]* Is a daily output of $20$ pasties and $1$ cake attainable for him? \_\_\_\_\_\_\_\_\_\_
+~
 
-f) *[Claude]* Is a daily output of $19$ pasties attainable for him? \_\_\_\_\_\_\_\_\_\_
+~
 
-*[Claude]* For the following two subquestions, suppose a daily output of $8$ pasties and $3$ cakes is efficient for Colin.
+b) Colin currently makes #mi(`8`) pasties and #mi(`3`) cakes. On the second graph, draw his PPF and mark this output. Is that output unattainable, inefficient, or efficient:
 
-g) *[Claude]* If Colin discovers a new pasty baking spell which triples his daily output of pasties, is $8$ pasties and $3$ cakes unattainable, efficient, or inefficient? \_\_\_\_\_\_\_\_\_\_
+#quote(block: true)[
+  (i) if he cuts back the labor he devotes to baking? \_\_\_\_\_\_\_\_\_\_
 
-h) *[Claude]* If Colin decides to cut back how much labor he devotes to baking, is $8$ pasties and $3$ cakes unattainable, efficient, or inefficient? \_\_\_\_\_\_\_\_\_\_
+  (ii) if instead he discovers a spell that triples his daily output of pasties? \_\_\_\_\_\_\_\_\_\_
 
-== Q3 | A2.1 | Absolute & Comparative Advantage
+]
 
-Colin Creevey can bake $20$ cornish pasties or $5$ cauldron cakes in one day. Katie Bell also bakes cornish pasties and cauldron cakes at a neighboring bakery. She can bake $15$ pasties or $8$ cakes in one day. Set up a production table with both Colin and Katie's output per day. Who has the absolute advantage (AA) in pasties? Then set up an opportunity cost table with Colin and Katie's opportunity costs for each good. Who has the comparative advantage (CA) in pasties?
+== Q3 | Absolute and Comparative Advantage (A2.1)
 
-AA in Pasties: \_\_\_\_\_\_\_\_\_\_
+Colin Creevey can bake #mi(`20`) cornish pasties or #mi(`5`) cauldron cakes in one day. Katie Bell can bake #mi(`15`) cornish pasties or #mi(`8`) cauldron cakes in one day. Set up a Production Table with both Colin and Katie's output per day.~Then set up an opportunity cost table with Colin and Katie's opportunity costs for each good. Who has the~absolute advantage (AA) and comparative advantage (CA) in each good?
 
-CA in Pasties: \_\_\_\_\_\_\_\_\_\_
+AA in Pasties: \_\_\_\_\_\_\_\_\_\_ #h(1fr) AA in Cakes: \_\_\_\_\_\_\_\_\_\_ #h(1fr)
 
-== Q4 | A3.1 | Specialization & Trade
+CA in Pasties: \_\_\_\_\_\_\_\_\_\_ #h(1fr) CA in Cakes: \_\_\_\_\_\_\_\_\_\_ #h(1fr)
 
-Colin Creevey can bake $20$ cornish pasties or $5$ cauldron cakes in one day. Katie Bell can bake $15$ pasties or $8$ cakes in one day.
+#v(40pt)
 
-a) Suppose Colin and Katie realize they can specialize and trade goods. After they specialize, what is a trade that would make them both better off?
+== Q4 | An Improving Trade (A3.1)
 
-$1$ Cake for \_\_\_\_\_\_\_\_\_\_ Pasties
-
-b) It turns out Colin wants to add hours to his job. So he increases from $5$ to $8$ hours per day. What is Colin's new opportunity cost of cake?
-
-Colin's _new_ opportunity cost of one cake: \_\_\_\_\_\_\_\_\_\_
-
-*[Claude]* Their opportunity costs are listed in the following opportunity cost table.
+Colin Creevey can bake #mi(`20`) cornish pasties or #mi(`5`) cauldron cakes in one day. Katie Bell can bake #mi(`15`) pasties or #mi(`8`) cakes in one day. Their opportunity costs are listed in the following opportunity cost table.
 
 #align(center, table(
   columns: 3,
@@ -148,16 +93,20 @@ Colin's _new_ opportunity cost of one cake: \_\_\_\_\_\_\_\_\_\_
   [*Katie*], [8/15 Cake], [15/8 Pasties],
 ))
 
-c) *[Claude]* If Colin and Katie were to specialize and trade with each other, which baker should specialize in cakes? \_\_\_\_\_\_
+a) What is the range of exchange rates that would make both Colin and Katie better off?
 
-d) *[Claude]* Select all the exchange rates which could facilitate a trade between the two bakers.
+Between \_\_\_\_\_\_\_\_\_\_ and \_\_\_\_\_\_\_\_\_\_ Pasties for~#mi(`1`) Cake
+
+b) It turns out Colin wants to add hours to his job. So he increases from #mi(`5`) to #mi(`8`) hours per day. What is Colin's new opportunity cost of one cake?~\_\_\_\_\_\_\_\_\_\_
+
+c) Select all the exchange rates which could facilitate a trade between the two bakers.
 
 #quote(block: true)[
-  $square$ 1 Cake for 1 Pasty
+  #grid(columns: (1fr, 1fr, 1fr, 1fr),
+[$square$ 1 Cake for 1 Pasty], 
+[$square$ 1 Cake for 2 Pasties],
+[$square$ 1 Cake for 3 Pasties], 
+[$square$ 1 Cake for 5 Pasties],
+)
 
-  $square$ 1 Cake for 2 Pasties
-
-  $square$ 1 Cake for 3 Pasties
-
-  $square$ 1 Cake for 5 Pasties
 ]
