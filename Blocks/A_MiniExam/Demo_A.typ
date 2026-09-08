@@ -31,7 +31,7 @@ a) What is Colin's opportunity cost of producing #mi(`1`) cake?~\_\_\_\_\_\_\_\_
 
 b) What is Colin's opportunity cost of producing #mi(`1`) pasty?~\_\_\_\_\_\_\_\_\_\_
 
-c) Colin would rather bake than clean the kitchen. A food photography job comes up that he likes more than cleaning but less than baking. 
+c) Colin would rather bake than clean the kitchen. A food photography job comes up that he likes more than cleaning but less than baking.
 
 ~(i) What is his opportunity cost of baking? \_\_\_\_\_\_\_\_\_\_
 
@@ -40,8 +40,6 @@ c) Colin would rather bake than clean the kitchen. A food photography job comes 
 == Q2 | Colin's PPF (A1.2)
 
 Colin Creevey can bake #mi(`20`) cornish pasties or #mi(`5`) cauldron cakes in one day. There are two graphs, one for (a) and one for (b). For both graphs, draw Colin's PPF, pasties on the vertical axis and cakes on the horizontal. Label the intercepts.
-
-~
 
 a) For each daily output, write whether it is unattainable, inefficient, or efficient, and mark it on the first graph.
 
@@ -53,8 +51,8 @@ a) For each daily output, write whether it is unattainable, inefficient, or effi
   (iii) #mi(`10`) pasties and #mi(`2`) cakes \_\_\_\_\_\_\_\_\_\_
 
   #align(center, grid(columns: (200pt, 200pt), gutter: 36pt,
-  box(width: 100%, height: 150pt, inset: 6pt, stroke: (left: 0.5pt + luma(150), bottom: 0.5pt + luma(150))),
-  box(width: 100%, height: 150pt, inset: 6pt, stroke: (left: 0.5pt + luma(150), bottom: 0.5pt + luma(150))),
+box(width: 100%, height: 150pt, inset: 6pt, stroke: (left: 0.5pt + luma(150), bottom: 0.5pt + luma(150))),
+box(width: 100%, height: 150pt, inset: 6pt, stroke: (left: 0.5pt + luma(150), bottom: 0.5pt + luma(150))),
 ))
 
 ]
