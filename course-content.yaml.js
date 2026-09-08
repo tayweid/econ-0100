@@ -160,7 +160,10 @@ parts:
           description: >-
             Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
+            name: Demo A Walkthrough (Fall 2024)
             video: KH0MkPxWsig
+            description: >-
+              Attempt Demo A first, then walk through with me. The video walks through the Fall 2024 Demo A, which has the same story and numbers as this year's. This year's Demo splits the same questions by skill and adds a few sub-parts, so the video covers Q1, Q2 (a), (b), and (h), Q3, and Q4 (b) and (d). The rest use the same skills and numbers.
             links: [{label: Demo A, file: Blocks/A_MiniExam/Demo_A.pdf}]
 
   B:
