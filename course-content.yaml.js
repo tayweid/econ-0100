@@ -163,7 +163,7 @@ parts:
             name: Demo A Walkthrough (Fall 2024)
             video: KH0MkPxWsig
             description: >-
-              Attempt Demo A first, then walk through with me. The video walks through the Fall 2024 Demo A, which has the same story and numbers as this year's. This year's Demo splits the same questions by skill and adds a few sub-parts, so the video covers Q1, Q2 (a), (b), and (h), Q3, and Q4 (b) and (d). The rest use the same skills and numbers.
+              Attempt Demo A first, then walk through with me. The video is the Fall 2024 Demo A, with the same story and numbers. It walks through the first parts of each question; the later parts are new this year and use the same skills. Where the video answers "attainable? yes" in Q2, this year's sheet asks you to say "inefficient."
             links: [{label: Demo A, file: Blocks/A_MiniExam/Demo_A.pdf}]
 
   B:
