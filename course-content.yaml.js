@@ -161,6 +161,7 @@ parts:
             Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: KH0MkPxWsig
+            links: [{label: Demo A, file: Blocks/A_MiniExam/Demo_A.pdf}]
 
   B:
     title: How Competitive Markets Work
