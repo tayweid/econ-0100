@@ -68,25 +68,9 @@ Comparative statics analyzes how equilibrium changes when supply or demand condi
 
 International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs.
 
-=== Episode B7 | Tariffs
+=== (moving to Part C) Episode B7 | Tariffs
 
 This video introduces international trade, import/export taxes/tariffs, and combinations with domestic taxes. The idea is to bring together many related ideas in the model of perfectly competitive markets.
-
-=== Possible Additions
-
-The transition from the environment to markets can often feel confusing and unrelated. To make the connection as clearly as possible I want to reach all the way to the end of Intermediate Micro, with the edgeworth box framing: placing the edgeworth box inside the PPF. This is an unusual and possibly challenging move for an intro class; so the ideas should be high level.
-
-This framing sets up the two questions graphically:
-
-+ How much of each should we make is a quesiton of placement of the corner on the PPF.
-+ How much should each individual get is a quesiton of point on the edgeworth box.
-
-The idea here is that we have
-
-+ Individuals on the buyer side choosing how much of either good to buy given the prices
-+ Firms on the seller side choosing how much of either good to sell given the prices And we're not going to connect the two prices explicitly in this class through the edgeworth box. You'll have to go on to study it more in later classes.
-
-The idea here is to introduce the idea of markets, two sides, market structures (not how to think about them, but just that there can be different types of markets with different characteristics of the goods and different numbers of buyers and sellers), equilibrium, government, etc. Then move on to drill down into the decisionmaking of both sides of the market.
 
 === Next Up.
 
