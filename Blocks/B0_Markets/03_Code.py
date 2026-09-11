@@ -40,13 +40,6 @@ class EpisodeB0(Scene):
     """Episode B0 | Markets. One flat construct(); each `# Bxx` section is
     self-contained and ends at the pause() the viewer parks on."""
 
-    def drop_frame(self):
-        """Take camera frames (bare Mobjects maniml puts in scene.mobjects)
-        back out, so exercise_card()'s VGroup(*mobjects) never chokes."""
-        for m in list(self.mobjects):
-            if not isinstance(m, (VMobject, ImageMobject)):
-                self.remove(m)
-
     def construct(self):
 
         # B01 ---------------------------------------------------------
@@ -104,6 +97,7 @@ class EpisodeB0(Scene):
         core_line = (Tex('\\textit{Specialization and trade can benefit both parties.}')
                      .scale(0.7).set_color(DEFINITION).move_to(LEFT * 3.95 + DOWN * 3.5))
         self.play(FadeIn(arrow), FadeIn(core_line), alpha.animate.set_value(1.5))
+        self.remove(alpha)   # an animated tracker sits in scene.mobjects; the closing card's stage grab wants only drawables
         self.pause()
 
         # B03 ---------------------------------------------------------
@@ -158,7 +152,6 @@ class EpisodeB0(Scene):
         # B06 ---------------------------------------------------------
         # the raster bumper closes the episode as the part-title reveal
 
-        self.drop_frame()
         FadeAll(self)
         squares = bumper_raster(self)
 
@@ -183,7 +176,6 @@ class EpisodeB0(Scene):
         # B07 ---------------------------------------------------------
         # cut to the demand simulation
 
-        self.drop_frame()
         exercise_card(self, 'Simulation B $|$ Demand',
                       ['How much are you willing to pay for a chocolate bar?'])
         self.wait(1 / 2)     # let the head's Write settle before the export's parked frame

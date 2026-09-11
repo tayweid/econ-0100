@@ -215,21 +215,6 @@ class EpisodeA2(Scene):
     def reset_frame(self):
         """Camera home. Called before every FadeAll transition (A1's B10 idiom)."""
         self.camera.frame.move_to(ORIGIN).set(width=FRAME_W)
-        self.drop_frame()
-
-    def drop_frame(self):
-        """Take camera frames back out of scene.mobjects.
-
-        maniml seeds `scene.mobjects` with the CameraFrame and every
-        `play(camera.frame.animate...)` puts one back (checkpoint replay can
-        leave more than one identity behind). They are bare Mobjects, so a
-        later `exercise_card()` — which wraps `VGroup(*scene.mobjects)` — would
-        raise. Animating the camera still works: `play` re-adds as needed.
-        `ImageMobject` is a bare Mobject too and is spared: B00's photo has to
-        stay on stage long enough to be faded out."""
-        for m in list(self.mobjects):
-            if not isinstance(m, (VMobject, ImageMobject)):
-                self.remove(m)
 
     def construct(self):
 
@@ -251,7 +236,6 @@ class EpisodeA2(Scene):
 
         # B01 ---------------------------------------------------------
 
-        self.drop_frame()          # the camera frame only; the photo is spared
         FadeAll(self)
         squares = bumper_raster(self)
 
@@ -405,7 +389,6 @@ class EpisodeA2(Scene):
                   FadeIn(table_group),
                   self.camera.frame.animate.move_to(table_group).set(
                       width=table_group.width * 1.15).shift(DOWN * 1.0))
-        self.drop_frame()
         box = focus_box(prod.get_rows()[1])
         self.play(FadeIn(box))
         self.pause()
@@ -463,7 +446,6 @@ class EpisodeA2(Scene):
                   *light(cost.get_entries()[7], CARROTS),
                   FadeOut(andrew_math.group),
                   self.camera.frame.animate.shift(UP * 1.0))
-        self.drop_frame()
         self.play(FadeOut(box))
         self.pause()
 
@@ -472,7 +454,6 @@ class EpisodeA2(Scene):
         ca_def = definition('Comparative Advantage', 'is having a lower opportunity cost.')
         self.play(FadeOut(table_group),
                   self.camera.frame.animate.move_to(ORIGIN).set(width=FRAME_W))
-        self.drop_frame()
         self.play(Write(ca_def))
         self.pause()
 
@@ -786,7 +767,6 @@ class EpisodeA2(Scene):
         # a true push-in: the crop starts right of the panel's x caption, so
         # nothing is left half-in frame
         self.play(self.camera.frame.animate.move_to(RIGHT * 3.9 + UP * 0.05).set(width=7.8))
-        self.drop_frame()
         self.play(*selftrade.step(r'$\frac{3}{3}$', r'$\frac{12}{3}$'))
         self.play(*selftrade.step('1', '4'))
         self.pause()
@@ -811,7 +791,6 @@ class EpisodeA2(Scene):
         self.play(self.camera.frame.animate.move_to(ORIGIN).set(width=FRAME_W),
                   Transform(eq_group, molly_rate.copy()),
                   Transform(name_m, molly_rate.copy()), FadeOut(rate_line))
-        self.drop_frame()
         self.remove(eq_group)          # name_m IS the rate line from here on
 
         axa = style_axes(

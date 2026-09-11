@@ -94,14 +94,6 @@ class EpisodeA3(Scene):
     def reset_frame(self):
         """Camera home. Called before every FadeAll transition (A1's B10 idiom)."""
         self.camera.frame.move_to(ORIGIN).set(width=FRAME_W)
-        self.drop_frame()
-
-    def drop_frame(self):
-        """Take camera frames (bare Mobjects maniml puts in scene.mobjects)
-        back out, so exercise_card()'s VGroup(*mobjects) never chokes."""
-        for m in list(self.mobjects):
-            if not isinstance(m, (VMobject, ImageMobject)):
-                self.remove(m)
 
     def construct(self):
 
@@ -499,7 +491,6 @@ class EpisodeA3(Scene):
 
         # B10 ---------------------------------------------------------
 
-        self.drop_frame()            # trackers and camera frames would break the card's stage grab
         stage_q2, card_q2 = exercise_card(self, 'Exercise A3 $|$ Q2', [
             'Suppose Hagrid and McGonagall decide they want to specialize and trade goods.',
             'After they specialize, what is a trade that would make them both better off?',
