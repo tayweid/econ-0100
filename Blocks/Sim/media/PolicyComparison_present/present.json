@@ -1,0 +1,298 @@
+{
+ "format": 1,
+ "scene": "PolicyComparison",
+ "fps": 60,
+ "duration": 24.49999999999976,
+ "resolution": [
+  2160,
+  1080
+ ],
+ "source": {
+  "file": "part_b.py",
+  "mtime": 1788986738.378092,
+  "hash": "9a27f95e5e21de0f8b5d3a8e231cd806"
+ },
+ "pause_anchored": true,
+ "checkpoints": [
+  {
+   "index": 0,
+   "time": 0.0,
+   "line": null,
+   "unit": -1,
+   "chip_unit": -1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 1,
+   "time": 1.0,
+   "line": 353,
+   "unit": 0,
+   "chip_unit": 2,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 2,
+   "time": 1.9999999999999964,
+   "line": 355,
+   "unit": 1,
+   "chip_unit": 2,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 3,
+   "time": 1.9999999999999964,
+   "line": 356,
+   "unit": 2,
+   "chip_unit": 2,
+   "name": "1.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 4,
+   "time": 2.999999999999993,
+   "line": 362,
+   "unit": 3,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 5,
+   "time": 4.999999999999986,
+   "line": 364,
+   "unit": 4,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 6,
+   "time": 5.999999999999982,
+   "line": 366,
+   "unit": 5,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 7,
+   "time": 6.999999999999979,
+   "line": 368,
+   "unit": 6,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 8,
+   "time": 6.999999999999979,
+   "line": 369,
+   "unit": 7,
+   "chip_unit": 7,
+   "name": "1.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 9,
+   "time": 8.499999999999973,
+   "line": 375,
+   "unit": 8,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 10,
+   "time": 9.500000000000018,
+   "line": 379,
+   "unit": 9,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 11,
+   "time": 9.500000000000018,
+   "line": 380,
+   "unit": 10,
+   "chip_unit": 10,
+   "name": "2.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 12,
+   "time": 11.500000000000062,
+   "line": 384,
+   "unit": 11,
+   "chip_unit": 13,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 13,
+   "time": 12.500000000000107,
+   "line": 386,
+   "unit": 12,
+   "chip_unit": 13,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 14,
+   "time": 12.500000000000107,
+   "line": 387,
+   "unit": 13,
+   "chip_unit": 13,
+   "name": "2.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 15,
+   "time": 14.000000000000151,
+   "line": 393,
+   "unit": 14,
+   "chip_unit": 16,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 16,
+   "time": 15.000000000000195,
+   "line": 398,
+   "unit": 15,
+   "chip_unit": 16,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 17,
+   "time": 15.000000000000195,
+   "line": 399,
+   "unit": 16,
+   "chip_unit": 16,
+   "name": "3.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 18,
+   "time": 17.000000000000185,
+   "line": 403,
+   "unit": 17,
+   "chip_unit": 19,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 19,
+   "time": 18.000000000000128,
+   "line": 409,
+   "unit": 18,
+   "chip_unit": 19,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 20,
+   "time": 18.000000000000128,
+   "line": 410,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": "3.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 21,
+   "time": 19.500000000000043,
+   "line": 418,
+   "unit": 20,
+   "chip_unit": 22,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 22,
+   "time": 20.499999999999986,
+   "line": 424,
+   "unit": 21,
+   "chip_unit": 22,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 23,
+   "time": 20.499999999999986,
+   "line": 425,
+   "unit": 22,
+   "chip_unit": 22,
+   "name": "4.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 24,
+   "time": 22.499999999999872,
+   "line": 429,
+   "unit": 23,
+   "chip_unit": 26,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 25,
+   "time": 23.499999999999815,
+   "line": 436,
+   "unit": 24,
+   "chip_unit": 26,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 26,
+   "time": 24.49999999999976,
+   "line": 439,
+   "unit": 25,
+   "chip_unit": 26,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 27,
+   "time": 24.49999999999976,
+   "line": 440,
+   "unit": 26,
+   "chip_unit": 26,
+   "name": "4.b",
+   "stop": true,
+   "loop": false
+  }
+ ]
+}

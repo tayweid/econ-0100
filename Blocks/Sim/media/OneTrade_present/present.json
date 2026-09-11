@@ -1,0 +1,148 @@
+{
+ "format": 1,
+ "scene": "OneTrade",
+ "fps": 60,
+ "duration": 10.500000000000068,
+ "resolution": [
+  2160,
+  1080
+ ],
+ "source": {
+  "file": "part_b.py",
+  "mtime": 1788986624.2473032,
+  "hash": "054885abad1201f37a3003d289f5aeff"
+ },
+ "pause_anchored": true,
+ "checkpoints": [
+  {
+   "index": 0,
+   "time": 0.0,
+   "line": null,
+   "unit": -1,
+   "chip_unit": -1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 1,
+   "time": 1.0,
+   "line": 228,
+   "unit": 0,
+   "chip_unit": 2,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 2,
+   "time": 1.9999999999999964,
+   "line": 231,
+   "unit": 1,
+   "chip_unit": 2,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 3,
+   "time": 1.9999999999999964,
+   "line": 232,
+   "unit": 2,
+   "chip_unit": 2,
+   "name": "1.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 4,
+   "time": 4.499999999999989,
+   "line": 236,
+   "unit": 3,
+   "chip_unit": 5,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 5,
+   "time": 5.499999999999986,
+   "line": 238,
+   "unit": 4,
+   "chip_unit": 5,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 6,
+   "time": 5.499999999999986,
+   "line": 239,
+   "unit": 5,
+   "chip_unit": 5,
+   "name": "1.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 7,
+   "time": 6.499999999999982,
+   "line": 250,
+   "unit": 6,
+   "chip_unit": 9,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 8,
+   "time": 8.499999999999977,
+   "line": 252,
+   "unit": 7,
+   "chip_unit": 9,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 9,
+   "time": 9.500000000000021,
+   "line": 253,
+   "unit": 8,
+   "chip_unit": 9,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 10,
+   "time": 9.500000000000021,
+   "line": 254,
+   "unit": 9,
+   "chip_unit": 9,
+   "name": "1.c",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 11,
+   "time": 10.500000000000068,
+   "line": 264,
+   "unit": 10,
+   "chip_unit": 11,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 12,
+   "time": 10.500000000000068,
+   "line": 265,
+   "unit": 11,
+   "chip_unit": 11,
+   "name": "1.d",
+   "stop": true,
+   "loop": false
+  }
+ ]
+}

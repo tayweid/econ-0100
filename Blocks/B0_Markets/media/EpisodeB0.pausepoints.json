@@ -1,0 +1,338 @@
+{
+ "format": 1,
+ "scene": "EpisodeB0",
+ "fps": 60,
+ "duration": 17.016666666666968,
+ "resolution": [
+  2160,
+  1080
+ ],
+ "source": {
+  "file": "03_Code.py",
+  "mtime": 1788968149.2386777,
+  "hash": "434f8baf4324988ef114b5d18477c3d2"
+ },
+ "pause_anchored": true,
+ "checkpoints": [
+  {
+   "index": 0,
+   "time": 0.0,
+   "line": null,
+   "unit": -1,
+   "chip_unit": -1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 1,
+   "time": 0.5,
+   "line": 56,
+   "unit": 0,
+   "chip_unit": 1,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 2,
+   "time": 0.5,
+   "line": 57,
+   "unit": 1,
+   "chip_unit": 1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 3,
+   "time": 1.4999999999999978,
+   "line": 93,
+   "unit": 2,
+   "chip_unit": 3,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 4,
+   "time": 2.4999999999999942,
+   "line": 93,
+   "unit": 2,
+   "chip_unit": 3,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 5,
+   "time": 2.4999999999999942,
+   "line": 94,
+   "unit": 3,
+   "chip_unit": 3,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 6,
+   "time": 3.4999999999999907,
+   "line": 106,
+   "unit": 4,
+   "chip_unit": 5,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 7,
+   "time": 3.4999999999999907,
+   "line": 107,
+   "unit": 5,
+   "chip_unit": 5,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 8,
+   "time": 4.499999999999988,
+   "line": 119,
+   "unit": 6,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 9,
+   "time": 4.499999999999988,
+   "line": 120,
+   "unit": 7,
+   "chip_unit": 7,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 10,
+   "time": 5.499999999999984,
+   "line": 142,
+   "unit": 8,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 11,
+   "time": 6.4999999999999805,
+   "line": 143,
+   "unit": 9,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 12,
+   "time": 6.4999999999999805,
+   "line": 144,
+   "unit": 10,
+   "chip_unit": 10,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 13,
+   "time": 7.666666666666643,
+   "line": 149,
+   "unit": 11,
+   "chip_unit": 12,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 14,
+   "time": 7.666666666666643,
+   "line": 150,
+   "unit": 12,
+   "chip_unit": 12,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 15,
+   "time": 8.316666666666656,
+   "line": 155,
+   "unit": 13,
+   "chip_unit": 14,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 16,
+   "time": 8.316666666666656,
+   "line": 156,
+   "unit": 14,
+   "chip_unit": 14,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 17,
+   "time": 9.316666666666702,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 18,
+   "time": 10.316666666666748,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 19,
+   "time": 10.416666666666753,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 20,
+   "time": 10.916666666666778,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 21,
+   "time": 11.416666666666803,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 22,
+   "time": 11.916666666666828,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 23,
+   "time": 13.316666666666894,
+   "line": 176,
+   "unit": 15,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 24,
+   "time": 13.416666666666899,
+   "line": 180,
+   "unit": 16,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 25,
+   "time": 13.916666666666924,
+   "line": 180,
+   "unit": 16,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 26,
+   "time": 14.416666666666949,
+   "line": 180,
+   "unit": 16,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 27,
+   "time": 14.916666666666973,
+   "line": 180,
+   "unit": 16,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 28,
+   "time": 15.516666666667003,
+   "line": 180,
+   "unit": 16,
+   "chip_unit": 17,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 29,
+   "time": 15.516666666667003,
+   "line": 181,
+   "unit": 17,
+   "chip_unit": 17,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 30,
+   "time": 16.516666666666996,
+   "line": 190,
+   "unit": 18,
+   "chip_unit": 18,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 31,
+   "time": 17.016666666666968,
+   "line": 190,
+   "unit": 18,
+   "chip_unit": 18,
+   "name": null,
+   "stop": true,
+   "loop": false
+  }
+ ]
+}
