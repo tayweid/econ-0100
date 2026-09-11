@@ -1,178 +1,190 @@
-# maniml 03_Code.py __
+# maniml 03_Code.py EpisodeB0
+#
+# Episode B0 | Coordination can be done through prices
+# Graphite port (2026-09-08) of the Fall-2024 scenes; director's passes
+# 2026-09-09: opens on the Last Time card; the PPF sits under a subtitled
+# Part A title (guide title() idiom) and the bow-out lands as Part A's
+# core idea with its thesis line in gold beneath the graph; no camera
+# moves — the subtitled Part B column slides in from the right, then the
+# questions key in (white, question-marked) in 01_Notes.md's finalized
+# order: Which point -> Coordinate large groups -> Who benefits. The
+# raster bumper closes the episode as the part-title reveal — label is
+# just 'Part B' (no episode number), kept at the left edge of where the
+# full label would sit — and the last card cues the demand simulation
+# (no card text existed in the reference code; the chocolate-bar question
+# is the fallback agreed in chat). Verbatim original:
+# _archive/03_Code_fall2024.py.
 
 from manim import *
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import warnings
 import os
-import random
+import sys
+import warnings
 
-# Configuration
-CUSTOM_BLACK = '#1f1f1f'
-CUSTOM_GREY = '#696969'
-DEFINITION = '#FFD700'
-config.background_color = CUSTOM_BLACK
-config.axes_color = CUSTOM_GREY
+warnings.filterwarnings('ignore')
 
-PIXEL_HEIGHT = 1080
-FPS = 10
-config.pixel_height = PIXEL_HEIGHT
-config.pixel_width = PIXEL_HEIGHT*2
-config.frame_rate = FPS
-
-class __(Scene):
-
-    """Animation -1 | Last Time..."""
-
-    def construct(self):
-        text = Tex('Last Time...').scale(3)
-        self.play(FadeIn(text), run_time=1/2)
-        self.wait()
-        self.play(FadeOut(text), run_time=1/2)
-        self.wait()
+sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
+from style import *          # palette tokens, frame config, bumper pieces, exercise_card(), FadeAll()
+from style import axes as style_axes
 
 
-class animation_0(Scene):
+def key_in(tex, time_per_char=0.05):
+    """Letter-by-letter reveal: ShowIncreasingSubsets over the Tex's glyphs.
+    (maniml's AddTextLetterByLetter is an unexported alias of the word-wise
+    add, and Write is the stroke-drawing creation look — neither keys in.)"""
+    glyphs = VGroup(*tex.family_members_with_points())
+    return ShowIncreasingSubsets(glyphs, run_time=time_per_char * len(glyphs), rate_func=linear)
 
-    """Animation 0 | Intro Sequence"""
+
+class EpisodeB0(Scene):
+    """Episode B0 | Markets. One flat construct(); each `# Bxx` section is
+    self-contained and ends at the pause() the viewer parks on."""
+
+    def drop_frame(self):
+        """Take camera frames (bare Mobjects maniml puts in scene.mobjects)
+        back out, so exercise_card()'s VGroup(*mobjects) never chokes."""
+        for m in list(self.mobjects):
+            if not isinstance(m, (VMobject, ImageMobject)):
+                self.remove(m)
 
     def construct(self):
-        
-    """ Definitions """
-        
-        colors = sns.color_palette("Blues", 50).as_hex()
 
-        size = 1/6
-        n_width = 2
-        n_height = 3
+        # B01 ---------------------------------------------------------
+        # the Fall-2024 'Animation -1'
 
-        n_rows = len(range(-n_height,n_height+1))
-        n_cols = len(range(-n_width,n_width+1))
-        w_list = list(range(-n_width,n_width+1))*n_rows
-        h_list = [i for i in range(-n_height,n_height+1) for x in 'a'*n_cols]
-        block = list(zip(w_list,h_list)) # height: 7, width: 5
-        
-        string = 'MICROECONOMICS'
-        letters = [raster_font[l] for l in string]
-        
-    """ Run """
-                
-        shift = 0
-        centering = -39
-        squares = []
-        for l in letters:
-            s = [Square(side_length=size, color=config.background_color).move_to(RIGHT*(w + shift*6 + centering)*size + DOWN*h*size) for w,h in [block[i] for i in l]]
-            squares = squares + s
-            shift = shift + 1
-        
-        Squares = VGroup(*squares)
-        
-        self.add(Squares)
-        
-        for i in range(15):
-            update_squares = [s.animate.set_fill(random.sample(colors,1),opacity=1) for s in squares]
-            self.play(*update_squares, run_time=1/10)
-            self.wait(4/10)
-            
-        part_label = Tex('{{Part B}} $|$ Episode 0').set_color(GREY).set_color_by_tex_to_color_map(
-            {"Part B": BLUE,}
-        ).scale(3).next_to(Squares, DOWN)
-        group = VGroup(Squares, part_label)
-        self.play(FadeIn(part_label), group.animate.move_to(0))
-        
-        for i in range(15):
-            update_squares = [s.animate.set_fill(random.sample(colors,1),opacity=1) for s in squares]
-            self.play(*update_squares, run_time=1/10)
-            self.wait(4/10)
-        
-        self.wait()
+        last_card = Tex('Last Time...').scale(SCALE_CARD)
+        self.play(FadeIn(last_card), run_time=1 / 2)
+        self.pause()
 
+        # B02 ---------------------------------------------------------
+        # the Part A stage: guide title with subtitle, the PPF close under it
 
-class animation_1(Scene):
+        FadeAll(self)
+        self.camera.frame.set(width=15).move_to(LEFT * 0.5)   # framed in a touch on Part A
+        part_a = title('Part A')
+        part_a_sub = subtitle(part_a, 'The core economic idea.')
 
-    """Animation 1 | Show the PPF with gains"""
+        ax = style_axes(x_range=[0, 100, 100], y_range=[0, 100, 100],
+                        x_length=7, y_length=7).scale(0.7).move_to(LEFT * 4.5 + DOWN * 0.3)
+        y_label = Tex('A').set_color(INK).next_to(ax.c2p(0, 100), LEFT, buff=0.3)
+        x_label = Tex('B').set_color(INK).next_to(ax.c2p(100, 0), RIGHT, buff=0.3)
 
-    def construct(self):
-        
-    """ Definitions """
-        
-        PPF_axis = Axes(            
-            x_range=[0, 100, 100],
-            x_length = 7,
-            axis_config={"color": WHITE},
-            x_axis_config={
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                }
-            },
-            y_range=[0, 100, 100],
-            y_length = 7,
-            y_axis_config={
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                }
-            },
-            tips=False,
-        )
-        
-        part_label = Tex('Part B').set_color(BLUE).scale(2).to_edge(UP+LEFT, buff=1)
-        
-    """ Starting Objects """
-        
-        axes = PPF_axis.to_edge(RIGHT).scale(0.8)
-        
-        y_label = axes.get_y_axis_label("A").shift(LEFT*2/3)
-        x_label = axes.get_x_axis_label("B").shift(DOWN/2)
-        
         alpha = ValueTracker(1)
 
         def Linear_PPF(x):
             return 100 - x
-        
+
         def Bowed_PPF(x):
-            return (100**alpha.get_value() - (x)**alpha.get_value())**(1/alpha.get_value())
-        
+            a = alpha.get_value()
+            return (100**a - x**a)**(1 / a)
+
         def PPF_Group():
-            linear_ppf = axes.plot(Linear_PPF, color=GREY, x_range=(0, 100))
+            linear_ppf = ax.plot(Linear_PPF, color=MUTED, x_range=(0, 100))
             linear_ppf.z_index = -1
-
-            bowed_ppf = axes.plot(Bowed_PPF, color=PINK, x_range=(0, 100, .1))
+            # the frontier that bows past the line is the gain from coordinating
+            bowed_ppf = ax.plot(Bowed_PPF, color=TRADE, x_range=(0, 100, 0.1))
             bowed_ppf.z_index = -1
-            
             return VGroup(linear_ppf, bowed_ppf)
-        
-        ppf_group = always_redraw(PPF_Group)
 
-        self.add(part_label, axes, y_label, x_label, ppf_group)
-                
-        questions = [
-            Tex('- Coordinate large groups').set_color(YELLOW).to_edge(UP+LEFT, buff=1).shift(DOWN*2),
-            Tex('- Which point on the PPF').set_color(YELLOW).to_edge(UP+LEFT, buff=1).shift(DOWN*3),
-            Tex('- Who benefits').set_color(YELLOW).to_edge(UP+LEFT, buff=1).shift(DOWN*4)
-        ]
-        
-        arrow = Arrow(start=RIGHT*3, end=RIGHT*3.8 + UP*0.8).set_color(YELLOW)
-        self.play(FadeIn(arrow), alpha.animate.set_value(1.5), FadeIn(questions[0]))
-        self.wait()
-        
+        # fade in a still copy — always_redraw would repaint at full opacity
+        # mid-fade (the FadeAll gotcha) and snap in instead of fading
+        ppf_static = PPF_Group()
+        self.play(FadeIn(part_a), FadeIn(part_a_sub), FadeIn(ax),
+                  FadeIn(y_label), FadeIn(x_label), FadeIn(ppf_static))
+        self.pause()
+
+        # B02b --------------------------------------------------------
+        # Part A's core idea: coordination bows the frontier out; the arrow
+        # sits in the opening gap, the thesis lands in gold under the graph
+
+        ppf_group = always_redraw(PPF_Group)   # live from here; at alpha=1 it matches the still
+        self.remove(ppf_static)
+        self.add(ppf_group)
+        arrow = Arrow(start=ax.c2p(45, 56), end=ax.c2p(57, 67), buff=0).set_color(FOCUS)
+        core_line = (Tex('\\textit{Specialization and trade can benefit both parties.}')
+                     .scale(0.7).set_color(DEFINITION).move_to(LEFT * 3.95 + DOWN * 3.5))
+        self.play(FadeIn(arrow), FadeIn(core_line), alpha.animate.set_value(1.5))
+        self.pause()
+
+        # B03 ---------------------------------------------------------
+        # Part B fades in as the camera eases out, just enough to feel it
+
+        part_b = (Tex('Part B').set_color(TITLE).scale(SCALE_TITLE)
+                  .move_to(RIGHT * 1.85).align_to(part_a, UP))
+        part_b_sub = (VGroup(Tex(narration('Competitive markets can efficiently')),
+                             Tex(narration('coordinate our decisions.')))
+                      .arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(SCALE_CAPTION)
+                      .set_color(CAPTION).next_to(part_b, DOWN, buff=0.25).align_to(part_b, LEFT))
+        self.play(FadeIn(part_b), FadeIn(part_b_sub),
+                  self.camera.frame.animate.set(width=FRAME_W).move_to(ORIGIN))
+        self.pause()
+
+        # Part B's questions, keyed in one at a time under its title
+        questions = [Tex('- Which point on the PPF?'),
+                     Tex('- Coordinate large groups?'),
+                     Tex('- Who benefits?')]
+        for i, q in enumerate(questions):
+            q.set_color(INK).align_to(part_b, LEFT).align_to(part_a, UP).shift(DOWN * (2.7 + 1.05 * i))
+
+        # B04 ---------------------------------------------------------
+        # first question: two options on the frontier, which do we like?
+
         x1 = 30
-        y1 = Bowed_PPF(x1)
-        p1 = axes.coords_to_point(x1,y1)
-        dot1 = Dot(p1).set_color(WHITE)
-        
-        dot1_l = Tex('Option 1').next_to(dot1,RIGHT).set_color(YELLOW)
-        
+        p1 = ax.coords_to_point(x1, Bowed_PPF(x1))
+        dot1 = Dot(p1).set_color(INK)
+        dot1_l = Tex('Option 1').next_to(dot1, RIGHT).set_color(DEFINITION)
+
         x2 = 80
-        y2 = Bowed_PPF(x2)
-        p2 = axes.coords_to_point(x2,y2)
-        dot2 = Dot(p2).set_color(WHITE)
-        
-        dot2_l = Tex('Option 2').next_to(dot2,UP+RIGHT).set_color(YELLOW)
-        
-        self.play(FadeIn(dot1), FadeIn(dot1_l), FadeIn(questions[1]))
+        p2 = ax.coords_to_point(x2, Bowed_PPF(x2))
+        dot2 = Dot(p2).set_color(INK)
+        dot2_l = Tex('Option 2').next_to(dot2, UP + RIGHT).set_color(DEFINITION)
+
+        self.play(FadeIn(dot1), FadeIn(dot1_l), key_in(questions[0]))
         self.play(FadeIn(dot2), FadeIn(dot2_l))
-        self.wait()
-        
-        self.play(FadeIn(questions[2]))
-        self.wait()
+        self.pause()
+
+        # B05 ---------------------------------------------------------
+        # second question: coordination at scale
+
+        self.play(key_in(questions[1]))
+        self.pause()
+
+        # B05b --------------------------------------------------------
+        # ...and its other face: who benefits
+
+        self.play(key_in(questions[2]))
+        self.pause()
+
+        # B06 ---------------------------------------------------------
+        # the raster bumper closes the episode as the part-title reveal
+
+        self.drop_frame()
+        FadeAll(self)
+        squares = bumper_raster(self)
+
+        # B06b --------------------------------------------------------
+
+        flicker(self, squares)
+
+        # B06c --------------------------------------------------------
+        # the part label, written in: 'Part B | Competitive Markets',
+        # centred under the wordmark with the thesis beneath
+
+        label = (Tex('{{Part B}} $|$ Competitive Markets').set_color(CAPTION)
+                 .set_color_by_tex_to_color_map({'Part B': TITLE}).scale(2.2)
+                 .move_to(DOWN * 0.9))
+        self.play(AddTextWordByWord(label), squares.animate.move_to(UP * 0.9))
+        flicker(self, squares)
+        thesis = (Tex('\\textit{Competitive markets can coordinate decisions.}')
+                  .scale(1.1).set_color(CAPTION).next_to(label, DOWN, buff=0.5))
+        self.play(AddTextWordByWord(thesis))
+        self.pause()
+
+        # B07 ---------------------------------------------------------
+        # cut to the demand simulation
+
+        self.drop_frame()
+        exercise_card(self, 'Simulation B $|$ Demand',
+                      ['How much are you willing to pay for a chocolate bar?'])
+        self.wait(1 / 2)     # let the head's Write settle before the export's parked frame
+        self.pause()
