@@ -1,8 +1,8 @@
 # Editing the ECON 0100 website
 
 All course content lives in `course-content.yaml.js`. Edit the YAML between the two backtick
-lines, open the affected `part-*.html` page (double-click it, or run
-`scripts/preview.command`), refresh, and run `scripts/check-course` before committing. There
+lines, open the affected `part-*.html` page (double-click it), refresh, and run
+`scripts/check-course` before committing. There
 is no build step.
 
 The format, the renderer, and the checker are shared with every course site and live in

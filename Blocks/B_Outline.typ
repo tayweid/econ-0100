@@ -56,6 +56,8 @@ Competitive markets maximize total surplus, achieving social efficiency.
 
 This video introduces welfare, starting with consumer surplus, moving to producer surplus, and talking about efficiency of perfectly competitive markets.
 
+// ED: 2026-09-13 renumbering — this DWL/price-controls episode folds into B4 (Efficiency via price controls, one class Wed Sep 23); its notes are the B4_Efficiency block's script material.
+
 === Episode 4 | Deadweight Loss and Price Controls
 
 This video introduces price controls to introduce the idea of deadweight loss. Price controls are first modeled using a price line, then after introducing the idea of deadweight loss, is re-done using government purchases.

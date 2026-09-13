@@ -6,6 +6,34 @@
 
 In this video we’ll consider what happens to equilibrium price and quantity when preferences change and shift the demand curve or when costs change and shift the supply curve.
 
+<!-- ED: ARC DECISION (2026-09-13, per chat) — shifters are taught HERE, not in B1/B2 (both notes now hold pointers to this file). Your arc, verbatim from chat: "we want to start by asking what happens when things change in the market, and that requires thinking about changes in the supply and demand curve. then we get into elasticity, when it's not the curve itself changing but the price, then we bring it all together with comparative statics." Two consequences for this file, left for your pass: (1) the section order below is Comparative Statics then Elasticity — the arc puts elasticity in the middle and comparative statics last; (2) the storyboard line "You'll remember, we talked shifters in Demand" assumed B1 taught shifters — under this decision, this episode INTRODUCES them. -->
+
+<!-- ED: MOVED IN (2026-09-13) — the shifter sections below arrived verbatim from B1_Demand (demand shifters, Gary) and B2_Supply ("Shifters" and "Shifters Again"). Only the grouping headers with provenance labels are new. Both source files record the move. The two "chapter 4" pointers came along — check them against the posted reading when B5's block gets set up. One wording spot flagged for you, not fixed: "Her supply curve would also increase!" (the rent example) — the paragraph's logic is a shift up/in (she produces less at every price), so "increase" may not be the word you want. -->
+
+#### Shifters | Demand (moved in from B1_Demand)
+
+What would happen to Gary's demand curve if he learns that spinach has more health benefits than he had thought. He'd be more willing to pay for spinach at every quantity or alternatively, he would be willing to buy more spinach at every price. Either way you think of it, his demand curve shifts out.
+
+Gary isn't the only one who realizes spinach has more health benefits than previously thought. It turns out everyone in the market now prefers spinach more than they had. This shifts the demand curve out.
+
+Everyone is willing to buy more spinach at every price or alternatively everyone is willing to pay more for spinach at every quantity. The reverse is also true. If buyers begin to prefer spinach less, the demand curve will shift in. You can take a look at chapter 4 for more details on the demand curve and the shifters.
+
+#### Shifters | Supply (moved in from B2_Supply)
+
+Molly's ***Individual Supply Curve*** depends on the costs of producing spinach. For example, what would happen if the price of renting farmland increased? Her supply curve would also increase! The cost of each additional unit of spinach becomes more expensive since the input, land, has also become more expensive. This means that, for example, she wouldn't be willing to produce as much spinach as before at a price of $\$4$ or any price.
+
+What would happen if she had to pay less for her organic fertilizer? Each additional unit of spinach would become less costly to produce. Molly would be willing to make *more* spinach than before at a price of $\$4$ or any price.
+
+What would happen if the price of carrots were to increase? Molly would have a higher opportunity cost of switching her farmland away from carrots to spinach, so the cost of production would also go up!
+
+#### Shifters | Market Supply (moved in from B2_Supply, "Shifters Again")
+
+The changes in the costs of production shift the farmers' individual supply curves, which in turn shifts the market supply curve. We'll come back to think about how shifters impact producer surplus, but we don't yet have all the tools. If the cost of inputs like farmland or fertilizer were to increase, production would become more costly for farmers, meaning the supply curve would shift up. Each quantity supplied is now more expensive and farmers are willing to sell less at any given price.
+
+The market supply curve is also impacted by the number of sellers. Like when we added Andrew's supply to Molly's to get the market supply curve, every time another seller opens their doors the supply curve shifts out, and when a seller drops out of the market the supply curve shifts in.
+
+Check out chapter 4 for a deeper dive into the supply curve and the factors that shift it.
+
 #### Outline
 
 - Start by talking about what markets are doing, that we get equilibrium price because of buyers and sellers incentives, and that under some conditions, this is very good for buyers and sellers, although not everyone. 

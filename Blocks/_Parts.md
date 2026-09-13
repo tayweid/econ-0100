@@ -19,12 +19,20 @@ markets can effectively facilitate coordination
 
 *Use prices to examine the question of where to live on the PPF*
 
-- *Supply and Demand* — begin thinking about where to live on the PPF via sellers’ costs and buyers’ wants; maybe mention the market taxonomy.
-- *Equilibrium* — simulation of a perfectly competitive market for rice in Marryville.
-- *Welfare* — consumer surplus → producer surplus → efficiency of competitive markets.
-- *Deadweight Loss and Price Controls* — price controls introduce DWL; first modeled with a price line, then re-done using government purchases.
-- *First Welfare Theorem* — use price controls to show why markets maximize welfare.
-- *Government Cheese* — revisit price controls via government buyups, told through government cheese.
+<!-- ED: RENUMBERED (2026-09-13, per chat) — one block per class, six classes to Checkpoint B (Mon Oct 5): B1 Demand, B2 Supply, B3 Equilibrium, B4 Efficiency (via price controls), B5 Changes, B6 International Trade. Block directories renamed to match. The labeled bullets are your struck bullets split/joined, plus your words from chat; delete the strikes to accept. Government Cheese isn't struck as content — its beat ("re-done using government purchases") survives inside B4's bullet. -->
+
+- {++*B1 | Demand* — begin thinking about where to live on the PPF via buyers’ wants; maybe mention the market taxonomy.++}
+- {++*B2 | Supply* — sellers’ costs.++}
+- {++*B3 | Equilibrium* — simulation of a perfectly competitive market for rice in Marryville.++}
+- {++*B4 | Efficiency* — consumer surplus → producer surplus → efficiency of competitive markets; price controls introduce DWL, first modeled with a price line, then re-done using government purchases; use price controls to show why markets maximize welfare.++}
+- {++*B5 | Changes* — elasticity and comparative statics.++}
+- {++*B6 | International Trade* — closing the loop back to trade; bring together the perfectly-competitive-market ideas.++}
+- ~~*Supply and Demand* — begin thinking about where to live on the PPF via sellers’ costs and buyers’ wants; maybe mention the market taxonomy.~~
+- ~~*Equilibrium* — simulation of a perfectly competitive market for rice in Marryville.~~
+- ~~*Welfare* — consumer surplus → producer surplus → efficiency of competitive markets.~~
+- ~~*Deadweight Loss and Price Controls* — price controls introduce DWL; first modeled with a price line, then re-done using government purchases.~~
+- ~~*First Welfare Theorem* — use price controls to show why markets maximize welfare.~~
+- ~~*Government Cheese* — revisit price controls via government buyups, told through government cheese.~~
 
 ## Part C | Externalities
 
@@ -32,10 +40,16 @@ externalities break the efficiency of markets
 
 *Externalities break markets.*
 
-- *Externalities* — positive and negative externalities and the associated market failures.
-- *Corrective Taxes/Subsidies* — taxes and subsidies as a solution to market failures.
-- *Elasticity* — elasticity as a way to measure the incidence of a tax on equilibrium.
-- *International Trade* — import/export taxes/tariffs and combinations with domestic taxes; bring together the perfectly-competitive-market ideas.
+<!-- ED: RENUMBERED (2026-09-13, per chat) — your sequence: "political pressure to close the border, tariffs, inefficiency, externalities, corrective taxes." C1 Tariffs is split out of the old Trade_and_Tariffs block (International Trade itself moved to B6); Elasticity moved to B5 with comparative statics — its tax-incidence use can return as a callback inside C2. You flagged that tariffs sit oddly under an externalities summary but want to keep them for student interest; the part summary lines are untouched for your call. -->
+
+- {++*C1 | Tariffs* — political pressure to close the border, tariffs, inefficiency; import/export taxes/tariffs and combinations with domestic taxes.++}
+- {++*C2 | Taxes and Subsidies* — taxes and subsidies as a solution to market failures.++}
+- {++*C3 | Externalities* — positive and negative externalities and the associated market failures.++}
+- {++*C4 | Corrective Policy* — corrective taxes.++}
+- ~~*Externalities* — positive and negative externalities and the associated market failures.~~
+- ~~*Corrective Taxes/Subsidies* — taxes and subsidies as a solution to market failures.~~
+- ~~*Elasticity* — elasticity as a way to measure the incidence of a tax on equilibrium.~~
+- ~~*International Trade* — import/export taxes/tariffs and combinations with domestic taxes; bring together the perfectly-competitive-market ideas.~~
 
 ## Part D | Strategic Interaction
 

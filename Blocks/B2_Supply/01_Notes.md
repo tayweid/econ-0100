@@ -1,4 +1,4 @@
-## Episode B1 | *Supply*
+## Episode B2 | *Supply*
 
 #### Notes
 
@@ -44,13 +44,7 @@ When price falls, producer surplus decreases for two reasons. First, the produce
 
 The opposite is true when price rises. Producer surplus increases for both of these reasons: Molly get's more surplus value for all the spinach she was producing before *and* she produces more spinach which makes producer surplus.
 
-#### Shifters
-
-Molly's ***Individual Supply Curve*** depends on the costs of producing spinach. For example, what would happen if the price of renting farmland increased? Her supply curve would also increase! The cost of each additional unit of spinach becomes more expensive since the input, land, has also become more expensive. This means that, for example, she wouldn't be willing to produce as much spinach as before at a price of $\$4$ or any price. 
-
-What would happen if she had to pay less for her organic fertilizer? The each additional unit of spinach would become less costly to produce. Molly would be willing to make *more* spinach than before at at price of $\$4$ or any price. 
-
-What would happen if the price of carrots were to increase? Molly would have a higher opportunity cost of switching her farmland away from carrots to spinach, so the cost of production would also go up!
+<!-- ED: DECISION (2026-09-13, per chat) — shifters are B5's material. B5's arc: what happens when things change in the market (changes in the curves), then elasticity (the price changing, not the curve), then comparative statics brings it together. The individual supply-shifter paragraphs that were here (farmland rent, fertilizer, the price of carrots) MOVED to B5_Changes/01_Notes.md. The Notes bullet up top still says "add shifters ... mention shifters" — superseded by this decision. -->
 
 #### Market Supply
 
@@ -64,13 +58,7 @@ We can represent this ***Supply Curve*** with an equation for a line that goes t
 
 Just like Molly's Producer Surplus, we can find the producer surplus for the entire market by adding up the difference between the price and the cost of producing that pound of spinach. Doing this for every pound of spinach gives us the area of a triangle. This is the producer surplus in the market at this price, which is one way of measuring how good the exchanges in the farmer's market is for people like Molly.
 
-#### Shifters Again
-
-The changes in the costs of production shift the farmers' individual supply curves, which in turn shifts  the market supply curve. We'll come back to think about how shifters impact producer surplus, but we don't yet have all the tools. If the cost of inputs like farmland or fertilizer were to increase, production would become more costly for farmers, meaning the supply curve would shift up. Each quantity supplied is now more expensive and farmers are willing to sell less at any given price. 
-
-The market supply curve is also impacted by the number of sellers. Like when we added Andrew's supply to Molly's to get the market supply curve, every time another seller opens their doors the supply curve shifts out, and when a seller drops out of the market the supply curve shifts in.
-
-Check out chapter 4 for a deeper dive into the supply curve and the factors that shift it. 
+<!-- ED: DECISION (2026-09-13, per chat) — the market-level shifter paragraphs that were here ("Shifters Again": costs shifting the market curve, the number of sellers, the chapter pointer) also MOVED to B5_Changes/01_Notes.md, same decision as above. -->
 
 #### Closing
 

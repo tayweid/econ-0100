@@ -173,7 +173,7 @@ parts:
       Part B reveals how markets solve the coordination problem from Part A.
     sections:
       - block: B1
-        folder: B1_Demand_and_Supply
+        folder: B1_Demand
         nav: Demand
         title: Demand
         description: Demand curves show how much consumers are willing to buy at each price.
@@ -190,11 +190,11 @@ parts:
           due: Wednesday September 25
         dates:
           class: '2026-09-14'
-          recitation: '2026-09-18'
+          recitation: '2026-09-11'
           homework: '2026-09-20'
 
       - block: B2
-        folder: B2_Equilibrium_and_Welfare
+        folder: B2_Supply
         nav: Supply
         title: Supply
         description: Supply curves show how much producers are willing to sell at each price.
@@ -213,7 +213,7 @@ parts:
           homework: '2026-09-20'
 
       - block: B3
-        folder: B3_Market_Changes
+        folder: B3_Equilibrium
         nav: Equilibrium
         title: Equilibrium
         description: Markets find the equilibrium price where quantity supplied equals quantity demanded.
@@ -230,14 +230,14 @@ parts:
         extras:
           - name: Simulating a Market
             video: PNtKXWNKGN8
-            description: "*Simulating a Market - excellent video from one of my favorite Youtube channels!*"
+            description: Excellent video from one of my favorite Youtube channels!
         dates:
           class: '2026-09-21'
           recitation: '2026-09-25'
           homework: '2026-09-27'
 
       - block: B4
-        folder: B4_Price_Controls
+        folder: B4_Efficiency
         nav: Efficiency
         title: Efficiency
         description: Competitive markets maximize total surplus, achieving social efficiency.
@@ -256,38 +256,26 @@ parts:
           homework: '2026-09-27'
 
       - block: B5
-        nav: Elasticity
-        title: Elasticity
-        description: Elasticity measures how responsive quantity is to changes in price, income, or other factors.
+        folder: B5_Changes
+        nav: Changes
+        title: Changes
+        description: >-
+          Elasticity measures how responsive quantity is to changes in price, income, or other factors. Comparative statics analyzes how equilibrium changes when supply or demand conditions shift.
         episode:
-          description: "*Elasticity measures responsiveness*"
+          description: "*How markets respond to changes*"
         reading:
           name: Reading B5
         vignette:
-          description: "*Elasticity practice problems*"
+          description: "*Elasticity and comparative statics practice problems*"
         dates:
           class: '2026-09-28'
           recitation: '2026-10-02'
           homework: '2026-10-04'
 
       - block: B6
-        nav: Comparative Statics
-        title: Comparative Statics
-        description: Comparative statics analyzes how equilibrium changes when supply or demand conditions shift.
-        episode:
-          description: "*How markets respond to changes*"
-        reading:
-          name: Reading B6
-        vignette:
-          description: "*Comparative statics practice problems*"
-        dates:
-          class: '2026-09-28'
-          recitation: '2026-10-02'
-          homework: '2026-10-04'
-
-      - block: B7
-        nav: Tariffs
-        title: Tariffs
+        folder: B6_Trade
+        nav: Trade
+        title: International Trade
         description: >-
           International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs.
         episode:
@@ -298,15 +286,14 @@ parts:
           topic: Globalization and protectionism
         vignette:
           description: "*International trade practice problems*"
-          files: C1
         dates:
-          class: '2026-09-28'
+          class: '2026-09-30'
           recitation: '2026-10-02'
           homework: '2026-10-04'
 
       - checkpoint:
           reattempt: TBA
-          date: '2026-09-30'
+          date: '2026-10-05'
           description: >-
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
@@ -319,38 +306,17 @@ parts:
       Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. You'll discover how pollution, taxes, and corrective policies can harm or correct market outcomes.
     sections:
       - block: C1
-        folder: C1_Taxes_and_Subsidies
-        nav: Externalities
-        title: Externalities
-        description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
+        folder: C1_Tariffs
+        nav: Tariffs
+        title: Tariffs
+        description: Political pressure to close the border, tariffs, inefficiency.
         episode:
-          video: uxPoYbtzYbM
-          description: "*Externalities*"
-        reading:
-          chapter: 12
-          topic: Environmental protection and negative externalities
-          video: prohFxS0E1I
+          description: "*Tariffs*"
         vignette:
-          video: xKK5JBPXGsg
-          description: "*Externalities practice problems*"
-          files: C1
-        homework:
-          due: Due Date TBD
-          practice: hwc
-        extras:
-          - name: Planet Money
-            description: Tax carbon, fix the climate
-            image: 'https://media.npr.org/assets/img/2013/07/12/ross-sea-iceberg_wide-aa15abc1c67c120ac22f22f29ba3ffbebfdefb3f.jpg?s=600&c=85&f=jpeg'
-            links:
-              - {label: Episode 472, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
-              - {label: Revisited, file: 'https://www.npr.org/sections/money/2018/07/18/630267782/episode-472-the-one-page-plan-to-fix-global-warming-revisited'}
-        dates:
-          class: '2026-10-05'
-          recitation: '2026-10-09'
-          homework: '2026-10-11'
+          description: "*Tariffs practice problems*"
 
       - block: C2
-        folder: C2_Trade_and_Tariffs
+        folder: C2_Taxes_and_Subsidies
         nav: Taxes
         title: Taxes
         description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
@@ -374,6 +340,36 @@ parts:
 
       - block: C3
         folder: C3_Externalities
+        nav: Externalities
+        title: Externalities
+        description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
+        episode:
+          video: uxPoYbtzYbM
+          description: "*Externalities*"
+        reading:
+          chapter: 12
+          topic: Environmental protection and negative externalities
+          video: prohFxS0E1I
+        vignette:
+          video: xKK5JBPXGsg
+          description: "*Externalities practice problems*"
+        homework:
+          due: Due Date TBD
+          practice: hwc
+        extras:
+          - name: Planet Money
+            description: Tax carbon, fix the climate
+            image: 'https://media.npr.org/assets/img/2013/07/12/ross-sea-iceberg_wide-aa15abc1c67c120ac22f22f29ba3ffbebfdefb3f.jpg?s=600&c=85&f=jpeg'
+            links:
+              - {label: Episode 472, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
+              - {label: Revisited, file: 'https://www.npr.org/sections/money/2018/07/18/630267782/episode-472-the-one-page-plan-to-fix-global-warming-revisited'}
+        dates:
+          class: '2026-10-05'
+          recitation: '2026-10-09'
+          homework: '2026-10-11'
+
+      - block: C4
+        folder: C4_Corrective_Policy
         nav: Corrective Taxes
         title: Corrective Taxes
         description: Pigouvian taxes can internalize externalities and restore market efficiency by aligning private and social costs.
