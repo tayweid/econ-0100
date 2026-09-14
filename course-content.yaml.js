@@ -64,8 +64,7 @@ parts:
     tagline: better choices can benefit everyone
     links: [{label: Skillsheet, file: Blocks/A_Skillsheet.pdf}]
     introduction: >-
-      Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. These are the models that make it possible to see the invisible forces that make civilization possible.
-    homework_defaults:
+      Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. To show this, we’ll build the models that show the invisible forces that make civilization possible.    homework_defaults:
       due: Sunday, September 4
     sections:
       - block: A0
@@ -170,7 +169,7 @@ parts:
     title: How Competitive Markets Work
     tagline: prices can coordinate buyers and sellers
     introduction: >-
-      Part B reveals how markets solve the coordination problem from Part A.
+      In Part A we set up the landscape of what’s possible but didn’t choose *which* point is best. Part B introduces preferences within competitive markets as a coordination device, allowing large groups to efficiently produce and distribute the things we want. This efficiency is amazing, but as we’ll show in Part C, it doesn’t work in every environment.
     sections:
       - block: B1
         folder: B1_Demand
@@ -303,7 +302,7 @@ parts:
     title: Externalities
     tagline: externalized costs and benefits lead to inefficient markets
     introduction: >-
-      Part B showed us how markets coordinate perfectly when conditions are right, delivering efficient outcomes that maximize total surplus. But what happens when those perfect conditions break down? Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. You'll discover how pollution, taxes, and corrective policies can harm or correct market outcomes.
+      In Part A we set up the landscape of what’s possible and in Part B we introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. But not every market is competitive or without externalities. Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. We’ll build the models to show how pollution, taxes, and corrective policies can either harm or correct market behavior.
     sections:
       - block: C1
         folder: C1_Tariffs
@@ -401,7 +400,7 @@ parts:
     title: Strategic Interaction
     tagline: strategic interaction often leads to inefficient markets
     introduction: >-
-      Part D pushes beyond market failures to explore situations where markets aren't even the right framework. Here we encounter public goods and common resources—goods that are entirely externalities with no private component. These situations demand a completely different approach: strategic thinking and game theory. You'll discover why cooperation is sometimes impossible even when everyone would benefit, and how understanding these dynamics reveals the hidden logic behind everything from environmental policy to international relations.
+      Part A set up the landscape of what’s possible. Part B introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. And Part C showed that externalities break the efficiency of markets. In Part D we take this idea even further, into settings with strategic interaction, which we call game theory.
     sections:
       - block: D1
         folder: D1_Games
@@ -504,7 +503,7 @@ parts:
     title: Sellers
     tagline: market power leads to inefficient markets
     introduction: >-
-      We've mastered coordination and market efficiency—now it's time to explore what happens when sellers have market power. Part E reveals how firms convert inputs to outputs, minimize costs, and maximize profits. You'll discover the dramatic difference between perfect competition and monopoly, and why market structure fundamentally determines economic outcomes. These insights unlock the mystery of why some markets thrive while others exploit consumers—and what we can do about it.
+      In Part A through Part D we’ve explored why we would want to coordinate and how to make coordination possible. Markets can organize economic activity efficiently in some contexts and fail in other contexts. In Part E build a model of sellers that shows how markets are not efficient when sellers have Market Power, the ability to impact the market for their own gain. 
     sections:
       - block: E1
         folder: E1_Costs
@@ -608,7 +607,7 @@ parts:
     title: Buyers
     tagline: people respond to many interacting incentives
     introduction: >-
-      Part F completes our economic journey by revealing the elegant mathematics of human choice. After exploring how markets work and fail, we now discover how budget constraints and preferences create the demand curves that drive everything. You'll learn why consumers make the choices they do, how income from factor markets shapes purchasing power, and how utility maximization creates the predictable patterns we see in real markets. These insights don't just explain buyer behavior—they reveal the hidden logic behind every purchase decision you'll ever make.
+      Part F brings us full circle, exploring what to do when we can’t have everything. We start by connecting Factor Markets and the Labor Market to buyer’s income in Final Goods markets, which shapes their Budget Constraint. To understand choices within this constraint, we rank preferences using Utility and map Indifference Curves. The Consumer’s Problem is solved at the highest attainable indifference curve within the budget constraint, where the Marginal Rate of Substitution equals the Marginal Rate of Transformation. 
     sections:
       - block: F1
         folder: F1_The_Consumers_Problem
