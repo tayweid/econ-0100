@@ -168,6 +168,7 @@ parts:
   B:
     title: How Competitive Markets Work
     tagline: prices can coordinate buyers and sellers
+    links: [{label: Skillsheet, file: Blocks/B_Skillsheet.pdf}]
     introduction: >-
       In Part A we set up the landscape of what’s possible but didn’t choose *which* point is best. Part B introduces preferences within competitive markets as a coordination device, allowing large groups to efficiently produce and distribute the things we want. This efficiency is amazing, but as we’ll show in Part C, it doesn’t work in every environment.
     sections:
