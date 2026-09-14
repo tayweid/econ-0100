@@ -70,7 +70,7 @@ class EpisodeB1(Scene):
         ppf_ax = style_axes(x_range=[0, 100, 100], y_range=[0, 100, 100],
                         x_length=7, y_length=7).scale(0.7).move_to(LEFT * 4.5 + DOWN * 0.3)
         y_label = Tex('A').set_color(INK).next_to(ppf_ax.c2p(0, 100), LEFT, buff=0.3)
-        x_label = Tex('B').set_color(INK).next_to(ppf_ax.c2p(100, 0), RIGHT, buff=0.3)
+        x_label = Tex('B').set_color(INK).next_to(ppf_ax.c2p(100, 0), DOWN, buff=0.35)
 
         alpha = ValueTracker(1)
 
@@ -175,15 +175,15 @@ class EpisodeB1(Scene):
         ).scale(GRAPH_SCALE)
         ax.shift(GRAPH_AT - (ax.c2p(0, 0) + ax.c2p(7, 4.5)) / 2)
         p_lab = Tex('P').set_color(INK).next_to(ax.c2p(0, 4.5), LEFT, buff=0.25)
-        q_lab = Tex('Q').set_color(INK).next_to(ax.c2p(7, 0), RIGHT, buff=0.25)
+        q_lab = Tex('Q').set_color(INK).next_to(ax.c2p(7, 0), DOWN, buff=0.35)
 
         # The price is a number that changes continuously, not a Tex transform.
         asking_price = ValueTracker(4)
         asking_line = DashedLine(ax.c2p(0, 4), ax.c2p(7, 4),
                                  color=GUIDE).set_opacity(0.45)
-        asking_number = DecimalNumber(4, num_decimal_places=2).scale(0.7).set_color(INK)
-        asking_number.next_to(asking_line.get_end(), RIGHT, buff=0.85)
-        asking_dollar = Tex(r'\$').scale(0.7).set_color(INK)
+        asking_number = DecimalNumber(4, num_decimal_places=2).scale(0.7).set_color(GUIDE)
+        asking_number.next_to(ax.c2p(0, asking_price.get_value()), LEFT, buff=0.65)
+        asking_dollar = Tex(r'Price \$').scale(0.7).set_color(GUIDE)
         asking_dollar.next_to(asking_number, LEFT, buff=0.03)
         asking = VGroup(asking_line, asking_number, asking_dollar)
 
@@ -191,7 +191,7 @@ class EpisodeB1(Scene):
         self.play(FadeIn(asking))
         asking_line.add_updater(lambda line: line.set_y(ax.c2p(0, asking_price.get_value())[1]))
         asking_number.add_updater(lambda number: number.set_value(asking_price.get_value())
-                                 .next_to(asking_line.get_end(), RIGHT, buff=0.85))
+                                 .next_to(ax.c2p(0, asking_price.get_value()), LEFT, buff=0.65))
         asking_dollar.add_updater(lambda dollar: dollar.next_to(asking_number, LEFT, buff=0.03))
         self.pause()
 
@@ -199,10 +199,12 @@ class EpisodeB1(Scene):
         # her answer at $4, and the term for it
 
         dots = [Dot(ax.c2p(q, p), color=DEMAND, z_index=15) for q, p in HER]
-        iqd_def = definition('Individual Quantity Demanded', 'is the quantity a buyer is willing and able to buy at a given price.')
-        iqd_def.scale(0.7).to_edge(DOWN, buff=0.25)
+        iqd_def = Tex(r'\mbox{ {{Individual Quantity Demanded}} is the quantity a buyer is willing and able to buy at a given price.}')
+        iqd_def.set_color_by_tex_to_color_map({'Individual Quantity Demanded': DEFINITION})
+        iqd_def.set_width(min(iqd_def.get_width(), FRAME_W - 1.2))
+        iqd_def.to_edge(LEFT, buff=0.6).to_edge(DOWN, buff=0.25)
         self.play(FadeIn(dots[0]))
-        self.play(Write(iqd_def))
+        self.play(FadeIn(iqd_def))
         self.pause()
 
         # B05c --------------------------------------------------------
@@ -236,18 +238,22 @@ class EpisodeB1(Scene):
         segs = VGroup(*[Line(ax.c2p(*HER[i - 1]), ax.c2p(*HER[i]), color=INK)
                         for i in range(1, len(HER))])
         idc_def = definition('Individual Demand Curve', 'is the full collection of quantity demanded.')
-        idc_def.scale(0.7).to_edge(DOWN, buff=0.25)
-        self.play(LaggedStart(*[Create(s) for s in segs], lag_ratio=0.4))
+        idc_def.set_width(min(idc_def.get_width(), FRAME_W - 1.2))
+        idc_def.to_edge(LEFT, buff=0.6).to_edge(DOWN, buff=0.25)
+        self.play(LaggedStart(*[FadeIn(s) for s in segs], lag_ratio=0.4))
         self.bring_to_front(*dots)
-        self.play(FadeOut(iqd_def), Write(idc_def))
+        self.remove(iqd_def)
+        self.play(FadeIn(idc_def))
         self.pause()
 
         # B07 ---------------------------------------------------------
         # the pattern in the answers
 
         law_def = definition('Law of Demand', "is a good's quantity demanded falling with its price.")
-        law_def.scale(0.7).to_edge(DOWN, buff=0.25)
-        self.play(FadeOut(idc_def), Write(law_def))
+        law_def.set_width(min(law_def.get_width(), FRAME_W - 1.2))
+        law_def.to_edge(LEFT, buff=0.6).to_edge(DOWN, buff=0.25)
+        self.remove(idc_def)
+        self.play(FadeIn(law_def))
         self.pause()
 
         # B08 ---------------------------------------------------------
@@ -257,7 +263,7 @@ class EpisodeB1(Scene):
         demand = ax.plot(lambda q: 2.5 - q / 2, x_range=[0, 5], color=DEMAND)
         eqn = Tex('$P = 2.5 - Q/2$').scale(0.9).set_color(INK).move_to(ax.c2p(4.3, 2.0))
         d_lab = Tex('D').set_color(INK).next_to(ax.c2p(5, 0), UR, buff=0.15)
-        self.play(Create(demand),
+        self.play(FadeIn(demand),
                   segs.animate.set_stroke(MUTED, opacity=0.3),
                   *[d.animate.set_color(MUTED).set_opacity(0.35) for d in dots])
         self.play(FadeIn(eqn), FadeIn(d_lab))
@@ -281,7 +287,7 @@ class EpisodeB1(Scene):
         demand2 = ax2.plot(lambda q: 2.5 - q / 2, x_range=[0, 5], color=DEMAND)
         eqn2 = Tex('$P = 2.5 - Q/2$').scale(0.9).set_color(INK).move_to(ax2.c2p(4.3, 2.0))
         p_lab2 = Tex('P').set_color(INK).next_to(ax2.c2p(0, 2.5), LEFT, buff=0.25)
-        q_lab2 = Tex('Q').set_color(INK).next_to(ax2.c2p(6, 0), RIGHT, buff=0.25)
+        q_lab2 = Tex('Q').set_color(INK).next_to(ax2.c2p(6, 0), DOWN, buff=0.35)
         d_lab2 = Tex('D').set_color(INK).next_to(ax2.c2p(5, 0), UR, buff=0.15)
 
         # Every potential unit remains visible; each top-right corner is on D.
@@ -302,81 +308,126 @@ class EpisodeB1(Scene):
         self.pause()
 
         # B09 ---------------------------------------------------------
-        # a price gives a quantity: the directional read at $1.50
+        # Pick a price, trace the graph, solve, then carry the answer back.
 
-        # Trace the known value to the curve, then to the answer's axis.
-        # Highlight the existing 1.50 tick; don't draw a second numeral over it.
-        read_a_source = ax2.get_y_axis().numbers[2].copy().set_color(INK)
+        read_price = ValueTracker(1.5)
+        read_price_number = DecimalNumber(1.5, num_decimal_places=2).scale(0.7).set_color(GUIDE)
+        read_price_number.next_to(ax2.c2p(0, 1.5), LEFT, buff=0.65)
+        read_price_word = Tex(r'Price \$').scale(0.7).set_color(GUIDE)
+        read_price_word.next_to(read_price_number, LEFT, buff=0.07)
+        read_source = VGroup(read_price_number, read_price_word)
+        self.play(FadeIn(read_source))
+        read_price_number.add_updater(lambda number: number.set_value(read_price.get_value())
+                                     .next_to(ax2.c2p(0, read_price.get_value()), LEFT, buff=0.65))
+        read_price_word.add_updater(lambda word: word.next_to(read_price_number, LEFT, buff=0.07))
+
         read_a_first = DashedLine(ax2.c2p(0, 1.5), ax2.c2p(2, 1.5), color=GUIDE).set_opacity(0.3)
         read_a_second = DashedLine(ax2.c2p(2, 1.5), ax2.c2p(2, 0), color=GUIDE).set_opacity(0.3)
         read_a_dot = Dot(ax2.c2p(2, 1.5), color=GUIDE)
-        read_a_answer = Tex('$Q_d = 2$').scale(0.7).set_color(INK)
-        read_a_answer.next_to(ax2.c2p(2, 0), DOWN, buff=0.65)
-        read_a = VGroup(read_a_source, read_a_first, read_a_second, read_a_dot, read_a_answer)
-        work = VGroup(
-            Tex('$1.50 = 2.5 - Q/2$'),
-            Tex('$Q = 2$'))
-        work.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        work.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(FadeIn(read_a_source), Create(read_a_first))
-        self.play(FadeIn(read_a_dot), Create(read_a_second))
-        self.play(Write(read_a_answer))
-        self.play(LaggedStart(*[Write(r) for r in work], lag_ratio=0.6))
+        read_a_question = Tex('$Q_d = ?$').scale(0.7).set_color(GUIDE)
+        read_a_question.next_to(ax2.c2p(2, 0), DOWN, buff=0.7)
+        ax2.get_x_axis().numbers[1].set_opacity(0)
+        self.play(FadeIn(read_a_first))
+        self.play(FadeIn(read_a_second), FadeIn(read_a_dot), FadeIn(read_a_question))
+        self.bring_to_front(read_a_dot)
+        self.pause()
+
+        substitute_a = VGroup(Tex('$1.50$').set_color(GUIDE), Tex('$= 2.5 - Q_d/2$', tex_to_color_map={'Q_d': GUIDE}))
+        rearrange_a = VGroup(Tex('$Q_d/2 = 2.5 -$', tex_to_color_map={'Q_d': GUIDE}), Tex('$1.50$').set_color(GUIDE))
+        answer_a = VGroup(Tex('$Q_d =$'), Tex('$2$')).set_color(GUIDE)
+        work = VGroup(substitute_a, rearrange_a, answer_a)
+        for row in work:
+            row.arrange(RIGHT, buff=0.12).scale(0.8)
+        work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(TransformFromCopy(read_price_number.copy().clear_updaters(), substitute_a[0]), FadeIn(substitute_a[1]))
+        self.play(FadeIn(rearrange_a))
+        self.play(FadeIn(answer_a))
+        read_a_answer = VGroup(Tex('$Q_d =$'), Tex('$2$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_a_answer.move_to(read_a_question)
+        self.play(FadeOut(read_a_question), FadeIn(read_a_answer[0]),
+                  TransformFromCopy(answer_a[1], read_a_answer[1]),
+                  ax2.get_x_axis().numbers[1].animate.set_opacity(1))
+        read_a = VGroup(read_a_first, read_a_second, read_a_dot, read_a_answer)
         self.pause()
 
         # B09b --------------------------------------------------------
-        # ...and one that lands between two bars
+        # The same price tracker rolls to a question with a fractional answer.
 
-        # Trace the known value to the curve, then to the answer's axis.
-        read_b_source = Tex('$1.75$').scale(0.7).set_color(INK)
-        read_b_source.next_to(ax2.c2p(0, 1.75), LEFT, buff=0.3)
+        self.play(FadeOut(read_a), FadeOut(work))
+        self.play(read_price.animate.set_value(1.75), run_time=1.5)
         read_b_first = DashedLine(ax2.c2p(0, 1.75), ax2.c2p(1.5, 1.75), color=GUIDE).set_opacity(0.3)
         read_b_second = DashedLine(ax2.c2p(1.5, 1.75), ax2.c2p(1.5, 0), color=GUIDE).set_opacity(0.3)
         read_b_dot = Dot(ax2.c2p(1.5, 1.75), color=GUIDE)
-        read_b_answer = Tex('$Q_d = 1.5$').scale(0.7).set_color(INK)
-        read_b_answer.next_to(ax2.c2p(1.5, 0), DOWN, buff=0.65)
-        read_b = VGroup(read_b_source, read_b_first, read_b_second, read_b_dot, read_b_answer)
-        work_b = VGroup(
-            Tex('$1.75 = 2.5 - Q/2$'),
-            Tex('$Q = 1.5$'))
-        work_b.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        work_b.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(FadeOut(read_a), FadeOut(work))
-        self.play(FadeIn(read_b_source), Create(read_b_first))
-        self.play(FadeIn(read_b_dot), Create(read_b_second))
-        self.play(Write(read_b_answer))
-        self.play(LaggedStart(*[Write(r) for r in work_b], lag_ratio=0.6))
+        read_b_question = Tex('$Q_d = ?$').scale(0.7).set_color(GUIDE)
+        read_b_question.next_to(ax2.c2p(1.5, 0), DOWN, buff=0.7)
+        self.play(FadeIn(read_b_first))
+        self.play(FadeIn(read_b_second), FadeIn(read_b_dot), FadeIn(read_b_question))
+        self.bring_to_front(read_b_dot)
+        self.pause()
+
+        substitute_b = VGroup(Tex('$1.75$').set_color(GUIDE), Tex('$= 2.5 - Q_d/2$', tex_to_color_map={'Q_d': GUIDE}))
+        rearrange_b = VGroup(Tex('$Q_d/2 = 2.5 -$', tex_to_color_map={'Q_d': GUIDE}), Tex('$1.75$').set_color(GUIDE))
+        answer_b = VGroup(Tex('$Q_d =$'), Tex('$1.5$')).set_color(GUIDE)
+        work_b = VGroup(substitute_b, rearrange_b, answer_b)
+        for row in work_b:
+            row.arrange(RIGHT, buff=0.12).scale(0.8)
+        work_b.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(TransformFromCopy(read_price_number.copy().clear_updaters(), substitute_b[0]), FadeIn(substitute_b[1]))
+        self.play(FadeIn(rearrange_b))
+        self.play(FadeIn(answer_b))
+        read_b_answer = VGroup(Tex('$Q_d =$'), Tex('$1.5$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_b_answer.move_to(read_b_question)
+        self.play(FadeOut(read_b_question), FadeIn(read_b_answer[0]),
+                  TransformFromCopy(answer_b[1], read_b_answer[1]))
+        read_b = VGroup(read_b_first, read_b_second, read_b_dot, read_b_answer)
         self.pause()
 
         # B10 ---------------------------------------------------------
-        # the reverse read: a quantity gives a price
+        # Define marginal benefit BEFORE asking the inverse question.
 
+        read_source.clear_updaters()
+        self.remove(read_price)
         self.play(Transform(head, title('Marginal Benefit')),
-                  FadeOut(read_b), FadeOut(work_b))
-        # Trace the known value to the curve, then to the answer's axis.
-        read_c_source = ax2.get_x_axis().numbers[2].copy().set_color(INK)
-        read_c_first = DashedLine(ax2.c2p(3, 0), ax2.c2p(3, 1.0), color=GUIDE).set_opacity(0.3)
-        read_c_second = DashedLine(ax2.c2p(3, 1.0), ax2.c2p(0, 1.0), color=GUIDE).set_opacity(0.3)
-        read_c_dot = Dot(ax2.c2p(3, 1.0), color=GUIDE)
-        read_c_answer = Tex('$MB = 1$').scale(0.7).set_color(INK)
-        read_c_answer.next_to(ax2.c2p(0, 1.0), LEFT, buff=0.65)
-        read_c = VGroup(read_c_source, read_c_first, read_c_second, read_c_dot, read_c_answer)
-        work_c = VGroup(
-            Tex('$P = 2.5 - 3/2$'),
-            Tex('$P = \\$1.00$'))
-        work_c.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        work_c.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(FadeIn(read_c_source), Create(read_c_first))
-        self.play(FadeIn(read_c_dot), Create(read_c_second))
-        self.play(Write(read_c_answer))
-        self.play(LaggedStart(*[Write(r) for r in work_c], lag_ratio=0.6))
+                  FadeOut(read_source), FadeOut(read_b), FadeOut(work_b))
+        mb_def = definition('Marginal Benefit', 'is the value of one more unit.')
+        mb_def.set_width(min(mb_def.get_width(), FRAME_W - 1.2))
+        mb_def.to_edge(LEFT, buff=0.6).to_edge(DOWN, buff=0.25)
+        self.play(FadeIn(mb_def))
         self.pause()
 
         # B10b --------------------------------------------------------
+        # Quantity is now the red input; marginal benefit is the unknown.
 
-        mb_def = definition('Marginal Benefit', 'is the value of one more unit.')
-        mb_def.scale(0.7).to_edge(DOWN, buff=0.25)
-        self.play(FadeOut(work_c), Write(mb_def))
+        read_c_source = VGroup(Tex('$Q_d =$'), Tex('$3$'))
+        read_c_source.arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_c_source.next_to(ax2.c2p(3, 0), DOWN, buff=0.7)
+        read_c_first = DashedLine(ax2.c2p(3, 0), ax2.c2p(3, 1), color=GUIDE).set_opacity(0.3)
+        read_c_second = DashedLine(ax2.c2p(3, 1), ax2.c2p(0, 1), color=GUIDE).set_opacity(0.3)
+        read_c_dot = Dot(ax2.c2p(3, 1), color=GUIDE)
+        read_c_question = Tex('$MB = ?$').scale(0.7).set_color(INK)
+        read_c_question.next_to(ax2.c2p(0, 1), LEFT, buff=0.65)
+        ax2.get_y_axis().numbers[1].set_opacity(0)
+        self.play(FadeIn(read_c_source))
+        self.play(FadeIn(read_c_first))
+        self.play(FadeIn(read_c_second), FadeIn(read_c_dot), FadeIn(read_c_question))
+        self.bring_to_front(read_c_dot)
+        self.pause()
+
+        substitute_c = VGroup(Tex('$P = 2.5 -$'), Tex('$3$').set_color(GUIDE), Tex('$/2$'))
+        answer_c = VGroup(Tex('$P =$'), Tex(r'\$1.00'))
+        work_c = VGroup(substitute_c, answer_c)
+        for row in work_c:
+            row.arrange(RIGHT, buff=0.12).scale(0.8)
+        work_c.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(FadeIn(substitute_c[0]), FadeIn(substitute_c[2]),
+                  TransformFromCopy(read_c_source[1], substitute_c[1]))
+        self.play(FadeIn(answer_c))
+        read_c_answer = VGroup(Tex('$MB =$'), Tex(r'\$1.00')).arrange(RIGHT, buff=0.12).scale(0.7)
+        read_c_answer.next_to(ax2.c2p(0, 1), LEFT, buff=0.65)
+        self.play(FadeOut(read_c_question), FadeIn(read_c_answer[0]),
+                  TransformFromCopy(answer_c[1], read_c_answer[1]),
+                  ax2.get_y_axis().numbers[1].animate.set_opacity(1))
+        read_c = VGroup(read_c_source, read_c_first, read_c_second, read_c_dot, read_c_answer)
         self.pause()
 
         # B11 ---------------------------------------------------------
@@ -389,20 +440,20 @@ class EpisodeB1(Scene):
         self.pause()
 
         # B12 ---------------------------------------------------------
-        # Isolate bar 1: no other bars and no demand curve. Expenditure first.
+        # Keep bar 1 on screen while its surroundings fade away.
 
         self.play(Restore(stage1), FadeOut(card1))
-        self.play(FadeOut(mb_def), FadeOut(read_c), FadeOut(rest_bars),
-                  FadeOut(demand2), FadeOut(eqn2), FadeOut(d_lab2),
-                  q_lab2.animate.shift(DOWN * 0.45))
+        self.play(FadeOut(mb_def), FadeOut(read_c), FadeOut(work_c),
+                  FadeOut(VGroup(*rest_bars[1:])),
+                  FadeOut(demand2), FadeOut(eqn2), FadeOut(d_lab2))
         self.play(Transform(head, title('Consumer Surplus')))
 
         price = ValueTracker(1)
-        selected_unit = ValueTracker(1)   # changed between examples, never animated
-        cs_reveal = ValueTracker(0)       # fade CS in AFTER the expenditure pause
+        selected_unit = ValueTracker(1)  # set between examples, never animated
+        expenditure_reveal = ValueTracker(0)
+        cs_reveal = ValueTracker(0)
 
-        grey_bar = Polygon(ax2.c2p(0, 0), ax2.c2p(1, 0),
-                           ax2.c2p(1, 2), ax2.c2p(0, 2))
+        grey_bar = rest_bars[0].copy()
         expenditure_box = grey_bar.copy()
         surplus_box = grey_bar.copy()
         expenditure_label = Tex('Expenditure').scale(0.7).set_color(GOV)
@@ -410,15 +461,14 @@ class EpisodeB1(Scene):
         expenditure_number = DecimalNumber(1, num_decimal_places=2).scale(0.7).set_color(INK)
         surplus_number = DecimalNumber(1, num_decimal_places=2).scale(0.7).set_color(INK)
         price_line = Line(ax2.c2p(0, 1), ax2.c2p(5.4, 1), color=GUIDE, stroke_width=2)
-        price_word = Tex(r'Price \$').scale(0.7).set_color(INK)
-        price_number = DecimalNumber(1, num_decimal_places=2).scale(0.7).set_color(INK)
+        price_word = Tex(r'Price \$').scale(0.7).set_color(GUIDE)
+        price_number = DecimalNumber(1, num_decimal_places=2).scale(0.7).set_color(GUIDE)
         price_label = VGroup(price_word, price_number)
         cs_group = VGroup(surplus_box, surplus_number, surplus_label)
         expenditure_group = VGroup(expenditure_box, expenditure_number, expenditure_label)
         exchange = VGroup(grey_bar, expenditure_group, cs_group, price_line, price_label)
 
-        # One updater is needed for continuous price motion. It changes these
-        # named objects only; all choreography remains in the beats below.
+        # The single updater keeps the boxes, price, and labels together.
         def update_exchange(group):
             q = int(selected_unit.get_value())
             mb = 2.5 - q / 2
@@ -426,6 +476,7 @@ class EpisodeB1(Scene):
             buys = p <= mb
             paid = min(p, mb)
             surplus = max(mb - p, 0)
+            spent_reveal = expenditure_reveal.get_value() if buys else 0
             reveal = cs_reveal.get_value() if buys and surplus > 0 else 0
 
             grey_bar.set_points_as_corners([
@@ -436,12 +487,12 @@ class EpisodeB1(Scene):
             expenditure_box.set_points_as_corners([
                 ax2.c2p(q - 1, 0), ax2.c2p(q, 0), ax2.c2p(q, paid),
                 ax2.c2p(q - 1, paid), ax2.c2p(q - 1, 0)])
-            expenditure_box.set_stroke(GOV, 2, opacity=1 if buys else 0)
-            expenditure_box.set_fill(GOV, AREA_OPACITY if buys else 0)
+            expenditure_box.set_stroke(GOV, 2, opacity=spent_reveal)
+            expenditure_box.set_fill(GOV, AREA_OPACITY * spent_reveal)
             expenditure_number.set_value(p).move_to(ax2.c2p(q - 0.5, paid / 2))
-            expenditure_number.set_opacity(1 if buys and paid >= 0.18 else 0)
+            expenditure_number.set_opacity(spent_reveal if paid >= 0.18 else 0)
             expenditure_label.next_to(ax2.c2p(q, paid / 2), RIGHT, buff=0.3)
-            expenditure_label.set_opacity(1 if buys else 0)
+            expenditure_label.set_opacity(spent_reveal)
 
             surplus_box.set_points_as_corners([
                 ax2.c2p(q - 1, paid), ax2.c2p(q, paid), ax2.c2p(q, mb),
@@ -460,52 +511,64 @@ class EpisodeB1(Scene):
             price_label.next_to(ax2.c2p(0, p), LEFT, buff=0.65)
 
         update_exchange(exchange)
-        self.play(FadeIn(exchange))
+        self.remove(rest_bars[0])
+        self.add(grey_bar)  # identical geometry; the first bar never fades out
+        self.play(FadeIn(price_line), FadeIn(price_label))
+        self.remove(grey_bar, price_line, price_label)
+        self.add(exchange)
         exchange.add_updater(update_exchange)
         self.pause()
 
+        # B12a --------------------------------------------------------
+        # Expenditure gets its own reveal and pause.
+
+        self.play(expenditure_reveal.animate.set_value(1))
+        self.pause()
+
         # B12b --------------------------------------------------------
-        # Now introduce the extra value ABOVE the price, inside the same bar.
 
         cs_def = definition('Consumer Surplus', "is the buyer's extra value from an exchange.")
-        cs_def.scale(0.7).to_edge(DOWN, buff=0.25)
-        self.play(cs_reveal.animate.set_value(1), Write(cs_def))
+        cs_def.set_width(min(cs_def.get_width(), FRAME_W - 1.2))
+        cs_def.to_edge(LEFT, buff=0.6).to_edge(DOWN, buff=0.25)
+        self.play(cs_reveal.animate.set_value(1), FadeIn(cs_def))
         self.pause()
 
         # B12c --------------------------------------------------------
-        # Above MB: the entire unit is grey; both transaction labels disappear.
 
         self.play(price.animate.set_value(2.4), run_time=2)
         self.pause()
-
-        # B12c2 -------------------------------------------------------
-        # A lower price: expenditure shrinks and consumer surplus grows.
-
         self.play(price.animate.set_value(0.5), run_time=2.5)
         self.pause()
-
-        # B12c3 -------------------------------------------------------
-
         self.play(price.animate.set_value(1), run_time=1.5)
         self.pause()
 
         # B12d --------------------------------------------------------
-        # Reconnect to all potential units before isolating the second one.
+        # Restore the curve with the grey bars before choosing another unit.
 
         exchange.clear_updaters()
-        self.remove(price, cs_reveal)
-        self.play(FadeOut(exchange), FadeIn(rest_bars))
+        self.remove(price, expenditure_reveal, cs_reveal)
+        self.play(FadeOut(exchange), FadeIn(rest_bars),
+                  FadeIn(demand2), FadeIn(eqn2), FadeIn(d_lab2))
         self.pause()
 
         # B12e --------------------------------------------------------
-        # Bar 2, expenditure only. Price remains $1; this bar's MB is $1.50.
+        # Keep bar 2, then reveal its expenditure and surplus in turn.
 
+        self.play(FadeOut(VGroup(rest_bars[0], rest_bars[2], rest_bars[3])),
+                  FadeOut(demand2), FadeOut(eqn2), FadeOut(d_lab2))
         selected_unit.set_value(2)
+        expenditure_reveal.set_value(0)
         cs_reveal.set_value(0)
         exchange.set_opacity(1)
         update_exchange(exchange)
-        self.play(FadeOut(rest_bars), FadeIn(exchange))
+        self.remove(rest_bars)
+        self.add(grey_bar)
+        self.play(FadeIn(price_line), FadeIn(price_label))
+        self.remove(grey_bar, price_line, price_label)
+        self.add(exchange)
         exchange.add_updater(update_exchange)
+        self.pause()
+        self.play(expenditure_reveal.animate.set_value(1))
         self.pause()
 
         # B12f --------------------------------------------------------
@@ -523,22 +586,31 @@ class EpisodeB1(Scene):
         self.pause()
 
         # B12h --------------------------------------------------------
-        # The grey context returns; then bar 3 is the only unit on the axes.
 
         exchange.clear_updaters()
-        self.remove(price, cs_reveal)
-        self.play(FadeOut(exchange), FadeIn(rest_bars))
+        self.remove(price, expenditure_reveal, cs_reveal)
+        self.play(FadeOut(exchange), FadeIn(rest_bars),
+                  FadeIn(demand2), FadeIn(eqn2), FadeIn(d_lab2))
         self.pause()
+        self.play(FadeOut(VGroup(rest_bars[0], rest_bars[1], rest_bars[3])),
+                  FadeOut(demand2), FadeOut(eqn2), FadeOut(d_lab2))
         selected_unit.set_value(3)
+        expenditure_reveal.set_value(0)
         cs_reveal.set_value(0)
         exchange.set_opacity(1)
         update_exchange(exchange)
-        self.play(FadeOut(rest_bars), FadeIn(exchange))
+        self.remove(rest_bars)
+        self.add(grey_bar)
+        self.play(FadeIn(price_line), FadeIn(price_label))
+        self.remove(grey_bar, price_line, price_label)
+        self.add(exchange)
         exchange.add_updater(update_exchange)
+        self.pause()
+        self.play(expenditure_reveal.animate.set_value(1))
         self.pause()
 
         # B12i --------------------------------------------------------
-        # At $1 this marginal unit has zero CS. Lowering price makes CS visible.
+        # At $1 this marginal unit has zero CS. A lower price creates CS.
 
         self.play(cs_reveal.animate.set_value(1), price.animate.set_value(0.5), run_time=2)
         self.pause()
@@ -548,26 +620,31 @@ class EpisodeB1(Scene):
         self.pause()
 
         # B12j --------------------------------------------------------
-        # Context again, then only bar 4. At $1 it stays grey: MB is $0.50.
+        # Bar 4 is initially unbought. Both areas respond as price falls.
 
         exchange.clear_updaters()
-        self.remove(price, cs_reveal)
-        self.play(FadeOut(exchange), FadeIn(rest_bars))
+        self.remove(price, expenditure_reveal, cs_reveal)
+        self.play(FadeOut(exchange), FadeIn(rest_bars),
+                  FadeIn(demand2), FadeIn(eqn2), FadeIn(d_lab2))
         self.pause()
+        self.play(FadeOut(VGroup(rest_bars[0], rest_bars[1], rest_bars[2])),
+                  FadeOut(demand2), FadeOut(eqn2), FadeOut(d_lab2))
         selected_unit.set_value(4)
-        cs_reveal.set_value(0)
+        expenditure_reveal.set_value(1)
+        cs_reveal.set_value(1)
         exchange.set_opacity(1)
         update_exchange(exchange)
-        self.play(FadeOut(rest_bars), FadeIn(exchange))
+        self.remove(rest_bars)
+        self.add(grey_bar)
+        self.play(FadeIn(price_line), FadeIn(price_label))
+        self.remove(grey_bar, price_line, price_label)
+        self.add(exchange)
         exchange.add_updater(update_exchange)
         self.pause()
 
         # B12k --------------------------------------------------------
-        # A price she will accept: expenditure first, pause, then its CS.
 
         self.play(price.animate.set_value(0.25), run_time=2)
-        self.pause()
-        self.play(cs_reveal.animate.set_value(1))
         self.pause()
         self.play(price.animate.set_value(0.9), run_time=2)
         self.pause()
@@ -580,13 +657,12 @@ class EpisodeB1(Scene):
         # Return to the whole demand curve at the lecture's $1 offer.
 
         exchange.clear_updaters()
-        self.remove(price, cs_reveal, selected_unit)
+        self.remove(price, expenditure_reveal, cs_reveal, selected_unit)
         self.play(FadeOut(exchange), FadeIn(rest_bars),
-                  FadeIn(demand2), FadeIn(eqn2), FadeIn(d_lab2),
-                  q_lab2.animate.shift(UP * 0.45))
+                  FadeIn(demand2), FadeIn(eqn2), FadeIn(d_lab2))
         price13 = VGroup(
             Line(ax2.c2p(0, 1), ax2.c2p(5.4, 1), color=GUIDE, stroke_width=2).set_opacity(0.6),
-            Tex(r'Price $= \$1$').scale(0.7).set_color(INK)
+            Tex(r'Price $= \$1$').scale(0.7).set_color(GUIDE)
                 .next_to(ax2.c2p(0, 1), LEFT, buff=0.65))
         self.play(FadeIn(price13))
         all_expenditure = VGroup()
@@ -610,61 +686,108 @@ class EpisodeB1(Scene):
             Tex(r'Expenditure $= 3 \times \$1 = \$3$'))
         tally.scale(0.7).set_color(INK).arrange(DOWN, buff=0.35, aligned_edge=LEFT)
         tally.move_to(MATH_AT, aligned_edge=LEFT)
-        qd_mark = Tex('$Q_d = 3$').scale(0.7).set_color(INK)
+        qd_mark = Tex('$Q_d = 3$').scale(0.7).set_color(GUIDE)
         qd_mark.next_to(ax2.c2p(3, 0), DOWN, buff=0.65)
-        self.play(Write(tally), Write(qd_mark))
+        self.play(FadeIn(tally), FadeIn(qd_mark))
         self.pause()
 
         # B13 ---------------------------------------------------------
-        # Compare the bar sum with the continuous triangle.
+        # Split every bar in half, then raise each new corner onto demand.
+
+        self.play(FadeOut(tally), FadeOut(cs_def),
+                  rest_bars[3].animate.set_fill(MUTED, REST_OPACITY).set_stroke(MUTED, 1))
+        old_width = 1
+        for width in [0.5, 0.25, 0.125, 0.0625]:
+            finer_grey = VGroup()
+            finer_spent = VGroup()
+            finer_cs = VGroup()
+            refinement = []
+            for right in np.arange(width, 5, width):
+                left = right - width
+                old_right = np.ceil(right / old_width) * old_width
+                old_top = 2.5 - old_right / 2
+                new_top = 2.5 - right / 2
+                bar = Polygon(ax2.c2p(left, 0), ax2.c2p(right, 0),
+                              ax2.c2p(right, old_top), ax2.c2p(left, old_top))
+                bar.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
+                finer_grey.add(bar)
+                refinement.append(bar.animate.set_points_as_corners([
+                    ax2.c2p(left, 0), ax2.c2p(right, 0), ax2.c2p(right, new_top),
+                    ax2.c2p(left, new_top), ax2.c2p(left, 0)]))
+                if right <= 3:
+                    spent = Polygon(ax2.c2p(left, 0), ax2.c2p(right, 0),
+                                    ax2.c2p(right, 1), ax2.c2p(left, 1),
+                                    color=GOV, stroke_width=1, fill_opacity=AREA_OPACITY)
+                    finer_spent.add(spent)
+                if right < 3:
+                    gained = Polygon(ax2.c2p(left, 1), ax2.c2p(right, 1),
+                                     ax2.c2p(right, old_top), ax2.c2p(left, old_top),
+                                     color=DEMAND, stroke_width=1, fill_opacity=AREA_OPACITY)
+                    finer_cs.add(gained)
+                    refinement.append(gained.animate.set_points_as_corners([
+                        ax2.c2p(left, 1), ax2.c2p(right, 1), ax2.c2p(right, new_top),
+                        ax2.c2p(left, new_top), ax2.c2p(left, 1)]))
+            # The children initially cover their parents exactly; only their
+            # new top corners move. The expenditure below price stays put.
+            self.remove(rest_bars, all_expenditure, all_cs)
+            self.add(finer_grey, finer_spent, finer_cs)
+            self.bring_to_front(demand2, price13)
+            self.play(*refinement, run_time=1.5)
+            rest_bars = finer_grey
+            all_expenditure = finer_spent
+            all_cs = finer_cs
+            old_width = width
+            self.pause()
 
         tri = Polygon(ax2.c2p(0, 1), ax2.c2p(3, 1), ax2.c2p(0, 2.5),
                       color=DEMAND, fill_opacity=AREA_OPACITY)
-        self.play(FadeOut(all_expenditure), FadeOut(tally), FadeOut(cs_def),
-                  rest_bars[3].animate.set_fill(MUTED, REST_OPACITY).set_stroke(MUTED, 1),
-                  ReplacementTransform(all_cs, tri))
+        spend_area = Polygon(ax2.c2p(0, 0), ax2.c2p(3, 0),
+                             ax2.c2p(3, 1), ax2.c2p(0, 1),
+                             color=GOV, fill_opacity=AREA_OPACITY)
+        self.play(FadeOut(rest_bars), FadeOut(all_cs), FadeOut(all_expenditure),
+                  FadeIn(tri), FadeIn(spend_area))
+        self.bring_to_front(demand2, price13)
         self.pause()
 
         # B13b --------------------------------------------------------
+        # Keep this formula on screen while h and b are measured and filled in.
 
-        area = VGroup(
-            Tex('Area $= \\frac{1}{2} h b$'))
-        area.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
+        area = VGroup(Tex(r'Area $= \frac{1}{2}$'), Tex('$h$'), Tex('$b$'))
+        area.arrange(RIGHT, buff=0.15).scale(0.8).set_color(INK)
         area.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(Write(area[0]))
+        self.play(FadeIn(area[0]), FadeIn(area[1]), FadeIn(area[2]))
         self.pause()
 
         # B13c --------------------------------------------------------
-        # the height, on the P axis
 
-        h_bar = Line(ax2.c2p(0, 1), ax2.c2p(0, 2.5), color=GUIDE, stroke_width=4)
-        h_lab = (Tex('$h = \\$1.50$').scale(0.7).set_color(INK)
-                 .next_to(ax2.c2p(0, 1.75), LEFT, buff=0.55))
-        self.play(Create(h_bar), FadeIn(h_lab))
+        h_bar = Line(ax2.c2p(0, 1), ax2.c2p(0, 2.5), color=FOCUS, stroke_width=4)
+        h_lab = VGroup(Tex('$h =$'), Tex(r'\$1.50'))
+        h_lab.arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        h_lab.next_to(ax2.c2p(0, 1.75), LEFT, buff=0.55)
+        self.play(FadeIn(h_bar), FadeIn(h_lab))
         self.pause()
 
         # B13d --------------------------------------------------------
-        # the base, on the Q axis
 
-        b_bar = Line(ax2.c2p(0, 0), ax2.c2p(3, 0), color=GUIDE, stroke_width=4)
-        b_lab = (Tex('$b = 3$').scale(0.7).set_color(INK)
-                 .next_to(ax2.c2p(1.5, 0), UP, buff=0.15))
-        self.play(Create(b_bar), FadeIn(b_lab))
+        b_bar = Line(ax2.c2p(0, 0), ax2.c2p(3, 0), color=FOCUS, stroke_width=4)
+        b_lab = VGroup(Tex('$b =$'), Tex('$3$'))
+        b_lab.arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        b_lab.next_to(ax2.c2p(1.5, 0), UP, buff=0.15)
+        self.play(FadeIn(b_bar), FadeIn(b_lab))
         self.pause()
 
         # B13e --------------------------------------------------------
-        # the two numbers fly into the equation; almost the bars' number
+        # Only the two symbols change; the formula's prefix stays in place.
 
-        solve = VGroup(
-            Tex('Area $= \\frac{1}{2} h b$'),
-            Tex('$= \\frac{1}{2} (1.50)(3)$'),
-            Tex('$= \\$2.25$'))
-        solve.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        solve.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(FadeOut(area))
-        self.play(Write(solve[0]))
-        self.play(TransformFromCopy(VGroup(h_lab, b_lab), solve[1]))
-        self.play(Write(solve[2]))
+        h_value = Tex('$(1.50)$').scale(0.8).set_color(FOCUS).next_to(area[0], RIGHT, buff=0.15)
+        b_value = Tex('$(3)$').scale(0.8).set_color(FOCUS).next_to(h_value, RIGHT, buff=0.15)
+        self.play(FadeOut(area[1]), area[2].animate.move_to(b_value),
+                  TransformFromCopy(h_lab[1], h_value))
+        self.play(FadeOut(area[2]), TransformFromCopy(b_lab[1], b_value))
+        area_answer = Tex(r'$= \$2.25$').scale(0.8).set_color(INK)
+        area_answer.next_to(area[0], DOWN, buff=0.35).align_to(area[0], LEFT)
+        self.play(FadeIn(area_answer))
+        solve = VGroup(area[0], h_value, b_value, area_answer)
         self.pause()
 
         # B14 ---------------------------------------------------------
@@ -676,23 +799,23 @@ class EpisodeB1(Scene):
         self.pause()
 
         # B15 ---------------------------------------------------------
-        # the live room tally
+        # Introduce market demand before the class's market exercise.
 
-        self.play(Restore(stage2), FadeOut(card2))
-        self.play(FadeOut(VGroup(tri, solve, h_bar, h_lab, b_bar, b_lab,
-                                 qd_mark, price13)))
-        stage3, card3 = exercise_card(
-            self, 'Market Demand $|$ Simulation',
-            ['Tally the room at a range of prices, building the market curve on the board.'])
+        FadeAll(self)
+        head = title('Market Demand')
+        sum_def = definition('Market Demand',
+                             "is the sum of everyone's individual quantity demanded.")
+        sum_def.set_width(min(sum_def.get_width(), FRAME_W - 1.2))
+        sum_def.to_edge(LEFT, buff=0.6)
+        self.play(FadeIn(head), FadeIn(sum_def))
         self.pause()
 
         # B16 ---------------------------------------------------------
-        # PLACEHOLDER -- the 3D Sim/ beat replaces this whole beat. Clean card.
+        # The live room tally; the future 3D sequence follows this exercise.
 
-        FadeAll(self)
-        sum_def = definition('Market Demand',
-                             "is the sum of everyone's individual quantity demanded.")
-        self.play(Write(sum_def))
+        stage3, card3 = exercise_card(
+            self, 'Market Demand $|$ Simulation',
+            ['Tally the room at a range of prices, building the market curve on the board.'])
         self.pause()
 
         # B17 ---------------------------------------------------------
@@ -710,16 +833,16 @@ class EpisodeB1(Scene):
                            'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
         ).scale(GRAPH_SCALE)
         ax_m.shift(GRAPH_AT - (ax_m.c2p(0, 0) + ax_m.c2p(62, 13)) / 2)
-        m_q = Tex('Q').set_color(INK).next_to(ax_m.c2p(62, 0), RIGHT, buff=0.7)
+        m_q = Tex('Q').set_color(INK).next_to(ax_m.c2p(62, 0), DOWN, buff=0.35)
         m_p = Tex('P').set_color(INK).next_to(ax_m.c2p(0, 13), LEFT, buff=0.25)
-        m_cap = Tex(narration('spinach, thousands of lbs per month')).scale(0.7).set_color(CAPTION)
+        m_cap = Tex(narration('chocolate, thousands of bars per month')).scale(0.7).set_color(CAPTION)
         m_cap.move_to([GRAPH_AT[0], -3.7, 0])
         demand_m = ax_m.plot(lambda q: 12 - q / 5, x_range=[0, 60], color=DEMAND)
         eqn_m = Tex('$P = 12 - Q/5$').scale(0.9).set_color(INK).move_to(ax_m.c2p(40, 9))
         d_lab_m = Tex('D').set_color(INK).next_to(ax_m.c2p(60, 0), UR, buff=0.15)
 
         # Each thin rectangle stands for a small quantity interval (thousands
-        # of pounds), not a fabricated observation or a particular buyer.
+        # of chocolate bars), not a particular buyer.
         market_g = VGroup()
         market_cs = VGroup()
         for right in np.arange(2.5, 60.1, 2.5):
@@ -736,152 +859,168 @@ class EpisodeB1(Scene):
                 market_cs.add(cs_bar)
 
         self.play(FadeIn(head), FadeIn(ax_m), FadeIn(m_p), FadeIn(m_q), FadeIn(m_cap),
-                  Create(demand_m))
+                  FadeIn(demand_m))
         self.add(market_g)
         self.play(FadeIn(eqn_m), FadeIn(d_lab_m))
         self.pause()
 
         # B17b --------------------------------------------------------
-        # the market read at $5
+        # Same price-to-graph-to-math sequence, now for market chocolate demand.
 
-        # Trace the known value to the curve, then to the answer's axis.
-        read_m_source = Tex('$5$').scale(0.7).set_color(INK)
-        read_m_source.next_to(ax_m.c2p(0, 5), LEFT, buff=0.3)
+        market_price = ValueTracker(5)
+        market_price_number = DecimalNumber(5, num_decimal_places=2).scale(0.7).set_color(GUIDE)
+        market_price_number.next_to(ax_m.c2p(0, 5), LEFT, buff=0.65)
+        market_price_word = Tex(r'Price \$').scale(0.7).set_color(GUIDE)
+        market_price_word.next_to(market_price_number, LEFT, buff=0.07)
+        market_source = VGroup(market_price_number, market_price_word)
+        self.play(FadeIn(market_source))
+        market_price_number.add_updater(lambda number: number.set_value(market_price.get_value())
+                                       .next_to(ax_m.c2p(0, market_price.get_value()), LEFT, buff=0.65))
+        market_price_word.add_updater(lambda word: word.next_to(market_price_number, LEFT, buff=0.07))
+
         read_m_first = DashedLine(ax_m.c2p(0, 5), ax_m.c2p(35, 5), color=GUIDE).set_opacity(0.3)
         read_m_second = DashedLine(ax_m.c2p(35, 5), ax_m.c2p(35, 0), color=GUIDE).set_opacity(0.3)
         read_m_dot = Dot(ax_m.c2p(35, 5), color=GUIDE)
-        read_m_answer = Tex('$Q_d = 35$').scale(0.7).set_color(INK)
-        read_m_answer.next_to(ax_m.c2p(35, 0), DOWN, buff=0.65)
-        read_m = VGroup(read_m_source, read_m_first, read_m_second, read_m_dot, read_m_answer)
-        self.play(FadeIn(read_m_source), Create(read_m_first))
-        self.play(FadeIn(read_m_dot), Create(read_m_second))
-        self.play(Write(read_m_answer))
-        mwork = VGroup(
-            Tex('$5 = 12 - Q/5$'),
-            Tex('$Q = 35$ thousand lbs'))
-        mwork.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        mwork.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(LaggedStart(*[Write(r) for r in mwork], lag_ratio=0.6))
+        read_m_question = Tex('$Q_d = ?$').scale(0.7).set_color(GUIDE)
+        read_m_question.next_to(ax_m.c2p(35, 0), DOWN, buff=0.85)
+        self.play(FadeIn(read_m_first))
+        self.play(FadeIn(read_m_second), FadeIn(read_m_dot), FadeIn(read_m_question))
+        self.bring_to_front(read_m_dot)
+        self.pause()
+
+        substitute_m = VGroup(Tex('$5$').set_color(GUIDE), Tex('$= 12 - Q_d/5$', tex_to_color_map={'Q_d': GUIDE}))
+        rearrange_m = VGroup(Tex('$Q_d/5 = 12 -$', tex_to_color_map={'Q_d': GUIDE}), Tex('$5$').set_color(GUIDE))
+        answer_m = VGroup(Tex('$Q_d =$'), Tex('$35$')).set_color(GUIDE)
+        mwork = VGroup(substitute_m, rearrange_m, answer_m)
+        for row in mwork:
+            row.arrange(RIGHT, buff=0.12).scale(0.8)
+        mwork.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(TransformFromCopy(market_price_number.copy().clear_updaters(), substitute_m[0]), FadeIn(substitute_m[1]))
+        self.play(FadeIn(rearrange_m))
+        self.play(FadeIn(answer_m))
+        read_m_answer = VGroup(Tex('$Q_d =$'), Tex('$35$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_m_answer.move_to(read_m_question)
+        self.play(FadeOut(read_m_question), FadeIn(read_m_answer[0]),
+                  TransformFromCopy(answer_m[1], read_m_answer[1]))
+        read_m = VGroup(read_m_first, read_m_second, read_m_dot, read_m_answer)
         self.pause()
 
         # B17c --------------------------------------------------------
-        # ...and at $2
 
-        # Trace the known value to the curve, then to the answer's axis.
-        read_m2_source = ax_m.get_y_axis().numbers[0].copy().set_color(INK)
+        self.play(FadeOut(read_m), FadeOut(mwork))
+        self.play(market_price.animate.set_value(2), run_time=1.5)
         read_m2_first = DashedLine(ax_m.c2p(0, 2), ax_m.c2p(50, 2), color=GUIDE).set_opacity(0.3)
         read_m2_second = DashedLine(ax_m.c2p(50, 2), ax_m.c2p(50, 0), color=GUIDE).set_opacity(0.3)
         read_m2_dot = Dot(ax_m.c2p(50, 2), color=GUIDE)
-        read_m2_answer = Tex('$Q_d = 50$').scale(0.7).set_color(INK)
-        read_m2_answer.next_to(ax_m.c2p(50, 0), DOWN, buff=0.65)
-        read_m2 = VGroup(read_m2_source, read_m2_first, read_m2_second, read_m2_dot, read_m2_answer)
-        mwork_b = VGroup(
-            Tex('$2 = 12 - Q/5$'),
-            Tex('$Q = 50$ thousand lbs'))
-        mwork_b.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        mwork_b.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(FadeOut(read_m), FadeOut(mwork))
-        self.play(FadeIn(read_m2_source), Create(read_m2_first))
-        self.play(FadeIn(read_m2_dot), Create(read_m2_second))
-        self.play(Write(read_m2_answer))
-        self.play(LaggedStart(*[Write(r) for r in mwork_b], lag_ratio=0.6))
+        read_m2_question = Tex('$Q_d = ?$').scale(0.7).set_color(GUIDE)
+        read_m2_question.next_to(ax_m.c2p(50, 0), DOWN, buff=0.85)
+        ax_m.get_x_axis().numbers[4].set_opacity(0)
+        self.play(FadeIn(read_m2_first))
+        self.play(FadeIn(read_m2_second), FadeIn(read_m2_dot), FadeIn(read_m2_question))
+        self.bring_to_front(read_m2_dot)
+        self.pause()
+
+        substitute_m2 = VGroup(Tex('$2$').set_color(GUIDE), Tex('$= 12 - Q_d/5$', tex_to_color_map={'Q_d': GUIDE}))
+        rearrange_m2 = VGroup(Tex('$Q_d/5 = 12 -$', tex_to_color_map={'Q_d': GUIDE}), Tex('$2$').set_color(GUIDE))
+        answer_m2 = VGroup(Tex('$Q_d =$'), Tex('$50$')).set_color(GUIDE)
+        mwork_b = VGroup(substitute_m2, rearrange_m2, answer_m2)
+        for row in mwork_b:
+            row.arrange(RIGHT, buff=0.12).scale(0.8)
+        mwork_b.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(TransformFromCopy(market_price_number.copy().clear_updaters(), substitute_m2[0]), FadeIn(substitute_m2[1]))
+        self.play(FadeIn(rearrange_m2))
+        self.play(FadeIn(answer_m2))
+        read_m2_answer = VGroup(Tex('$Q_d =$'), Tex('$50$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_m2_answer.move_to(read_m2_question)
+        self.play(FadeOut(read_m2_question), FadeIn(read_m2_answer[0]),
+                  TransformFromCopy(answer_m2[1], read_m2_answer[1]),
+                  ax_m.get_x_axis().numbers[4].animate.set_opacity(1))
+        read_m2 = VGroup(read_m2_first, read_m2_second, read_m2_dot, read_m2_answer)
         self.pause()
 
         # B18 ---------------------------------------------------------
-        # too many bars to walk, so expenditure arrives as ONE rectangle
+        # Return to the already-solved $5 offer to measure expenditure.
 
-        # Trace the known value to the curve, then to the answer's axis.
-        read_m5_source = Tex('$5$').scale(0.7).set_color(INK)
-        read_m5_source.next_to(ax_m.c2p(0, 5), LEFT, buff=0.3)
+        self.play(FadeOut(read_m2), FadeOut(mwork_b))
+        self.play(market_price.animate.set_value(5), run_time=1.5)
         read_m5_first = DashedLine(ax_m.c2p(0, 5), ax_m.c2p(35, 5), color=GUIDE).set_opacity(0.3)
         read_m5_second = DashedLine(ax_m.c2p(35, 5), ax_m.c2p(35, 0), color=GUIDE).set_opacity(0.3)
         read_m5_dot = Dot(ax_m.c2p(35, 5), color=GUIDE)
-        read_m5_answer = Tex('$Q_d = 35$').scale(0.7).set_color(INK)
-        read_m5_answer.next_to(ax_m.c2p(35, 0), DOWN, buff=0.65)
-        read_m5 = VGroup(read_m5_source, read_m5_first, read_m5_second, read_m5_dot, read_m5_answer)
-        self.play(FadeOut(read_m2), FadeOut(mwork_b))
-        self.play(FadeIn(read_m5))
+        read_m5_answer = VGroup(Tex('$Q_d =$'), Tex('$35$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_m5_answer.next_to(ax_m.c2p(35, 0), DOWN, buff=0.85)
+        read_m5 = VGroup(read_m5_first, read_m5_second, read_m5_dot, read_m5_answer)
+        self.play(FadeIn(read_m5_first))
+        self.play(FadeIn(read_m5_second), FadeIn(read_m5_dot), FadeIn(read_m5_answer))
+        self.bring_to_front(read_m5_dot)
+
         spend_rect = Polygon(ax_m.c2p(0, 0), ax_m.c2p(35, 0), ax_m.c2p(35, 5), ax_m.c2p(0, 5),
                              color=GOV, fill_opacity=AREA_OPACITY)
-        spend_rect.z_index = 1
-        spend_lab = (Tex('Expenditure').scale(0.7).set_color(INK)
-                     .move_to(ax_m.c2p(17.5, 2.5)))
-        spend_math = VGroup(
-            Tex('Expenditure $= P \\times Q_d$'),
-            Tex('$= \\$5 \\times 35{,}000$'),
-            Tex('$= \\$175{,}000$'))
-        spend_math.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        spend_math.move_to(MATH_AT, aligned_edge=LEFT)
+        spend_lab = Tex('Expenditure').scale(0.7).set_color(INK).move_to(ax_m.c2p(17.5, 2.5))
+        spend_formula = Tex('Expenditure $= P \\times Q_d$', tex_to_color_map={'Q_d': GUIDE}).scale(0.8)
+        spend_values = VGroup(Tex('$=$'), Tex(r'\$5').set_color(GUIDE),
+                             Tex('$\\times$'), Tex('$35{,}000$').set_color(GUIDE))
+        spend_values.arrange(RIGHT, buff=0.12).scale(0.8)
+        spend_result = Tex(r'$= \$175{,}000$').scale(0.8).set_color(INK)
+        spend_math = VGroup(spend_formula, spend_values, spend_result)
+        spend_math.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
         self.play(FadeIn(spend_rect), FadeIn(spend_lab))
-        self.play(LaggedStart(*[Write(r) for r in spend_math], lag_ratio=0.6))
+        self.play(FadeIn(spend_formula))
+        self.play(FadeIn(spend_values[0]), FadeIn(spend_values[2]),
+                  TransformFromCopy(market_price_number.copy().clear_updaters(), spend_values[1]),
+                  TransformFromCopy(read_m5_answer[1], spend_values[3]))
+        self.play(FadeIn(spend_result))
         self.pause()
 
         # B18b --------------------------------------------------------
-        # the surplus IS the sweep: the height, then right through the bars
-        # with the base extending under them
+        # Height and base stay yellow from the graph into the area formula.
 
         self.play(FadeOut(spend_math))
-        h_bar_m = Line(ax_m.c2p(0, 5), ax_m.c2p(0, 12), color=GUIDE, stroke_width=4)
-        h_lab_m = (Tex('$h = \\$7$').scale(0.7).set_color(INK)
-                   .next_to(ax_m.c2p(0, 8.5), LEFT, buff=0.55))
-        self.play(Create(h_bar_m), FadeIn(h_lab_m))
+        market_area = VGroup(Tex(r'CS $= \frac{1}{2}$'), Tex('$h$'), Tex('$b$'))
+        market_area.arrange(RIGHT, buff=0.15).scale(0.8).set_color(INK)
+        market_area.move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(FadeIn(market_area[0]), FadeIn(market_area[1]), FadeIn(market_area[2]))
+        h_bar_m = Line(ax_m.c2p(0, 5), ax_m.c2p(0, 12), color=FOCUS, stroke_width=4)
+        h_lab_m = VGroup(Tex('$h =$'), Tex(r'\$7'))
+        h_lab_m.arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        h_lab_m.next_to(ax_m.c2p(0, 8.5), LEFT, buff=0.55)
+        self.play(FadeIn(h_bar_m), FadeIn(h_lab_m))
 
-        base_bar = Line(ax_m.c2p(0, 0), ax_m.c2p(0.01, 0),
-                        color=GUIDE, stroke_width=4)
+        base_bar = Line(ax_m.c2p(0, 0), ax_m.c2p(0.01, 0), color=FOCUS, stroke_width=4)
         self.add(base_bar)
         for index, cs_bar in enumerate(market_cs):
             right = (index + 1) * 2.5
-            next_base = Line(ax_m.c2p(0, 0), ax_m.c2p(right, 0),
-                             color=GUIDE, stroke_width=4)
-            self.play(FadeIn(cs_bar), Transform(base_bar, next_base), run_time=0.2)
-        self.play(Transform(base_bar, Line(ax_m.c2p(0, 0), ax_m.c2p(35, 0),
-                                          color=GUIDE, stroke_width=4)))
-        # The continuous triangle fills the small gaps above the steps before
-        # its exact area is calculated. The unit grid remains visible.
+            self.play(FadeIn(cs_bar),
+                      base_bar.animate.put_start_and_end_on(ax_m.c2p(0, 0), ax_m.c2p(right, 0)),
+                      run_time=0.2)
+        self.play(base_bar.animate.put_start_and_end_on(ax_m.c2p(0, 0), ax_m.c2p(35, 0)))
         market_triangle = Polygon(ax_m.c2p(0, 5), ax_m.c2p(35, 5), ax_m.c2p(0, 12),
                                   color=DEMAND, fill_opacity=AREA_OPACITY)
-        self.play(ReplacementTransform(market_cs, market_triangle))
-
-        cs_lab_m = (Tex('Consumer Surplus').scale(0.65).set_color(INK)
-                    .move_to(ax_m.c2p(14.5, 6.4)))
-        cs_math = VGroup(
-            Tex('CS $= \\frac{1}{2} h b$'),
-            Tex('$= \\frac{1}{2}(7)(35{,}000)$'),
-            Tex('$= \\$122{,}500$'))
-        cs_math.scale(0.8).set_color(INK).arrange(DOWN, buff=0.3, aligned_edge=LEFT)
-        cs_math.move_to(MATH_AT, aligned_edge=LEFT)
-        self.play(FadeIn(cs_lab_m))
-        self.play(LaggedStart(*[Write(r) for r in cs_math], lag_ratio=0.6))
+        self.play(FadeOut(market_cs), FadeIn(market_triangle))
+        self.bring_to_front(h_bar_m, base_bar, read_m5_dot)
+        b_lab_m = VGroup(Tex('$b =$'), Tex('$35{,}000$'))
+        b_lab_m.arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        b_lab_m.next_to(ax_m.c2p(17.5, 0), UP, buff=0.15)
+        cs_lab_m = VGroup(Tex('Consumer'), Tex('Surplus'))
+        cs_lab_m.arrange(DOWN, buff=0.08).scale(0.7).set_color(INK).move_to(ax_m.c2p(12, 7.3))
+        self.play(FadeIn(b_lab_m), FadeIn(cs_lab_m))
         self.pause()
 
-        # B19 ---------------------------------------------------------
-        # the limitation: willing, but not always able
-
-        FadeAll(self)
-
-        # a schematic stage: bare axes, no numerals, no equations -- the
-        # sentence's picture and nothing else
-        ax_s = style_axes(x_range=[0, 10, 10], y_range=[0, 10, 10],
-                          x_length=GRAPH_W, y_length=GRAPH_H).scale(GRAPH_SCALE)
-        ax_s.shift(GRAPH_AT - (ax_s.c2p(0, 0) + ax_s.c2p(10, 10)) / 2)
-        s_p = Tex('P').set_color(INK).next_to(ax_s.c2p(0, 10), RIGHT, buff=0.25)
-        s_q = Tex('Q').set_color(INK).next_to(ax_s.c2p(10, 0), RIGHT, buff=0.25)
-        head = title('Demand')
-        rich = ax_s.plot(lambda q: 9 - 0.9 * q, x_range=[0, 10], color=DEMAND)
-        poor = ax_s.plot(lambda q: 4.5 - 0.9 * q, x_range=[0, 5], color=DEMAND)
-        rich_lab = (Tex('rich person').scale(0.6).set_color(INK)
-                    .next_to(ax_s.c2p(7.5, 2.25), UR, buff=0.2))
-        poor_lab = (Tex('poor person').scale(0.6).set_color(INK)
-                    .next_to(ax_s.c2p(3.2, 1.62), UR, buff=0.2))
-        self.play(FadeIn(head), FadeIn(ax_s), FadeIn(s_p), FadeIn(s_q))
-        self.play(Create(rich), FadeIn(rich_lab))
-        self.play(Create(poor), FadeIn(poor_lab))
+        market_h_value = Tex('$(7)$').scale(0.8).set_color(FOCUS).next_to(market_area[0], RIGHT, buff=0.15)
+        market_b_value = Tex('$(35{,}000)$').scale(0.8).set_color(FOCUS).next_to(market_h_value, RIGHT, buff=0.15)
+        self.play(FadeOut(market_area[1]), market_area[2].animate.move_to(market_b_value),
+                  TransformFromCopy(h_lab_m[1], market_h_value))
+        self.play(FadeOut(market_area[2]), TransformFromCopy(b_lab_m[1], market_b_value))
+        market_area_answer = Tex(r'$= \$122{,}500$').scale(0.8).set_color(INK)
+        market_area_answer.next_to(market_area[0], DOWN, buff=0.35).align_to(market_area[0], LEFT)
+        self.play(FadeIn(market_area_answer))
         self.pause()
+        market_source.clear_updaters()
+        self.remove(market_price)
 
         # B20 ---------------------------------------------------------
 
         FadeAll(self)
         head = title('Next Time $|$ Sellers', scale=1.5)
         topic = Tex('What does it cost them to say yes to a trade?').scale(1.2).set_color(INK)
-        self.play(FadeIn(head), Write(topic))
+        self.play(FadeIn(head), FadeIn(topic))
         self.pause()

@@ -228,6 +228,7 @@ matching metrics.
 - Labels ride the curve end: short (`D`, `S`, `MC`, `ATC`, `MPB`), `INK`, `next_to` the right end. In C–E demand is relabeled `MPB` and supply `MPC` once externalities enter, and stays relabeled. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
 - Areas: `axes.get_area(...)` with the token's fill opacity. Hand-built `Polygon` only for shapes `get_area` can't express (tax wedge rectangle, profit box).
 - Equilibrium: `GUIDE` dot + two dashed `GUIDE` drop-lines (`get_horizontal_line` / `get_vertical_line`, `dashed_ratio 0.85`, opacity 0.3 for the lines, 1.0 for the dot). Star the labels: `P^*`, `Q^*`.
+- Quantity-demanded readouts use `Q_d`, never the word "Quantity", in `GUIDE` red. Keep the symbol and its chosen, unknown, or solved value red on the graph and in the calculation; carry that color through any number moving between them.
 - The surplus recipe is always shown **one unit → bars → triangle**, and the three-line rule text (below WTP / above price / inside quantity) is the same wording every time it recurs (B2, C1, C3).
 - Say **excess**, never "surplus," for Qs > Qd.
 - **Marker dots draw on top of lines.** After each `Create` of a segment, `bring_to_front` the dots (z_index alone isn't honored across plays).
