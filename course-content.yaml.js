@@ -258,7 +258,7 @@ parts:
       - block: B5
         folder: B5_Changes
         nav: Changes
-        title: Changes
+        title: Market Changes
         description: >-
           Elasticity measures how responsive quantity is to changes in price, income, or other factors. Comparative statics analyzes how equilibrium changes when supply or demand conditions shift.
         episode:
