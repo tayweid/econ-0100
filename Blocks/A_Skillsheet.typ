@@ -3,6 +3,7 @@
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set list(spacing: 13.340pt)
 #set enum(spacing: 13.340pt)
+#set grid.cell(breakable: false)
 #show heading.where(level: 1): set text(size: 23.750pt)
 #show heading.where(level: 1): set block(above: 26.391pt, below: 25.105pt)
 #show heading.where(level: 1): set par(leading: 13.471pt)
@@ -12,6 +13,15 @@
 #show heading.where(level: 3): set text(size: 14.375pt)
 #show heading.where(level: 3): set block(above: 38.410pt, below: 18.473pt)
 #show heading.where(level: 3): set par(leading: 8.153pt)
+#show heading.where(level: 4): set text(size: 14.375pt)
+#show heading.where(level: 4): set block(above: 38.410pt, below: 18.473pt)
+#show heading.where(level: 4): set par(leading: 8.153pt)
+#show heading.where(level: 5): set text(size: 14.375pt)
+#show heading.where(level: 5): set block(above: 38.410pt, below: 18.473pt)
+#show heading.where(level: 5): set par(leading: 8.153pt)
+#show heading.where(level: 6): set text(size: 14.375pt)
+#show heading.where(level: 6): set block(above: 38.410pt, below: 18.473pt)
+#show heading.where(level: 6): set par(leading: 8.153pt)
 #show raw.where(block: false): set text(font: "DejaVu Sans Mono", size: 10.000pt)
 #show math.equation.where(block: true): set block(above: 21.490pt, below: 23.702pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
@@ -46,7 +56,7 @@ Each skill has three types of practice: the *Exercise* (done together in class),
 
 === A1.1 | Opportunity Cost
 
-Preferences are rankings; scarcity means we can't have everything. Together they force choices, and every choice carries a tradeoff. Opportunity cost measures that tradeoff as the value of the next best use of your resources.
+Preferences are rankings; scarcity means we can’t have everything. Together they force choices, and every choice carries a tradeoff. Opportunity cost measures that tradeoff as the value of the next best use of your resources.
 
 *Standard.* You pass this skill if you can:
 
@@ -56,18 +66,18 @@ Preferences are rankings; scarcity means we can't have everything. Together they
 
 === A1.2 | The PPF
 
-The Production Possibility Frontier organizes tradeoffs systematically: it draws the boundary of what's attainable with the resources and technology at hand.
+The Production Possibility Frontier organizes tradeoffs systematically: it draws the boundary of what’s attainable with the resources and technology at hand.
 
 *Standard.* You pass this skill if you can:
 
-- Set up a PPF on an #mi(`x, y`) graph from a producer's productivity numbers, with correctly labeled axes, intercepts, and slope.
+- Set up a PPF on an #mi(`x, y`) graph from a producer’s productivity numbers, with correctly labeled axes, intercepts, and slope.
 - Interpret the slope of the PPF as the opportunity cost of the good on the horizontal axis.
 - Classify any point as inefficient (inside), efficient (on the frontier), or unattainable (outside), and justify the classification with a graph or algebra.
 - Show how the PPF responds to a change: a shift from a change in resources (e.g., working fewer hours) and a pivot from a technology change affecting one good.
 
 === A2.1 | Absolute & Comparative Advantage
 
-With two producers, we can compare who is better at producing (absolute advantage) and who gives up less to produce (comparative advantage). These can disagree, and it's comparative advantage that matters for how a group should divide its work.
+With two producers, we can compare who is better at producing (absolute advantage) and who gives up less to produce (comparative advantage). These can disagree, and it’s comparative advantage that matters for how a group should divide its work.
 
 *Standard.* You pass this skill if you can:
 
@@ -82,9 +92,9 @@ Specializing in a comparative advantage and trading can end up with more of both
 *Standard.* You pass this skill if you can:
 
 - Determine, from an opportunity cost table, who should specialize in which good for the pair to jointly produce more.
-- Find terms of trade that make both parties better off, and explain why any exchange rate between the two producers' opportunity costs works.
+- Find terms of trade that make both parties better off, and explain why any exchange rate between the two producers’ opportunity costs works.
 - Show, with a graph or with numbers, that a proposed trade leaves both parties beyond their autarky production points and explain why a proposed trade would be rejected by one side.
-- Describe how a change to one producer's capacity (e.g., doubling hours) changes the PPF but not the opportunity costs, and what that means for the range and volume of possible trades.
+- Describe how a change to one producer’s capacity (e.g., doubling hours) changes the PPF but not the opportunity costs, and what that means for the range and volume of possible trades.
 
 === Tracking your progress
 
