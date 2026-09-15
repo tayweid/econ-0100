@@ -2,6 +2,9 @@
 <!-- ECON 0100, Part A. Rendered in the browser from course-content.yaml.js by the shared renderer in tayweid.github.io/course-assets. Edit the YAML, not this file; see COURSE_CONTENT.md. -->
 <html lang="en">
 <head>
+    <!-- Graphite ground before external CSS loads, including local-file navigation. -->
+    <meta name="color-scheme" content="dark">
+    <style>html { color-scheme: dark; background: #212121; }</style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ECON 0100 | Part A</title>
@@ -17,10 +20,11 @@
         var sibling = '../tayweid.github.io/course-assets/';
         var base = location.protocol === 'file:' ? sibling : published;
         if (base === sibling) {
-            var css = document.createElement('link');
-            css.rel = 'stylesheet';
+            // Replace the published stylesheet: loading both lets obsolete rules
+            // leak into a local preview (especially the mobile toolbar).
+            var css = document.querySelector('link[rel="stylesheet"]');
+            css.onerror = function () { css.onerror = null; css.href = published + 'course.css'; };
             css.href = sibling + 'course.css';
-            document.head.appendChild(css);
         }
         // In order: the content (beside this page), then the reader, the format, the renderer.
         var files = [['', 'course-content.yaml.js'], [null, 'js-yaml.min.js'], [null, 'course-schema.js'], [null, 'course-page.js']];
