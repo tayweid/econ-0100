@@ -25,7 +25,11 @@ def key_in(tex, time_per_char=0.05):
 class EpisodeB1(Scene):
     """One continuous lecture, with an editable section at each pause."""
 
+    default_camera_config = {'fps': 15}
+
     def construct(self):
+
+        self.camera.fps = 15  # The viewer otherwise overrides the scene default to 30.
 
         # Layout: familiar 7-by-6 plot, uniformly scaled; math to its right.
         GRAPH_W, GRAPH_H = 7.0, 6.0
@@ -407,36 +411,79 @@ class EpisodeB1(Scene):
         # B10b --------------------------------------------------------
         # Quantity is now the red input; marginal benefit is the unknown.
 
-        read_c_source = VGroup(Tex('$Q_d =$'), Tex('$3$'))
+        read_quantity = ValueTracker(1)
+        read_c_source = VGroup(Tex('$Q_d =$'), DecimalNumber(1, num_decimal_places=0))
         read_c_source.arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
-        read_c_source.next_to(ax2.c2p(3, 0), DOWN, buff=0.7)
-        read_c_first = DashedLine(ax2.c2p(3, 0), ax2.c2p(3, 1), color=GUIDE, z_index=10).set_opacity(0.3)
-        read_c_second = DashedLine(ax2.c2p(3, 1), ax2.c2p(0, 1), color=GUIDE, z_index=10).set_opacity(0.3)
-        read_c_dot = Dot(ax2.c2p(3, 1), color=GUIDE, z_index=11)
+        read_c_source.next_to(ax2.c2p(1, 0), DOWN, buff=0.7)
+        read_c_first = DashedLine(ax2.c2p(1, 0), ax2.c2p(1, 2), color=GUIDE, z_index=10).set_opacity(0.3)
+        read_c_second = DashedLine(ax2.c2p(1, 2), ax2.c2p(0, 2), color=GUIDE, z_index=10).set_opacity(0.3)
+        read_c_dot = Dot(ax2.c2p(1, 2), color=GUIDE, z_index=11)
         read_c_question = Tex('$MB = ?$').scale(0.7).set_color(GUIDE)
-        read_c_question.next_to(ax2.c2p(0, 1), LEFT, buff=0.65)
-        ax2.get_y_axis().numbers[1].set_opacity(0)
+        read_c_question.next_to(ax2.c2p(0, 2), LEFT, buff=0.65)
+        ax2.get_y_axis().numbers[3].set_opacity(0)
         self.play(FadeIn(read_c_source))
         self.play(FadeIn(read_c_first))
         self.play(FadeIn(read_c_second), FadeIn(read_c_dot), FadeIn(read_c_question))
         self.bring_to_front(read_c_dot)
+        read_c_source[1].add_updater(lambda number: number.set_value(read_quantity.get_value()))
+        read_c_source.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
+                                 .next_to(ax2.c2p(read_quantity.get_value(), 0), DOWN, buff=0.7))
+        read_c_first.add_updater(lambda line: line.become(DashedLine(
+            ax2.c2p(read_quantity.get_value(), 0),
+            ax2.c2p(read_quantity.get_value(), 2.5 - read_quantity.get_value() / 2),
+            color=GUIDE, z_index=10).set_opacity(0.3)))
+        read_c_second.add_updater(lambda line: line.become(DashedLine(
+            ax2.c2p(read_quantity.get_value(), 2.5 - read_quantity.get_value() / 2),
+            ax2.c2p(0, 2.5 - read_quantity.get_value() / 2),
+            color=GUIDE, z_index=10).set_opacity(0.3)))
+        read_c_dot.add_updater(lambda dot: dot.move_to(
+            ax2.c2p(read_quantity.get_value(), 2.5 - read_quantity.get_value() / 2)))
         self.pause()
 
-        substitute_c = VGroup(Tex('$P = 2.5 -$', tex_to_color_map={'P': GUIDE}), Tex('$3$').set_color(GUIDE), Tex('$/2$'))
-        answer_c = VGroup(Tex('$P =$'), Tex(r'\$1.00')).set_color(GUIDE)
+        substitute_c = VGroup(Tex('$P = 2.5 -$', tex_to_color_map={'P': GUIDE}), Tex('$1$').set_color(GUIDE), Tex('$/2$'))
+        answer_c = VGroup(Tex('$P =$'), Tex(r'\$2.00')).set_color(GUIDE)
         work_c = VGroup(substitute_c, answer_c)
         for row in work_c:
             row.arrange(RIGHT, buff=0.12).scale(0.8)
         work_c.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
         self.play(FadeIn(substitute_c[0]), FadeIn(substitute_c[2]),
-                  TransformFromCopy(read_c_source[1], substitute_c[1]))
+                  TransformFromCopy(read_c_source[1].copy().clear_updaters(), substitute_c[1]))
         self.play(FadeIn(answer_c))
-        read_c_answer = VGroup(Tex('$MB =$'), Tex(r'\$1.00')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
-        read_c_answer.next_to(ax2.c2p(0, 1), LEFT, buff=0.65)
+        read_c_answer = VGroup(Tex('$MB =$'), Tex(r'\$2.00')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_c_answer.next_to(ax2.c2p(0, 2), LEFT, buff=0.65)
         self.play(FadeOut(read_c_question), FadeIn(read_c_answer[0]),
                   TransformFromCopy(answer_c[1], read_c_answer[1]),
-                  ax2.get_y_axis().numbers[1].animate.set_opacity(1))
+                  ax2.get_y_axis().numbers[3].animate.set_opacity(1))
+        self.pause()
+
+        # B10c --------------------------------------------------------
+        # Move to the second bar with the same quantity tracker and guides.
+
+        self.play(FadeOut(read_c_answer), FadeOut(work_c))
+        ax2.get_y_axis().numbers[2].set_opacity(0)
+        self.play(read_quantity.animate.set_value(2), run_time=1.5)
+        read_c_question = Tex('$MB = ?$').scale(0.7).set_color(GUIDE)
+        read_c_question.next_to(ax2.c2p(0, 1.5), LEFT, buff=0.65)
+        self.play(FadeIn(read_c_question))
+        self.pause()
+
+        substitute_c = VGroup(Tex('$P = 2.5 -$', tex_to_color_map={'P': GUIDE}), Tex('$2$').set_color(GUIDE), Tex('$/2$'))
+        answer_c = VGroup(Tex('$P =$'), Tex(r'\$1.50')).set_color(GUIDE)
+        work_c = VGroup(substitute_c, answer_c)
+        for row in work_c:
+            row.arrange(RIGHT, buff=0.12).scale(0.8)
+        work_c.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT, aligned_edge=LEFT)
+        self.play(FadeIn(substitute_c[0]), FadeIn(substitute_c[2]),
+                  TransformFromCopy(read_c_source[1].copy().clear_updaters(), substitute_c[1]))
+        self.play(FadeIn(answer_c))
+        read_c_answer = VGroup(Tex('$MB =$'), Tex(r'\$1.50')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        read_c_answer.next_to(ax2.c2p(0, 1.5), LEFT, buff=0.65)
+        self.play(FadeOut(read_c_question), FadeIn(read_c_answer[0]),
+                  TransformFromCopy(answer_c[1], read_c_answer[1]),
+                  ax2.get_y_axis().numbers[2].animate.set_opacity(1))
         read_c = VGroup(read_c_source, read_c_first, read_c_second, read_c_dot, read_c_answer)
+        read_c.clear_updaters()
+        self.remove(read_quantity)
         self.pause()
 
         # B11 ---------------------------------------------------------
