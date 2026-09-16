@@ -62,13 +62,14 @@ Side calculations: fade in a subtle grey vertical divider, six units tall and ce
 - Return the point to (2, 4), restore $Q_s=2$, and keep the chosen quantity marked.
 
 ## 3.m · Connect money costs to opportunity cost
-- Remove the comparison. Replace the definition with Marginal Cost Curve. Keep the supply curve and selected point visible while the narration discusses land, labor, their other uses, and Molly’s own time; add no text stack.
+- Remove the comparison and math divider. Replace the definition with Marginal Cost Curve. Bring back Molly’s farm in its original position: white name and outline, green spinach, unused land blank, and the Spinach label following the middle of its area. Keep the supply curve and faint quantity bars visible.
+- Move one price tracker from $4 → $6 → $3 → $4. Keep the red price label, horizontal guide, selected point, vertical guide, and $Q_s$ readout attached throughout. The spinach area expands from two to four tons, contracts to one, and returns to two, linking the graph to land and labor moving away from or back to other uses. Add no explanatory text stack. Park at $4 and two tons.
 
 ## 3.n · Pause for Exercise B2 Q1
-- Dim the stage and show the exercise-sheet curve $P=2+Q_s/10$. Ask for quantity supplied at 10 galleons and marginal cost at 9 pasties. Left-align the heading within the box with a small additional indent for the body. Keep CMU serif throughout; omit the “Fractional pasties…” line. Show questions only.
+- Freeze the farm and graph together, then dim the stage and show the exercise-sheet curve $P=2+Q_s/10$. Ask for quantity supplied at 10 galleons and marginal cost at 9 pasties. Left-align the heading within the box with a small additional indent for the body. Keep CMU serif throughout; omit the “Fractional pasties…” line. Show questions only.
 
 ## 4.a · Offer $5
-- Restore the stage, ask “What does Molly gain?”, and offer $5. Keep $P=2+Q_s$ and the faint possible quantities visible. Add no yellow interval highlight.
+- Restore the stage, fade out the farm, ask “What does Molly gain?”, and offer $5. Keep $P=2+Q_s$ and the faint possible quantities visible. Add no yellow interval highlight.
 
 ## 4.b · Reveal revenue first
 - Outline ten narrow tenth-ton revenue slices across Q=0 to 1, reaching the red $5 line. Fade in a white brace spanning those slices above the price line, with “1 ton” above it. Keep the brace through the cost and PS reveals. Show total revenue $5 beside the graph. Pause before separating cost and surplus.

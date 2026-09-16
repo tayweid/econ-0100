@@ -374,6 +374,54 @@ class EpisodeB2(Scene):
         mc_v.clear_updaters()
         mc_dot.clear_updaters()
         self.remove(read_quantity)
+
+        # Return to the same farm: more spinach leaves less land for other uses.
+        farm = Rectangle(width=4.5, height=2.6, color=INK, stroke_width=2).move_to([4.15, 0.45, 0])
+        farm_name = Tex("Molly's farm", color=INK).next_to(farm, UP, buff=0.3)
+        spinach = Polygon([1.9, -0.85, 0], [3.4, -0.85, 0], [3.4, 1.75, 0], [1.9, 1.75, 0],
+                          color=SPINACH, stroke_width=0, fill_opacity=0.55)
+        spinach_label = Tex('Spinach', color=SPINACH).scale(0.8).next_to(spinach, DOWN, buff=0.25)
+        opportunity_price = ValueTracker(4)
+        self.remove(offer_label)
+        opportunity_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
+        opportunity_number.next_to(ax.c2p(0, 4), LEFT, buff=0.6)
+        opportunity_word = Tex(r'Price \$', color=GUIDE).scale(0.7).next_to(opportunity_number, LEFT, buff=0.04)
+        offer_label = VGroup(opportunity_number, opportunity_word)
+        self.play(FadeIn(spinach), FadeIn(farm), FadeIn(farm_name), FadeIn(spinach_label), FadeIn(offer_label))
+
+        # One price drives the graph, its readouts, and the farm allocation.
+        opportunity_number.add_updater(lambda number: number.set_value(opportunity_price.get_value())
+                                       .next_to(ax.c2p(0, opportunity_price.get_value()), LEFT, buff=0.6))
+        opportunity_word.add_updater(lambda word: word.next_to(opportunity_number, LEFT, buff=0.04))
+        offer_line.add_updater(lambda line: line.set_y(ax.c2p(0, opportunity_price.get_value())[1]))
+        q_source[1].num_decimal_places = 2
+        q_source[1].add_updater(lambda number: number.set_value(opportunity_price.get_value() - 2))
+        q_source.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
+                            .next_to(ax.c2p(opportunity_price.get_value() - 2, 0), DOWN, buff=0.6))
+        mc_v.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(opportunity_price.get_value() - 2, 0),
+            ax.c2p(opportunity_price.get_value() - 2, opportunity_price.get_value()),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        mc_dot.add_updater(lambda dot: dot.move_to(ax.c2p(opportunity_price.get_value() - 2,
+                                                        opportunity_price.get_value())))
+        spinach.add_updater(lambda area: area.set_points_as_corners([
+            [1.9, -0.85, 0], [1.9 + 0.75 * (opportunity_price.get_value() - 2), -0.85, 0],
+            [1.9 + 0.75 * (opportunity_price.get_value() - 2), 1.75, 0],
+            [1.9, 1.75, 0], [1.9, -0.85, 0]]))
+        spinach_label.add_updater(lambda label: label.next_to(spinach, DOWN, buff=0.25))
+        self.play(opportunity_price.animate.set_value(6), run_time=1.5)
+        self.play(opportunity_price.animate.set_value(3), run_time=1.5)
+        self.play(opportunity_price.animate.set_value(4), run_time=1.5)
+
+        # Freeze both pictures before dimming them behind the exercise card.
+        offer_label.clear_updaters()
+        offer_line.clear_updaters()
+        q_source.clear_updaters()
+        mc_v.clear_updaters()
+        mc_dot.clear_updaters()
+        spinach.clear_updaters()
+        spinach_label.clear_updaters()
+        self.remove(opportunity_price)
         self.pause('3.m')
 
         # ---- 3.n · Exercise Q1, copied from the current exercise sheet.
@@ -405,6 +453,7 @@ class EpisodeB2(Scene):
         self.remove(head, curve_def)
         head = title('What does Molly gain?')
         self.play(FadeOut(q_source), FadeOut(mc_v),
+                  FadeOut(spinach), FadeOut(farm), FadeOut(farm_name), FadeOut(spinach_label),
                   FadeOut(mc_dot), FadeOut(offer_line), FadeOut(offer_label), FadeIn(head))
         ps_price = ValueTracker(4)
         ps_price_line = Line(ax.c2p(0, 4), ax.c2p(6, 4), color=GUIDE, stroke_width=2, z_index=10)
