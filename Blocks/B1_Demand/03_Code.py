@@ -488,11 +488,16 @@ class EpisodeB1(Scene):
 
         # B11 ---------------------------------------------------------
 
+        # ED: UNITS (2026-09-15, per chat) — individual pasties, not thousands.
+        # Original wording retained: "in galleons and thousands of pasties."
+        # Original wording retained: "(b) What is the marginal benefit at a quantity of 4 thousand?"
+        # ED: The 49-galleon CS triangle in the follow-up exercise assumes
+        # divisible pasties; the author will supply that transition in the notes.
         stage1, card1 = exercise_card(
             self, 'Exercise B1 $|$ Quantity Demanded',
             ['Pumpkin pasties sell along the demand curve $P=12-Q/2$, in galleons and '
-             'thousands of pasties. (a) What is the quantity demanded at 10 galleons? '
-             '(b) What is the marginal benefit at a quantity of 4 thousand?'])
+             'pasties. (a) What is the quantity demanded at 10 galleons? '
+             '(b) What is the marginal benefit at a quantity of 4?'])
         self.pause()
 
         # B12 ---------------------------------------------------------

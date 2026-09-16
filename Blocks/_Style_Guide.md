@@ -1,5 +1,9 @@
 # ECON 0100 Video Series — Graphite Style Guide (v1, 2026-08-26)
 
+*Preferences consolidated from Taylor's B1/B2 animation session, 2026-09-15.
+The current rules below incorporate the later corrections in that session;
+dated decisions in §9 preserve the history.*
+
 *Economics from scratch.* One cohesive story in six Parts; the visual system has to
 carry continuity across ~30 episodes made over a year, by more than one pair of
 hands. This guide is the contract: it settles every choice that recurs, explains
@@ -10,14 +14,19 @@ the ones still open.
 
 - **Writing a new episode?** Read §0–§3 once in full (identity, frame, color,
   type — the things you must never improvise), then use §4–§8 as reference while
-  you build. `A/A0_Welcome/03_Code.py` is the reference implementation.
+  you build. Read §8's animator workflow before interpreting or delegating beats.
+  `B1_Demand/03_Code.py` and `B2_Supply/03_Code.py` are the current references
+  for graph choreography; B2 is the reference for flat, editable code. Use the
+  specific prior episode Taylor names when a sequence is to be copied.
 - **Porting or fixing old work?** Go straight to §10; it's a checklist.
-- **Quick lookup?** Every color, size, and idiom lives in a table. Search this file.
+- **Quick lookup?** Search by role: typography in §3, graph/math and surplus sequences in §4, animation grammar in §6, and the animator workflow in §8.
 
-Where this guide and older code disagree, **the guide wins**. Episodes import
-everything from `_Assets/style.py` and never re-declare colors, sizes, or frame
-settings — that indirection is what lets a system-wide change land without
-touching episode files.
+Taylor's latest explicit instructions take precedence over this guide. Where
+this guide and older code disagree, use the current guide, subject to the
+faithful-first-pass rule in §8. Import shared colors and styling from
+`_Assets/style.py`; keep simple layout, timing, and bar-width constants visible
+in `construct()` so Taylor can edit them. Do not change shared assets or other
+episodes merely to implement a change scoped to one episode.
 
 The brand system itself lives in the **Graphite repo** (`~/Projects/Graphite`,
 sibling to this one): canonical token values in `tokens.json`, the palette
@@ -43,8 +52,8 @@ Five things together make the look ours; no one of them alone does:
 
 1. **The 2:1 stage.** Wider than anyone else's math video, chosen so many cards
    fit side by side.
-2. **The title architecture.** Flush-left azure title, muted caption stacked
-   under it, generous emptiness below. Every screen has it.
+2. **The title architecture.** Flush-left azure question title, generous
+   emptiness below, and a small caption only when it adds needed information.
 3. **Words as glyphs.** A colored letter or word *is* the illustration:
    `10 C = 40 S` with C in carrot-orange and S in spinach-green, *Apple* in
    green instead of a drawing of an apple. No icons, no stick figures, no
@@ -66,9 +75,9 @@ all out of spec.
 | | Rule |
 |---|---|
 | Aspect | **2:1**, 2160×1080 (`pixel_width = 2 * pixel_height`). Chosen deliberately: "wide aspect makes it easy to show many cards." Crops cleanly to 16:9 for YouTube thumbnails. |
-| FPS | **60** for final renders; 10 is fine for previews. One setting, in `_Assets/style.py`. |
+| FPS | **15 fps** is the preferred animation cadence, including viewer playback. Taylor tried and approved its deliberately stepped, flip-book feel; do not silently restore 30 or 60 fps for final output. In ManimL, B1/B2 set both `default_camera_config = {'fps': 15}` and `self.camera.fps = 15` because the viewer may otherwise override the scene default. |
 | Background | `BG #212121` everywhere — the same graphite as the websites (changed from #1f1f1f in v0; imperceptible on screen, meaningful in the system). No white-ground scenes (E2/E3/E4/C2 legacy files are out of spec). |
-| Safe area | Keep titles ≥ 1 unit from the top (`to_edge(UP, buff=1)`), content ≥ 0.5 from sides. Leaves a strip for the notes panel / lower-third face. |
+| Safe area | Use the title's 0.4-unit top and 0.6-unit left margins (§3). Leave space between titles, graph headings, and unit captions; do not crowd tick numerals or quantity readouts. Bottom definitions have their own 0.05-unit bottom margin (§3). |
 | Vertical centering | Body content is **vertically centred in the band between the title and the reserved bottom strip** (the strip holds definition lines, math rows, stored results — it is never body). Peer objects on one screen — a card column and a graph, two panels — share **one common vertical centre**, so the screen reads as a single block instead of a stack shoved under the title. In code: name the band once (`BODY_TOP` / `BODY_BOTTOM` / `BODY_MID`) and place every body object against it, rather than hand-tuning a `shift` per object. (Added 2026-08-31 from the A2 director's pass; the co-op screen's farm column and graph were 0.4 apart and both riding high.) |
 
 **Four modes** describe the available stage layouts. They are not separate
@@ -81,6 +90,15 @@ storyboard fields; the beat's action makes the layout apparent:
 
 Transitions between modes happen at beat boundaries only. Within a beat the mode is fixed.
 
+**Keep the page clean.** The animation supports the spoken explanation; it does
+not transcribe it. Prefer a title, the model, useful on-model labels, and the
+current definition. Put price, quantity, and area labels on or beside their
+graph features instead of accumulating a sidebar of prose and readouts. Reserve
+the right-hand calculation area for actual math. A recap may retain a concise
+list of gold terms with white definitions beside the graph; Taylor explicitly
+liked that use of text. Remove highlights and annotations that have no teaching
+job in the current beat.
+
 ## 2. Color
 
 Every color is a **semantic token**. Episodes never name a raw manim color; they
@@ -91,10 +109,10 @@ use the token, so a change propagates. Three rules govern the whole palette:
 - **Azure is reserved for the course's own voice** — titles on stage, links and
   accents on the web, the wordmark. It is never a curve, a fill, or a character.
   (Decided 2026-08-26; this is why demand is teal, not blue-blue.)
-- **Marks and text are different jobs.** The six *marks* (§2b) are the only
-  colors allowed to persist on the model; they were validated together for
-  colorblind safety. Gold is a *text* token and never a curve — that exclusion
-  is what lets the mark set pass validation.
+- **Marks and text are different jobs.** The six *marks* (§2b) are the persistent
+  model colors. `DEFINITION` gold belongs to terms, not curves. `FOCUS` yellow
+  may mark temporary measurements such as a triangle's height and base, with
+  matching yellow labels and numbers; it is not a persistent curve color.
 
 The values are not eyeballed: they were stepped in OKLCH for the graphite ground
 and run through a CVD validator (Machado protan/deutan simulation, OKLab ΔE)
@@ -106,8 +124,9 @@ difference** — crimson sits dark, mint sits light, teal sits deep. Full eviden
 tables are in the Graphite document. Two documented deviations from dashboard
 convention: the mark-lightness ceiling is relaxed to OKLCH L 0.75 (a 4-px curve
 on a projected stage needs more luminance than a dashboard bar), and guide-red
-sits at 3.2:1 contrast (it draws hairlines and dots, always beside white starred
-labels).
+sits at 3.2:1 contrast in the original palette validation. The later B1/B2
+treatment uses that same red for selected-value labels as well as guides, while
+axis names remain white (§4).
 
 ### 2a. Ground and voice (text tokens)
 
@@ -122,9 +141,21 @@ labels).
 | `FOCUS` | `#FFE14D` | 13.4:1 | transient attention: wiggles, the optimum dot, the framebox, principle lines in E. The bright step of the same gold family (was pure YELLOW). Never a persistent curve color. |
 | `ON_FILL` | `BG` | — | text sitting on a solid token-colored fill (e.g. the farm card) |
 
-**Gold beyond definitions**: the episode's *question lines* (*Where did all that
+**Gold beyond definitions**: supporting *question lines* (*Where did all that
 wealth go?*, *20 of the 30 are ports.*) are `DEFINITION` gold at the bottom edge
 or under the title — gold marks "the thing to remember on this screen."
+Question-shaped page titles remain `TITLE` azure.
+
+**Carry meaning from graph to math.** Price, selected quantity, and MB/MC
+readouts are `GUIDE` red, including the corresponding symbols and substituted
+numbers in equations. `CS` and its area label use `DEMAND`; `PS` uses `SUPPLY`;
+expenditure and cost labels use `GOV` green when those areas are being taught.
+Height/base marks, labels, and substituted measurements use `FOCUS` yellow.
+Keep neutral operators and surrounding prose white. Do not introduce a new
+color for every label. Names can be white or `CAPTION` grey, and unused diagram
+regions can remain blank. Avoid a screen where the same hue ambiguously means
+both a good and an unrelated curve; do not invent a replacement palette without
+settling that choice with Taylor.
 
 ### 2b. Marks (the six curve colors)
 
@@ -160,7 +191,7 @@ it is on screen more than anything else.
 | `GOV` fill | `GREEN` @ 0.35 |
 | `POLICY` | same color as the curve, **dashed** — a taxed/shifted curve is the same token, dashed |
 | PPF regions | attainable set takes the **owner's** color @ fill opacity; what's lost is ghosted `MUTED`; what's gained is `TRADE` (`ATTAINABLE` / `LOST` / `GAINED` in style.py) |
-| Solid cards | a card representing a party (the farm square) takes the owner's token as fill, `ON_FILL` text, **no white stroke** |
+| Solid cards | a solid party card may use the owner's token and `ON_FILL` text. An allocation diagram uses an `INK` outline, colors only the relevant allocation, and leaves unused space blank; its neutral name need not take the party color. |
 | Best-response box | the player's own color; Nash cell `RED` box; efficient cell `GREEN` box; **same size** boxes |
 | Number-line roles | color on a number line means a *role*: `EFFICIENT` green = chosen/benefit, `NASH` red = given up/cost (`set_color_of`) |
 
@@ -170,39 +201,14 @@ it is on screen more than anything else.
 display equations; `Text` never (font mismatch). Both of the stage's voices
 come out of the Tex pipeline.
 
-**The frame has three speakers** (the "Narrator" rule, decided 2026-08-26 —
-this is why renders show two faces):
-
-- **The title is the course speaking**: CMU Serif, `TITLE` azure. Same as ever.
-- **Prose *under* the title is the narrator**: **CMU Sans** (LaTeX `\textsf`) —
-  subtitles, statement-card clauses (*Microeconomics tells us…*), axis
-  captions, welfare-legend numbers. In code this happens automatically:
-  `subtitle()` and `axis_caption()` apply it, `narr_stack()` builds a
-  statement card, and the `narration()` helper wraps any other narrator line.
-- **The material is the book**: CMU Serif — all math, curve and item labels,
-  and the full-frame cards (definitions, principles). A definition isn't the
-  narrator talking; it's the book itself.
-
-**The carve-out that makes this safe**: an under-title line that *is or is
-about to become* math is material, not narration — `OC(Apple pie) = Banana
-bread` sits under a title but it's an equation, and words on this stage
-constantly dissolve into math (`Chocolate Cake ≺ Carrot Cake` onto a number
-line). One face across that transform is the series' signature move, so math
-always wins. If a line has an `=`, a `≺`, or will land on the model, it stays
-serif — in code, pass `book=True` to `subtitle()` (stored OC results do this)
-or use plain `stack()`.
-
-To *see* the treatments compared (all-CMU vs. full dual vs. this rule), flip
-the toggle in the type study:
-https://claude.ai/code/artifact/725afeb5-f5e0-42a0-bc86-de24e4b92a28
-
-The whole treatment hangs on one switch: **`NARRATOR_SANS` in `style.py`**
-(currently `True`). Status: adopted, pending confirmation in a rendered A0
-beat — the risk case is the statement card (big white CMU Sans at display
-size). If it disappoints, the fallback is "D-lite" (statement cards return to
-`stack()`; the small grey narrator layer keeps the flag) or `False` for
-all-CMU. Don't hand-set fonts per episode either way — always go through the
-idioms, so the flag stays in charge.
+**CMU Serif is the default for teaching content**: titles, definitions, model
+labels, calculations, recap descriptions, and the entire exercise card. Use one
+consistent face across the graph and its math. Taylor rejected broad sans-serif
+explanatory text as cluttered, then explicitly approved **small CMU Sans axis-unit
+captions**, such as “dollars per ton” and “tons per year.” Keep those captions clear
+of titles, tick numerals, and moving readouts. This narrows the older blanket
+“narrator prose is sans” rule. Existing helpers may still apply `NARRATOR_SANS`;
+their default is not a reason to restyle approved serif content.
 
 **Source Sans stays web-only.** The sites pair CMU Serif headings with Source
 Sans 3 body; the stage's sans is CMU Sans and only CMU Sans — same pipeline,
@@ -210,12 +216,14 @@ matching metrics.
 
 - Sizes by role, not ad-hoc scale: **episode head** 1.5 · **title** 1.2 · **body** 1.0 · **caption** 0.8 · **tick numbers** 0.7 · **part card** 3.0. Nothing below 0.7 — CMU's thin hairlines shimmer under projection and YouTube compression at small sizes; the scale floor and the 2160×1080 render are the defense.
 - **Page titles** (`style.title`): `TITLE` azure, **flush left**, small top margin (buff 0.4, left 0.6). Every screen has one; figures don't get their own title — units go in a `CAPTION` **axis caption** beside the axis (`axis_caption`), e.g. title *Unemployment*, caption *rate (%)*.
+- **Titles ask the question being answered**, rather than naming the topic: “Which bars are worth buying?” or “How much do these exchanges benefit buyers?” Give the question a concrete subject; avoid an unclear “this.” Keep the question through the beats that answer it. “Last time…” and production cards may keep their established labels.
 - **Subtitles** (a question, a stored result): `CAPTION`, caption scale, stacked under the title and left-aligned with it (*What can a dollar get?*; the bakery's `OC(pie) = cake` lines).
 - Lists: `VGroup(...).arrange(DOWN, buff=0.4, aligned_edge=LEFT)` under the title, left-aligned with it; never `to_edge(vector)` hacks. Rows that would overflow are scaled to fit the frame width, not wrapped.
-- Multi-clause statements (the *Microeconomics tells us…* card): one clause per line, **no bullets**, key phrases in `DEFINITION` gold; a clause that must break continues on an **indented** second line (`\quad`). Built with `narr_stack()` — statement cards are the narrator (see the three-speakers rule above).
-- **Text entry**: a sentence or card is `Write()`; a title is `FadeIn`; a row of pieces builds with the fly-in (`FadeIn` + re-center). `AddTextWordByWord` is reserved for the bumper label.
-- Definitions: one line, `{{Term}}` isolated and colored `DEFINITION` gold, rest in `INK` white. Bottom definition lines may use the full stage safe width (0.6 units of margin on each side); use body size when it fits, shrinking only to fit rather than applying a blanket `.7` scale. Term appears in the script first ("definitions without definition"), the card comes after.
-- Principle lines (*Preferences are rankings.*) are full-frame cards: one sentence, body size, `Write()`.
+- Multi-clause statements (the *Microeconomics tells us…* card): one clause per line, **no bullets**, key phrases in `DEFINITION` gold; a clause that must break continues on an **indented** second line (`\quad`). Use CMU Serif and only the wording needed for the beat.
+- **Text entry and replacement**: prefer `FadeIn` for new text. When a title, definition, or explanatory line is replaced in the same position, remove the old text first, then fade the new text in; never superimpose the outgoing and incoming words. This is the B2 treatment Taylor approved on 2026-09-15. Keep tracker-driven numeric rolls and purposeful graph-to-math number transfers. `AddTextWordByWord` is reserved for the bumper label.
+- Definitions: one line, `{{Term}}` isolated and colored `DEFINITION` gold, rest in `INK` white. **All bottom definitions use one fixed text size**, including short definitions: match B2 beat 2.b's Individual Quantity Supplied line, `Tex(...).scale(0.7443)` at the default 48-point size (about 35.73 points). Center each bottom definition horizontally with `set_x(0)` and keep a tiny 0.05-unit bottom margin. Do not enlarge short lines or fit each sentence to a different size; if a future definition is too long for the 14.8-unit safe width, reflow it at the same size. This supersedes the earlier per-line shrink-to-fit and left-alignment rules (approved 2026-09-15). Full-frame definition cards retain their own body-size treatment. Term appears in the script first ("definitions without definition"), the card comes after.
+- Principle lines (*Preferences are rankings.*) are full-frame cards: one sentence, body size, `FadeIn`.
+- **Exercise cards**: CMU Serif throughout, gold heading aligned left inside the box, white body slightly indented relative to that heading. Leave balanced internal padding and enough line spacing. B2 uses 0.65 units from the panel's left edge for the heading and another 0.35 for the body. Keep the card to the exercise prompt; avoid extra explanatory sentences that belong in the narration.
 - Preference chains read **less-preferred on the left**: `Chocolate Cake ≺ Carrot Cake`, so they dissolve onto a number line without reordering.
 
 ## 4. Axes and graphs
@@ -223,18 +231,120 @@ matching metrics.
 - One factory: `axes(x_range, y_range, x_length=10, y_length=5)` → `MUTED` axes, `tips=False`, no ticks by default; tick numbers only when values matter for the argument.
 - **Tick numerals are always `MUTED` — never colored by good.** When the goods need their colors on a graph, the **axis captions** carry them (*Carrots* in `CARROTS` orange on x, *Spinach* in `SPINACH` green on y) — the words-as-glyphs principle doing that work. (A1's colored numerals are out of spec.)
 - Orientation invariants: **P vertical, Q horizontal** (B–E). **Carrots horizontal, spinach vertical** (A — as rendered in A1; reconcile `Video.py` if it disagrees). **Good A horizontal, good B vertical** (F). Wage vertical, labor horizontal (F2 — decide once).
-- **Axis-label positioning is the same across all graphs: vertical label LEFT of its axis, horizontal label BELOW its axis.** For P, use `next_to(ax.c2p(0,y_max), LEFT, buff=.25)`; for Q, use `next_to(ax.c2p(x_max,0), DOWN, buff=.35)`, replacing zero with the corresponding axis-origin coordinate when nonzero. Keep labels clear of ticks and readouts; place captions below the horizontal label as needed.
+- **Axis-label positioning is the same across all graphs: vertical label LEFT of its axis, horizontal label BELOW its axis.** For P, use `next_to(ax.c2p(0,y_max), LEFT, buff=.25)`; for Q, use `next_to(ax.c2p(x_max,0), DOWN, buff=.35)`, replacing zero with the corresponding axis-origin coordinate when nonzero. Axis names are plain white `P` and `Q`; red `Q_d`/`Q_s` identify selected quantities, not the axis itself. Unit captions may sit beside those names; keep them clear of ticks, titles, and readouts.
+- **Graph beside calculations**: use a subtle grey vertical divider, centered vertically and tall enough to cover the graph and its horizontal labels (B2 uses six units). Put it to the right of the entire horizontal-label group, including units such as “tons per year,” with a 0.35-unit gap. Center the math block in the remaining space between divider and right safe margin; multi-step algebra may remain left-aligned internally. Fade the divider in and out with the calculation sequence. (Approved 2026-09-15.)
 - Curves: `axes.plot` for functions; **polyline (`set_points_as_corners`) inside `always_redraw`** for anything driven by a tracker or data — never `Transform` between two rebuilt plots (the wobble).
 - Labels ride the curve end: short (`D`, `S`, `MC`, `ATC`, `MPB`), `INK`, `next_to` the right end. In C–E demand is relabeled `MPB` and supply `MPC` once externalities enter, and stays relabeled. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
-- Areas: `axes.get_area(...)` with the token's fill opacity. Hand-built `Polygon` only for shapes `get_area` can't express (tax wedge rectangle, profit box).
+- Put the standing curve equation above the curve in open graph space. Use the separate math area for the worked substitution, not for a second unrelated text stack.
+- Areas use the token's fill opacity. Explicit `Polygon` slices are appropriate for the editable, bar-by-bar sequences below; use axis coordinates for every boundary so bars and curves align.
 - Equilibrium: `GUIDE` dot + two dashed `GUIDE` drop-lines (`get_horizontal_line` / `get_vertical_line`, `dashed_ratio 0.85`, opacity 0.3 for the lines, 1.0 for the dot). Star the labels: `P^*`, `Q^*`.
-- Quantity-demanded readouts use `Q_d`, never the word "Quantity", in `GUIDE` red. Keep the symbol and its chosen, unknown, or solved value red on the graph and in the calculation; carry that color through any number moving between them.
-- The surplus recipe is always shown **one unit → bars → triangle**, and the three-line rule text (below WTP / above price / inside quantity) is the same wording every time it recurs (B2, C1, C3).
+- Selected-quantity readouts use `Q_d` for demand and `Q_s` for supply, never the generic word “Quantity,” in `GUIDE` red. Keep the symbol and its chosen, unknown, or solved value red on the graph and in the calculation; carry that color through any number moving between them.
 - Say **excess**, never "surplus," for Qs > Qd.
-- **Marker dots draw on top of lines.** After each `Create` of a segment, `bring_to_front` the dots (z_index alone isn't honored across plays).
+- **Keep guides and annotations above fills.** Red price/quantity lines must remain visible over bars and areas; dots sit above the guides. Yellow height/base measurements and labels such as `MC=P` also stay in front and clear of the curve. Verify the rendered stacking across plays, not just object creation order.
 - **Full-bleed images** (the Black Marble): `set_height(FRAME_HEIGHT * 1.02)` so no background shows; any title over an image gets a `BackgroundRectangle` in `BG` @ 0.7.
 
+### Reading a graph and doing the math
+
+1. Choose and label the input in red on its axis. Follow the notes' price order
+   and observed answers; do not replace the scripted elicitation with invented
+   class data or a different demonstration.
+2. For a price input, fade in the horizontal dashed guide out to the point,
+   then extend the vertical dashed guide down to quantity. Reveal the quantity
+   label after that trace. Reverse the direction when quantity is the input.
+3. In a worked calculation, keep the output unknown (`?` is useful) until the
+   algebra produces it. Do not reveal the answer in a label or an obvious tick
+   numeral early. This does not prevent showing an observed answer when the
+   notes are simply collecting data.
+4. Carry a copy of the red input into the side calculation, reveal the algebra
+   in steps, and carry the resulting number back to its axis. Leave both dashed
+   guides and the dot visible throughout the transfer.
+5. When the input changes, roll a `ValueTracker` and keep the dot, both guides,
+   and readouts attached. Do not replace the tracker readout with a transform
+   between separate price labels.
+
+Introduce the Marginal Benefit/Marginal Cost definition before the arithmetic
+that uses it. Motivate the idea with a simple first quantity before a later one;
+do not add duplicate walkthroughs that the notes have cut. Keep individual and
+market graph-to-math sequences consistent in motion, colors, label positions,
+and product/units. Additional unit captions need a teaching purpose, not just
+available space.
+
+### Quantities, decisions, and surplus areas
+
+- **Keep possible quantities visible.** Use very transparent grey bars across
+  most or all of the relevant curve, so students can track the many possible
+  decisions as price changes. An unchosen bar stays grey instead of disappearing.
+- **Use narrow but visible slices consistently.** The approved B2 reference is
+  `SLICE_WIDTH = 0.1` at its individual-graph scale, with grey fill opacity 0.10.
+  One width setting governs resting bars, colored bars, recap, and closing
+  graphs. On different quantity scales, preserve the visual narrowness and make
+  units explicit; the 0.1 value is not a universal economic unit.
+- **Align bars to the model.** Build them from axis coordinates. A sampled
+  rectangular demand bar's chosen top corner lies on the curve, rather than
+  placing the middle of its top on the line. State the sampling convention in
+  the storyboard and keep the arithmetic consistent with it. For exact sloping
+  slices, follow the curve along the top/bottom boundary; do not substitute an
+  endpoint height for the total area of an interval.
+- **Preserve the object when focusing.** For a B1-style isolated-unit close-up,
+  fade the other bars and curve away while leaving that grey bar in place.
+  Reveal the expenditure/cost component separately, then the surplus component. In B1's
+  close-up, Price is red to the left of the vertical axis, the expenditure name
+  sits to the right of the bar, and its number sits inside the area. Keep labels
+  with the regions they explain as price changes. A supply-cost explanation may
+  need the sloping curve to remain visible, as in B2; follow the approved beat.
+- **Show the decision through price motion when the notes call for it.** Use
+  several instructive prices. For a buyer whose price rises above MB, keep the
+  rejected bar grey and hide exchange-specific CS/expenditure labels. When an
+  exchange becomes worthwhile again, its components can reappear together;
+  do not force a repeated introductory reveal. Restore the other grey bars and
+  the curve between unit close-ups, then focus on the next surviving bar.
+- **Show the region before naming its gain.** On the first surplus reveal, fade
+  in the area before its definition and numerical result. Do not replace this
+  visual explanation with bookkeeping text in a sidebar.
+- **Finish each bar before moving on.** After the first illustrated interval,
+  reveal cost/expenditure for the next bar, then that bar's PS/CS, then repeat
+  for the following bar, left to right. Do not fill every cost bar and then make
+  a second pass over every surplus bar. Follow the notes when a different
+  accumulation is specifically intended.
+- **A group of thin bars may still represent one unit.** Use a small neutral
+  brace and label, such as “1 ton,” when needed to make that interval clear.
+  Keep it through the interval's revenue/cost/surplus explanation, then remove
+  it when expanding to the full quantity. This supersedes the earlier request
+  to remove that useful brace; it does not reinstate decorative yellow marks.
+- **Explain the approach to an area.** When converting sampled rectangles into
+  a smooth CS triangle, repeatedly split each bar in half, then fade the fine
+  bars into the triangle and expenditure rectangle. Avoid a direct shape morph
+  that conceals the sum. Exact sloping slices, as in B2, already tile the area
+  and need no artificial approximation step.
+- **Keep the equation continuous.** Introduce the area formula once. Label its
+  height and base in yellow, carry copies of the yellow numbers into the existing
+  formula, and retain its prefix rather than fading it out and recreating it.
+  Color `Area`/`CS`/`PS` to match the region being measured.
+- **Use grey for supporting areas when only surplus is the subject.** In recap
+  or preview graphs, show colored CS/PS with faint grey expenditure/cost beneath;
+  do not give those supporting areas competing emphasis. Color and label them
+  when they become the lesson's subject.
+
+### Adding individuals and previewing the market
+
+- Show aggregation as addition of individuals' quantities at the same price.
+  Use a common price scale, aligned guides, and enough space below the title.
+- Put the addition at the resulting quantity's position on the market graph.
+  For a simple sum, pause on `2+1`, then combine it into the quantity there;
+  do not insert a separate `2+1=?` arithmetic exercise.
+- Introduce the market demand/supply definition before the exercise that uses
+  it. Preserve the familiar individual-graph layout and movement patterns.
+- When the closer asks where price comes from, the approved device is demand
+  and supply side by side, a shared price moving up and down a little, attached
+  guides and quantity labels, and a restrained “Next time…” cue. The CS/PS bars
+  respond to price, with grey supporting areas. Use this when the notes call
+  for that preview; it is not a mandatory ending for every episode.
+- Possible 3D aggregation and simulation previews remained ideas to develop,
+  not a settled replacement for the approved 2D choreography. Propose them
+  separately and get direction before making that change.
+
 ### The number line (Episode A0's recurring object; `ValueLine` in `A/A0_Welcome/03_Code.py`)
+
 - Horizontal, `MUTED`, higher = further **right**. Items are `GUIDE`-red dots with a `Tex` label; labels alternate above/below (`stagger`) so neighbors don't collide; below-side labels sit under the tick numbers.
 - Every item position is a `ValueTracker`; the marks are `always_redraw`. Consequences: position the line by the **line's** center (`ValueLine.move_to` does), `freeze()` before fading a line so it leaves as one object, `raise_marks()` after adding so dots sit on the line.
 - Tick numbers only where they carry the argument: **1, 5, 10** (→ 100, 500, 1000 for the ×100 beat). Relabel the ticks; nothing moves.
@@ -264,17 +374,17 @@ matching metrics.
 
 - **One continuous motion = one `play`.** Drive it with a `ValueTracker`; never loop short plays (each eases in/out → stutter).
 - **Eased by default.** Sweeps, data draws and item moves use `rate_func=smooth` (ease in and out); `linear` only when a constant rate is itself the message.
-- **No `Create` for boxes.** Choice boxes fade in — green first, then red — and *move* to swap. `Create` is for curves and lines.
-- **Transform only the text that changes.** A caption or line whose label, number, or one clause updates transforms exactly that piece; the rest stands. Whole-line transforms are both the flicker and, in practice, the bug (A3's counter-wonk was this). Settled 2026-09-02.
+- **Prefer fades to the default drawn-on look.** Text, boxes, fills, and usually curves enter with `FadeIn`. Use a growing guide or a drawn line only when its direction or construction is part of the explanation, as in tracing a point down to quantity. Preserve specific approved choreography instead of making a blanket animation substitution.
+- **Change only the text that changes.** Keep unchanged context in place. Replacement prose drops out before the new text fades in (§3); numbers that change continuously roll on trackers. Keep deliberate number transfers and algebra substitutions when the motion explains the math. Avoid whole-line morphs for replacement prose. Updated 2026-09-15 from the B2 review.
 - **Numbers are stable; when they change, they roll.** An on-screen number never changes without a pedagogical reason, and when it must, it moves as a visible tracker roll (decimals rolling, points riding) — never a swap or teleport. Changing numbers cost trust; rolling numbers *are* the content. Settled 2026-09-02 (A3's one-tracker negotiation).
 - **One tracker, one source of truth.** Every representation of the same quantity — dot, dashed drops, coordinate label, caption decimals — binds to a single `ValueTracker`. Nothing can drift out of sync mid-roll; wonk becomes structurally impossible instead of hand-fixed.
-- **A derivation produces exactly one new object.** The `Derivation` machinery transforms numerals with letters pinned (§9), and its *output* `Create`s beside the standing text — nothing already on screen transforms. The math makes the rate and nothing else (A3's proposal → rate beat).
-- Default `run_time`: reveal 1, build 2–3, sweep 4–8. Bare `self.wait()` only as a VO beat; longer holds are explicit.
+- **Reveal the result after its reasoning.** Keep existing formula prefixes and context, reveal the necessary steps, and move a copy of the result back to the model when useful. Write those plays directly in `construct()` rather than hiding them in derivation machinery.
+- Timing follows the teaching beat and the approved animation. Use explicit `self.pause('beat.id')` for class holds; do not replace interactive holds with timed waits. Shared bumper helpers may retain their own internal flicker timing. Several discrete bars can use short sequential plays; do not turn one continuous tracker motion into many separately eased steps.
 - Vocabulary → animation:
   | storyboard verb | manim |
   |---|---|
-  | Show (card/text) | `Write` for sentences and cards; `FadeIn` for titles and objects (`FlickerIn` only for a deliberate switch-on) |
-  | Draw (geometry) | `Create`, eased |
+  | Show (card/text/object) | `FadeIn`; old replacement text is removed first |
+  | Trace (geometry) | grow or draw the specific guide when direction matters; otherwise `FadeIn` |
   | Add (to existing group) | `FadeIn` + `arrange` / `Transform` of the group |
   | Continue | extend the tracker |
   | Wiggle | `Indicate`-style scale pulse in `FOCUS`, 0.5 s |
@@ -282,50 +392,123 @@ matching metrics.
   | Circle | `Circle` around a cell/label (`circle_it`) |
   | Zoom / Pan | `MovingCameraScene` frame animate, smooth, 2 s |
   | Sweep | tracker from one end to the other, eased |
-- Framebox reveal (`Create` → flip → `Uncreate`) is the emphasis idiom for a single line; use `framebox_it`. The box is `FOCUS` gold at a restrained stroke (~2.5 px equivalent) — an event, not a hazard sign.
-- Dim overlay (`BG` rect @ 0.8) is allowed for definition cards only.
-- Brackets that annotate a line fade **out** before a definition card writes **in**; never overlap the two.
+- Use highlight boxes, yellow marks, or extra explanatory text only when they do a specific job in the notes. A useful unit brace or area measurement is distinct from a decorative highlight.
+- Dim the previous stage for a definition or exercise overlay when context helps; remove unrelated remnants when the card is intended to stand alone.
+- Remove obsolete annotations before replacing their explanation. A useful unit brace can coexist with the bottom definition for that same unit (§4).
 - **maniml-specific tools** (all fine in render and export):
   - `self.pause(name)` — the beat boundary (§8); `loop=True` for a hold that keeps replaying in the viewer.
   - `self.add_sound(path, time_offset=0, gain=None)` — works in the viewer (plays through the system player when a live audience is connected; `time_offset`/`gain` shape only the rendered mix) and in the render (mixed into the mp4). Sound cues are beat-level: put the `add_sound` right after the beat's `pause`, and name files by beat in `00_Assets/sound/` (`0.a_bumper.wav`).
-  - `FlickerIn(mob, flickers=4, seed=0, lag_ratio=0)` — switches a mobject on like an old tube light: dark, a few irregular sputters, then lit. Works on anything `FadeIn` does; `lag_ratio` staggers the sputters across submobjects. Use it sparingly — for a *reveal with attitude* (a title that "comes on", the bumper), not as a default entrance. Never for body text or definitions, which are `Write()`.
+  - `FlickerIn(mob, flickers=4, seed=0, lag_ratio=0)` — switches a mobject on like an old tube light: dark, a few irregular sputters, then lit. Works on anything `FadeIn` does; `lag_ratio` staggers the sputters across submobjects. Use it sparingly — for a *reveal with attitude* (a title that "comes on", the bumper), not as a default entrance. Never for body text or bottom definitions, which fade in (§3).
 
 ## 7. Recurring cards and devices
 
 | Device | Spec |
 |---|---|
-| Episode bumper | raster `MICROECONOMICS` (Blues flicker, 4 rounds) with `Part X \| Episode N` beneath (`Part X` in `TITLE` azure, rest `CAPTION`, scale 3); the two form one **vertically centred block** (wordmark at +0.9, label at −0.9). Same bumper for the podcast intros. |
+| Episode bumper | reuse `bumper_raster`, `flicker`, and `bumper_title` from `style.py`, as in B1/B2; keep the episode thesis and pause explicit. The shared bumper is the approved exception to flat choreography. Raster `MICROECONOMICS`, label beneath, part azure and episode caption-grey. |
 | Episode subtitle | the italic thesis line from the notes header (`*More might be possible!*`) appears under the bumper; every episode has one |
-| Section title | `This class is about behavior.` pattern: a page title (§3), persists across the beats it governs |
-| Last time… | `Tex('Last Time...').scale(3)`, 0.5 s in/out, then a 2–3 item recap in `notes` mode |
-| Next time… | `title('Next time...')` + one line + framebox reveal |
-| Definition card | §3; a concept christened mid-scene may instead take a **full-frame definition screen** — fade the scene out, write the definition (term in `DEFINITION` gold), fade the scene back to exactly where it stood (A3's *Pareto improvement*) |
-| Tracked point | a dot driven by a tracker carries **always-on dashed drops to both axes and a live `(x, y)` label**, all bound to the same tracker (A3's offer points) |
+| Section title | the concrete question being answered, in the normal azure title style, persists across the relevant beats (§3) |
+| Last time… | reuse the specified prior animation literally when requested; preserve its objects, framing, wording, and pause placement. A concise graph-side list of gold terms with white definitions is also approved, as in B2. Do not invent a replacement recap dataset or layout. |
+| Next time… | a restrained cue on the relevant live model when useful; the B2 demand/supply price preview is the reference (§4). Add no automatic text stack or framebox. |
+| Definition card | bottom definition is the normal on-model treatment (§3). Use a full-frame definition screen only when the notes/approved sequence calls for it; fade it in and restore the model to its prior state. |
+| Tracked point | a dot and dashed guides driven by one tracker; readouts sit at the relevant axes, with values withheld until solved in a worked example (§4) |
 | Principle line | §3 |
 | Six-parts card | six rows, each built in three fades: `Part X.` in `CAPTION` → part name in `DEFINITION` gold → subtitle in `INK`; labels are the `_Parts.md` headings; rows scale to fit the frame width |
 | Choice boxes (`choice_boxes`) | `EFFICIENT` green = chosen, `NASH` red = given up; **same size** for both; fade in green then red; swapping a choice moves the boxes |
 | Stored results | a running list of results (`OC(pie) = cake`) lives under the title in `CAPTION`, one line per result, added as each is found. They're equations, so they stay serif: `subtitle(..., book=True)` (§3's carve-out) |
 | Simple glyphs | words-as-glyphs (§0): prefer **colored text** to a drawing (*Apple* green, *Banana* yellow — a good's own color is its noun); draw only when the object itself matters, then `INK` outlines (house, tickets). No food glyphs, no stick figures. |
-| Welfare legend | right-hand column: swatch + `CS / PS / GOV / DWL` + live number in `CAPTION`, in that order — the model, not the bookkeeping, holds the eye |
+| Welfare labels | prefer labels on or beside the graph areas, with math labels in matching colors. Use a separate legend only when it helps the beat; no default accumulating sidebar. |
 | Assumptions checklist | a card listing model conditions (competitive firm: many sellers, many buyers, homogeneous good…), items lit as stated — needed in B0, E1, E2 |
 | Taxonomy 2×2 | one grid object reused as a map: goods (rival × excludable) in D, market structures (sellers × differentiation) in E, current cell highlighted |
-| Party cards | a solid card standing for a party (the farm square) is the owner's token fill with `ON_FILL` text — no white strokes (§2c) |
+| Allocation diagrams | neutral name and outline, relevant region colored, unused area blank. The region's label follows its center as the allocation changes (§2c). |
 
 ## 8. Storyboard and code conventions
 
-- Storyboard = Markdown beat sheet (`_Storyboard_Template.md`): one heading per stable dotted ID followed immediately by its verb-first action list, for example `## 3.f · Draw the PPF`. Action is the only storyboard content, so there is no table, metadata block, status, or **Action** label. Playback order, not lexical ID order, is the episode order.
-- Every student-facing beat begins at a standard Markdown link in `01_Notes.md`, for example `[▶ Beat 18](#beat-3.f)`. The visible label is only the sequential note-order name `Beat N`; the fragment is `#beat-` plus the exact dotted storyboard ID. Beat placement never authorizes adding, rewriting, polishing, or correcting the surrounding sentences. Do not add HTML beat comments, `Animation ·` kickers, descriptive labels, or duplicate prose. Exercises and `Next` passages use the same link contract. The notes keep the author's narrative and beat locations; the storyboard keeps only what happens at each beat. Concept emphasis such as `***absolute advantage***` remains ordinary prose and is never parsed as a stage direction.
-- Production-only intro beats use `0.a`, `0.b`, and so on in storyboard and code. They do not appear in `01_Notes.md`. Student-facing beats begin at `1.*` and use the same exact dotted ID in notes, storyboard, and code.
-- Code: one `class EpisodeXN(Scene)` with **one flat `construct()`**, the way manim is usually written. Each beat starts with a comment rule carrying the exact dotted ID, such as `# ---- 3.f`, and a stopped beat uses **`self.pause('3.f')`** as the maniml checkpoint. A file that calls `self.pause()` anywhere is *pause-anchored*: the pauses are the only checkpoints and all the plays between two of them run as one stretch — one arrow-key step, one timeline stop — so the viewer steps **beat by beat** (41 beats, not 133 plays). Write the literal `self.pause(` in the episode file; maniml detects that spelling, so a helper can't stand in for it. `self.pause(name, loop=True)` is a **looping hold**: in the live viewer the stretch that led in replays until an arrow key moves on (render/export treat it as a plain pause) — use it for a beat you talk over in class and want to keep moving (the bumper flicker, a sweep worth watching twice). **No per-beat methods** — maniml maps `construct()`'s statements to units; a `self.beat()` call hides its plays from the stepper (decided 2026-08-22; the inlining alternative is written up in `maniml/docs_helper_inlining_plan.md`). Inline helper closures (`def fly_in(...)`) are fine. Episode-specific choreography classes (`ValueLine`) live at module level in the episode file. Data/images loaded at module level. Imports from `_Assets` via the `sys.path` line. Header `# maniml 03_Code.py EpisodeXN`.
+- **The notes are the instructions.** Read the current `01_Notes.md` (or the episode's existing notes filename), including its quoted beat directions and editorial cuts. Taylor uses Markdown **quote blocks** for animation directions; ordinary emphasized terms in prose are not stage directions. Preserve that format. Older templates describe linked beats; retain existing links where present, but do not insert them, convert quote blocks, or rewrite notes merely to conform to an older template. The notes belong to the author, who may be editing them while animation work proceeds.
+- Storyboard = Markdown beat sheet: one heading per stable dotted ID followed by its concrete, ordered actions, for example `## 3.f · Read marginal cost`. Preserve the teaching order from the notes, not lexical ID order. Keep exact on-screen wording, math, positioning, reveal order, and final visible state explicit enough to implement without a second interpretation. Brief shared layout conventions can sit at the top, as in B2; do not bury the beat actions in metadata or a large table.
+- Production-only intro beats use `0.a`, `0.b`, and so on in storyboard and code. They do not appear in `01_Notes.md`. Student-facing beats begin at `1.*`; storyboard and code share the exact dotted ID and follow the notes' order. Where notes already contain beat links, preserve the matching IDs without requiring IDs to be added to quote-block directions.
+- **Flat and linear code is a user-editing requirement.** Use one `class EpisodeXN(Scene)` and one `construct()` that can be read top to bottom to see what changes on screen. Object construction, placement, plays, and pauses belong there. Use plain named variables, a few visible constants, and straightforward loops for repeated bars. Avoid new per-beat methods, custom choreography helpers, nested helper functions, framework classes, or layers of callbacks that make Taylor jump around to edit a scene. Small inline updater lambdas are appropriate for objects tied to a `ValueTracker`; keep the relationship easy to see. This supersedes the earlier allowance for helper closures and custom choreography classes.
+- **The intro bumper is the explicit reuse exception.** Call the shared `bumper_raster`, `flicker`, and `bumper_title` helpers instead of copying the raster alphabet and flicker implementation into each episode. Keep the episode's thesis and named pause visible in `construct()`. Shared style tokens and simple object factories such as `title()` and `axes()` remain appropriate; they do not hide a sequence of teaching actions.
+- Each beat starts with its dotted-ID comment, such as `# ---- 3.f`, and a stopped beat uses **`self.pause('3.f')`**. Preserve stable IDs and the approved pause placement. ManimL recognizes the literal `self.pause(` in the episode file; helper calls must not hide these boundaries. `self.pause(name, loop=True)` is available for an intentionally repeating live hold. Keep imports from `_Assets` through the existing `sys.path` line and the header `# maniml 03_Code.py EpisodeXN`.
 - No triple-quoted section markers inside functions (they broke 11 files); use dotted-ID comments such as `# ---- 3.f`.
-- `_Assets/style.py` owns: `NotesPanel`, `on_model()`, `MODEL_CENTER/MODEL_WIDTH`, and the tokens in §2, frame/FPS, `axes()` factory, `title()`, `subtitle()`, `definition()`, `principle()`, `bumper()`, `last_time()`, `equilibrium_marker()`, `welfare_legend()`. Episodes import from it and from `Video.py` (model geometry) and never re-declare colors.
+- `_Assets/style.py` supplies the shared palette, styling, and bumper helpers. Existing older helpers are available, not instructions to use them. Follow the current 15 fps and layout rules even if a shared legacy default differs; do not refactor shared code outside the authorized edit scope.
+
+### Animator workflow and division of labor
+
+1. **The lead animator reads and understands the source.** Personally read the
+   latest notes and the relevant prior animations before planning or delegating.
+   Understand the economics, the narrative sequence, and the visual purpose of
+   each beat. Do not ask Taylor to restate instructions already in the script.
+   Ask a focused question when a real ambiguity remains after that reading.
+2. **Start with fidelity.** For a port/cleanup, first make the original animation
+   run in ManimL while staying as close to its choreography as possible. Preserve
+   the work Taylor has already refined. Mechanical compatibility fixes are not
+   an invitation to redesign. Propose changes or cuts when components clearly
+   no longer fit the notes, and ask before making unapproved choreography/content
+   changes. An explicit requested change is already authorized.
+3. **Reuse approved sequences accurately.** If Taylor says to copy a review from
+   an earlier block, copy that sequence, including framing and timing, rather
+   than inventing an approximation. When supply mirrors demand, carry forward
+   its visual and motion conventions while adapting the economic meaning.
+4. **Write the storyboard before building new beats.** Turn the notes into a
+   concrete implementation plan: entering objects, axis ranges, labels and
+   colors, values/units, tracker behavior, exact reveal and removal order,
+   pauses, and the state left for the next beat. Work out the arithmetic and
+   layout here. Keep a record of which existing components are preserved and
+   identify proposed cuts rather than silently omitting them.
+5. **Delegate implementation, not interpretation.** Taylor's preferred division
+   is lead animator for understanding, storyboard, orchestration, and review;
+   Opus subagents for implementation when available. Give each delegated beat
+   sufficiently precise instructions that the worker need not invent teaching
+   content, choose a new layout, or guess the script's intent. State allowed
+   files and the flat-code convention. Be candid if the preferred worker is
+   unavailable; do not claim to have used it. The lead integrates the result and
+   checks it against the notes rather than accepting a worker's “PASS” report.
+6. **Respect live authoring and edit scope.** During animation work, edit only
+   the authorized storyboard/code files. Do not rewrite notes, exercises, or
+   other blocks without authorization. Re-read notes before implementing or
+   validating affected beats if Taylor is editing them, and reconcile current
+   cuts. An uncertain editorial mark warrants a specific question, not an
+   invented resolution. Numerical examples may be simplified when Taylor has
+   allowed it, but all equations, units, areas, and visible totals must agree;
+   that permission is not blanket permission to edit prose.
+7. **Review the actual visuals.** Check representative stopped frames and the
+   motion that matters: tracker rolls, guide persistence, reveal order, label
+   placement, and stacking. Keep mathematical and visual verification distinct.
+   For a small requested update, use a targeted check and let Taylor review in
+   the viewer; do not repeatedly launch full renders or widen the redesign.
+   Keep progress updates concise and surface genuine issues while there is time
+   to correct them.
+8. **Deliver locally.** Leave the changes ready for Taylor to review and push.
+   Never push to GitHub or publish repository changes through another tool or
+   delegated worker. Include this restriction in any implementation handoff.
 
 ## 9. Decisions
+
+### Current preferences from the B1/B2 session (2026-09-15)
+
+The rules in §§1–8 above are the consolidated record. They cover the first
+faithful port, author-owned notes and quote-block directions, lead/Opus division
+of labor, flat editable code with the bumper exception, 15 fps, question titles,
+sparse serif teaching content, white axes/red readouts, sequential graph-to-math
+reveals, persistent grey quantities, narrow slices, per-bar cost then surplus,
+measurement colors, recap reuse, exercise layout, and the graph/math divider.
+
+Later choices settle these earlier alternatives: **bottom definitions are
+centered**, not left-aligned; **small sans-serif unit captions are welcome**,
+not broad sans-serif explanatory text; **a useful one-unit brace stays**, not
+decorative highlights; **each bar's cost is followed by its surplus**, not two
+whole-graph passes. Bottom text keeps the approved fixed size even when short.
+Episode-specific cuts, example prices, goods, and numbers are not universal
+style requirements. 3D and additional simulation sequences remain proposals.
+The concern about supply and carrots sharing orange did not settle a new supply
+color; retain the semantic palette and avoid ambiguous co-occurring uses.
+
+The older decisions below are historical where superseded by those rules.
 
 Settled 2026-08-21:
 
 - **Supply color = ORANGE.** Yellow-family is reserved for `FOCUS`/`DEFINITION`.
-- **Notes panel: tried and removed** — built as `style.NotesPanel` and run through Episode 0; too cluttered. Principle lines and definitions are full-frame cards. The class stays in `style.py` unused.
+- **Notes panel: tried and removed** — built as `style.NotesPanel` and run through Episode 0; too cluttered. Current bottom definitions and on-model labels are specified in §§1–4; full-frame cards are optional when the beat needs them.
 - **Axes = `MUTED` grey** (as in `A/A0_Welcome`); the white axes in A–D code are out of spec.
 - **Episode numbering**: in flux while Part A is reorganized; leave headers as they are and reconcile to `_Specs.md` codes later.
 - **Intro motif**: the raster wordmark (built, in use).
@@ -339,10 +522,10 @@ Settled 2026-08-25/26 (the Graphite pass — see the design document for evidenc
 
 - **Palette re-stepped for CVD safety and brand unification.** The six marks and the text tokens of §2 replace the manim defaults; validated against the co-occurring on-screen sets, not eyeballed.
 - **Azure is reserved for the course's voice.** Titles, links, wordmark — never a curve. Demand is deep teal `#128A9B`, which separates from the title at ΔE 12.7 under CVD and validates better against the other marks than an azure demand did.
-- **Gold is a text token, never a mark.** That exclusion is what makes the mark set pass validation.
+- **Definition gold is a text token, never a curve.** The later B1/B2 measurement idiom permits temporary `FOCUS` yellow height/base marks (§2).
 - **`CAPTION #9E9E9E` splits from `MUTED #696969`.** Words vs lines. Muted *text* was at 3.0:1 — below the accessibility floor and fragile under compression.
 - **`BG` = `#212121` everywhere**, unified with the websites.
-- **The Narrator rule (supersedes same-week "board speaks CM, always")**: the frame has three speakers — title = the course (CMU Serif, azure), prose under the title = the narrator (CMU Sans via `\textsf`), material = the book (CMU Serif: math, model labels, definition/principle cards). Carve-out: an under-title line that is or becomes math stays serif. One switch, `NARRATOR_SANS` in `style.py`; adopted with the render test outstanding (§3 has the fallback ladder). Any stage sans is CMU Sans, never Source Sans.
+- **Historical Narrator rule**: the August pass applied CMU Sans to general narrator prose through `NARRATOR_SANS`. The B1/B2 review supersedes that default with serif teaching content and small sans-serif unit captions (§3). Any stage sans remains CMU Sans, never Source Sans.
 - **Tick numerals never take good colors; axis captions do.**
 - **One system, three surfaces**: the same tokens back `style.py` and `course.css`; thumbnails are stage frames with the raster mark; the raster mark is the channel identity.
 
@@ -350,21 +533,23 @@ Settled 2026-09-02 (the A3 render passes):
 
 - **The screen carries only what the current beat needs.** Benchmarks and reference marks (autarky ghosts, standing rates) enter for the beat that uses them and leave after; a mark with no job in the current beat is clutter. The A3 autarky markers exist for one beat — the better-in-both-goods comparison — and nowhere else.
 - **Abstractions are earned: one concrete instance first.** Every device arrives as a specific instance with real numbers (one trade, one proposal, one point) before any general object; the general object appears only when a beat *needs* it, and defers to a later episode if none does. A3's trade line was cut on exactly this test — the re-entry principle ("the exchange rate maps out a line") is parked in its notes for Part B, where the price line earns it. This is the phenomenon-first christening pattern (PPF, comparative advantage, Pareto improvement) stated as a staging rule.
-- The four transition rules of §6 (transform only what changes; numbers roll; one tracker; derivations output one object) date from the same passes.
+- The tracker and continuity rules date from these passes; §6 now incorporates the later B1/B2 preferences for fades and directly written calculation sequences.
 
 Deferred (not needed until Part B/C):
 
 - **Avatars** — social planner (C3), seller with a question (E1), buyer summation (B1). **No stick figures.** Direction: very simple and stylized, undecided — the words-as-glyphs principle suggests a colored initial in a circle, which the placeholder already is. Placeholder until then: a labelled `Circle` in the party's token color (`DEMAND` buyer, `SUPPLY` seller, `INK` planner) with a one-word `Tex` label beneath; speech as a `Tex` line in a `SurroundingRectangle`. Swap for the real glyph later — one helper, one place.
 - **Unspecified diagrams**: game tree (D4), Edgeworth-in-PPF, the four-quadrant Map, labor market/monopsony, two-country trade panels, timeline-S&D hybrid (C2). Each needs one sketch before its block is storyboarded.
 - **Split-mode chrome** design (and whether it ever needs CMU Sans).
-- **Question-list / numbered-list slides** need a design pass of their own: voice (narrator sans vs. book serif), color (`DEFINITION` gold vs. `INK`), and layout. Interim decision 2026-08-30: white CMU Serif — the narrator-sans-gold treatment was tried on A2's *Two Remaining Questions* and pulled. Same open pass covers **exercise cards**; interim 2026-08-30: bodies in narrator sans (trialled on A2 — inline `$R$`/`$F$` stay serif math inside `\textsf`), heads serif gold.
+- **Question-list / numbered-list slides** may still need a dedicated layout pass; retain the approved serif treatment. Exercise cards are now settled by the B1/B2 session: serif gold heading, serif white body, heading aligned left with the body slightly indented (§3).
 
 ## 10. Porting old work
 
-The order matters: fix the shared assets once, then each episode is mostly a
-re-render plus a short checklist.
+Begin with §8's faithful-first-pass workflow. Make the requested episode run
+before expanding its storyboard, preserve approved choreography, and distinguish
+mechanical repairs from proposed teaching changes. Audit shared assets as needed,
+but change them only within the authorized scope.
 
-**Once, in `_Assets/style.py`** (the Graphite document has the exact block):
+**Shared-asset audit** (only edit these when authorized):
 
 1. Palette block → §2 values: the six marks, `TITLE`, `DEFINITION`, `FOCUS`,
    `CAPTION` (new token), `BG #212121`.
@@ -375,16 +560,19 @@ re-render plus a short checklist.
 1. **Colors**: confirm the file names only tokens, never raw manim colors — the
    restyle then lands automatically. Files that name raw colors get them
    replaced with the right token (what does this color *mean*?).
-2. **A1-style habits** (the known off-spec patterns): party cards get the
-   owner's token fill + `ON_FILL` text, no white strokes; tick numerals back to
-   `MUTED`; good colors move to axis captions; area fills at 0.35, never full
-   opacity.
+2. **Graph and card styling**: distinguish solid party cards from neutral
+   allocation diagrams (§2c); tick numerals use `MUTED`, axis names white, and
+   selected values red. Use sparse labels and the current definition treatment;
+   area fills use the semantic token and opacity.
 3. **Framebox / highlight yellows** → `FOCUS #FFE14D`.
 4. **White axes** → the `axes()` factory (`MUTED`, no tips).
 5. **Muted text** (subtitles, stored results) → `CAPTION`.
-6. Re-render, then step through beat by beat against §7's card specs.
+6. Check the affected frames and transitions against the notes and current
+   specs. Use a full render when needed to validate a port or broader change;
+   small styling updates need only targeted verification before viewer review.
 
-**Mechanical fix-list surfaced by the v0 audit** (do before porting each Part):
+**Historical mechanical fix-list from the v0 audit** (verify against the current
+episode before applying; these values are not current model specifications):
 
 - `SUPPLY` is an undefined name in `B1_pt2` (7 uses); `raster_font` undefined in 14 files; `manim_to_mov` (8 files) should be `Make_MOV`; `metaConfig*` dicts referenced in E2/E3 exist nowhere; `part_c` import in F3_pt2; `Video.consumer_solution` is dead.
 - Stale part cards: C0 says Part B, E1 says Part D, F1 says Part E. Stale `media_dir`s (four files write to `PartC_E2`).

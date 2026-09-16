@@ -1,756 +1,811 @@
-# maniml 03_Code.py animation_0
+# maniml 03_Code.py EpisodeB2
+# Episode B2 | Supply
+# Read top to bottom. Beat IDs match 02_Storyboard.md.
+# The bumper uses shared helpers; all other choreography lives in construct.
+# Exact sloping slices distinguish the cost of a ton from MC at its endpoint.
 
 from manim import *
 import numpy as np
-import pandas as pd
-import seaborn as sns
-import warnings
 import os
-import random
+import sys
 
-# Configuration
-CUSTOM_BLACK = '#1f1f1f'
-CUSTOM_GREY = '#696969'
-DEFINITION = '#FFD700'
-config.background_color = CUSTOM_BLACK
-config.axes_color = CUSTOM_GREY
+sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
+from style import *
+from style import axes as style_axes
 
-PIXEL_HEIGHT = 1080
-FPS = 10
-config.pixel_height = PIXEL_HEIGHT
-config.pixel_width = PIXEL_HEIGHT*2
-config.frame_rate = FPS
 
-class animation_0(Scene):
-
-    """Animation 0 | Last Time...
-
-Last time we ... ppf ... but we're left the question where to live on the PPF. How do we choose between a and b? That's the question we turn to: how to pick where on the PPF to live?"""
+class EpisodeB2(Scene):
+    default_camera_config = {'fps': 15}
 
     def construct(self):
-        text = Tex('Last Time...').scale(3)
-        self.play(FadeIn(text), run_time=1/2)
-        self.wait()
-        self.play(FadeOut(text), run_time=1/2)
-        self.wait()
-
-
-class animation_(Scene):
-
-    """Animation _ | Intro Sequence"""
-
-    def construct(self):
-        
-    """ Definitions """
-        
-        colors = sns.color_palette("Blues", 50).as_hex()
-
-        size = 1/6
-        n_width = 2
-        n_height = 3
-
-        n_rows = len(range(-n_height,n_height+1))
-        n_cols = len(range(-n_width,n_width+1))
-        w_list = list(range(-n_width,n_width+1))*n_rows
-        h_list = [i for i in range(-n_height,n_height+1) for x in 'a'*n_cols]
-        block = list(zip(w_list,h_list)) # height: 7, width: 5
-        
-        string = 'MICROECONOMICS'
-        letters = [raster_font[l] for l in string]
-        
-    """ Run """
-                
-        shift = 0
-        centering = -39
-        squares = []
-        for l in letters:
-            s = [Square(side_length=size, color=config.background_color).move_to(RIGHT*(w + shift*6 + centering)*size + DOWN*h*size) for w,h in [block[i] for i in l]]
-            squares = squares + s
-            shift = shift + 1
-        
-        Squares = VGroup(*squares)
-        
-        self.add(Squares)
-        
-        for i in range(15):
-            update_squares = [s.animate.set_fill(random.sample(colors,1),opacity=1) for s in squares]
-            self.play(*update_squares, run_time=1/10)
-            self.wait(4/10)
-            
-        part_label = Tex('{{Part B}} $|$ Episode 1').set_color(GREY).set_color_by_tex_to_color_map(
-            {"Part B": BLUE,}
-        ).scale(3).next_to(Squares, DOWN*4)
-        group = VGroup(Squares, part_label)
-        self.play(FadeIn(part_label), group.animate.move_to(0))
-        
-        for i in range(15):
-            update_squares = [s.animate.set_fill(random.sample(colors,1),opacity=1) for s in squares]
-            self.play(*update_squares, run_time=1/10)
-            self.wait(4/10)
-        
-        self.wait()
-
-
-class animation_1(Scene):
-
-    """Animation 1 | Marginal Cost
-
-Show opportunity cost in terms of carrots, but then multiply by dollars to get marginal cost. Define marginal cost."""
-
-    def construct(self):
-        
-        a = Tex('OpportunityCost(','SPINACH',')')
-        a[1].set_color(GREEN)
-        a_t = Tex('OpportunityCost(','S',')')
-        a_t[1].set_color(GREEN)
-        
-        b = Text(r'=')
-        b_t = Text(r'=')
-        
-        
-        c = Tex(r'CARROTS')
-        c[0].set_color(ORANGE)
-        c_t = Tex(r'C')
-        c_t[0].set_color(ORANGE)
-
-        d = Tex(r'$\times$')
-        d_t = Tex(r'$\times$')
-
-        e = Tex(r'PRICE of CARROTS')
-        e[0].set_color(BLUE)
-        e_t = Tex(r'P')
-        e_t[0].set_color(BLUE)
-        
-        text_list = [
-            a, b, c, d, e
-        ]
-        text_list_t = [
-            a_t, b_t, c_t, d_t, e_t
-        ]
-        
-        text,text_t = VGroup(),VGroup()
-        
-        for t,t_t in zip(text_list,text_list_t):
-            
-            text.add(t.next_to(text))
-            self.play(FadeIn(t),text.animate.move_to(0))
-
-            text_t.add(t_t.next_to(text_t)).move_to(0)
-            self.play(Transform(text,text_t))
-        
-    """ Marginal Cost """
-        
-        paragraph = Paragraph(
-            'Marginal Cost \n',
-            ' is the value of what I give up',
-            ' by adding one more unit of output.',
-        font_size=32)
-        paragraph[0][:12].set_color(DEFINITION)
-        self.play(FadeIn(paragraph), text.animate.to_edge(UP, buff=1))
-        self.wait()
-
-
-class animation_2(MovingCameraScene):
-
-    """Animation 2 | Individual Supply Curve
-
-Add in molly's farm. Show different prices and the resulting supply curve. Show the definition of the law of supply and marginal cost. Then show a shifter."""
-
-    def construct(self):
-        
-    """ Definitions """
-        
-        PQ_axis = Axes(            
-            x_range=[0, 2000, 500],
-            x_length = 7,
-            axis_config={"color": WHITE},
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 2500, 500),
-                "numbers_with_elongated_ticks": np.arange(0, 2000, 500),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":GREEN,
-                },
-            },
-            y_range=[0, 8, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 9, 2),
-                "numbers_with_elongated_ticks": np.arange(0, 9, 2),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":BLUE,
-                }
-            },
-            tips=False,
-        )
-               
-    """ Starting Objects """
-        
-        axes = PQ_axis.shift(RIGHT*3+DOWN/2).scale(0.8)
-
-        y_label = axes.get_y_axis_label("P").set_color(BLUE)
-        x_label = axes.get_x_axis_label("Q").set_color(GREEN)
-        grid_labels = VGroup(x_label, y_label)
-        
-        farm = Rectangle(height=5, width=2, fill_opacity=0).move_to(LEFT*5+DOWN/2)
-        farm.z_index = 2
-        farm_name = Tex("Molly's Farm").scale(1).next_to(farm,UP)#.shift(RIGHT)
-        
-        farm_group = VGroup(farm,farm_name)
-        
-        grow = Rectangle(height=5, width=2, color=GREEN, fill_opacity=1).next_to(farm_name,DOWN)
-        
-    """ Setup Scene """
-        
-        self.play(FadeIn(axes), FadeIn(grid_labels), FadeIn(grow),FadeIn(farm_group))
-        self.wait()
-        
-    """ Some Quantities """
-        
-        pq_list = [[4, 1000], [6,1500], [2,500]]
-        dots = VGroup()
-        math = VGroup()
-        
-        for p,q in pq_list:
-            a = Tex('$q_s($',r'\$',p,') =',q).move_to(LEFT*2+UP*(p/3))
-            a[1].set_color(BLUE)
-            a[2].set_color(BLUE)
-            a[-1].set_color(GREEN)
-            math.add(a)
-            
-            new_grow = Rectangle(height=5*p/6, width=2, color=GREEN, fill_opacity=1).move_to(LEFT*5+DOWN/2)
-            new_farm = Rectangle(height=5*p/6, width=2, fill_opacity=0).move_to(LEFT*5+DOWN/2)
-
-            self.play(FadeIn(a),Transform(grow,new_grow),Transform(farm,new_farm))
-            self.wait()
-            
-            point = axes.coords_to_point(q, p)
-            dot = Dot(point)
-            dots.add(dot)
-            
-            self.play(FadeIn(dot))
-            self.wait()
-            
-        self.play(farm.animate.shift(UP*3/2),grow.animate.shift(UP*3/2))
-
-    """ Law of Supply """
-        
-        law_of_supply = Paragraph(
-            'Law of Supply \n',
-            ' The quantity supplied',
-            ' of a good rises with',
-            ' its price.',
-        font_size=32).to_edge(DOWN+LEFT, buff=1)
-        law_of_supply[0][:11].set_color(DEFINITION)
-        self.play(FadeIn(law_of_supply))
-        
-    """ Supply Curve """
-        
-        supply_graph = axes.plot(Supply_Curve, color=SUPPLY, x_range=(0, 2000))
-        self.play(FadeIn(supply_graph))
-        
-        title = Tex("{{Supply}} = The cost of one additional unit.").set_color_by_tex_to_color_map(
-            {"Supply": YELLOW,}
-        ).to_edge(UP)        
-        self.play(
-            FadeIn(title),
-            FadeOut(dots)
-        )
-        
-        self.wait(1/2)
-        new_title = Tex("{{Supply}} is all possible quantity supplied.").set_color_by_tex_to_color_map(
-            {"Supply": YELLOW,}
-        ).to_edge(UP)
-        self.play(
-            #dots.animate.shift(DOWN).scale(0.5), 
-            #supply_graph.animate.shift(DOWN).scale(0.5),
-            #grid_labels.animate.shift(DOWN).scale(0.5), 
-            #axes.animate.shift(DOWN).scale(0.5), 
-            Transform(title,new_title),
-        )
-
-        self.wait()
-        
-    """ Clear Screen """
-        
-        #supply_curve_label = Text(
-        #    'Individual Supply Curve',
-        #font_size=32).to_edge(UP, buff=1).set_color(SUPPLY)
-        
-        self.play(
-            FadeOut(law_of_supply),
-            FadeOut(farm_group),
-            FadeOut(grow),
-            FadeOut(math),
-            #FadeOut(dots),
-            #Transform(supply_curve_def, supply_curve_label),
-            #supply_graph.animate.shift(LEFT*2 + UP).scale(2),
-            #grid_labels.animate.shift(LEFT*2 + UP).scale(2), 
-            #axes.animate.shift(LEFT*1 + UP).scale(2)
-        )        
-        
-
-    """ Shifters """
-        
-        new_title = Tex("A {{Supply Shifter}} changes the supply curve.").set_color_by_tex_to_color_map(
-            {"Supply Shifter": YELLOW,}
-        ).to_edge(UP)
-        self.play(Transform(title, new_title))#, axes.animate.shift(RIGHT*3), grid_labels.animate.shift(RIGHT*3))
-        
-        shifter_list = [
-            "- Input Prices", 
-            "- Technology", 
-            "- Number of sellers", 
-        ]
-        for i, shifter in enumerate(shifter_list):
-            new_old_supply_graph = DashedVMobject(axes.plot(Supply_Curve, color=SUPPLY, x_range=(0, 2000)))
-
-            self.play(
-                FadeIn(Tex(shifter).set_color(BLUE).to_edge(UP + LEFT).shift(DOWN*(1 + i*2/3))),
-                Transform(supply_graph,new_old_supply_graph)
-            )
-            
-            old_supply_graph = axes.plot(Supply_Curve, color=SUPPLY, x_range=(0, 2000))
-            self.add(old_supply_graph)
-            new_supply_graph = axes.plot(New_Supply_Curve, color=SUPPLY, x_range=(0, 2000))
-            self.wait(1/2)
-            self.play(
-                Transform(old_supply_graph,new_supply_graph)
-            )
-            self.wait()
-            
-            self.play(FadeOut(old_supply_graph),)
-
-
-class animation_3(MovingCameraScene):
-
-    """Animation 3 | Market Supply Curve
-
-Show how we horizontally add the quantities together to get a market supply curve."""
-
-    def construct(self):
-        
-    """ Definitions """
-        
-        PQ_axis = Axes(            
-            x_range=[0, 3000, 1000],
-            x_length = 7,
-            axis_config={"color": WHITE},
-            x_axis_config={
-                "numbers_to_include": np.arange(0, 3500, 1000),
-                "numbers_with_elongated_ticks": np.arange(0, 3000, 1000),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":GREEN,
-                },
-            },
-            y_range=[0, 8, 1],
-            y_length = 6,
-            y_axis_config={
-                "numbers_to_include": np.arange(0, 9, 2),
-                "numbers_with_elongated_ticks": np.arange(0, 9, 2),
-                "decimal_number_config": {
-                    "num_decimal_places":0,
-                    "color":BLUE,
-                }
-            },
-            tips=False,
-        )
-        
-    """ Starting Objects """
-        
-        axes = PQ_axis.shift(RIGHT*3.5+DOWN/4).scale(0.8)
-        
-        molly = Rectangle(height=3, width=3, color=PURPLE).move_to(LEFT*4.5 + UP*7/4)
-        molly.z_index = 2
-        molly_name = Tex("Molly").scale(1.5).next_to(molly,LEFT,buff=-1/2).set_color(PURPLE).rotate(np.pi/2)
-        molly_group = VGroup(molly,molly_name)
-        
-        m_spinach = Rectangle(height=3, width=3, color=GREEN, fill_opacity=1)
-        molly_crops = VGroup(m_spinach.next_to(molly_name,RIGHT,buff=0)).move_to(molly)
-        
-        andrew = Rectangle(height=3, width=2, color=RED).move_to(LEFT*4.5 + DOWN*7/4)
-        andrew.z_index = 2
-        andrew_name = Tex("Andrew").scale(1.5).next_to(andrew,LEFT,buff=-0.8).set_color(RED).rotate(np.pi/2)
-        andrew_group = VGroup(andrew,andrew_name)
-        
-        a_spinach = Rectangle(height=3, width=2, color=GREEN, fill_opacity=1)
-        andrew_crops = VGroup(a_spinach.next_to(andrew_name,RIGHT,buff=0)).move_to(andrew)
-
-        supply_curve_label = Text(
-            'Individual Supply Curves',
-        font_size=32).next_to(axes, UP).set_color(SUPPLY)
-        
-    """ Setup """
-        
-        self.add(axes,molly_group,molly_crops,andrew_group,andrew_crops, supply_curve_label)
-        
-        molly_supply_graph = axes.plot(Molly_Supply, color=PURPLE, x_range=(0, 2000))
-        self.add(molly_supply_graph)
-        
-        self.wait()
-        
-    """ Andrew's Supply Curve """
-        
-        andrew_supply_graph = axes.plot(Andrew_Supply, color=RED, x_range=(0, 800))
-        self.play(FadeIn(andrew_supply_graph))
-        
-        self.wait()
-        
-    """ Add Quantities """
-        
-        pq_list = [[4, 1000], [6,1500], [2,500]]
-        dots = VGroup()
-        m_dots = VGroup()
-        a_dots = VGroup()
-        m_math = VGroup()
-        a_math = VGroup()
-        m_lines = VGroup()
-        a_lines = VGroup()
-        
-        for p,q in pq_list:
-            m = Tex('$q_s($',r'\$',p,') = ',q).set_color(PURPLE).scale(0.9).move_to(LEFT*3/2+UP*(p/3+1/2))
-            m[1].set_color(BLUE)
-            m[2].set_color(BLUE)
-            m[-1].set_color(GREEN)
-            m_math.add(m)
-            
-            new_molly = Rectangle(height=3*p/6, width=3, color=PURPLE, fill_opacity=0).move_to(LEFT*4.5 + UP*7/4)
-            new_m_spinach = Rectangle(height=3*p/6, width=3, color=GREEN, fill_opacity=1).move_to(LEFT*4.5 + UP*7/4)
-
-            q_a = Andrew_Supply_Inv(p)
-            a = Tex('$q_s($',r'\$',p,') = ',q_a).set_color(RED).scale(0.9).move_to(LEFT*3/2+DOWN*((8-p)/3+1/2))
-            a[1].set_color(BLUE)
-            a[2].set_color(BLUE)
-            a[-1].set_color(GREEN)
-            a_math.add(a)
-            
-            new_andrew = Rectangle(height=3*p/6, width=2, color=RED).move_to(LEFT*4.5 + DOWN*7/4)
-            new_a_spinach = Rectangle(height=3*p/6, width=2, color=GREEN, fill_opacity=1).move_to(LEFT*4.5 + DOWN*7/4)
-        
-            self.play(FadeIn(m),
-                      FadeIn(a),
-                      Transform(m_spinach,new_m_spinach),
-                      Transform(molly,new_molly),
-                      Transform(a_spinach,new_a_spinach),
-                      Transform(andrew,new_andrew),
-                     )
-            self.wait()
-            
-            m_point = axes.coords_to_point(q, p)
-            m_dot = Dot(m_point).set_color(PURPLE)
-            m_dot.z_index = 2
-            m_dots.add(m_dot)
-            m_line = DashedVMobject(axes.plot(lambda x : p, color=PURPLE, x_range=(0, q)))
-            m_lines.add(m_line)
-            
-            a_point = axes.coords_to_point(q_a, p)
-            a_dot = Dot(a_point).set_color(RED)
-            a_dot.z_index = 2
-            a_dots.add(a_dot)
-            a_line = DashedVMobject(axes.plot(lambda x : p, color=RED, x_range=(0, q_a)))
-            a_lines.add(a_line)
-            
-            self.play(FadeIn(m_dot),FadeIn(a_dot),FadeIn(m_line))
-            self.add(a_line)
-            self.play(a_line.animate.move_to(m_dot,LEFT))
-
-            point = axes.coords_to_point(q_a + q, p)
-            dot = Dot(point)
-            dot.z_index = 2
-            dots.add(dot)
-            self.play(FadeIn(dot))
-            self.wait()
-            
-    """ Add Market Supply """
-        
-        market_supply_curve_label = Text(
-            'Market Supply Curve',
-        font_size=32).next_to(axes, UP).set_color(SUPPLY)
-        
-        supply_graph = axes.plot(Supply, color=SUPPLY, x_range=(0, 3000))
-        self.play(FadeIn(supply_graph),Transform(supply_curve_label,market_supply_curve_label))
-        
-        self.wait()
-        
-    """ Clear Screen """
-        
-        self.play(
-            FadeOut(m_dots),
-            FadeOut(a_dots),
-            FadeOut(m_lines),
-            FadeOut(a_lines),
-            FadeOut(m_math),
-            FadeOut(a_math),
-            FadeOut(dots),
-        )
-
-        self.wait()
-        
-        supply_definition = Paragraph(
-            'Market Supply Curve \n',
-            ' The sum of all ',
-            ' individual supply curves.',
-        font_size=32).to_edge(LEFT).shift(UP*2)
-        supply_definition[0][:17].set_color(DEFINITION)
-        
-        higher_costs = Paragraph(
-            'Higher costs shifts the',
-            'supply curves up.',
-        font_size=32).to_edge(LEFT).shift(DOWN)
-        
-        self.play(
-            FadeOut(molly_group),
-            FadeOut(m_spinach),
-            FadeOut(andrew_group),
-            FadeOut(a_spinach),
-            FadeIn(supply_definition)
-        )
-        self.wait()
-        self.play(FadeIn(higher_costs))
-        self.wait()
-        
-    """ Clear More """
-        
-        more_info = Paragraph(
-            'More info in Chapter 4.',
-        font_size=32).to_edge(LEFT).shift(DOWN)
-        self.play(FadeOut(higher_costs),FadeIn(more_info))
-        self.wait()
-
-
-marginal_cost = 3
-
-PQ_line = Axes(            
-    x_range=[0, 2, 1],
-    x_length = 1,
-    axis_config={"color": WHITE},
-    x_axis_config={
-        "numbers_to_include": [],
-        "decimal_number_config": {
-            "num_decimal_places":0,
-        },
-    },
-    y_range=[0, 8, 8],
-    y_length = 6,
-    y_axis_config={
-        "numbers_to_include": [],
-        "numbers_with_elongated_ticks": [],
-        "decimal_number_config": {
-            "num_decimal_places":2,
-        }
-    },
-    tips=False,
-)
-
-class animation_4(MovingCameraScene):
-
-    def construct(self):
-
-    """ Starting Objects """
-
-        title_string = "{{Producer Surplus}} is the sellers's extra value from an exchange."
-        title_color_map = {"Producer Surplus": BLUE}
-        title =Tex(title_string).set_color_by_tex_to_color_map(title_color_map).to_edge(UP)
-        
-        axes = PQ_line.copy().scale(0.8).to_edge(DOWN).shift(UP/2).shift(LEFT*2)
-
-        y_label = axes.get_y_axis_label("P")
-        x_label = axes.get_x_axis_label("Q")
-        
-        grid_labels = VGroup(x_label, y_label)
-        mc_line = axes.plot(lambda x: marginal_cost, x_range=[-0.5,0.5]).set_color(WHITE)
-        mc_number = DecimalNumber(num_decimal_places=2).set_color(WHITE).scale(0.8).next_to(mc_line,LEFT).set_value(marginal_cost)
-        
-        self.play(FadeIn(title, axes, grid_labels, mc_line, mc_number))
-        
-    """ Show Producer Surplus """
-        
-        price = ValueTracker(5)
-            
-        def Plot_Price():
-            line = axes.plot(lambda x: price.get_value(), x_range=[-0.5,0.5]).set_color(RED)
-            number = DecimalNumber(num_decimal_places=2).set_color(RED).scale(0.8).next_to(line,LEFT).set_value(price.get_value())
-            label = Tex("Price =").set_color(RED).next_to(number, LEFT, buff=1/4)
-            return VGroup(line, label, number)
-        price_line = always_redraw(Plot_Price)
-        
-        self.play(FadeIn(price_line))
-        self.wait()
-
-        def Single_Producer_Surplus():
-            point = axes.c2p(-1, price.get_value())
-            ps_label = Tex("Producer Surplus =").next_to(point, RIGHT, buff=3).set_color(BLUE).shift(UP/2)
-            cost_label = Tex("Marginal Cost =").next_to(point, RIGHT, buff=3).set_color(PURPLE).shift(DOWN/2)
-
-            if float(price.get_value()) > marginal_cost:
-                ps = Line(axes.c2p(1,price.get_value()), axes.c2p(1,marginal_cost)).set_color(BLUE)
-                ps_number = DecimalNumber(num_decimal_places=2).set_color(BLUE).scale(0.8).next_to(ps_label,RIGHT,buff=1/4).set_value(price.get_value()-marginal_cost)
-                
-                spend = Line(axes.c2p(1,marginal_cost), axes.c2p(1,0)).set_color(PURPLE)                
-                spend_number = DecimalNumber(num_decimal_places=2).set_color(PURPLE).scale(0.8).next_to(cost_label,RIGHT, buff=1/4).set_value(marginal_cost)
-                
-            if float(price.get_value()) <= marginal_cost:                
-                ps = Line(axes.c2p(1,marginal_cost), axes.c2p(1,marginal_cost)).set_color(BLUE)
-                ps_number = DecimalNumber(num_decimal_places=2).set_color(BLUE).scale(0.8).next_to(ps_label,RIGHT,buff=1/4).set_value(0)
-                
-                spend = Line(axes.c2p(1,0), axes.c2p(1,0)).set_color(PURPLE)
-                spend_number = DecimalNumber(num_decimal_places=2).set_color(PURPLE).scale(0.8).next_to(cost_label,RIGHT, buff=1/4).set_value(0)
-            
-            return VGroup(ps, ps_number, spend, spend_number, ps_label, cost_label)
-            
-        producer_surplus = always_redraw(Single_Producer_Surplus)
-        self.play(FadeIn(producer_surplus))
-        self.wait()
-
-    """ Move Price Around """
-
-        for p in [6, 2, 3.5, 5]:
-            self.play(price.animate.set_value(p))
-            self.wait()
-
-
-x_int = 10
-x_max = 50
-y_int = 2
-y_max = 14
-
-PQ_large = Axes(            
-    x_range=[0, x_max, x_int],
-    x_length = 7,
-    axis_config={"color": WHITE},
-    x_axis_config={
-        "numbers_to_include": np.arange(0, x_max+x_int, x_int),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-        },
-    },
-    y_range=[0, y_max, y_int],
-    y_length = 6,
-    y_axis_config={
-        "numbers_to_include": np.arange(0,y_max+y_int,y_int),
-        "decimal_number_config": {
-            "num_decimal_places":0,
-        }
-    },
-    tips=False,
-)
-
-class animation_5(MovingCameraScene):
-
-    def construct(self):
-
-    """ Starting Objects """
-
-        title_string = "{{Producer Surplus}} is the sellers's extra value from an exchange."
-        title_color_map = {"Producer Surplus": BLUE}
-        title =Tex(title_string).set_color_by_tex_to_color_map(title_color_map).to_edge(UP)
-        
-        axes = PQ_large.copy().scale(0.8).to_edge(DOWN+LEFT).shift(UP/2+RIGHT*2)
-
-        y_label = axes.get_y_axis_label("P")
-        x_label = axes.get_x_axis_label("Q")
-        grid_labels = VGroup(x_label, y_label)
-        
-        self.play(FadeIn(title, axes, grid_labels))
-
-    """ Functions """
-
-        slope = 5
-        intercept = 2
-        def Supply(q):
-            return intercept + q / slope
-        def Inv_Supply(p):
-            return (p-intercept) * slope
-
-    """ Supply as a Line """
-
-        price = ValueTracker(5)
-        
-        Supply_Line = axes.plot(Supply, x_range=[0,x_max]).set_color(YELLOW)
-        Supply_Line.z_index = 3
-        self.play(FadeIn(Supply_Line))
-        self.wait()
-        
-        def Quantity_Supplied():
-            p = price.get_value()
-            q = Inv_Supply(p)
-            point = axes.c2p(q, p)
-            dot = Dot(point).set_color(RED)
-            dot.z_index = 4
-            
-            p_line = DashedVMobject(axes.plot(lambda x: price.get_value(), x_range=[-1,q])).set_color(RED)
-            p_line.z_index = 2
-            p_number = DecimalNumber(num_decimal_places=0).set_color(RED).scale(0.8).next_to(p_line,LEFT, buff=3/4).set_value(p)
-            p_label = Tex("Price =").set_color(RED).next_to(p_number, LEFT, buff=1/4)
-
-            q_line = DashedVMobject(Line(axes.c2p(q,0), axes.c2p(q,p))).set_color(RED)
-            q_line.z_index = 2
-            q_number = DecimalNumber(num_decimal_places=0).set_color(RED).scale(0.8).next_to(q_line,DOWN, buff=1/2+0.1).set_value(q)
-            q_label = Tex("$Q_s =$").set_color(RED).next_to(q_number, LEFT, buff=1/4)
-
-            return VGroup(dot, p_label, p_line, p_number, q_label, q_line, q_number)
-            
-        quantity_supplied = always_redraw(Quantity_Supplied)
-        self.play(FadeIn(quantity_supplied))
-
-    """ Supply Equation """
-
-        supply_label = Tex("Supply:").set_color(YELLOW)
-        supply_equation = always_redraw(
-            lambda: MathTex(
-                r"P = 2 + \frac{Q_s}{5} = " + f"{price.get_value():.0f}"
-            ).next_to(supply_label,RIGHT).set_color(YELLOW)
-        )
-        supply_title = VGroup(supply_label,supply_equation).next_to(title,DOWN).to_edge(RIGHT)
-
-        self.add(supply_title)
-
-        self.play(price.animate.set_value(9))
-        self.wait()
-
-    """ Producer Surplus """
-        
-        def PS_Plot():
-            p = price.get_value()
-            q = Inv_Supply(p)
-            lines = []
-            
-            for i in np.arange(1/2, q, 1/2):
-                i_p = Supply(i)
-                
-                ps_line = Line(axes.c2p(i,p), axes.c2p(i,i_p)).set_color(BLUE)
-                ps_line.z_index = -1
-                lines.append(ps_line)
-                
-            return VGroup(*lines)
-
-        ps_plot = always_redraw(PS_Plot)
-        self.play(Create(ps_plot))
-        self.wait()
-
-    """ Producer Surplus Equation """
-
-        ps_label = Tex("PS").set_color(BLUE)
-        ps_equation = always_redraw(
-            lambda: MathTex(
-                f" = ({price.get_value():.0f} - {intercept:.0f}) \\cdot {Inv_Supply(price.get_value()):.0f} \\cdot" + r"\frac{1}{2}" + f" = {(price.get_value() - intercept)*Inv_Supply(price.get_value())/2:.1f}"
-            ).next_to(ps_label,RIGHT).set_color(BLUE)
-        )
-
-        ps_title = VGroup(ps_label,ps_equation).next_to(supply_title,DOWN*5).to_edge(RIGHT)
-
-        self.play(FadeIn(ps_title))
-        self.wait()
-
-    """ Comprehension Checks """
-
-        for p in [4, 8]:
-            self.play(FadeOut(supply_title, ps_title))
-            self.play(price.animate.set_value(p))
-            self.wait()
-            self.play(FadeIn(supply_title))
-            self.wait()
-            self.play(FadeIn(ps_title))
-            self.wait()
+        self.camera.fps = 15
+        GRAPH_AT = np.array([-2.6, 0.15, 0])
+        REST_OPACITY = 0.10
+        SLICE_WIDTH = 0.1  # Shared by every graph; ten slices make the first ton.
+        DEFINITION_BOTTOM = 0.05  # Tiny margin beneath the bottom definition line.
+        DEFINITION_SCALE = 0.7443  # Same text size as the first Quantity Supplied definition.
+
+        # ---- 0.a · Reuse B1's shared episode bumper.
+        squares = bumper_raster(self)
+        flicker(self, squares)
+        episode = bumper_title(self, squares, 'B', 2)
+        thesis = Tex(r'\textit{Supply: a simple way to organize costs.}', color=CAPTION)
+        thesis.scale(1.1).next_to(episode, DOWN, buff=0.5)
+        self.play(FadeIn(thesis))
+        self.pause('0.a')
+        self.play(FadeOut(squares), FadeOut(episode), FadeOut(thesis))
+        self.clear()
+
+        # ---- 1.a · B1's buyer, marginal benefit, and consumer surplus.
+        head = title('Last time...')
+        recap_ax = style_axes([0, 6, 1], [0, 2.5, 0.5], x_length=7, y_length=6).scale(0.8)
+        recap_ax.shift(GRAPH_AT - (recap_ax.c2p(0, 0) + recap_ax.c2p(6, 2.5)) / 2)
+        recap_curve = Line(recap_ax.c2p(0, 2.5), recap_ax.c2p(5, 0), color=DEMAND, z_index=3)
+        recap_p = Tex('P').next_to(recap_ax.c2p(0, 2.5), LEFT, buff=0.25)
+        recap_q = Tex('Q').next_to(recap_ax.c2p(6, 0), DOWN, buff=0.35)
+        recap_grey = VGroup()
+        recap_cs = VGroup()
+        for left in np.arange(0, 5, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            grey = Polygon(recap_ax.c2p(left, 0), recap_ax.c2p(right, 0),
+                           recap_ax.c2p(right, min(1, 2.5 - right / 2)),
+                           recap_ax.c2p(left, min(1, 2.5 - left / 2)))
+            grey.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
+            recap_grey.add(grey)
+            if left < 3:
+                cs = Polygon(recap_ax.c2p(left, 1), recap_ax.c2p(right, 1),
+                             recap_ax.c2p(right, 2.5 - right / 2), recap_ax.c2p(left, 2.5 - left / 2),
+                             color=DEMAND, fill_opacity=AREA_OPACITY, stroke_width=1)
+                recap_cs.add(cs)
+        recap_price = DashedLine(recap_ax.c2p(0, 1), recap_ax.c2p(3, 1), color=GUIDE, z_index=10)
+        recap_drop = DashedLine(recap_ax.c2p(3, 1), recap_ax.c2p(3, 0), color=GUIDE, z_index=10)
+        recap_point = Dot(recap_ax.c2p(3, 1), color=GUIDE, z_index=11)
+        recap_price_label = Tex('Price', color=GUIDE).scale(0.7)
+        recap_price_label.next_to(recap_ax.c2p(0, 1), LEFT, buff=0.6)
+        recap_quantity = Tex('$Q_d$', color=GUIDE).scale(0.7).next_to(recap_ax.c2p(3, 0), DOWN, buff=0.6)
+        recap = VGroup(
+            VGroup(Tex('Preferences', color=DEFINITION), Tex('Rank the available choices.', color=INK)),
+            VGroup(Tex('Quantity Demanded', color=DEFINITION),
+                   Tex('The quantity a buyer is willing', color=INK),
+                   Tex('and able to buy at a given price.', color=INK)),
+            VGroup(Tex('Marginal Benefit', color=DEFINITION), Tex('Is another purchase worth making?', color=INK)),
+            VGroup(Tex('Consumer Surplus', color=DEFINITION), Tex("The buyer's value above the price.", color=INK)))
+        for item in recap:
+            item.arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.8)
+        recap.arrange(DOWN, buff=0.4, aligned_edge=LEFT)
+        recap.move_to([1.1, GRAPH_AT[1], 0], aligned_edge=LEFT)
+        self.play(FadeIn(head), FadeIn(recap_ax), FadeIn(recap_curve), FadeIn(recap_p), FadeIn(recap_q))
+        self.play(FadeIn(recap_grey), FadeIn(recap_cs), FadeIn(recap_price), FadeIn(recap_drop),
+                  FadeIn(recap_point), FadeIn(recap_price_label), FadeIn(recap_quantity))
+        for line in recap:
+            self.play(FadeIn(line))
+        self.pause('1.a')
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+
+        # ---- 2.a · Molly's fixed farm; more spinach displaces other uses.
+        head = title('How much would Molly grow?')
+        ax = style_axes(
+            [0, 6, 1], [0, 8.5, 1], x_length=7, y_length=6, ticks=True,
+            x_axis_config={'numbers_to_include': [1, 2, 3, 4, 5],
+                           'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
+            y_axis_config={'numbers_to_include': [2, 4, 6, 8],
+                           'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}}).scale(0.8)
+        ax.shift(GRAPH_AT - (ax.c2p(0, 0) + ax.c2p(6, 8.5)) / 2)
+        p_lab = Tex('P', color=INK).next_to(ax.c2p(0, 8.5), LEFT, buff=0.25)
+        q_lab = Tex('Q', color=INK).next_to(ax.c2p(6, 0), DOWN, buff=0.35)
+        p_units = Tex(r'\textsf{dollars per ton}', color=CAPTION).scale(0.7)
+        p_units.next_to(p_lab, RIGHT, buff=0.35)
+        q_units = Tex(r'\textsf{tons per year}', color=CAPTION).scale(0.7)
+        q_units.next_to(q_lab, RIGHT, buff=0.3)
+        farm = Rectangle(width=4.5, height=2.6, color=INK, stroke_width=2).move_to([4.15, 0.45, 0])
+        farm_name = Tex("Molly's farm", color=INK).next_to(farm, UP, buff=0.3)
+        farm_price = ValueTracker(4)
+        spinach = Polygon([1.9, -0.85, 0], [3.4, -0.85, 0], [3.4, 1.75, 0], [1.9, 1.75, 0],
+                          color=SPINACH, stroke_width=0, fill_opacity=0.55)
+        spinach.add_updater(lambda area: area.set_points_as_corners([
+            [1.9, -0.85, 0], [1.9 + 0.75 * max(0, farm_price.get_value() - 2), -0.85, 0],
+            [1.9 + 0.75 * max(0, farm_price.get_value() - 2), 1.75, 0], [1.9, 1.75, 0], [1.9, -0.85, 0]]))
+        spinach_label = Tex('Spinach', color=SPINACH).scale(0.8).next_to(spinach, DOWN, buff=0.25)
+        farm_q = VGroup(Tex('$Q_s=$'), DecimalNumber(2, num_decimal_places=2))
+        farm_q.arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE).next_to(ax.c2p(2, 0), DOWN, buff=0.6)
+        asking_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
+        asking_number.next_to(ax.c2p(0, 4), LEFT, buff=0.6)
+        asking_word = Tex(r'Price \$', color=GUIDE).scale(0.7).next_to(asking_number, LEFT, buff=0.04)
+        asking = VGroup(asking_number, asking_word)
+        self.play(FadeIn(head), FadeIn(ax), FadeIn(p_lab), FadeIn(q_lab), FadeIn(p_units), FadeIn(q_units))
+        self.play(FadeIn(spinach), FadeIn(farm), FadeIn(farm_name), FadeIn(spinach_label))
+        self.play(FadeIn(asking))
+        asking_number.add_updater(lambda number: number.set_value(farm_price.get_value())
+                                 .next_to(ax.c2p(0, farm_price.get_value()), LEFT, buff=0.6))
+        asking_word.add_updater(lambda word: word.next_to(asking_number, LEFT, buff=0.04))
+        farm_q[1].add_updater(lambda number: number.set_value(max(0, farm_price.get_value() - 2)))
+        farm_q.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
+                           .next_to(ax.c2p(max(0, farm_price.get_value() - 2), 0), DOWN, buff=0.6))
+        spinach_label.add_updater(lambda label: label.next_to(spinach, DOWN, buff=0.25)
+                                  .set_opacity(min(1, max(0, farm_price.get_value() - 2))))
+        self.pause('2.a')
+
+        # ---- 2.b · Quantity supplied is an answer at one price.
+        qs_def = Tex(r'\mbox{ {{Individual Quantity Supplied}} is the quantity a seller is willing and able to sell at a given price.}',
+                     tex_to_color_map={'Individual Quantity Supplied': DEFINITION})
+        qs_def.scale(DEFINITION_SCALE)
+        qs_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        points = VGroup(Dot(ax.c2p(2, 4), color=SUPPLY, z_index=11))
+        farm_h = DashedLine(ax.c2p(0, 4), ax.c2p(2, 4), color=GUIDE, z_index=10).set_opacity(0.5)
+        farm_v = DashedLine(ax.c2p(2, 4), ax.c2p(2, 0), color=GUIDE, z_index=10).set_opacity(0.5)
+        farm_dot = Dot(ax.c2p(2, 4), color=GUIDE, z_index=12)
+        self.play(FadeIn(qs_def))
+        self.play(FadeIn(farm_h), FadeIn(points), FadeIn(farm_dot))
+        self.play(GrowFromPoint(farm_v, ax.c2p(2, 4)))
+        self.play(FadeIn(farm_q))
+        farm_h.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(0, farm_price.get_value()), ax.c2p(max(0, farm_price.get_value() - 2), farm_price.get_value()),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        farm_v.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(max(0, farm_price.get_value() - 2), farm_price.get_value()),
+            ax.c2p(max(0, farm_price.get_value() - 2), 0),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        farm_dot.add_updater(lambda dot: dot.move_to(ax.c2p(max(0, farm_price.get_value() - 2), farm_price.get_value())))
+        self.pause('2.b')
+
+        # ---- 2.d · $6 makes four tons worthwhile.
+        self.play(farm_price.animate.set_value(6), run_time=1.5)
+        point = Dot(ax.c2p(4, 6), color=SUPPLY, z_index=11)
+        points.add(point)
+        self.play(FadeIn(point))
+        self.pause('2.d')
+
+        # ---- 2.e · At $2, she supplies zero in this example.
+        self.play(farm_price.animate.set_value(2), run_time=1.5)
+        point = Dot(ax.c2p(0, 2), color=SUPPLY, z_index=11)
+        points.add(point)
+        self.play(FadeIn(point))
+        self.pause('2.e')
+
+        # ---- 2.f · Connect her answers.
+        spinach.clear_updaters()
+        spinach_label.clear_updaters()
+        asking.clear_updaters()
+        farm_q.clear_updaters()
+        farm_h.clear_updaters()
+        farm_v.clear_updaters()
+        farm_dot.clear_updaters()
+        self.remove(farm_price)
+        self.play(FadeOut(asking), FadeOut(farm_q), FadeOut(farm_h), FadeOut(farm_v), FadeOut(farm_dot))
+        supply = Line(ax.c2p(0, 2), ax.c2p(6, 8), color=SUPPLY, z_index=3)
+        supply_def = Tex(r"\mbox{ {{Individual Supply Curve}} collects a seller's quantity supplied at every price.}",
+                         tex_to_color_map={'Individual Supply Curve': DEFINITION})
+        supply_def.scale(DEFINITION_SCALE)
+        supply_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.remove(qs_def)
+        self.play(FadeIn(supply), FadeIn(supply_def))
+        self.bring_to_front(points)
+        self.pause('2.f')
+
+        # ---- 2.g · Name the pattern after showing it.
+        law_def = Tex(r'\mbox{ {{Law of Supply}} says the quantity supplied of a good rises with its price.}',
+                      tex_to_color_map={'Law of Supply': DEFINITION})
+        law_def.scale(DEFINITION_SCALE)
+        law_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.remove(supply_def)
+        self.play(FadeIn(law_def))
+        self.pause('2.g')
+
+        # ---- 2.h · B1's standing quantities, now under increasing MC.
+        self.play(FadeOut(farm), FadeOut(farm_name),
+                  FadeOut(spinach), FadeOut(spinach_label), FadeOut(points))
+        self.remove(law_def)
+        equation = Tex('$P=2+Q_s$').scale(0.9).move_to(ax.c2p(2.9, 7.5))
+        s_lab = Tex('S').next_to(ax.c2p(6, 8), RIGHT, buff=0.15)
+        rest_bars = VGroup()
+        for left in np.arange(0, 6, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            bar = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                          ax.c2p(right, 2 + right), ax.c2p(left, 2 + left))
+            bar.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
+            rest_bars.add(bar)
+        self.play(FadeIn(equation), FadeIn(s_lab), FadeIn(rest_bars))
+        self.bring_to_front(supply)
+        self.pause('2.h')
+
+        # ---- 3.a · Pick a price, trace the graph, leave the answer unknown.
+        read_price = ValueTracker(5)
+        price_number = DecimalNumber(5, num_decimal_places=2, color=GUIDE).scale(0.7)
+        price_number.next_to(ax.c2p(0, 5), LEFT, buff=0.6)
+        price_word = Tex(r'Price \$', color=GUIDE).scale(0.7).next_to(price_number, LEFT, buff=0.04)
+        price_source = VGroup(price_number, price_word)
+        h_guide = DashedLine(ax.c2p(0, 5), ax.c2p(3, 5), color=GUIDE, z_index=10).set_opacity(0.5)
+        v_guide = DashedLine(ax.c2p(3, 5), ax.c2p(3, 0), color=GUIDE, z_index=10).set_opacity(0.5)
+        read_dot = Dot(ax.c2p(3, 5), color=GUIDE, z_index=11)
+        question = Tex('$Q_s=?$', color=GUIDE).scale(0.7).next_to(ax.c2p(3, 0), DOWN, buff=0.6)
+        ax.x_axis.numbers[2].set_opacity(0)
+        self.play(FadeIn(price_source))
+        self.play(FadeIn(h_guide))
+        self.play(FadeIn(v_guide), FadeIn(read_dot), FadeIn(question))
+        price_number.add_updater(lambda number: number.set_value(read_price.get_value())
+                                 .next_to(ax.c2p(0, read_price.get_value()), LEFT, buff=0.6))
+        price_word.add_updater(lambda word: word.next_to(price_number, LEFT, buff=0.04))
+        h_guide.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(0, read_price.get_value()), ax.c2p(read_price.get_value() - 2, read_price.get_value()),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        v_guide.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(read_price.get_value() - 2, read_price.get_value()), ax.c2p(read_price.get_value() - 2, 0),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        read_dot.add_updater(lambda dot: dot.move_to(ax.c2p(read_price.get_value() - 2, read_price.get_value())))
+        self.pause('3.a')
+
+        # ---- 3.b · The answer enters the graph only after the calculation.
+        # Leave the horizontal axis name and units entirely on the graph side.
+        divider_x = max(q_lab.get_right()[0], q_units.get_right()[0]) + 0.35
+        MATH_AT = np.array([(divider_x + FRAME_W / 2 - 0.6) / 2, 0.7, 0])
+        math_divider = Line([divider_x, -3, 0], [divider_x, 3, 0], color=MUTED, stroke_width=1)
+        math_divider.set_opacity(0.5)
+        substitution = VGroup(Tex('$5$', color=GUIDE), Tex('$=2+Q_s$', tex_to_color_map={'Q_s': GUIDE}))
+        rearrange = Tex('$Q_s=5-2$', tex_to_color_map={'Q_s': GUIDE, '5': GUIDE})
+        answer = VGroup(Tex('$Q_s=$'), Tex('$3$')).set_color(GUIDE)
+        substitution.arrange(RIGHT, buff=0.12)
+        answer.arrange(RIGHT, buff=0.12)
+        work = VGroup(substitution, rearrange, answer).scale(0.8)
+        work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT)
+        self.play(FadeIn(math_divider),
+                  TransformFromCopy(price_number.copy().clear_updaters(), substitution[0]), FadeIn(substitution[1]))
+        self.play(FadeIn(rearrange))
+        self.play(FadeIn(answer))
+        q_answer = VGroup(Tex('$Q_s=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        q_answer.move_to(question)
+        self.play(FadeOut(question), FadeIn(q_answer[0]), TransformFromCopy(answer[1], q_answer[1]),
+                  ax.x_axis.numbers[2].animate.set_opacity(1))
+        self.pause('3.b')
+
+        # ---- 3.c · Keep the same guides while the price rolls.
+        self.play(FadeOut(work), FadeOut(q_answer))
+        self.play(read_price.animate.set_value(4.5), run_time=1.5)
+        question = Tex('$Q_s=?$', color=GUIDE).scale(0.7).next_to(ax.c2p(2.5, 0), DOWN, buff=0.6)
+        self.play(FadeIn(question))
+        self.pause('3.c')
+
+        # ---- 3.d · Fractional spinach is allowed.
+        substitution = VGroup(Tex('$4.50$', color=GUIDE), Tex('$=2+Q_s$', tex_to_color_map={'Q_s': GUIDE}))
+        rearrange = Tex('$Q_s=4.50-2$', tex_to_color_map={'Q_s': GUIDE, '4.50': GUIDE})
+        answer = VGroup(Tex('$Q_s=$'), Tex('$2.5$')).set_color(GUIDE)
+        substitution.arrange(RIGHT, buff=0.12)
+        answer.arrange(RIGHT, buff=0.12)
+        work = VGroup(substitution, rearrange, answer).scale(0.8)
+        work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT)
+        self.play(TransformFromCopy(price_number.copy().clear_updaters(), substitution[0]), FadeIn(substitution[1]))
+        self.play(FadeIn(rearrange))
+        self.play(FadeIn(answer))
+        q_answer = VGroup(Tex('$Q_s=$'), Tex('$2.5$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        q_answer.move_to(question)
+        self.play(FadeOut(question), FadeIn(q_answer[0]), TransformFromCopy(answer[1], q_answer[1]))
+        self.pause('3.d')
+        price_source.clear_updaters()
+        h_guide.clear_updaters()
+        v_guide.clear_updaters()
+        read_dot.clear_updaters()
+        self.remove(read_price)
+        self.play(FadeOut(price_source), FadeOut(h_guide), FadeOut(v_guide),
+                  FadeOut(read_dot), FadeOut(q_answer), FadeOut(work), FadeOut(math_divider))
+
+        # ---- 3.e · MC is a height for the next small addition, not a ton's area.
+        self.remove(head)
+        head = title('Which spinach is worth growing?')
+        mc_def = Tex(r'\mbox{ {{Marginal Cost}} is the cost of producing one additional unit.}',
+                     tex_to_color_map={'Marginal Cost': DEFINITION})
+        mc_def.scale(DEFINITION_SCALE)
+        mc_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        read_quantity = ValueTracker(1)
+        q_source = VGroup(Tex('$Q_s=$'), DecimalNumber(1, num_decimal_places=0))
+        q_source.arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE).next_to(ax.c2p(1, 0), DOWN, buff=0.6)
+        mc_v = DashedLine(ax.c2p(1, 0), ax.c2p(1, 3), color=GUIDE, z_index=10).set_opacity(0.5)
+        mc_h = DashedLine(ax.c2p(1, 3), ax.c2p(0, 3), color=GUIDE, z_index=10).set_opacity(0.5)
+        mc_dot = Dot(ax.c2p(1, 3), color=GUIDE, z_index=11)
+        mc_question = Tex('$MC=?$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 3), LEFT, buff=0.6)
+        self.play(FadeIn(head), FadeIn(q_source))
+        self.play(FadeIn(mc_v))
+        self.play(FadeIn(mc_h), FadeIn(mc_dot), FadeIn(mc_question))
+        self.play(FadeIn(mc_def))
+        q_source[1].add_updater(lambda number: number.set_value(read_quantity.get_value()))
+        q_source.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
+                             .next_to(ax.c2p(read_quantity.get_value(), 0), DOWN, buff=0.6))
+        mc_v.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(read_quantity.get_value(), 0), ax.c2p(read_quantity.get_value(), 2 + read_quantity.get_value()),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        mc_h.add_updater(lambda line: line.become(DashedLine(
+            ax.c2p(read_quantity.get_value(), 2 + read_quantity.get_value()), ax.c2p(0, 2 + read_quantity.get_value()),
+            color=GUIDE, z_index=10).set_opacity(0.5)))
+        mc_dot.add_updater(lambda dot: dot.move_to(ax.c2p(read_quantity.get_value(), 2 + read_quantity.get_value())))
+        self.pause('3.e')
+
+        # ---- 3.f · At Q=1, MC is $3 per ton.
+        substitution = VGroup(Tex('$P=2+$', tex_to_color_map={'P': GUIDE}), Tex('$1$', color=GUIDE))
+        answer = VGroup(Tex('$P=$'), Tex(r'\$3.00')).set_color(GUIDE)
+        substitution.arrange(RIGHT, buff=0.12)
+        answer.arrange(RIGHT, buff=0.12)
+        work = VGroup(substitution, answer).scale(0.8)
+        work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT)
+        math_divider.set_opacity(0.5)
+        self.play(FadeIn(math_divider), FadeIn(substitution[0]),
+                  TransformFromCopy(q_source[1].copy().clear_updaters(), substitution[1]))
+        self.play(FadeIn(answer))
+        mc_answer = VGroup(Tex('$MC=$'), Tex(r'\$3.00')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        mc_answer.move_to(mc_question)
+        self.play(FadeOut(mc_question), FadeIn(mc_answer[0]), TransformFromCopy(answer[1], mc_answer[1]))
+        self.pause('3.f')
+
+        # ---- 3.i · Compare MC with one fixed price.
+        mc_h.clear_updaters()
+        self.play(FadeOut(work), FadeOut(mc_answer), FadeOut(mc_h))
+        offer_line = DashedLine(ax.c2p(0, 4), ax.c2p(6, 4), color=GUIDE, z_index=10).set_opacity(0.7)
+        offer_label = Tex(r'Price $= \$4$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 4), LEFT, buff=0.6)
+        comparison = Tex('$MC<P$', color=GUIDE).scale(0.8).move_to(MATH_AT)
+        self.play(FadeIn(offer_line), FadeIn(offer_label), read_quantity.animate.set_value(1), run_time=1.5)
+        self.play(FadeIn(comparison))
+        self.pause('3.i')
+
+        # ---- 3.j · Price and marginal cost meet.
+        self.play(FadeOut(comparison), read_quantity.animate.set_value(2), run_time=1.5)
+        comparison = Tex(r'$MC=P=\$4$', color=GUIDE).scale(0.8).move_to(MATH_AT)
+        self.play(FadeIn(comparison))
+        self.pause('3.j')
+
+        # ---- 3.k · Beyond Q=2, adding more costs more than it brings in.
+        self.play(FadeOut(comparison), read_quantity.animate.set_value(3), run_time=1.5)
+        comparison = Tex('$MC>P$', color=GUIDE).scale(0.8).move_to(MATH_AT)
+        self.play(FadeIn(comparison))
+        self.pause('3.k')
+
+        # ---- 3.l · Return to Molly's chosen quantity.
+        self.play(FadeOut(comparison), read_quantity.animate.set_value(2), run_time=1.5)
+        comparison = Tex(r'$MC=P=\$4$', color=GUIDE).scale(0.8).move_to(MATH_AT)
+        self.play(FadeIn(comparison))
+        self.pause('3.l')
+
+        # ---- 3.m · Money measures opportunity cost, including her time.
+        self.play(FadeOut(comparison), FadeOut(math_divider))
+        curve_def = Tex(r'\mbox{ {{Marginal Cost Curve}} shows the cost of adding more at each quantity.}',
+                        tex_to_color_map={'Marginal Cost Curve': DEFINITION})
+        curve_def.scale(DEFINITION_SCALE)
+        curve_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.remove(mc_def)
+        self.play(FadeIn(curve_def))
+        q_source.clear_updaters()
+        mc_v.clear_updaters()
+        mc_dot.clear_updaters()
+        self.remove(read_quantity)
+        self.pause('3.m')
+
+        # ---- 3.n · Exercise Q1, copied from the current exercise sheet.
+        stage = VGroup(*self.mobjects)
+        stage.save_state()
+        card = VGroup(
+            Tex('Exercise B2 $|$ Quantity Supplied', color=DEFINITION),
+            Tex('Pumpkin pasties: $P=2+Q_s/10$.').scale(0.9),
+            Tex('Find and plot quantity supplied at 10 galleons.').scale(0.9),
+            Tex('What is marginal cost at 9 pasties?').scale(0.9))
+        card[0].scale(1.2)
+        card.arrange(DOWN, buff=0.4, aligned_edge=LEFT).move_to(ORIGIN)
+        panel = RoundedRectangle(width=13, height=card.get_height() + 1.2,
+                                 corner_radius=0.25, color=MUTED, stroke_width=2,
+                                 fill_color=BG, fill_opacity=1).move_to(card).set_z_index(50)
+        card.align_to(panel, LEFT).shift(RIGHT * 0.65)
+        for paragraph in card[1:]:
+            paragraph.shift(RIGHT * 0.35)
+        for glyph in card.get_family():
+            glyph.set_z_index(51)  # ManimL does not inherit a group's z-index.
+        card = VGroup(panel, card)
+        self.play(stage.animate.set_opacity(0.05), FadeIn(card))
+        self.pause('3.n')
+
+        # ---- 4.a · Restore the graph and offer $5 for the first ton.
+        self.play(Restore(stage), FadeOut(card))
+        self.remove(stage)
+        self.add(*stage.submobjects)
+        self.remove(head, curve_def)
+        head = title('What does Molly gain?')
+        self.play(FadeOut(q_source), FadeOut(mc_v),
+                  FadeOut(mc_dot), FadeOut(offer_line), FadeOut(offer_label), FadeIn(head))
+        ps_price = ValueTracker(4)
+        ps_price_line = Line(ax.c2p(0, 4), ax.c2p(6, 4), color=GUIDE, stroke_width=2, z_index=10)
+        ps_price_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
+        ps_price_number.next_to(ax.c2p(0, 4), LEFT, buff=0.6)
+        ps_price_word = Tex(r'Price \$', color=GUIDE).scale(0.7).next_to(ps_price_number, LEFT, buff=0.04)
+        ps_price_line.add_updater(lambda line: line.set_y(ax.c2p(0, ps_price.get_value())[1]))
+        ps_price_number.add_updater(lambda number: number.set_value(ps_price.get_value())
+                                   .next_to(ax.c2p(0, ps_price.get_value()), LEFT, buff=0.6))
+        ps_price_word.add_updater(lambda word: word.next_to(ps_price_number, LEFT, buff=0.04))
+        self.add(ps_price_line, ps_price_number, ps_price_word)
+        self.play(ps_price.animate.set_value(5), run_time=1.5)
+        ps_price_line.clear_updaters()
+        ps_price_number.clear_updaters()
+        ps_price_word.clear_updaters()
+        self.remove(ps_price)
+        self.pause('4.a')
+
+        # ---- 4.b · Revenue gets its own reveal before cost or PS.
+        revenue_bars = VGroup()
+        cost_bars = VGroup()
+        ps_bars = VGroup()
+        for left in np.arange(0, 1, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            revenue = Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 5), ax.c2p(left, 5),
+                              color=INK, fill_opacity=0, stroke_width=1)
+            revenue_bars.add(revenue)
+        revenue_math = Tex(r'Revenue $= \$5.00$').scale(0.8).move_to(MATH_AT + UP * 0.8)
+        ton_brace = Brace(Line(ax.c2p(0, 5), ax.c2p(1, 5)), UP, buff=0.16, color=INK)
+        ton_label = Tex('1 ton', color=INK).scale(0.7).next_to(ton_brace, UP, buff=0.12)
+        math_divider.set_opacity(0.5)
+        self.play(FadeIn(math_divider), FadeIn(revenue_bars), FadeIn(revenue_math),
+                  FadeIn(ton_brace), FadeIn(ton_label))
+        self.bring_to_front(supply, ps_price_line)
+        self.pause('4.b')
+
+        # ---- 4.c · Integral of 2+Q from zero to one: 2.50, not 3.
+        for left in np.arange(0, 1, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            cost = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                           ax.c2p(right, 2 + right), ax.c2p(left, 2 + left),
+                           color=GOV, fill_opacity=AREA_OPACITY, stroke_width=1)
+            cost_bars.add(cost)
+        cost_math = Tex(r'Cost $= \$2.50$', color=GOV).scale(0.8).move_to(MATH_AT)
+        self.play(FadeIn(cost_bars), FadeIn(cost_math))
+        self.bring_to_front(supply, ps_price_line)
+        self.pause('4.c')
+
+        # ---- 4.d · The same revenue rectangle contains cost and surplus.
+        for left in np.arange(0, 1, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            gained = Polygon(ax.c2p(left, 2 + left), ax.c2p(right, 2 + right),
+                             ax.c2p(right, 5), ax.c2p(left, 5),
+                             color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1)
+            ps_bars.add(gained)
+        ps_math = Tex(r'PS $= \$2.50$', color=SUPPLY).scale(0.8).move_to(MATH_AT + DOWN * 0.8)
+        ps_def = Tex(r"\mbox{ {{Producer Surplus}} is the seller's extra value from an exchange.}",
+                     tex_to_color_map={'Producer Surplus': DEFINITION})
+        ps_def.scale(DEFINITION_SCALE)
+        ps_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(ps_bars))
+        self.bring_to_front(supply, ps_price_line)
+        self.play(FadeIn(ps_math), FadeIn(ps_def))
+        self.pause('4.d')
+
+        # ---- 4.e · Complete each narrow slice: cost, then PS, then the next slice.
+        self.play(FadeOut(revenue_math), FadeOut(cost_math), FadeOut(ps_math), FadeOut(math_divider),
+                  FadeOut(ton_brace), FadeOut(ton_label))
+        for left in np.arange(1, 3, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            revenue = Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 5), ax.c2p(left, 5),
+                              color=INK, fill_opacity=0, stroke_width=1)
+            cost = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                           ax.c2p(right, 2 + right), ax.c2p(left, 2 + left),
+                           color=GOV, fill_opacity=AREA_OPACITY, stroke_width=1)
+            gained = Polygon(ax.c2p(left, 2 + left), ax.c2p(right, 2 + right),
+                             ax.c2p(right, 5), ax.c2p(left, 5),
+                             color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1)
+            self.play(FadeIn(revenue), FadeIn(cost), run_time=0.2)
+            self.play(FadeIn(gained), run_time=0.2)
+        self.bring_to_front(supply, ps_price_line)
+        self.pause('4.e')
+
+        # ---- 4.g · Show the endpoint, not a zero-surplus third ton.
+        ps_drop = DashedLine(ax.c2p(3, 5), ax.c2p(3, 0), color=GUIDE, z_index=10).set_opacity(0.8)
+        ps_dot = Dot(ax.c2p(3, 5), color=GUIDE, z_index=11)
+        ps_quantity = Tex('$Q_s=3$', color=GUIDE).scale(0.7).next_to(ax.c2p(3, 0), DOWN, buff=0.6)
+        equality = Tex('$MC=P$', color=GUIDE).scale(0.7).next_to(ps_dot, UL, buff=0.3)
+        for glyph in equality.get_family():
+            glyph.set_z_index(20)
+        self.play(FadeIn(ps_drop), FadeIn(ps_dot), FadeIn(ps_quantity), FadeIn(equality))
+        self.bring_to_front(ps_price_line, ps_drop, ps_dot)
+        self.pause('4.g')
+
+        # ---- 4.h · Exact sloping slices already fill the triangle.
+        triangle = Polygon(ax.c2p(0, 2), ax.c2p(0, 5), ax.c2p(3, 5),
+                           color=SUPPLY, fill_opacity=0, stroke_width=4, z_index=5)
+        self.play(FadeOut(equality), FadeIn(triangle))
+        self.pause('4.h')
+
+        # ---- 4.i · Keep the same formula prefix through the calculation.
+        area = VGroup(Tex(r'PS $=\frac12$', tex_to_color_map={'PS': SUPPLY}),
+                      Tex('$h$', color=FOCUS), Tex('$b$', color=FOCUS))
+        area.arrange(RIGHT, buff=0.15).scale(0.8).move_to(MATH_AT)
+        math_divider.set_opacity(0.5)
+        self.play(FadeIn(math_divider), FadeIn(area))
+        self.pause('4.i')
+
+        # ---- 4.j · Height is price minus the intercept.
+        h_bar = Line(ax.c2p(0, 2), ax.c2p(0, 5), color=FOCUS, stroke_width=4, z_index=20)
+        h_label = VGroup(Tex('$h=$'), Tex('$5-2$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        h_label.next_to(ax.c2p(0, 3.5), LEFT, buff=0.45)
+        self.play(FadeIn(h_bar), FadeIn(h_label))
+        self.pause('4.j')
+
+        # ---- 4.k · Base is the chosen quantity.
+        b_bar = Line(ax.c2p(0, 0), ax.c2p(3, 0), color=FOCUS, stroke_width=4, z_index=20)
+        b_label = VGroup(Tex('$b=$'), Tex('$3$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        b_label.next_to(ax.c2p(1.5, 0), UP, buff=0.15)
+        self.play(FadeIn(b_bar), FadeIn(b_label))
+        self.pause('4.k')
+
+        # ---- 4.l · Fill the two slots; do not rewrite the prefix.
+        h_value = Tex('$(5-2)$', color=FOCUS).scale(0.8)
+        b_value = Tex('$(3)$', color=FOCUS).scale(0.8)
+        # Lay out the longer equation, then slide the existing prefix into position.
+        filled_area = VGroup(area[0].copy(), h_value, b_value).arrange(RIGHT, buff=0.15).move_to(MATH_AT)
+        self.play(area[0].animate.move_to(filled_area[0]), FadeOut(area[1]),
+                  area[2].animate.move_to(b_value), TransformFromCopy(h_label[1], h_value))
+        self.play(FadeOut(area[2]), TransformFromCopy(b_label[1], b_value))
+        area_answer = Tex(r'$=\$4.50$').scale(0.8).next_to(filled_area, DOWN, buff=0.35)
+        self.play(FadeIn(area_answer))
+        self.pause('4.l')
+
+        # ---- 5.a · Exercise Q2, no answer revealed.
+        stage = VGroup(*self.mobjects)
+        stage.save_state()
+        card = VGroup(Tex('Exercise B2 $|$ Producer Surplus', color=DEFINITION),
+                      Tex('Pumpkin pasties again: $P=2+Q_s/10$.').scale(0.9),
+                      Tex('Find and label producer surplus at 10 galleons.').scale(0.9))
+        card[0].scale(1.2)
+        card.arrange(DOWN, buff=0.45, aligned_edge=LEFT).move_to(ORIGIN)
+        panel = RoundedRectangle(width=13, height=card.get_height() + 1.2,
+                                 corner_radius=0.25, color=MUTED, stroke_width=2,
+                                 fill_color=BG, fill_opacity=1).move_to(card).set_z_index(50)
+        card.align_to(panel, LEFT).shift(RIGHT * 0.65)
+        for paragraph in card[1:]:
+            paragraph.shift(RIGHT * 0.35)
+        for glyph in card.get_family():
+            glyph.set_z_index(51)
+        card = VGroup(panel, card)
+        self.play(stage.animate.set_opacity(0.05), FadeIn(card))
+        self.pause('5.a')
+        self.play(FadeOut(stage), FadeOut(card))
+        self.clear()
+
+        # ---- 6.a · Two sellers face the same price; quantities add.
+        head = title('What happens when we consider everyone?')
+        sum_axes = VGroup()
+        sum_names = VGroup()
+        sum_labels = VGroup()
+        for center, name, color in [(-5, 'Molly', MOLLY), (0, 'Andrew', ANDREW), (5, 'Molly + Andrew', INK)]:
+            small_ax = style_axes(
+                [0, 8, 2], [0, 8.5, 2], x_length=3.7, y_length=3.7, ticks=True,
+                x_axis_config={'numbers_to_include': [2, 4, 6],
+                               'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}},
+                y_axis_config={'numbers_to_include': [2, 4, 6, 8],
+                               'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}})
+            small_ax.shift(np.array([center, -0.1, 0]) - (small_ax.c2p(0, 0) + small_ax.c2p(8, 8.5)) / 2)
+            sum_axes.add(small_ax)
+            name_label = Tex(name, color=color).scale(0.8).move_to([center, 2.4, 0])
+            sum_names.add(name_label)
+            sum_labels.add(Tex('P', color=INK).scale(0.7).next_to(small_ax.c2p(0, 8.5), LEFT, buff=0.2),
+                           Tex('Q', color=INK).scale(0.7).next_to(small_ax.c2p(8, 0), DOWN, buff=0.3))
+        molly_ax, andrew_ax, pair_ax = sum_axes
+        molly_curve = Line(molly_ax.c2p(0, 2), molly_ax.c2p(6, 8), color=MOLLY, z_index=3)
+        andrew_curve = Line(andrew_ax.c2p(0, 2), andrew_ax.c2p(3, 8), color=ANDREW, z_index=3)
+        molly_eq = Tex('$P=2+Q_s$').scale(0.7).move_to([-5, 1.9, 0])
+        andrew_eq = Tex('$P=2+2Q_s$').scale(0.7).move_to([0, 1.9, 0])
+        sum_price = ValueTracker(4)
+        common_price = DashedLine(molly_ax.c2p(0, 4), pair_ax.c2p(8, 4), color=GUIDE, z_index=10).set_opacity(0.45)
+        common_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.7)
+        common_number.next_to(molly_ax.c2p(0, 4), LEFT, buff=0.2)
+        common_dollar = Tex(r'\$', color=GUIDE).scale(0.7).next_to(common_number, LEFT, buff=0.02)
+        molly_dot = Dot(molly_ax.c2p(2, 4), color=GUIDE, z_index=11)
+        andrew_dot = Dot(andrew_ax.c2p(1, 4), color=GUIDE, z_index=11)
+        molly_drop = DashedLine(molly_ax.c2p(2, 4), molly_ax.c2p(2, 0), color=GUIDE, z_index=10).set_opacity(0.6)
+        andrew_drop = DashedLine(andrew_ax.c2p(1, 4), andrew_ax.c2p(1, 0), color=GUIDE, z_index=10).set_opacity(0.6)
+        molly_q = DecimalNumber(2, num_decimal_places=0, color=GUIDE).scale(0.8)
+        molly_q.next_to(molly_ax.c2p(2, 0), DOWN, buff=0.6)
+        andrew_q = DecimalNumber(1, num_decimal_places=0, color=GUIDE).scale(0.8)
+        andrew_q.next_to(andrew_ax.c2p(1, 0), DOWN, buff=0.6)
+        self.play(FadeIn(head), FadeIn(sum_axes), FadeIn(sum_names), FadeIn(sum_labels),
+                  FadeIn(molly_curve), FadeIn(andrew_curve), FadeIn(molly_eq), FadeIn(andrew_eq))
+        self.play(FadeIn(common_price), FadeIn(common_number), FadeIn(common_dollar), FadeIn(molly_dot), FadeIn(andrew_dot),
+                  FadeIn(molly_drop), FadeIn(andrew_drop), FadeIn(molly_q), FadeIn(andrew_q))
+        common_price.add_updater(lambda line: line.set_y(molly_ax.c2p(0, sum_price.get_value())[1]))
+        common_number.add_updater(lambda number: number.set_value(sum_price.get_value())
+                                 .next_to(molly_ax.c2p(0, sum_price.get_value()), LEFT, buff=0.2))
+        common_dollar.add_updater(lambda dollar: dollar.next_to(common_number, LEFT, buff=0.02))
+        molly_dot.add_updater(lambda dot: dot.move_to(molly_ax.c2p(sum_price.get_value() - 2, sum_price.get_value())))
+        andrew_dot.add_updater(lambda dot: dot.move_to(andrew_ax.c2p((sum_price.get_value() - 2) / 2, sum_price.get_value())))
+        molly_drop.add_updater(lambda line: line.become(DashedLine(
+            molly_ax.c2p(sum_price.get_value() - 2, sum_price.get_value()), molly_ax.c2p(sum_price.get_value() - 2, 0),
+            color=GUIDE, z_index=10).set_opacity(0.6)))
+        andrew_drop.add_updater(lambda line: line.become(DashedLine(
+            andrew_ax.c2p((sum_price.get_value() - 2) / 2, sum_price.get_value()),
+            andrew_ax.c2p((sum_price.get_value() - 2) / 2, 0), color=GUIDE, z_index=10).set_opacity(0.6)))
+        molly_q.add_updater(lambda number: number.set_value(sum_price.get_value() - 2)
+                           .next_to(molly_ax.c2p(sum_price.get_value() - 2, 0), DOWN, buff=0.6))
+        andrew_q.add_updater(lambda number: number.set_value((sum_price.get_value() - 2) / 2)
+                            .next_to(andrew_ax.c2p((sum_price.get_value() - 2) / 2, 0), DOWN, buff=0.6))
+        self.pause('6.a')
+
+        # ---- 6.b · Put the addition at the combined quantity's axis position.
+        addition = VGroup(Tex('$2$', color=GUIDE), Tex('$+$'), Tex('$1$', color=GUIDE))
+        addition.arrange(RIGHT, buff=0.12).scale(0.7).next_to(pair_ax.c2p(3, 0), DOWN, buff=0.6)
+        self.play(TransformFromCopy(molly_q.copy().clear_updaters(), addition[0]),
+                  TransformFromCopy(andrew_q.copy().clear_updaters(), addition[2]),
+                  FadeIn(addition[1]))
+        self.pause('6.b')
+
+        # ---- 6.b.1 · Reveal the first horizontal sum.
+        pair_dot4 = Dot(pair_ax.c2p(3, 4), color=SUPPLY, z_index=11)
+        pair_drop4 = DashedLine(pair_ax.c2p(3, 4), pair_ax.c2p(3, 0), color=GUIDE, z_index=10).set_opacity(0.6)
+        pair_q4 = Tex('$Q_s=3$', color=GUIDE).scale(0.7).next_to(pair_ax.c2p(3, 0), DOWN, buff=0.6)
+        self.play(ReplacementTransform(addition, pair_q4), FadeIn(pair_dot4), FadeIn(pair_drop4))
+        self.pause('6.b.1')
+
+        # ---- 6.c · The shared price moves; both sellers' guides remain.
+        self.play(FadeOut(pair_drop4), FadeOut(pair_q4))
+        self.play(sum_price.animate.set_value(6), run_time=1.5)
+        addition = VGroup(Tex('$4$', color=GUIDE), Tex('$+$'), Tex('$2$', color=GUIDE))
+        addition.arrange(RIGHT, buff=0.12).scale(0.7).next_to(pair_ax.c2p(6, 0), DOWN, buff=0.6)
+        self.play(TransformFromCopy(molly_q.copy().clear_updaters(), addition[0]),
+                  TransformFromCopy(andrew_q.copy().clear_updaters(), addition[2]),
+                  FadeIn(addition[1]))
+        self.pause('6.c')
+
+        # ---- 6.d · This curve is the sum of these two sellers only.
+        pair_dot6 = Dot(pair_ax.c2p(6, 6), color=SUPPLY, z_index=11)
+        pair_drop6 = DashedLine(pair_ax.c2p(6, 6), pair_ax.c2p(6, 0), color=GUIDE, z_index=10).set_opacity(0.6)
+        pair_q6 = Tex('$Q_s=6$', color=GUIDE).scale(0.7).next_to(pair_ax.c2p(6, 0), DOWN, buff=0.6)
+        pair_curve = Line(pair_ax.c2p(0, 2), pair_ax.c2p(8, 2 + 16 / 3), color=SUPPLY)
+        self.play(ReplacementTransform(addition, pair_q6), FadeIn(pair_dot6), FadeIn(pair_drop6))
+        self.play(FadeIn(pair_curve))
+        self.bring_to_front(pair_dot4, pair_dot6)
+        self.pause('6.d')
+
+        # ---- 6.e · Quantities, not prices, are added at each price.
+        market_def = Tex(r"\mbox{ {{Market Supply}} sums sellers' individual quantities supplied at each price.}",
+                         tex_to_color_map={'Market Supply': DEFINITION})
+        market_def.scale(DEFINITION_SCALE)
+        market_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(market_def))
+        self.pause('6.e')
+        # ---- 7.a · A brief PS reminder on the existing combined-sellers graph.
+        self.play(FadeOut(pair_drop6), FadeOut(pair_q6))
+        self.play(sum_price.animate.set_value(4), run_time=1.5)
+        self.play(FadeIn(pair_drop4), FadeIn(pair_q4), pair_dot6.animate.set_opacity(0.35))
+        combined_rest = VGroup()
+        combined_ps = VGroup()
+        for left in np.arange(0, 8, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            cost_slice = Polygon(pair_ax.c2p(left, 0), pair_ax.c2p(right, 0),
+                                 pair_ax.c2p(right, 2 + 2 * right / 3),
+                                 pair_ax.c2p(left, 2 + 2 * left / 3))
+            cost_slice.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
+            combined_rest.add(cost_slice)
+            if left < 3:
+                ps_slice = Polygon(pair_ax.c2p(left, 2 + 2 * left / 3),
+                                   pair_ax.c2p(right, 2 + 2 * right / 3),
+                                   pair_ax.c2p(right, 4), pair_ax.c2p(left, 4),
+                                   color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1)
+                combined_ps.add(ps_slice)
+        self.remove(market_def)
+        market_ps_def = Tex(r'\mbox{ {{Producer Surplus}} is above supply and below price, over the quantity sold.}',
+                            tex_to_color_map={'Producer Surplus': DEFINITION})
+        market_ps_def.scale(DEFINITION_SCALE)
+        market_ps_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(combined_rest), FadeIn(combined_ps), FadeIn(market_ps_def))
+        self.bring_to_front(pair_curve, common_price, pair_drop4, pair_dot4)
+        self.pause('7.a')
+        for mob in self.mobjects:
+            mob.clear_updaters()
+        self.remove(sum_price)
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+
+        # ---- 8.a · Bring the two sides together next time.
+        head = title('What determines the price?')
+        closing_axes = VGroup()
+        closing_axis_labels = VGroup()
+        for center in [-3.7, 3.7]:
+            closing_ax = style_axes([0, 8, 2], [0, 8, 2], x_length=5, y_length=4.3)
+            closing_ax.shift(np.array([center, -0.2, 0])
+                             - (closing_ax.c2p(0, 0) + closing_ax.c2p(8, 8)) / 2)
+            closing_axes.add(closing_ax)
+            closing_axis_labels.add(
+                Tex('P', color=INK).scale(0.8).next_to(closing_ax.c2p(0, 8), LEFT, buff=0.25),
+                Tex('Q', color=INK).scale(0.8).next_to(closing_ax.c2p(8, 0), DOWN, buff=0.35))
+        demand_ax, supply_ax = closing_axes
+        demand_name = Tex('Demand', color=INK).scale(0.8).move_to([-3.7, 2.5, 0])
+        supply_name = Tex('Supply', color=INK).scale(0.8).move_to([3.7, 2.5, 0])
+        demand_curve = Line(demand_ax.c2p(0, 8), demand_ax.c2p(8, 0), color=DEMAND, z_index=3)
+        supply_curve = Line(supply_ax.c2p(0, 2), supply_ax.c2p(6, 8), color=SUPPLY, z_index=3)
+        next_time = Tex('Next time...', color=DEFINITION).scale(0.9).to_edge(DOWN, buff=0.25)
+
+        # One price moves both decisions; keep the closing teaser qualitative.
+        closing_price = ValueTracker(4.5)
+        closing_grey = VGroup()
+        closing_cs = VGroup()
+        closing_ps = VGroup()
+
+        # Demand: grey below price; teal between price and willingness to pay.
+        for left in np.arange(0, 8, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            edge = np.clip(8 - closing_price.get_value(), left, right)
+            grey = Polygon(
+                demand_ax.c2p(left, 0), demand_ax.c2p(right, 0),
+                demand_ax.c2p(right, min(4.5, 8 - right)), demand_ax.c2p(edge, min(4.5, 8 - edge)),
+                demand_ax.c2p(left, min(4.5, 8 - left)))
+            grey.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
+            grey.add_updater(lambda bar, left=left, right=right: bar.set_points_as_corners([
+                demand_ax.c2p(left, 0), demand_ax.c2p(right, 0),
+                demand_ax.c2p(right, min(closing_price.get_value(), 8 - right)),
+                demand_ax.c2p(np.clip(8 - closing_price.get_value(), left, right),
+                              min(closing_price.get_value(), 8 - np.clip(8 - closing_price.get_value(), left, right))),
+                demand_ax.c2p(left, min(closing_price.get_value(), 8 - left)), demand_ax.c2p(left, 0)]))
+            closing_grey.add(grey)
+            cs = Polygon(demand_ax.c2p(left, 4.5), demand_ax.c2p(edge, 4.5),
+                         demand_ax.c2p(edge, max(4.5, 8 - edge)), demand_ax.c2p(left, max(4.5, 8 - left)),
+                         color=DEMAND, fill_opacity=AREA_OPACITY, stroke_width=1, z_index=1)
+            cs.add_updater(lambda bar, left=left, right=right: bar.set_points_as_corners([
+                demand_ax.c2p(left, closing_price.get_value()),
+                demand_ax.c2p(np.clip(8 - closing_price.get_value(), left, right), closing_price.get_value()),
+                demand_ax.c2p(np.clip(8 - closing_price.get_value(), left, right),
+                              max(closing_price.get_value(), 8 - np.clip(8 - closing_price.get_value(), left, right))),
+                demand_ax.c2p(left, max(closing_price.get_value(), 8 - left)),
+                demand_ax.c2p(left, closing_price.get_value())]))
+            closing_cs.add(cs)
+
+        # Supply: grey costs stay under the curve; orange PS reaches the price.
+        for left in np.arange(0, 6, SLICE_WIDTH):
+            right = left + SLICE_WIDTH
+            edge = np.clip(closing_price.get_value() - 2, left, right)
+            grey = Polygon(supply_ax.c2p(left, 0), supply_ax.c2p(right, 0),
+                           supply_ax.c2p(right, 2 + right), supply_ax.c2p(left, 2 + left))
+            grey.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
+            closing_grey.add(grey)
+            ps = Polygon(supply_ax.c2p(left, min(4.5, 2 + left)), supply_ax.c2p(edge, min(4.5, 2 + edge)),
+                         supply_ax.c2p(edge, 4.5), supply_ax.c2p(left, 4.5),
+                         color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1, z_index=1)
+            ps.add_updater(lambda bar, left=left, right=right: bar.set_points_as_corners([
+                supply_ax.c2p(left, min(closing_price.get_value(), 2 + left)),
+                supply_ax.c2p(np.clip(closing_price.get_value() - 2, left, right),
+                              min(closing_price.get_value(), 2 + np.clip(closing_price.get_value() - 2, left, right))),
+                supply_ax.c2p(np.clip(closing_price.get_value() - 2, left, right), closing_price.get_value()),
+                supply_ax.c2p(left, closing_price.get_value()),
+                supply_ax.c2p(left, min(closing_price.get_value(), 2 + left))]))
+            closing_ps.add(ps)
+
+        closing_price_line = DashedLine(demand_ax.c2p(0, 4.5), supply_ax.c2p(8, 4.5),
+                                        color=GUIDE, z_index=10).set_opacity(0.6)
+        closing_price_label = Tex('Price', color=GUIDE).scale(0.7)
+        closing_price_label.next_to(demand_ax.c2p(0, 4.5), LEFT, buff=0.3)
+        demand_dot = Dot(demand_ax.c2p(3.5, 4.5), color=GUIDE, z_index=11)
+        supply_dot = Dot(supply_ax.c2p(2.5, 4.5), color=GUIDE, z_index=11)
+        demand_drop = DashedLine(demand_ax.c2p(3.5, 4.5), demand_ax.c2p(3.5, 0),
+                                 color=GUIDE, z_index=10).set_opacity(0.6)
+        supply_drop = DashedLine(supply_ax.c2p(2.5, 4.5), supply_ax.c2p(2.5, 0),
+                                 color=GUIDE, z_index=10).set_opacity(0.6)
+        demand_quantity = Tex('$Q_d$', color=GUIDE).scale(0.8)
+        demand_quantity.next_to(demand_ax.c2p(3.5, 0), DOWN, buff=0.45)
+        supply_quantity = Tex('$Q_s$', color=GUIDE).scale(0.8)
+        supply_quantity.next_to(supply_ax.c2p(2.5, 0), DOWN, buff=0.45)
+        self.play(FadeIn(head), FadeIn(closing_axes), FadeIn(closing_axis_labels),
+                  FadeIn(demand_name), FadeIn(supply_name), FadeIn(demand_curve), FadeIn(supply_curve),
+                  FadeIn(next_time))
+        self.play(FadeIn(closing_price_line), FadeIn(closing_price_label),
+                  FadeIn(demand_dot), FadeIn(supply_dot), FadeIn(demand_drop), FadeIn(supply_drop),
+                  FadeIn(demand_quantity), FadeIn(supply_quantity))
+        self.play(FadeIn(closing_grey), FadeIn(closing_cs), FadeIn(closing_ps))
+        closing_price_line.add_updater(lambda line: line.set_y(demand_ax.c2p(0, closing_price.get_value())[1]))
+        closing_price_label.add_updater(lambda label: label.next_to(
+            demand_ax.c2p(0, closing_price.get_value()), LEFT, buff=0.3))
+        demand_dot.add_updater(lambda dot: dot.move_to(
+            demand_ax.c2p(8 - closing_price.get_value(), closing_price.get_value())))
+        supply_dot.add_updater(lambda dot: dot.move_to(
+            supply_ax.c2p(closing_price.get_value() - 2, closing_price.get_value())))
+        demand_drop.add_updater(lambda line: line.become(DashedLine(
+            demand_ax.c2p(8 - closing_price.get_value(), closing_price.get_value()),
+            demand_ax.c2p(8 - closing_price.get_value(), 0), color=GUIDE, z_index=10).set_opacity(0.6)))
+        supply_drop.add_updater(lambda line: line.become(DashedLine(
+            supply_ax.c2p(closing_price.get_value() - 2, closing_price.get_value()),
+            supply_ax.c2p(closing_price.get_value() - 2, 0), color=GUIDE, z_index=10).set_opacity(0.6)))
+        demand_quantity.add_updater(lambda label: label.next_to(
+            demand_ax.c2p(8 - closing_price.get_value(), 0), DOWN, buff=0.45))
+        supply_quantity.add_updater(lambda label: label.next_to(
+            supply_ax.c2p(closing_price.get_value() - 2, 0), DOWN, buff=0.45))
+        self.play(closing_price.animate.set_value(5.5), run_time=1.5)
+        self.play(closing_price.animate.set_value(3.5), run_time=2)
+        self.play(closing_price.animate.set_value(4.5), run_time=1.5)
+        self.pause('8.a')
