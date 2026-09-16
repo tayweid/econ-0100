@@ -455,6 +455,14 @@ available space.
    pauses, and the state left for the next beat. Work out the arithmetic and
    layout here. Keep a record of which existing components are preserved and
    identify proposed cuts rather than silently omitting them.
+   **Keep the storyboard current as the animation changes.** Update
+   `02_Storyboard.md` in the same pass as every change to `03_Code.py`, including
+   Taylor's review corrections. Record the implemented wording, geometry,
+   tracker values, reveal order, pauses, and transitions, not an abandoned plan.
+   When approved animation changes run ahead of the notes, mark the remaining
+   notes reconciliation in the storyboard. Leave `01_Notes.md` and its stage
+   directions untouched until Taylor asks to reconcile them; do not delay
+   updating the storyboard while waiting for that prose pass.
 5. **Delegate implementation, not interpretation.** Taylor's preferred division
    is lead animator for understanding, storyboard, orchestration, and review;
    Opus subagents for implementation when available. Give each delegated beat
