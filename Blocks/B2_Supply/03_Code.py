@@ -21,7 +21,8 @@ class EpisodeB2(Scene):
         self.camera.fps = 15
         GRAPH_AT = np.array([-2.6, 0.15, 0])
         REST_OPACITY = 0.10
-        SLICE_WIDTH = 0.1  # Shared by every graph; ten slices make the first ton.
+        SLICE_WIDTH = 0.1  # Keep the existing picture: one supply slice now represents 1 kg.
+        KG_PER_GRAPH_UNIT = 10  # c2p coordinates stay unchanged; Q labels are in kilograms.
         DEFINITION_BOTTOM = 0.05  # Tiny margin beneath the bottom definition line.
         DEFINITION_SCALE = 0.7443  # Same text size as the first Quantity Supplied definition.
 
@@ -92,11 +93,14 @@ class EpisodeB2(Scene):
             y_axis_config={'numbers_to_include': [2, 4, 6, 8],
                            'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}}).scale(0.8)
         ax.shift(GRAPH_AT - (ax.c2p(0, 0) + ax.c2p(6, 8.5)) / 2)
+        for number in ax.x_axis.numbers:
+            number_center = number.get_center()
+            number.set_value(number.get_value() * KG_PER_GRAPH_UNIT).move_to(number_center)
         p_lab = Tex('P', color=INK).next_to(ax.c2p(0, 8.5), LEFT, buff=0.25)
         q_lab = Tex('Q', color=INK).next_to(ax.c2p(6, 0), DOWN, buff=0.35)
-        p_units = Tex(r'\textsf{dollars per ton}', color=CAPTION).scale(0.7)
+        p_units = Tex(r'\textsf{dollars per kg}', color=CAPTION).scale(0.7)
         p_units.next_to(p_lab, RIGHT, buff=0.35)
-        q_units = Tex(r'\textsf{tons per year}', color=CAPTION).scale(0.7)
+        q_units = Tex(r'\textsf{kilograms}', color=CAPTION).scale(0.7)
         q_units.next_to(q_lab, RIGHT, buff=0.3)
         farm = Rectangle(width=4.5, height=2.6, color=INK, stroke_width=2).move_to([4.15, 0.45, 0])
         farm_name = Tex("Molly's farm", color=INK).next_to(farm, UP, buff=0.3)
@@ -107,7 +111,7 @@ class EpisodeB2(Scene):
             [1.9, -0.85, 0], [1.9 + 0.75 * max(0, farm_price.get_value() - 2), -0.85, 0],
             [1.9 + 0.75 * max(0, farm_price.get_value() - 2), 1.75, 0], [1.9, 1.75, 0], [1.9, -0.85, 0]]))
         spinach_label = Tex('Spinach', color=SPINACH).scale(0.8).next_to(spinach, DOWN, buff=0.25)
-        farm_q = VGroup(Tex('$Q_s=$'), DecimalNumber(2, num_decimal_places=2))
+        farm_q = VGroup(Tex('$Q_s=$'), DecimalNumber(20, num_decimal_places=0))
         farm_q.arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE).next_to(ax.c2p(2, 0), DOWN, buff=0.6)
         asking_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
         asking_number.next_to(ax.c2p(0, 4), LEFT, buff=0.6)
@@ -119,7 +123,7 @@ class EpisodeB2(Scene):
         asking_number.add_updater(lambda number: number.set_value(farm_price.get_value())
                                  .next_to(ax.c2p(0, farm_price.get_value()), LEFT, buff=0.6))
         asking_word.add_updater(lambda word: word.next_to(asking_number, LEFT, buff=0.04))
-        farm_q[1].add_updater(lambda number: number.set_value(max(0, farm_price.get_value() - 2)))
+        farm_q[1].add_updater(lambda number: number.set_value(KG_PER_GRAPH_UNIT * max(0, farm_price.get_value() - 2)))
         farm_q.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
                            .next_to(ax.c2p(max(0, farm_price.get_value() - 2), 0), DOWN, buff=0.6))
         spinach_label.add_updater(lambda label: label.next_to(spinach, DOWN, buff=0.25)
@@ -149,7 +153,7 @@ class EpisodeB2(Scene):
         farm_dot.add_updater(lambda dot: dot.move_to(ax.c2p(max(0, farm_price.get_value() - 2), farm_price.get_value())))
         self.pause('2.b')
 
-        # ---- 2.d · $6 makes four tons worthwhile.
+        # ---- 2.d · $6 makes 40 kg worthwhile.
         self.play(farm_price.animate.set_value(6), run_time=1.5)
         point = Dot(ax.c2p(4, 6), color=SUPPLY, z_index=11)
         points.add(point)
@@ -196,7 +200,7 @@ class EpisodeB2(Scene):
         self.play(FadeOut(farm), FadeOut(farm_name),
                   FadeOut(spinach), FadeOut(spinach_label), FadeOut(points))
         self.remove(law_def)
-        equation = Tex('$P=2+Q_s$', isolate=['2']).scale(0.9).move_to(ax.c2p(2.9, 7.5))
+        equation = Tex('$P=2+Q_s/10$', isolate=['2']).scale(0.9).move_to(ax.c2p(2.9, 7.5))
         s_lab = Tex('S').next_to(ax.c2p(6, 8), RIGHT, buff=0.15)
         rest_bars = VGroup()
         for left in np.arange(0, 6, SLICE_WIDTH):
@@ -242,9 +246,9 @@ class EpisodeB2(Scene):
         MATH_AT = np.array([(divider_x + FRAME_W / 2 - 0.6) / 2, 0.7, 0])
         math_divider = Line([divider_x, -3, 0], [divider_x, 3, 0], color=MUTED, stroke_width=1)
         math_divider.set_opacity(0.5)
-        substitution = VGroup(Tex('$5$', color=GUIDE), Tex('$=2+Q_s$', tex_to_color_map={'Q_s': GUIDE}))
-        rearrange = Tex('$Q_s=5-2$', tex_to_color_map={'Q_s': GUIDE, '5': GUIDE})
-        answer = VGroup(Tex('$Q_s=$'), Tex('$3$')).set_color(GUIDE)
+        substitution = VGroup(Tex('$5$', color=GUIDE), Tex('$=2+Q_s/10$', tex_to_color_map={'Q_s': GUIDE}))
+        rearrange = Tex('$Q_s=10(5-2)$', tex_to_color_map={'Q_s': GUIDE, '5': GUIDE})
+        answer = VGroup(Tex('$Q_s=$'), Tex('$30$')).set_color(GUIDE)
         substitution.arrange(RIGHT, buff=0.12)
         answer.arrange(RIGHT, buff=0.12)
         work = VGroup(substitution, rearrange, answer).scale(0.8)
@@ -253,7 +257,7 @@ class EpisodeB2(Scene):
                   TransformFromCopy(price_number.copy().clear_updaters(), substitution[0]), FadeIn(substitution[1]))
         self.play(FadeIn(rearrange))
         self.play(FadeIn(answer))
-        q_answer = VGroup(Tex('$Q_s=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        q_answer = VGroup(Tex('$Q_s=$'), Tex('$30$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
         q_answer.move_to(question)
         self.play(FadeOut(question), FadeIn(q_answer[0]), TransformFromCopy(answer[1], q_answer[1]),
                   ax.x_axis.numbers[2].animate.set_opacity(1))
@@ -266,10 +270,10 @@ class EpisodeB2(Scene):
         self.play(FadeIn(question))
         self.pause('3.c')
 
-        # ---- 3.d · Fractional spinach is allowed.
-        substitution = VGroup(Tex('$4.50$', color=GUIDE), Tex('$=2+Q_s$', tex_to_color_map={'Q_s': GUIDE}))
-        rearrange = Tex('$Q_s=4.50-2$', tex_to_color_map={'Q_s': GUIDE, '4.50': GUIDE})
-        answer = VGroup(Tex('$Q_s=$'), Tex('$2.5$')).set_color(GUIDE)
+        # ---- 3.d · $4.50 gives a quantity of 25 kg.
+        substitution = VGroup(Tex('$4.50$', color=GUIDE), Tex('$=2+Q_s/10$', tex_to_color_map={'Q_s': GUIDE}))
+        rearrange = Tex('$Q_s=10(4.50-2)$', tex_to_color_map={'Q_s': GUIDE, '4.50': GUIDE})
+        answer = VGroup(Tex('$Q_s=$'), Tex('$25$')).set_color(GUIDE)
         substitution.arrange(RIGHT, buff=0.12)
         answer.arrange(RIGHT, buff=0.12)
         work = VGroup(substitution, rearrange, answer).scale(0.8)
@@ -277,7 +281,7 @@ class EpisodeB2(Scene):
         self.play(TransformFromCopy(price_number.copy().clear_updaters(), substitution[0]), FadeIn(substitution[1]))
         self.play(FadeIn(rearrange))
         self.play(FadeIn(answer))
-        q_answer = VGroup(Tex('$Q_s=$'), Tex('$2.5$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        q_answer = VGroup(Tex('$Q_s=$'), Tex('$25$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
         q_answer.move_to(question)
         self.play(FadeOut(question), FadeIn(q_answer[0]), TransformFromCopy(answer[1], q_answer[1]))
         self.pause('3.d')
@@ -289,15 +293,15 @@ class EpisodeB2(Scene):
         self.play(FadeOut(price_source), FadeOut(h_guide), FadeOut(v_guide),
                   FadeOut(read_dot), FadeOut(q_answer), FadeOut(work), FadeOut(math_divider))
 
-        # ---- 3.e · MC is a height for the next small addition, not a ton's area.
+        # ---- 3.e · MC is a height for the next small addition, not total cost.
         self.remove(head)
         head = title('Which spinach is worth growing?')
         mc_def = Tex(r'\mbox{ {{Marginal Cost}} is the cost of producing one additional unit.}',
                      tex_to_color_map={'Marginal Cost': DEFINITION})
         mc_def.scale(DEFINITION_SCALE)
         mc_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        read_quantity = ValueTracker(1)
-        q_source = VGroup(Tex('$Q_s=$'), DecimalNumber(1, num_decimal_places=0))
+        read_quantity = ValueTracker(1)  # Graph coordinate 1 represents 10 kg.
+        q_source = VGroup(Tex('$Q_s=$'), DecimalNumber(10, num_decimal_places=0))
         q_source.arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE).next_to(ax.c2p(1, 0), DOWN, buff=0.6)
         mc_v = DashedLine(ax.c2p(1, 0), ax.c2p(1, 3), color=GUIDE, z_index=10).set_opacity(0.5)
         mc_h = DashedLine(ax.c2p(1, 3), ax.c2p(0, 3), color=GUIDE, z_index=10).set_opacity(0.5)
@@ -307,7 +311,7 @@ class EpisodeB2(Scene):
         self.play(FadeIn(mc_v))
         self.play(FadeIn(mc_h), FadeIn(mc_dot), FadeIn(mc_question))
         self.play(FadeIn(mc_def))
-        q_source[1].add_updater(lambda number: number.set_value(read_quantity.get_value()))
+        q_source[1].add_updater(lambda number: number.set_value(KG_PER_GRAPH_UNIT * read_quantity.get_value()))
         q_source.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
                              .next_to(ax.c2p(read_quantity.get_value(), 0), DOWN, buff=0.6))
         mc_v.add_updater(lambda line: line.become(DashedLine(
@@ -319,8 +323,9 @@ class EpisodeB2(Scene):
         mc_dot.add_updater(lambda dot: dot.move_to(ax.c2p(read_quantity.get_value(), 2 + read_quantity.get_value())))
         self.pause('3.e')
 
-        # ---- 3.f · At Q=1, MC is $3 per ton.
-        substitution = VGroup(Tex('$P=2+$', tex_to_color_map={'P': GUIDE}), Tex('$1$', color=GUIDE))
+        # ---- 3.f · At Q=10 kg, MC is $3 per kg.
+        substitution = VGroup(Tex('$P=2+$', tex_to_color_map={'P': GUIDE}),
+                             Tex('$10$', color=GUIDE), Tex('$/10$'))
         answer = VGroup(Tex('$P=$'), Tex(r'\$3.00')).set_color(GUIDE)
         substitution.arrange(RIGHT, buff=0.12)
         answer.arrange(RIGHT, buff=0.12)
@@ -328,7 +333,7 @@ class EpisodeB2(Scene):
         work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT)
         math_divider.set_opacity(0.5)
         self.play(FadeIn(math_divider), FadeIn(substitution[0]),
-                  TransformFromCopy(q_source[1].copy().clear_updaters(), substitution[1]))
+                  TransformFromCopy(q_source[1].copy().clear_updaters(), substitution[1]), FadeIn(substitution[2]))
         self.play(FadeIn(answer))
         mc_answer = VGroup(Tex('$MC=$'), Tex(r'\$3.00')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
         mc_answer.move_to(mc_question)
@@ -351,7 +356,7 @@ class EpisodeB2(Scene):
         self.play(FadeIn(comparison))
         self.pause('3.j')
 
-        # ---- 3.k · Beyond Q=2, adding more costs more than it brings in.
+        # ---- 3.k · Beyond Q=20 kg, adding more costs more than it brings in.
         self.play(FadeOut(comparison), read_quantity.animate.set_value(3), run_time=1.5)
         comparison = Tex('$MC>P$', color=GUIDE).scale(0.8).move_to(MATH_AT)
         self.play(FadeIn(comparison))
@@ -396,7 +401,7 @@ class EpisodeB2(Scene):
         opportunity_word.add_updater(lambda word: word.next_to(opportunity_number, LEFT, buff=0.04))
         offer_line.add_updater(lambda line: line.set_y(ax.c2p(0, opportunity_price.get_value())[1]))
         q_source[1].num_decimal_places = 2
-        q_source[1].add_updater(lambda number: number.set_value(opportunity_price.get_value() - 2))
+        q_source[1].add_updater(lambda number: number.set_value(KG_PER_GRAPH_UNIT * (opportunity_price.get_value() - 2)))
         q_source.add_updater(lambda group: group.arrange(RIGHT, buff=0.12)
                             .next_to(ax.c2p(opportunity_price.get_value() - 2, 0), DOWN, buff=0.6))
         mc_v.add_updater(lambda line: line.become(DashedLine(
@@ -509,11 +514,12 @@ class EpisodeB2(Scene):
                                 color=MUTED, stroke_width=2, fill_opacity=0.2)
             wide_cost_line = Line([close_left, cost_y, 0], [close_right, cost_y, 0],
                                   color=SUPPLY, stroke_width=3, z_index=10)
+            unit_label = Tex('1 kg', color=INK).scale(0.7).next_to(wide_grey, DOWN, buff=0.25)
             self.add(cost_line)
             self.play(FadeOut(surroundings), Transform(selected_bar, wide_grey),
-                      Transform(cost_line, wide_cost_line), run_time=0.8)
+                      Transform(cost_line, wide_cost_line), FadeIn(unit_label), run_time=0.8)
 
-            # First show what this exchange brings in. No quantity units or totals yet.
+            # First show what this exchange brings in. Keep the 1 kg cue; omit dollar totals.
             single_revenue = Polygon([close_left, base_y, 0], [close_right, base_y, 0],
                                      [close_right, price_y, 0], [close_left, price_y, 0],
                                      color=INK, stroke_width=2, fill_opacity=0)
@@ -584,7 +590,7 @@ class EpisodeB2(Scene):
                 self.remove(close_price)
 
             # Return in one move: shrink the bar as the full graph fades back in.
-            self.play(FadeOut(revenue_label), FadeOut(cost_label), FadeOut(surplus_label), FadeOut(mc_label), run_time=0.4)
+            self.play(FadeOut(revenue_label), FadeOut(cost_label), FadeOut(surplus_label), FadeOut(mc_label), FadeOut(unit_label), run_time=0.4)
             narrow_revenue = Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 5), ax.c2p(left, 5),
                                      color=INK, fill_opacity=0, stroke_width=1)
             narrow_cost = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
@@ -647,10 +653,10 @@ class EpisodeB2(Scene):
         self.pause('4.g')
 
         # ---- 4.g.1 · Carry price into the equation, then quantity back to the graph.
-        ps_substitution = VGroup(Tex('$5$', color=GUIDE), Tex('$=2+Q_s$', tex_to_color_map={'Q_s': GUIDE}))
+        ps_substitution = VGroup(Tex('$5$', color=GUIDE), Tex('$=2+Q_s/10$', tex_to_color_map={'Q_s': GUIDE}))
         ps_substitution.arrange(RIGHT, buff=0.12)
-        ps_rearrange = Tex('$Q_s=5-2$', tex_to_color_map={'Q_s': GUIDE, '5': GUIDE})
-        ps_answer = VGroup(Tex('$Q_s=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).set_color(GUIDE)
+        ps_rearrange = Tex('$Q_s=10(5-2)$', tex_to_color_map={'Q_s': GUIDE, '5': GUIDE})
+        ps_answer = VGroup(Tex('$Q_s=$'), Tex('$30$')).arrange(RIGHT, buff=0.12).set_color(GUIDE)
         ps_work = VGroup(ps_substitution, ps_rearrange, ps_answer).scale(0.8)
         ps_work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT)
         math_divider.set_opacity(0.5)
@@ -658,7 +664,7 @@ class EpisodeB2(Scene):
                   FadeIn(ps_substitution[1]))
         self.play(FadeIn(ps_rearrange))
         self.play(FadeIn(ps_answer))
-        ps_quantity = VGroup(Tex('$Q_s=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        ps_quantity = VGroup(Tex('$Q_s=$'), Tex('$30$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
         ps_quantity.move_to(ps_question)
         self.play(FadeOut(ps_question), FadeIn(ps_quantity[0]), TransformFromCopy(ps_answer[1], ps_quantity[1]),
                   ax.x_axis.numbers[2].animate.set_opacity(1))
@@ -709,20 +715,20 @@ class EpisodeB2(Scene):
         self.play(FadeOut(height_difference), FadeOut(height_answer), FadeOut(intercept_label), FadeOut(intercept_dot),
                   intercept_term.animate.set_color(INK), ax.y_axis.numbers[0].animate.set_opacity(1))
         b_bar = Line(ax.c2p(0, 0), ax.c2p(3, 0), color=FOCUS, stroke_width=4, z_index=20)
-        b_label = VGroup(Tex('$b=$'), Tex('$3$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        b_label = VGroup(Tex('$b=$'), Tex('$30$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
         b_label.next_to(ax.c2p(1.5, 0), UP, buff=0.15)
         self.play(FadeIn(b_bar), FadeIn(b_label[0]), TransformFromCopy(ps_quantity[1], b_label[1]))
         self.pause('4.k')
 
         # ---- 4.l · Fill the two slots; do not rewrite the prefix.
         h_value = Tex('$(3)$', color=FOCUS).scale(0.8)
-        b_value = Tex('$(3)$', color=FOCUS).scale(0.8)
+        b_value = Tex('$(30)$', color=FOCUS).scale(0.8)
         # Lay out the longer equation, then slide the existing prefix into position.
         filled_area = VGroup(area[0].copy(), h_value, b_value).arrange(RIGHT, buff=0.15).move_to(MATH_AT)
         self.play(area[0].animate.move_to(filled_area[0]), FadeOut(area[1]),
                   area[2].animate.move_to(b_value), TransformFromCopy(h_label[1], h_value))
         self.play(FadeOut(area[2]), TransformFromCopy(b_label[1], b_value))
-        area_answer = Tex(r'$=\$4.50$').scale(0.8).next_to(filled_area, DOWN, buff=0.35)
+        area_answer = Tex(r'$=\$45.00$').scale(0.8).next_to(filled_area, DOWN, buff=0.35)
         self.play(FadeIn(area_answer))
         self.pause('4.l')
 
@@ -762,6 +768,9 @@ class EpisodeB2(Scene):
                 y_axis_config={'numbers_to_include': [2, 4, 6, 8],
                                'decimal_number_config': {'num_decimal_places': 0, 'color': MUTED}})
             small_ax.shift(np.array([center, -0.1, 0]) - (small_ax.c2p(0, 0) + small_ax.c2p(8, 8.5)) / 2)
+            for number in small_ax.x_axis.numbers:
+                number_center = number.get_center()
+                number.set_value(number.get_value() * KG_PER_GRAPH_UNIT).move_to(number_center)
             sum_axes.add(small_ax)
             name_label = Tex(name, color=color).scale(0.8).move_to([center, 2.4, 0])
             sum_names.add(name_label)
@@ -770,8 +779,8 @@ class EpisodeB2(Scene):
         molly_ax, andrew_ax, pair_ax = sum_axes
         molly_curve = Line(molly_ax.c2p(0, 2), molly_ax.c2p(6, 8), color=MOLLY, z_index=3)
         andrew_curve = Line(andrew_ax.c2p(0, 2), andrew_ax.c2p(3, 8), color=ANDREW, z_index=3)
-        molly_eq = Tex('$P=2+Q_s$').scale(0.7).move_to([-5, 1.9, 0])
-        andrew_eq = Tex('$P=2+2Q_s$').scale(0.7).move_to([0, 1.9, 0])
+        molly_eq = Tex('$P=2+Q_s/10$').scale(0.7).move_to([-5, 1.9, 0])
+        andrew_eq = Tex('$P=2+Q_s/5$').scale(0.7).move_to([0, 1.9, 0])
         sum_price = ValueTracker(4)
         common_price = DashedLine(molly_ax.c2p(0, 4), pair_ax.c2p(8, 4), color=GUIDE, z_index=10).set_opacity(0.45)
         common_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.7)
@@ -781,9 +790,9 @@ class EpisodeB2(Scene):
         andrew_dot = Dot(andrew_ax.c2p(1, 4), color=GUIDE, z_index=11)
         molly_drop = DashedLine(molly_ax.c2p(2, 4), molly_ax.c2p(2, 0), color=GUIDE, z_index=10).set_opacity(0.6)
         andrew_drop = DashedLine(andrew_ax.c2p(1, 4), andrew_ax.c2p(1, 0), color=GUIDE, z_index=10).set_opacity(0.6)
-        molly_q = DecimalNumber(2, num_decimal_places=0, color=GUIDE).scale(0.8)
+        molly_q = DecimalNumber(20, num_decimal_places=0, color=GUIDE).scale(0.8)
         molly_q.next_to(molly_ax.c2p(2, 0), DOWN, buff=0.6)
-        andrew_q = DecimalNumber(1, num_decimal_places=0, color=GUIDE).scale(0.8)
+        andrew_q = DecimalNumber(10, num_decimal_places=0, color=GUIDE).scale(0.8)
         andrew_q.next_to(andrew_ax.c2p(1, 0), DOWN, buff=0.6)
         self.play(FadeIn(head), FadeIn(sum_axes), FadeIn(sum_names), FadeIn(sum_labels),
                   FadeIn(molly_curve), FadeIn(andrew_curve), FadeIn(molly_eq), FadeIn(andrew_eq))
@@ -801,14 +810,14 @@ class EpisodeB2(Scene):
         andrew_drop.add_updater(lambda line: line.become(DashedLine(
             andrew_ax.c2p((sum_price.get_value() - 2) / 2, sum_price.get_value()),
             andrew_ax.c2p((sum_price.get_value() - 2) / 2, 0), color=GUIDE, z_index=10).set_opacity(0.6)))
-        molly_q.add_updater(lambda number: number.set_value(sum_price.get_value() - 2)
+        molly_q.add_updater(lambda number: number.set_value(KG_PER_GRAPH_UNIT * (sum_price.get_value() - 2))
                            .next_to(molly_ax.c2p(sum_price.get_value() - 2, 0), DOWN, buff=0.6))
-        andrew_q.add_updater(lambda number: number.set_value((sum_price.get_value() - 2) / 2)
+        andrew_q.add_updater(lambda number: number.set_value(KG_PER_GRAPH_UNIT * (sum_price.get_value() - 2) / 2)
                             .next_to(andrew_ax.c2p((sum_price.get_value() - 2) / 2, 0), DOWN, buff=0.6))
         self.pause('6.a')
 
         # ---- 6.b · Put the addition at the combined quantity's axis position.
-        addition = VGroup(Tex('$2$', color=GUIDE), Tex('$+$'), Tex('$1$', color=GUIDE))
+        addition = VGroup(Tex('$20$', color=GUIDE), Tex('$+$'), Tex('$10$', color=GUIDE))
         addition.arrange(RIGHT, buff=0.12).scale(0.7).next_to(pair_ax.c2p(3, 0), DOWN, buff=0.6)
         self.play(TransformFromCopy(molly_q.copy().clear_updaters(), addition[0]),
                   TransformFromCopy(andrew_q.copy().clear_updaters(), addition[2]),
@@ -818,14 +827,14 @@ class EpisodeB2(Scene):
         # ---- 6.b.1 · Reveal the first horizontal sum.
         pair_dot4 = Dot(pair_ax.c2p(3, 4), color=SUPPLY, z_index=11)
         pair_drop4 = DashedLine(pair_ax.c2p(3, 4), pair_ax.c2p(3, 0), color=GUIDE, z_index=10).set_opacity(0.6)
-        pair_q4 = Tex('$Q_s=3$', color=GUIDE).scale(0.7).next_to(pair_ax.c2p(3, 0), DOWN, buff=0.6)
+        pair_q4 = Tex('$Q_s=30$', color=GUIDE).scale(0.7).next_to(pair_ax.c2p(3, 0), DOWN, buff=0.6)
         self.play(ReplacementTransform(addition, pair_q4), FadeIn(pair_dot4), FadeIn(pair_drop4))
         self.pause('6.b.1')
 
         # ---- 6.c · The shared price moves; both sellers' guides remain.
         self.play(FadeOut(pair_drop4), FadeOut(pair_q4))
         self.play(sum_price.animate.set_value(6), run_time=1.5)
-        addition = VGroup(Tex('$4$', color=GUIDE), Tex('$+$'), Tex('$2$', color=GUIDE))
+        addition = VGroup(Tex('$40$', color=GUIDE), Tex('$+$'), Tex('$20$', color=GUIDE))
         addition.arrange(RIGHT, buff=0.12).scale(0.7).next_to(pair_ax.c2p(6, 0), DOWN, buff=0.6)
         self.play(TransformFromCopy(molly_q.copy().clear_updaters(), addition[0]),
                   TransformFromCopy(andrew_q.copy().clear_updaters(), addition[2]),
@@ -835,7 +844,7 @@ class EpisodeB2(Scene):
         # ---- 6.d · This curve is the sum of these two sellers only.
         pair_dot6 = Dot(pair_ax.c2p(6, 6), color=SUPPLY, z_index=11)
         pair_drop6 = DashedLine(pair_ax.c2p(6, 6), pair_ax.c2p(6, 0), color=GUIDE, z_index=10).set_opacity(0.6)
-        pair_q6 = Tex('$Q_s=6$', color=GUIDE).scale(0.7).next_to(pair_ax.c2p(6, 0), DOWN, buff=0.6)
+        pair_q6 = Tex('$Q_s=60$', color=GUIDE).scale(0.7).next_to(pair_ax.c2p(6, 0), DOWN, buff=0.6)
         pair_curve = Line(pair_ax.c2p(0, 2), pair_ax.c2p(8, 2 + 16 / 3), color=SUPPLY)
         self.play(ReplacementTransform(addition, pair_q6), FadeIn(pair_dot6), FadeIn(pair_drop6))
         self.play(FadeIn(pair_curve))
