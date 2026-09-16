@@ -2,7 +2,7 @@
 # Episode B2 | Supply
 # Read top to bottom. Beat IDs match 02_Storyboard.md.
 # The bumper uses shared helpers; all other choreography lives in construct.
-# Exact sloping slices distinguish the cost of a ton from MC at its endpoint.
+# Flat midpoint bars keep each small production decision visible.
 
 from manim import *
 import numpy as np
@@ -201,8 +201,9 @@ class EpisodeB2(Scene):
         rest_bars = VGroup()
         for left in np.arange(0, 6, SLICE_WIDTH):
             right = left + SLICE_WIDTH
+            slice_mc = 2 + (left + right) / 2
             bar = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
-                          ax.c2p(right, 2 + right), ax.c2p(left, 2 + left))
+                          ax.c2p(right, slice_mc), ax.c2p(left, slice_mc))
             bar.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, REST_OPACITY)
             rest_bars.add(bar)
         self.play(FadeIn(equation), FadeIn(s_lab), FadeIn(rest_bars))
@@ -447,7 +448,7 @@ class EpisodeB2(Scene):
         self.play(stage.animate.set_opacity(0.05), FadeIn(card))
         self.pause('3.n')
 
-        # ---- 4.a · Restore the graph and offer $5 for the first ton.
+        # ---- 4.a · Restore the graph and offer $5.
         self.play(Restore(stage), FadeOut(card))
         self.remove(stage)
         self.add(*stage.submobjects)
@@ -490,8 +491,8 @@ class EpisodeB2(Scene):
             left = bar_index * SLICE_WIDTH
             right = left + SLICE_WIDTH
             close_left = ax.c2p(left, 0)[0]
-            close_right = close_left + 2.4
-            # Midpoint cost gives this linear slice the same area as its sloping version.
+            close_right = close_left + 3 * (ax.c2p(right, 0)[0] - close_left)
+            # Use the same flat midpoint cost before, during, and after the close-up.
             slice_mc = 2 + (left + right) / 2
             cost_y = ax.c2p(0, slice_mc)[1]
             selected_bar = rest_bars[bar_index]
@@ -501,7 +502,7 @@ class EpisodeB2(Scene):
                                   *revenue_bars, *cost_bars, *ps_bars)
             surroundings.save_state()
             cost_line = Line(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
-                             color=GOV, stroke_width=3, z_index=10)
+                             color=SUPPLY, stroke_width=3, z_index=10)
 
             # Keep the vertical axis and full price line; the curve becomes a cost line.
             self.play(FadeOut(surroundings), FadeIn(cost_line), run_time=0.6)
@@ -509,7 +510,7 @@ class EpisodeB2(Scene):
                                 [close_right, cost_y, 0], [close_left, cost_y, 0],
                                 color=MUTED, stroke_width=2, fill_opacity=0.2)
             wide_cost_line = Line([close_left, cost_y, 0], [close_right, cost_y, 0],
-                                  color=GOV, stroke_width=3, z_index=10)
+                                  color=SUPPLY, stroke_width=3, z_index=10)
             self.play(Transform(selected_bar, wide_grey), Transform(cost_line, wide_cost_line), run_time=0.8)
 
             # First show what this exchange brings in. No quantity units or totals yet.
@@ -522,7 +523,8 @@ class EpisodeB2(Scene):
             single_ps = Polygon([close_left, cost_y, 0], [close_right, cost_y, 0],
                                 [close_right, price_y, 0], [close_left, price_y, 0],
                                 color=SUPPLY, stroke_width=2, fill_opacity=AREA_OPACITY)
-            revenue_label = Tex('Revenue', color=INK).scale(0.8).next_to(single_revenue, UP, buff=0.3)
+            revenue_label = Tex('Revenue', color=INK).scale(0.8)
+            revenue_label.next_to(single_revenue.get_corner(UR), RIGHT, buff=0.35).shift(UP * 0.3)
             cost_label = Tex('Cost', color=GOV).scale(0.8).next_to(single_cost, RIGHT, buff=0.35)
             surplus_label = Tex('PS', color=SUPPLY).scale(0.8).next_to(single_ps, RIGHT, buff=0.35)
             mc_label = Tex('$MC$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, slice_mc), LEFT, buff=0.6)
@@ -549,7 +551,7 @@ class EpisodeB2(Scene):
                     [close_right, ax.c2p(0, close_price.get_value())[1], 0],
                     [close_left, ax.c2p(0, close_price.get_value())[1], 0], [close_left, base_y, 0]])
                     .set_stroke(opacity=float(close_price.get_value() >= slice_mc)))
-                revenue_label.add_updater(lambda label: label.next_to(single_revenue, UP, buff=0.3)
+                revenue_label.add_updater(lambda label: label.next_to(single_revenue.get_corner(UR), RIGHT, buff=0.35).shift(UP * 0.3)
                                           .set_opacity(float(close_price.get_value() >= slice_mc)))
                 single_cost.add_updater(lambda box: box.set_fill(opacity=AREA_OPACITY if close_price.get_value() >= slice_mc else 0)
                                         .set_stroke(opacity=float(close_price.get_value() >= slice_mc)))
@@ -580,66 +582,50 @@ class EpisodeB2(Scene):
                 single_ps.clear_updaters()
                 surplus_label.clear_updaters()
                 self.remove(close_price)
-                self.play(FadeOut(ps_def))
 
-            # Shrink back into the graph, restoring the exact sloping cost boundary.
+            # Shrink only the width; the cost boundary stays horizontal.
             self.play(FadeOut(revenue_label), FadeOut(cost_label), FadeOut(surplus_label), FadeOut(mc_label), run_time=0.4)
             narrow_revenue = Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 5), ax.c2p(left, 5),
                                      color=INK, fill_opacity=0, stroke_width=1)
             narrow_cost = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
-                                  ax.c2p(right, 2 + right), ax.c2p(left, 2 + left),
+                                  ax.c2p(right, slice_mc), ax.c2p(left, slice_mc),
                                   color=GOV, fill_opacity=AREA_OPACITY, stroke_width=1)
-            narrow_ps = Polygon(ax.c2p(left, 2 + left), ax.c2p(right, 2 + right),
+            narrow_ps = Polygon(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
                                 ax.c2p(right, 5), ax.c2p(left, 5),
                                 color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1)
-            narrow_cost_line = Line(ax.c2p(left, 2 + left), ax.c2p(right, 2 + right),
-                                    color=GOV, stroke_width=1, z_index=10)
+            narrow_cost_line = Line(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
+                                    color=SUPPLY, stroke_width=1, z_index=10)
             self.play(Restore(selected_bar), Transform(single_revenue, narrow_revenue),
                       Transform(single_cost, narrow_cost), Transform(single_ps, narrow_ps),
                       Transform(cost_line, narrow_cost_line), run_time=0.8)
-            self.play(Restore(surroundings), FadeOut(cost_line), run_time=0.6)
-            self.remove(surroundings)
-            self.add(*surroundings.submobjects)
             revenue_bars.add(single_revenue)
             cost_bars.add(single_cost)
             ps_bars.add(single_ps)
+            self.play(Restore(surroundings), FadeOut(cost_line), run_time=0.6)
+            self.remove(surroundings)
+            self.add(*surroundings.submobjects)
             self.bring_to_front(supply, ps_price_line)
-            self.pause(f'4.return.{bar_index + 1}')
+            if bar_index < round(1 / SLICE_WIDTH) - 1:
+                self.pause(f'4.return.{bar_index + 1}')
 
-        # ---- 4.b · Now add up the ten completed bars: one ton of revenue.
+        # ---- 4.e · Continue directly: cost, then PS for each remaining bar.
         self.remove(ax.x_axis, ax.y_axis)
         self.add(ax)
-        revenue_math = Tex(r'Revenue $= \$5.00$').scale(0.8).move_to(MATH_AT + UP * 0.8)
-        ton_brace = Brace(Line(ax.c2p(0, 5), ax.c2p(1, 5)), UP, buff=0.16, color=INK)
-        ton_label = Tex('1 ton', color=INK).scale(0.7).next_to(ton_brace, UP, buff=0.12)
-        math_divider.set_opacity(0.5)
-        self.play(FadeIn(math_divider), FadeIn(revenue_math), FadeIn(ton_brace), FadeIn(ton_label))
-        self.pause('4.b')
-
-        # ---- 4.c · The first ton's cost is the sum of its narrow cost areas.
-        cost_math = Tex(r'Cost $= \$2.50$', color=GOV).scale(0.8).move_to(MATH_AT)
-        self.play(FadeIn(cost_math))
-        self.pause('4.c')
-
-        # ---- 4.d · The same revenue rectangle contains cost and surplus.
-        ps_math = Tex(r'PS $= \$2.50$', color=SUPPLY).scale(0.8).move_to(MATH_AT + DOWN * 0.8)
-        ps_def.set_opacity(1)
-        self.play(FadeIn(ps_math), FadeIn(ps_def))
-        self.pause('4.d')
-
-        # ---- 4.e · Complete each narrow slice: cost, then PS, then the next slice.
-        self.play(FadeOut(revenue_math), FadeOut(cost_math), FadeOut(ps_math), FadeOut(math_divider),
-                  FadeOut(ton_brace), FadeOut(ton_label))
         for left in np.arange(1, 3, SLICE_WIDTH):
             right = left + SLICE_WIDTH
+            slice_mc = 2 + (left + right) / 2
             revenue = Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 5), ax.c2p(left, 5),
                               color=INK, fill_opacity=0, stroke_width=1)
             cost = Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
-                           ax.c2p(right, 2 + right), ax.c2p(left, 2 + left),
+                           ax.c2p(right, slice_mc), ax.c2p(left, slice_mc),
                            color=GOV, fill_opacity=AREA_OPACITY, stroke_width=1)
-            gained = Polygon(ax.c2p(left, 2 + left), ax.c2p(right, 2 + right),
+            gained = Polygon(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
                              ax.c2p(right, 5), ax.c2p(left, 5),
                              color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1)
+            # Record each slice before its animation so the viewer retains the last one.
+            revenue_bars.add(revenue)
+            cost_bars.add(cost)
+            ps_bars.add(gained)
             self.play(FadeIn(revenue), FadeIn(cost), run_time=0.2)
             self.play(FadeIn(gained), run_time=0.2)
         self.bring_to_front(supply, ps_price_line)
@@ -656,7 +642,7 @@ class EpisodeB2(Scene):
         self.bring_to_front(ps_price_line, ps_drop, ps_dot)
         self.pause('4.g')
 
-        # ---- 4.h · Exact sloping slices already fill the triangle.
+        # ---- 4.h · Read the triangle traced by the narrow flat bars.
         triangle = Polygon(ax.c2p(0, 2), ax.c2p(0, 5), ax.c2p(3, 5),
                            color=SUPPLY, fill_opacity=0, stroke_width=4, z_index=5)
         self.play(FadeOut(equality), FadeIn(triangle))

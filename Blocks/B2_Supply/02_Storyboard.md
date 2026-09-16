@@ -1,6 +1,6 @@
 # Episode B2 · Supply
 
-Current animation record (2026-09-16): this storyboard follows `03_Code.py`, including review changes. Keep it synchronized with each animation edit. Reconciliation with `01_Notes.md` is deferred: the returning farm, simplified exercise prompts, and individual-bar PS introduction with moving prices are recorded here for that later pass.
+Current animation record (2026-09-16): this storyboard follows `03_Code.py`, including review changes. Keep it synchronized with each animation edit. Reconciliation with `01_Notes.md` is deferred: the returning farm, simplified exercise prompts, individual-bar PS introduction with moving prices, flat cost bars, and removal of the one-ton totals recap are recorded here for that later pass.
 
 Styling: CMU serif for titles, definitions, calculations, and exercise cards; CMU sans for the small axis-unit captions. White P stays left of each vertical axis and white Q below each horizontal axis. Red belongs to price/quantity readouts and guides. Every bottom definition uses the same text size as 2.b's Individual Quantity Supplied line: `DEFINITION_SCALE = 0.7443`, centered horizontally with a 0.05-unit bottom margin. Keep that size even for shorter definitions. Remove the old definition before fading the new one in, so they never overlap. Keep definitions and calculations, but leave spoken explanations off the screen. The unplanted farm area is blank. Use the same 0.1-quantity slice width on every graph, including the recap and closing graphs; ten slices form the first-ton example without changing its totals.
 
@@ -31,7 +31,7 @@ Side calculations: fade in a subtle grey vertical divider, six units tall and ce
 - Replace the definition with Law of Supply: the quantity supplied of a good rises with its price. Retain the points, curve, and farm.
 
 ## 2.h · Keep the line and reveal possible quantities
-- Fade the farm and observed points away. Keep B1’s graph-left/math-right layout. Show $P=2+Q_s$ above the supply line, label it S, and show faint grey tenth-ton slices under the sloping line. Start the line at (0, 2); do not extend into negative quantity.
+- Fade the farm and observed points away. Keep B1’s graph-left/math-right layout. Show $P=2+Q_s$ above the supply line, label it S, and show faint grey tenth-ton bars with flat tops at each interval's midpoint cost. Start the line at (0, 2); do not extend into negative quantity.
 
 ## 3.a · Read quantity at $5
 - Show red Price $5, then horizontal and vertical dashed guides and a red dot at (3, 5). Put red $Q_s=?$ below the axis and temporarily hide the answer’s tick numeral. Pause before calculating.
@@ -73,32 +73,25 @@ Side calculations: fade in a subtle grey vertical divider, six units tall and ce
 ## 4.a · Offer $5
 - Restore the stage, fade out the farm, ask “What does Molly gain?”, and offer $5. Keep $P=2+Q_s$ and the faint possible quantities visible. Add no yellow interval highlight.
 
-## 4.b.1–4.d.10 · Examine each narrow bar before adding up a ton
+## 4.b.1–4.d.10 · Introduce revenue, cost, and PS on individual bars
 - Walk through the ten existing 0.1-wide bars from Q=0 to Q=1, in order. Keep the selected grey bar, vertical price axis with ticks and P/unit labels, full red price line and readout, and question title visible. Fade out the horizontal axis and its labels, supply curve, other bars, and completed areas. As supply fades, fade in a horizontal cost line across the selected bar.
-- In a separate move, widen the selected bar to 2.4 scene units, anchored at its original left edge inside the graph. Keep its original baseline and vertical scale; do not detach or recenter it elsewhere on the page. Set the horizontal cost height to supply at the slice midpoint, $2+(Q_{left}+Q_{right})/2$; for this linear supply curve, that rectangle has exactly the same area as the original sloping slice.
-- Reveal the full revenue outline up to the existing price line and a white Revenue label above the bar. Pause at `4.b.N`. Keep the red price readout at the vertical axis; omit horizontal units and per-bar dollar totals.
+- In a separate move, widen the selected bar to three times its resting width, anchored at its original left edge inside the graph. Keep its original baseline and vertical scale. The horizontal MC line is supply-orange in both close and full views. Keep the flat cost height at $2+(Q_{left}+Q_{right})/2$ throughout; only the width changes when shrinking back. Midpoint bars preserve the area under this linear supply curve without requiring a calculation on screen.
+- Reveal the full revenue outline up to the existing price line and a white Revenue label just above-right of the bar, clear of the vertical-axis ticks. Pause at `4.b.N`. Keep the red price readout at the vertical axis; omit horizontal units and per-bar dollar totals.
 - Fade in green cost below the horizontal line, its Cost label, and the red MC label at the line. Pause at `4.c.N` before revealing surplus.
-- Fade in orange PS above cost and below price, with a matching PS label. On the first bar, show the Producer Surplus definition after the area appears. Pause at `4.d.N`.
-- Stay on the first enlarged bar and move one price tracker through $5 → $3 → $1.50 → $4 → $5. Pause at `4.d.1.price-low` ($3), `4.d.1.no-sale` ($1.50), `4.d.1.price-high` ($4), and `4.d.1.price-reset` ($5). Revenue height, the full graph price line/readout, and PS move together while cost stays fixed. Below cost, leave the bar grey and hide Revenue, Cost, and PS areas/labels; keep the vertical axis, price line, and MC line/readout visible. Restore the areas when price covers cost again. Keep the early PS definition visible through this price comparison, then fade it out before shrinking the first bar back.
-- Remove the close-up labels, shrink the selected bar and its two areas back into place, and restore their exact sloping boundaries. Fade the full graph and all other bars back in, preserving the completed cost and PS areas; pause at `4.return.N` before selecting the next bar. Repeat this same sequence for every bar through Q=1. No helper functions and no batch cost-first fill across different bars.
+- Fade in orange PS above cost and below price, with a matching PS label. On the first bar, show the Producer Surplus definition after the area appears, and keep it visible through the remaining bars and triangle explanation. Revenue, cost, and PS are all introduced here through labels and areas. Pause at `4.d.N`.
+- Stay on the first enlarged bar and move one price tracker through $5 → $3 → $1.50 → $4 → $5. Pause at `4.d.1.price-low` ($3), `4.d.1.no-sale` ($1.50), `4.d.1.price-high` ($4), and `4.d.1.price-reset` ($5). Revenue height, the full graph price line/readout, and PS move together while cost stays fixed. Below cost, leave the bar grey and hide Revenue, Cost, and PS areas/labels; keep the vertical axis, price line, and MC line/readout visible. Restore the areas when price covers cost again.
+- Remove the close-up labels and shrink the selected bar and its two areas back into place without tilting the cost boundary. Fade the full graph and all other bars back in, preserving the completed cost and PS areas. Pause at `4.return.N` for bars 1–9 before selecting the next bar. After bar 10 returns, continue directly to the remaining bars. No helper functions and no batch cost-first fill across different bars.
 
-## 4.b · Add up revenue from the first ton
-- With all ten bars completed and the graph restored, fade in the math divider, the white brace spanning Q=0 to 1, “1 ton,” and total revenue $5. Keep the brace through the remaining total reveals.
-
-## 4.c · Add up cost from the first ton
-- Keep the ten green cost slices visible and reveal their total $2.50 beside the graph. Their restored boundaries follow supply from $2 to $3; do not use the endpoint cost for the whole ton.
-
-## 4.d · Add up producer surplus from the first ton
-- Keep the ten orange PS slices visible and reveal total PS $2.50 beside the graph. Bring back the Producer Surplus definition, gold term and white words. Keep the revenue outlines around both pieces.
+Retired beats: `4.b`, `4.c`, `4.d`, and `4.return.10`. Remove the one-ton brace, Revenue $5 / Cost $2.50 / PS $2.50 recap, and repeated definition reveal. The first-bar view introduces the concepts; the later triangle still calculates total PS.
 
 ## 4.e · Reveal cost, then surplus, for each remaining bar
-- Fade out the first ton’s dollar labels, brace, and “1 ton” label. Across Q=1 to 3, work left to right one narrow bar at a time: fade in its revenue outline and cost, then its PS, before moving to the next bar. Retain the first ton and the sloping cost boundaries. Add no running tally; calculate the whole triangle below.
+- Continue directly across Q=1 to 3, working left to right one narrow bar at a time: fade in its revenue outline and cost, then its PS, before moving to the next bar. Retain the earlier completed bars and the PS definition. Use flat midpoint cost boundaries here too. Add no running tally; calculate the whole triangle below.
 
 ## 4.g · Mark where production stops
 - Highlight (3, 5), drop a red dashed guide to red $Q_s=3$, and show MC = P above-left of the dot, clear of the curve and drawn in front. Retain the third interval’s positive surplus and the faint, unchosen quantities beyond it.
 
-## 4.h · Recognize the triangle already formed
-- Outline the outside boundary of PS. Retain the vertical bar divisions and sloping cost boundaries; these exact slices already tile the triangle, so no rectangle-to-triangle approximation is needed.
+## 4.h · Recognize the triangle traced by the bars
+- Outline the triangle between the straight supply curve and price. Keep the narrow bars' flat boundaries visible; do not tilt or reshape them. Their midpoint areas sum to the triangle's area for this linear supply curve.
 
 ## 4.i · Set up the area equation
 - Put orange PS and white $=\frac12$ on the right, followed by yellow h and b. Keep this prefix throughout the calculation.
