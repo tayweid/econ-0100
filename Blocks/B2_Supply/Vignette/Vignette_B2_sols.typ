@@ -1,5 +1,8 @@
 // Vignette B2 with answers, for the teaching team. Questions mirror
-// Vignette_B2.md. Compiled alone this is the B2 solution guide; the
+// Vignette_B2.md. The working follows the Fall 2024 handwritten guides in
+// ../Practice_Bank (Vignette_B1_sols.pdf, Vignette_B2_sols.pdf,
+// Classwork_B1_sols.pdf): intercepts, the substitution chain to a quantity,
+// then area = h · b · 1/2. Compiled alone this is the B2 solution guide; the
 // Recitations/ files include it. From the repo root:
 //   typst compile --root . Blocks/B2_Supply/Vignette/Vignette_B2_sols.typ
 #import "../../_Assets/sols.typ": *
@@ -25,13 +28,18 @@ c) How much did consumer surplus change as the price dropped from $10$ to $5$? #
 
 #sol[
   #grid(columns: (1fr, auto), gutter: 12pt, align: horizon,
-    [Consumer surplus is the triangle below demand and above the price, out to the quantity bought. First find the quantity: at $10$ galleons, $10 = 12 - 1/2 Q_d$ gives $Q_d = 4$; at $5$ galleons, $5 = 12 - 1/2 Q_d$ gives $Q_d = 14$. The triangle's height is the intercept minus the price and its base is the quantity.
+    [*Plot.* Vertical intercept, $Q_d = 0$: $P_d = 12$. Horizontal intercept, $P_d = 0$: $0 = 12 - 1/2 Q_d arrow.r Q_d = 24$.
 
-    *a)* $1/2 dot 4 dot (12 - 10) = 4$ galleons.
+    *a)* Price to quantity, then the triangle below demand and above the price:
+    $ 10 = 12 - 1/2 Q_d arrow.r 1/2 Q_d = 2 arrow.r Q_d = 4 $
+    $ "CS" = h dot b dot 1/2 = (12 - 10) dot 4 dot 1/2 = 4 $
 
-    *b)* $1/2 dot 14 dot (12 - 5) = 49$ galleons.
+    *b)* The same steps at the lower price:
+    $ 5 = 12 - 1/2 Q_d arrow.r 1/2 Q_d = 7 arrow.r Q_d = 14 $
+    $ "CS"' = h dot b dot 1/2 = (12 - 5) dot 14 dot 1/2 = 49 $
 
-    *c)* $49 - 4 = 45$ galleons more. A lower price means every pasty already being bought keeps more surplus, and buyers add pasties whose marginal benefit was below $10$ but above $5$.],
+    *c)* The change is the new area minus the old, the strip between the two price lines:
+    $ Delta "CS" = "CS"' - "CS" = 49 - 4 = 45 $],
     graph(28, 14, w: 200pt, h: 140pt, xlabel: [$Q$], ylabel: [$P$], xticks: (4, 14, 24), yticks: (5, 10, 12),
       shade(((0, 12), (0, 5), (14, 5)), color: sol-color),
       shade(((0, 12), (0, 10), (4, 10)), color: sol-color),
@@ -39,6 +47,7 @@ c) How much did consumer surplus change as the price dropped from $10$ to $5$? #
       seg(0, 10, 4, 10, color: gray, dash: "dotted"),
       seg(0, 5, 14, 5, color: gray, dash: "dotted"),
       pt(4, 10, color: sol-color), pt(14, 5, color: sol-color),
+      lbl(0.3, 11.95)[CS], lbl(3, 8.4)[$Delta$CS],
     ),
   )
 ]
@@ -60,7 +69,13 @@ c) How much did quantity supplied change as the price dropped from $10$ to $5$? 
 d) What is marginal cost at $8$ pasties? #ans[$6$ galleons]
 
 #sol[
-  The vertical intercept is $2$ galleons: below that price nobody sells. Price to quantity: *a)* $10 = 2 + 1/2 Q_s$ gives $Q_s = 16$; *b)* $5 = 2 + 1/2 Q_s$ gives $Q_s = 6$; *c)* $6 - 16 = -10$, so quantity supplied fell by $10$ pasties, which is the law of supply. Quantity to price: *d)* the height of the supply curve at $8$ pasties is $2 + 1/2 dot 8 = 6$ galleons, the marginal cost of the eighth pasty.
+  *Plot.* Vertical intercept, $Q_s = 0$: $P = 2$. Below $2$ galleons quantity supplied is zero, so the curve starts there and rises by $1$ galleon for every $2$ pasties.
+
+  *a)* $10 = 2 + 1/2 Q_s arrow.r 8 = 1/2 Q_s arrow.r Q_s = 16$ #h(2em) *b)* $5 = 2 + 1/2 Q_s arrow.r 3 = 1/2 Q_s arrow.r Q_s = 6$
+
+  *c)* $Delta Q_s = 6 - 16 = -10$: quantity supplied fell by $10$ pasties as the price fell, the law of supply.
+
+  *d)* Quantity to price. The height of the supply curve at $8$ pasties is the marginal cost of the eighth pasty: $P = 2 + 1/2 dot 8 = 6$ galleons.
 ]
 
 == Q3 | Producer Surplus
@@ -75,11 +90,12 @@ c) How much did producer surplus change as the price dropped from $10$ to $5$? #
 
 #sol[
   #grid(columns: (1fr, auto), gutter: 12pt, align: horizon,
-    [Producer surplus is the triangle above supply and below the price, out to the quantity sold, using the quantities from Q2. Its height is the price minus the $2$-galleon intercept.
+    [Producer surplus is the triangle above supply and below the price, out to the quantity sold from Q2. Its height is the price minus the $2$-galleon intercept and its base is the quantity.
 
-    At $5$ galleons: $1/2 dot 6 dot (5 - 2) = 9$ galleons. At $10$ galleons: $1/2 dot 16 dot (10 - 2) = 64$ galleons.
+    $ P = 5: quad "PS" = h dot b dot 1/2 = (5 - 2) dot 6 dot 1/2 = 9 $
+    $ P = 10: quad "PS"' = h dot b dot 1/2 = (10 - 2) dot 16 dot 1/2 = 64 $
 
-    *c)* $9 - 64 = -55$: producer surplus fell by $55$ galleons. The revenue rectangle at $10$ galleons is $10 dot 16 = 160$; the $64$ above the curve is surplus and the $96$ below it covers marginal costs.],
+    *c)* $Delta "PS" = "PS" - "PS"' = 9 - 64 = -55$: producer surplus fell by $55$ galleons. Revenue at $10$ galleons is the rectangle $10 dot 16 = 160$; the $64$ above the curve is surplus and the $96$ below it covers marginal costs.],
     graph(22, 13, w: 200pt, h: 140pt, xlabel: [$Q$], ylabel: [$P$], xticks: (6, 16), yticks: (2, 5, 10),
       shade(((0, 2), (0, 10), (16, 10)), color: sol-color),
       shade(((0, 2), (0, 5), (6, 5)), color: sol-color),
@@ -87,6 +103,7 @@ c) How much did producer surplus change as the price dropped from $10$ to $5$? #
       seg(0, 10, 16, 10, color: gray, dash: "dotted"),
       seg(0, 5, 6, 5, color: gray, dash: "dotted"),
       pt(16, 10, color: sol-color), pt(6, 5, color: sol-color),
+      lbl(0.6, 4.6)[PS], lbl(3, 9.2)[$Delta$PS],
     ),
   )
 ]

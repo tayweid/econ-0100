@@ -130,3 +130,8 @@
   place(polygon(fill: color.transparentize(78%), stroke: none,
     ..pts.map(p => (px(p.at(0)), py(p.at(1))))))
 }
+
+// A small label placed at data coordinates, e.g. lbl(1, 11)[CS].
+#let lbl(x, y, body, color: sol-color) = (px, py) => {
+  place(dx: px(x), dy: py(y), text(size: 8pt, fill: color, body))
+}
