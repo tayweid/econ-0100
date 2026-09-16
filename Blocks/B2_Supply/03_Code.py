@@ -502,16 +502,17 @@ class EpisodeB2(Scene):
                                   *revenue_bars, *cost_bars, *ps_bars)
             surroundings.save_state()
             cost_line = Line(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
-                             color=SUPPLY, stroke_width=3, z_index=10)
+                             color=SUPPLY, stroke_width=3, stroke_opacity=0, z_index=10)
 
-            # Keep the vertical axis and full price line; the curve becomes a cost line.
-            self.play(FadeOut(surroundings), FadeIn(cost_line), run_time=0.6)
+            # One focus move: fade the surroundings as the bar and its MC line widen.
             wide_grey = Polygon([close_left, base_y, 0], [close_right, base_y, 0],
                                 [close_right, cost_y, 0], [close_left, cost_y, 0],
                                 color=MUTED, stroke_width=2, fill_opacity=0.2)
             wide_cost_line = Line([close_left, cost_y, 0], [close_right, cost_y, 0],
                                   color=SUPPLY, stroke_width=3, z_index=10)
-            self.play(Transform(selected_bar, wide_grey), Transform(cost_line, wide_cost_line), run_time=0.8)
+            self.add(cost_line)
+            self.play(FadeOut(surroundings), Transform(selected_bar, wide_grey),
+                      Transform(cost_line, wide_cost_line), run_time=0.8)
 
             # First show what this exchange brings in. No quantity units or totals yet.
             single_revenue = Polygon([close_left, base_y, 0], [close_right, base_y, 0],
