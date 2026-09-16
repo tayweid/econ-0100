@@ -533,6 +533,12 @@ class EpisodeB2(Scene):
             revenue_label.next_to(single_revenue.get_corner(UR), RIGHT, buff=0.35).shift(UP * 0.3)
             cost_label = Tex('Cost', color=GOV).scale(0.8).next_to(single_cost, RIGHT, buff=0.35)
             surplus_label = Tex('PS', color=SUPPLY).scale(0.8).next_to(single_ps, RIGHT, buff=0.35)
+            if bar_index == 0:
+                # Whole-dollar readouts on this first bar only; keep the midpoint geometry.
+                cost_label = Tex(r'Cost = \$2', color=GOV).scale(0.8).next_to(single_cost, RIGHT, buff=0.35)
+                surplus_number = DecimalNumber(round(5 - slice_mc), num_decimal_places=0, color=SUPPLY)
+                surplus_label = VGroup(Tex(r'PS = \$', color=SUPPLY), surplus_number)
+                surplus_label.arrange(RIGHT, buff=0.04).scale(0.8).next_to(single_ps, RIGHT, buff=0.35)
             mc_label = Tex('$MC$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, slice_mc), LEFT, buff=0.6)
             self.play(FadeIn(single_revenue), FadeIn(revenue_label), run_time=0.6)
             self.pause(f'4.b.{bar_index + 1}')
@@ -548,6 +554,7 @@ class EpisodeB2(Scene):
             # On the first bar, compare several prices with this fixed cost.
             if bar_index == 0:
                 close_price = ValueTracker(5)
+                surplus_number.add_updater(lambda number: number.set_value(round(max(0, close_price.get_value() - slice_mc))))
                 ps_price_line.add_updater(lambda line: line.set_y(ax.c2p(0, close_price.get_value())[1]))
                 ps_price_number.add_updater(lambda number: number.set_value(close_price.get_value())
                                            .next_to(ax.c2p(0, close_price.get_value()), LEFT, buff=0.6))
@@ -568,7 +575,7 @@ class EpisodeB2(Scene):
                     [close_left, ax.c2p(0, max(slice_mc, close_price.get_value()))[1], 0], [close_left, cost_y, 0]])
                     .set_fill(opacity=AREA_OPACITY if close_price.get_value() > slice_mc else 0)
                     .set_stroke(opacity=float(close_price.get_value() > slice_mc)))
-                surplus_label.add_updater(lambda label: label.next_to(single_ps, RIGHT, buff=0.35)
+                surplus_label.add_updater(lambda label: label.arrange(RIGHT, buff=0.04).next_to(single_ps, RIGHT, buff=0.35)
                                           .set_opacity(float(close_price.get_value() > slice_mc)))
                 self.play(close_price.animate.set_value(3), run_time=1.5)
                 self.pause('4.d.1.price-low')
@@ -586,6 +593,7 @@ class EpisodeB2(Scene):
                 single_cost.clear_updaters()
                 cost_label.clear_updaters()
                 single_ps.clear_updaters()
+                surplus_number.clear_updaters()
                 surplus_label.clear_updaters()
                 self.remove(close_price)
 
