@@ -71,14 +71,23 @@ Side calculations: fade in a subtle grey vertical divider, six units tall and ce
 ## 4.a · Offer $5
 - Restore the stage, fade out the farm, ask “What does Molly gain?”, and offer $5. Keep $P=2+Q_s$ and the faint possible quantities visible. Add no yellow interval highlight.
 
-## 4.b · Reveal revenue first
-- Outline ten narrow tenth-ton revenue slices across Q=0 to 1, reaching the red $5 line. Fade in a white brace spanning those slices above the price line, with “1 ton” above it. Keep the brace through the cost and PS reveals. Show total revenue $5 beside the graph. Pause before separating cost and surplus.
+## 4.b.1–4.d.10 · Examine each narrow bar before adding up a ton
+- Walk through the ten existing 0.1-wide bars from Q=0 to Q=1, in order. Keep the selected grey bar on screen while the axes, units, supply curve, other bars, price guides, and completed areas fade out. Keep the question title. As supply fades, fade in a horizontal cost line across the selected bar.
+- In a separate move, widen the selected bar horizontally for legibility. Keep its vertical scale. Set the horizontal cost height to supply at the slice midpoint, $2+(Q_{left}+Q_{right})/2$; for this linear supply curve, that rectangle has exactly the same area as the original sloping slice.
+- Reveal the full revenue outline up to price, a short red price line with “Price,” and a white Revenue label. Pause at `4.b.N`. Omit horizontal units and dollar totals in this enlarged view.
+- Fade in green cost below the horizontal line, its Cost label, and the red MC label at the line. Pause at `4.c.N` before revealing surplus.
+- Fade in orange PS above cost and below price, with a matching PS label. On the first bar, show the Producer Surplus definition after the area appears. Pause at `4.d.N`.
+- Stay on the first enlarged bar and move one price tracker through $5 → $3 → $1.50 → $4 → $5, pausing at each new price. Revenue height, the red price line/readout, and PS move together while cost stays fixed. Below cost, leave the bar grey and hide Revenue, Cost, and PS areas/labels; keep the price and MC lines visible. Restore the areas when price covers cost again. Keep the early PS definition visible through this price comparison.
+- Remove the close-up labels, shrink the selected bar and its two areas back into place, and restore their exact sloping boundaries. Fade the full graph and all other bars back in, preserving the completed cost and PS areas; pause at `4.return.N` before selecting the next bar. Repeat this same sequence for every bar through Q=1. No helper functions and no batch cost-first fill across different bars.
 
-## 4.c · Reveal the cost of the first ton
-- Fill the exact trapezoid under supply from Q=0 to 1 in expenditure-green, retaining its ten narrow slices. Label its total area $2.50 beside the graph, without duplicating the number inside the slices. Preserve the slope from $2 to $3; never substitute a flat $3 bar.
+## 4.b · Add up revenue from the first ton
+- With all ten bars completed and the graph restored, fade in the math divider, the white brace spanning Q=0 to 1, “1 ton,” and total revenue $5. Keep the brace through the remaining total reveals.
 
-## 4.d · Reveal producer surplus
-- First fade in the ten narrow slices above supply and below $5 in supply-orange. After the area is visible, fade in total PS $2.50 beside the graph and the Producer Surplus definition, gold term and white words. Keep the revenue outlines around both pieces.
+## 4.c · Add up cost from the first ton
+- Keep the ten green cost slices visible and reveal their total $2.50 beside the graph. Their restored boundaries follow supply from $2 to $3; do not use the endpoint cost for the whole ton.
+
+## 4.d · Add up producer surplus from the first ton
+- Keep the ten orange PS slices visible and reveal total PS $2.50 beside the graph. Bring back the Producer Surplus definition, gold term and white words. Keep the revenue outlines around both pieces.
 
 ## 4.e · Reveal cost, then surplus, for each remaining bar
 - Fade out the first ton’s dollar labels, brace, and “1 ton” label. Across Q=1 to 3, work left to right one narrow bar at a time: fade in its revenue outline and cost, then its PS, before moving to the next bar. Retain the first ton and the sloping cost boundaries. Add no running tally; calculate the whole triangle below.
