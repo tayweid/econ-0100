@@ -88,22 +88,31 @@ Retired beats: `4.b`, `4.c`, `4.d`, and `4.return.10`. Remove the one-ton brace,
 - Continue directly across Q=1 to 3, working left to right one narrow bar at a time: fade in its revenue outline and cost, then its PS, before moving to the next bar. Retain the earlier completed bars and the PS definition. Use flat midpoint cost boundaries here too. Add no running tally; calculate the whole triangle below.
 
 ## 4.g · Mark where production stops
-- Highlight (3, 5), drop a red dashed guide to red $Q_s=3$, and show MC = P above-left of the dot, clear of the curve and drawn in front. Retain the third interval’s positive surplus and the faint, unchosen quantities beyond it.
+- Keep the $5 price readout. Fade in a red dashed horizontal guide to (3, 5) and the point, then the vertical guide down to quantity, then red $Q_s=?$. Hide the tick numeral 3 until the calculation gives the answer. Show MC = P above-left of the dot, clear of the curve and in front. Retain the completed bars and the faint unchosen quantities.
+
+## 4.g.1 · Find the triangle's quantity from the supply equation
+- Reuse the established divider and centered right-hand math layout. Carry a copy of the red price 5 into $5=2+Q_s$, then reveal $Q_s=5-2$ and $Q_s=3$ in order. Price and quantity stay red in the calculation. Carry the resulting 3 back to the quantity axis, replacing the question mark and restoring its tick numeral. Keep both dashed guides and the point visible throughout.
 
 ## 4.h · Recognize the triangle traced by the bars
-- Outline the triangle between the straight supply curve and price. Keep the narrow bars' flat boundaries visible; do not tilt or reshape them. Their midpoint areas sum to the triangle's area for this linear supply curve.
+- Fade out the quantity calculation and MC = P label, leaving the divider. Outline the triangle between the straight supply curve and price. Keep the narrow bars' flat boundaries visible; do not tilt or reshape them. Their midpoint areas sum to the triangle's area for this linear supply curve.
 
 ## 4.i · Set up the area equation
 - Put orange PS and white $=\frac12$ on the right, followed by yellow h and b. Keep this prefix throughout the calculation.
 
-## 4.j · Measure the height
-- Draw a yellow segment on the vertical axis from $2 to $5, above all fills. Label $h=5-2$ in yellow.
+## 4.j · Locate the intercept in the equation and graph
+- Color the 2 in $P=2+Q_s$ yellow. Carry a copy to a yellow 2 beside the vertical axis at the supply intercept, with a yellow point at (0, 2). Hide the ordinary tick numeral there. Keep the area formula above the forthcoming height calculation.
+
+## 4.j.1 · Height is price minus the intercept
+- Fade in the yellow height segment from 2 to 5, above all fills. Below the area formula on the right, assemble $h=5-2$: copy red 5 from the price readout and yellow 2 from the intercept label. Keep h yellow and the subtraction sign white. Pause before evaluating the difference.
+
+## 4.j.2 · Carry the height back to the triangle
+- Reveal yellow $h=3$ beneath the subtraction, then carry the resulting 3 to a yellow $h=3$ label beside the height segment. Keep the subtraction visible for this pause, making clear that the height is the gap from the intercept to the price.
 
 ## 4.k · Measure the base
-- Draw a yellow segment for Q=0 to 3 and label $b=3$ in yellow. Keep the red price and quantity guides above the areas.
+- Fade out the height calculation and temporary intercept point/label; restore the equation's 2 to white and its ordinary axis tick. Keep the measured height and its label. Fade in a yellow base segment for Q=0 to 3, and carry a copy of the solved quantity into yellow $b=3$. Keep the red price and quantity guides above the areas.
 
 ## 4.l · Fill in the equation
-- Move copies of the yellow measurements into the existing equation: $PS=\frac12(5-2)(3)=\$4.50$. Do not fade out and rebuild the same prefix.
+- Move copies of the yellow measurements into the existing equation: $PS=\frac12(3)(3)=\$4.50$. The height was just derived as $5-2=3$. Do not fade out and rebuild the same prefix.
 
 ## 5.a · Pause for Exercise B2 Q2
 - Dim the stage. Show $P=2+\frac{Q_s}{10}$ alone as a centered math block, then ask “What is producer surplus at 10 galleons?” Match the exercise file exactly. Use the same left-aligned heading and slightly indented CMU-serif question as Q1. Give no answer on the exercise card.

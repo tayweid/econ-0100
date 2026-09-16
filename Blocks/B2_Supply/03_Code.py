@@ -196,7 +196,7 @@ class EpisodeB2(Scene):
         self.play(FadeOut(farm), FadeOut(farm_name),
                   FadeOut(spinach), FadeOut(spinach_label), FadeOut(points))
         self.remove(law_def)
-        equation = Tex('$P=2+Q_s$').scale(0.9).move_to(ax.c2p(2.9, 7.5))
+        equation = Tex('$P=2+Q_s$', isolate=['2']).scale(0.9).move_to(ax.c2p(2.9, 7.5))
         s_lab = Tex('S').next_to(ax.c2p(6, 8), RIGHT, buff=0.15)
         rest_bars = VGroup()
         for left in np.arange(0, 6, SLICE_WIDTH):
@@ -631,47 +631,92 @@ class EpisodeB2(Scene):
         self.bring_to_front(supply, ps_price_line)
         self.pause('4.e')
 
-        # ---- 4.g · Show the endpoint, not a zero-surplus third ton.
+        # ---- 4.g · Trace the chosen price, leaving quantity to solve for.
+        self.remove(ps_price_line)
+        ps_price_line = DashedLine(ax.c2p(0, 5), ax.c2p(3, 5), color=GUIDE, z_index=10).set_opacity(0.8)
         ps_drop = DashedLine(ax.c2p(3, 5), ax.c2p(3, 0), color=GUIDE, z_index=10).set_opacity(0.8)
         ps_dot = Dot(ax.c2p(3, 5), color=GUIDE, z_index=11)
-        ps_quantity = Tex('$Q_s=3$', color=GUIDE).scale(0.7).next_to(ax.c2p(3, 0), DOWN, buff=0.6)
+        ps_question = Tex('$Q_s=?$', color=GUIDE).scale(0.7).next_to(ax.c2p(3, 0), DOWN, buff=0.6)
         equality = Tex('$MC=P$', color=GUIDE).scale(0.7).next_to(ps_dot, UL, buff=0.3)
         for glyph in equality.get_family():
             glyph.set_z_index(20)
-        self.play(FadeIn(ps_drop), FadeIn(ps_dot), FadeIn(ps_quantity), FadeIn(equality))
+        ax.x_axis.numbers[2].set_opacity(0)
+        self.play(FadeIn(ps_price_line), FadeIn(ps_dot))
+        self.play(FadeIn(ps_drop))
+        self.play(FadeIn(ps_question), FadeIn(equality))
         self.bring_to_front(ps_price_line, ps_drop, ps_dot)
         self.pause('4.g')
+
+        # ---- 4.g.1 · Carry price into the equation, then quantity back to the graph.
+        ps_substitution = VGroup(Tex('$5$', color=GUIDE), Tex('$=2+Q_s$', tex_to_color_map={'Q_s': GUIDE}))
+        ps_substitution.arrange(RIGHT, buff=0.12)
+        ps_rearrange = Tex('$Q_s=5-2$', tex_to_color_map={'Q_s': GUIDE, '5': GUIDE})
+        ps_answer = VGroup(Tex('$Q_s=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).set_color(GUIDE)
+        ps_work = VGroup(ps_substitution, ps_rearrange, ps_answer).scale(0.8)
+        ps_work.arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(MATH_AT)
+        math_divider.set_opacity(0.5)
+        self.play(FadeIn(math_divider), TransformFromCopy(ps_price_number, ps_substitution[0]),
+                  FadeIn(ps_substitution[1]))
+        self.play(FadeIn(ps_rearrange))
+        self.play(FadeIn(ps_answer))
+        ps_quantity = VGroup(Tex('$Q_s=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).scale(0.7).set_color(GUIDE)
+        ps_quantity.move_to(ps_question)
+        self.play(FadeOut(ps_question), FadeIn(ps_quantity[0]), TransformFromCopy(ps_answer[1], ps_quantity[1]),
+                  ax.x_axis.numbers[2].animate.set_opacity(1))
+        self.pause('4.g.1')
 
         # ---- 4.h · Read the triangle traced by the narrow flat bars.
         triangle = Polygon(ax.c2p(0, 2), ax.c2p(0, 5), ax.c2p(3, 5),
                            color=SUPPLY, fill_opacity=0, stroke_width=4, z_index=5)
-        self.play(FadeOut(equality), FadeIn(triangle))
+        self.play(FadeOut(ps_work), FadeOut(equality), FadeIn(triangle))
         self.pause('4.h')
 
         # ---- 4.i · Keep the same formula prefix through the calculation.
         area = VGroup(Tex(r'PS $=\frac12$', tex_to_color_map={'PS': SUPPLY}),
                       Tex('$h$', color=FOCUS), Tex('$b$', color=FOCUS))
         area.arrange(RIGHT, buff=0.15).scale(0.8).move_to(MATH_AT)
-        math_divider.set_opacity(0.5)
-        self.play(FadeIn(math_divider), FadeIn(area))
+        self.play(FadeIn(area))
         self.pause('4.i')
 
-        # ---- 4.j · Height is price minus the intercept.
-        h_bar = Line(ax.c2p(0, 2), ax.c2p(0, 5), color=FOCUS, stroke_width=4, z_index=20)
-        h_label = VGroup(Tex('$h=$'), Tex('$5-2$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
-        h_label.next_to(ax.c2p(0, 3.5), LEFT, buff=0.45)
-        self.play(FadeIn(h_bar), FadeIn(h_label))
+        # ---- 4.j · The equation's constant is the supply intercept.
+        intercept_term = equation.get_part_by_tex('2')
+        intercept_label = Tex('$2$', color=FOCUS).scale(0.7).next_to(ax.c2p(0, 2), LEFT, buff=0.45)
+        intercept_dot = Dot(ax.c2p(0, 2), color=FOCUS, z_index=21)
+        ax.y_axis.numbers[0].set_opacity(0)
+        self.play(intercept_term.animate.set_color(FOCUS))
+        self.play(TransformFromCopy(intercept_term, intercept_label), FadeIn(intercept_dot))
         self.pause('4.j')
 
+        # ---- 4.j.1 · Price minus the intercept measures the vertical gap.
+        h_bar = Line(ax.c2p(0, 2), ax.c2p(0, 5), color=FOCUS, stroke_width=4, z_index=20)
+        height_difference = VGroup(Tex('$h=$', color=FOCUS), Tex('$5$', color=GUIDE),
+                                  Tex('$-$'), Tex('$2$', color=FOCUS))
+        height_difference.arrange(RIGHT, buff=0.12).scale(0.8).move_to(MATH_AT + DOWN * 0.95)
+        self.play(FadeIn(h_bar), FadeIn(height_difference[0]), FadeIn(height_difference[2]),
+                  TransformFromCopy(ps_price_number, height_difference[1]),
+                  TransformFromCopy(intercept_label, height_difference[3]))
+        self.pause('4.j.1')
+
+        # ---- 4.j.2 · Put the calculated height beside the triangle.
+        height_answer = VGroup(Tex('$h=$'), Tex('$3$')).arrange(RIGHT, buff=0.12).scale(0.8).set_color(FOCUS)
+        height_answer.next_to(height_difference, DOWN, buff=0.35)
+        self.play(FadeIn(height_answer))
+        h_label = VGroup(Tex('$h=$'), Tex('$3$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
+        h_label.next_to(ax.c2p(0, 3.5), LEFT, buff=0.45)
+        self.play(FadeIn(h_label[0]), TransformFromCopy(height_answer[1], h_label[1]))
+        self.pause('4.j.2')
+
         # ---- 4.k · Base is the chosen quantity.
+        self.play(FadeOut(height_difference), FadeOut(height_answer), FadeOut(intercept_label), FadeOut(intercept_dot),
+                  intercept_term.animate.set_color(INK), ax.y_axis.numbers[0].animate.set_opacity(1))
         b_bar = Line(ax.c2p(0, 0), ax.c2p(3, 0), color=FOCUS, stroke_width=4, z_index=20)
         b_label = VGroup(Tex('$b=$'), Tex('$3$')).arrange(RIGHT, buff=0.1).scale(0.7).set_color(FOCUS)
         b_label.next_to(ax.c2p(1.5, 0), UP, buff=0.15)
-        self.play(FadeIn(b_bar), FadeIn(b_label))
+        self.play(FadeIn(b_bar), FadeIn(b_label[0]), TransformFromCopy(ps_quantity[1], b_label[1]))
         self.pause('4.k')
 
         # ---- 4.l · Fill the two slots; do not rewrite the prefix.
-        h_value = Tex('$(5-2)$', color=FOCUS).scale(0.8)
+        h_value = Tex('$(3)$', color=FOCUS).scale(0.8)
         b_value = Tex('$(3)$', color=FOCUS).scale(0.8)
         # Lay out the longer equation, then slide the existing prefix into position.
         filled_area = VGroup(area[0].copy(), h_value, b_value).arrange(RIGHT, buff=0.15).move_to(MATH_AT)
