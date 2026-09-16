@@ -123,3 +123,10 @@
     place(dx: px(x) + dx, dy: py(y) + dy, text(size: 8pt, fill: color, label))
   }
 }
+
+// A shaded region, e.g. a surplus triangle: shade(((0, 12), (0, 10), (4, 10)))
+// in data coordinates, drawn under the segments listed after it.
+#let shade(pts, color: sol-color) = (px, py) => {
+  place(polygon(fill: color.transparentize(78%), stroke: none,
+    ..pts.map(p => (px(p.at(0)), py(p.at(1))))))
+}

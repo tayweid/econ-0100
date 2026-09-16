@@ -188,7 +188,8 @@ parts:
           description: "*Demand practice problems*"
           files: B1
         homework:
-          due: Wednesday September 25
+          due: Sunday, September 20
+          file: B1
         dates:
           class: '2026-09-14'
           recitation: '2026-09-11'
@@ -209,6 +210,9 @@ parts:
         vignette:
           description: "*Supply practice problems*"
           files: B2
+        homework:
+          due: Sunday, September 20
+          file: B2
         dates:
           class: '2026-09-16'
           recitation: '2026-09-18'
