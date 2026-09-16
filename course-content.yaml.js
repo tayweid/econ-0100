@@ -179,6 +179,7 @@ parts:
         description: Demand curves show how much consumers are willing to buy at each price.
         episode:
           video: 9HUh9qWDSr4
+          links: [{label: Animations, file: Blocks/B1_Demand/media/EpisodeB1_present/, icon: fa fa-desktop}]
           description: "*This video introduces the demand curve as a way of organizing buyers' preferences.*"
         reading:
           chapter: 3
@@ -200,6 +201,7 @@ parts:
         description: Supply curves show how much producers are willing to sell at each price.
         episode:
           video: 0WoBKpFMLwo
+          links: [{label: Animations, file: Blocks/B2_Supply/media/EpisodeB2_present/, icon: fa fa-desktop}]
           description: "*This video introduces the supply curve and how it helps answer Part B's questions.*"
         reading:
           name: Chapter (continued)
