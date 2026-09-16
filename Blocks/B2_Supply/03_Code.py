@@ -429,8 +429,8 @@ class EpisodeB2(Scene):
         stage.save_state()
         card = VGroup(
             Tex('Exercise B2 $|$ Quantity Supplied', color=DEFINITION),
-            Tex('Pumpkin pasties: $P=2+Q_s/10$.').scale(0.9),
-            Tex('Find and plot quantity supplied at 10 galleons.').scale(0.9),
+            Tex(r'$P=2+\frac{Q_s}{10}$').scale(0.9),
+            Tex('What is quantity supplied at 10 galleons?').scale(0.9),
             Tex('What is marginal cost at 9 pasties?').scale(0.9))
         card[0].scale(1.2)
         card.arrange(DOWN, buff=0.4, aligned_edge=LEFT).move_to(ORIGIN)
@@ -438,7 +438,8 @@ class EpisodeB2(Scene):
                                  corner_radius=0.25, color=MUTED, stroke_width=2,
                                  fill_color=BG, fill_opacity=1).move_to(card).set_z_index(50)
         card.align_to(panel, LEFT).shift(RIGHT * 0.65)
-        for paragraph in card[1:]:
+        card[1].set_x(panel.get_x())
+        for paragraph in card[2:]:
             paragraph.shift(RIGHT * 0.35)
         for glyph in card.get_family():
             glyph.set_z_index(51)  # ManimL does not inherit a group's z-index.
@@ -592,15 +593,16 @@ class EpisodeB2(Scene):
         stage = VGroup(*self.mobjects)
         stage.save_state()
         card = VGroup(Tex('Exercise B2 $|$ Producer Surplus', color=DEFINITION),
-                      Tex('Pumpkin pasties again: $P=2+Q_s/10$.').scale(0.9),
-                      Tex('Find and label producer surplus at 10 galleons.').scale(0.9))
+                      Tex(r'$P=2+\frac{Q_s}{10}$').scale(0.9),
+                      Tex('What is producer surplus at 10 galleons?').scale(0.9))
         card[0].scale(1.2)
         card.arrange(DOWN, buff=0.45, aligned_edge=LEFT).move_to(ORIGIN)
         panel = RoundedRectangle(width=13, height=card.get_height() + 1.2,
                                  corner_radius=0.25, color=MUTED, stroke_width=2,
                                  fill_color=BG, fill_opacity=1).move_to(card).set_z_index(50)
         card.align_to(panel, LEFT).shift(RIGHT * 0.65)
-        for paragraph in card[1:]:
+        card[1].set_x(panel.get_x())
+        for paragraph in card[2:]:
             paragraph.shift(RIGHT * 0.35)
         for glyph in card.get_family():
             glyph.set_z_index(51)

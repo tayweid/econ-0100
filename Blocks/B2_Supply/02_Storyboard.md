@@ -66,7 +66,7 @@ Side calculations: fade in a subtle grey vertical divider, six units tall and ce
 - Move one price tracker from $4 → $6 → $3 → $4. Keep the red price label, horizontal guide, selected point, vertical guide, and $Q_s$ readout attached throughout. The spinach area expands from two to four tons, contracts to one, and returns to two, linking the graph to land and labor moving away from or back to other uses. Add no explanatory text stack. Park at $4 and two tons.
 
 ## 3.n · Pause for Exercise B2 Q1
-- Freeze the farm and graph together, then dim the stage and show the exercise-sheet curve $P=2+Q_s/10$. Ask for quantity supplied at 10 galleons and marginal cost at 9 pasties. Left-align the heading within the box with a small additional indent for the body. Keep CMU serif throughout; omit the “Fractional pasties…” line. Show questions only.
+- Freeze the farm and graph together, then dim the stage. Show $P=2+\frac{Q_s}{10}$ alone as a centered math block. Below it, ask “What is quantity supplied at 10 galleons?” and “What is marginal cost at 9 pasties?” Match the exercise file exactly. Left-align the heading within the box and slightly indent the questions. Keep CMU serif throughout; omit the setup sentence and “Fractional pasties…” line. Give no answers.
 
 ## 4.a · Offer $5
 - Restore the stage, fade out the farm, ask “What does Molly gain?”, and offer $5. Keep $P=2+Q_s$ and the faint possible quantities visible. Add no yellow interval highlight.
@@ -102,7 +102,7 @@ Side calculations: fade in a subtle grey vertical divider, six units tall and ce
 - Move copies of the yellow measurements into the existing equation: $PS=\frac12(5-2)(3)=\$4.50$. Do not fade out and rebuild the same prefix.
 
 ## 5.a · Pause for Exercise B2 Q2
-- Dim the stage and ask students to find and label PS at 10 galleons on $P=2+Q_s/10$. Use the same left-aligned heading and slightly indented CMU-serif body as Q1. Give no answer on the exercise card.
+- Dim the stage. Show $P=2+\frac{Q_s}{10}$ alone as a centered math block, then ask “What is producer surplus at 10 galleons?” Match the exercise file exactly. Use the same left-aligned heading and slightly indented CMU-serif question as Q1. Give no answer on the exercise card.
 
 ## 6.a · Compare two sellers at one price
 - Ask “What happens when we consider everyone?” Show Molly, Andrew, and a third graph for their combined quantities, aligned to the same price scale. Lower the graphs and their headings slightly to leave more space below the title. Use Molly’s $P=2+Q_s$ and Andrew’s $P=2+2Q_s$. Hold a red horizontal guide at $4 across the graphs; reveal their quantities 2 and 1.
