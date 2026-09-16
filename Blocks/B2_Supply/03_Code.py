@@ -500,7 +500,6 @@ class EpisodeB2(Scene):
             surroundings = VGroup(ax.x_axis, q_lab, q_units, supply, equation, s_lab,
                                   *rest_bars[:bar_index], *rest_bars[bar_index + 1:],
                                   *revenue_bars, *cost_bars, *ps_bars)
-            surroundings.save_state()
             cost_line = Line(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
                              color=SUPPLY, stroke_width=3, stroke_opacity=0, z_index=10)
 
@@ -584,7 +583,7 @@ class EpisodeB2(Scene):
                 surplus_label.clear_updaters()
                 self.remove(close_price)
 
-            # Shrink only the width; the cost boundary stays horizontal.
+            # Return in one move: shrink the bar as the full graph fades back in.
             self.play(FadeOut(revenue_label), FadeOut(cost_label), FadeOut(surplus_label), FadeOut(mc_label), run_time=0.4)
             narrow_revenue = Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 5), ax.c2p(left, 5),
                                      color=INK, fill_opacity=0, stroke_width=1)
@@ -595,15 +594,14 @@ class EpisodeB2(Scene):
                                 ax.c2p(right, 5), ax.c2p(left, 5),
                                 color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=1)
             narrow_cost_line = Line(ax.c2p(left, slice_mc), ax.c2p(right, slice_mc),
-                                    color=SUPPLY, stroke_width=1, z_index=10)
-            self.play(Restore(selected_bar), Transform(single_revenue, narrow_revenue),
-                      Transform(single_cost, narrow_cost), Transform(single_ps, narrow_ps),
-                      Transform(cost_line, narrow_cost_line), run_time=0.8)
+                                    color=SUPPLY, stroke_width=1, stroke_opacity=0, z_index=10)
             revenue_bars.add(single_revenue)
             cost_bars.add(single_cost)
             ps_bars.add(single_ps)
-            self.play(Restore(surroundings), FadeOut(cost_line), run_time=0.6)
-            self.remove(surroundings)
+            self.play(FadeIn(surroundings), Restore(selected_bar),
+                      Transform(single_revenue, narrow_revenue), Transform(single_cost, narrow_cost),
+                      Transform(single_ps, narrow_ps), Transform(cost_line, narrow_cost_line), run_time=0.8)
+            self.remove(surroundings, cost_line)
             self.add(*surroundings.submobjects)
             self.bring_to_front(supply, ps_price_line)
             if bar_index < round(1 / SLICE_WIDTH) - 1:
