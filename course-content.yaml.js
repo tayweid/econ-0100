@@ -338,7 +338,7 @@ parts:
           files: C2
           solutions: false
         homework:
-          due: Friday October 18
+          due: Sunday, October 11
         dates:
           class: '2026-10-07'
           recitation: '2026-10-09'
@@ -360,7 +360,7 @@ parts:
           video: xKK5JBPXGsg
           description: "*Externalities practice problems*"
         homework:
-          due: Due Date TBD
+          due: Sunday, October 11
           practice: hwc
         extras:
           - name: Planet Money
@@ -389,7 +389,7 @@ parts:
         vignette:
           description: "*Corrective taxes practice problems*"
         homework:
-          due: Due Date TBD
+          due: Sunday, October 18
         dates:
           class: '2026-10-12'
           recitation: '2026-10-16'
@@ -397,7 +397,7 @@ parts:
 
       - checkpoint:
           reattempt: TBA
-          date: '2026-10-14'
+          date: '2026-10-19'
           description: >-
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
@@ -425,7 +425,7 @@ parts:
           description: "*Non-excludable goods practice problems*"
           files: D1
         homework:
-          due: Friday November 1st
+          due: Sunday, October 25
         dates:
           class: '2026-10-19'
           recitation: '2026-10-23'
@@ -447,7 +447,7 @@ parts:
           description: "*Game theory practice problems*"
           files: D2
         homework:
-          due: Due Date TBD
+          due: Sunday, October 25
         dates:
           class: '2026-10-21'
           recitation: '2026-10-23'
@@ -468,7 +468,7 @@ parts:
           description: "*Game theory practice problems*"
           files: D3
         homework:
-          due: Due Date TBD
+          due: Sunday, November 1
         dates:
           class: '2026-10-26'
           recitation: '2026-10-30'
@@ -491,15 +491,15 @@ parts:
           description: "*Voting systems practice problems*"
           files: D4
         homework:
-          due: Due Date TBD
+          due: Sunday, November 1
         dates:
-          class: '2026-10-26'
+          class: '2026-10-28'
           recitation: '2026-10-30'
           homework: '2026-11-01'
 
       - checkpoint:
           reattempt: TBA
-          date: '2026-10-28'
+          date: '2026-11-02'
           description: >-
             Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
@@ -527,7 +527,7 @@ parts:
           description: "*Production costs practice problems*"
           files: E1
         homework:
-          due: Sunday November 10th
+          due: Sunday, November 8
         dates:
           class: '2026-11-02'
           recitation: '2026-11-06'
@@ -548,7 +548,7 @@ parts:
           description: "*Competitive firms practice problems*"
           files: E2
         homework:
-          due: Monday November 18th
+          due: Sunday, November 8
         dates:
           class: '2026-11-04'
           recitation: '2026-11-06'
@@ -568,7 +568,7 @@ parts:
         vignette:
           description: "*Monopoly practice problems*"
         homework:
-          due: Due Date TBD
+          due: Sunday, November 15
         dates:
           class: '2026-11-09'
           recitation: '2026-11-13'
@@ -591,7 +591,7 @@ parts:
         vignette:
           description: "*Market structures practice problems*"
         homework:
-          due: Due Date TBD
+          due: Sunday, November 15
         dates:
           class: '2026-11-11'
           recitation: '2026-11-13'
@@ -631,7 +631,7 @@ parts:
           description: "*Factor markets practice problems with video walkthrough*"
           files: F1
         homework:
-          due: Sunday December 8th
+          due: Sunday, December 6
         dates:
           class: '2026-11-30'
           recitation: '2026-12-04'
@@ -653,7 +653,7 @@ parts:
           files: F2
           solution_file: Vignettes/Vignette_F2_sols_new.pdf
         homework:
-          due: Due Date TBD
+          due: Sunday, December 6
         dates:
           class: '2026-12-02'
           recitation: '2026-12-04'
