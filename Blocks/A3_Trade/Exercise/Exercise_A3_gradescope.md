@@ -1,69 +1,87 @@
-# Gradescope build sheet — Exercise A3
+# Exercise A3 | Gradescope
 
-Instructor-facing. One fenced block per question — paste the whole block into the question's content box in the Online Assignment editor. Gradescope parses the typed syntax directly: consecutive `( )` lines become a multiple-choice field with `(x)` marked correct; math renders between `$$...$$`. Question text is verbatim from Exercise_A3.md; multiple-choice only.
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work in class, taken from the Exercise file (the .typ handout).
 
-**Assignment settings:** Online Assignment · name: `Exercise A3` · due in class — or same evening if the exercises get cut for time; the questions work unmodified as take-home.
+- Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
-Answer check: OC of $1$R is $3/2$ F for Hagrid and $1/2$ F for McGonagall. Q1: specialized, Hagrid bakes $30$F and McGonagall $10$R (full capacity in the CA good). Q2: any rate strictly between $1/2$ and $3/2$ F per R works — $1$ F per R is the clean middle answer. Q3: that whole range is the window; the $2/3$-to-$2$ distractor is the reciprocal window (R per F) for students who flipped. (Changing Labor dropped from this exercise — parked with its MC block at Practice_Bank/Parked_Q_Changing_Labor.md.)
+- Each `### QN.M` under it is a sub-question. Put its title in the sub-question’s title field and paste its block into the **Problem** box.
 
----
+- Ignore points. Each sub-question is worth 1 point by default on Gradescope.
 
-## Question 1 — title: `Specialization` · 2 pts
+Gradescope parses the code directly. Every input field must sit on its own line with no text before or after it, and a question can hold several fields:
+
+- Text is Markdown, and LaTeX goes between `$$`. Images can be inserted with **Insert Image** or as a Markdown link `![alt](url)` to a file on the course site.
+- Multiple choice: consecutive `( )` lines become a multiple-choice field, with `(x)` marking the correct answer. A blank line between choices starts a new group.
+- Select all: consecutive `[ ]` lines become a select-all field, with `[x]` marking each correct answer. Students must mark every correct answer to get the point.
+- Short answer: `[____](answer)` gives a one-line text box, autograded against the answer in parentheses. For numbers, `[____](=2+-0)` accepts any equivalent of 2 and `[____](=2+-0.2)` accepts anything from 1.8 to 2.2. Leave the parentheses empty to grade by hand.
+- Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
+- File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
+
+## Q1: `Specialization`
 
 ```
-Like we found in Exercise A2, Hagrid has the comparative advantage in fruitcakes and McGonagall in rock cakes. How much does each baker produce in one day if they specialize accordingly?
+Hagrid can bake $$20$$ rock cakes ($$R$$) or $$30$$ fruitcakes ($$F$$) in one day and Professor McGonagall can bake $$10$$ rock cakes or $$5$$ fruitcakes in one day. Like we found in Exercise A2, Hagrid has the comparative advantage in fruitcakes and McGonagall in rock cakes. How much does each baker produce in one day if they specialize accordingly?
+```
 
-Hagrid:
+### Q1.1: `Hagrid`
+
+```
 ( ) $$20$$ rock cakes
 (x) $$30$$ fruitcakes
 ( ) $$20$$ rock cakes and $$30$$ fruitcakes
 ( ) $$15$$ fruitcakes
+```
 
-McGonagall:
+### Q1.2: `McGonagall`
+
+```
 (x) $$10$$ rock cakes
 ( ) $$5$$ fruitcakes
 ( ) $$10$$ rock cakes and $$5$$ fruitcakes
 ( ) $$20$$ rock cakes
 ```
 
----
-
-## Question 2 — title: `Trade` · 1 pt
+## Q2: `Trade`
 
 ```
-Suppose Hagrid and McGonagall decide they want to specialize and trade goods. After they specialize, what is a trade that would make them both better off?
+Suppose Hagrid and McGonagall decide they want to specialize and trade goods.
+```
 
-1 R for:
+### Q2.1: `After they specialize, what is a trade that would make them both better off? 1 R for:`
+
+```
 ( ) $$1/4$$ fruitcake
 (x) $$1$$ fruitcake
 ( ) $$3/2$$ fruitcakes
 ( ) $$2$$ fruitcakes
 ```
 
----
-
-## Question 3 — title: `Workable Rates` · 1 pt
+## Q3: `Workable Rates`
 
 ```
-Not every exchange rate works for both bakers. What is the range of exchange rates that would make both Hagrid and McGonagall better off?
+Not every exchange rate works for both bakers.
+```
 
+### Q3.1: `What is the range of exchange rates that would make both Hagrid and McGonagall better off?`
+
+```
 ( ) Between $$2/3$$ and $$2$$ fruitcakes per rock cake
 (x) Between $$1/2$$ and $$3/2$$ fruitcakes per rock cake
 ( ) Between $$5$$ and $$30$$ fruitcakes per rock cake
 ( ) Any rate: trade always makes both better off
 ```
 
----
+## Q4: `Which concepts?`
 
-## Question 4 — title: `Which concept?` · 1 pt
-
-Graded for completion: any selection earns the point — mark every option correct in the editor, or leave scoring manual. (The standing follow-up question; converted to multiple choice to match the assignment format — options list the block's concepts so any answer is still informative.)
-
-**Gradescope-only** (per 2026-09-01): intentionally absent from Exercise_A3.md and the printed PDF — the print sheet ends at Q3. Don't "fix" the mismatch when regenerating.
+Gradescope-only: not on the printed exercise. Graded by hand for completion, so any response earns the point.
 
 ```
 Which concepts (if any) from this block would you want explained in more detail in lecture or recitation?
+```
 
+### Q4.1: `Select all that apply.`
+
+```
 [ ] Pareto improvement
 [ ] Initial endowment
 [ ] The trade line

@@ -2,8 +2,6 @@
 
 *A simple way to organize costs.*
 
-*[ED: Units pass for class: B2 now illustrates one market day, with quantity in kilograms and price in dollars per kilogram. Each narrow animation bar is 1 kg. Part A is unchanged; when reconciling it, use metric tonnes (1 tonne = 1,000 kg). This is a smaller-scale example, not a conversion of A’s annual quantities.]*
-
 Last time we introduced preferences as a first step to resolving where on the PPF to live, and we used the buyer’s Marginal Benefit to decide whether another purchase was worth making. The extra value above what they paid was their Consumer Surplus.
 
 Every exchange has two sides: a buyer and a seller. Just like we asked Amanda-Grace how much she values chocolate, we can just ask the seller how much they would be willing to produce at a range of prices.

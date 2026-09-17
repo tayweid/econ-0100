@@ -1,5 +1,5 @@
 // Vignette B2 with answers, for the teaching team. Questions mirror
-// Vignette_B2.md. The working follows the Fall 2024 handwritten guides in
+// Vignette_B2.typ. The working follows the Fall 2024 handwritten guides in
 // ../Practice_Bank (Vignette_B1_sols.pdf, Vignette_B2_sols.pdf,
 // Classwork_B1_sols.pdf): intercepts, the substitution chain to a quantity,
 // then area = h · b · 1/2. Compiled alone this is the B2 solution guide; the
@@ -9,6 +9,8 @@
 #show: vignette-setup
 
 #vtitle[Vignette B2][Supply]
+
+_Due in Recitation._
 
 #sols-only[_Solution guide for the teaching team. Answers and working are in red; everything in black is what students see. Q1 is the consumer surplus practice Vignette B1 did not reach._]
 
@@ -20,11 +22,11 @@ $ P_d = 12 - 1/2 Q_d $
 
 Prices are in galleons and quantity is in pasties.
 
-a) Plot and find the area of consumer surplus at a price of $10$ galleons. #ans[$4$ galleons]
+a) Plot and find the consumer surplus at a price of $10$ galleons. #ans[$4$ galleons]
 
-b) Plot and find the area of consumer surplus at a price of $5$ galleons. #ans[$49$ galleons]
+b) Plot and find the consumer surplus at a price of $5$ galleons. #ans[$49$ galleons]
 
-c) How much did consumer surplus change as the price dropped from $10$ to $5$? #ans[up by $45$ galleons]
+c) How much did consumer surplus change from (a) to (b)? #ans[up by $45$ galleons]
 
 #sol[
   #grid(columns: (1fr, auto), gutter: 12pt, align: horizon,
@@ -58,13 +60,13 @@ Pumpkin pasties are produced by many sellers according to the following supply c
 
 $ P = 2 + 1/2 Q_s $
 
-Prices are in galleons and quantity is in pasties.
+Plot the supply curve below.
 
 a) Find and plot the quantity supplied at a price of $10$ galleons. #ans[$16$ pasties]
 
 b) Find and plot the quantity supplied at a price of $5$ galleons. #ans[$6$ pasties]
 
-c) How much did quantity supplied change as the price dropped from $10$ to $5$? #ans[down by $10$ pasties]
+c) How much did quantity supplied change from (a) to (b)? #ans[down by $10$ pasties]
 
 d) What is marginal cost at $8$ pasties? #ans[$6$ galleons]
 
@@ -80,13 +82,13 @@ d) What is marginal cost at $8$ pasties? #ans[$6$ galleons]
 
 == Q3 | Producer Surplus
 
-Use a graph to plot this supply curve, and find and label the producer surplus at both $5$ galleons and $10$ galleons.
+Plot and calculate the producer surplus at both $5$ galleons and $10$ galleons.
 
-PS at $5$ galleons: #ans[$9$ galleons]
+a) PS at $5$ galleons: #ans[$9$ galleons]
 
-PS at $10$ galleons: #ans[$64$ galleons]
+b) PS at $10$ galleons: #ans[$64$ galleons]
 
-c) How much did producer surplus change as the price dropped from $10$ to $5$? #ans[down by $55$ galleons]
+c) How much did producer surplus change from (a) to (b)? #ans[up by $55$ galleons]
 
 #sol[
   #grid(columns: (1fr, auto), gutter: 12pt, align: horizon,
@@ -95,7 +97,7 @@ c) How much did producer surplus change as the price dropped from $10$ to $5$? #
     $ P = 5: quad "PS" = h dot b dot 1/2 = (5 - 2) dot 6 dot 1/2 = 9 $
     $ P = 10: quad "PS"' = h dot b dot 1/2 = (10 - 2) dot 16 dot 1/2 = 64 $
 
-    *c)* $Delta "PS" = "PS" - "PS"' = 9 - 64 = -55$: producer surplus fell by $55$ galleons. Revenue at $10$ galleons is the rectangle $10 dot 16 = 160$; the $64$ above the curve is surplus and the $96$ below it covers marginal costs.],
+    *c)* $Delta "PS" = "PS"' - "PS" = 64 - 9 = 55$: producer surplus rose by $55$ galleons as the price rose from $5$ to $10$. Revenue at $10$ galleons is the rectangle $10 dot 16 = 160$; the $64$ above the curve is surplus and the $96$ below it covers marginal costs.],
     graph(22, 13, w: 200pt, h: 140pt, xlabel: [$Q$], ylabel: [$P$], xticks: (6, 16), yticks: (2, 5, 10),
       shade(((0, 2), (0, 10), (16, 10)), color: sol-color),
       shade(((0, 2), (0, 5), (6, 5)), color: sol-color),

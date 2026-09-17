@@ -586,3 +586,44 @@ episode before applying; these values are not current model specifications):
 - Stale part cards: C0 says Part B, E1 says Part D, F1 says Part E. Stale `media_dir`s (four files write to `PartC_E2`).
 - Numbers: Andrew's A3 autarky point (3 C, 7 S) is outside his PPF; B1 demand readout says 35k at $2 (should be 30k); B2 states the demand intercept as 5 once (should be 8); Marryville/Maryville spelling.
 - Duplicate class names silently shadow ~2,000 lines (A3 `animation_5` ×3, B3 `animation_1` ×3, F3_pt1 `title`/`animation_1` ×2).
+
+## 11. Printed handouts (homework, exercises, vignettes) and Gradescope sheets
+
+Settled 2026-09-17 while bringing Parts A and B onto one style. These are
+the practice files under each block's `Homework/`, `Exercise/`, and `Vignette/`
+folders; the Practice Bank archives keep whatever form they were in.
+
+- **The `.typ` is the source.** Each handout is one Typst file edited in Plass
+  plus the PDF Plass exports from it, the same way the syllabus and schedule
+  work. There is no `.md` handout: Plass's Markdown export prints fenced
+  `typst` blocks as literal text instead of running them, so page margins and
+  page breaks cannot be set from Markdown. The Markdown handouts were
+  converted and removed on 2026-09-17. One source per handout, never both.
+- **Page setup lives in the file's preamble**: US letter, **1-inch margins**,
+  12.5pt New Computer Modern, level-one heading at 23.75pt and level-two at
+  14.375pt, and nothing else. Plass shows any other `#` code as a grey block.
+  Copy the preamble from any current handout when starting a new one. The
+  1.25in margin Plass used for Markdown left a 6in line, and the longer
+  titles ("ECON 0100 | Homework A2 | Advantages") wrapped; 1in clears them.
+  Keep the heading size; do not shorten topic words to make a title fit.
+- **Title**: a level-one heading, course first, no semester, topic last:
+  `= ECON 0100 | Homework B2 | Supply`. Same form for Exercise and Vignette.
+  The topic word is the block's short name (PPF, Advantages, Trade, Demand,
+  Supply, …). Homework carries an italic `_Due: …_` line and the standard
+  instructions paragraph beneath the title; exercises and vignettes go
+  straight to the setup.
+- **Sections** are level-two headings, `== Q1 | Quantity Demanded`, with a
+  story heading like `== Butterbeer` before the questions on homework.
+  Sub-parts are `a)`, `b)`, `c)`. Display math is `$ P_d = 100 - 1/2 Q_d $`.
+- **Blanks** are a space and ten escaped underscores, exactly as in Markdown:
+  `galleons: \_\_\_\_\_\_\_\_\_\_`. No helpers or `#let` definitions.
+- **Page breaks** are `#pagebreak()`. Homework uses one before Q2 so the
+  graph has a full page.
+- **Gradescope sheets** (`*_gradescope.md`) stay Markdown and follow the
+  econ-0150 format: title `# Homework B1 | Gradescope`, the standard
+  instruction preamble, then `## QN: \`Title\`` parent questions whose fenced
+  block is the Description, and `### QN.M: \`question text\`` sub-questions
+  whose fenced block holds only the choices. Answer keys live in the `(x)`
+  marks; no separate answer-check paragraph. A concept check is its own
+  parent with one sub-question and a note that it is graded by hand for
+  completion.

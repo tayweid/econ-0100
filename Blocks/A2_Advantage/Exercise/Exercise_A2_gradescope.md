@@ -1,80 +1,105 @@
-# Gradescope build sheet — Exercise A2
+# Exercise A2 | Gradescope
 
-Instructor-facing. One fenced block per question — paste the whole block into the question's content box in the Online Assignment editor. Gradescope parses the typed syntax directly: consecutive `( )` lines become a multiple-choice field with `(x)` marked correct; math renders between `$$...$$`. Question text is verbatim from Exercise_F26.md; multiple-choice only per instructor request.
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work in class, taken from the Exercise file (the .typ handout).
 
-**Assignment settings:** Online Assignment · name: `Exercise A2` · due in class.
+- Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
-Answer check: Hagrid bakes 20R or 30F, so OC of $1$R $= 3/2$ F and OC of $1$F $= 2/3$ R. McGonagall bakes 10R or 5F, so OC of $1$R $= 1/2$ F and OC of $1$F $= 2$ R. AA in R: Hagrid ($20 > 10$). CA in R: McGonagall ($1/2 < 3/2$). Q2: McGonagall specializes in R, Hagrid in F. Q3: baking $1$F costs McGonagall $2$R; any trade paying under $2$R per F beats her self-trade — $1$R for $1$F works (and Hagrid would accept it too, since $1$R $> 2/3$R, though the question only asks about her side).
+- Each `### QN.M` under it is a sub-question. Put its title in the sub-question’s title field and paste its block into the **Problem** box.
 
----
+- Ignore points. Each sub-question is worth 1 point by default on Gradescope.
 
-## Question 1 — title: `Comparative and Absolute Advantage` · 2 pts
+Gradescope parses the code directly. Every input field must sit on its own line with no text before or after it, and a question can hold several fields:
+
+- Text is Markdown, and LaTeX goes between `$$`. Images can be inserted with **Insert Image** or as a Markdown link `![alt](url)` to a file on the course site.
+- Multiple choice: consecutive `( )` lines become a multiple-choice field, with `(x)` marking the correct answer. A blank line between choices starts a new group.
+- Select all: consecutive `[ ]` lines become a select-all field, with `[x]` marking each correct answer. Students must mark every correct answer to get the point.
+- Short answer: `[____](answer)` gives a one-line text box, autograded against the answer in parentheses. For numbers, `[____](=2+-0)` accepts any equivalent of 2 and `[____](=2+-0.2)` accepts anything from 1.8 to 2.2. Leave the parentheses empty to grade by hand.
+- Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
+- File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
+
+## Q1: `Comparative and Absolute Advantage`
 
 ```
-Professor McGonagall also bakes rock cakes and fruitcakes, up to $$10$$R or $$5$$F in one day. Using Hagrid's original numbers, set up a production table with both Hagrid's and McGonagall's output per day. Who has the absolute advantage (AA) in rock cakes? Then set up an opportunity cost table with Hagrid's and McGonagall's opportunity costs for each good. Who has the comparative advantage (CA) in rock cakes?
+Professor McGonagall also bakes rock cakes and fruitcakes, up to $$10$$R or $$5$$F in one day. Using Hagrid's original numbers, set up a production table with both Hagrid's and McGonagall's output per day. Then set up an opportunity cost table with Hagrid's and McGonagall's opportunity costs for each good.
+```
 
-AA in R:
+### Q1.1: `Who has the absolute advantage (AA) in rock cakes?`
+
+```
 (x) Hagrid
 ( ) McGonagall
 ( ) Both
 ( ) Neither
+```
 
-CA in R:
+### Q1.2: `Who has the comparative advantage (CA) in rock cakes?`
+
+```
 ( ) Hagrid
 (x) McGonagall
 ( ) Both
 ( ) Neither
 ```
 
----
-
-## Question 2 — title: `Specialization` · 2 pts
+## Q2: `Specialization`
 
 ```
 In Exercise A1, we found that Hagrid can bake $$20$$ rock cakes ($$R$$) or $$30$$ fruitcakes ($$F$$) in one day and Professor McGonagall can bake $$10$$ rock cakes or $$5$$ fruitcakes in one day. Use the production table and opportunity cost table developed in Q1 to determine who should specialize in each good if they want to jointly produce more.
+```
 
-Specialize in R:
+### Q2.1: `Who should specialize in R?`
+
+```
 ( ) Hagrid
 (x) McGonagall
 ( ) Both
 ( ) Neither
+```
 
-Specialize in F:
+### Q2.2: `Who should specialize in F?`
+
+```
 (x) Hagrid
 ( ) McGonagall
 ( ) Both
 ( ) Neither
 ```
 
----
-
-## Question 3 — title: `Self-Trade` · 2 pts
+## Q3: `Self-Trade`
 
 ```
 What is the cost to McGonagall of baking $$1$$ fruitcake ($$F$$) herself? What is an example of a trade with Hagrid that would be better for her?
+```
 
-Cost of 1F:
+### Q3.1: `What is the cost to McGonagall of baking 1F herself?`
+
+```
 ( ) $$1/2$$ rock cake
 ( ) $$3/2$$ rock cakes
 (x) $$2$$ rock cakes
 ( ) $$5$$ rock cakes
+```
 
-Which trade is better for McGonagall than baking the fruitcake herself?
+### Q3.2: `Which trade is better for McGonagall than baking the fruitcake herself?`
+
+```
 (x) Getting $$1$$F for $$1$$R
 ( ) Getting $$1$$F for $$2$$R
 ( ) Getting $$1$$F for $$3$$R
 ( ) Getting $$2$$F for $$5$$R
 ```
 
----
+## Q4: `Which concepts?`
 
-## Question 4 — title: `Which concepts?` · 1 pt
-
-Graded for completion: any selection earns the point — mark every option correct in the editor, or leave scoring manual. (The standing note in `_Follow_Up_Question.md` specifies free response; converted to multiple choice per instructor request — options list the block's concepts so any answer is still informative.)
+Graded by hand for completion, so any response earns the point.
 
 ```
 Which concepts (if any) from this block would you want explained in more detail in lecture or recitation?
+```
 
+### Q4.1: `Select all that apply.`
+
+```
 [ ] Absolute advantage
 [ ] Comparative advantage
 [ ] The co-op PPF

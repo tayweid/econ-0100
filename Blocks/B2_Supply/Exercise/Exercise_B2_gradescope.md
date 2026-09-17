@@ -1,59 +1,72 @@
-# Gradescope build sheet — Exercise B2
+# Exercise B2 | Gradescope
 
-Instructor-facing. Following Exercise B1's build-sheet format: paste the contents of each fenced block into a separate question's content box, without the backticks. `(x)` identifies the correct multiple-choice option; math uses `$$...$$`.
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work in class, taken from the Exercise file (the .typ handout).
 
-**Assignment settings:** Online Assignment · name: `Exercise B2` · suggested points: 2 each for Q1 and Q2, 1 for the completion-only concept check.
+- Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
-Source: Exercise_B2.md. The handout ends at Q2. Q2's value question is adapted to selection of the correct surplus area and value, as in Exercise B1. The concept check is Gradescope-only, following the previous exercises.
+- Each `### QN.M` under it is a sub-question. Put its title in the sub-question’s title field and paste its block into the **Problem** box.
 
-Answer check: Rearranging supply gives Q = 10(P − 2). At P = 10, Q = 80 pasties. At Q = 9, marginal cost is 2 + 9/10 = 2.9 galleons per pasty. Producer surplus at P = 10 is the triangle above supply and below the price, from Q = 0 to Q = 80: ½ × 80 × (10 − 2) = 320 galleons. Revenue at that price is 10 × 80 = 800 galleons, so the area under the supply curve up to Q = 80 is 480 galleons.
+- Ignore points. Each sub-question is worth 1 point by default on Gradescope.
 
----
+Gradescope parses the code directly. Every input field must sit on its own line with no text before or after it, and a question can hold several fields:
 
-## Question 1 — title: `Quantity Supplied` · 2 pts
+- Text is Markdown, and LaTeX goes between `$$`. Images can be inserted with **Insert Image** or as a Markdown link `![alt](url)` to a file on the course site.
+- Multiple choice: consecutive `( )` lines become a multiple-choice field, with `(x)` marking the correct answer. A blank line between choices starts a new group.
+- Select all: consecutive `[ ]` lines become a select-all field, with `[x]` marking each correct answer. Students must mark every correct answer to get the point.
+- Short answer: `[____](answer)` gives a one-line text box, autograded against the answer in parentheses. For numbers, `[____](=2+-0)` accepts any equivalent of 2 and `[____](=2+-0.2)` accepts anything from 1.8 to 2.2. Leave the parentheses empty to grade by hand.
+- Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
+- File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
+
+## Q1: `Quantity Supplied`
 
 ```
 Pumpkin pasties are produced by many sellers according to the supply curve $$P = 2 + Q_s/10$$, in galleons and pasties.
+```
 
-a) What is quantity supplied at 10 galleons?
+### Q1.1: `What is quantity supplied at 10 galleons?`
 
+```
 ( ) $$8$$ pasties
 (x) $$80$$ pasties
 ( ) $$100$$ pasties
 ( ) $$120$$ pasties
+```
 
-b) What is marginal cost at 9 pasties?
+### Q1.2: `What is marginal cost at 9 pasties?`
 
+```
 ( ) $$0.9$$ galleons per pasty
 (x) $$2.9$$ galleons per pasty
 ( ) $$9$$ galleons per pasty
 ( ) $$11$$ galleons per pasty
 ```
 
----
-
-## Question 2 — title: `Producer Surplus` · 2 pts
+## Q2: `Producer Surplus`
 
 ```
 Pumpkin pasties again, $$P = 2 + Q_s/10$$, in galleons and pasties.
+```
 
-Which area should be labeled producer surplus at 10 galleons, and what is its value?
+### Q2.1: `Which area should be labeled producer surplus at 10 galleons, and what is its value?`
 
+```
 ( ) The rectangle below the price of $$10$$, from $$Q = 0$$ to $$Q = 80$$: $$800$$ galleons
 ( ) The area below the supply curve, from $$Q = 0$$ to $$Q = 80$$: $$480$$ galleons
 (x) The triangle above the supply curve and below the price of $$10$$, from $$Q = 0$$ to $$Q = 80$$: $$320$$ galleons
 ( ) The triangle above the supply curve and below the price of $$10$$, from $$Q = 0$$ to $$Q = 80$$: $$640$$ galleons
 ```
 
----
+## Q3: `Which concepts?`
 
-## Question 3 — title: `Which concepts?` · 1 pt
-
-Gradescope-only, following B1. Grade manually for completion: any response earns the point; these selections are not a right-or-wrong answer key.
+Gradescope-only: not on the printed exercise. Graded by hand for completion, so any response earns the point.
 
 ```
 Which concepts (if any) from this block would you want explained in more detail in lecture or recitation?
+```
 
+### Q3.1: `Select all that apply.`
+
+```
 [ ] Supply and quantity supplied
 [ ] Marginal cost
 [ ] Producer surplus
