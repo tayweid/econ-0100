@@ -2,9 +2,6 @@
 
 Paragraphs from `Week_04_23S.ipynb` with no exact match anywhere else in `blocks/`. Everything else in that notebook was already present elsewhere and is not repeated here.
 
-<!-- ED: 2026-09-16 — the header name is the OLD combined block; this file straddles the new B3/B4 split and beyond. Taken in the B3–B5 pass: Vignette 6 (Toffees) → B5_Changes/01_Notes.md, parked as an exercise candidate. Still waiting for later passes: the music-rights auction, MSB/MSC lecture, and Covid-vaccine runs (→ C3 Externalities; the vaccine's assumptions/SCOPE paragraph is the strongest piece), the monopolistic-competition one-liner and Vignette 8 Broomsticks (→ Part E), and the taxes-presuming class framing (→ C2). The Part-E-as-Part-C reordering musing predates the new ladder. -->
-
-
 ## Outline
 
 - MiniExam 1 Things
@@ -104,9 +101,7 @@ Use a graph to discuss the welfare in the market, any potential market failure, 
 
 ## Vignette 6 | Toffees
 
-<!-- ED: 2026-09-16 — moved to B5_Changes/01_Notes.md (parked exercise candidate there); struck here so it isn't placed twice. Delete the strike to accept the move. -->
-
-~~Due to longstanding tradition, all toffees are made the same way, anyone could easily start making them, and the number of toffee makers had been constant over the past couple of years. This changed when the Ministry imposed a subsidy on all toffee sales. Using a couple of graphs to illustrate your answer, explain what happened in the market because of this subsidy.~~
+Due to longstanding tradition, all toffees are made the same way, anyone could easily start making them, and the number of toffee makers had been constant over the past couple of years. This changed when the Ministry imposed a subsidy on all toffee sales. Using a couple of graphs to illustrate your answer, explain what happened in the market because of this subsidy.
 
 ## Class 2 | Monopolistic Competition
 
