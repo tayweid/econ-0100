@@ -1,85 +1,12 @@
-// Shared helpers for the typst vignette files.
-//
-// Each Blocks/<folder>/Vignette/Vignette_<BLOCK>_sols.typ holds one vignette's
-// questions with the answers written in. Compiled on its own it is that block's
-// solution guide. Recitations/Recitation_Week_N.typ and _sols.typ #include
-// several of them, and set the two states below so the same content renders
-// either as the student handout (answers hidden, blanks shown) or as the
-// teaching-team guide (answers and working in red).
-//
-// Compile from the repo root so the imports resolve:
-//   typst compile --root . Blocks/A1_The_PPF/Vignette/Vignette_A1_sols.typ
-//   typst compile --root . Recitations/Recitation_Week_2.typ
-
-// true while a vignette file is compiled by itself; a wrapper sets it false so
-// the vignette's own page setup steps aside.
-#let standalone = state("standalone", true)
-// true shows answers and working; a student wrapper sets it false.
-#let solutions = state("solutions", true)
+// Figure helpers for the solution guides. Each guide (Blocks/<block>/<kind>/
+// <Name>_sols.typ, Recitations/Week_N_sols.typ) is one Plass-native Typst file, so
+// it cannot call these directly; instead the Plass comment frame at the end of the
+// guide imports this file and draws the graphs, one per page, and
+// scripts/render-sols-figures compiles that frame and embeds each page in the guide
+// as a data-URL #image. Render from anywhere:
+//   scripts/render-sols-figures
 
 #let sol-color = rgb("#b3261e")
-
-// Compact layout for the solution guides.
-#let sols-setup(doc) = {
-  set page(paper: "us-letter", margin: 0.6in)
-  set par(justify: true, leading: 8.172pt, spacing: 10pt)
-  set list(spacing: 10.672pt)
-  set enum(spacing: 10.672pt)
-  show heading.where(level: 1): set text(size: 19.000pt)
-  show heading.where(level: 1): set block(above: 21.113pt, below: 12pt)
-  show heading.where(level: 2): set text(size: 14.000pt)
-  show heading.where(level: 2): set block(above: 16pt, below: 9pt)
-  set text(size: 10pt, font: "New Computer Modern", hyphenate: true)
-  set table(stroke: 0.5pt, inset: 5pt)
-  doc
-}
-
-// Student handout layout, close to the Plass export of the Vignette_<BLOCK>.md files.
-#let student-setup(doc) = {
-  set page(paper: "us-letter", margin: (x: 1.25in, y: 1in), numbering: "1")
-  set par(justify: true, leading: 8.172pt, spacing: 17.172pt)
-  set list(spacing: 10.672pt)
-  set enum(spacing: 10.672pt)
-  show heading.where(level: 1): set text(size: 19.000pt)
-  show heading.where(level: 1): set block(above: 21.113pt, below: 20.084pt)
-  show heading.where(level: 2): set text(size: 14.000pt)
-  show heading.where(level: 2): set block(above: 35.720pt, below: 15.950pt)
-  set text(size: 11pt, font: "New Computer Modern", hyphenate: true)
-  doc
-}
-
-// What a vignette file applies to itself: the solutions layout when compiled
-// alone, nothing when a wrapper has already set the page up.
-#let vignette-setup(doc) = context { if standalone.get() { sols-setup(doc) } else { doc } }
-
-// Title line, e.g. #vtitle[Vignette A1][PPF]; tagged "Solutions" in solutions mode.
-#let vtitle(name, topic) = heading(level: 1)[
-  ECON 0100 | #name | #topic
-  #context if solutions.get() { text(fill: sol-color)[| Solutions] }
-]
-
-// Content that only appears in the solution guide.
-#let sols-only(body) = context { if solutions.get() { body } }
-
-// A blank for the student; the answer, red and underlined, in the guide.
-#let ans(body, width: 7em) = context {
-  if solutions.get() {
-    text(fill: sol-color, underline(offset: 2pt, body))
-  } else {
-    box(width: width, stroke: (bottom: 0.6pt), inset: (bottom: 1pt))[~]
-  }
-}
-
-// The worked solution under a question; nothing in student mode.
-#let sol(body) = context {
-  if solutions.get() {
-    block(width: 100%, inset: (left: 10pt, top: 3pt, bottom: 3pt),
-          stroke: (left: 1.5pt + sol-color), {
-      set par(spacing: 7pt)
-      text(fill: sol-color, body)
-    })
-  }
-}
 
 // ---- graphs -------------------------------------------------------------
 // graph(xmax, ymax, ...items) draws axes in a box; each item is a closure

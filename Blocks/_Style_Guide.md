@@ -619,6 +619,41 @@ folders; the Practice Bank archives keep whatever form they were in.
   `galleons: \_\_\_\_\_\_\_\_\_\_`. No helpers or `#let` definitions.
 - **Page breaks** are `#pagebreak()`. Homework uses one before Q2 so the
   graph has a full page.
+- **Solution guides** (`*_sols.typ`, settled 2026-09-17) are one self-contained
+  Plass-native Typst file per assignment, so they open, edit, and export in
+  Plass with no grey islands and no companion files: the same preamble (minus
+  equation numbering), the title with `| Solutions` appended, the handout's
+  own question text and blanks, and after each question a Plass solution
+  block, which is exactly
+  `#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[`
+  with `#set text(fill: rgb("#c00000"))` as its first line. Its first
+  paragraph states the short answers (`*a)* $120$ bottles.`), then the
+  working. Side-by-side layouts are Plass grids: fraction columns and one
+  em gutter only (`#grid(columns: (1fr, 1fr), gutter: 1em, [...], [...])`);
+  tables are `#align(center, table(columns: 3, align: (...), table.header(...), ...))`,
+  and a table cell never styles math (`[*Frogs* ($F$)]`, not
+  `[*Frogs ($F$)*]`, which Plass cannot export). Math is LaTeX, `$...$`
+  inline and `#mitex(\`...\`)` display, as in the handouts. Graphs cannot be
+  drawn in Plass, so each one is embedded as a base64 SVG data URL,
+  `#image("data:image/svg+xml;base64,...", width: 100%)`, inside a grid
+  cell, and the Typst that draws them sits at the end of the same file in a
+  Plass comment frame (`// plass:comment`, `// | ` before each line,
+  `// /plass:comment`), which Plass shows as a note in the editor, keeps in
+  the file, and leaves out of the PDF. The frame imports
+  `Blocks/_Assets/sols.typ` and draws one graph per page in the order the
+  `#image` calls appear; `scripts/render-sols-figures` compiles it and
+  re-embeds the pages. Plass round-trips embedded images and the frame
+  verbatim, so no image or figure files live on disk and a guide opens
+  correctly as a lone file, with no project folder. (A file path like
+  `figures/x.svg` only resolves inside a project folder opened with the
+  Project button, and `..` never resolves.) No `#let`, `#import` of local
+  files, `#include`, or custom helpers outside the frame. The recitation
+  guide `Recitations/Week_N_sols.typ` is the same kind of file holding the
+  week's vignette guides one per page, since Plass cannot follow `#include`;
+  it is a copy, so a change to a vignette guide is made there too. To check
+  a file before opening it, Plass's importer (`src/typ-parser.ts` in
+  github.com/tayweid/plass) must produce no `kept as raw Typst` warnings and
+  its serializer (`docToTyp`) must accept the document.
 - **Gradescope sheets** (`*_gradescope.md`) stay Markdown and follow the
   econ-0150 format: title `# Homework B1 | Gradescope`, the standard
   instruction preamble, then `## QN: \`Title\`` parent questions whose fenced

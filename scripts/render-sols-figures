@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+"""Re-render the graphs in the solution guides.
+
+Each solution guide (Blocks/<block>/<kind>/<Name>_sols.typ, Recitations/
+Week_N_sols.typ) is one self-contained Plass file. Its graphs are embedded as
+base64 SVG data URLs in #image(...) calls, and the Typst that draws them sits
+at the end of the same file inside a Plass comment frame (// plass:comment ...
+// /plass:comment), which Plass shows as a note in the editor and leaves out of
+the PDF. The frame imports Blocks/_Assets/sols.typ and draws one graph per
+page, in the order the #image calls appear. This script compiles each guide's
+frame and replaces the n-th #image with the n-th page. Needs the typst CLI
+(brew install typst). Run it after editing a frame:
+
+    scripts/render-sols-figures                  # every guide
+    scripts/render-sols-figures path/to/X_sols.typ
+"""
+import base64, re, subprocess, sys, tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+HELPERS = '#import "/Blocks/_Assets/sols.typ"'
+IMAGE = re.compile(r'#image\("[^"]*"')
+
+
+def figure_frame(text):
+    """The payload of the comment frame that imports the figure helpers."""
+    for m in re.finditer(r'^// plass:comment\n(.*?)^// /plass:comment$', text, re.S | re.M):
+        payload = '\n'.join(re.sub(r'^// \|( |$)', '', line) for line in m.group(1).splitlines())
+        if HELPERS in payload:
+            return payload
+    return None
+
+
+def render(guide):
+    text = guide.read_text()
+    slots = IMAGE.findall(text)
+    frame = figure_frame(text)
+    if frame is None:
+        if slots:
+            sys.exit(f'{guide}: has {len(slots)} #image slot(s) but no figure frame')
+        return
+    src = guide.with_name('.' + guide.stem + '_figures.typ')  # inside --root
+    with tempfile.TemporaryDirectory() as out:
+        try:
+            src.write_text(frame + '\n')
+            subprocess.run(['typst', 'compile', '--root', ROOT, '-f', 'svg', src, f'{out}/{{p}}.svg'], check=True)
+        finally:
+            src.unlink(missing_ok=True)
+        pages = sorted(Path(out).glob('*.svg'), key=lambda p: int(p.stem))
+        if len(pages) != len(slots):
+            sys.exit(f'{guide}: {len(slots)} #image slot(s) but {len(pages)} rendered page(s)')
+        data = iter([base64.b64encode(p.read_bytes()).decode() for p in pages])
+    new = IMAGE.sub(lambda m: f'#image("data:image/svg+xml;base64,{next(data)}"', text)
+    if new != text:
+        guide.write_text(new)
+    print(f'{guide.relative_to(ROOT)}: {len(pages)} figure(s){"" if new != text else " (unchanged)"}')
+
+
+guides = [Path(a).resolve() for a in sys.argv[1:]] or sorted(
+    [*ROOT.glob('Blocks/*/*/*_sols.typ'), *ROOT.glob('Recitations/*_sols.typ')])
+for g in guides:
+    render(g)
