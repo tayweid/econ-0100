@@ -681,10 +681,14 @@ class EpisodeB3(ThreeDScene):
                             run_time=0.25)
                         crowd_bars['B', chooser].pair_side = -1
                         crowd_bars['S', crowd_matches[chooser]].pair_side = 1
+                    buyer_ring = Circle(radius=0.29, color=DEMAND, stroke_width=3)
+                    buyer_ring.move_to([0, 0, 0.045])
                     buyer_focus = fixed(SurroundingRectangle(panel_bars['B', chooser],
                         color=DEMAND, buff=0.04, stroke_width=3))
                     self.play(chooser_body.animate.move_to([0, 0, chooser_body.get_center()[2]]),
-                              FadeIn(buyer_focus), hub.animate.set_stroke(opacity=1), run_time=1.2)
+                              FadeIn(buyer_focus),
+                              FadeIn(buyer_ring, shift=-np.append(crowd_bodies['B', chooser].get_center()[:2], 0)),
+                              hub.animate.set_stroke(opacity=1), run_time=1.2)
                     value = CROWD_MB[chooser]
                     mb_guide = fixed(DashedLine(side_axes['S'].c2p(0, value),
                         side_axes['S'].c2p(10, value), color=DEMAND, stroke_width=2))
@@ -734,7 +738,8 @@ class EpisodeB3(ThreeDScene):
                             crowd_bars['S', crowd_matches[displaced]].pairing.animate.set_value(0),
                             run_time=0.25)
                     moves = [chooser_body.animate.move_to(
-                        [*destination[:2], chooser_body.get_center()[2]])]
+                        [*destination[:2], chooser_body.get_center()[2]]),
+                             buyer_ring.animate.move_to([*destination[:2], 0.045])]
                     if displaced is not None:
                         displaced_body = crowd_bodies['B', displaced]
                         moves.append(displaced_body.animate.move_to(
@@ -760,7 +765,7 @@ class EpisodeB3(ThreeDScene):
                         self.pause('3.a.switch.accepted')
                     else:
                         self.pause('3.a.counter.accepted')
-                    self.play(FadeOut(buyer_focus), FadeOut(mb_guide), FadeOut(mb_read),
+                    self.play(FadeOut(buyer_focus), FadeOut(buyer_ring), FadeOut(mb_guide), FadeOut(mb_read),
                               FadeOut(price_caption), FadeOut(option_rings[4]),
                               FadeOut(option_columns[4]), FadeOut(option_prices[4]),
                               hub.animate.set_stroke(opacity=0.6), run_time=0.4)
@@ -832,12 +837,16 @@ class EpisodeB3(ThreeDScene):
                                 crowd_bars['B', b].pairing.animate.set_value(0),
                                 crowd_bars['S', crowd_matches[b]].pairing.animate.set_value(0),
                                 run_time=0.2)
+                        buyer_ring = Circle(radius=0.29, color=DEMAND, stroke_width=3)
+                        buyer_ring.move_to([0, 0, 0.045])
                         buyer_focus = fixed(SurroundingRectangle(panel_bars['B', b],
                             color=DEMAND, buff=0.035, stroke_width=3))
                         mb_guide = fixed(DashedLine(side_axes['S'].c2p(0, CROWD_MB[b]),
                             side_axes['S'].c2p(10, CROWD_MB[b]), color=DEMAND, stroke_width=2))
                         self.play(body.animate.move_to([0, 0, body.get_center()[2]]),
-                            FadeIn(buyer_focus), FadeIn(mb_guide),
+                            FadeIn(buyer_focus),
+                            FadeIn(buyer_ring, shift=-np.append(crowd_bodies['B', b].get_center()[:2], 0)),
+                            FadeIn(mb_guide),
                             hub.animate.set_stroke(opacity=1), run_time=0.9)
                         if not two_by_two and small_round.number == 1 and b == i:
                             self.pause('3.a.third.lookout')
@@ -888,7 +897,8 @@ class EpisodeB3(ThreeDScene):
                         destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                         route = DashedLine([0, 0, 0.045], [*destination[:2], 0.045],
                             color=MUTED, stroke_width=2).set_opacity(0.7)
-                        moves = [body.animate.move_to([*destination[:2], body.get_center()[2]])]
+                        moves = [body.animate.move_to([*destination[:2], body.get_center()[2]]),
+                                 buyer_ring.animate.move_to([*destination[:2], 0.045])]
                         if displaced is not None:
                             displaced_body = crowd_bodies['B', displaced]
                             moves.append(displaced_body.animate.move_to(
@@ -911,7 +921,7 @@ class EpisodeB3(ThreeDScene):
                             color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
                         self.play(FadeOut(route), FadeIn(connection_by_buyer[b]),
                             FadeIn(ground_by_buyer[b]), run_time=0.3)
-                        self.play(FadeOut(buyer_focus), FadeOut(mb_guide), FadeOut(mb_read),
+                        self.play(FadeOut(buyer_focus), FadeOut(buyer_ring), FadeOut(mb_guide), FadeOut(mb_read),
                             *[FadeOut(m) for m in option_columns.values()],
                             *[FadeOut(m) for m in option_rings.values()],
                             *[FadeOut(m) for m in option_prices.values()], FadeOut(offer_read),
@@ -928,13 +938,15 @@ class EpisodeB3(ThreeDScene):
                     self.pause('3.a.two_pairs')
                     self.play(FadeOut(same_price), run_time=0.2)
                 else:
+                    gary_ring = Circle(radius=0.29, color=DEMAND, stroke_width=3)
+                    gary_ring.move_to([*crowd_bodies['B', 0].get_center()[:2], 0.045])
                     gary_focus = fixed(SurroundingRectangle(panel_bars['B', 0],
                         color=DEMAND, buff=0.035, stroke_width=3))
                     gary_mb = fixed(DashedLine(side_axes['S'].c2p(0, 6),
                         side_axes['S'].c2p(10, 6), color=DEMAND, stroke_width=2))
                     excluded_question = fixed(Tex('Why is Gary left out?', color=DEFINITION)
                         .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-                    self.play(FadeIn(gary_focus), FadeIn(gary_mb), FadeIn(excluded_question))
+                    self.play(FadeIn(gary_focus), FadeIn(gary_ring), FadeIn(gary_mb), FadeIn(excluded_question))
                     self.pause('3.a.excluded')
                     self.play(FadeOut(excluded_question), run_time=0.2)
                     excluded_reason = fixed(Tex(
@@ -943,12 +955,14 @@ class EpisodeB3(ThreeDScene):
                         .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
                     self.play(FadeIn(excluded_reason))
                     self.pause('3.a.excluded.reason')
-                    self.play(FadeOut(excluded_reason), FadeOut(gary_focus), FadeOut(gary_mb), run_time=0.3)
+                    self.play(FadeOut(excluded_reason), FadeOut(gary_focus), FadeOut(gary_ring), FadeOut(gary_mb), run_time=0.3)
             if side == 'S' and i == 1:
                 self.pause('3.a')
                 self.play(FadeOut(entry_caption), run_time=0.2)
                 entry_caption = None
                 # One unhurried survey teaches what the center circle means.
+                buyer_ring = Circle(radius=0.29, color=DEMAND, stroke_width=3)
+                buyer_ring.move_to([0, 0, 0.045])
                 buyer_focus = fixed(SurroundingRectangle(panel_bars['B', 0],
                     color=DEMAND, buff=0.04, stroke_width=3))
                 self.play(
@@ -957,7 +971,9 @@ class EpisodeB3(ThreeDScene):
                     *[crowd_bars['B', b].animate.set_opacity(0.12) for b in (1, 4)],
                     *[connection_by_buyer[b].animate.set_opacity(0.2) for b in (1, 4)],
                     *[ground_by_buyer[b].animate.set_opacity(0.06) for b in (1, 4)],
-                    FadeIn(buyer_focus), hub.animate.set_stroke(opacity=1),
+                    FadeIn(buyer_focus),
+                    FadeIn(buyer_ring, shift=-np.append(crowd_bodies['B', 0].get_center()[:2], 0)),
+                    hub.animate.set_stroke(opacity=1),
                     crowd_bodies['B', 0].animate.move_to(
                         [0, 0, crowd_bodies['B', 0].get_center()[2]]), run_time=1.4)
                 self.pause('3.a.lookout')
@@ -1002,7 +1018,8 @@ class EpisodeB3(ThreeDScene):
                           *[FadeOut(option_prices[s]) for s in (0, 4)],
                           FadeIn(route), run_time=0.5)
                 self.play(crowd_bodies['B', 0].animate.move_to(
-                    [*destination[:2], crowd_bodies['B', 0].get_center()[2]]), run_time=1.2)
+                    [*destination[:2], crowd_bodies['B', 0].get_center()[2]]),
+                    buyer_ring.animate.move_to([*destination[:2], 0.045]), run_time=1.2)
                 for key, partner in [(('B', 0), ('S', 1)), (('S', 1), ('B', 0))]:
                     crowd_bars[key].partner = crowd_bodies[partner]
                 self.play(crowd_bars['B', 0].pairing.animate.set_value(1),
@@ -1019,7 +1036,7 @@ class EpisodeB3(ThreeDScene):
                 self.play(FadeOut(route), FadeIn(connection_by_buyer[0]),
                           FadeIn(ground_by_buyer[0]), run_time=0.5)
                 self.pause('3.a.chosen')
-                self.play(FadeOut(buyer_focus), FadeOut(mb_guide), FadeOut(mb_read),
+                self.play(FadeOut(buyer_focus), FadeOut(buyer_ring), FadeOut(mb_guide), FadeOut(mb_read),
                     FadeOut(price_caption), FadeOut(option_rings[1]),
                     FadeOut(option_columns[1]), FadeOut(option_prices[1]),
                     *[crowd_bodies['B', b][1].animate.set_opacity(1) for b in (1, 4)],
@@ -1069,10 +1086,14 @@ class EpisodeB3(ThreeDScene):
                                 FadeOut(ground_by_buyer.pop(b)),
                                 crowd_bars['B', b].pairing.animate.set_value(0),
                                 crowd_bars['S', crowd_matches[b]].pairing.animate.set_value(0), run_time=0.25)
+                        buyer_ring = Circle(radius=0.29, color=DEMAND, stroke_width=3)
+                        buyer_ring.move_to([0, 0, 0.045])
                         buyer_focus = fixed(SurroundingRectangle(panel_bars['B', b],
                             color=DEMAND, buff=0.035, stroke_width=3))
                         self.play(body.animate.move_to([0, 0, body.get_center()[2]]),
-                            FadeIn(buyer_focus), hub.animate.set_stroke(opacity=1), run_time=0.65)
+                            FadeIn(buyer_focus),
+                            FadeIn(buyer_ring, shift=-np.append(crowd_bodies['B', b].get_center()[:2], 0)),
+                            hub.animate.set_stroke(opacity=1), run_time=0.65)
                         if side == 'B' and round_.number == 1 and b == i:
                             self.pause(f'3.a.growth.B{i}.lookout')
                         value = CROWD_MB[b]
@@ -1111,7 +1132,7 @@ class EpisodeB3(ThreeDScene):
                                 .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
                             self.play(FadeIn(decision_caption), run_time=0.4)
                             self.play(body.animate.move_to([*buyer_spots[b][:2], body.get_center()[2]]),
-                                      run_time=0.65)
+                                buyer_ring.animate.move_to([*buyer_spots[b][:2], 0.045]), run_time=0.65)
                             self.pause(f'3.a.growth.{side}{i}.declined')
                             self.play(FadeOut(decision_caption), run_time=0.2)
                         else:
@@ -1132,7 +1153,8 @@ class EpisodeB3(ThreeDScene):
                             destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                             route = DashedLine([0, 0, 0.045], [*destination[:2], 0.045],
                                 color=MUTED, stroke_width=1.5).set_opacity(0.6)
-                            moves = [body.animate.move_to([*destination[:2], body.get_center()[2]])]
+                            moves = [body.animate.move_to([*destination[:2], body.get_center()[2]]),
+                                     buyer_ring.animate.move_to([*destination[:2], 0.045])]
                             if displaced is not None:
                                 displaced_body = crowd_bodies['B', displaced]
                                 moves.append(displaced_body.animate.move_to(
@@ -1157,7 +1179,7 @@ class EpisodeB3(ThreeDScene):
                                 FadeIn(ground_by_buyer[b]), run_time=0.3)
                             self.pause(f'3.a.growth.{side}{i}.r{round_.number}.b{b}.accepted')
                             self.play(FadeOut(chosen_price), run_time=0.2)
-                        self.play(FadeOut(buyer_focus), FadeOut(mb_guide), FadeOut(mb_read),
+                        self.play(FadeOut(buyer_focus), FadeOut(buyer_ring), FadeOut(mb_guide), FadeOut(mb_read),
                             FadeOut(price_caption), *[FadeOut(m) for m in option_columns.values()],
                             *[FadeOut(m) for m in option_rings.values()],
                             *[FadeOut(m) for m in option_prices.values()],

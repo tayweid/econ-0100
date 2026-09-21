@@ -260,6 +260,15 @@ newcomer returns to waiting after “Every offer exceeds this buyer’s MB.”
 Unchanged background checks are omitted; visible decisions are never reduced
 to a single unexplained seller highlight.
 
+Whenever a buyer's demand column is highlighted, add a matching buyer-blue
+(`DEMAND`) floor ring around that person: radius 0.29, stroke width 3, z=0.045,
+the same geometry as the small-market seller rings. The ring moves in the same plays as the buyer, with explicit floor positions
+and no body-tracking updater. It follows the buyer into the lookout and onward to a chosen seller or back to waiting. Keep it
+through the arrival, options, and decision holds; fade it with the demand
+highlight. Apply this to Andrew's entry, the two-by-two/three-by-two decisions,
+the worked three-by-three survey, and every growth deliberation. Gary also
+gets the ring at his waiting place during “Why is Gary left out?”
+
 Each newly added buyer has a named `.lookout` stop immediately after entering
 the deliberation circle, followed by the existing `.options` stop. The current
 ManimLive development viewer builds an enclosing loop in one continuous first
@@ -288,6 +297,16 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 buyer rings: added the buyer-colored floor highlight to each
+  deliberation and to Gary's exclusion explanation. Rings use explicit
+  movements alongside the buyer, with no tracking updater or body reference.
+  Rebuilt only the B3 live preview after mixed playback states displaced
+  objects during review. Verified Amanda-Grace's comparison and acceptance,
+  backward restoration, and Gary's third-seller trade with compact marginals
+  and correctly placed prices. Prepared the full growth checkpoints. An AST
+  comparison confirms that removing the ring additions leaves all existing
+  choreography unchanged. Syntax and whitespace checks pass.
 
 - September 21 price visibility: increased all elevated 3D market price and
   offer strokes to 4.5, and their ground shadows to 2.4 at 0.3 opacity.
