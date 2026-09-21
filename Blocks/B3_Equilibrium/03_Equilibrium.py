@@ -95,8 +95,7 @@ class EpisodeB3(ThreeDScene):
             bars['buyer'].animate.stretch_to_fit_width(CLOSE_WIDTH).set_x(
                 -(CLOSE_WIDTH + CLOSE_GAP) / 2),
             bars['seller'].animate.stretch_to_fit_width(CLOSE_WIDTH).set_x(
-                (CLOSE_WIDTH + CLOSE_GAP) / 2).set_color(GOV),
-            marginal_labels['seller'].animate.set_color(GOV),
+                (CLOSE_WIDTH + CLOSE_GAP) / 2),
             floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
             run_time=2.2)
         left_edge = -CLOSE_WIDTH - CLOSE_GAP / 2
@@ -157,41 +156,42 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(cs_label))
         self.pause('2.b.ii')
 
-        # ---- 2.b.iii · B2's full revenue rectangle stays visible around cost and PS.
-        revenue = Polygon(
-            [CLOSE_GAP / 2, -0.03, BAR_BASE], [right_edge, -0.03, BAR_BASE],
-            [right_edge, -0.03, price_z], [CLOSE_GAP / 2, -0.03, price_z],
-            stroke_color=INK, stroke_width=2, fill_opacity=0)
-        revenue_label = fixed(Tex(rf'Revenue $\${OFFER:g}$', color=INK).scale(0.7))
+        # ---- 2.b.iii · The same payment: carry expenditure's boundary to revenue.
+        revenue = expenditure.copy().set_fill(opacity=0).set_stroke(GOV, width=2.5)
+        revenue.shift([0, -0.005, 0])
+        revenue_label = fixed(Tex(rf'Revenue $\${OFFER:g}$', color=GOV).scale(0.7))
         revenue_label.move_to(screen_point(self.camera.frame,
             [right_edge, 0, price_z]) + RIGHT * 0.3 + UP * 0.2, aligned_edge=LEFT)
-        self.play(FadeIn(revenue), FadeIn(revenue_label))
+        self.play(ShowCreation(revenue), run_time=0.6)
+        self.play(revenue.animate.shift(RIGHT * (CLOSE_WIDTH + CLOSE_GAP)), run_time=1.4)
+        self.play(FadeIn(revenue_label))
         self.pause('2.b.iii')
 
-        # ---- 2.b.iv · Cost first, then producer surplus; no new definitions.
+        # ---- 2.b.iv · Carry the existing MC label beside the same orange area.
         seller_cost = Polygon(
             [CLOSE_GAP / 2, -0.025, BAR_BASE], [right_edge, -0.025, BAR_BASE],
             [right_edge, -0.025, BAR_BASE + MC * DOLLAR_HEIGHT],
             [CLOSE_GAP / 2, -0.025, BAR_BASE + MC * DOLLAR_HEIGHT],
-            fill_color=GOV, fill_opacity=AREA_OPACITY, stroke_width=0)
-        seller_ps = Polygon(
-            [CLOSE_GAP / 2, -0.025, BAR_BASE + MC * DOLLAR_HEIGHT],
-            [right_edge, -0.025, BAR_BASE + MC * DOLLAR_HEIGHT],
-            [right_edge, -0.025, price_z], [CLOSE_GAP / 2, -0.025, price_z],
             fill_color=SUPPLY, fill_opacity=AREA_OPACITY, stroke_width=0)
-        cost_label = fixed(Tex(rf'Cost $\${MC:g}$', color=GOV).scale(0.7))
-        cost_label.move_to(screen_point(self.camera.frame,
-            [right_edge, 0, BAR_BASE + MC * DOLLAR_HEIGHT / 2]) + RIGHT * 0.3,
-            aligned_edge=LEFT)
+        ps_inset = 0.045  # Highlight margin; the surplus remains price minus cost.
+        seller_ps = Polygon(
+            [CLOSE_GAP / 2 + ps_inset, -0.04, BAR_BASE + MC * DOLLAR_HEIGHT + ps_inset],
+            [right_edge - ps_inset, -0.04, BAR_BASE + MC * DOLLAR_HEIGHT + ps_inset],
+            [right_edge - ps_inset, -0.04, price_z - ps_inset],
+            [CLOSE_GAP / 2 + ps_inset, -0.04, price_z - ps_inset],
+            stroke_color=SUPPLY, stroke_width=2.5, fill_opacity=0)
+        cost_label = marginal_labels['seller']
+        cost_label.clear_updaters()
+        cost_at = screen_point(self.camera.frame,
+            [right_edge, 0, BAR_BASE + MC * DOLLAR_HEIGHT / 2]) + RIGHT * 0.3
         ps_label = fixed(Tex(rf'PS $\${OFFER - MC:g}$', color=SUPPLY).scale(0.7))
         ps_label.move_to(screen_point(self.camera.frame,
             [right_edge, 0, BAR_BASE + (MC + OFFER) * DOLLAR_HEIGHT / 2]) + RIGHT * 0.3,
             aligned_edge=LEFT)
         self.play(bars['seller'].animate.set_opacity(0.13), FadeIn(seller_cost),
-                  FadeOut(marginal_labels['seller']))
-        self.play(FadeIn(cost_label))
+                  cost_label.animate.move_to(cost_at, aligned_edge=LEFT), run_time=1.2)
         self.pause('2.b.iv')
-        self.play(FadeIn(seller_ps))
+        self.play(ShowCreation(seller_ps))
         self.play(FadeIn(ps_label))
         self.pause('2.b.v')
 
@@ -232,6 +232,10 @@ class EpisodeB3(ThreeDScene):
                 .set_x(0.8 - PAIR_OFFSET).set_y(0.65).set_color(SUPPLY).set_opacity(0.65),
             floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
             run_time=2)
+        marginal_labels['seller'].add_updater(lambda m: m.move_to(screen_point(
+            self.camera.frame,
+            [*m.anchor.get_center()[:2], BAR_BASE + m.value * DOLLAR_HEIGHT]) + UP * 0.30))
+        marginal_labels['seller'].update()
         self.play(FadeIn(marginal_labels['seller']))
         for key, value, offset in [('buyer', MB, RIGHT * PAIR_OFFSET),
                                     ('seller', MC, LEFT * PAIR_OFFSET)]:

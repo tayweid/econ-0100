@@ -20,7 +20,9 @@ new single episode. The map below supersedes earlier proposals.
 → second seller and a price cut → gradual arrivals → crowd discovers a price → name equilibrium → introduce the graph/recap →
 algebra → deviations. Taylor's latest review adds separate MB/MC curves during
 the buildup; their combination and the algebra still follow discovery. The
-approved first Gary/Molly close-up stays unchanged.
+approved first Gary/Molly staging is retained, with MC and its cost area staying orange.
+The accounting follow-up carries expenditure’s green boundary to Molly as
+revenue and draws an inset orange PS outline.
 
 ## First pair and deliberate decisions
 
@@ -28,13 +30,13 @@ approved first Gary/Molly close-up stays unchanged.
 |---|---|---|
 | `0.a` | Shared MICROECONOMICS bumper, Part B / Episode 3 | Notes' thesis, “Equilibrium: when no one wants to change.” |
 | `2.a` | Notes 1.a/2.a: the question and the first exchange | Gary and Molly start nearby (x=±1.65), with no offered price yet. Teal MB $6, orange MC $2 above their orbs. Question title: “Would they exchange?” |
-| `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right at x=±1.45; their original bars move inward between them, broaden to 1.10 units with a 0.12 gap. Molly’s MC bar and label become green (the existing Cost color); her orb stays orange. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
+| `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right at x=±1.45; their original bars move inward between them, broaden to 1.10 units with a 0.12 gap. Molly’s MC bar, label, and orb remain orange throughout. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
 | `2.b` | Accept on advance | Remove question; the same price and shadow become solid. |
 | `2.b.i` | Recall B1 expenditure | Green area 0–4 on the buyer's bar, then “Expenditure $4.” |
 | `2.b.ii` | Recall B1 CS | Teal area 4–6, then “CS $2.” |
-| `2.b.iii` | Recall B2 revenue | White revenue outline 0–4 on the seller's side, then “Revenue $4.” Keep the full outline visible through the next two fills. |
-| `2.b.iv` | Cost before PS | Green area 0–2, then “Cost $2.” |
-| `2.b.v` | Producer surplus | Orange area 2–4, then “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
+| `2.b.iii` | Carry the payment from buyer to seller | Trace a green, unfilled copy of Gary’s expenditure boundary, then slide it horizontally by 1.22 units onto Molly’s side without changing its size or dollar height (0–4). Gary’s expenditure fill stays in place. After the outline arrives, reveal green “Revenue $4.” Keep the revenue boundary through Cost and PS. |
+| `2.b.iv` | Move the marginal-cost label | Keep the orange area 0–2. Slide the existing orange “MC $2” label from above its bar to the right of that lower area in 1.2 seconds, as the area settles into the accounting view. Do not replace it with “Cost.” Restore its above-bar tracking position during the later pullback. |
+| `2.b.v` | Producer surplus | Outline the upper region between MC $2 and price $4 in orange, with no orange fill; inset the border 0.045 world units on all four sides so it fits visibly inside the green revenue boundary. This inset is a highlight margin, not a change to the $2 surplus. Then reveal “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
 | `2.c` | One new person: a competing buyer | Pull back from the approved close-up. Separate fixed-frame curves enter: buyer MB on the left, seller MC on the right. Copy each person’s marginal bar into its curve; keep MB descending and MC ascending as people arrive. Amanda-Grace alone joins, MB $7 against Gary's unchanged MB $6. Molly remains the only seller, MC $2; their standing price is $4. |
 | `2.c.i` | First higher offer | Amanda-Grace approaches; her bar moves beside Molly's before the short dashed $4.25 offer appears. Hold “Would they both accept this price?”; accept on advance. |
@@ -47,8 +49,9 @@ approved first Gary/Molly close-up stays unchanged.
 All dollar heights share `z = baseline + scale × dollars`; the ground connection
 is the projection of those exact endpoints. Dashed means contemplated; solid
 means accepted but still revisable. No cancelled deal is counted as completed
-trade or accumulated surplus. Payment/cost colors and reveal order follow the
-actual B1/B2 implementations; the B2 revenue/cost/PS frame was inspected.
+trade or accumulated surplus. Payment/cost colors and reveal order begin from
+B1/B2; Taylor’s latest correction replaces B2’s white revenue boundary with a
+green boundary transferred from expenditure, and its PS fill with an outline.
 
 ## Crowd and stopping state
 
@@ -185,22 +188,27 @@ unsupported numerical markets. B4 is the next block, not B5.
   including the cost of an outbid. The three presentation traces have
   six $4 matches, total gains $13, unique reservations, no losses, and no
   remaining permitted moves.
-- The updated full GPU render passes at 2160×1080 and 15 fps: 508 checkpoints,
-  43 named teaching holds, and 253.13 seconds of motion. Reviewed the separate
+- The updated full GPU render passes at 2160×1080 and 15 fps: 509 checkpoints,
+  43 named teaching holds, and 254.33 seconds of motion. Reviewed the separate
   curves at three, six, and twenty people; the center-ring survey and choice;
   the settlement; the combined graph; and the final stability frame. The
   animated state is checked against the model after every discovery round.
   Old price lines and shadows finish fading before a buyer moves; new lines
   enter after the marginals meet.
-- The approved opening choreography through `2.b.vi` is unchanged; its
-  first-deliberation and accounting frames were checked against the prior preview.
+- The first deliberation keeps its camera, geometry, and question while MC and
+  its cost area stay orange. The accounting review transfers expenditure’s green
+  boundary to revenue, slides the existing MC label into the lower-right position,
+  and uses an inset orange PS outline; its motion and stopped frames are checked
+  in the preview.
 - Reviewed actual stopped frames: first deliberation, all five accounting
   regions, switching, crowd settlement, graph sorting, algebra, both deviation
   calculations, shortage/excess, named switches, and stability.
-- Fifteen backward/forward restores across 3D and 2D scenes reproduce their
+- Twenty backward/forward restores across 3D and 2D scenes reproduce their
   original rendered frames exactly (maximum channel error 0). The browser player
-  also passed forward/reverse buyer-choice playback. Sampled movie frames show
-  the highlighted buyer in the hub, then walking along the single selected route.
+  also passed forward/reverse buyer-choice playback and the accounting label
+  move. Sampled movie frames show the highlighted buyer in the hub, then walking
+  along the single selected route; the green payment boundary in transit; and
+  the same MC label moving into its accounting position.
 - Preview: `media/EpisodeB3_present/index.html`, generated locally; it is not
   a published course artifact. Rebuild with `--export-present`. The application
   supplies the standard ManimL forward/reverse controls.
@@ -214,12 +222,16 @@ the bar edges and their ground shadows use the same endpoints. The accounting
 close-up is still magnification of one unit, with its existing 1.10-wide bars.
 The crowd already uses neighboring trading positions and keeps its faster pacing.
 
-In the first Gary/Molly close-up, green means cost throughout: the MC bar and
-label become green before the acceptance question, and the cost area later uses
-that same green. Orange is reserved for PS within this comparison. Molly’s orb
-stays orange, and her MC bar returns to the market's orange supply convention
-when the camera pulls back. This is a local teaching distinction, not a palette
-change to B1/B2 or the crowd.
+Taylor’s latest correction supersedes the temporary green MC/cost treatment:
+Molly’s MC bar, label, and cost fill all stay orange through the close-up and
+pullback. The existing MC label slides to the lower-right accounting position;
+it retains “MC $2” rather than disappearing and being replaced by “Cost $2.”
+The green expenditure boundary visibly travels from
+Gary to Molly and is relabeled Revenue: the same $4 payment viewed from either
+side. The upper $2 region receives an orange outline and PS label, with its
+interior unfilled. The PS border is inset by 0.045 world units on every side,
+leaving the full green revenue boundary visible around it. This replaces the
+earlier white revenue outline and orange PS fill without changing any dollars.
 
 Unsold offers turn grey at settlement; matched $4 tags stay red. Price-change
 arrows repeat in discovery and the deviation runs. Removing a match removes
