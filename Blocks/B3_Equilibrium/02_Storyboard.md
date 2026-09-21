@@ -30,6 +30,18 @@ approved first Gary/Molly staging is retained, with MC and its cost area staying
 The accounting follow-up carries expenditure’s green boundary to Molly as
 revenue and draws an inset orange PS outline.
 
+**Text in the plaza:** names, marginal values, offers, posted dollar tags, and
+the close-up accounting labels are world-space text. Reuse `Animate.py`'s
+`face_camera` updater: turn the glyphs toward the camera while retaining their
+3D anchors and world scale. Names sit just in front of their people at z=0.13;
+Gary/Molly's first labels sit 0.75 units outward to clear the orbs in side view.
+Values sit 0.28 units above their bars; dollar tags stay beside the seller/trade.
+They follow movement, camera zooms, and backward seeks. Rebuild a rolling
+number's flat glyph geometry when its value changes before facing it again.
+Titles, bottom questions, and labels belonging to the two side graphs retain
+their screen layout. The new episode keeps this one small orientation helper;
+choreography remains sequential inside `construct()`.
+
 ## First pair and deliberate decisions
 
 | Pause | Script / action | Stopped frame |
@@ -216,6 +228,16 @@ unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
 
+- World-text update: inspected the first pair, side-on accounting view,
+  Amanda-Grace's entrance, rolling prices through $6.25, and the small-market
+  buyers returning to the circle in the live viewer. Glyphs face the camera
+  while their position and apparent size follow the 3D scene. Syntax checks
+  pass; no full movie or checkpoint export was needed.
+  Viewer follow-up: seeking backward from the growing market to `2.b.vi`
+  restored an oblique camera pose instead of the authored side view, allowing
+  bars to occlude portions of world text. Forward playback through the next
+  camera move restored the intended pose. The text remains camera-facing;
+  the backward-seek camera behavior needs separate investigation.
 - Current incremental pass extends the two-by-two through equal prices and
   the three-by-two through Gary’s exclusion, then lets the third seller restore
   his trade. Verified automatic reload in the connected ManimLive development

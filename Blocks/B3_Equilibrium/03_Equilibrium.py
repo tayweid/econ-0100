@@ -34,6 +34,28 @@ class EpisodeB3(ThreeDScene):
         WORLD_CENTER = np.array([0.0, 0.0, 1.8])
         CLOSE_CENTER = np.array([0.0, 0.0, 2.05])
 
+        # Animate.py's world-text billboard: preserve 3D placement and scale.
+        # Rebuild from flat glyphs, not cumulative float32 rotations, so camera
+        # moves and backward seeks keep the letters planar and readable.
+        def face_camera(m):
+            if isinstance(m, DecimalNumber) and abs(m.get_value() - m.tracker.get_value()) > 1e-6:
+                m.set_value(m.tracker.get_value())
+                m.face_mat = np.eye(3)
+                if hasattr(m, 'face_base'):
+                    del m.face_base
+            cur = self.camera.frame.get_orientation().as_matrix()
+            if np.allclose(cur, m.face_mat, atol=1e-6):
+                return
+            if not hasattr(m, 'face_base'):
+                m.face_base = [sub.get_points().astype(float).copy() for sub in m.get_family()]
+            center = m.get_center().astype(float)
+            for sub, base in zip(m.get_family(), m.face_base):
+                if len(base):
+                    sub.set_points(base @ cur.T)
+                    sub.use_triangulated_fill = True
+            m.move_to(center)
+            m.face_mat = cur
+
         # ---- 0.a · Shared B1/B2 bumper, before turning into the 3D world.
         squares = bumper_raster(self)
         flicker(self, squares)
@@ -69,18 +91,23 @@ class EpisodeB3(ThreeDScene):
                               resolution=(2, 2), opacity=0.65).set_color(color)
             bar.rotate(90 * DEGREES, RIGHT).move_to(
                 [x, 0, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            name_label = fixed(Tex(name, color=INK).scale(0.8))
+            name_label = Tex(name, color=INK).scale(0.65)
+            name_label.face_mat = np.eye(3)
+            name_label.add_updater(face_camera)
             name_label.anchor = body
+            name_label.offset = LEFT * 0.75 if key == 'buyer' else RIGHT * 0.75
             name_label.add_updater(lambda m: m.move_to(
-                screen_point(self.camera.frame, m.anchor.get_center()) + DOWN * 0.6))
+                np.array([m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.55, 0.13])
+                + m.offset))
             name_label.update()
-            value_label = fixed(Tex(rf'{term} $\${value:g}$', color=color).scale(0.7))
+            value_label = Tex(rf'{term} $\${value:g}$', color=color).scale(0.62)
+            value_label.face_mat = np.eye(3)
+            value_label.add_updater(face_camera)
             value_label.anchor = bar
             value_label.value = value
-            value_label.add_updater(lambda m: m.move_to(screen_point(
-                self.camera.frame,
-                [*m.anchor.get_center()[:2], BAR_BASE + m.value * DOLLAR_HEIGHT])
-                + UP * 0.30))
+            value_label.add_updater(lambda m: m.move_to(
+                [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
+                 BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
             value_label.update()
             bodies[key], bars[key] = body, bar
             names[key], marginal_labels[key] = name_label, value_label
@@ -107,10 +134,16 @@ class EpisodeB3(ThreeDScene):
                                [right_edge, -0.045, price_z], color=GUIDE, stroke_width=3)
         price_shadow = DashedLine([left_edge, 0, 0.04], [right_edge, 0, 0.04],
                                  color=GUIDE, stroke_width=2).set_opacity(0.3)
-        price_word = fixed(Tex(rf'Price $\${OFFER:g}$', color=GUIDE).scale(0.7))
-        price_word.move_to(screen_point(self.camera.frame, [0, 0, price_z]) + UP * 0.3)
-        zero_word = fixed(Tex('0', color=CAPTION).scale(0.7))
-        zero_word.move_to(screen_point(self.camera.frame, [0, 0, BAR_BASE]) + DOWN * 0.25)
+        price_word = Tex(rf'Price $\${OFFER:g}$', color=GUIDE).scale(0.62)
+        price_word.face_mat = np.eye(3)
+        price_word.add_updater(face_camera)
+        price_word.update()
+        price_word.move_to([0, -0.10, price_z + 0.28])
+        zero_word = Tex('0', color=CAPTION).scale(0.62)
+        zero_word.face_mat = np.eye(3)
+        zero_word.add_updater(face_camera)
+        zero_word.update()
+        zero_word.move_to([0, -0.10, BAR_BASE - 0.25])
         question = fixed(Tex('Would they both accept this price?', color=DEFINITION)
                          .scale(DEFINITION_SCALE))
         question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -140,19 +173,23 @@ class EpisodeB3(ThreeDScene):
             [-CLOSE_GAP / 2, -0.025, BAR_BASE + MB * DOLLAR_HEIGHT],
             [left_edge, -0.025, BAR_BASE + MB * DOLLAR_HEIGHT],
             fill_color=DEMAND, fill_opacity=AREA_OPACITY, stroke_width=0)
-        expenditure_label = fixed(Tex(rf'Expenditure $\${OFFER:g}$', color=GOV).scale(0.7))
-        expenditure_label.move_to(screen_point(self.camera.frame,
-            [left_edge, 0, BAR_BASE + OFFER * DOLLAR_HEIGHT / 2]) + LEFT * 0.3,
-            aligned_edge=RIGHT)
+        expenditure_label = Tex(rf'Expenditure $\${OFFER:g}$', color=GOV).scale(0.62)
+        expenditure_label.face_mat = np.eye(3)
+        expenditure_label.add_updater(face_camera)
+        expenditure_label.update()
+        expenditure_label.move_to(
+            [left_edge - 0.3, -0.10, BAR_BASE + OFFER * DOLLAR_HEIGHT / 2], aligned_edge=RIGHT)
         self.play(bars['buyer'].animate.set_opacity(0.13), FadeIn(expenditure))
         self.play(FadeIn(expenditure_label))
         self.pause('2.b.i')
 
         # ---- 2.b.ii · Consumer surplus stays above the same price line.
-        cs_label = fixed(Tex(rf'CS $\${MB - OFFER:g}$', color=DEMAND).scale(0.7))
-        cs_label.move_to(screen_point(self.camera.frame,
-            [left_edge, 0, BAR_BASE + (OFFER + MB) * DOLLAR_HEIGHT / 2]) + LEFT * 0.3,
-            aligned_edge=RIGHT)
+        cs_label = Tex(rf'CS $\${MB - OFFER:g}$', color=DEMAND).scale(0.62)
+        cs_label.face_mat = np.eye(3)
+        cs_label.add_updater(face_camera)
+        cs_label.update()
+        cs_label.move_to(
+            [left_edge - 0.3, -0.10, BAR_BASE + (OFFER + MB) * DOLLAR_HEIGHT / 2], aligned_edge=RIGHT)
         self.play(FadeIn(buyer_cs))
         self.play(FadeIn(cs_label))
         self.pause('2.b.ii')
@@ -160,9 +197,11 @@ class EpisodeB3(ThreeDScene):
         # ---- 2.b.iii · The same payment: carry expenditure's boundary to revenue.
         revenue = expenditure.copy().set_fill(opacity=0).set_stroke(GOV, width=2.5)
         revenue.shift([0, -0.005, 0])
-        revenue_label = fixed(Tex(rf'Revenue $\${OFFER:g}$', color=GOV).scale(0.7))
-        revenue_label.move_to(screen_point(self.camera.frame,
-            [right_edge, 0, price_z]) + RIGHT * 0.3 + UP * 0.2, aligned_edge=LEFT)
+        revenue_label = Tex(rf'Revenue $\${OFFER:g}$', color=GOV).scale(0.62)
+        revenue_label.face_mat = np.eye(3)
+        revenue_label.add_updater(face_camera)
+        revenue_label.update()
+        revenue_label.move_to([right_edge + 0.3, -0.10, price_z + 0.2], aligned_edge=LEFT)
         self.play(ShowCreation(revenue), run_time=0.6)
         self.play(revenue.animate.shift(RIGHT * (CLOSE_WIDTH + CLOSE_GAP)), run_time=1.4)
         self.play(FadeIn(revenue_label))
@@ -183,12 +222,14 @@ class EpisodeB3(ThreeDScene):
             stroke_color=SUPPLY, stroke_width=2.5, fill_opacity=0)
         cost_label = marginal_labels['seller']
         cost_label.clear_updaters()
-        cost_at = screen_point(self.camera.frame,
-            [right_edge, 0, BAR_BASE + MC * DOLLAR_HEIGHT / 2]) + RIGHT * 0.3
-        ps_label = fixed(Tex(rf'PS $\${OFFER - MC:g}$', color=SUPPLY).scale(0.7))
-        ps_label.move_to(screen_point(self.camera.frame,
-            [right_edge, 0, BAR_BASE + (MC + OFFER) * DOLLAR_HEIGHT / 2]) + RIGHT * 0.3,
-            aligned_edge=LEFT)
+        cost_label.add_updater(face_camera)
+        cost_at = [right_edge + 0.3, -0.10, BAR_BASE + MC * DOLLAR_HEIGHT / 2]
+        ps_label = Tex(rf'PS $\${OFFER - MC:g}$', color=SUPPLY).scale(0.62)
+        ps_label.face_mat = np.eye(3)
+        ps_label.add_updater(face_camera)
+        ps_label.update()
+        ps_label.move_to(
+            [right_edge + 0.3, -0.10, BAR_BASE + (MC + OFFER) * DOLLAR_HEIGHT / 2], aligned_edge=LEFT)
         self.play(bars['seller'].animate.set_opacity(0.13), FadeIn(seller_cost),
                   cost_label.animate.move_to(cost_at, aligned_edge=LEFT), run_time=1.2)
         self.pause('2.b.iv')
@@ -233,9 +274,9 @@ class EpisodeB3(ThreeDScene):
                 .set_x(3 - PAIR_OFFSET).set_y(1.2).set_color(SUPPLY).set_opacity(0.65),
             floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
             run_time=2)
-        marginal_labels['seller'].add_updater(lambda m: m.move_to(screen_point(
-            self.camera.frame,
-            [*m.anchor.get_center()[:2], BAR_BASE + m.value * DOLLAR_HEIGHT]) + UP * 0.30))
+        marginal_labels['seller'].add_updater(lambda m: m.move_to(
+            [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
+             BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
         marginal_labels['seller'].update()
         self.play(FadeIn(marginal_labels['seller']))
         for key, value, offset in [('buyer', MB, RIGHT * PAIR_OFFSET),
@@ -291,13 +332,13 @@ class EpisodeB3(ThreeDScene):
                                .move_to([5.9, -3.05, 0]))
         self.play(FadeIn(mark), FadeIn(posted_caption), run_time=0.5)
 
-        deal_number = fixed(DecimalNumber(OFFER, num_decimal_places=2, color=GUIDE).scale(0.7))
+        deal_number = DecimalNumber(OFFER, num_decimal_places=2, color=GUIDE).scale(0.62)
         deal_number.tracker = deal_price
+        deal_number.face_mat = np.eye(3)
+        deal_number.add_updater(face_camera)
         deal_number.buyer, deal_number.seller = bars['buyer'], bars['seller']
-        deal_number.add_updater(lambda m: m.set_value(m.tracker.get_value())
-                               if abs(m.get_value() - m.tracker.get_value()) > 1e-6 else m)
-        deal_number.add_updater(lambda m: m.move_to(screen_point(self.camera.frame,
-            m.seller.anchor.get_center()) + RIGHT * 0.8 + UP * 0.35))
+        deal_number.add_updater(lambda m: m.move_to(
+            m.seller.anchor.get_center() + RIGHT * 0.65 + DOWN * 0.15 + OUT * 0.5))
         deal_number.update()
         shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
                         opacity=0.28).set_color(DEMAND).move_to([-2.8, -1.1, 0.025])
@@ -311,15 +352,20 @@ class EpisodeB3(ThreeDScene):
         bar.add_updater(lambda m: m.move_to([
             *(m.anchor.get_center() + m.offset)[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
         bar.update()
-        name_label = fixed(Tex('Amanda-Grace', color=INK).scale(0.7))
+        name_label = Tex('Amanda-Grace', color=INK).scale(0.62)
+        name_label.face_mat = np.eye(3)
+        name_label.add_updater(face_camera)
         name_label.anchor = body
         name_label.add_updater(lambda m: m.move_to(
-            screen_point(self.camera.frame, m.anchor.get_center()) + DOWN * 0.6 + LEFT * 0.65))
+            [m.anchor.get_center()[0] - 0.4, m.anchor.get_center()[1] - 0.55, 0.13]))
         name_label.update()
-        value_label = fixed(Tex(r'MB $\$7$', color=DEMAND).scale(0.7))
+        value_label = Tex(r'MB $\$7$', color=DEMAND).scale(0.62)
+        value_label.face_mat = np.eye(3)
+        value_label.add_updater(face_camera)
         value_label.anchor, value_label.value = bar, 7
-        value_label.add_updater(lambda m: m.move_to(screen_point(self.camera.frame,
-            [*m.anchor.get_center()[:2], BAR_BASE + m.value * DOLLAR_HEIGHT]) + UP * 0.3))
+        value_label.add_updater(lambda m: m.move_to(
+            [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
+             BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
         value_label.update()
         bodies['challenger'], bars['challenger'] = body, bar
         names['challenger'], marginal_labels['challenger'] = name_label, value_label
@@ -376,12 +422,15 @@ class EpisodeB3(ThreeDScene):
             challenge_shadow = DashedLine([2.2 - PAIR_EDGE, 1.2, 0.04],
                                          [2.2 + PAIR_EDGE, 1.2, 0.04],
                                          color=GUIDE, stroke_width=1.6).set_opacity(0.3)
-            offer_label = fixed(Tex(rf'Offer $\${bid.price:.2f}$', color=GUIDE).scale(0.7))
-            offer_label.move_to(screen_point(self.camera.frame,
-                [2.2, 1.2, BAR_BASE + bid.price * DOLLAR_HEIGHT]) + RIGHT * 1.1 + UP * 0.22)
+            offer_label = Tex(rf'Offer $\${bid.price:.2f}$', color=GUIDE).scale(0.62)
+            offer_label.face_mat = np.eye(3)
+            offer_label.add_updater(face_camera)
+            offer_label.update()
+            offer_label.move_to([2.2 + PAIR_EDGE + 0.3, 1.08,
+                BAR_BASE + bid.price * DOLLAR_HEIGHT + 0.22], aligned_edge=LEFT)
             arrow_at = offer_label.get_right() + RIGHT * 0.3
-            bid_arrow = fixed(Arrow(arrow_at + DOWN * 0.18, arrow_at + UP * 0.18,
-                                   color=GUIDE, thickness=1.2, tip_width_ratio=4, buff=0))
+            bid_arrow = Arrow(arrow_at - OUT * 0.18, arrow_at + OUT * 0.18,
+                              color=GUIDE, thickness=1.2, tip_width_ratio=4, buff=0)
             self.play(FadeIn(challenge), FadeIn(challenge_shadow),
                       FadeIn(offer_label), FadeIn(bid_arrow), run_time=0.3)
             if bid.price == 4.25:
@@ -489,13 +538,13 @@ class EpisodeB3(ThreeDScene):
                 crowd_bodies[side, i], crowd_bars[side, i] = body, bar
                 if side == 'S':
                     tracker = ValueTracker(crowd_asks[i])
-                    tag = fixed(DecimalNumber(crowd_asks[i], num_decimal_places=2,
-                                              color=GUIDE).scale(0.7))
+                    tag = DecimalNumber(crowd_asks[i], num_decimal_places=2,
+                                        color=GUIDE).scale(0.58)
                     tag.tracker, tag.anchor = tracker, body
-                    tag.add_updater(lambda m: m.set_value(m.tracker.get_value())
-                                    if abs(m.get_value() - m.tracker.get_value()) > 1e-6 else m)
-                    tag.add_updater(lambda m: m.move_to(screen_point(self.camera.frame,
-                        m.anchor.get_center()) + RIGHT * 0.45 + DOWN * 0.2))
+                    tag.face_mat = np.eye(3)
+                    tag.add_updater(face_camera)
+                    tag.add_updater(lambda m: m.move_to(
+                        m.anchor.get_center() + RIGHT * 0.55 + DOWN * 0.15 + OUT * 0.45))
                     tag.update()
                     price_tags[i], price_trackers[i] = tag, tracker
         posted_marks[0].tracker = price_trackers[0]
@@ -573,15 +622,17 @@ class EpisodeB3(ThreeDScene):
                 entry_caption = None
                 entry_names = {}
                 for key, word, offset in [
-                    (('B', 0), 'Gary', DOWN * 0.65),
-                    (('B', 4), 'Amanda-Grace', DOWN * 0.65 + LEFT * 1.1),
-                    (('S', 0), 'Molly', DOWN * 0.65 + RIGHT * 0.95),
-                    (('S', 4), 'Andrew', DOWN * 0.65 + RIGHT * 0.95),
+                    (('B', 0), 'Gary', DOWN * 0.55),
+                    (('B', 4), 'Amanda-Grace', DOWN * 0.55 + LEFT * 0.65),
+                    (('S', 0), 'Molly', DOWN * 0.55 + RIGHT * 0.6),
+                    (('S', 4), 'Andrew', DOWN * 0.55 + RIGHT * 0.6),
                 ]:
-                    label = fixed(Tex(word, color=INK).scale(0.7))
+                    label = Tex(word, color=INK).scale(0.60)
+                    label.face_mat = np.eye(3)
+                    label.add_updater(face_camera)
                     label.anchor, label.offset = crowd_bodies[key], offset
-                    label.add_updater(lambda m: m.move_to(screen_point(
-                        self.camera.frame, m.anchor.get_center()) + m.offset))
+                    label.add_updater(lambda m: m.move_to(
+                        np.array([*m.anchor.get_center()[:2], 0.13]) + m.offset))
                     label.update()
                     entry_names[key] = label
                 self.play(*[FadeIn(label) for label in entry_names.values()], run_time=0.4)
@@ -689,10 +740,12 @@ class EpisodeB3(ThreeDScene):
                 else:
                     self.play(FadeOut(entry_caption), run_time=0.2)
                     entry_caption = None
-                    new_name = fixed(Tex('New buyer', color=INK).scale(0.7))
+                    new_name = Tex('New buyer', color=INK).scale(0.60)
+                    new_name.face_mat = np.eye(3)
+                    new_name.add_updater(face_camera)
                     new_name.anchor = crowd_bodies['B', 1]
-                    new_name.add_updater(lambda m: m.move_to(screen_point(
-                        self.camera.frame, m.anchor.get_center()) + DOWN * 0.65 + LEFT * 0.5))
+                    new_name.add_updater(lambda m: m.move_to(
+                        [m.anchor.get_center()[0] - 0.3, m.anchor.get_center()[1] - 0.55, 0.13]))
                     new_name.update()
                     entry_names['B', 1] = new_name
                     third_caption = fixed(Tex('Three buyers. Two units.', color=DEFINITION)
