@@ -365,23 +365,19 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(stop_reason))
         self.pause('2.c.iii')
 
-        # ---- 3.a · Sellers stay at their stations; buyers reconsider at the hub.
-        self.play(FadeOut(stop_reason), run_time=0.2)
+        # ---- 3.a · Preserve the bidding tableau while revealing the plaza.
+        self.play(FadeOut(stop_reason), *[FadeOut(m) for m in marginal_labels.values()],
+                  *[FadeOut(m) for m in names.values()], run_time=0.35)
         crowd_asks = [6.25, 4.5, 6, 6, 4.25, 6, 6, 6, 6, 6]
         crowd_matches = [None, None, None, None, 0, None, None, None, None, None]
-        self.play(FadeOut(accepted_line), FadeOut(accepted_shadow),
-                  FadeOut(deal_number), *[FadeOut(m) for m in marginal_labels.values()],
-                  *[FadeOut(m) for m in names.values()])
         for bar in bars.values():
             bar.clear_updaters()
         self.remove(head)
         head = fixed(title('Where do prices settle?'))
-        self.play(FadeIn(head), self.camera.frame.animate.reorient(
-            0, 48, center=[0, 0, 0.65], height=10.4),
-            floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=1.5)
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
         PAIR_WIDTH, PAIR_GAP = 0.18, 0.035
-        # The seller arc preserves Molly's station; only buyers change stations.
+        # Molly never changes station. Gary keeps his bidding position; the
+        # original buyers wait near the lookout instead of crossing the plaza.
         seller_ys = [1.2, 2.8, 2.0, 0.4, -1.2, -0.4, -2.0, -2.8, -3.6, 3.6]
         arc_shift = 3 - np.sqrt(4.1 ** 2 - 1.2 ** 2)
         seller_spots = [np.array([np.sqrt(4.1 ** 2 - y ** 2) + arc_shift, y, 0])
@@ -389,6 +385,10 @@ class EpisodeB3(ThreeDScene):
         buyer_spots = [np.array([-np.sqrt(3.7 ** 2 - y ** 2), y, 0])
                        for y in np.linspace(3.7 * np.sin(65 * DEGREES),
                                             -3.7 * np.sin(65 * DEGREES), 10)]
+        buyer_spots[0] = np.array([bid_body_x['buyer'], bid_y, 0])
+        buyer_spots[4] = np.array([-0.9, -0.8, 0])
+        first_partner_spot = np.array([3.72, 0.85, 0])
+        first_pair_mid = (seller_spots[0] + first_partner_spot) / 2
         crowd_bodies, crowd_bars, price_tags, price_trackers = {}, {}, {}, {}
         inherited = {('B', 0): 'buyer', ('B', 4): 'challenger',
                      ('S', 0): 'seller'}
@@ -396,22 +396,26 @@ class EpisodeB3(ThreeDScene):
         for side, values, spots, color in [('B', CROWD_MB, buyer_spots, DEMAND),
                                            ('S', CROWD_MC, seller_spots, SUPPLY)]:
             for i, value in enumerate(values):
-                spot = spots[i].copy()
-                if side == 'B' and crowd_matches[i] is not None:
-                    seller_at = seller_spots[crowd_matches[i]]
-                    spot = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
+                spot = first_partner_spot.copy() if (side, i) == ('B', 4) else spots[i].copy()
+                pair_side = -1 if side == 'B' else 1
+                bar_at = spot.copy()
+                if (side, i) in [('B', 4), ('S', 0)]:
+                    # Keep MC on the left and MB on the right until this
+                    # first partnership ends; no crossing through Molly.
+                    pair_side *= -1
+                    bar_at = first_pair_mid + RIGHT * pair_side * (PAIR_WIDTH + PAIR_GAP) / 2
                 if (side, i) in inherited:
                     key = inherited[side, i]
                     body, bar = bodies[key], bars[key]
                     body[1].set_opacity(1)
                     body[0].set_opacity(0.28)
-                    if side == 'S':
+                    if key in ['buyer', 'seller']:
                         inherited_moves.append(body.animate.scale(0.7).set_z(0.19))
                     else:
                         inherited_moves.append(body.animate.scale(0.7).move_to([*spot[:2], 0.19]))
                     inherited_moves.append(bar.animate.stretch(CROWD_SCALE / DOLLAR_HEIGHT, 2)
                         .stretch_to_fit_width(PAIR_WIDTH).set_opacity(0.65).move_to(
-                            [*spot[:2], CROWD_BASE + value * CROWD_SCALE / 2]))
+                            [*bar_at[:2], CROWD_BASE + value * CROWD_SCALE / 2]))
                 else:
                     shadow = Disk3D(radius=0.20, resolution=(2, 16), shading=(0, 0, 0),
                                     opacity=0.22).set_color(color).move_to([*spot[:2], 0.025])
@@ -423,52 +427,60 @@ class EpisodeB3(ThreeDScene):
                     bar.rotate(90 * DEGREES, RIGHT).move_to(
                         [*spot[:2], CROWD_BASE + value * CROWD_SCALE / 2])
                 bar.anchor, bar.value = body, value
-                # Bodies keep their stations; the two marginals meet between
-                # them. Store references on each bar for live checkpoint copies.
-                bar.partner, bar.pairing = body, ValueTracker(0)
-                bar.pair_side = -1 if side == 'B' else 1
-                bar.add_updater(lambda m: m.move_to(np.append(
-                    (1 - m.pairing.get_value()) * m.anchor.get_center()[:2]
-                    + m.pairing.get_value() * ((m.anchor.get_center()[:2]
-                        + m.partner.get_center()[:2]) / 2
-                        + np.array([m.pair_side * (PAIR_WIDTH + PAIR_GAP) / 2, 0])),
-                    CROWD_BASE + m.value * CROWD_SCALE / 2)))
+                bar.partner, bar.pairing, bar.pair_side = body, ValueTracker(0), pair_side
                 crowd_bodies[side, i], crowd_bars[side, i] = body, bar
                 if side == 'S':
                     tracker = ValueTracker(crowd_asks[i])
                     tag = DecimalNumber(crowd_asks[i], num_decimal_places=2,
                                         color=GUIDE).scale(0.58)
-                    tag.tracker, tag.anchor = tracker, body
+                    tag.tracker, tag.anchor = tracker, bar if i == 0 else body
                     tag.face_mat = np.eye(3)
                     tag.add_updater(face_camera)
-                    tag.add_updater(lambda m: m.move_to(
-                        m.anchor.get_center() + RIGHT * 0.55 + DOWN * 0.15 + OUT * 0.45))
+                    if i == 0:
+                        # Carry Molly's winning-price readout through the pullback.
+                        tag.add_updater(lambda m: m.move_to([
+                            m.anchor.get_center()[0] + 0.65,
+                            m.anchor.get_center()[1] - 0.12,
+                            CROWD_BASE + m.tracker.get_value() * CROWD_SCALE + 0.25]))
+                    else:
+                        tag.add_updater(lambda m: m.move_to(
+                            m.anchor.get_center() + RIGHT * 0.55 + DOWN * 0.15 + OUT * 0.45))
                     tag.update()
                     price_tags[i], price_trackers[i] = tag, tracker
-        self.play(*inherited_moves,
-                  FadeIn(price_tags[0]), run_time=1.2)
+        for key, partner in [(('B', 4), ('S', 0)), (('S', 0), ('B', 4))]:
+            crowd_bars[key].partner = crowd_bodies[partner]
+            crowd_bars[key].pairing.set_value(1)
+        price_height = CROWD_BASE + crowd_asks[0] * CROWD_SCALE
+        pair_left = first_pair_mid[:2] - np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
+        pair_right = first_pair_mid[:2] + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
+        # One continuous rescaling: keep the same accepted line and shadow,
+        # and finish directly at the compact pair (no second docking motion).
+        self.play(FadeIn(head), self.camera.frame.animate.reorient(
+            0, 48, center=[0, 0, 0.65], height=10.4), *inherited_moves,
+            accepted_line.animate.put_start_and_end_on(
+                np.append(pair_left, price_height), np.append(pair_right, price_height)).set_stroke(width=2.2),
+            accepted_shadow.animate.put_start_and_end_on(
+                np.append(pair_left, 0.04), np.append(pair_right, 0.04)).set_stroke(width=1.6),
+            deal_number.animate.move_to([first_pair_mid[0] - (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
+                                         first_pair_mid[1] - 0.12,
+                                         price_height + 0.25]),
+            floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=2.2)
+        # Install following only after the authored transition has completed;
+        # otherwise these updaters snap the bars to their bodies mid-resize.
+        for bar in crowd_bars.values():
+            bar.add_updater(lambda m: m.move_to(np.append(
+                (1 - m.pairing.get_value()) * m.anchor.get_center()[:2]
+                + m.pairing.get_value() * ((m.anchor.get_center()[:2]
+                    + m.partner.get_center()[:2]) / 2
+                    + np.array([m.pair_side * (PAIR_WIDTH + PAIR_GAP) / 2, 0])),
+                CROWD_BASE + m.value * CROWD_SCALE / 2)))
+        connection_by_buyer, ground_by_buyer = {4: accepted_line}, {4: accepted_shadow}
         hub = DashedVMobject(Circle(radius=0.35, color=MUTED, stroke_width=2),
                              num_dashes=12).set_stroke(opacity=0.6).shift(OUT * 0.035)
-        connection_by_buyer, ground_by_buyer = {}, {}
-        for b, seller in enumerate(crowd_matches):
-            if seller is not None:
-                buyer_at = crowd_bodies['B', b].get_center()
-                seller_at = seller_spots[seller]
-                for key, partner in [(('B', b), ('S', seller)), (('S', seller), ('B', b))]:
-                    crowd_bars[key].partner = crowd_bodies[partner]
-                self.play(crowd_bars['B', b].pairing.animate.set_value(1),
-                          crowd_bars['S', seller].pairing.animate.set_value(1), run_time=0.45)
-                midpoint = (buyer_at[:2] + seller_at[:2]) / 2
-                buyer_at = midpoint - np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
-                seller_at = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
-                height = CROWD_BASE + crowd_asks[seller] * CROWD_SCALE
-                connection_by_buyer[b] = Line([*buyer_at[:2], height], [*seller_at[:2], height],
-                                              color=GUIDE, stroke_width=2.2)
-                ground_by_buyer[b] = Line([*buyer_at[:2], 0.04], [*seller_at[:2], 0.04],
-                                          color=GUIDE, stroke_width=1.6).set_opacity(0.3)
-        self.add(*connection_by_buyer.values(), *ground_by_buyer.values())
-        self.play(FadeIn(hub), run_time=0.4)
-        # The separate curves first appear after the close-up bidding war.
+        self.play(FadeIn(hub), run_time=0.35)
+        self.pause('3.a.plaza')
+
+        # ---- 3.a.overview · Reveal both curves in place, with the camera still.
         side_axes, side_frames, side_counts, panel_bars = {}, {}, {}, {}
         panel_ids = {'B': [4, 0], 'S': [0]}
         for side, x, word, term, values, color in [
@@ -490,24 +502,11 @@ class EpisodeB3(ThreeDScene):
                 Tex('Units', color=CAPTION).scale(0.7).move_to([x, -2.5, 0]))
             frame = fixed(VGroup(panel_ax, panel_ticks, panel_caps, count_label))
             side_axes[side], side_frames[side], side_counts[side] = panel_ax, frame, count_label
-            self.play(FadeIn(frame), run_time=0.5)
-            twins, rearrange = [], []
             for rank, i in enumerate(panel_ids[side]):
-                at = crowd_bars[side, i].get_center()
-                top = screen_point(self.camera.frame, [*at[:2], CROWD_BASE + values[i] * CROWD_SCALE])
-                base = screen_point(self.camera.frame, [*at[:2], CROWD_BASE])
-                twin = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
-                    color=color, fill_color=color, fill_opacity=0.22, stroke_width=2)
-                    .move_to((top + base) / 2))
-                panel_bars[side, i] = twin
                 x0, x1 = 10 * rank / count, 10 * (rank + 1) / count
-                target = fixed(Polygon(panel_ax.c2p(x0, 0), panel_ax.c2p(x1, 0),
+                panel_bars[side, i] = fixed(Polygon(panel_ax.c2p(x0, 0), panel_ax.c2p(x1, 0),
                     panel_ax.c2p(x1, values[i]), panel_ax.c2p(x0, values[i]),
                     color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
-                twins.append(FadeIn(twin))
-                rearrange.append(Transform(twin, target))
-            self.play(*twins, run_time=0.3)
-            self.play(*rearrange, run_time=0.8)
         posted_marks = {}
         mark = fixed(DashedVMobject(Line(LEFT, RIGHT, color=GUIDE, stroke_width=3), num_dashes=4))
         mark.anchor, mark.axis, mark.tracker = panel_bars['S', 0], side_axes['S'], price_trackers[0]
@@ -515,9 +514,12 @@ class EpisodeB3(ThreeDScene):
             .move_to([m.anchor.get_center()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0]))
         mark.update()
         posted_marks[0] = mark
-        # Standing dashed prices remain beneath the solid decision offers.
         posted_caption = fixed(Tex('Posted prices', color=GUIDE).scale(0.7).move_to([5.9, -3.05, 0]))
-        self.play(FadeIn(mark), FadeIn(posted_caption), run_time=0.5)
+        price_tags[0].update()
+        self.play(*[FadeIn(m) for m in side_frames.values()],
+            *[FadeIn(m) for m in panel_bars.values()],
+            ReplacementTransform(deal_number, price_tags[0]), FadeIn(mark),
+            FadeIn(posted_caption), run_time=0.8)
         self.pause('3.a.overview')
 
         arrival_order = [('S', 4)] + [(side, i) for i in [1, 2, 3, 5, 6, 7, 8, 9] for side in ['B', 'S']]
@@ -579,7 +581,7 @@ class EpisodeB3(ThreeDScene):
                 entry_names = {}
                 for key, word, offset in [
                     (('B', 0), 'Gary', DOWN * 0.55),
-                    (('B', 4), 'Amanda-Grace', DOWN * 0.55 + LEFT * 0.65),
+                    (('B', 4), 'Amanda-Grace', DOWN * 0.9 + LEFT * 0.2),
                     (('S', 0), 'Molly', DOWN * 0.55 + RIGHT * 0.6),
                     (('S', 4), 'Andrew', DOWN * 0.55 + RIGHT * 0.6),
                 ]:
@@ -614,6 +616,8 @@ class EpisodeB3(ThreeDScene):
                             crowd_bars['B', chooser].pairing.animate.set_value(0),
                             crowd_bars['S', crowd_matches[chooser]].pairing.animate.set_value(0),
                             run_time=0.25)
+                        crowd_bars['B', chooser].pair_side = -1
+                        crowd_bars['S', crowd_matches[chooser]].pair_side = 1
                     buyer_focus = fixed(SurroundingRectangle(panel_bars['B', chooser],
                         color=DEMAND, buff=0.04, stroke_width=3))
                     self.play(chooser_body.animate.move_to([0, 0, chooser_body.get_center()[2]]),
