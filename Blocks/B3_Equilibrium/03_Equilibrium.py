@@ -1248,12 +1248,16 @@ class EpisodeB3(ThreeDScene):
                 value = values[i]
                 target = fixed(Polygon(unit_ax.c2p(rank, 0), unit_ax.c2p(rank + 1, 0),
                     unit_ax.c2p(rank + 1, value), unit_ax.c2p(rank, value),
-                    color=color, fill_color=color, fill_opacity=0.2, stroke_width=1))
+                    color=color, fill_color=color, fill_opacity=0.06, stroke_width=0))
                 rearrange.append(Transform(twins[side, i], target))
-            steps = fixed(VGroup(*[Line(unit_ax.c2p(rank, values[i]),
-                unit_ax.c2p(rank + 1, values[i]), color=color, stroke_width=3)
-                for rank, i in enumerate(panel_ids[side])]))
-            stairs[side] = steps
+            # Trace the top boundary, connecting only changes in height.
+            step_points = [unit_ax.c2p(0, values[panel_ids[side][0]])]
+            for rank, i in enumerate(panel_ids[side]):
+                if rank and values[i] != values[panel_ids[side][rank - 1]]:
+                    step_points.append(unit_ax.c2p(rank, values[i]))
+                step_points.append(unit_ax.c2p(rank + 1, values[i]))
+            stairs[side] = fixed(VMobject(color=color, stroke_width=3, fill_opacity=0)
+                                 .set_points_as_corners(step_points))
         # Both sorted curves arrive together; no detached bars over the plaza.
         self.play(FadeIn(unit_graph), FadeOut(side_frames['B']), FadeOut(side_frames['S']),
                   *[FadeOut(m) for m in posted_marks.values()], FadeOut(posted_caption),
