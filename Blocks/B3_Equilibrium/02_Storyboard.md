@@ -26,8 +26,8 @@ implements Taylor's latest placement and retains the notes' 2–6 act IDs.
 | Pause | Script / action | Stopped frame |
 |---|---|---|
 | `0.a` | Shared MICROECONOMICS bumper, Part B / Episode 3 | Notes' thesis, “Equilibrium: when no one wants to change.” |
-| `2.a` | Notes 1.a/2.a: the question and the first exchange | Gary left, Molly right, no offered price yet. Teal MB $6, orange MC $2 above their orbs. Question title: “Would they exchange?” |
-| `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right; their original bars move between them, broaden to 1.10 units with a 0.12 gap. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
+| `2.a` | Notes 1.a/2.a: the question and the first exchange | Gary and Molly start nearby (x=±1.65), with no offered price yet. Teal MB $6, orange MC $2 above their orbs. Question title: “Would they exchange?” |
+| `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right at x=±1.45; their original bars move inward between them, broaden to 1.10 units with a 0.12 gap. Molly’s MC bar and label become green (the existing Cost color); her orb stays orange. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
 | `2.b` | Accept on advance | Remove question; the same price and shadow become solid. |
 | `2.b.i` | Recall B1 expenditure | Green area 0–4 on the buyer's bar, then “Expenditure $4.” |
 | `2.b.ii` | Recall B1 CS | Teal area 4–6, then “CS $2.” |
@@ -35,9 +35,9 @@ implements Taylor's latest placement and retains the notes' 2–6 act IDs.
 | `2.b.iv` | Cost before PS | Green area 0–2, then “Cost $2.” |
 | `2.b.v` | Producer surplus | Orange area 2–4, then “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
-| `2.c` | Notes switching | Pull back to the same pair. Amanda-Grace (MB $6) and Andrew (MC $4, ask $5) join. Molly/Gary's $4 connection remains. |
-| `2.c.i` | Small-cast deliberation | Amanda-Grace approaches Molly; $4.25 offer is dashed, Gary's incumbent connection remains. Hold the acceptance question. |
-| `2.c.ii` | Resolve the switch | Molly accepts $4.25; Gary leaves, then takes Andrew's $5 offer. MB and MC never change. |
+| `2.c` | Notes switching | Pull back to Gary and Molly only 1.6 units apart. Their bars stay between them, width 0.38 with a 0.06 gap; the $4 line spans their combined 0.82-unit width. Restore the wide-market orange MC color. Amanda-Grace and Andrew join. |
+| `2.c.i` | Small-cast deliberation | Amanda-Grace approaches Molly first. Their own bars then slide together at equal depth with a 0.06 gap; only afterward draw the short dashed $4.25 offer and its floor shadow. Dim Gary’s incumbent connection/bar and hide his name and price/MB labels during the question hold. Offset Amanda-Grace’s long name to keep the compact pair readable. |
+| `2.c.ii` | Resolve the switch | Molly accepts $4.25 and keeps the compact bar arrangement with Amanda-Grace. Gary approaches Andrew; their bars move inward before the $5 line appears. Both accepted price lines are 0.82 units long. MB and MC never change. |
 
 All dollar heights share `z = baseline + scale × dollars`; the ground connection
 is the projection of those exact endpoints. Dashed means contemplated; solid
@@ -142,8 +142,10 @@ unsupported numerical markets. B4 is the next block, not B5.
 - Pure rule suite: 35 tests pass in the shared checkout, including 10 new
   discovery tests. The three presentation traces have six $4 matches, total
   gains $12, unique reservations, no losses, and no remaining permitted moves.
-- Full GPU render: 2160×1080, 15 fps, 299 checkpoints, 34 named teaching holds,
-  174.47 seconds of motion (classroom pauses add time in the player).
+- The updated full GPU render passes at 2160×1080 and 15 fps: 301 checkpoints,
+  34 named teaching holds, and 176.07 seconds of motion. The proximity/color
+  correction was visually checked at the affected small-cast holds, the
+  complete accounting comparison, and the scale-up transition.
 - Reviewed actual stopped frames: first deliberation, all five accounting
   regions, switching, crowd settlement, graph sorting, algebra, both deviation
   calculations, shortage/excess, named switches, and stability.
@@ -154,7 +156,22 @@ unsupported numerical markets. B4 is the next block, not B5.
   a published course artifact. Rebuild with `--export-present`. The application
   supplies the standard ManimL forward/reverse controls.
 
-Gary's initial small-market position is spread left of Amanda-Grace so her MB
-label clears his bar. Unsold offers turn grey at settlement; matched $4 tags
-stay red. Price-change arrows repeat in discovery and the deviation runs.
-Deleting a match removes both its elevated line and its floor shadow.
+## Review correction · compact pairs and distinct cost color
+
+The previous small-cast price connections were too long, especially during the
+challenger's approach. Players now stand nearby; contemplated marginals move
+inward before the price appears and remain together on acceptance. Lines span
+the bar edges and their ground shadows use the same endpoints. The accounting
+close-up is still magnification of one unit, with its existing 1.10-wide bars.
+The crowd already uses neighboring trading positions and keeps its faster pacing.
+
+In the first Gary/Molly close-up, green means cost throughout: the MC bar and
+label become green before the acceptance question, and the cost area later uses
+that same green. Orange is reserved for PS within this comparison. Molly’s orb
+stays orange, and her MC bar returns to the market's orange supply convention
+when the camera pulls back. This is a local teaching distinction, not a palette
+change to B1/B2 or the crowd.
+
+Unsold offers turn grey at settlement; matched $4 tags stay red. Price-change
+arrows repeat in discovery and the deviation runs. Removing a match removes
+both its elevated line and its floor shadow.

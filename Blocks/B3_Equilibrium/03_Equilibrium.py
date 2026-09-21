@@ -27,6 +27,9 @@ class EpisodeB3(ThreeDScene):
         SEARCH_SEED = 268
         DOLLAR_HEIGHT, BAR_BASE = 0.55, 0.75
         BAR_WIDTH, CLOSE_WIDTH, CLOSE_GAP = 0.16, 1.10, 0.12
+        PAIR_WIDTH, PAIR_GAP = 0.38, 0.06
+        PAIR_OFFSET = 0.8 - (PAIR_WIDTH + PAIR_GAP) / 2
+        PAIR_EDGE = PAIR_WIDTH + PAIR_GAP / 2
         DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         WORLD_CENTER = np.array([0.0, 0.0, 1.8])
         CLOSE_CENTER = np.array([0.0, 0.0, 2.05])
@@ -54,8 +57,8 @@ class EpisodeB3(ThreeDScene):
 
         bodies, bars, names, marginal_labels = {}, {}, {}, {}
         for key, x, value, color, name, term in [
-            ('buyer', -3.0, MB, DEMAND, 'Gary', 'MB'),
-            ('seller', 3.0, MC, SUPPLY, 'Molly', 'MC'),
+            ('buyer', -1.65, MB, DEMAND, 'Gary', 'MB'),
+            ('seller', 1.65, MC, SUPPLY, 'Molly', 'MC'),
         ]:
             shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
                             opacity=0.28).set_color(color).move_to([x, 0, 0.025])
@@ -87,12 +90,13 @@ class EpisodeB3(ThreeDScene):
         # ---- 2.a.i · Same bars, now between the people and viewed from the side.
         self.play(
             self.camera.frame.animate.reorient(0, 90, center=CLOSE_CENTER, height=7.2),
-            bodies['buyer'].animate.shift(RIGHT * 0.6),
-            bodies['seller'].animate.shift(LEFT * 0.6),
+            bodies['buyer'].animate.set_x(-1.45),
+            bodies['seller'].animate.set_x(1.45),
             bars['buyer'].animate.stretch_to_fit_width(CLOSE_WIDTH).set_x(
                 -(CLOSE_WIDTH + CLOSE_GAP) / 2),
             bars['seller'].animate.stretch_to_fit_width(CLOSE_WIDTH).set_x(
-                (CLOSE_WIDTH + CLOSE_GAP) / 2),
+                (CLOSE_WIDTH + CLOSE_GAP) / 2).set_color(GOV),
+            marginal_labels['seller'].animate.set_color(GOV),
             floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
             run_time=2.2)
         left_edge = -CLOSE_WIDTH - CLOSE_GAP / 2
@@ -197,7 +201,7 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(unit))
         self.pause('2.b.vi')
 
-        # ---- 2.c · Pull back to the same people; two more join their market.
+        # ---- 2.c · Pull back without separating the accepted pair's marginals.
         self.remove(unit)
         self.play(FadeOut(expenditure), FadeOut(buyer_cs), FadeOut(revenue),
                   FadeOut(seller_cost), FadeOut(seller_ps), FadeOut(expenditure_label),
@@ -207,26 +211,33 @@ class EpisodeB3(ThreeDScene):
         accepted_line.buyer, accepted_line.seller = bars['buyer'], bars['seller']
         accepted_line.price = deal_price
         accepted_line.add_updater(lambda m: m.put_start_and_end_on(
-            np.array([*m.buyer.get_center()[:2], BAR_BASE + m.price.get_value() * DOLLAR_HEIGHT]),
-            np.array([*m.seller.get_center()[:2], BAR_BASE + m.price.get_value() * DOLLAR_HEIGHT])))
+            np.array([m.buyer.get_center()[0] - m.buyer.get_width() / 2,
+                      m.buyer.get_center()[1], BAR_BASE + m.price.get_value() * DOLLAR_HEIGHT]),
+            np.array([m.seller.get_center()[0] + m.seller.get_width() / 2,
+                      m.seller.get_center()[1], BAR_BASE + m.price.get_value() * DOLLAR_HEIGHT])))
         accepted_shadow.buyer, accepted_shadow.seller = bars['buyer'], bars['seller']
         accepted_shadow.add_updater(lambda m: m.put_start_and_end_on(
-            np.array([*m.buyer.get_center()[:2], 0.04]),
-            np.array([*m.seller.get_center()[:2], 0.04])))
+            np.array([m.buyer.get_center()[0] - m.buyer.get_width() / 2,
+                      m.buyer.get_center()[1], 0.04]),
+            np.array([m.seller.get_center()[0] + m.seller.get_width() / 2,
+                      m.seller.get_center()[1], 0.04])))
+        marginal_labels['seller'].set_color(SUPPLY)
         self.play(
             self.camera.frame.animate.reorient(0, 58, center=WORLD_CENTER, height=8.8),
-            bodies['buyer'].animate.move_to([-3.5, 1.5, bodies['buyer'].get_center()[2]]),
-            bodies['seller'].animate.move_to([-0.3, 1.5, bodies['seller'].get_center()[2]]),
-            bars['buyer'].animate.stretch_to_fit_width(BAR_WIDTH).set_x(-3.5).set_y(1.5).set_opacity(0.65),
-            bars['seller'].animate.stretch_to_fit_width(BAR_WIDTH).set_x(-0.3).set_y(1.5).set_opacity(0.65),
+            bodies['buyer'].animate.move_to([-2.8, 1.2, bodies['buyer'].get_center()[2]]),
+            bodies['seller'].animate.move_to([-1.2, 1.2, bodies['seller'].get_center()[2]]),
+            bars['buyer'].animate.stretch_to_fit_width(PAIR_WIDTH)
+                .set_x(-2.8 + PAIR_OFFSET).set_y(1.2).set_opacity(0.65),
+            bars['seller'].animate.stretch_to_fit_width(PAIR_WIDTH)
+                .set_x(-1.2 - PAIR_OFFSET).set_y(1.2).set_color(SUPPLY).set_opacity(0.65),
             floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
             run_time=2)
         self.play(FadeIn(marginal_labels['seller']))
-        for key in ('buyer', 'seller'):
-            bars[key].anchor = bodies[key]
-            bars[key].value = MB if key == 'buyer' else MC
+        for key, value, offset in [('buyer', MB, RIGHT * PAIR_OFFSET),
+                                    ('seller', MC, LEFT * PAIR_OFFSET)]:
+            bars[key].anchor, bars[key].value, bars[key].offset = bodies[key], value, offset
             bars[key].add_updater(lambda m: m.move_to([
-                *m.anchor.get_center()[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
+                *(m.anchor.get_center() + m.offset)[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
         deal_number = fixed(DecimalNumber(OFFER, num_decimal_places=2, color=GUIDE).scale(0.7))
         deal_number.tracker = deal_price
         deal_number.buyer, deal_number.seller = bars['buyer'], bars['seller']
@@ -234,11 +245,11 @@ class EpisodeB3(ThreeDScene):
                                if abs(m.get_value() - m.tracker.get_value()) > 1e-6 else m)
         deal_number.add_updater(lambda m: m.move_to(screen_point(self.camera.frame,
             [*(0.5 * (m.buyer.get_center() + m.seller.get_center()))[:2],
-             BAR_BASE + m.tracker.get_value() * DOLLAR_HEIGHT]) + UP * 0.22))
+             BAR_BASE + m.tracker.get_value() * DOLLAR_HEIGHT]) + UP * 0.25))
         deal_number.update()
         for key, x, y, value, color, name, term in [
-            ('challenger', -2.8, -1.5, 6, DEMAND, 'Amanda-Grace', 'MB'),
-            ('other_seller', 3.0, -1.5, 4, SUPPLY, 'Andrew', 'MC'),
+            ('challenger', -3.8, -1.2, 6, DEMAND, 'Amanda-Grace', 'MB'),
+            ('other_seller', 3.0, -1.2, 4, SUPPLY, 'Andrew', 'MC'),
         ]:
             shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
                             opacity=0.28).set_color(color).move_to([x, y, 0.025])
@@ -248,14 +259,16 @@ class EpisodeB3(ThreeDScene):
             bar = Rectangle3D(width=BAR_WIDTH, height=value * DOLLAR_HEIGHT,
                               resolution=(2, 2), opacity=0.65).set_color(color)
             bar.rotate(90 * DEGREES, RIGHT)
-            bar.anchor, bar.value = body, value
+            bar.anchor, bar.value, bar.offset = body, value, ORIGIN.copy()
             bar.add_updater(lambda m: m.move_to([
-                *m.anchor.get_center()[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
+                *(m.anchor.get_center() + m.offset)[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
             bar.update()
             name_label = fixed(Tex(name, color=INK).scale(0.7))
             name_label.anchor = body
+            name_label.side_offset = LEFT * 0.5 if key == 'challenger' else ORIGIN.copy()
             name_label.add_updater(lambda m: m.move_to(
-                screen_point(self.camera.frame, m.anchor.get_center()) + DOWN * 0.6))
+                screen_point(self.camera.frame, m.anchor.get_center())
+                + DOWN * 0.6 + m.side_offset))
             name_label.update()
             value_label = fixed(Tex(rf'{term} $\${value:g}$', color=color).scale(0.7))
             value_label.anchor, value_label.value = bar, value
@@ -266,54 +279,85 @@ class EpisodeB3(ThreeDScene):
             names[key], marginal_labels[key] = name_label, value_label
             self.play(FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
         other_ask = fixed(Tex(r'Ask $\$5$', color=GUIDE).scale(0.7))
-        marginal_labels['challenger'].add_updater(lambda m: m.shift(LEFT * 0.75 + DOWN * 0.45))
         other_ask.move_to(screen_point(self.camera.frame,
-            [3.0, -1.5, BAR_BASE + 5 * DOLLAR_HEIGHT]) + UP * 0.2)
+            [3.0, -1.2, BAR_BASE + 5 * DOLLAR_HEIGHT]) + UP * 0.2)
         self.remove(head)
         head = fixed(title('Would they switch?'))
         self.play(FadeIn(head), FadeIn(deal_number), FadeIn(other_ask))
         self.pause('2.c')
 
-        # ---- 2.c.i · Keep the incumbent while Amanda-Grace considers an offer.
-        challenger_at = np.array([-1.0, -1.0, bodies['challenger'].get_center()[2]])
-        challenge = DashedLine([*challenger_at[:2], BAR_BASE + 4.25 * DOLLAR_HEIGHT],
-                              [-0.3, 1.5, BAR_BASE + 4.25 * DOLLAR_HEIGHT],
-                              color=GUIDE, stroke_width=2.5)
-        offer_label = fixed(Tex(r'Offer $\$4.25$', color=GUIDE).scale(0.7))
-        offer_label.move_to(screen_point(self.camera.frame,
-            [0.4, -1.0, BAR_BASE + 4.25 * DOLLAR_HEIGHT]) + RIGHT * 0.5)
+        # ---- 2.c.i · Approach first, then bring the contemplated pair's bars together.
+        challenger_at = np.array([-2.8, -0.1, bodies['challenger'].get_center()[2]])
         self.play(bodies['challenger'].animate.move_to(challenger_at),
                   bodies['other_seller'].animate.set_opacity(0.25),
                   bars['other_seller'].animate.set_opacity(0.15),
                   marginal_labels['other_seller'].animate.set_opacity(0.3),
-                  names['other_seller'].animate.set_opacity(0.3), run_time=1.4)
-        self.play(FadeIn(challenge), FadeIn(offer_label), FadeIn(question))
+                  names['other_seller'].animate.set_opacity(0.3),
+                  FadeOut(deal_number), FadeOut(marginal_labels['buyer']), FadeOut(names['buyer']),
+                  bars['buyer'].animate.set_opacity(0.15),
+                  accepted_line.animate.set_stroke(opacity=0.25),
+                  accepted_shadow.animate.set_stroke(opacity=0.15), run_time=1.2)
+        bars['challenger'].offset = RIGHT * PAIR_OFFSET + UP * 0.65
+        bars['seller'].offset = LEFT * PAIR_OFFSET + DOWN * 0.65
+        self.play(
+            bars['challenger'].animate.stretch_to_fit_width(PAIR_WIDTH).move_to(
+                [-2.8 + PAIR_OFFSET, 0.55, BAR_BASE + 6 * DOLLAR_HEIGHT / 2]),
+            bars['seller'].animate.set_y(0.55), run_time=1.0)
+        challenge = DashedLine([-2 - PAIR_EDGE, 0.55, BAR_BASE + 4.25 * DOLLAR_HEIGHT],
+                              [-2 + PAIR_EDGE, 0.55, BAR_BASE + 4.25 * DOLLAR_HEIGHT],
+                              color=GUIDE, stroke_width=2.5)
+        challenge_shadow = DashedLine([-2 - PAIR_EDGE, 0.55, 0.04],
+                                     [-2 + PAIR_EDGE, 0.55, 0.04],
+                                     color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+        offer_label = fixed(Tex(r'Offer $\$4.25$', color=GUIDE).scale(0.7))
+        offer_label.move_to(screen_point(self.camera.frame,
+            [-2, 0.55, BAR_BASE + 4.25 * DOLLAR_HEIGHT]) + UP * 0.25)
+        self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label), FadeIn(question))
         self.pause('2.c.i')
 
-        # ---- 2.c.ii · The accepted offer changes partners, not anybody's MB or MC.
+        # ---- 2.c.ii · Keep the accepted pair compact; the displaced buyer searches again.
         self.remove(question)
         accepted_line.clear_updaters()
         accepted_shadow.clear_updaters()
+        bars['challenger'].offset = RIGHT * PAIR_OFFSET
+        bars['seller'].offset = LEFT * PAIR_OFFSET
+        bars['buyer'].offset = ORIGIN.copy()
         self.play(FadeOut(accepted_line), FadeOut(accepted_shadow),
-                  FadeOut(challenge), FadeOut(offer_label),
-                  bodies['buyer'].animate.move_to([0.7, -0.1, bodies['buyer'].get_center()[2]]),
-                  bodies['challenger'].animate.move_to([-2.3, 1.5, challenger_at[2]]),
+                  FadeOut(challenge), FadeOut(challenge_shadow), FadeOut(offer_label),
+                  bodies['buyer'].animate.move_to([0.4, -0.1, bodies['buyer'].get_center()[2]]),
+                  bars['buyer'].animate.stretch_to_fit_width(BAR_WIDTH).move_to(
+                      [0.4, -0.1, BAR_BASE + MB * DOLLAR_HEIGHT / 2]).set_opacity(0.65),
+                  bodies['challenger'].animate.move_to([-2.8, 1.2, challenger_at[2]]),
+                  bars['challenger'].animate.set_y(1.2), bars['seller'].animate.set_y(1.2),
                   deal_price.animate.set_value(OFFER + BID_STEP), run_time=1.2)
-        accepted_line = Line([-2.3, 1.5, BAR_BASE + 4.25 * DOLLAR_HEIGHT],
-                             [-0.3, 1.5, BAR_BASE + 4.25 * DOLLAR_HEIGHT], color=GUIDE, stroke_width=3)
-        accepted_shadow = Line([-2.3, 1.5, 0.04], [-0.3, 1.5, 0.04],
+        accepted_line = Line([-2 - PAIR_EDGE, 1.2, BAR_BASE + 4.25 * DOLLAR_HEIGHT],
+                             [-2 + PAIR_EDGE, 1.2, BAR_BASE + 4.25 * DOLLAR_HEIGHT],
+                             color=GUIDE, stroke_width=3)
+        accepted_shadow = Line([-2 - PAIR_EDGE, 1.2, 0.04], [-2 + PAIR_EDGE, 1.2, 0.04],
                                color=GUIDE, stroke_width=2).set_opacity(0.3)
         deal_number.buyer = bars['challenger']
-        self.play(FadeIn(accepted_line), FadeIn(accepted_shadow),
+        deal_number.update()
+        self.play(FadeIn(accepted_line), FadeIn(accepted_shadow), FadeIn(deal_number),
+                  FadeIn(marginal_labels['buyer']), FadeIn(names['buyer']),
                   bodies['other_seller'].animate.set_opacity(1),
                   bars['other_seller'].animate.set_opacity(0.65),
                   names['other_seller'].animate.set_opacity(1),
                   marginal_labels['other_seller'].animate.set_opacity(1))
-        self.play(bodies['buyer'].animate.move_to([1.6, -1.5, bodies['buyer'].get_center()[2]]),
-                  run_time=1.4)
-        other_line = Line([1.6, -1.5, BAR_BASE + 5 * DOLLAR_HEIGHT],
-                          [3.0, -1.5, BAR_BASE + 5 * DOLLAR_HEIGHT], color=GUIDE, stroke_width=3)
-        other_shadow = Line([1.6, -1.5, 0.04], [3.0, -1.5, 0.04],
+        self.play(bodies['buyer'].animate.move_to([1.4, -1.2, bodies['buyer'].get_center()[2]]),
+                  run_time=1.2)
+        bars['buyer'].offset = RIGHT * PAIR_OFFSET
+        bars['other_seller'].offset = LEFT * PAIR_OFFSET
+        self.play(
+            bars['buyer'].animate.stretch_to_fit_width(PAIR_WIDTH).move_to(
+                [1.4 + PAIR_OFFSET, -1.2, BAR_BASE + MB * DOLLAR_HEIGHT / 2]),
+            bars['other_seller'].animate.stretch_to_fit_width(PAIR_WIDTH).move_to(
+                [3.0 - PAIR_OFFSET, -1.2, BAR_BASE + 4 * DOLLAR_HEIGHT / 2]),
+            other_ask.animate.move_to(screen_point(self.camera.frame,
+                [2.2, -1.2, BAR_BASE + 5 * DOLLAR_HEIGHT]) + UP * 0.25), run_time=1)
+        other_line = Line([2.2 - PAIR_EDGE, -1.2, BAR_BASE + 5 * DOLLAR_HEIGHT],
+                          [2.2 + PAIR_EDGE, -1.2, BAR_BASE + 5 * DOLLAR_HEIGHT],
+                          color=GUIDE, stroke_width=3)
+        other_shadow = Line([2.2 - PAIR_EDGE, -1.2, 0.04], [2.2 + PAIR_EDGE, -1.2, 0.04],
                             color=GUIDE, stroke_width=2).set_opacity(0.3)
         self.play(FadeIn(other_line), FadeIn(other_shadow))
         self.pause('2.c.ii')
