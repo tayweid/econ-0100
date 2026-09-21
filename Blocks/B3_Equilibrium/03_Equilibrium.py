@@ -1303,8 +1303,15 @@ class EpisodeB3(ThreeDScene):
         q_units.next_to(ax.c2p(45, 0), DOWN, buff=0.85)
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=4)
         supply = Line(ax.c2p(0, 2), ax.c2p(90, 6.5), color=SUPPLY, stroke_width=4)
-        eq_d = Tex(r'$P=12-\frac{Q}{5}$', color=DEMAND).scale(0.8).move_to(ax.c2p(43, 10))
-        eq_s = Tex(r'$P=2+\frac{Q}{20}$', color=SUPPLY).scale(0.8).move_to(ax.c2p(73, 8))
+        # Keep TeX's normal operator spacing while labelling movable terms.
+        eq_d = Tex(r'$P={{12}}-{{\frac{Q}{5}}}$', color=DEMAND,
+                   use_labelled_svg=False,
+                   isolate=['P', 'Q', '=', '-', '5', r'{{12}}', r'{{\frac{Q}{5}}}'])
+        eq_d.scale(0.8).move_to(ax.c2p(43, 10))
+        eq_s = Tex(r'$P={{2}}+{{\frac{Q}{20}}}$', color=SUPPLY,
+                   use_labelled_svg=False,
+                   isolate=['P', 'Q', '=', '+', '20', r'{{2}}', r'{{\frac{Q}{20}}}'])
+        eq_s.scale(0.8).move_to(ax.c2p(73, 8))
         aggregate_graph = fixed(VGroup(ax, ticks, p_units, q_units, demand, supply, eq_d, eq_s))
         divider = fixed(Line([1.2, -3, 0], [1.2, 3, 0],
                              color=MUTED, stroke_width=1).set_opacity(0.5))
@@ -1320,29 +1327,124 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(v_eq), FadeIn(unknown_q))
         self.pause('4.c')
 
-        # ---- 4.d · The same algebra as the source, with visible intermediate steps.
-        work = fixed(VGroup(
-            Tex(r'$2+\frac{Q}{20}=12-\frac{Q}{5}$'),
-            Tex(r'$\frac{Q}{20}+\frac{Q}{5}=10$'),
-            Tex(r'$\frac{Q}{4}=10$'),
-            Tex(r'$Q^*=40$', color=GUIDE),
-            Tex(r'$P^*=2+\frac{40}{20}$'),
-            Tex(r'$P^*=\$4$', color=GUIDE)).scale(0.8)
-            .arrange(DOWN, buff=0.34, aligned_edge=LEFT).move_to([4.5, 0.4, 0]))
-        self.play(FadeIn(work[0]))
-        self.play(FadeIn(work[1]))
-        self.play(FadeIn(work[2]))
-        self.play(FadeIn(work[3]))
+        # ---- 4.c.i · Copies carry the graph's colors into the working area.
+        math_s, math_d = fixed(eq_s.copy()), fixed(eq_d.copy())
+        for equation, y in [(math_s, 2.15), (math_d, 1.20)]:
+            equation.set_color_by_tex_to_color_map({'P': GUIDE, 'Q': GUIDE})
+            equation.shift([4.4 - equation['='].get_x(), y - equation.get_y(), 0])
+        self.play(TransformFromCopy(eq_s, math_s), TransformFromCopy(eq_d, math_d),
+                  run_time=1.5)
+        self.pause('4.c.i')
+
+        # ---- 4.d · Keep source terms colored as they change sides and combine.
+        # Double braces identify whole terms, so 2 never accidentally selects
+        # a digit inside 12 or 20. Red Q overrides its fraction's curve color.
+        work_colors = {
+            r'{{2}}': SUPPLY, r'{{12}}': DEMAND,
+            r'{{\frac{Q}{20}}}': SUPPLY, r'{{\frac{Q}{5}}}': DEMAND,
+            r'{{\frac{1}{20}}}': SUPPLY, r'{{\frac{1}{5}}}': DEMAND,
+            'Q': GUIDE,
+        }
+        equal = Tex(r'${{2}}+{{\frac{Q}{20}}}={{12}}-{{\frac{Q}{5}}}$',
+                    tex_to_color_map=work_colors, use_labelled_svg=False, isolate=['=', '+', '-'])
+        equal.set_color_by_tex('+', SUPPLY).set_color_by_tex('-', DEMAND)
+        rearranged = Tex(r'${{\frac{Q}{20}}}+{{\frac{Q}{5}}}={{12}}-{{2}}$',
+                         tex_to_color_map=work_colors, use_labelled_svg=False, isolate=['=', '+', '-'])
+        rearranged.set_color_by_tex('+', DEMAND).set_color_by_tex('-', SUPPLY)
+        collected = Tex(r'${{\frac{Q}{20}}}+{{\frac{Q}{5}}}={{10}}$',
+                        tex_to_color_map=work_colors, use_labelled_svg=False, isolate=['=', '+', '20', '5'])
+        collected.set_color_by_tex('+', DEMAND)
+        factored = Tex(r'$Q\left({{\frac{1}{20}}}+{{\frac{1}{5}}}\right)={{10}}$',
+                       tex_to_color_map=work_colors, use_labelled_svg=False, isolate=['=', '+', '20', '5'])
+        factored.set_color_by_tex('+', DEMAND)
+        quarter = Tex(r'$\frac{Q}{4}={{10}}$', tex_to_color_map={'Q': GUIDE},
+                      use_labelled_svg=False, isolate=['=', '4'])
+        product = Tex(r'$Q={{10}}\times{{4}}$', tex_to_color_map={'Q': GUIDE},
+                      use_labelled_svg=False, isolate=['=', r'\times'])
+        q_answer = Tex(r'${{Q^*}}={{40}}$', color=GUIDE, use_labelled_svg=False, isolate=['='])
+        for equation, y in [(equal, 2.15), (rearranged, 1.20), (collected, 1.20),
+                            (factored, 0.25), (quarter, 0.25),
+                            (product, -0.70), (q_answer, -0.70)]:
+            fixed(equation).scale(0.8)
+            equation.shift([4.4 - equation['='].get_x(), y - equation.get_y(), 0])
+
+        # The two prices are equal, so bring their right-hand sides together.
+        self.play(TransformMatchingParts(fixed(VGroup(math_s, math_d)), equal,
+            matched_pairs=[(source[key], equal[key])
+                for source, keys in [(math_s, [r'{{2}}', '+', r'{{\frac{Q}{20}}}', '=']),
+                                     (math_d, [r'{{12}}', '-', r'{{\frac{Q}{5}}}'])]
+                for key in keys], run_time=1.3))
+        moving = equal.copy()
+        self.play(TransformMatchingParts(moving, rearranged, matched_pairs=[
+            *[(moving[key], rearranged[key])
+              for key in [r'{{2}}', r'{{12}}', r'{{\frac{Q}{20}}}', r'{{\frac{Q}{5}}}', '=']],
+            (moving['-'], rearranged['+']), (moving['+'], rearranged['-'])],
+            path_arc=25 * DEGREES, run_time=1.5))
+        self.pause('4.d.collect')
+        self.play(TransformMatchingParts(rearranged, collected, matched_pairs=[
+            *[(rearranged[key], collected[key])
+              for key in [r'{{\frac{Q}{20}}}', '+', r'{{\frac{Q}{5}}}', '=']],
+            (VGroup(rearranged[r'{{12}}'], rearranged['-'], rearranged[r'{{2}}']),
+             collected[r'{{10}}'])], run_time=0.9))
+
+        # Factor the red Qs together; combine only the two coefficients.
+        moving = collected.copy()
+        self.play(TransformMatchingParts(moving, factored, matched_pairs=[
+            (moving.get_parts_by_tex('Q'), factored['Q']),
+            *[(moving[key], factored[key]) for key in ['20', '5', '+', '=', r'{{10}}']]],
+            run_time=1.2))
+        self.play(TransformMatchingParts(factored, quarter, matched_pairs=[
+            *[(factored[key], quarter[key]) for key in ['Q', '=', r'{{10}}']],
+            (VGroup(factored[r'{{\frac{1}{20}}}'], factored['+'],
+                    factored[r'{{\frac{1}{5}}}']), quarter['4'])], run_time=1.1))
+        self.pause('4.d.simplify')
+        moving = quarter.copy()
+        self.play(TransformMatchingParts(moving, product, matched_pairs=[
+            *[(moving[key], product[key]) for key in ['Q', '=', r'{{10}}']],
+            (moving['4'], product[r'{{4}}'])], path_arc=25 * DEGREES, run_time=1.2))
+        self.play(TransformMatchingParts(product, q_answer, matched_pairs=[
+            (product['Q'], q_answer[r'{{Q^*}}']), (product['='], q_answer['=']),
+            (VGroup(product[r'{{10}}'], product[r'\times'], product[r'{{4}}']),
+             q_answer[r'{{40}}'])], run_time=0.9))
         self.pause('4.d')
-        self.play(FadeIn(work[4]))
-        self.play(FadeIn(work[5]))
+
+        # ---- 4.d.i · Carry the red answer into a fresh copy of supply.
+        substitution = fixed(eq_s.copy()).set_color_by_tex_to_color_map({'P': GUIDE, 'Q': GUIDE})
+        substitution.shift([4.4 - substitution['='].get_x(), -1.65 - substitution.get_y(), 0])
+        substituted = Tex(r'$P^*={{2}}+{{\frac{40}{20}}}$', color=SUPPLY,
+                          tex_to_color_map={'P^*': GUIDE, '40': GUIDE}, use_labelled_svg=False, isolate=['=', '+', '20'])
+        price_sum = Tex(r'$P^*={{2}}+{{2}}$', color=SUPPLY,
+                        tex_to_color_map={'P^*': GUIDE}, use_labelled_svg=False, isolate=['=', '+'])
+        price_sum.get_part_by_tex(r'{{2}}', index=1).set_color(GUIDE)
+        p_answer = Tex(r'${{P^*}}={{\$4}}$', color=GUIDE, use_labelled_svg=False,
+                       isolate=['=', r'{{P^*}}', r'{{\$4}}'])
+        for equation, y in [(substituted, -1.65), (price_sum, -2.60), (p_answer, -2.60)]:
+            fixed(equation).scale(0.8)
+            equation.shift([4.4 - equation['='].get_x(), y - equation.get_y(), 0])
+        self.play(TransformFromCopy(eq_s, substitution), run_time=1.2)
+        quantity_value = q_answer[r'{{40}}'].copy()
+        self.play(TransformMatchingParts(fixed(VGroup(substitution, quantity_value)), substituted,
+            matched_pairs=[(quantity_value, substituted['40']),
+                (substitution['P'], substituted['P^*']),
+                *[(substitution[key], substituted[key]) for key in ['=', r'{{2}}', '+', '20']]],
+            run_time=1.3))
+        moving = substituted.copy()
+        self.play(TransformMatchingParts(moving, price_sum, matched_pairs=[
+            *[(moving[key], price_sum.get_part_by_tex(key, index=0))
+              for key in ['P^*', '=', r'{{2}}', '+']],
+            (moving[r'{{\frac{40}{20}}}'], price_sum.get_part_by_tex(r'{{2}}', index=1))],
+            run_time=1.1))
+        self.play(TransformMatchingParts(price_sum, p_answer, matched_pairs=[
+            (price_sum['P^*'], p_answer[r'{{P^*}}']), (price_sum['='], p_answer['=']),
+            (VGroup(price_sum.get_parts_by_tex(r'{{2}}'), price_sum['+']),
+             p_answer[r'{{\$4}}'])], run_time=0.9))
         self.pause('4.d.i')
 
         # ---- 4.e · Carry the calculated pair to the graph, keeping the stars.
         p_star = fixed(Tex(r'$P^*=\$4$', color=GUIDE).scale(0.7).move_to(unknown_p))
         q_star = fixed(Tex(r'$Q^*=40$', color=GUIDE).scale(0.7).move_to(unknown_q))
         self.remove(unknown_p, unknown_q)
-        self.play(TransformFromCopy(work[3], q_star), TransformFromCopy(work[5], p_star))
+        self.play(TransformFromCopy(q_answer, q_star), TransformFromCopy(p_answer, p_star))
         self.pause('4.e')
 
         # ---- 5.a–5.g · Same two tests: arithmetic, then people responding.
