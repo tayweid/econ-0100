@@ -1220,12 +1220,16 @@ class EpisodeB3(ThreeDScene):
         # ---- 4.b · Bring the existing sorted curves onto a shared unit graph.
         self.play(FadeOut(equilibrium_def), FadeOut(equilibrium_arrow), FadeOut(head), run_time=0.2)
         head = fixed(title('What does the graph show?'))
-        self.play(FadeIn(head), FadeOut(side_frames['B']), FadeOut(side_frames['S']),
-                  *[FadeOut(m) for m in posted_marks.values()], FadeOut(posted_caption),
-                  FadeOut(hub), self.camera.frame.animate.reorient(
-            0, 48, center=[4, 0, 0.65], height=11), run_time=1.8)
+        # Clear the world while its two graph panels remain intact.
+        self.play(FadeIn(head), FadeOut(floor), FadeOut(rim), FadeOut(hub),
+                  *[FadeOut(m) for m in crowd_bodies.values()],
+                  *[FadeOut(m) for m in crowd_bars.values()],
+                  *[FadeOut(m) for m in connection_by_buyer.values()],
+                  *[FadeOut(m) for m in ground_by_buyer.values()], run_time=0.8)
+        self.set_camera_orientation(phi=0, theta=0)
+        self.camera.frame.move_to(ORIGIN).set_height(8)
         unit_ax = style_axes([0, 10, 1], [0, 8, 2], x_length=4.8, y_length=4.6)
-        unit_ax.shift(np.array([4, 0.1, 0]) -
+        unit_ax.shift(np.array([0, 0.1, 0]) -
                       (unit_ax.c2p(0, 0) + unit_ax.c2p(10, 8)) / 2)
         unit_ticks = VGroup(
             *[Tex(str(q), color=MUTED).scale(0.7).next_to(
@@ -1238,22 +1242,23 @@ class EpisodeB3(ThreeDScene):
             Tex(r'\textsf{Units}', color=CAPTION).scale(0.7)
                 .next_to(unit_ax.c2p(10, 0), RIGHT, buff=0.2))
         unit_graph = fixed(VGroup(unit_ax, unit_ticks, unit_caps))
-        self.play(FadeIn(unit_graph))
-        twins, stairs = panel_bars, {}
+        twins, stairs, rearrange = panel_bars, {}, []
         for side, values, color in [('B', CROWD_MB, DEMAND), ('S', CROWD_MC, SUPPLY)]:
-            rearrange = []
             for rank, i in enumerate(panel_ids[side]):
                 value = values[i]
                 target = fixed(Polygon(unit_ax.c2p(rank, 0), unit_ax.c2p(rank + 1, 0),
                     unit_ax.c2p(rank + 1, value), unit_ax.c2p(rank, value),
                     color=color, fill_color=color, fill_opacity=0.2, stroke_width=1))
                 rearrange.append(Transform(twins[side, i], target))
-            self.play(LaggedStart(*rearrange, lag_ratio=0.04), run_time=1.8)
             steps = fixed(VGroup(*[Line(unit_ax.c2p(rank, values[i]),
                 unit_ax.c2p(rank + 1, values[i]), color=color, stroke_width=3)
                 for rank, i in enumerate(panel_ids[side])]))
             stairs[side] = steps
-            self.play(FadeIn(steps))
+        # Both sorted curves arrive together; no detached bars over the plaza.
+        self.play(FadeIn(unit_graph), FadeOut(side_frames['B']), FadeOut(side_frames['S']),
+                  *[FadeOut(m) for m in posted_marks.values()], FadeOut(posted_caption),
+                  *rearrange, run_time=1.8)
+        self.play(*[FadeIn(m) for m in stairs.values()], run_time=0.5)
         unit_price = fixed(DashedLine(unit_ax.c2p(0, 4), unit_ax.c2p(10, 4),
                                       color=GUIDE, stroke_width=2))
         unit_drop = fixed(DashedLine(unit_ax.c2p(6, 4), unit_ax.c2p(6, 0),
@@ -1265,6 +1270,10 @@ class EpisodeB3(ThreeDScene):
 
         # ---- 4.c · A new aggregate example, explicitly in thousands of pounds.
         self.play(*[FadeOut(m) for m in list(self.mobjects)])
+        # Reserve the original right-hand layout for the later plaza returns.
+        # Move the entire unit graph while hidden, including the bars that the
+        # posted-price markers follow. New guides use this relocated axis.
+        VGroup(unit_graph, *twins.values(), *stairs.values()).shift(RIGHT * 4)
         self.set_camera_orientation(phi=0, theta=0)
         self.camera.frame.move_to(ORIGIN).set_height(8)
         head = fixed(title('Where do supply and demand meet?'))
