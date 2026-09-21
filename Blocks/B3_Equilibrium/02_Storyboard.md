@@ -52,7 +52,7 @@ choreography remains sequential inside `construct()`.
 | `0.a` | Shared MICROECONOMICS bumper, Part B / Episode 3 | Notes' thesis, “Equilibrium: when no one wants to change.” |
 | `2.a` | Notes 1.a/2.a: the question and the first exchange | Gary and Molly start nearby (x=±1.65), with no offered price yet. Teal MB $6, orange MC $2 above their orbs. Question title: “Would they exchange?” |
 | `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right at x=±1.45; their original bars move inward between them, broaden to 1.10 units with a 0.12 gap. Molly’s MC bar, label, and orb remain orange throughout. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
-| `2.b` | Accept on advance | Remove question; the same price and shadow become solid. |
+| `2.b` | Accept on advance | Remove question; fill the gaps in the stationary red price and shadow over 0.45 seconds. The existing dashes and price label remain fixed as the offer becomes solid. |
 | `2.b.i` | Recall B1 expenditure | Green area 0–4 on the buyer's bar, then “Expenditure $4.” |
 | `2.b.ii` | Recall B1 CS | Teal area 4–6, then “CS $2.” |
 | `2.b.iii` | Carry the payment from buyer to seller | Trace a green, unfilled copy of Gary’s expenditure boundary, then slide it horizontally by 1.22 units onto Molly’s side without changing its size or dollar height (0–4). Gary’s expenditure fill stays in place. After the outline arrives, reveal green “Revenue $4.” Keep the revenue boundary through Cost and PS. |
@@ -60,7 +60,7 @@ choreography remains sequential inside `construct()`.
 | `2.b.v` | Producer surplus | Outline the upper region between MC $2 and price $4 in orange, with no orange fill; inset the border 0.045 world units on all four sides so it fits visibly inside the green revenue boundary. This inset is a highlight margin, not a change to the $2 surplus. Then reveal “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
 | `2.c` | Keep the close-up as Amanda-Grace enters | Retain the head-on camera and 7.2-unit frame height. Pan to admit Amanda-Grace on Molly’s right: Gary, Molly, Amanda-Grace at x=0.1, 3, 5.9, all y=1.2. This one setup establishes Molly’s later plaza station. All three people then stay still throughout the bidding. Keep broad MB-$6 and MB-$7 bars fixed on the left/right, with Molly’s MC-$2 bar beside Gary initially. His accepted $4 line and label remain solid red. No side curves yet. |
-| `2.c.i` | Compare a new offer with the standing deal | Show Amanda-Grace’s dashed $4.25 line and label in the right-hand comparison, while Gary’s solid $4 line and label remain on the left. Hold “Would Amanda-Grace gain by offering $4.25?” Both MBs stay fully visible. On advance, slide only Molly’s MC bar and attached MC label to Amanda-Grace’s side. After the slide, turn the new line solid and remove Gary’s former line/price. |
+| `2.c.i` | Compare a new offer with the standing deal | Show Amanda-Grace’s dashed $4.25 line and label in the right-hand comparison, while Gary’s solid $4 line and label remain on the left. Hold “Would Amanda-Grace gain by offering $4.25?” Both MBs stay fully visible. On advance, slide only Molly’s MC bar and attached MC label to Amanda-Grace’s side. After the slide, fill the new offer's gaps in place over 0.45 seconds while fading Gary’s former line/price. The new dashes, endpoints, and price number never shift during acceptance; its floor shadow fills in the same way. |
 | `2.c.accepted` | Make her incentive explicit | Hold “Amanda-Grace gains $7−$4.25=$2.75.” Her $4.25 line is now solid; MC $2 is beside MB $7. All people and both MB bars remain at their original positions. |
 | `2.c.ii` | Gary responds without walking | Show Gary’s dashed $4.50 offer alongside Amanda-Grace’s standing solid $4.25. Pause before Molly’s MC moves back to Gary; then solidify his offer and remove the old deal. Continue the same offer → MC slide → acceptance sequence for the remaining quarter-dollar bids. |
 | `2.c.iii` | Finish the bidding before pulling back | Amanda-Grace wins at $6.25. Keep Gary’s MB $6 and her MB $7 fully visible with “Gary: next bid $6.50 > MB $6.” Only after this hold does the camera pull out to the plaza. The two sorted marginal curves enter with the two existing buyers and Molly’s posted $6.25; Andrew then arrives. |
@@ -268,6 +268,14 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 acceptance polish: replaced the dashed-to-solid morph with a
+  0.45-second fade into the gaps for the first trade and every face-on bid,
+  including the floor shadows. Live-reviewed the initial offer/acceptance,
+  intermediate acceptance frames for Amanda-Grace's $4.25 and Gary's $4.50,
+  and the final $6.25 hold. Dashes and price labels stay fixed while the old
+  deal fades. Syntax/whitespace checks and the existing two-buyer bidding test
+  pass. Used the hot-reloaded viewer without exporting video or checkpoints.
 
 - September 21 transition polish: live-reviewed the bidding-to-plaza pullback,
   preserved $6.25 line/shadow, fixed Gary/Molly stations, Amanda-Grace staying

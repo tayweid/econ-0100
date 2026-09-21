@@ -160,8 +160,16 @@ class EpisodeB3(ThreeDScene):
                              [right_edge, -0.045, price_z], color=GUIDE, stroke_width=3)
         accepted_shadow = Line([left_edge, 0, 0.04], [right_edge, 0, 0.04],
                                color=GUIDE, stroke_width=2).set_opacity(0.3)
-        self.play(ReplacementTransform(price_line, accepted_line),
-                  ReplacementTransform(price_shadow, accepted_shadow), run_time=0.6)
+        # Acceptance fills the gaps without stretching or moving the dashes.
+        price_gaps = VGroup(*[
+            Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=3)
+            for a, b in zip(price_line, price_line[1:])])
+        shadow_gaps = VGroup(*[
+            Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=2).set_opacity(0.3)
+            for a, b in zip(price_shadow, price_shadow[1:])])
+        self.play(FadeIn(price_gaps), FadeIn(shadow_gaps), run_time=0.45)
+        self.remove(price_line, price_shadow, price_gaps, shadow_gaps)
+        self.add(accepted_line, accepted_shadow)
         self.pause('2.b')
 
         # ---- 2.b.i · B1's expenditure rectangle, then its label.
@@ -309,7 +317,7 @@ class EpisodeB3(ThreeDScene):
                   FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
         self.pause('2.c')
 
-        # ---- 2.c.i–iii · See both prices; move MC; accept the better offer.
+        # ---- 2.c.i–iii · See both prices; move MC; fill the accepted offer's gaps.
         bidding = simulate([MB, 7], [MC], [OFFER], seed=0, initial_sellers=[0, None])
         bids = [event for round_ in bidding.rounds for event in round_.events
                 if event.kind == 'match']
@@ -348,9 +356,18 @@ class EpisodeB3(ThreeDScene):
                             color=GUIDE, stroke_width=3)
             new_shadow = Line([x0, bid_y, 0.04], [x1, bid_y, 0.04],
                               color=GUIDE, stroke_width=2).set_opacity(0.3)
+            # Keep every dash and the new price number anchored. Only the gaps
+            # appear as the former deal fades; there is no dashed-to-line morph.
+            price_gaps = VGroup(*[
+                Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=3)
+                for a, b in zip(challenge, challenge[1:])])
+            shadow_gaps = VGroup(*[
+                Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=2).set_opacity(0.3)
+                for a, b in zip(challenge_shadow, challenge_shadow[1:])])
             self.play(FadeOut(accepted_line), FadeOut(accepted_shadow), FadeOut(deal_number),
-                      ReplacementTransform(challenge, new_line),
-                      ReplacementTransform(challenge_shadow, new_shadow), run_time=0.5)
+                      FadeIn(price_gaps), FadeIn(shadow_gaps), run_time=0.45)
+            self.remove(challenge, challenge_shadow, price_gaps, shadow_gaps)
+            self.add(new_line, new_shadow)
             accepted_line, accepted_shadow, deal_number = new_line, new_shadow, offer_label
             if bid.price == 4.25:
                 gain_read = fixed(Tex(r'Amanda-Grace gains $\$7-\$4.25=\$2.75$.',
