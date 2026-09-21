@@ -1,8 +1,9 @@
 """B3's one-unit posted-offer search; no drawing or camera state enters the model.
 
-A visit checks one sampled seller. Matches are provisional: a better offer can
-replace an incumbent until the period ends. A complete improvement audit, not
-a quiet random round, determines whether the allowed process has settled.
+A visit checks one sampled seller by default; survey mode compares all offers.
+Matches are provisional: a better offer can replace an incumbent until the
+period ends. A complete improvement audit, not a quiet random round, determines
+whether the allowed process has settled.
 """
 
 from dataclasses import dataclass
@@ -64,13 +65,17 @@ def improvements(values, costs, state, step=0.25):
 
 
 def simulate(values, costs, asks, *, seed=0, step=0.25, max_rounds=300,
-             initial_sellers=None):
+             initial_sellers=None, survey=False, first_buyer=None):
     """Seeded visits; one-tick cuts for units unreserved at both round boundaries.
 
     A matched buyer switches only to a strictly cheaper accepted offer. A new
     buyer can displace an incumbent by one tick. Nonnegative gains permit a
     fresh match. Zero-change rounds continue if the full audit finds a move.
     Reaching max_rounds is explicitly different from settlement.
+
+    With survey=True, compare every posted offer and choose the cheapest
+    (seeded ties), retaining one's own reservation on a tie. first_buyer gives
+    a newcomer the first comparison, even when no improvement is affordable.
     """
     values, costs, asks = tuple(values), tuple(costs), tuple(asks)
     if not math.isfinite(step) or step <= 0:
@@ -79,6 +84,9 @@ def simulate(values, costs, asks, *, seed=0, step=0.25, max_rounds=300,
         raise ValueError('max_rounds must be a nonnegative integer.')
     if len(asks) != len(costs):
         raise ValueError('Every seller needs an initial ask.')
+    if first_buyer is not None and (not isinstance(first_buyer, int)
+                                   or not 0 <= first_buyer < len(values)):
+        raise ValueError('The first buyer must identify an existing buyer.')
     for value in values + costs + asks:
         if not math.isfinite(value) or value < 0:
             raise ValueError('Values, costs, and asks must be finite and nonnegative.')
@@ -106,20 +114,30 @@ def simulate(values, costs, asks, *, seed=0, step=0.25, max_rounds=300,
     rng = random.Random(seed)
 
     for number in range(1, max_rounds + 1):
-        if not improvements(values, costs, state, step):
+        if not improvements(values, costs, state, step) and not (
+                number == 1 and first_buyer is not None):
             break
         before = state
         open_at_start = set(range(len(costs))) - set(sellers)
         events = []
         order = list(range(len(values)))
         rng.shuffle(order)
+        if number == 1 and first_buyer is not None:
+            order.remove(first_buyer)
+            order.insert(0, first_buyer)
         for b in order:
             if not costs:
                 break
-            s = rng.randrange(len(costs))
             current = sellers[b]
             owners = {seller: buyer for buyer, seller in enumerate(sellers)
                       if seller is not None}
+            if survey:
+                offers = [ask + int(s in owners and owners[s] != b)
+                          for s, ask in enumerate(ask_ticks)]
+                best = [s for s, offer in enumerate(offers) if offer == min(offers)]
+                s = current if current in best else rng.choice(best)
+            else:
+                s = rng.randrange(len(costs))
             offer = ask_ticks[s] + int(s in owners and owners[s] != b)
             events.append(Event('check', b, s, offer * step))
             if s == current or offer > value_ticks[b]:

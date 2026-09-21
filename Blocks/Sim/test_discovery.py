@@ -188,11 +188,86 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(values[0] - offers[1], 1.5)
         self.assertEqual(offers[1] - costs[1], .5)
 
+    def test_survey_checks_the_cheapest_current_offer_including_outbids(self):
+        for seed in range(12):
+            run = simulate([8, 7, 5], [2, 3, 4], [6, 4, 5],
+                           initial_sellers=[0, None, None], survey=True, seed=seed)
+            self.assertTrue(run.settled)
+            for round_ in run.rounds:
+                asks, sellers = list(round_.before.asks), list(round_.before.sellers)
+                for event in round_.events:
+                    if event.kind == 'check':
+                        offers = [ask + (.25 if s in sellers and sellers[event.buyer] != s else 0)
+                                  for s, ask in enumerate(asks)]
+                        self.assertEqual(event.price, min(offers))
+                        self.assertEqual(event.price, offers[event.seller])
+                    elif event.kind == 'match':
+                        if event.displaced is not None:
+                            sellers[event.displaced] = None
+                        sellers[event.buyer] = event.seller
+                        asks[event.seller] = event.price
+                    else:
+                        asks[event.seller] = event.price
+                self.assertEqual(State(tuple(asks), tuple(sellers)), round_.after)
+
+    def test_newcomer_compares_first_even_when_no_trade_is_affordable(self):
+        run = simulate([6, 2], [4], [4], initial_sellers=[0, None],
+                       survey=True, first_buyer=1)
+        self.assertTrue(run.settled)
+        self.assertEqual(run.initial, run.final)
+        self.assertEqual(len(run.rounds), 1)
+        first = run.rounds[0].events[0]
+        self.assertEqual((first.kind, first.buyer, first.seller, first.price), ('check', 1, 0, 4.25))
+        self.assertFalse(any(e.kind == 'match' for e in run.rounds[0].events))
+
+    def test_survey_keeps_own_reservation_when_another_offer_only_ties(self):
+        run = simulate([8], [3, 4], [4, 4], initial_sellers=[0],
+                       survey=True, first_buyer=0)
+        self.assertEqual(run.final.sellers, (0,))
+        self.assertEqual(run.rounds[0].events[0].seller, 0)
+        self.assertTrue(run.settled)
+
+    def test_growth_carries_the_active_market_forward_after_each_arrival(self):
+        asks = [6.25, 4.5, 6, 6, 6.25, 6, 6, 6, 6, 6]
+        sellers = [1, 0, None, None, 4, None, None, None, None, None]
+        active_b, active_s = [0, 1, 4], [0, 1, 4]
+        visits = 0
+        for side, entrant in [(side, i) for i in [2, 3, 5, 6, 7, 8, 9] for side in ['B', 'S']]:
+            (active_b if side == 'B' else active_s).append(entrant)
+            active_b.sort()
+            active_s.sort()
+            before = State(tuple(asks[s] for s in active_s), tuple(
+                None if sellers[b] is None else active_s.index(sellers[b]) for b in active_b))
+            run = simulate([MB[b] for b in active_b], [MC[s] for s in active_s], before.asks,
+                           initial_sellers=before.sellers, survey=True, seed=6,
+                           first_buyer=active_b.index(entrant) if side == 'B' else None)
+            self.assertEqual(run.initial, before)
+            self.assertTrue(run.settled)
+            if side == 'B':
+                self.assertEqual(run.rounds[0].events[0].buyer, active_b.index(entrant))
+            visits += sum(e.kind == 'match' for r in run.rounds for e in r.events)
+            for s, ask in zip(active_s, run.final.asks):
+                asks[s] = ask
+                self.assertGreaterEqual(ask, MC[s])
+            for b, s in zip(active_b, run.final.sellers):
+                sellers[b] = None if s is None else active_s[s]
+                if s is not None:
+                    self.assertLessEqual(asks[active_s[s]], MB[b])
+            matched = [s for s in sellers if s is not None]
+            self.assertEqual(len(matched), len(set(matched)))
+            self.assertTrue(set(matched) <= set(active_s))
+        self.assertEqual(visits, 37)
+        self.assertEqual(sum(s is not None for s in sellers), 6)
+        self.assertEqual({asks[s] for s in sellers if s is not None}, {4})
+        self.assertEqual(sum(MB[b] - MC[s] for b, s in enumerate(sellers) if s is not None), 16)
+        self.assertFalse(improvements(MB, MC, State(tuple(asks), tuple(sellers))))
+
     def test_rejects_invalid_inputs(self):
         for values, costs, asks, kwargs in [
             ([6], [2], [1], {}), ([6], [2], [], {}),
             ([math.nan], [2], [4], {}), ([6], [2], [4], {'step': 0}),
             ([6], [2], [4], {'max_rounds': -1}), ([6], [2], [4.1], {}),
+            ([6], [2], [4], {'first_buyer': 1}),
         ]:
             with self.assertRaises(ValueError):
                 simulate(values, costs, asks, **kwargs)
