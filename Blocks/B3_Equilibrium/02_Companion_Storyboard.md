@@ -10,13 +10,16 @@ pass, not a claim that the animation already does these things. Start at the
 from a small cast first, then test deviations on the back end. This file details
 the first branch; its legacy “Companion” filename does not prescribe a video split.
 
-Taylor's latest directions are quoted verbatim in
-[01_Notes.md](01_Notes.md#animation-direction--2026-09-20). They supersede the
+Taylor's latest directions are [quoted verbatim below](#taylors-animation-directions-verbatim).
+They supersede the
 old midpoint-only mechanism, the crowd's exhaustive deliberation, and the
 restriction against explaining CS/PS in the companion. The earlier brief is
 preserved in the collapsed history at the end. Taylor and Fable own the prose;
 this document owns the animation plan and records where writing may need to
-catch up.
+catch up. **Editing boundary:** the animator reads the notes as source material
+but edits only storyboards and animation code. Notes files, including their
+stage directions and quote blocks, belong to Taylor and the editor. Record
+new animation directions and proposed writing changes in the storyboard.
 
 ## The visual idea
 
@@ -325,6 +328,19 @@ Starting asks, random seed, search cadence, and bid/cut sizes are tuning choices
 for that pass. The specific small-cast prices above are proposed review fixtures.
 No random-search convergence or new rendered frames were validated in this
 storyboard-only pass.
+
+## Taylor's animation directions (verbatim)
+
+Recorded from this conversation. These quotes live in the storyboard; the
+notes files remain the editor's domain.
+
+> players need a price. larger groups will randomly check sellers prices. sellers set a starting proce and lower it if noone buys and buyers can outbid an existing match by some amount. line on the ground is a shadow of the price, which is a line between the buyer and seller's marginals. then we can zoomin for marginal analysis. we move the marginals together so they're basically touching, and then use the price line in red to show what's going to the seller and the buyer, and expenditure, and cs and ps, all while we're zoomed way in on two players.
+
+> i think for larger scenes, we can't have the deliberation step. but i want it for smaller numbers of people.
+
+> but for you as we do that, lets plan to start with the small number of players first, building up equilibrium, then do the deviations ansimations on the back end.
+
+> oh and the picture i have in my mind about the marginal analysis for the two players with their marginals is to face them from the side, with the buyer on the left and the seller on the right, their marginals sitting between them, almost touching, and then a price somewhere on the vertical, and we pause to consider (nothing major in the animations besides a question bottom text) whether they would accept or not. and maybe we do this for the first deliberation, so show what's actually being done at the deliberation stage.
 
 ## Previous brief and reference notes
 

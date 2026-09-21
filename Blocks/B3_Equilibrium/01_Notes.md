@@ -173,17 +173,3 @@ Plot of histogram of prices.
 Then do the math.
 
 plan 0100 simulation: equilibrium sim by using math to predict the price before. start with the card game version. run it. find the price. then change the cards, use some math, find the price, set the price, and see if anyone switches. it might take a bit more work to get right, but I think it could make the point that equilibrium is predictable and about deviation. maybe don't even show them the math at first.
-
-##### Animation direction · 2026-09-20
-
-<!-- ANIMATOR: recorded verbatim at Taylor's request. This direction supersedes the earlier companion restrictions on CS/PS and the all-sellers deliberation at crowd scale. Staging and implementation status live in 02_Companion_Storyboard.md; the lecture prose remains with Taylor and Fable. -->
-
-> players need a price. larger groups will randomly check sellers prices. sellers set a starting proce and lower it if noone buys and buyers can outbid an existing match by some amount. line on the ground is a shadow of the price, which is a line between the buyer and seller's marginals. then we can zoomin for marginal analysis. we move the marginals together so they're basically touching, and then use the price line in red to show what's going to the seller and the buyer, and expenditure, and cs and ps, all while we're zoomed way in on two players.
-
-> i think for larger scenes, we can't have the deliberation step. but i want it for smaller numbers of people.
-
-> but for you as we do that, lets plan to start with the small number of players first, building up equilibrium, then do the deviations ansimations on the back end.
-
-> oh and the picture i have in my mind about the marginal analysis for the two players with their marginals is to face them from the side, with the buyer on the left and the seller on the right, their marginals sitting between them, almost touching, and then a price somewhere on the vertical, and we pause to consider (nothing major in the animations besides a question bottom text) whether they would accept or not. and maybe we do this for the first deliberation, so show what's actually being done at the deliberation stage.
-
-Animation plan: [overall arc](02_Storyboard.md) and [detailed first branch](02_Companion_Storyboard.md).

@@ -9,7 +9,7 @@ deviations from equilibrium afterward**, within one developing arc.
 
 | Material | Purpose and status |
 |---|---|
-| [01_Notes.md](01_Notes.md) | Taylor's lecture and companion notes; Fable is working on the writing. The **Animation direction · 2026-09-20** section records Taylor's new animation notes verbatim. |
+| [01_Notes.md](01_Notes.md) | Taylor's lecture and companion notes; Fable owns this file. Taylor's animation directions are recorded verbatim in the [storyboard](02_Companion_Storyboard.md#taylors-animation-directions-verbatim). |
 | [02_Storyboard.md](02_Storyboard.md) | Start here for the overall arc: source notes reviewed, discovery → graph → deviations, the shared-cast proposal, and the writing handoff. |
 | [02_Companion_Storyboard.md](02_Companion_Storyboard.md) | Detailed first branch: current implementation, requested mechanics, small-player close-up, crowd beats, and checks. The previous plan is retained as collapsed history. |
 | [Animate.py](Animate.py) · `PriceDiscovery` | Existing 3D companion: circular plaza, floating marginals, camera/spotlight choreography, midpoint bargaining, and a fixed graph. This is the visual foundation for the revision. |
