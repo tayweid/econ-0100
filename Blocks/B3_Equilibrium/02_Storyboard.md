@@ -18,8 +18,9 @@ new single episode. The map below supersedes earlier proposals.
 
 **Order:** first pair → side-view deliberation → payment and gains → buyer bidding
 → second seller and a price cut → gradual arrivals → crowd discovers a price → name equilibrium → introduce the graph/recap →
-algebra → deviations. No graph appears before the market has settled. This
-implements Taylor's latest placement and retains the notes' 2–6 act IDs.
+algebra → deviations. Taylor's latest review adds separate MB/MC curves during
+the buildup; their combination and the algebra still follow discovery. The
+approved first Gary/Molly close-up stays unchanged.
 
 ## First pair and deliberate decisions
 
@@ -35,7 +36,7 @@ implements Taylor's latest placement and retains the notes' 2–6 act IDs.
 | `2.b.iv` | Cost before PS | Green area 0–2, then “Cost $2.” |
 | `2.b.v` | Producer surplus | Orange area 2–4, then “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
-| `2.c` | One new person: a competing buyer | Pull back from the approved close-up. Amanda-Grace alone joins, MB $7 against Gary's unchanged MB $6. Molly remains the only seller, MC $2; their standing price is $4. |
+| `2.c` | One new person: a competing buyer | Pull back from the approved close-up. Separate fixed-frame curves enter: buyer MB on the left, seller MC on the right. Copy each person’s marginal bar into its curve; keep MB descending and MC ascending as people arrive. Amanda-Grace alone joins, MB $7 against Gary's unchanged MB $6. Molly remains the only seller, MC $2; their standing price is $4. |
 | `2.c.i` | First higher offer | Amanda-Grace approaches; her bar moves beside Molly's before the short dashed $4.25 offer appears. Hold “Would they both accept this price?”; accept on advance. |
 | `2.c.ii` | Gary responds | Gary offers $4.50. The pair changes, the price rises, and the displaced buyer waits nearby. Then alternate $0.25 bids without a hold on every repetition. |
 | `2.c.iii` | Different MBs determine the winner | Amanda-Grace wins at $6.25. Gary's next $6.50 offer would exceed his MB $6. His bar never changes; her MB stays $7. Keep the price below her MB and show why Gary stops. |
@@ -53,10 +54,13 @@ actual B1/B2 implementations; the B2 revenue/cost/PS frame was inspected.
 
 | Pause | Action | Stopped frame |
 |---|---|---|
-| `3.a` | Grow from four people to six | Keep the two $6 deals. Add one buyer, then one seller, as separate entrances. Pause with three of each. |
+| `3.a` | Grow from four people to six | Keep the two $6 deals. Add an MB-$5 buyer, then an MC-$4 seller asking $4.50. Insert each new bar into its sorted side curve. The original dashed center lookout appears on the floor. |
+| `3.a.lookout` | Walk into the decision | The new buyer walks into the center ring. Pause with this buyer and the three sellers lit; dim the two other buyers and their standing connections. Highlight the buyer’s MB-$5 bar on the left. |
+| `3.a.options` | Read the options on the supply side | Highlight each seller and its MC column together, one at a time. Red ticks mark the price needed to buy: $6.25 at occupied Molly, $4.50 at the new seller, $6.25 at occupied Andrew. A teal MB-$5 line crosses the right panel. Pause with “Which offer can this buyer accept?” Prices are distinct from the orange cost bars. |
+| `3.a.chosen` | Make one visible choice | Highlight the $4.50 option, trace one dashed walking route, and move the buyer from the hub to that seller. Replace the route with a short red accepted-price line and its floor shadow. Then restore the full cast. |
 | `3.a.i` | Grow from six to eight | Add the next buyer and seller separately. Pause with four of each. |
 | `3.a.ii` | Continue one person at a time to ten of each | Alternate buyer/seller entrances with faster pacing. No mass fade-in. Seller tags are distinct from MC bars. |
-| `3.b` | Continuous random checks, outbids, and cuts | Run the complete market after the arrivals. Every buyer samples one seller per round; outbids and cuts use $0.25. No per-check holds. |
+| `3.b` | Faster repetitions of the same decision | Keep both sorted curves and the hub visible. Animate successful sampled visits one buyer at a time: enter the hub, highlight the checked seller and its supply column, show the required offer, then approach and match. Animate displaced buyers returning to the waiting side. Omit unchanged unsuccessful visits after the worked example; do not draw the old all-buyer web of grey rays. Seller cuts remain visible in the red tags. |
 | `4.a` | Name the stopping state | Six accepted trades at $4 in the presentation run. Keep nontraders visible. Bottom definition: “Equilibrium is where no one wants to change.” Gold arrow points to a settled price. |
 
 Fixture, updated for the unequal-MB bidding scene:
@@ -64,8 +68,9 @@ Fixture, updated for the unequal-MB bidding scene:
 - MB: `[6, 5, 4, 3, 7, 5, 4, 3, 2, 2]`.
 - MC: `[2, 4, 3, 5, 4, 2, 6, 3, 5, 6]`.
 - Gary B0; Amanda-Grace B4; Molly S0; Andrew S4.
-- Initial asks: all $6; B0→S0, B4→S4. These are the two deals left by `2.d.ii`.
-- Seed 57 gives 25 rounds, six matches, all matched prices $4. The seed is
+- Initial full-market asks: `[6, 4.5, 6, 6, 6, 6, 6, 6, 6, 6]`; B0→S0,
+  B1→S1, B4→S4. The third deal is the demonstrated lookout choice.
+- Seed 284 gives 35 rounds (18 successful visits), six matches, all matched prices $4. The seed is
   chosen for a readable classroom run; arbitrary seeds need not give one price.
 - The three-person bidding trace is the existing model with values [6, 7],
   cost [2], initial ask [4], Gary initially matched, seed 0.
@@ -88,7 +93,7 @@ observed pair has the same surplus split as that sorted pairing.
 
 | Pause | Action | Values / reveal order |
 |---|---|---|
-| `4.b` | First graph; notes' recap | Keep the world beside a unit graph, x 0–10, y 0–8. Copies of buyer bars enter in arrival order, sort descending; sellers sort ascending. Add price $4 and Q=6 only after both staircases. |
+| `4.b` | Bring the two curves together | Move the already-sorted side bars onto one shared unit graph, x 0–10, y 0–8. Retain their identity and sorted order; do not restart with unsorted bars. Add common price $4 and Q=6 after they meet. |
 | `4.c` | Move to the aggregate example | Fade the crowd and unit graph. Explicit caption “Q in thousands of pounds.” New aggregate axes x 0–90, y 0–13; D: P=12−Q/5, S: P=2+Q/20. These curves represent a larger market, not a rescaling of six people. Leave numerical equilibrium answers off the graph. |
 | `4.d` | Solve quantity first | Side calculation: 2+Q/20=12−Q/5; Q/20+Q/5=10; Q/4=10; Q*=40. Reveal one step at a time. |
 | `4.d.i` | Then solve price | Substitute 40 into P=2+Q/20; obtain P*=$4. Carry quantity and price into graph guides only after the calculation. |
@@ -138,14 +143,27 @@ editor. The newer `2.c` prose already describes buyer first, seller second,
 then one-at-a-time expansion. Taylor confirmed that the next entrant is a
 second seller, forming two pairs.
 
-The notes changed again during this build: their latest 1.a/1.b brings the twin
-graph recap back to the opening and 4.e describes their first combination.
-Taylor's direct instruction here remains the animation's authority: **no graph
-before discovery**. This pass uses a combined stair-step graph at 4.b and a
-combined aggregate graph at 4.c, following the existing lecture prototype.
-The delayed twin-graph variant can replace that bridge when the writing arc is
-settled; it is not silently represented as already implemented. No notes edits
-were made to resolve this difference.
+Taylor's latest direction supersedes the earlier “no graph before discovery”
+restriction for the two separate marginal curves. They begin after the approved
+close-up and stay on opposite sides of the plaza. The shared unit graph still
+appears at `4.b`, and aggregate algebra at `4.c`. No notes edits are needed to
+implement this staging correction.
+
+The original `Animate.py` provides the dashed radius-0.35, twelve-dash lookout
+ring and the buyer → center → seller movement. The current scene uses those
+visuals with its existing posted-price/outbid rules, not the historical
+midpoint-bargaining prices. Left and right panels each retain a dollar axis
+0–8. Their horizontal scale expands from the current participant count to ten;
+bar widths shrink as people join, so all present people remain legible. Neither
+side imports absent participants. MB sorts descending; MC sorts ascending,
+with stable participant IDs resolving ties.
+
+The side panels are centered at x=−5.9 and +5.9, with 3×3.5 axes and a fixed
+0–8 dollar range. The crowd camera height is 10.4. Buyer and seller positions
+stay on their opposing arcs, with equal vertical spacing so adjacent price
+tags remain readable. The worked survey highlights the three world sellers
+and their corresponding supply columns in the same order before the question
+pause. The larger run compresses this to a single checked option per visit.
 
 The new closing prose is still marked as a draft in the notes. Leave its final
 stage treatment with the PPF coda for the next pass rather than place a closing
@@ -161,24 +179,28 @@ unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
 
-- Pure rule suite: 37 tests pass in the shared checkout, including 12
-  discovery tests. The new tests check every auction bid and the actual
-  switch/cut sequence after Andrew enters. The three presentation traces have
+- Pure rule suite: 38 tests pass in the shared checkout, including 13
+  discovery tests. These check every auction bid, the actual switch/cut sequence
+  after Andrew enters, and the lookout buyer’s one affordable option after
+  including the cost of an outbid. The three presentation traces have
   six $4 matches, total gains $13, unique reservations, no losses, and no
   remaining permitted moves.
-- The updated full GPU render passes at 2160×1080 and 15 fps: 404 checkpoints,
-  40 named teaching holds, and 217.27 seconds of motion. Reviewed the new
-  three-person auction, second-seller comparison, two $6 pairs, six/eight/twenty
-  participant holds, and the moving switch. Old price lines and shadows finish
-  fading before a buyer moves; new lines enter after the marginals meet.
+- The updated full GPU render passes at 2160×1080 and 15 fps: 508 checkpoints,
+  43 named teaching holds, and 253.13 seconds of motion. Reviewed the separate
+  curves at three, six, and twenty people; the center-ring survey and choice;
+  the settlement; the combined graph; and the final stability frame. The
+  animated state is checked against the model after every discovery round.
+  Old price lines and shadows finish fading before a buyer moves; new lines
+  enter after the marginals meet.
 - The approved opening choreography through `2.b.vi` is unchanged; its
   first-deliberation and accounting frames were checked against the prior preview.
 - Reviewed actual stopped frames: first deliberation, all five accounting
   regions, switching, crowd settlement, graph sorting, algebra, both deviation
   calculations, shortage/excess, named switches, and stability.
-- Thirteen backward/forward restores across 3D and 2D scenes reproduce their
+- Fifteen backward/forward restores across 3D and 2D scenes reproduce their
   original rendered frames exactly (maximum channel error 0). The browser player
-  also passed an actual forward/reverse camera-transition check.
+  also passed forward/reverse buyer-choice playback. Sampled movie frames show
+  the highlighted buyer in the hub, then walking along the single selected route.
 - Preview: `media/EpisodeB3_present/index.html`, generated locally; it is not
   a published course artifact. Rebuild with `--export-present`. The application
   supplies the standard ManimL forward/reverse controls.

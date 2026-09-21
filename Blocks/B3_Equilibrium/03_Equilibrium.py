@@ -24,7 +24,7 @@ class EpisodeB3(ThreeDScene):
         BID_STEP = 0.25
         CROWD_MB = [6, 5, 4, 3, 7, 5, 4, 3, 2, 2]
         CROWD_MC = [2, 4, 3, 5, 4, 2, 6, 3, 5, 6]
-        SEARCH_SEED = 57
+        SEARCH_SEED = 284
         DOLLAR_HEIGHT, BAR_BASE = 0.55, 0.75
         BAR_WIDTH, CLOSE_WIDTH, CLOSE_GAP = 0.16, 1.10, 0.12
         PAIR_WIDTH, PAIR_GAP = 0.38, 0.06
@@ -238,6 +238,41 @@ class EpisodeB3(ThreeDScene):
             bars[key].anchor, bars[key].value, bars[key].offset = bodies[key], value, offset
             bars[key].add_updater(lambda m: m.move_to([
                 *(m.anchor.get_center() + m.offset)[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
+        # The two separate curves grow with the people; their dollar scale stays fixed.
+        side_axes, side_frames, side_counts, panel_bars = {}, {}, {}, {}
+        panel_ids = {'B': [0], 'S': [0]}
+        for side, x, word, term, value, color, key in [
+            ('B', -5.9, 'Demand', 'MB', MB, DEMAND, 'buyer'),
+            ('S', 5.9, 'Supply', 'MC', MC, SUPPLY, 'seller'),
+        ]:
+            panel_ax = style_axes([0, 10, 1], [0, 8, 2], x_length=3, y_length=3.5)
+            panel_ax.shift(np.array([x, 0.05, 0]) -
+                           (panel_ax.c2p(0, 0) + panel_ax.c2p(10, 8)) / 2)
+            panel_ticks = VGroup(*[Tex(str(p), color=MUTED).scale(0.7).next_to(
+                panel_ax.c2p(0, p), LEFT, buff=0.10) for p in (0, 2, 4, 6, 8)])
+            count_label = DecimalNumber(1, num_decimal_places=0, color=MUTED).scale(0.7)
+            count_label.move_to(panel_ax.c2p(10, 0) + DOWN * 0.32)
+            panel_caps = VGroup(
+                Tex(word, color=color).scale(0.8).move_to([x, 2.8, 0]),
+                Tex(rf'{term} ($\$$)', color=color).scale(0.7).move_to([x, 2.3, 0]),
+                Tex('0', color=MUTED).scale(0.7).move_to(panel_ax.c2p(0, 0) + DOWN * 0.32),
+                Tex('Units', color=CAPTION).scale(0.7).move_to([x, -2.5, 0]))
+            frame = fixed(VGroup(panel_ax, panel_ticks, panel_caps, count_label))
+            top = screen_point(self.camera.frame,
+                [*bars[key].get_center()[:2], BAR_BASE + value * DOLLAR_HEIGHT])
+            base = screen_point(self.camera.frame, [*bars[key].get_center()[:2], BAR_BASE])
+            twin = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
+                                   color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
+            twin.move_to((top + base) / 2)
+            side_axes[side], side_frames[side], side_counts[side] = panel_ax, frame, count_label
+            panel_bars[side, 0] = twin
+            target = fixed(Polygon(panel_ax.c2p(0, 0), panel_ax.c2p(10, 0),
+                                   panel_ax.c2p(10, value), panel_ax.c2p(0, value),
+                                   color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
+            self.play(FadeIn(frame), FadeIn(twin), run_time=0.5)
+            self.play(Transform(twin, target), run_time=0.8)
+
+
         deal_number = fixed(DecimalNumber(OFFER, num_decimal_places=2, color=GUIDE).scale(0.7))
         deal_number.tracker = deal_price
         deal_number.buyer, deal_number.seller = bars['buyer'], bars['seller']
@@ -275,6 +310,24 @@ class EpisodeB3(ThreeDScene):
         head = fixed(title("Who gets Molly's spinach?"))
         self.play(FadeIn(head), FadeIn(deal_number),
                   FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
+        panel_ids['B'].append(4)
+        panel_ids['B'].sort(key=lambda i: (-CROWD_MB[i], i))
+        side_counts['B'].set_value(2)
+        side_counts['B'].move_to(side_axes['B'].c2p(10, 0) + DOWN * 0.32)
+        top = screen_point(self.camera.frame, [-3.2, -1.1, BAR_BASE + 7 * DOLLAR_HEIGHT])
+        base = screen_point(self.camera.frame, [-3.2, -1.1, BAR_BASE])
+        panel_bars['B', 4] = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
+            color=DEMAND, fill_color=DEMAND, fill_opacity=0.22, stroke_width=2).move_to((top + base) / 2))
+        self.play(FadeIn(panel_bars['B', 4]), run_time=0.2)
+        rearrange = []
+        for rank, i in enumerate(panel_ids['B']):
+            panel_ax = side_axes['B']
+            target = fixed(Polygon(panel_ax.c2p(rank * 5, 0), panel_ax.c2p((rank + 1) * 5, 0),
+                panel_ax.c2p((rank + 1) * 5, CROWD_MB[i]), panel_ax.c2p(rank * 5, CROWD_MB[i]),
+                color=DEMAND, fill_color=DEMAND, fill_opacity=0.22, stroke_width=2))
+            rearrange.append(Transform(panel_bars['B', i], target))
+        self.play(*rearrange, run_time=1)
+
         self.pause('2.c')
 
         # ---- 2.c.i–iii · One seller; alternate real, affordable quarter-dollar bids.
@@ -377,6 +430,24 @@ class EpisodeB3(ThreeDScene):
             [3, -1.2, BAR_BASE + 6 * DOLLAR_HEIGHT]))
         self.play(FadeIn(body), FadeIn(bar), FadeIn(name_label),
                   FadeIn(value_label), FadeIn(other_ask))
+        panel_ids['S'].append(4)
+        panel_ids['S'].sort(key=lambda i: (CROWD_MC[i], i))
+        side_counts['S'].set_value(2)
+        side_counts['S'].move_to(side_axes['S'].c2p(10, 0) + DOWN * 0.32)
+        top = screen_point(self.camera.frame, [3, -1.2, BAR_BASE + 4 * DOLLAR_HEIGHT])
+        base = screen_point(self.camera.frame, [3, -1.2, BAR_BASE])
+        panel_bars['S', 4] = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
+            color=SUPPLY, fill_color=SUPPLY, fill_opacity=0.22, stroke_width=2).move_to((top + base) / 2))
+        self.play(FadeIn(panel_bars['S', 4]), run_time=0.2)
+        rearrange = []
+        for rank, i in enumerate(panel_ids['S']):
+            panel_ax = side_axes['S']
+            target = fixed(Polygon(panel_ax.c2p(rank * 5, 0), panel_ax.c2p((rank + 1) * 5, 0),
+                panel_ax.c2p((rank + 1) * 5, CROWD_MC[i]), panel_ax.c2p(rank * 5, CROWD_MC[i]),
+                color=SUPPLY, fill_color=SUPPLY, fill_opacity=0.22, stroke_width=2))
+            rearrange.append(Transform(panel_bars['S', i], target))
+        self.play(*rearrange, run_time=1)
+
         self.pause('2.d')
         price_question = fixed(Tex(r'Would Amanda-Grace keep paying $\$6.25$?',
                                   color=DEFINITION).scale(DEFINITION_SCALE))
@@ -443,10 +514,12 @@ class EpisodeB3(ThreeDScene):
 
         # ---- 3.a · Keep the four people, then introduce every arrival separately.
         self.remove(same_price)
-        crowd_asks = [6] * 10
+        crowd_asks = [6, 4.5, 6, 6, 6, 6, 6, 6, 6, 6]
         crowd_matches = [0, None, None, None, 4, None, None, None, None, None]
+        discovery_matches = crowd_matches.copy()
+        discovery_matches[1] = 1  # The worked lookout choice below.
         market = simulate(CROWD_MB, CROWD_MC, crowd_asks, seed=SEARCH_SEED,
-                          initial_sellers=crowd_matches, step=BID_STEP)
+                          initial_sellers=discovery_matches, step=BID_STEP)
         assert market.settled
         assert len([s for s in market.final.sellers if s is not None]) == 6
         assert all(market.final.asks[s] == 4 for s in market.final.sellers if s is not None)
@@ -459,12 +532,15 @@ class EpisodeB3(ThreeDScene):
         self.remove(head)
         head = fixed(title('Where do prices settle?'))
         self.play(FadeIn(head), self.camera.frame.animate.reorient(
-            0, 48, center=[0, 0, 0.65], height=9), run_time=1.5)
+            0, 48, center=[0, 0, 0.65], height=10.4), run_time=1.5)
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
-        seller_spots = [3.6 * np.array([np.cos(a), np.sin(a), 0])
-                        for a in np.radians(np.linspace(65, -65, 10))]
-        buyer_spots = [3.7 * np.array([np.cos(a), np.sin(a), 0])
-                       for a in np.radians(np.linspace(115, 245, 10))]
+        # Equal vertical spacing keeps neighboring price tags readable on the arcs.
+        seller_spots = [np.array([np.sqrt(3.6 ** 2 - y ** 2), y, 0])
+                        for y in np.linspace(3.6 * np.sin(65 * DEGREES),
+                                             -3.6 * np.sin(65 * DEGREES), 10)]
+        buyer_spots = [np.array([-np.sqrt(3.7 ** 2 - y ** 2), y, 0])
+                       for y in np.linspace(3.7 * np.sin(65 * DEGREES),
+                                            -3.7 * np.sin(65 * DEGREES), 10)]
         crowd_bodies, crowd_bars, price_tags, price_trackers = {}, {}, {}, {}
         inherited = {('B', 0): 'buyer', ('B', 4): 'challenger',
                      ('S', 0): 'seller', ('S', 4): 'other_seller'}
@@ -473,8 +549,8 @@ class EpisodeB3(ThreeDScene):
                                            ('S', CROWD_MC, seller_spots, SUPPLY)]:
             for i, value in enumerate(values):
                 spot = spots[i].copy()
-                if side == 'B' and market.initial.sellers[i] is not None:
-                    seller_at = seller_spots[market.initial.sellers[i]]
+                if side == 'B' and crowd_matches[i] is not None:
+                    seller_at = seller_spots[crowd_matches[i]]
                     spot = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                 if (side, i) in inherited:
                     key = inherited[side, i]
@@ -499,8 +575,8 @@ class EpisodeB3(ThreeDScene):
                     *m.anchor.get_center()[:2], CROWD_BASE + m.value * CROWD_SCALE / 2]))
                 crowd_bodies[side, i], crowd_bars[side, i] = body, bar
                 if side == 'S':
-                    tracker = ValueTracker(market.initial.asks[i])
-                    tag = fixed(DecimalNumber(market.initial.asks[i], num_decimal_places=2,
+                    tracker = ValueTracker(crowd_asks[i])
+                    tag = fixed(DecimalNumber(crowd_asks[i], num_decimal_places=2,
                                               color=GUIDE).scale(0.7))
                     tag.tracker, tag.anchor = tracker, body
                     tag.add_updater(lambda m: m.set_value(m.tracker.get_value())
@@ -511,18 +587,20 @@ class EpisodeB3(ThreeDScene):
                     price_tags[i], price_trackers[i] = tag, tracker
         self.play(*inherited_moves,
                   FadeIn(price_tags[0]), FadeIn(price_tags[4]), run_time=1.2)
-        connections = VGroup()
-        ground_connections = VGroup()
-        for b, s in enumerate(market.initial.sellers):
-            if s is not None:
+        hub = DashedVMobject(Circle(radius=0.35, color=MUTED, stroke_width=2),
+                             num_dashes=12).set_stroke(opacity=0.6).shift(OUT * 0.035)
+        connection_by_buyer, ground_by_buyer = {}, {}
+        for b, seller in enumerate(crowd_matches):
+            if seller is not None:
                 buyer_at = crowd_bodies['B', b].get_center()
-                seller_at = seller_spots[s]
-                height = CROWD_BASE + market.initial.asks[s] * CROWD_SCALE
-                connections.add(Line([*buyer_at[:2], height], [*seller_at[:2], height],
-                                     color=GUIDE, stroke_width=2.2))
-                ground_connections.add(Line([*buyer_at[:2], 0.04], [*seller_at[:2], 0.04],
-                                            color=GUIDE, stroke_width=1.6).set_opacity(0.3))
-        self.add(connections, ground_connections)
+                seller_at = seller_spots[seller]
+                height = CROWD_BASE + crowd_asks[seller] * CROWD_SCALE
+                connection_by_buyer[b] = Line([*buyer_at[:2], height], [*seller_at[:2], height],
+                                              color=GUIDE, stroke_width=2.2)
+                ground_by_buyer[b] = Line([*buyer_at[:2], 0.04], [*seller_at[:2], 0.04],
+                                          color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+        self.add(*connection_by_buyer.values(), *ground_by_buyer.values())
+        self.play(FadeIn(hub), run_time=0.4)
         arrival_order = [(side, i) for i in [1, 2, 3, 5, 6, 7, 8, 9] for side in ['B', 'S']]
         present_buyers, present_sellers = 2, 2
         entry_caption = None
@@ -540,54 +618,181 @@ class EpisodeB3(ThreeDScene):
             if side == 'S':
                 entrances.append(FadeIn(price_tags[i]))
             self.play(*entrances, run_time=0.9 if i in [1, 2] else 0.5)
+            values = CROWD_MB if side == 'B' else CROWD_MC
+            color = DEMAND if side == 'B' else SUPPLY
+            panel_ids[side].append(i)
+            panel_ids[side].sort(key=lambda j: (-values[j] if side == 'B' else values[j], j))
+            count = len(panel_ids[side])
+            side_counts[side].set_value(count)
+            side_counts[side].move_to(side_axes[side].c2p(10, 0) + DOWN * 0.32)
+            top = screen_point(self.camera.frame,
+                [*crowd_bodies[side, i].get_center()[:2], CROWD_BASE + values[i] * CROWD_SCALE])
+            base = screen_point(self.camera.frame,
+                [*crowd_bodies[side, i].get_center()[:2], CROWD_BASE])
+            panel_bars[side, i] = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
+                color=color, fill_color=color, fill_opacity=0.22, stroke_width=2)
+                .move_to((top + base) / 2))
+            self.add(panel_bars[side, i])
+            rearrange = []
+            for rank, j in enumerate(panel_ids[side]):
+                panel_ax = side_axes[side]
+                x0, x1 = 10 * rank / count, 10 * (rank + 1) / count
+                target = fixed(Polygon(panel_ax.c2p(x0, 0), panel_ax.c2p(x1, 0),
+                    panel_ax.c2p(x1, values[j]), panel_ax.c2p(x0, values[j]),
+                    color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
+                rearrange.append(Transform(panel_bars[side, j], target))
+            self.play(*rearrange, run_time=0.8 if i in [1, 2] else 0.4)
             if side == 'S' and i == 1:
                 self.pause('3.a')
+                self.remove(entry_caption)
+                entry_caption = None
+                # One unhurried survey teaches what the center circle means.
+                buyer_focus = fixed(SurroundingRectangle(panel_bars['B', 1],
+                    color=DEMAND, buff=0.04, stroke_width=3))
+                self.play(
+                    *[crowd_bodies['B', b][1].animate.set_opacity(0.2) for b in (0, 4)],
+                    *[crowd_bodies['B', b][0].animate.set_opacity(0.06) for b in (0, 4)],
+                    *[crowd_bars['B', b].animate.set_opacity(0.12) for b in (0, 4)],
+                    *[connection_by_buyer[b].animate.set_opacity(0.2) for b in (0, 4)],
+                    *[ground_by_buyer[b].animate.set_opacity(0.06) for b in (0, 4)],
+                    FadeIn(buyer_focus), hub.animate.set_stroke(opacity=1),
+                    crowd_bodies['B', 1].animate.move_to(
+                        [0, 0, crowd_bodies['B', 1].get_center()[2]]), run_time=1.4)
+                self.pause('3.a.lookout')
+                supply_ax = side_axes['S']
+                mb_guide = fixed(DashedLine(supply_ax.c2p(0, 5), supply_ax.c2p(10, 5),
+                    color=DEMAND, stroke_width=2))
+                mb_read = fixed(Tex(r'MB $\$5$', color=DEMAND).scale(0.7)
+                    .move_to(supply_ax.c2p(5, 5) + UP * 0.35))
+                price_caption = fixed(Tex('Price to buy', color=GUIDE).scale(0.7)
+                    .move_to([5.9, -3.05, 0]))
+                self.play(FadeIn(mb_guide), FadeIn(mb_read), FadeIn(price_caption))
+                option_rings, option_columns, option_prices = {}, {}, {}
+                for seller in panel_ids['S']:
+                    rank = panel_ids['S'].index(seller)
+                    needed = crowd_asks[seller] + (BID_STEP if seller in crowd_matches else 0)
+                    ring = Circle(radius=0.29, color=SUPPLY, stroke_width=3)
+                    ring.move_to([*seller_spots[seller][:2], 0.045])
+                    column = fixed(SurroundingRectangle(panel_bars['S', seller],
+                        color=SUPPLY, buff=0.035, stroke_width=3))
+                    x0, x1 = 10 * rank / 3, 10 * (rank + 1) / 3
+                    tick = Line(supply_ax.c2p(x0 + 0.15, needed),
+                                supply_ax.c2p(x1 - 0.15, needed), color=GUIDE, stroke_width=3)
+                    number = Tex(rf'$\${needed:.2f}$', color=GUIDE).scale(0.7)
+                    number.move_to(supply_ax.c2p((x0 + x1) / 2, needed)
+                                   + (UP * 0.4 if needed > 5 else DOWN * 0.36))
+                    price_mark = fixed(VGroup(tick, number))
+                    option_rings[seller], option_columns[seller] = ring, column
+                    option_prices[seller] = price_mark
+                    self.play(FadeIn(ring), FadeIn(column), FadeIn(price_mark), run_time=0.8)
+                choose_question = fixed(Tex('Which offer can this buyer accept?', color=DEFINITION)
+                    .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+                self.play(FadeIn(choose_question))
+                self.pause('3.a.options')
+                self.remove(choose_question)
+                seller_at = seller_spots[1]
+                destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
+                route = DashedLine([0, 0, 0.045], [*destination[:2], 0.045],
+                                   color=MUTED, stroke_width=2).set_opacity(0.7)
+                self.play(*[FadeOut(option_rings[s]) for s in (0, 4)],
+                          *[FadeOut(option_columns[s]) for s in (0, 4)],
+                          *[FadeOut(option_prices[s]) for s in (0, 4)],
+                          FadeIn(route), run_time=0.5)
+                self.play(crowd_bodies['B', 1].animate.move_to(
+                    [*destination[:2], crowd_bodies['B', 1].get_center()[2]]), run_time=1.2)
+                height = CROWD_BASE + crowd_asks[1] * CROWD_SCALE
+                connection_by_buyer[1] = Line([*destination[:2], height], [*seller_at[:2], height],
+                                               color=GUIDE, stroke_width=2.2)
+                ground_by_buyer[1] = Line([*destination[:2], 0.04], [*seller_at[:2], 0.04],
+                                           color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                crowd_matches[1] = 1
+                self.play(FadeOut(route), FadeIn(connection_by_buyer[1]),
+                          FadeIn(ground_by_buyer[1]), run_time=0.5)
+                self.pause('3.a.chosen')
+                self.play(FadeOut(buyer_focus), FadeOut(mb_guide), FadeOut(mb_read),
+                    FadeOut(price_caption), FadeOut(option_rings[1]),
+                    FadeOut(option_columns[1]), FadeOut(option_prices[1]),
+                    *[crowd_bodies['B', b][1].animate.set_opacity(1) for b in (0, 4)],
+                    *[crowd_bodies['B', b][0].animate.set_opacity(0.28) for b in (0, 4)],
+                    *[crowd_bars['B', b].animate.set_opacity(0.65) for b in (0, 4)],
+                    *[connection_by_buyer[b].animate.set_opacity(1) for b in (0, 4)],
+                    *[ground_by_buyer[b].animate.set_opacity(0.3) for b in (0, 4)],
+                    hub.animate.set_stroke(opacity=0.6), run_time=0.6)
             if side == 'S' and i == 2:
                 self.pause('3.a.i')
         self.pause('3.a.ii')
         self.remove(entry_caption)
 
 
-        # ---- 3.b · A round is compressed into one continuous market action.
+        # ---- 3.b · Repeat the visible center → checked option → match sequence.
+        # Unchanged unsuccessful visits are omitted after the worked survey.
         for round_ in market.rounds:
-            rays = VGroup()
             for event in round_.events:
-                if event.kind == 'check':
-                    start = crowd_bodies['B', event.buyer].get_center()
-                    end = seller_spots[event.seller]
-                    rays.add(DashedLine([*start[:2], 0.04], [*end[:2], 0.04],
-                                        color=MUTED, stroke_width=1).set_opacity(0.28))
-            moves, prices = [], []
-            price_arrows = VGroup()
-            new_connections, new_ground = VGroup(), VGroup()
-            for b, s in enumerate(round_.after.sellers):
-                if s is None:
-                    destination = buyer_spots[b]
-                else:
-                    seller_at = seller_spots[s]
-                    destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
-                    height = CROWD_BASE + round_.after.asks[s] * CROWD_SCALE
-                    new_connections.add(Line([*destination[:2], height], [*seller_at[:2], height],
-                                             color=GUIDE, stroke_width=2.2))
-                    new_ground.add(Line([*destination[:2], 0.04], [*seller_at[:2], 0.04],
-                                        color=GUIDE, stroke_width=1.6).set_opacity(0.3))
+                if event.kind != 'match':
+                    continue
+                b, s = event.buyer, event.seller
                 body = crowd_bodies['B', b]
-                moves.append(body.animate.move_to([*destination[:2], body.get_center()[2]]))
-            for s, price in enumerate(round_.after.asks):
-                if price != round_.before.asks[s]:
-                    prices.append(price_trackers[s].animate.set_value(price))
-                    direction = UP if price > round_.before.asks[s] else DOWN
-                    origin = price_tags[s].get_center() + RIGHT * 0.45
-                    price_arrows.add(fixed(Arrow(origin - direction * 0.2,
-                        origin + direction * 0.2, color=GUIDE, buff=0,
-                        thickness=1.2, tip_width_ratio=4)))
-            # Assign the next state before the last play so checkpoint replay keeps it.
-            self.play(FadeIn(rays), FadeIn(price_arrows), *prices, run_time=0.3)
-            self.play(FadeOut(connections), FadeOut(ground_connections),
-                      FadeOut(rays), FadeOut(price_arrows), *moves, run_time=0.6)
-            connections, ground_connections = new_connections, new_ground
-            self.play(FadeIn(connections), FadeIn(ground_connections), run_time=0.2)
+                if b in connection_by_buyer:
+                    old_line, old_ground = connection_by_buyer.pop(b), ground_by_buyer.pop(b)
+                    self.play(FadeOut(old_line), FadeOut(old_ground), run_time=0.15)
+                buyer_focus = fixed(SurroundingRectangle(panel_bars['B', b],
+                    color=DEMAND, buff=0.035, stroke_width=3))
+                self.play(body.animate.move_to([0, 0, body.get_center()[2]]),
+                          FadeIn(buyer_focus), hub.animate.set_stroke(opacity=1), run_time=0.45)
+                seller_focus = fixed(SurroundingRectangle(panel_bars['S', s],
+                    color=SUPPLY, buff=0.035, stroke_width=3))
+                seller_ring = Circle(radius=0.28, color=SUPPLY, stroke_width=2.5)
+                seller_ring.move_to([*seller_spots[s][:2], 0.045])
+                rank = panel_ids['S'].index(s)
+                offer_tick = fixed(Line(side_axes['S'].c2p(rank, event.price),
+                    side_axes['S'].c2p(rank + 1, event.price), color=GUIDE, stroke_width=4))
+                offer_read = fixed(Tex(rf'Buy for $\${event.price:.2f}$', color=GUIDE)
+                    .scale(0.7).move_to([5.9, -3.05, 0]))
+                self.play(FadeIn(seller_focus), FadeIn(seller_ring), FadeIn(offer_tick),
+                          FadeIn(offer_read), run_time=0.3)
+                if event.displaced is not None:
+                    old_line = connection_by_buyer.pop(event.displaced)
+                    old_ground = ground_by_buyer.pop(event.displaced)
+                    self.play(FadeOut(old_line), FadeOut(old_ground), run_time=0.15)
+                seller_at = seller_spots[s]
+                destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
+                route = DashedLine([0, 0, 0.045], [*destination[:2], 0.045],
+                                   color=MUTED, stroke_width=1.5).set_opacity(0.6)
+                moves = [body.animate.move_to([*destination[:2], body.get_center()[2]])]
+                if event.displaced is not None:
+                    displaced_body = crowd_bodies['B', event.displaced]
+                    moves.append(displaced_body.animate.move_to(
+                        [*buyer_spots[event.displaced][:2], displaced_body.get_center()[2]]))
+                    crowd_matches[event.displaced] = None
+                crowd_matches[b], crowd_asks[s] = s, event.price
+                self.play(FadeIn(route), run_time=0.15)
+                self.play(*moves, price_trackers[s].animate.set_value(event.price), run_time=0.45)
+                height = CROWD_BASE + event.price * CROWD_SCALE
+                connection_by_buyer[b] = Line([*destination[:2], height], [*seller_at[:2], height],
+                                               color=GUIDE, stroke_width=2.2)
+                ground_by_buyer[b] = Line([*destination[:2], 0.04], [*seller_at[:2], 0.04],
+                                           color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                self.play(FadeOut(route), FadeOut(buyer_focus), FadeOut(seller_focus),
+                          FadeOut(seller_ring), FadeOut(offer_tick), FadeOut(offer_read),
+                          FadeIn(connection_by_buyer[b]), FadeIn(ground_by_buyer[b]),
+                          hub.animate.set_stroke(opacity=0.6), run_time=0.2)
+            cuts, cut_arrows = [], VGroup()
+            for event in round_.events:
+                if event.kind == 'cut':
+                    crowd_asks[event.seller] = event.price
+                    cuts.append(price_trackers[event.seller].animate.set_value(event.price))
+                    origin = price_tags[event.seller].get_center() + RIGHT * 0.45
+                    cut_arrows.add(fixed(Arrow(origin + UP * 0.2, origin + DOWN * 0.2,
+                        color=GUIDE, buff=0, thickness=1.2, tip_width_ratio=4)))
+            assert tuple(crowd_matches) == round_.after.sellers
+            assert tuple(crowd_asks) == round_.after.asks
+            if cuts:
+                self.play(*cuts, FadeIn(cut_arrows), run_time=0.35)
+                self.play(FadeOut(cut_arrows), run_time=0.15)
+        connections = VGroup(*connection_by_buyer.values())
+        ground_connections = VGroup(*ground_by_buyer.values())
         self.pause('3.b')
+
 
         # ---- 4.a · Name what has just happened; keep nontraders in the picture.
         for s, tag in price_tags.items():
@@ -603,10 +808,11 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(equilibrium_def), FadeIn(equilibrium_arrow))
         self.pause('4.a')
 
-        # ---- 4.b · Only now do the people's marginal bars become a graph.
+        # ---- 4.b · Bring the existing sorted curves onto a shared unit graph.
         self.remove(equilibrium_def, equilibrium_arrow, head)
         head = fixed(title('What does the graph show?'))
-        self.play(FadeIn(head), self.camera.frame.animate.reorient(
+        self.play(FadeIn(head), FadeOut(side_frames['B']), FadeOut(side_frames['S']),
+                  FadeOut(hub), self.camera.frame.animate.reorient(
             0, 48, center=[4, 0, 0.65], height=11), run_time=1.8)
         unit_ax = style_axes([0, 10, 1], [0, 8, 2], x_length=4.8, y_length=4.6)
         unit_ax.shift(np.array([4, 0.1, 0]) -
@@ -623,30 +829,19 @@ class EpisodeB3(ThreeDScene):
                 .next_to(unit_ax.c2p(10, 0), RIGHT, buff=0.2))
         unit_graph = fixed(VGroup(unit_ax, unit_ticks, unit_caps))
         self.play(FadeIn(unit_graph))
-        twins, stairs = {}, {}
-        for side, values, color, reverse in [('B', CROWD_MB, DEMAND, True),
-                                             ('S', CROWD_MC, SUPPLY, False)]:
-            ranked = sorted(range(10), key=lambda i: values[i], reverse=reverse)
-            for i, value in enumerate(values):
-                top = screen_point(self.camera.frame,
-                    [*crowd_bodies[side, i].get_center()[:2], CROWD_BASE + value * CROWD_SCALE])
-                base = screen_point(self.camera.frame,
-                    [*crowd_bodies[side, i].get_center()[:2], CROWD_BASE])
-                twin = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
+        twins, stairs = panel_bars, {}
+        for side, values, color in [('B', CROWD_MB, DEMAND), ('S', CROWD_MC, SUPPLY)]:
+            rearrange = []
+            for rank, i in enumerate(panel_ids[side]):
+                value = values[i]
+                target = fixed(Polygon(unit_ax.c2p(rank, 0), unit_ax.c2p(rank + 1, 0),
+                    unit_ax.c2p(rank + 1, value), unit_ax.c2p(rank, value),
                     color=color, fill_color=color, fill_opacity=0.2, stroke_width=1))
-                twin.move_to((top + base) / 2)
-                twins[side, i] = twin
-            self.play(*[FadeIn(twins[side, i]) for i in range(10)], run_time=0.3)
-            self.play(LaggedStart(*[twins[side, i].animate.stretch_to_fit_width(0.45)
-                .stretch_to_fit_height(value * 4.6 / 8)
-                .move_to(unit_ax.c2p(i + 0.5, value / 2))
-                for i, value in enumerate(values)], lag_ratio=0.04), run_time=1.5)
-            self.play(*[twins[side, i].animate.move_to(
-                unit_ax.c2p(rank + 0.5, values[i] / 2))
-                for rank, i in enumerate(ranked)], run_time=1.4)
+                rearrange.append(Transform(twins[side, i], target))
+            self.play(LaggedStart(*rearrange, lag_ratio=0.04), run_time=1.8)
             steps = fixed(VGroup(*[Line(unit_ax.c2p(rank, values[i]),
                 unit_ax.c2p(rank + 1, values[i]), color=color, stroke_width=3)
-                for rank, i in enumerate(ranked)]))
+                for rank, i in enumerate(panel_ids[side])]))
             stairs[side] = steps
             self.play(FadeIn(steps))
         unit_price = fixed(DashedLine(unit_ax.c2p(0, 4), unit_ax.c2p(10, 4),

@@ -120,8 +120,8 @@ class DiscoveryTests(unittest.TestCase):
 
     def test_presentation_runs_reach_the_supported_four_dollar_state(self):
         fixtures = [
-            (57, (6,) * 10,
-             (0, None, None, None, 4, None, None, None, None, None)),
+            (284, (6, 4.5, 6, 6, 6, 6, 6, 6, 6, 6),
+             (0, 1, None, None, 4, None, None, None, None, None)),
             (473, (3.25, 4, 3, 5, 4, 3, 6, 3, 5, 6),
              (None, 2, 5, 7, 0, None, None, None, None, None)),
             (249, (5, 6, 6, 6, 6, 6, 6, 6, 6, 6),
@@ -135,6 +135,20 @@ class DiscoveryTests(unittest.TestCase):
             self.assertEqual({run.final.asks[s] for b, s in trades}, {4})
             self.assertEqual(sum(MB[b] - MC[s] for b, s in trades), 13)
             self.assertFalse(improvements(MB, MC, run.final))
+
+    def test_lookout_buyer_has_one_affordable_option_including_outbid_cost(self):
+        # Gary/Molly and Amanda-Grace/Andrew remain matched at $6.
+        # The new buyer's MB is $5; the new seller's MC is $4, ask $4.50.
+        values, costs = [6, 5, 7], [2, 4, 4]
+        state = State((6, 4.5, 6), (0, None, 2))
+        offers = [ask + (.25 if s in state.sellers else 0)
+                  for s, ask in enumerate(state.asks)]
+        self.assertEqual(offers, [6.25, 4.5, 6.25])
+        choices = [action for action in improvements(values, costs, state)
+                   if action[:2] == ('visit', 1)]
+        self.assertEqual(choices, [('visit', 1, 1)])
+        self.assertEqual(values[1] - offers[1], .5)
+        self.assertEqual(offers[1] - costs[1], .5)
 
     def test_rejects_invalid_inputs(self):
         for values, costs, asks, kwargs in [
