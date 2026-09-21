@@ -1265,11 +1265,17 @@ class EpisodeB3(ThreeDScene):
                                      color=GUIDE, stroke_width=2))
         unit_read = fixed(Tex(r'$Q_d=Q_s=6$', color=GUIDE).scale(0.7)
                           .next_to(unit_ax.c2p(6, 0), DOWN, buff=0.65))
-        self.play(FadeIn(unit_price), FadeIn(unit_drop), FadeIn(unit_read))
+        unit_price_read = fixed(Tex(r'$P=\$4$', color=GUIDE).scale(0.7)
+                                .next_to(unit_ax.c2p(0, 4), LEFT, buff=0.25))
+        # The five quantity ticks precede the price ticks 0, 2, 4, 6, 8.
+        unit_price_tick = unit_ticks[7]
+        self.play(FadeIn(unit_price), FadeIn(unit_drop), FadeIn(unit_read),
+                  unit_price_tick.animate.set_opacity(0), FadeIn(unit_price_read))
         self.pause('4.b')
 
         # ---- 4.c · A new aggregate example, explicitly in thousands of pounds.
         self.play(*[FadeOut(m) for m in list(self.mobjects)])
+        unit_price_tick.set_opacity(1)
         # Reserve the original right-hand layout for the later plaza returns.
         # Move the entire unit graph while hidden, including the bars that the
         # posted-price markers follow. New guides use this relocated axis.

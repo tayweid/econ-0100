@@ -153,7 +153,7 @@ observed pair has the same surplus split as that sorted pairing.
 
 | Pause | Action | Values / reveal order |
 |---|---|---|
-| `4.b` | Bring the two curves together in the center | Fade the plaza, people, marginal bars, world-price lines, and hub over 0.8 seconds while the two side graph panels stay intact. Reset the camera only after the world is hidden. Move both already-sorted sets of bars together onto centered axes (center x=0, y=0.1; x 0–10, y 0–8) in one 1.8-second play as the side axes and posted prices fade. Keep all units in their original rank order. Reveal both step outlines, then common price $4 and Q=6. No camera slide or plaza beneath the merging bars. |
+| `4.b` | Bring the two curves together in the center | Fade the plaza, people, marginal bars, world-price lines, and hub over 0.8 seconds while the two side graph panels stay intact. Reset the camera only after the world is hidden. Move both already-sorted sets of bars together onto centered axes (center x=0, y=0.1; x 0–10, y 0–8) in one 1.8-second play as the side axes and posted prices fade. Keep all units in their original rank order. Reveal both step outlines, then the red price/quantity guides with “P=$4” beside the price axis and “Qd=Qs=6” below the quantity axis, both at scale 0.7. The price label replaces the grey 4 tick during this hold; restore that tick while the graph is hidden before its later reuse. No camera slide or plaza beneath the merging bars. |
 | `4.c` | Move to the aggregate example | Fade the centered unit graph. While hidden, shift its complete axis, bars, and step outlines four units right to preserve the later plaza-and-graph deviation layout. Explicit caption “Q in thousands of pounds.” New aggregate axes x 0–90, y 0–13; D: P=12−Q/5, S: P=2+Q/20. These curves represent a larger market, not a rescaling of six people. Leave numerical equilibrium answers off the graph. |
 | `4.d` | Solve quantity first | Side calculation: 2+Q/20=12−Q/5; Q/20+Q/5=10; Q/4=10; Q*=40. Reveal one step at a time. |
 | `4.d.i` | Then solve price | Substitute 40 into P=2+Q/20; obtain P*=$4. Carry quantity and price into graph guides only after the calculation. |
@@ -297,6 +297,11 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 price readout: added red “P=$4” at the left end of the centered
+  graph's price guide, matching the quantity readout. It replaces the grey 4
+  tick for this hold; the tick returns while hidden for later reuse. Checked
+  its alignment and spacing in the live viewer; syntax/whitespace checks pass.
 
 - September 21 graph transition: faded the entire plaza before combining the
   side curves. Both sorted bar sets now move together onto centered unit axes,
