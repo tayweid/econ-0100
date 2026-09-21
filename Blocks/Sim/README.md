@@ -4,6 +4,15 @@ This proof of concept connects people, exchanges, and the economic model.
 The plane gives transactions a place to happen; a flat panel makes their
 economics readable. Start with `OneAgent`, then watch the scenes in order.
 
+For the current B3 work, start at the [B3 materials map](../B3_Equilibrium/README.md)
+and [companion storyboard](../B3_Equilibrium/02_Companion_Storyboard.md).
+`B3_Equilibrium/Animate.py` is the price-discovery companion;
+`B3_Equilibrium/Animate_A.py` is the lecture's posted-price prototype, using
+[posted_price.py](posted_price.py) and [test_posted_price.py](test_posted_price.py)
+in this directory. The four scenes below are the earlier benchmark prototypes.
+The companion's September 20 random-search and marginal-close-up revision is
+storyboarded, not implemented.
+
 ## Run it
 
 Use the course's **ManimL** command, as in A1, A2, A3, and B0:
@@ -160,9 +169,15 @@ need public inventory and a budget. Introduce each when its lesson needs it.
 
 ## Verification
 
-All four scenes were rendered and visually checked, with presenter bundles at
+Historical prototype verification: all four scenes were rendered and visually checked, with presenter bundles at
 2160 × 1080 and 60 fps in `media/`. The 10 economic tests pass. Checkpoint
 checks cover forward, backward, and replay behavior in `OneAgent` and
 `MarketRound`, including label anchors and surplus counters. `MarketRound`
 was also checked in the live WebGPU viewer, including reversing and replaying
 the first exchange.
+
+September 20, 2026 inventory check: the suite now passes **25 tests** (10 benchmark
+and 15 posted-price tests). This is a model check, not a new render review or
+validation of the planned random-search mechanism. Current B3 scenes specify
+**15 fps** under the course style guide; the 60 fps above describes the earlier
+prototype exports.
