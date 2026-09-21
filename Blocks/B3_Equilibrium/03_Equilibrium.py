@@ -1571,7 +1571,12 @@ class EpisodeB3(ThreeDScene):
             queued = [b for b in willing_buyers if crowd_matches[b] is None]
             # Bias price strokes toward the camera so bars cannot occlude them.
             connection_by_buyer, ground_by_buyer = {}, {}
-            leftovers, waiting_rings = Group(), VGroup()
+            waiting_rings = VGroup()
+            # One box means this seller is producing without a reserved buyer.
+            stock_boxes = {s: Cube(side_length=0.22, color=SUPPLY).move_to(
+                seller_spots[s] + RIGHT * 0.40 + DOWN * 0.22 + OUT * 0.12)
+                for s in range(10)}
+            unsold_sellers = set(willing_sellers) - set(crowd_matches)
             for (side, i), bar in crowd_bars.items():
                 bar.pairing.set_value(0)
                 bar.partner = bar.anchor
@@ -1605,9 +1610,6 @@ class EpisodeB3(ThreeDScene):
                 crowd_bodies['S', s][0].set_opacity(0.22 if active else 0.06)
                 crowd_bars['S', s].set_opacity(0.65 if active else 0.12)
                 price_trackers[s].set_value(test_price)
-                if active and s not in crowd_matches:
-                    leftovers.add(Cube(side_length=0.22, color=SUPPLY).move_to(
-                        seller_spots[s] + LEFT * 0.40 + DOWN * 0.22 + OUT * 0.12))
             for bar in crowd_bars.values():
                 bar.update()
             unit_ticks.set_opacity(1)
@@ -1632,7 +1634,8 @@ class EpisodeB3(ThreeDScene):
                 *[FadeIn(m) for m in connection_by_buyer.values()],
                 *[FadeIn(m) for m in ground_by_buyer.values()],
                 *[FadeIn(entry_names[key]) for key in names_in_use],
-                FadeIn(leftovers), FadeIn(waiting_rings), FadeIn(unit_graph),
+                *[FadeIn(stock_boxes[s]) for s in sorted(unsold_sellers)],
+                FadeIn(waiting_rings), FadeIn(unit_graph),
                 *[FadeIn(m) for m in twins.values()], *[FadeIn(m) for m in stairs.values()],
                 FadeIn(unit_price), FadeIn(unit_price_read), FadeIn(unit_quantities), FadeIn(unit_drops))
             definition = fixed(Tex(
@@ -1641,7 +1644,7 @@ class EpisodeB3(ThreeDScene):
                 tex_to_color_map={'Shortage': DEFINITION, 'Excess': DEFINITION}).scale(DEFINITION_SCALE))
             definition.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
             target = screen_point(self.camera.frame, (crowd_bodies['B', 4] if test_price == 3
-                                                     else leftovers[-1]).get_center())
+                                                     else stock_boxes[max(unsold_sellers)]).get_center())
             definition_arrow = fixed(Arrow(definition.get_top() + LEFT * 2 + UP * 0.1,
                 target, color=DEFINITION, thickness=1.2, tip_width_ratio=4, buff=0.18))
             self.play(FadeIn(definition), FadeIn(definition_arrow))
@@ -1661,7 +1664,7 @@ class EpisodeB3(ThreeDScene):
 
             # A named decision uses the same lookout and full offer comparison.
             self.play(FadeOut(unit_price), FadeOut(unit_price_read), FadeOut(unit_quantities),
-                      FadeOut(unit_drops), FadeOut(leftovers), FadeOut(waiting_rings))
+                      FadeOut(unit_drops), FadeOut(waiting_rings))
             unit_ticks.set_opacity(1)
             if test_price == 3:
                 offer, mover, displaced = 3.25, 4, 0
@@ -1758,7 +1761,13 @@ class EpisodeB3(ThreeDScene):
             ground_by_buyer[mover] = Line([*pair_left, 0.04], [*pair_right, 0.04],
                 color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
             crowd_matches = list(next_matches)
-            self.play(FadeOut(route), FadeIn(connection_by_buyer[mover]), FadeIn(ground_by_buyer[mover]))
+            # The reservation changes only on acceptance, not while comparing.
+            # Gary's switch replaces Molly's unsold unit with Andrew's.
+            next_unsold = set(willing_sellers) - set(crowd_matches)
+            self.play(FadeOut(route), FadeIn(connection_by_buyer[mover]), FadeIn(ground_by_buyer[mover]),
+                *[FadeOut(stock_boxes[s]) for s in sorted(unsold_sellers - next_unsold)],
+                *[FadeIn(stock_boxes[s]) for s in sorted(next_unsold - unsold_sellers)])
+            unsold_sellers = next_unsold
             self.pause('5.b.i' if test_price == 3 else '5.f')
             self.play(FadeOut(choose_question), FadeOut(offer_read), FadeOut(buyer_focus), FadeOut(buyer_ring),
                 FadeOut(mb_guide), FadeOut(mb_read), FadeOut(option_rings[0]), FadeOut(option_columns[0]),
@@ -1838,9 +1847,14 @@ class EpisodeB3(ThreeDScene):
                         color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
                 if docking:
                     self.play(*docking, run_time=0.25)
+                next_unsold = (set(willing_sellers) - set(round_.after.sellers)
+                               if test_price == 6 else set())
                 self.play(*[FadeIn(connection_by_buyer[b]) for b in changed_buyers if b in connection_by_buyer],
                     *[FadeIn(ground_by_buyer[b]) for b in changed_buyers if b in ground_by_buyer],
+                    *[FadeOut(stock_boxes[s]) for s in sorted(unsold_sellers - next_unsold)],
+                    *[FadeIn(stock_boxes[s]) for s in sorted(next_unsold - unsold_sellers)],
                     *[FadeOut(ring) for ring in rings], FadeOut(price_arrows), run_time=0.2)
+                unsold_sellers = next_unsold
                 crowd_matches = list(round_.after.sellers)
                 self.pause(f'5.{adjustment_id}.round{round_.number}')
             unit_ticks[7].set_opacity(0)
@@ -1852,7 +1866,24 @@ class EpisodeB3(ThreeDScene):
                 .next_to(unit_ax.c2p(6, 0), DOWN, buff=0.5))
             unit_drops = fixed(DashedLine(unit_ax.c2p(6, 4), unit_ax.c2p(6, 0),
                 color=GUIDE, stroke_width=2))
-            self.play(FadeIn(unit_price), FadeIn(unit_price_read), FadeIn(unit_quantities), FadeIn(unit_drops))
+            if test_price == 6:
+                # Individual asks stop at MC. Once accepted prices settle at $4,
+                # higher-cost sellers stop producing, rather than selling at a loss.
+                withdrawn = {s for s in unsold_sellers if CROWD_MC[s] > 4}
+                production_question = fixed(Tex(r'Would these sellers produce at $\$4$?',
+                    color=DEFINITION).scale(DEFINITION_SCALE)
+                    .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+                self.play(FadeIn(unit_price), FadeIn(unit_price_read), FadeIn(production_question))
+                self.pause('5.g.production')
+                self.play(*[FadeOut(stock_boxes[s]) for s in sorted(withdrawn)],
+                    *[crowd_bodies['S', s][1].animate.set_opacity(0.25) for s in sorted(withdrawn)],
+                    *[crowd_bodies['S', s][0].animate.set_opacity(0.06) for s in sorted(withdrawn)],
+                    *[crowd_bars['S', s].animate.set_opacity(0.12) for s in sorted(withdrawn)],
+                    FadeOut(production_question), FadeIn(unit_quantities), FadeIn(unit_drops))
+                unsold_sellers -= withdrawn
+                assert not unsold_sellers
+            else:
+                self.play(FadeIn(unit_price), FadeIn(unit_price_read), FadeIn(unit_quantities), FadeIn(unit_drops))
             self.pause('5.c' if test_price == 3 else '5.g')
 
         # ---- 5.h · Test the allocation the audience just watched settle.
@@ -1949,14 +1980,16 @@ class EpisodeB3(ThreeDScene):
                     crowd_bars['B', b].pairing.animate.set_value(0),
                     crowd_bars['S', s].pairing.animate.set_value(0), run_time=0.4)
                 self.play(buyer.animate.move_to(retreat),
-                    buyer_ring.animate.move_to([*retreat[:2], 0.045]), run_time=0.7)
+                    buyer_ring.animate.move_to([*retreat[:2], 0.045]),
+                    FadeIn(stock_boxes[s]), run_time=0.7)
                 self.pause('5.h.i')
                 self.play(FadeOut(rejected), FadeOut(proposal_read),
                     price_trackers[s].animate.set_value(4), buyer.animate.move_to(original_spot),
                     buyer_ring.animate.move_to([*original_spot[:2], 0.045]), run_time=0.8)
                 self.play(crowd_bars['B', b].pairing.animate.set_value(1),
                           crowd_bars['S', s].pairing.animate.set_value(1), run_time=0.35)
-                self.play(FadeIn(current_line), FadeIn(ground_by_buyer[b]), run_time=0.3)
+                self.play(FadeIn(current_line), FadeIn(ground_by_buyer[b]),
+                          FadeOut(stock_boxes[s]), run_time=0.3)
             else:
                 self.pause('5.h.ii')
                 rejected = fixed(Tex(r'$\$3.75<\mathrm{MC}\ \$4$',
