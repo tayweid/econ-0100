@@ -93,6 +93,7 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 | `3.a.seller.cut` | Molly responds to losing her buyer | Buyers bid Andrew through $4.75 and $5. Show Molly still at $6.25 without a buyer; ask whether she would lower her price. Then her price falls to $6. Subsequent bids and cuts bring both sellers to $5.50. Each buyer visits the center with their demand column highlighted, compares a dashed MB guide against red required-price lines over every present MC column, then selects a seller. |
 | `3.a.two_pairs` | Complete the two-by-two | Gary trades with Andrew; Amanda-Grace trades with Molly. Both prices are $5.50. MBs remain $6/$7 and MCs $2/$4, so all four gain. Hold “Both trades: $5.50. Gary's gain: $0.50.” This is a demonstrated path to equal prices, not a claim that every quarter-dollar path gives equality. |
 | `3.a.third_buyer` | Add only a buyer | A new buyer with MB $8 enters; supply remains exactly two units. Retain Gary, Amanda-Grace, Molly, and Andrew's names, and label the entrant “New buyer.” |
+| `3.a.third.lookout` | Stop when the third buyer reaches the circle | Buyer stationary in the center, demand column highlighted, dashed MB $8 guide on supply. Advance to reveal the sellers' offers and the existing price-choice question. |
 | `3.a.third.options` | A third bidder wants a unit | The new buyer enters the center, compares the two sellers, and considers $5.75 at Molly. MB $8 makes this strictly beneficial. Ask “Would the new buyer offer $5.75?” before acceptance. |
 | `3.a.excluded` | Three buyers, two units | Continue permitted outbids to two prices of $6.25. The new buyer trades with Molly; Amanda-Grace trades with Andrew. Gary returns to his buyer-arc place. Keep his MB $6 visible in the demand curve and ask “Why is Gary left out?” |
 | `3.a.excluded.reason` | Compare Gary's two situations | Hold “Gary traded at $5.50. Now $6.25 > MB $6.” Gary's benefit and both sellers' costs have not changed. His earlier positive gain demonstrates that he was willing and able to trade in the two-by-two; the higher-value third buyer changes the allocation. |
@@ -101,7 +102,8 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 | `3.a.options` | Read the three options | Highlight each world seller and its supply column together. Needed prices are $6.50 to outbid at Molly, $4.50 at the new seller, and $6.50 to outbid at Andrew. Add the teal MB-$6 guide. Hold “Would Gary trade with the new seller?” Only the new seller is affordable. |
 | `3.a.chosen` | Gary trades again | Gary walks from the hub to the new seller at $4.50. Show the short accepted-price connection and floor shadow. Hold before restoring the other buyers and fading the small-cast names. Then continue one-person-at-a-time growth. |
 | `3.a.i` | Grow from six to eight | Add the next buyer and seller separately. After each arrival, let the present market respond before admitting anyone else. Pause with four of each after those responses. |
-| `3.a.growth.*` / `3.a.ii` | Continue one person at a time to ten of each | Each newcomer first joins the sorted curve. A new buyer immediately enters the hub and compares all current sellers, including when every offer exceeds MB. Then existing buyers reconsider and unsold sellers lower asks before the next arrival. Carry every match and price forward. Stop at `.options` for each visible decision, `.accepted` or `.declined` for its result, and `.settled` after each arrival. Keep plaza price labels absent; red dashed posted prices remain on all supply columns. |
+| `3.a.growth.B{i}.lookout` | Stop at each new buyer in the circle | Buyers B2, B3, B5, B6, B7, B8, and B9 each get a distinct arrival pause immediately after reaching the hub with their demand column highlighted. This also applies when none of the sellers is affordable. Advancing reveals the full MB/price comparison. |
+| `3.a.growth.*` / `3.a.ii` | Continue one person at a time to ten of each | Each newcomer first joins the sorted curve. A new buyer enters the hub and stops at `.lookout`, then compares all current sellers, including when every offer exceeds MB. Existing buyers reconsider and unsold sellers lower asks before the next arrival. Carry every match and price forward. Retain `.options` for each visible decision, `.accepted` or `.declined` for its result, and `.settled` after each arrival. Keep plaza price labels absent; red dashed posted prices remain on all supply columns. |
 | `3.b` | Inspect the market already reached | Ten buyers and ten sellers are present, with six trades at $4. There is no deferred full-market trading batch. Every visible deliberation during growth uses the demand highlight, dashed MB guide across supply, and red required-price lines over **all** present MC columns. Highlight the selected seller after the comparison; displaced buyers return to waiting. Seller cuts move their persistent red dashed markers downward. |
 | `4.a` | Name the stopping state | Six accepted trades at $4 in the presentation run. Keep nontraders visible. Bottom definition: “Equilibrium is where no one wants to change.” Gold arrow points to a settled price. |
 
@@ -250,6 +252,14 @@ newcomer returns to waiting after “Every offer exceeds this buyer’s MB.”
 Unchanged background checks are omitted; visible decisions are never reduced
 to a single unexplained seller highlight.
 
+Each newly added buyer has a named `.lookout` stop immediately after entering
+the deliberation circle, followed by the existing `.options` stop. The current
+ManimLive development viewer builds an enclosing loop in one continuous first
+execution; additional pause calls do not interrupt that initial build. Prepare
+the growth checkpoints by jumping to `3.b`, then return to the buildup to use
+forward/back between its authored stops. This is a live checkpoint preparation,
+not a movie export. A later edit inside the loop requires preparing it again.
+
 Matched plaza marginals are 0.18 wide, with a 0.035 gap, centered between the
 neighboring buyer and seller (buyer left, seller right, common depth). They
 slide together after acceptance and separate when a buyer reconsiders or is
@@ -270,6 +280,16 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 buyer navigation: added eight circle-arrival pauses, one for
+  the third buyer and seven during subsequent growth. Checked the simulation
+  trace for exactly one first comparison per entrant, including unaffordable
+  entrants. Prepared the live growth history through `3.b` without an export;
+  the viewer now has eight additional checkpoints. Verified the tenth buyer
+  remains in the circle with its demand column highlighted, forward stops at
+  the price comparison, and back returns to the arrival hold. Syntax and
+  whitespace checks pass. First execution of an uncached enclosing loop still
+  runs continuously; the preview preparation described above is required.
 
 - September 21 plaza placement correction: centered both market arcs at radius
   3.7 and fitted the head-on bidding tableau around Molly's actual station.

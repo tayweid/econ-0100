@@ -579,6 +579,7 @@ class EpisodeB3(ThreeDScene):
             *[FadeIn(m) for m in panel_bars.values()],
             ReplacementTransform(deal_number, price_tags[0]), FadeIn(mark),
             FadeIn(posted_caption), run_time=0.8)
+        # Buyers have separate circle-arrival and price-comparison holds.
         # The long buyer name stays toward the plaza interior on either arc.
         self.pause('3.a.overview')
 
@@ -838,6 +839,8 @@ class EpisodeB3(ThreeDScene):
                         self.play(body.animate.move_to([0, 0, body.get_center()[2]]),
                             FadeIn(buyer_focus), FadeIn(mb_guide),
                             hub.animate.set_stroke(opacity=1), run_time=0.9)
+                        if not two_by_two and small_round.number == 1 and b == i:
+                            self.pause('3.a.third.lookout')
                         mb_read = fixed(Tex(rf'MB $\${CROWD_MB[b]}$', color=DEMAND).scale(0.7)
                             .move_to(side_axes['S'].c2p(5, CROWD_MB[b])
                                      + (DOWN if CROWD_MB[b] >= 7 else UP) * 0.35))
@@ -1070,6 +1073,8 @@ class EpisodeB3(ThreeDScene):
                             color=DEMAND, buff=0.035, stroke_width=3))
                         self.play(body.animate.move_to([0, 0, body.get_center()[2]]),
                             FadeIn(buyer_focus), hub.animate.set_stroke(opacity=1), run_time=0.65)
+                        if side == 'B' and round_.number == 1 and b == i:
+                            self.pause(f'3.a.growth.B{i}.lookout')
                         value = CROWD_MB[b]
                         mb_guide = fixed(DashedLine(side_axes['S'].c2p(0, value),
                             side_axes['S'].c2p(10, value), color=DEMAND, stroke_width=2.5))
