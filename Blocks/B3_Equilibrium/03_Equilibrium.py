@@ -258,56 +258,90 @@ class EpisodeB3(ThreeDScene):
                   FadeOut(seller_cost), FadeOut(seller_ps), FadeOut(expenditure_label),
                   FadeOut(cs_label), FadeOut(revenue_label), FadeOut(cost_label),
                   FadeOut(ps_label), FadeOut(zero), FadeOut(zero_word), FadeOut(price_word))
-        # Position the pair once while panning at the existing zoom. Molly's
-        # station is now also her station in the later plaza. No player moves
-        # during the bidding; only her one MC bar changes sides.
+        # Fit the head-on tableau around Molly's actual seller-arc station.
+        # Scale the camera and the whole comparison equally, preserving its
+        # screen composition while keeping Amanda-Grace inside the plaza.
+        BID_SCALE, ARC_RADIUS = 0.3, 3.7
+        BID_BASE, BID_DOLLAR_HEIGHT = BAR_BASE * BID_SCALE, DOLLAR_HEIGHT * BID_SCALE
+        BID_WIDTH = CLOSE_WIDTH * BID_SCALE
         bid_y = 1.2
-        bid_body_x = {'buyer': 0.1, 'seller': 3.0, 'challenger': 5.9}
-        bid_mb_x = {'buyer': 0.94, 'challenger': 5.06}
-        bid_mc_x = {'buyer': 2.16, 'challenger': 3.84}
+        molly_x = np.sqrt(ARC_RADIUS ** 2 - bid_y ** 2)
+        bid_body_x = {'buyer': molly_x - 2.9 * BID_SCALE, 'seller': molly_x,
+                      'challenger': molly_x + 2.9 * BID_SCALE}
+        bid_mb_x = {'buyer': molly_x - 2.06 * BID_SCALE,
+                    'challenger': molly_x + 2.06 * BID_SCALE}
+        bid_mc_x = {'buyer': molly_x - 0.84 * BID_SCALE,
+                    'challenger': molly_x + 0.84 * BID_SCALE}
+        for label in [*names.values(), *marginal_labels.values()]:
+            label.clear_updaters()
+        tableau = [*bodies.values(), *names.values(),
+                   marginal_labels['buyer'], accepted_line, accepted_shadow]
+        tableau_moves = []
+        for m in tableau:
+            move = m.animate.scale(BID_SCALE, about_point=np.array([1.45, 0, 0]))
+            move.shift([molly_x - 1.45, bid_y, 0])
+            if isinstance(m, VMobject):
+                move.set_stroke(width=m.get_stroke_width() * BID_SCALE)
+                move.set_fill(border_width=0.5 * BID_SCALE)
+            tableau_moves.append(move)
         self.play(
-            self.camera.frame.animate.reorient(0, 90, center=[3, bid_y, 2.05], height=7.2),
-            bodies['buyer'].animate.move_to([bid_body_x['buyer'], bid_y, bodies['buyer'].get_center()[2]]),
-            bodies['seller'].animate.move_to([bid_body_x['seller'], bid_y, bodies['seller'].get_center()[2]]),
-            bars['buyer'].animate.set_x(bid_mb_x['buyer']).set_y(bid_y).set_opacity(0.65),
-            bars['seller'].animate.set_x(bid_mc_x['buyer']).set_y(bid_y).set_opacity(0.65),
-            accepted_line.animate.shift([1.55, bid_y, 0]),
-            accepted_shadow.animate.shift([1.55, bid_y, 0]), run_time=1.8)
-        marginal_labels['seller'].add_updater(lambda m: m.move_to(
-            [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
-             BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
-        marginal_labels['seller'].update()
+            self.camera.frame.animate.reorient(0, 90,
+                center=[molly_x, bid_y, 2.05 * BID_SCALE], height=7.2 * BID_SCALE),
+            *tableau_moves,
+            *[bar.animate.scale(BID_SCALE, about_point=np.array([1.45, 0, 0]))
+                .shift([molly_x - 1.45, bid_y, 0]).set_opacity(0.65)
+                for bar in bars.values()], run_time=1.8)
+        marginal_labels['seller'].scale(BID_SCALE).set_fill(border_width=0.5 * BID_SCALE)
+        for label in marginal_labels.values():
+            label.add_updater(face_camera)
+            label.add_updater(lambda m: m.move_to(
+                [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08 * BID_SCALE,
+                 BID_BASE + m.value * BID_DOLLAR_HEIGHT + 0.28 * BID_SCALE]))
+            label.update()
+        for label in names.values():
+            label.offset *= BID_SCALE
+            label.add_updater(face_camera)
+            label.add_updater(lambda m: m.move_to(
+                np.array([m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.55 * BID_SCALE,
+                          0.13 * BID_SCALE]) + m.offset))
+            label.update()
         self.play(FadeIn(marginal_labels['seller']))
-        deal_number = Tex(r'\$4.00', color=GUIDE).scale(0.62)
+        deal_number = Tex(r'\$4.00', color=GUIDE).scale(0.62 * BID_SCALE)
+        deal_number.set_fill(border_width=0.5 * BID_SCALE)
         deal_number.face_mat = np.eye(3)
         deal_number.add_updater(face_camera)
         deal_number.update()
-        deal_number.move_to([1.55, bid_y - 0.15, price_z + 0.25])
+        deal_number.move_to([molly_x - 1.45 * BID_SCALE, bid_y - 0.15 * BID_SCALE,
+                             (price_z + 0.25) * BID_SCALE])
 
-        shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
-                        opacity=0.28).set_color(DEMAND).move_to([bid_body_x['challenger'], bid_y, 0.025])
-        orb = Sphere(radius=0.23, color=DEMAND, resolution=(16, 10))
-        orb.move_to([bid_body_x['challenger'], bid_y, 0.32])
+        shadow = Disk3D(radius=0.28 * BID_SCALE, resolution=(2, 24), shading=(0, 0, 0),
+                        opacity=0.28).set_color(DEMAND).move_to(
+                            [bid_body_x['challenger'], bid_y, 0.025 * BID_SCALE])
+        orb = Sphere(radius=0.23 * BID_SCALE, color=DEMAND, resolution=(16, 10))
+        orb.move_to([bid_body_x['challenger'], bid_y, 0.32 * BID_SCALE])
         body = Group(shadow, orb)
-        bar = Rectangle3D(width=CLOSE_WIDTH, height=7 * DOLLAR_HEIGHT,
+        bar = Rectangle3D(width=BID_WIDTH, height=7 * BID_DOLLAR_HEIGHT,
                           resolution=(2, 2), opacity=0.65).set_color(DEMAND)
         bar.rotate(90 * DEGREES, RIGHT).move_to(
-            [bid_mb_x['challenger'], bid_y, BAR_BASE + 7 * DOLLAR_HEIGHT / 2])
-        name_label = Tex('Amanda-Grace', color=INK).scale(0.62)
+            [bid_mb_x['challenger'], bid_y, BID_BASE + 7 * BID_DOLLAR_HEIGHT / 2])
+        name_label = Tex('Amanda-Grace', color=INK).scale(0.62 * BID_SCALE)
+        name_label.set_fill(border_width=0.5 * BID_SCALE)
         name_label.face_mat = np.eye(3)
         name_label.add_updater(face_camera)
         name_label.anchor = body
         name_label.add_updater(lambda m: m.move_to(
-            [m.anchor.get_center()[0] + 0.4, m.anchor.get_center()[1] - 0.55, 0.13],
+            [m.anchor.get_center()[0] + 0.4 * BID_SCALE,
+             m.anchor.get_center()[1] - 0.55 * BID_SCALE, 0.13 * BID_SCALE],
             aligned_edge=LEFT))
         name_label.update()
-        value_label = Tex(r'MB $\$7$', color=DEMAND).scale(0.62)
+        value_label = Tex(r'MB $\$7$', color=DEMAND).scale(0.62 * BID_SCALE)
+        value_label.set_fill(border_width=0.5 * BID_SCALE)
         value_label.face_mat = np.eye(3)
         value_label.add_updater(face_camera)
         value_label.anchor, value_label.value = bar, 7
         value_label.add_updater(lambda m: m.move_to(
-            [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
-             BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
+            [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08 * BID_SCALE,
+             BID_BASE + m.value * BID_DOLLAR_HEIGHT + 0.28 * BID_SCALE]))
         value_label.update()
         bodies['challenger'], bars['challenger'] = body, bar
         names['challenger'], marginal_labels['challenger'] = name_label, value_label
@@ -325,18 +359,24 @@ class EpisodeB3(ThreeDScene):
         for bid in bids:
             bidder = 'buyer' if bid.buyer == 0 else 'challenger'
             mc_x = bid_mc_x[bidder]
-            x0 = min(bid_mb_x[bidder], mc_x) - CLOSE_WIDTH / 2
-            x1 = max(bid_mb_x[bidder], mc_x) + CLOSE_WIDTH / 2
-            height = BAR_BASE + bid.price * DOLLAR_HEIGHT
-            challenge = DashedLine([x0, bid_y - 0.045, height], [x1, bid_y - 0.045, height],
-                                  color=GUIDE, stroke_width=3)
-            challenge_shadow = DashedLine([x0, bid_y, 0.04], [x1, bid_y, 0.04],
-                                         color=GUIDE, stroke_width=2).set_opacity(0.3)
-            offer_label = Tex(rf'\${bid.price:.2f}', color=GUIDE).scale(0.62)
+            x0 = min(bid_mb_x[bidder], mc_x) - BID_WIDTH / 2
+            x1 = max(bid_mb_x[bidder], mc_x) + BID_WIDTH / 2
+            height = BID_BASE + bid.price * BID_DOLLAR_HEIGHT
+            challenge = DashedLine([x0, bid_y - 0.045 * BID_SCALE, height],
+                                  [x1, bid_y - 0.045 * BID_SCALE, height],
+                                  dash_length=0.05 * BID_SCALE,
+                                  color=GUIDE, stroke_width=3 * BID_SCALE)
+            challenge_shadow = DashedLine([x0, bid_y, 0.04 * BID_SCALE],
+                                         [x1, bid_y, 0.04 * BID_SCALE],
+                                         dash_length=0.05 * BID_SCALE,
+                                         color=GUIDE, stroke_width=2 * BID_SCALE).set_opacity(0.3)
+            offer_label = Tex(rf'\${bid.price:.2f}', color=GUIDE).scale(0.62 * BID_SCALE)
+            offer_label.set_fill(border_width=0.5 * BID_SCALE)
             offer_label.face_mat = np.eye(3)
             offer_label.add_updater(face_camera)
             offer_label.update()
-            offer_label.move_to([(x0 + x1) / 2, bid_y - 0.15, height + 0.25])
+            offer_label.move_to([(x0 + x1) / 2, bid_y - 0.15 * BID_SCALE,
+                                 height + 0.25 * BID_SCALE])
             self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label),
                       run_time=0.6 if bid.price <= 4.5 else 0.35)
             if bid.price == 4.25:
@@ -352,17 +392,19 @@ class EpisodeB3(ThreeDScene):
             # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
             self.play(bars['seller'].animate.set_x(mc_x),
                       run_time=1.2 if bid.price <= 4.5 else 0.7)
-            new_line = Line([x0, bid_y - 0.045, height], [x1, bid_y - 0.045, height],
-                            color=GUIDE, stroke_width=3)
-            new_shadow = Line([x0, bid_y, 0.04], [x1, bid_y, 0.04],
-                              color=GUIDE, stroke_width=2).set_opacity(0.3)
+            new_line = Line([x0, bid_y - 0.045 * BID_SCALE, height],
+                            [x1, bid_y - 0.045 * BID_SCALE, height],
+                            color=GUIDE, stroke_width=3 * BID_SCALE)
+            new_shadow = Line([x0, bid_y, 0.04 * BID_SCALE], [x1, bid_y, 0.04 * BID_SCALE],
+                              color=GUIDE, stroke_width=2 * BID_SCALE).set_opacity(0.3)
             # Keep every dash and the new price number anchored. Only the gaps
             # appear as the former deal fades; there is no dashed-to-line morph.
             price_gaps = VGroup(*[
-                Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=3)
+                Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=3 * BID_SCALE)
                 for a, b in zip(challenge, challenge[1:])])
             shadow_gaps = VGroup(*[
-                Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=2).set_opacity(0.3)
+                Line(a.get_end(), b.get_start(), color=GUIDE,
+                     stroke_width=2 * BID_SCALE).set_opacity(0.3)
                 for a, b in zip(challenge_shadow, challenge_shadow[1:])])
             self.play(FadeOut(accepted_line), FadeOut(accepted_shadow), FadeOut(deal_number),
                       FadeIn(price_gaps), FadeIn(shadow_gaps), run_time=0.45)
@@ -382,29 +424,30 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(stop_reason))
         self.pause('2.c.iii')
 
-        # ---- 3.a · Preserve the bidding tableau while revealing the plaza.
+        # ---- 3.a · Reveal the arcs, with the unmatched buyer on the buyer side.
         self.play(FadeOut(stop_reason), *[FadeOut(m) for m in marginal_labels.values()],
                   *[FadeOut(m) for m in names.values()], run_time=0.35)
         crowd_asks = [6.25, 4.5, 6, 6, 4.25, 6, 6, 6, 6, 6]
         crowd_matches = [None, None, None, None, 0, None, None, None, None, None]
         for bar in bars.values():
             bar.clear_updaters()
+        # This label changes scale with the tableau. Turn it with the camera
+        # explicitly so the billboard updater cannot restore its close-up size.
+        deal_number.clear_updaters()
         self.remove(head)
         head = fixed(title('Where do prices settle?'))
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
         PAIR_WIDTH, PAIR_GAP = 0.18, 0.035
-        # Molly never changes station. Gary keeps his bidding position; the
-        # original buyers wait near the lookout instead of crossing the plaza.
+        # Molly stays on the seller arc. Unmatched buyers wait on the buyer
+        # arc; the center belongs only to the person currently deliberating.
         seller_ys = [1.2, 2.8, 2.0, 0.4, -1.2, -0.4, -2.0, -2.8, -3.6, 3.6]
-        arc_shift = 3 - np.sqrt(4.1 ** 2 - 1.2 ** 2)
-        seller_spots = [np.array([np.sqrt(4.1 ** 2 - y ** 2) + arc_shift, y, 0])
+        seller_spots = [np.array([np.sqrt(ARC_RADIUS ** 2 - y ** 2), y, 0])
                         for y in seller_ys]
-        buyer_spots = [np.array([-np.sqrt(3.7 ** 2 - y ** 2), y, 0])
-                       for y in np.linspace(3.7 * np.sin(65 * DEGREES),
-                                            -3.7 * np.sin(65 * DEGREES), 10)]
-        buyer_spots[0] = np.array([bid_body_x['buyer'], bid_y, 0])
-        buyer_spots[4] = np.array([-0.9, -0.8, 0])
-        first_partner_spot = np.array([3.72, 0.85, 0])
+        buyer_spots = [np.array([-np.sqrt(ARC_RADIUS ** 2 - y ** 2), y, 0])
+                       for y in np.linspace(ARC_RADIUS * np.sin(65 * DEGREES),
+                                            -ARC_RADIUS * np.sin(65 * DEGREES), 10)]
+        buyer_spots[0], buyer_spots[3] = buyer_spots[3], buyer_spots[0]
+        first_partner_spot = seller_spots[0] + np.array([0.6, -0.35, 0])
         first_pair_mid = (seller_spots[0] + first_partner_spot) / 2
         crowd_bodies, crowd_bars, price_tags, price_trackers = {}, {}, {}, {}
         inherited = {('B', 0): 'buyer', ('B', 4): 'challenger',
@@ -426,11 +469,9 @@ class EpisodeB3(ThreeDScene):
                     body, bar = bodies[key], bars[key]
                     body[1].set_opacity(1)
                     body[0].set_opacity(0.28)
-                    if key in ['buyer', 'seller']:
-                        inherited_moves.append(body.animate.scale(0.7).set_z(0.19))
-                    else:
-                        inherited_moves.append(body.animate.scale(0.7).move_to([*spot[:2], 0.19]))
-                    inherited_moves.append(bar.animate.stretch(CROWD_SCALE / DOLLAR_HEIGHT, 2)
+                    inherited_moves.append(body.animate.scale(0.7 / BID_SCALE)
+                        .move_to([*spot[:2], 0.19]))
+                    inherited_moves.append(bar.animate.stretch(CROWD_SCALE / BID_DOLLAR_HEIGHT, 2)
                         .stretch_to_fit_width(PAIR_WIDTH).set_opacity(0.65).move_to(
                             [*bar_at[:2], CROWD_BASE + value * CROWD_SCALE / 2]))
                 else:
@@ -478,9 +519,10 @@ class EpisodeB3(ThreeDScene):
                 np.append(pair_left, price_height), np.append(pair_right, price_height)).set_stroke(width=2.2),
             accepted_shadow.animate.put_start_and_end_on(
                 np.append(pair_left, 0.04), np.append(pair_right, 0.04)).set_stroke(width=1.6),
-            deal_number.animate.move_to([first_pair_mid[0] - (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
-                                         first_pair_mid[1] - 0.12,
-                                         price_height + 0.25]),
+            deal_number.animate.scale(1 / BID_SCALE).rotate(-42 * DEGREES, RIGHT)
+                .set_fill(border_width=0.5).move_to([
+                    first_pair_mid[0] - (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
+                    first_pair_mid[1] - 0.12, price_height + 0.25]),
             floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=2.2)
         # Install following only after the authored transition has completed;
         # otherwise these updaters snap the bars to their bodies mid-resize.
@@ -537,6 +579,7 @@ class EpisodeB3(ThreeDScene):
             *[FadeIn(m) for m in panel_bars.values()],
             ReplacementTransform(deal_number, price_tags[0]), FadeIn(mark),
             FadeIn(posted_caption), run_time=0.8)
+        # The long buyer name stays toward the plaza interior on either arc.
         self.pause('3.a.overview')
 
         arrival_order = [('S', 4)] + [(side, i) for i in [1, 2, 3, 5, 6, 7, 8, 9] for side in ['B', 'S']]
@@ -598,7 +641,7 @@ class EpisodeB3(ThreeDScene):
                 entry_names = {}
                 for key, word, offset in [
                     (('B', 0), 'Gary', DOWN * 0.55),
-                    (('B', 4), 'Amanda-Grace', DOWN * 0.9 + LEFT * 0.2),
+                    (('B', 4), 'Amanda-Grace', DOWN * 0.55),
                     (('S', 0), 'Molly', DOWN * 0.55 + RIGHT * 0.6),
                     (('S', 4), 'Andrew', DOWN * 0.55 + RIGHT * 0.6),
                 ]:
@@ -606,8 +649,10 @@ class EpisodeB3(ThreeDScene):
                     label.face_mat = np.eye(3)
                     label.add_updater(face_camera)
                     label.anchor, label.offset = crowd_bodies[key], offset
+                    label.inward = key == ('B', 4)
                     label.add_updater(lambda m: m.move_to(
-                        np.array([*m.anchor.get_center()[:2], 0.13]) + m.offset))
+                        np.array([*m.anchor.get_center()[:2], 0.13]) + m.offset
+                        + (LEFT * 1.8 * np.clip(m.anchor.get_x(), -1, 1) if m.inward else ORIGIN)))
                     label.update()
                     entry_names[key] = label
                 self.play(*[FadeIn(label) for label in entry_names.values()], run_time=0.4)

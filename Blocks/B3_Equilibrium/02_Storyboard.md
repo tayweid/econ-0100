@@ -59,7 +59,7 @@ choreography remains sequential inside `construct()`.
 | `2.b.iv` | Move the marginal-cost label | Keep the orange area 0–2. Slide the existing orange “MC $2” label from above its bar to the right of that lower area in 1.2 seconds, as the area settles into the accounting view. Do not replace it with “Cost.” Restore its above-bar tracking position before Amanda-Grace's first offer. |
 | `2.b.v` | Producer surplus | Outline the upper region between MC $2 and price $4 in orange, with no orange fill; inset the border 0.045 world units on all four sides so it fits visibly inside the green revenue boundary. This inset is a highlight margin, not a change to the $2 surplus. Then reveal “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
-| `2.c` | Keep the close-up as Amanda-Grace enters | Retain the head-on camera and 7.2-unit frame height. Pan to admit Amanda-Grace on Molly’s right: Gary, Molly, Amanda-Grace at x=0.1, 3, 5.9, all y=1.2. This one setup establishes Molly’s later plaza station. All three people then stay still throughout the bidding. Keep broad MB-$6 and MB-$7 bars fixed on the left/right, with Molly’s MC-$2 bar beside Gary initially. His accepted $4 line and label remain solid red. No side curves yet. |
+| `2.c` | Keep the close-up as Amanda-Grace enters | Preserve the head-on composition at 30% world scale and a matching 2.16-unit camera height. Molly stands at (3.5, 1.2) on the centered radius-3.7 seller arc; Gary and Amanda-Grace flank her at x=2.63 and 4.37, all within the plaza. Scale the people, bars, attached text, and dollar heights together. All three people then stay still throughout the bidding. Keep MB $6/$7 fixed left/right, with Molly’s MC $2 beside Gary initially. His accepted $4 line and label remain solid red. No side curves yet. |
 | `2.c.i` | Compare a new offer with the standing deal | Show Amanda-Grace’s dashed $4.25 line and label in the right-hand comparison, while Gary’s solid $4 line and label remain on the left. Hold “Would Amanda-Grace gain by offering $4.25?” Both MBs stay fully visible. On advance, slide only Molly’s MC bar and attached MC label to Amanda-Grace’s side. After the slide, fill the new offer's gaps in place over 0.45 seconds while fading Gary’s former line/price. The new dashes, endpoints, and price number never shift during acceptance; its floor shadow fills in the same way. |
 | `2.c.accepted` | Make her incentive explicit | Hold “Amanda-Grace gains $7−$4.25=$2.75.” Her $4.25 line is now solid; MC $2 is beside MB $7. All people and both MB bars remain at their original positions. |
 | `2.c.ii` | Gary responds without walking | Show Gary’s dashed $4.50 offer alongside Amanda-Grace’s standing solid $4.25. Pause before Molly’s MC moves back to Gary; then solidify his offer and remove the old deal. Continue the same offer → MC slide → acceptance sequence for the remaining quarter-dollar bids. |
@@ -83,18 +83,18 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 
 | Pause | Action | Stopped frame |
 |---|---|---|
-| `3.a.plaza` | Keep the bidding outcome through one pullback | Clear the question and marginal/name labels, retaining the accepted $6.25 line, its shadow, and price number. In one 2.2-second camera move, tilt to 48° and widen to height 10.4. Gary stays at (0.1, 1.2), Molly stays at (3, 1.2), and Amanda-Grace approaches to (3.72, 0.85), still on Molly's right. Shrink the same bars and price line directly into their compact plaza positions; no separate regrouping or second bar slide. Hold the plaza before adding graphs. |
+| `3.a.plaza` | Keep the bidding outcome through one pullback | Clear the question and marginal/name labels, retaining the accepted $6.25 line, its shadow, and price number. In one 2.2-second camera move, tilt to 48° and widen to height 10.4. Molly stays at (3.5, 1.2) on the seller arc. Amanda-Grace approaches to (4.1, 0.85), just beside Molly and inside the plaza. Gary returns directly to his buyer-arc place, approximately (−3.53, 1.12), leaving the deliberation circle empty. Bring the same people, bars, and price line to their normal plaza sizes and compact paired positions. Hold before adding graphs. |
 | `3.a.overview` | Add the two marginal curves together | Both side panels and their sorted columns fade in together where they belong: MB $7/$6 on the left, MC $2 on the right. No copies fly across the plaza. Carry the $6.25 number to Molly's compact price tag, add her dashed graph price, and retain the original solid world-price line. Hold before Andrew enters. |
 | `3.a.entry` | Andrew enters deliberately | Keep the settled camera, Molly’s station, and Amanda-Grace’s $6.25 deal. Andrew enters at another fixed seller station; show MC $4 first, then his price $4.25 just above it in the world and supply graph. The price caption reads only “$4.25,” without “Ask.” Retain the four names for these decisions. Gary is still unmatched. |
 | `3.a.switch.options` | Amanda-Grace reconsiders | She returns to the hub. Highlight her MB-$7 bar and compare Molly $6.25 with Andrew $4.25 on the supply graph. Hold “Would Amanda-Grace keep paying $6.25?” |
 | `3.a.switch.accepted` | Choose the lower price | She walks to Andrew at $4.25. Molly stays put, now without a buyer. |
 | `3.a.counter.options` | Gary reconsiders | Gary enters the hub. Highlight MB $6; show Molly’s open $6.25 ask versus the $4.50 needed to outbid Amanda-Grace at Andrew. Hold “Could Gary gain by offering $4.50?” |
-| `3.a.counter.accepted` | Gary makes the affordable bid | Gary walks to Andrew at $4.50; Amanda-Grace steps to a nearby waiting place beside the lookout. Both sellers stay in place. Continue bargaining with these four people before admitting anyone else. |
+| `3.a.counter.accepted` | Gary makes the affordable bid | Gary walks to Andrew at $4.50; Amanda-Grace returns to her waiting place on the buyer arc. Both sellers stay in place. Continue bargaining with these four people before admitting anyone else. |
 | `3.a.seller.cut` | Molly responds to losing her buyer | Buyers bid Andrew through $4.75 and $5. Show Molly still at $6.25 without a buyer; ask whether she would lower her price. Then her price falls to $6. Subsequent bids and cuts bring both sellers to $5.50. Each buyer visits the center with their demand column highlighted, compares a dashed MB guide against red required-price lines over every present MC column, then selects a seller. |
 | `3.a.two_pairs` | Complete the two-by-two | Gary trades with Andrew; Amanda-Grace trades with Molly. Both prices are $5.50. MBs remain $6/$7 and MCs $2/$4, so all four gain. Hold “Both trades: $5.50. Gary's gain: $0.50.” This is a demonstrated path to equal prices, not a claim that every quarter-dollar path gives equality. |
 | `3.a.third_buyer` | Add only a buyer | A new buyer with MB $8 enters; supply remains exactly two units. Retain Gary, Amanda-Grace, Molly, and Andrew's names, and label the entrant “New buyer.” |
 | `3.a.third.options` | A third bidder wants a unit | The new buyer enters the center, compares the two sellers, and considers $5.75 at Molly. MB $8 makes this strictly beneficial. Ask “Would the new buyer offer $5.75?” before acceptance. |
-| `3.a.excluded` | Three buyers, two units | Continue permitted outbids to two prices of $6.25. The new buyer trades with Molly; Amanda-Grace trades with Andrew. Gary steps back to his nearby waiting place. Keep his MB $6 visible in the demand curve and ask “Why is Gary left out?” |
+| `3.a.excluded` | Three buyers, two units | Continue permitted outbids to two prices of $6.25. The new buyer trades with Molly; Amanda-Grace trades with Andrew. Gary returns to his buyer-arc place. Keep his MB $6 visible in the demand curve and ask “Why is Gary left out?” |
 | `3.a.excluded.reason` | Compare Gary's two situations | Hold “Gary traded at $5.50. Now $6.25 > MB $6.” Gary's benefit and both sellers' costs have not changed. His earlier positive gain demonstrates that he was willing and able to trade in the two-by-two; the higher-value third buyer changes the allocation. |
 | `3.a` | A third seller restores an option | With three buyers still present, add an MC-$4 seller posting $4.50. Insert its MC bar and dashed price in the supply curve. Fade out plaza price labels now that there are three sellers. Gary is still waiting; the new buyer and Amanda-Grace hold the other two units at $6.25. |
 | `3.a.lookout` | Gary reconsiders | Gary returns to the center. Highlight his unchanged MB-$6 bar, dim the other two buyers and their standing connections, and keep all three sellers visible. |
@@ -219,21 +219,23 @@ and both buyer decisions; the third seller triggers their removal. Solid red
 highlights show the price needed for a particular choice, including the extra
 $0.25 for an occupied seller. After the separate curves combine, per-seller
 markers return on the unit graph during deviations; plaza price labels stay off.
-The crowd camera height is 10.4. The first pullback keeps Gary at (0.1, 1.2)
-instead of sending him to the distant arc; that remains his waiting place.
-Amanda-Grace's later waiting place is (−0.9, −0.8), near the opposite side of
-the lookout. These two buyers only step into its center when deciding, avoiding
-an across-plaza retreat followed immediately by a return. During the initial
+The crowd camera height is 10.4. Buyers and sellers occupy centered radius-3.7
+arcs on their respective sides. Gary waits at approximately (−3.53, 1.12),
+and Amanda-Grace at (−3.68, 0.37) whenever unmatched. Gary's slot is swapped
+with the original fourth slot so all ten waiting places remain distinct.
+The center is reserved for a buyer actively comparing options. During the initial
 pullback she stays to Molly's right, with MC left and MB right; after she leaves
 that first match, subsequent paired bars resume the usual MB-left/MC-right order.
 Both side graphs enter together only after the camera has settled. Molly's carried
 price tag sits 0.65 units right of her MC bar, 0.25 above the current price
 height, clear of the compact red line. The initial $6.25 readout changes to its
 tracked tag in the same position. Andrew's entry price retains its position
-beside his body. Amanda-Grace's name sits 0.9 units toward the front and 0.2
-left of her body, separating the names in the new right-hand partnership.
-Molly keeps her (3, 1.2) station, Andrew stays
-at (3, −1.2), and further sellers fill the right arc. Only buyers walk between
+beside his body. Amanda-Grace's name sits 0.55 units toward the front and up
+to 1.8 units toward the plaza center, blending its side offset as she crosses
+the hub. This clears Andrew's MC bar and keeps her long name inside the plaza
+when she returns to the buyer arc.
+Molly keeps her (3.5, 1.2) station, Andrew stays
+at (3.5, −1.2), and further sellers fill the right arc. Only buyers walk between
 stations and the center. The worked survey highlights the three world sellers
 and their corresponding supply columns in the same order before the question
 pause. Every later deliberation retains that full comparison: demand-column
@@ -268,6 +270,18 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 plaza placement correction: centered both market arcs at radius
+  3.7 and fitted the head-on bidding tableau around Molly's actual station.
+  Verified from the source geometry that every bidding body and shadow fits
+  inside the plaza, Molly's station is identical before/after the pullback,
+  and each arc has ten distinct places. Live-reviewed the preserved close-up,
+  moving pullback, Gary on the buyer arc, Amanda-Grace beside Molly, side-graph
+  reveal, and Andrew's entrance. The carried price stays legible while scaling;
+  Amanda-Grace's name clears Andrew's MC and faces into the plaza. The revised
+  arcs also complete the ten-by-ten buildup at six trades/$4 with the existing
+  per-round assertions. All 20 discovery tests and syntax/whitespace checks
+  pass. No video or checkpoint-image export was rebuilt.
 
 - September 21 acceptance polish: replaced the dashed-to-solid morph with a
   0.45-second fade into the gaps for the first trade and every face-on bid,
