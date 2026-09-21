@@ -81,7 +81,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertTrue(run.settled)
         self.assertFalse(improvements([4], [4], run.final))
 
-    def test_scale_up_keeps_the_first_two_deals(self):
+    def test_initial_matches_are_preserved_and_validated(self):
         asks = (6,) * 10
         initial = (0, None, None, None, 4, None, None, None, None, None)
         run = simulate(MB, MC, asks, initial_sellers=initial)
@@ -120,8 +120,8 @@ class DiscoveryTests(unittest.TestCase):
 
     def test_presentation_runs_reach_the_supported_four_dollar_state(self):
         fixtures = [
-            (284, (6, 4.5, 6, 6, 6, 6, 6, 6, 6, 6),
-             (0, 1, None, None, 4, None, None, None, None, None)),
+            (537, (6.25, 4.5, 6, 6, 4.5, 6, 6, 6, 6, 6),
+             (4, 1, None, None, None, None, None, None, None, None)),
             (473, (3.25, 4, 3, 5, 4, 3, 6, 3, 5, 6),
              (None, 2, 5, 7, 0, None, None, None, None, None)),
             (249, (5, 6, 6, 6, 6, 6, 6, 6, 6, 6),
@@ -136,17 +136,33 @@ class DiscoveryTests(unittest.TestCase):
             self.assertEqual(sum(MB[b] - MC[s] for b, s in trades), 13)
             self.assertFalse(improvements(MB, MC, run.final))
 
-    def test_lookout_buyer_has_one_affordable_option_including_outbid_cost(self):
-        # Gary/Molly and Amanda-Grace/Andrew remain matched at $6.
+    def test_andrews_entry_gives_both_buyers_a_permitted_improvement(self):
+        values, costs = [6, 7], [2, 4]
+        initial = State((6.25, 4.25), (None, 0))
+        self.assertEqual(initial.asks[1] - costs[1], .25)
+        self.assertIn(('visit', 1, 1), improvements(values, costs, initial))
+        switched = State(initial.asks, (None, 1))
+        self.assertEqual(initial.asks[0] - switched.asks[1], 2)
+        self.assertIn(('visit', 0, 1), improvements(values, costs, switched))
+        countered = State((6.25, 4.5), (1, None))
+        self.assertEqual(countered.asks[1] - switched.asks[1], .25)
+        self.assertEqual(values[0] - countered.asks[1], 1.5)
+        run = simulate(values, costs, countered.asks,
+                       initial_sellers=countered.sellers, max_rounds=0)
+        self.assertEqual(run.initial, countered)
+
+    def test_lookout_buyer_selects_the_cheaper_of_two_affordable_options(self):
+        # Gary is at Andrew for $4.50; Molly is open at $6.25.
         # The new buyer's MB is $5; the new seller's MC is $4, ask $4.50.
         values, costs = [6, 5, 7], [2, 4, 4]
-        state = State((6, 4.5, 6), (0, None, 2))
+        state = State((6.25, 4.5, 4.5), (2, None, None))
         offers = [ask + (.25 if s in state.sellers else 0)
                   for s, ask in enumerate(state.asks)]
-        self.assertEqual(offers, [6.25, 4.5, 6.25])
+        self.assertEqual(offers, [6.25, 4.5, 4.75])
         choices = [action for action in improvements(values, costs, state)
                    if action[:2] == ('visit', 1)]
-        self.assertEqual(choices, [('visit', 1, 1)])
+        self.assertEqual(choices, [('visit', 1, 1), ('visit', 1, 2)])
+        self.assertLess(offers[1], offers[2])
         self.assertEqual(values[1] - offers[1], .5)
         self.assertEqual(offers[1] - costs[1], .5)
 
