@@ -45,6 +45,13 @@ Titles, bottom questions, and labels belonging to the two side graphs retain
 their screen layout. The new episode keeps this one small orientation helper;
 choreography remains sequential inside `construct()`.
 
+**Price visibility in the 3D market:** use a 4.5-pixel red stroke for
+accepted prices and world-space offers throughout the plaza buildup and
+deviations. The pullback brings the original accepted price to that same
+width. Ground shadows use a 2.4-pixel stroke at the existing 0.3 opacity,
+keeping the elevated price prominent. Close-up bids and graph guides retain
+their existing widths.
+
 ## First pair and deliberate decisions
 
 | Pause | Script / action | Stopped frame |
@@ -281,6 +288,12 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 price visibility: increased all elevated 3D market price and
+  offer strokes to 4.5, and their ground shadows to 2.4 at 0.3 opacity.
+  Live-reviewed the first plaza pair, market growth, and the settled ten-by-ten
+  market. Refreshed the growth checkpoints for arrow navigation; syntax and
+  whitespace checks pass. No movie or checkpoint-image export was needed.
 
 - September 21 centered-close-up correction: retained the first Gary/Molly
   scene and its camera framing. The pair shifts left 1.45 units to admit

@@ -436,6 +436,7 @@ class EpisodeB3(ThreeDScene):
         self.remove(head)
         head = fixed(title('Where do prices settle?'))
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
+        MARKET_PRICE_WIDTH, MARKET_SHADOW_WIDTH = 4.5, 2.4
         PAIR_WIDTH, PAIR_GAP = 0.18, 0.035
         # Molly stays on the seller arc. Unmatched buyers wait on the buyer
         # arc; the center belongs only to the person currently deliberating.
@@ -515,9 +516,9 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(head), self.camera.frame.animate.reorient(
             0, 48, center=[0, 0, 0.65], height=10.4), *inherited_moves,
             accepted_line.animate.put_start_and_end_on(
-                np.append(pair_left, price_height), np.append(pair_right, price_height)).set_stroke(width=2.2),
+                np.append(pair_left, price_height), np.append(pair_right, price_height)).set_stroke(width=MARKET_PRICE_WIDTH),
             accepted_shadow.animate.put_start_and_end_on(
-                np.append(pair_left, 0.04), np.append(pair_right, 0.04)).set_stroke(width=1.6),
+                np.append(pair_left, 0.04), np.append(pair_right, 0.04)).set_stroke(width=MARKET_SHADOW_WIDTH),
             deal_number.animate.scale(1 / BID_SCALE).rotate(-42 * DEGREES, RIGHT)
                 .set_fill(border_width=0.5).move_to([
                     first_pair_mid[0] - (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
@@ -659,7 +660,7 @@ class EpisodeB3(ThreeDScene):
                 ask_height = CROWD_BASE + crowd_asks[4] * CROWD_SCALE
                 ask_world = Line([seller_spots[4][0] - 0.22, seller_spots[4][1], ask_height],
                                  [seller_spots[4][0] + 0.22, seller_spots[4][1], ask_height],
-                                 color=GUIDE, stroke_width=2.5)
+                                 color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
                 ask_caption = fixed(Tex(r'$\$4.25$', color=GUIDE).scale(0.7)
                     .move_to([5.9, -3.05, 0]))
                 self.remove(posted_caption)
@@ -750,9 +751,9 @@ class EpisodeB3(ThreeDScene):
                     pair_right = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
                     height = CROWD_BASE + offer * CROWD_SCALE
                     connection_by_buyer[chooser] = Line([*pair_left, height], [*pair_right, height],
-                                                       color=GUIDE, stroke_width=2.2)
+                                                       color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
                     ground_by_buyer[chooser] = Line([*pair_left, 0.04], [*pair_right, 0.04],
-                                                   color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                                                   color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
                     self.play(FadeOut(route), FadeIn(connection_by_buyer[chooser]),
                               FadeIn(ground_by_buyer[chooser]), run_time=0.4)
                     if chooser == 4:
@@ -905,9 +906,9 @@ class EpisodeB3(ThreeDScene):
                         pair_right = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
                         height = CROWD_BASE + event.price * CROWD_SCALE
                         connection_by_buyer[b] = Line([*pair_left, height], [*pair_right, height],
-                            color=GUIDE, stroke_width=2.2)
+                            color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
                         ground_by_buyer[b] = Line([*pair_left, 0.04], [*pair_right, 0.04],
-                            color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                            color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
                         self.play(FadeOut(route), FadeIn(connection_by_buyer[b]),
                             FadeIn(ground_by_buyer[b]), run_time=0.3)
                         self.play(FadeOut(buyer_focus), FadeOut(mb_guide), FadeOut(mb_read),
@@ -1011,9 +1012,9 @@ class EpisodeB3(ThreeDScene):
                 pair_right = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
                 height = CROWD_BASE + crowd_asks[1] * CROWD_SCALE
                 connection_by_buyer[0] = Line([*pair_left, height], [*pair_right, height],
-                                               color=GUIDE, stroke_width=2.2)
+                                               color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
                 ground_by_buyer[0] = Line([*pair_left, 0.04], [*pair_right, 0.04],
-                                           color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                                           color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
                 crowd_matches[0] = 1
                 self.play(FadeOut(route), FadeIn(connection_by_buyer[0]),
                           FadeIn(ground_by_buyer[0]), run_time=0.5)
@@ -1149,9 +1150,9 @@ class EpisodeB3(ThreeDScene):
                             pair_right = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
                             height = CROWD_BASE + event.price * CROWD_SCALE
                             connection_by_buyer[b] = Line([*pair_left, height], [*pair_right, height],
-                                color=GUIDE, stroke_width=2.2)
+                                color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
                             ground_by_buyer[b] = Line([*pair_left, 0.04], [*pair_right, 0.04],
-                                color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                                color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
                             self.play(FadeOut(route), FadeIn(connection_by_buyer[b]),
                                 FadeIn(ground_by_buyer[b]), run_time=0.3)
                             self.pause(f'3.a.growth.{side}{i}.r{round_.number}.b{b}.accepted')
@@ -1376,9 +1377,9 @@ class EpisodeB3(ThreeDScene):
                     seller_at = seller_spots[s]
                     height = CROWD_BASE + test_price * CROWD_SCALE
                     connections.add(Line([*spot[:2], height], [*seller_at[:2], height],
-                                         color=GUIDE, stroke_width=2.2))
+                                         color=GUIDE, stroke_width=MARKET_PRICE_WIDTH))
                     ground_connections.add(Line([*spot[:2], 0.04], [*seller_at[:2], 0.04],
-                                                color=GUIDE, stroke_width=1.6).set_opacity(0.3))
+                                                color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3))
             for s in range(10):
                 active = s in willing_sellers
                 crowd_bodies['S', s].set_opacity(1 if active else 0.3)
@@ -1466,9 +1467,9 @@ class EpisodeB3(ThreeDScene):
                     buyer_at = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                     height = CROWD_BASE + next_asks[s] * CROWD_SCALE
                     replacement_lines.add(Line([*buyer_at[:2], height], [*seller_at[:2], height],
-                                               color=GUIDE, stroke_width=2.2))
+                                               color=GUIDE, stroke_width=MARKET_PRICE_WIDTH))
                     replacement_ground.add(Line([*buyer_at[:2], 0.04], [*seller_at[:2], 0.04],
-                                                color=GUIDE, stroke_width=1.6).set_opacity(0.3))
+                                                color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3))
             self.play(FadeIn(action_caption), FadeOut(connections), FadeOut(ground_connections),
                       *[FadeIn(m) for m in posted_marks.values()],
                       *moves, price_trackers[0].animate.set_value(offer), run_time=1.5)
@@ -1502,9 +1503,9 @@ class EpisodeB3(ThreeDScene):
                         destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                         height = CROWD_BASE + round_.after.asks[s] * CROWD_SCALE
                         new_connections.add(Line([*destination[:2], height], [*seller_at[:2], height],
-                                                 color=GUIDE, stroke_width=2.2))
+                                                 color=GUIDE, stroke_width=MARKET_PRICE_WIDTH))
                         new_ground.add(Line([*destination[:2], 0.04], [*seller_at[:2], 0.04],
-                                            color=GUIDE, stroke_width=1.6).set_opacity(0.3))
+                                            color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3))
                     body = crowd_bodies['B', b]
                     moves.append(body.animate.move_to([*destination[:2], body.get_center()[2]]))
                 for s, price in enumerate(round_.after.asks):
@@ -1543,9 +1544,9 @@ class EpisodeB3(ThreeDScene):
                 spot = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                 height = CROWD_BASE + 4 * CROWD_SCALE
                 restored_connections[b] = Line([*spot[:2], height], [*seller_at[:2], height],
-                                                color=GUIDE, stroke_width=2.2)
+                                                color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
                 restored_ground[b] = Line([*spot[:2], 0.04], [*seller_at[:2], 0.04],
-                                          color=GUIDE, stroke_width=1.6).set_opacity(0.3)
+                                          color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
             body = crowd_bodies['B', b]
             restore_moves.append(body.animate.move_to([*spot[:2], body.get_center()[2]]))
         for s, price in enumerate(market.final.asks):
@@ -1582,7 +1583,7 @@ class EpisodeB3(ThreeDScene):
         low_height = CROWD_BASE + 3.75 * CROWD_SCALE
         low_offer = DashedLine([*crowd_bodies['B', cost_buyer].get_center()[:2], low_height],
                                [*seller_spots[cost_seller][:2], low_height],
-                               color=GUIDE, stroke_width=2)
+                               color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
         refusal = fixed(Tex(r'Offer $\$3.75$\quad MC $\$4$', color=INK).scale(DEFINITION_SCALE))
         refusal.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(low_offer), FadeIn(refusal))
