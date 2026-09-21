@@ -53,14 +53,14 @@ choreography remains sequential inside `construct()`.
 | `2.b.i` | Recall B1 expenditure | Green area 0–4 on the buyer's bar, then “Expenditure $4.” |
 | `2.b.ii` | Recall B1 CS | Teal area 4–6, then “CS $2.” |
 | `2.b.iii` | Carry the payment from buyer to seller | Trace a green, unfilled copy of Gary’s expenditure boundary, then slide it horizontally by 1.22 units onto Molly’s side without changing its size or dollar height (0–4). Gary’s expenditure fill stays in place. After the outline arrives, reveal green “Revenue $4.” Keep the revenue boundary through Cost and PS. |
-| `2.b.iv` | Move the marginal-cost label | Keep the orange area 0–2. Slide the existing orange “MC $2” label from above its bar to the right of that lower area in 1.2 seconds, as the area settles into the accounting view. Do not replace it with “Cost.” Restore its above-bar tracking position during the later pullback. |
+| `2.b.iv` | Move the marginal-cost label | Keep the orange area 0–2. Slide the existing orange “MC $2” label from above its bar to the right of that lower area in 1.2 seconds, as the area settles into the accounting view. Do not replace it with “Cost.” Restore its above-bar tracking position before Amanda-Grace's first offer. |
 | `2.b.v` | Producer surplus | Outline the upper region between MC $2 and price $4 in orange, with no orange fill; inset the border 0.045 world units on all four sides so it fits visibly inside the green revenue boundary. This inset is a highlight margin, not a change to the $2 surplus. Then reveal “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
-| `2.c` | Amanda-Grace enters on the buyer side | Pull back to Molly’s fixed seller station at (3, 1.2), Gary nearby at (1.4, 1.2), and Amanda-Grace entering from (−2.8, −1.1). Molly stays at this station through subsequent bargaining and market growth. Separate sorted MB/MC curves remain left/right. Amanda-Grace has MB $7 against Gary’s MB $6; Molly has MC $2 and a visible standing price $4. Title: “What would Amanda-Grace gain?” Andrew is absent. |
-| `2.c.i` | First higher offer | Amanda-Grace walks to Molly; only the buyers change position. Her marginal moves beside Molly’s before the short dashed $4.25 offer appears. Molly’s standing $4 tag stays visible until acceptance. Hold “Would Amanda-Grace gain by offering $4.25?”; accept on advance. |
-| `2.c.accepted` | Make her incentive explicit | After accepting, hold “Amanda-Grace gains $7−$4.25=$2.75.” This is her gain compared with going without the unit. Then continue the buyer bidding sequence. |
-| `2.c.ii` | Gary responds | Gary offers $4.50. The pair changes, the price rises, and the displaced buyer waits nearby. Then alternate $0.25 bids without a hold on every repetition. |
-| `2.c.iii` | Different MBs determine the winner | Amanda-Grace wins at $6.25. Gary's next $6.50 offer would exceed his MB $6. His bar never changes; her MB stays $7. Keep the price below her MB and show why Gary stops. |
+| `2.c` | Keep the close-up as Amanda-Grace enters | Retain the head-on camera and 7.2-unit frame height. Pan to admit Amanda-Grace on Molly’s right: Gary, Molly, Amanda-Grace at x=0.1, 3, 5.9, all y=1.2. This one setup establishes Molly’s later plaza station. All three people then stay still throughout the bidding. Keep broad MB-$6 and MB-$7 bars fixed on the left/right, with Molly’s MC-$2 bar beside Gary initially. His accepted $4 line and label remain solid red. No side curves yet. |
+| `2.c.i` | Compare a new offer with the standing deal | Show Amanda-Grace’s dashed $4.25 line and label in the right-hand comparison, while Gary’s solid $4 line and label remain on the left. Hold “Would Amanda-Grace gain by offering $4.25?” Both MBs stay fully visible. On advance, slide only Molly’s MC bar and attached MC label to Amanda-Grace’s side. After the slide, turn the new line solid and remove Gary’s former line/price. |
+| `2.c.accepted` | Make her incentive explicit | Hold “Amanda-Grace gains $7−$4.25=$2.75.” Her $4.25 line is now solid; MC $2 is beside MB $7. All people and both MB bars remain at their original positions. |
+| `2.c.ii` | Gary responds without walking | Show Gary’s dashed $4.50 offer alongside Amanda-Grace’s standing solid $4.25. Pause before Molly’s MC moves back to Gary; then solidify his offer and remove the old deal. Continue the same offer → MC slide → acceptance sequence for the remaining quarter-dollar bids. |
+| `2.c.iii` | Finish the bidding before pulling back | Amanda-Grace wins at $6.25. Keep Gary’s MB $6 and her MB $7 fully visible with “Gary: next bid $6.50 > MB $6.” Only after this hold does the camera pull out to the plaza. The two sorted marginal curves enter with the two existing buyers and Molly’s posted $6.25; Andrew then arrives. |
 
 The old `2.d`–`2.d.ii` Andrew comparison is removed from this teaching scene.
 Andrew enters deliberately during the growing market: an MC-$4 bar followed
@@ -80,6 +80,7 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 
 | Pause | Action | Stopped frame |
 |---|---|---|
+| `3.a.overview` | Pull back after the bidding war | First reveal the plaza and center circle. Gary returns to the waiting side; Amanda-Grace keeps her $6.25 match with stationary Molly. Then introduce the separate sorted curves: MB $7/$6 on the left, MC $2 and the dashed posted price $6.25 on the right. Hold this view before Andrew enters. |
 | `3.a.entry` | Andrew enters deliberately | Reframe around the same fixed Molly station and Amanda-Grace’s $6.25 deal. Andrew enters at another fixed seller station; show MC $4 first, then his price $4.25 just above it in the world and supply graph. The price caption reads only “$4.25,” without “Ask.” Retain the four names for these decisions. Gary is still unmatched. |
 | `3.a.switch.options` | Amanda-Grace reconsiders | She returns to the hub. Highlight her MB-$7 bar and compare Molly $6.25 with Andrew $4.25 on the supply graph. Hold “Would Amanda-Grace keep paying $6.25?” |
 | `3.a.switch.accepted` | Choose the lower price | She walks to Andrew at $4.25. Molly stays put, now without a buyer. |
@@ -187,8 +188,9 @@ three-by-two exclusion at $6.25 explicit. The third seller then offers him a
 trade again. These extensions run ahead of the editor’s prose; notes stay untouched.
 
 Taylor's latest direction supersedes the earlier “no graph before discovery”
-restriction for the two separate marginal curves. They begin after the approved
-close-up and stay on opposite sides of the plaza. The shared unit graph still
+restriction for the two separate marginal curves. They now begin after the
+entire close-up bidding war, at `3.a.overview`, and stay on opposite sides of
+the plaza. The shared unit graph still
 appears at `4.b`, and aggregate algebra at `4.c`. No notes edits are needed to
 implement this staging correction.
 
@@ -228,6 +230,12 @@ unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
 
+- September 21 bidding revision: live-checked the stationary head-on setup,
+  simultaneous solid $4 / dashed $4.25 comparison, MC's slide to Amanda-Grace
+  and solidification at $4.25, the final $6.25 hold at the same zoom, and the
+  subsequent plaza/side-curve reveal. MB $6/$7 remain fully visible throughout.
+  Syntax checks and the existing quarter-dollar bidding regression test pass.
+  Reviewed through ManimLive; no full export was rebuilt.
 - World-text update: inspected the first pair, side-on accounting view,
   Amanda-Grace's entrance, rolling prices through $6.25, and the small-market
   buyers returning to the circle in the live viewer. Glyphs face the camera
@@ -291,12 +299,13 @@ unsupported numerical markets. B4 is the next block, not B5.
 
 ## Review correction · compact pairs and distinct cost color
 
-The previous small-cast price connections were too long, especially during the
-challenger's approach. Players now stand nearby; contemplated marginals move
-inward before the price appears and remain together on acceptance. Lines span
-the bar edges and their ground shadows use the same endpoints. The accounting
-close-up is still magnification of one unit, with its existing 1.10-wide bars.
-The crowd already uses neighboring trading positions and keeps its faster pacing.
+The first-pair marginals move inward before the price appears, with the existing
+1.10-wide bars and 0.12 gap. The latest bidding revision keeps both MBs in place
+and slides Molly's one MC bar between those same close comparison positions.
+The old solid price remains visible alongside the new dashed offer until the
+MC slide completes. Lines span the bar edges, and their ground shadows use the
+same endpoints. The crowd uses neighboring trading positions and keeps its
+faster pacing after the bidding close-up ends.
 
 Taylor’s latest correction supersedes the temporary green MC/cost treatment:
 Molly’s MC bar, label, and cost fill all stay orange through the close-up and

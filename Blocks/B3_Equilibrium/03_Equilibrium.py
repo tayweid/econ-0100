@@ -27,9 +27,6 @@ class EpisodeB3(ThreeDScene):
         SEARCH_SEED = 296
         DOLLAR_HEIGHT, BAR_BASE = 0.55, 0.75
         BAR_WIDTH, CLOSE_WIDTH, CLOSE_GAP = 0.16, 1.10, 0.12
-        PAIR_WIDTH, PAIR_GAP = 0.38, 0.06
-        PAIR_OFFSET = 0.8 - (PAIR_WIDTH + PAIR_GAP) / 2
-        PAIR_EDGE = PAIR_WIDTH + PAIR_GAP / 2
         DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         WORLD_CENTER = np.array([0.0, 0.0, 1.8])
         CLOSE_CENTER = np.array([0.0, 0.0, 2.05])
@@ -243,121 +240,54 @@ class EpisodeB3(ThreeDScene):
         self.play(FadeIn(unit))
         self.pause('2.b.vi')
 
-        # ---- 2.c · Only one entrant: a buyer with a visibly higher MB.
+        # ---- 2.c · Stay close: Gary / Molly / Amanda-Grace, viewed head-on.
         self.play(FadeOut(unit), run_time=0.2)
         self.play(FadeOut(expenditure), FadeOut(buyer_cs), FadeOut(revenue),
                   FadeOut(seller_cost), FadeOut(seller_ps), FadeOut(expenditure_label),
                   FadeOut(cs_label), FadeOut(revenue_label), FadeOut(cost_label),
                   FadeOut(ps_label), FadeOut(zero), FadeOut(zero_word), FadeOut(price_word))
-        deal_price = ValueTracker(OFFER)
-        accepted_line.buyer, accepted_line.seller = bars['buyer'], bars['seller']
-        accepted_line.price = deal_price
-        accepted_line.add_updater(lambda m: m.put_start_and_end_on(
-            np.array([m.buyer.get_center()[0] - m.buyer.get_width() / 2,
-                      m.buyer.get_center()[1], BAR_BASE + m.price.get_value() * DOLLAR_HEIGHT]),
-            np.array([m.seller.get_center()[0] + m.seller.get_width() / 2,
-                      m.seller.get_center()[1], BAR_BASE + m.price.get_value() * DOLLAR_HEIGHT])))
-        accepted_shadow.buyer, accepted_shadow.seller = bars['buyer'], bars['seller']
-        accepted_shadow.add_updater(lambda m: m.put_start_and_end_on(
-            np.array([m.buyer.get_center()[0] - m.buyer.get_width() / 2,
-                      m.buyer.get_center()[1], 0.04]),
-            np.array([m.seller.get_center()[0] + m.seller.get_width() / 2,
-                      m.seller.get_center()[1], 0.04])))
-        marginal_labels['seller'].set_color(SUPPLY)
+        # Position the pair once while panning at the existing zoom. Molly's
+        # station is now also her station in the later plaza. No player moves
+        # during the bidding; only her one MC bar changes sides.
+        bid_y = 1.2
+        bid_body_x = {'buyer': 0.1, 'seller': 3.0, 'challenger': 5.9}
+        bid_mb_x = {'buyer': 0.94, 'challenger': 5.06}
+        bid_mc_x = {'buyer': 2.16, 'challenger': 3.84}
         self.play(
-            self.camera.frame.animate.reorient(0, 58, center=WORLD_CENTER, height=9.4),
-            bodies['buyer'].animate.move_to([1.4, 1.2, bodies['buyer'].get_center()[2]]),
-            bodies['seller'].animate.move_to([3, 1.2, bodies['seller'].get_center()[2]]),
-            bars['buyer'].animate.stretch_to_fit_width(PAIR_WIDTH)
-                .set_x(1.4 + PAIR_OFFSET).set_y(1.2).set_opacity(0.65),
-            bars['seller'].animate.stretch_to_fit_width(PAIR_WIDTH)
-                .set_x(3 - PAIR_OFFSET).set_y(1.2).set_color(SUPPLY).set_opacity(0.65),
-            floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
-            run_time=2)
+            self.camera.frame.animate.reorient(0, 90, center=[3, bid_y, 2.05], height=7.2),
+            bodies['buyer'].animate.move_to([bid_body_x['buyer'], bid_y, bodies['buyer'].get_center()[2]]),
+            bodies['seller'].animate.move_to([bid_body_x['seller'], bid_y, bodies['seller'].get_center()[2]]),
+            bars['buyer'].animate.set_x(bid_mb_x['buyer']).set_y(bid_y).set_opacity(0.65),
+            bars['seller'].animate.set_x(bid_mc_x['buyer']).set_y(bid_y).set_opacity(0.65),
+            accepted_line.animate.shift([1.55, bid_y, 0]),
+            accepted_shadow.animate.shift([1.55, bid_y, 0]), run_time=1.8)
         marginal_labels['seller'].add_updater(lambda m: m.move_to(
             [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
              BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
         marginal_labels['seller'].update()
         self.play(FadeIn(marginal_labels['seller']))
-        for key, value, offset in [('buyer', MB, RIGHT * PAIR_OFFSET),
-                                    ('seller', MC, LEFT * PAIR_OFFSET)]:
-            bars[key].anchor, bars[key].value, bars[key].offset = bodies[key], value, offset
-            bars[key].add_updater(lambda m: m.move_to([
-                *(m.anchor.get_center() + m.offset)[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
-        # The two separate curves grow with the people; their dollar scale stays fixed.
-        side_axes, side_frames, side_counts, panel_bars = {}, {}, {}, {}
-        panel_ids = {'B': [0], 'S': [0]}
-        for side, x, word, term, value, color, key in [
-            ('B', -5.9, 'Demand', 'MB', MB, DEMAND, 'buyer'),
-            ('S', 5.9, 'Supply', 'MC', MC, SUPPLY, 'seller'),
-        ]:
-            panel_ax = style_axes([0, 10, 1], [0, 8, 2], x_length=3, y_length=3.5)
-            panel_ax.shift(np.array([x, 0.05, 0]) -
-                           (panel_ax.c2p(0, 0) + panel_ax.c2p(10, 8)) / 2)
-            panel_ticks = VGroup(*[Tex(str(p), color=MUTED).scale(0.7).next_to(
-                panel_ax.c2p(0, p), LEFT, buff=0.10) for p in (0, 2, 4, 6, 8)])
-            count_label = DecimalNumber(1, num_decimal_places=0, color=MUTED).scale(0.7)
-            count_label.move_to(panel_ax.c2p(10, 0) + DOWN * 0.32)
-            panel_caps = VGroup(
-                Tex(word, color=color).scale(0.8).move_to([x, 2.8, 0]),
-                Tex(rf'{term} ($\$$)', color=color).scale(0.7).move_to([x, 2.3, 0]),
-                Tex('0', color=MUTED).scale(0.7).move_to(panel_ax.c2p(0, 0) + DOWN * 0.32),
-                Tex('Units', color=CAPTION).scale(0.7).move_to([x, -2.5, 0]))
-            frame = fixed(VGroup(panel_ax, panel_ticks, panel_caps, count_label))
-            top = screen_point(self.camera.frame,
-                [*bars[key].get_center()[:2], BAR_BASE + value * DOLLAR_HEIGHT])
-            base = screen_point(self.camera.frame, [*bars[key].get_center()[:2], BAR_BASE])
-            twin = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
-                                   color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
-            twin.move_to((top + base) / 2)
-            side_axes[side], side_frames[side], side_counts[side] = panel_ax, frame, count_label
-            panel_bars[side, 0] = twin
-            target = fixed(Polygon(panel_ax.c2p(0, 0), panel_ax.c2p(10, 0),
-                                   panel_ax.c2p(10, value), panel_ax.c2p(0, value),
-                                   color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
-            self.play(FadeIn(frame), FadeIn(twin), run_time=0.5)
-            self.play(Transform(twin, target), run_time=0.8)
-
-
-        # Posted prices belong to the corresponding MC columns, even before growth.
-        posted_marks = {}
-        mark = fixed(DashedVMobject(Line(LEFT, RIGHT, color=GUIDE, stroke_width=3),
-                                   num_dashes=4))
-        mark.anchor, mark.axis, mark.tracker = panel_bars['S', 0], side_axes['S'], deal_price
-        mark.add_updater(lambda m: m.stretch_to_fit_width(m.anchor.get_width() * 0.92)
-            .move_to([m.anchor.get_center()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0]))
-        mark.update()
-        posted_marks[0] = mark
-        posted_caption = fixed(Tex('Posted prices', color=GUIDE).scale(0.7)
-                               .move_to([5.9, -3.05, 0]))
-        self.play(FadeIn(mark), FadeIn(posted_caption), run_time=0.5)
-
-        deal_number = DecimalNumber(OFFER, num_decimal_places=2, color=GUIDE).scale(0.62)
-        deal_number.tracker = deal_price
+        deal_number = Tex(r'\$4.00', color=GUIDE).scale(0.62)
         deal_number.face_mat = np.eye(3)
         deal_number.add_updater(face_camera)
-        deal_number.buyer, deal_number.seller = bars['buyer'], bars['seller']
-        deal_number.add_updater(lambda m: m.move_to(
-            m.seller.anchor.get_center() + RIGHT * 0.65 + DOWN * 0.15 + OUT * 0.5))
         deal_number.update()
+        deal_number.move_to([1.55, bid_y - 0.15, price_z + 0.25])
+
         shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
-                        opacity=0.28).set_color(DEMAND).move_to([-2.8, -1.1, 0.025])
+                        opacity=0.28).set_color(DEMAND).move_to([bid_body_x['challenger'], bid_y, 0.025])
         orb = Sphere(radius=0.23, color=DEMAND, resolution=(16, 10))
-        orb.move_to([-2.8, -1.1, 0.32])
+        orb.move_to([bid_body_x['challenger'], bid_y, 0.32])
         body = Group(shadow, orb)
-        bar = Rectangle3D(width=BAR_WIDTH, height=7 * DOLLAR_HEIGHT,
+        bar = Rectangle3D(width=CLOSE_WIDTH, height=7 * DOLLAR_HEIGHT,
                           resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-        bar.rotate(90 * DEGREES, RIGHT)
-        bar.anchor, bar.value, bar.offset = body, 7, ORIGIN.copy()
-        bar.add_updater(lambda m: m.move_to([
-            *(m.anchor.get_center() + m.offset)[:2], BAR_BASE + m.value * DOLLAR_HEIGHT / 2]))
-        bar.update()
+        bar.rotate(90 * DEGREES, RIGHT).move_to(
+            [bid_mb_x['challenger'], bid_y, BAR_BASE + 7 * DOLLAR_HEIGHT / 2])
         name_label = Tex('Amanda-Grace', color=INK).scale(0.62)
         name_label.face_mat = np.eye(3)
         name_label.add_updater(face_camera)
         name_label.anchor = body
         name_label.add_updater(lambda m: m.move_to(
-            [m.anchor.get_center()[0] - 0.4, m.anchor.get_center()[1] - 0.55, 0.13]))
+            [m.anchor.get_center()[0] + 0.4, m.anchor.get_center()[1] - 0.55, 0.13],
+            aligned_edge=LEFT))
         name_label.update()
         value_label = Tex(r'MB $\$7$', color=DEMAND).scale(0.62)
         value_label.face_mat = np.eye(3)
@@ -373,66 +303,30 @@ class EpisodeB3(ThreeDScene):
         head = fixed(title('What would Amanda-Grace gain?'))
         self.play(FadeIn(head), FadeIn(deal_number),
                   FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
-        panel_ids['B'].append(4)
-        panel_ids['B'].sort(key=lambda i: (-CROWD_MB[i], i))
-        side_counts['B'].set_value(2)
-        side_counts['B'].move_to(side_axes['B'].c2p(10, 0) + DOWN * 0.32)
-        top = screen_point(self.camera.frame, [-2.8, -1.1, BAR_BASE + 7 * DOLLAR_HEIGHT])
-        base = screen_point(self.camera.frame, [-2.8, -1.1, BAR_BASE])
-        panel_bars['B', 4] = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
-            color=DEMAND, fill_color=DEMAND, fill_opacity=0.22, stroke_width=2).move_to((top + base) / 2))
-        self.play(FadeIn(panel_bars['B', 4]), run_time=0.2)
-        rearrange = []
-        for rank, i in enumerate(panel_ids['B']):
-            panel_ax = side_axes['B']
-            target = fixed(Polygon(panel_ax.c2p(rank * 5, 0), panel_ax.c2p((rank + 1) * 5, 0),
-                panel_ax.c2p((rank + 1) * 5, CROWD_MB[i]), panel_ax.c2p(rank * 5, CROWD_MB[i]),
-                color=DEMAND, fill_color=DEMAND, fill_opacity=0.22, stroke_width=2))
-            rearrange.append(Transform(panel_bars['B', i], target))
-        self.play(*rearrange, run_time=1)
-
         self.pause('2.c')
 
-        # ---- 2.c.i–iii · One seller; alternate real, affordable quarter-dollar bids.
+        # ---- 2.c.i–iii · See both prices; move MC; accept the better offer.
         bidding = simulate([MB, 7], [MC], [OFFER], seed=0, initial_sellers=[0, None])
         bids = [event for round_ in bidding.rounds for event in round_.events
                 if event.kind == 'match']
         assert bidding.final.asks == (6.25,) and bidding.final.sellers == (None, 0)
         for bid in bids:
             bidder = 'buyer' if bid.buyer == 0 else 'challenger'
-            waiting = 'challenger' if bid.buyer == 0 else 'buyer'
-            self.play(FadeOut(accepted_line), FadeOut(accepted_shadow),
-                      run_time=0.2)
-            bars[bidder].offset = ORIGIN.copy()
-            bars[waiting].offset = ORIGIN.copy()
-            self.play(
-                bodies[bidder].animate.move_to([1.4, 1.2, bodies[bidder].get_center()[2]]),
-                bars[bidder].animate.stretch_to_fit_width(BAR_WIDTH).move_to(
-                    [1.4, 1.2, BAR_BASE + bars[bidder].value * DOLLAR_HEIGHT / 2]),
-                bodies[waiting].animate.move_to([-2.8, -1.1, bodies[waiting].get_center()[2]]),
-                bars[waiting].animate.stretch_to_fit_width(BAR_WIDTH).move_to(
-                    [-2.8, -1.1, BAR_BASE + bars[waiting].value * DOLLAR_HEIGHT / 2]),
-                run_time=0.9 if bid.price <= 4.5 else 0.55)
-            bars[bidder].offset = RIGHT * PAIR_OFFSET
-            self.play(bars[bidder].animate.stretch_to_fit_width(PAIR_WIDTH).set_x(
-                1.4 + PAIR_OFFSET), run_time=0.55 if bid.price <= 4.5 else 0.3)
-            challenge = DashedLine([2.2 - PAIR_EDGE, 1.2, BAR_BASE + bid.price * DOLLAR_HEIGHT],
-                                  [2.2 + PAIR_EDGE, 1.2, BAR_BASE + bid.price * DOLLAR_HEIGHT],
-                                  color=GUIDE, stroke_width=2.5)
-            challenge_shadow = DashedLine([2.2 - PAIR_EDGE, 1.2, 0.04],
-                                         [2.2 + PAIR_EDGE, 1.2, 0.04],
-                                         color=GUIDE, stroke_width=1.6).set_opacity(0.3)
-            offer_label = Tex(rf'Offer $\${bid.price:.2f}$', color=GUIDE).scale(0.62)
+            mc_x = bid_mc_x[bidder]
+            x0 = min(bid_mb_x[bidder], mc_x) - CLOSE_WIDTH / 2
+            x1 = max(bid_mb_x[bidder], mc_x) + CLOSE_WIDTH / 2
+            height = BAR_BASE + bid.price * DOLLAR_HEIGHT
+            challenge = DashedLine([x0, bid_y - 0.045, height], [x1, bid_y - 0.045, height],
+                                  color=GUIDE, stroke_width=3)
+            challenge_shadow = DashedLine([x0, bid_y, 0.04], [x1, bid_y, 0.04],
+                                         color=GUIDE, stroke_width=2).set_opacity(0.3)
+            offer_label = Tex(rf'\${bid.price:.2f}', color=GUIDE).scale(0.62)
             offer_label.face_mat = np.eye(3)
             offer_label.add_updater(face_camera)
             offer_label.update()
-            offer_label.move_to([2.2 + PAIR_EDGE + 0.3, 1.08,
-                BAR_BASE + bid.price * DOLLAR_HEIGHT + 0.22], aligned_edge=LEFT)
-            arrow_at = offer_label.get_right() + RIGHT * 0.3
-            bid_arrow = Arrow(arrow_at - OUT * 0.18, arrow_at + OUT * 0.18,
-                              color=GUIDE, thickness=1.2, tip_width_ratio=4, buff=0)
-            self.play(FadeIn(challenge), FadeIn(challenge_shadow),
-                      FadeIn(offer_label), FadeIn(bid_arrow), run_time=0.3)
+            offer_label.move_to([(x0 + x1) / 2, bid_y - 0.15, height + 0.25])
+            self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label),
+                      run_time=0.6 if bid.price <= 4.5 else 0.35)
             if bid.price == 4.25:
                 bid_question = fixed(Tex(r'Would Amanda-Grace gain by offering $\$4.25$?',
                     color=DEFINITION).scale(DEFINITION_SCALE)
@@ -440,17 +334,20 @@ class EpisodeB3(ThreeDScene):
                 self.play(FadeIn(bid_question))
                 self.pause('2.c.i')
                 self.play(FadeOut(bid_question), run_time=0.2)
-            accepted_line.buyer = bars[bidder]
-            accepted_shadow.buyer = bars[bidder]
-            deal_number.buyer = bars[bidder]
-            self.play(FadeOut(challenge), FadeOut(challenge_shadow),
-                      FadeOut(offer_label), FadeOut(bid_arrow),
-                      deal_price.animate.set_value(bid.price), run_time=0.3)
-            deal_number.update()
-            accepted_line.update()
-            accepted_shadow.update()
-            self.play(FadeIn(accepted_line), FadeIn(accepted_shadow),
-                      run_time=0.3)
+            if bid.price == 4.5:
+                self.pause('2.c.ii')
+            # Keep the old solid price and the new dashed price visible until
+            # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
+            self.play(bars['seller'].animate.set_x(mc_x),
+                      run_time=1.2 if bid.price <= 4.5 else 0.7)
+            new_line = Line([x0, bid_y - 0.045, height], [x1, bid_y - 0.045, height],
+                            color=GUIDE, stroke_width=3)
+            new_shadow = Line([x0, bid_y, 0.04], [x1, bid_y, 0.04],
+                              color=GUIDE, stroke_width=2).set_opacity(0.3)
+            self.play(FadeOut(accepted_line), FadeOut(accepted_shadow), FadeOut(deal_number),
+                      ReplacementTransform(challenge, new_line),
+                      ReplacementTransform(challenge_shadow, new_shadow), run_time=0.5)
+            accepted_line, accepted_shadow, deal_number = new_line, new_shadow, offer_label
             if bid.price == 4.25:
                 gain_read = fixed(Tex(r'Amanda-Grace gains $\$7-\$4.25=\$2.75$.',
                     color=DEMAND).scale(DEFINITION_SCALE)
@@ -458,15 +355,10 @@ class EpisodeB3(ThreeDScene):
                 self.play(FadeIn(gain_read))
                 self.pause('2.c.accepted')
                 self.play(FadeOut(gain_read), run_time=0.2)
-            if bid.price == 4.5:
-                self.pause('2.c.ii')
         stop_reason = fixed(Tex(r'Gary: next bid $\$6.50 > \mathrm{MB}\ \$6$.',
                                color=DEFINITION).scale(DEFINITION_SCALE))
         stop_reason.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(stop_reason),
-                  bodies['buyer'].animate.set_opacity(0.35),
-                  bars['buyer'].animate.set_opacity(0.3),
-                  names['buyer'].animate.set_opacity(0.5))
+        self.play(FadeIn(stop_reason))
         self.pause('2.c.iii')
 
         # ---- 3.a · Sellers stay at their stations; buyers reconsider at the hub.
@@ -489,7 +381,8 @@ class EpisodeB3(ThreeDScene):
         self.remove(head)
         head = fixed(title('Where do prices settle?'))
         self.play(FadeIn(head), self.camera.frame.animate.reorient(
-            0, 48, center=[0, 0, 0.65], height=10.4), run_time=1.5)
+            0, 48, center=[0, 0, 0.65], height=10.4),
+            floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=1.5)
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
         # The seller arc preserves Molly's station; only buyers change stations.
         seller_ys = [1.2, 2.8, 2.0, 0.4, -1.2, -0.4, -2.0, -2.8, -3.6, 3.6]
@@ -547,7 +440,6 @@ class EpisodeB3(ThreeDScene):
                         m.anchor.get_center() + RIGHT * 0.55 + DOWN * 0.15 + OUT * 0.45))
                     tag.update()
                     price_tags[i], price_trackers[i] = tag, tracker
-        posted_marks[0].tracker = price_trackers[0]
         self.play(*inherited_moves,
                   FadeIn(price_tags[0]), run_time=1.2)
         hub = DashedVMobject(Circle(radius=0.35, color=MUTED, stroke_width=2),
@@ -564,6 +456,57 @@ class EpisodeB3(ThreeDScene):
                                           color=GUIDE, stroke_width=1.6).set_opacity(0.3)
         self.add(*connection_by_buyer.values(), *ground_by_buyer.values())
         self.play(FadeIn(hub), run_time=0.4)
+        # The separate curves first appear after the close-up bidding war.
+        side_axes, side_frames, side_counts, panel_bars = {}, {}, {}, {}
+        panel_ids = {'B': [4, 0], 'S': [0]}
+        for side, x, word, term, values, color in [
+            ('B', -5.9, 'Demand', 'MB', CROWD_MB, DEMAND),
+            ('S', 5.9, 'Supply', 'MC', CROWD_MC, SUPPLY),
+        ]:
+            panel_ax = style_axes([0, 10, 1], [0, 8, 2], x_length=3, y_length=3.5)
+            panel_ax.shift(np.array([x, 0.05, 0]) -
+                           (panel_ax.c2p(0, 0) + panel_ax.c2p(10, 8)) / 2)
+            panel_ticks = VGroup(*[Tex(str(p), color=MUTED).scale(0.7).next_to(
+                panel_ax.c2p(0, p), LEFT, buff=0.10) for p in (0, 2, 4, 6, 8)])
+            count = len(panel_ids[side])
+            count_label = DecimalNumber(count, num_decimal_places=0, color=MUTED).scale(0.7)
+            count_label.move_to(panel_ax.c2p(10, 0) + DOWN * 0.32)
+            panel_caps = VGroup(
+                Tex(word, color=color).scale(0.8).move_to([x, 2.8, 0]),
+                Tex(rf'{term} ($\$$)', color=color).scale(0.7).move_to([x, 2.3, 0]),
+                Tex('0', color=MUTED).scale(0.7).move_to(panel_ax.c2p(0, 0) + DOWN * 0.32),
+                Tex('Units', color=CAPTION).scale(0.7).move_to([x, -2.5, 0]))
+            frame = fixed(VGroup(panel_ax, panel_ticks, panel_caps, count_label))
+            side_axes[side], side_frames[side], side_counts[side] = panel_ax, frame, count_label
+            self.play(FadeIn(frame), run_time=0.5)
+            twins, rearrange = [], []
+            for rank, i in enumerate(panel_ids[side]):
+                at = crowd_bars[side, i].get_center()
+                top = screen_point(self.camera.frame, [*at[:2], CROWD_BASE + values[i] * CROWD_SCALE])
+                base = screen_point(self.camera.frame, [*at[:2], CROWD_BASE])
+                twin = fixed(Rectangle(width=0.06, height=abs(top[1] - base[1]),
+                    color=color, fill_color=color, fill_opacity=0.22, stroke_width=2)
+                    .move_to((top + base) / 2))
+                panel_bars[side, i] = twin
+                x0, x1 = 10 * rank / count, 10 * (rank + 1) / count
+                target = fixed(Polygon(panel_ax.c2p(x0, 0), panel_ax.c2p(x1, 0),
+                    panel_ax.c2p(x1, values[i]), panel_ax.c2p(x0, values[i]),
+                    color=color, fill_color=color, fill_opacity=0.22, stroke_width=2))
+                twins.append(FadeIn(twin))
+                rearrange.append(Transform(twin, target))
+            self.play(*twins, run_time=0.3)
+            self.play(*rearrange, run_time=0.8)
+        posted_marks = {}
+        mark = fixed(DashedVMobject(Line(LEFT, RIGHT, color=GUIDE, stroke_width=3), num_dashes=4))
+        mark.anchor, mark.axis, mark.tracker = panel_bars['S', 0], side_axes['S'], price_trackers[0]
+        mark.add_updater(lambda m: m.stretch_to_fit_width(m.anchor.get_width() * 0.92)
+            .move_to([m.anchor.get_center()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0]))
+        mark.update()
+        posted_marks[0] = mark
+        posted_caption = fixed(Tex('Posted prices', color=GUIDE).scale(0.7).move_to([5.9, -3.05, 0]))
+        self.play(FadeIn(mark), FadeIn(posted_caption), run_time=0.5)
+        self.pause('3.a.overview')
+
         arrival_order = [('S', 4)] + [(side, i) for i in [1, 2, 3, 5, 6, 7, 8, 9] for side in ['B', 'S']]
         present_buyers, present_sellers = 2, 1
         entry_caption = None
