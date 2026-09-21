@@ -589,7 +589,7 @@ class EpisodeB3(ThreeDScene):
                 ask_world = Line([seller_spots[4][0] - 0.22, seller_spots[4][1], ask_height],
                                  [seller_spots[4][0] + 0.22, seller_spots[4][1], ask_height],
                                  color=GUIDE, stroke_width=2.5)
-                ask_caption = fixed(Tex(r'Ask $\$4.25$', color=GUIDE).scale(0.7)
+                ask_caption = fixed(Tex(r'$\$4.25$', color=GUIDE).scale(0.7)
                     .move_to([5.9, -3.05, 0]))
                 self.remove(posted_caption)
                 self.play(FadeIn(price_tags[4]), FadeIn(ask_world),

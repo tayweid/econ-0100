@@ -67,7 +67,7 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 
 | Pause | Action | Stopped frame |
 |---|---|---|
-| `3.a.entry` | Andrew enters deliberately | Reframe around the same fixed Molly station and Amanda-Grace’s $6.25 deal. Andrew enters at another fixed seller station; show MC $4 first, then his ask $4.25 just above it in the world and supply graph. Retain the four names for these decisions. Gary is still unmatched. |
+| `3.a.entry` | Andrew enters deliberately | Reframe around the same fixed Molly station and Amanda-Grace’s $6.25 deal. Andrew enters at another fixed seller station; show MC $4 first, then his price $4.25 just above it in the world and supply graph. The price caption reads only “$4.25,” without “Ask.” Retain the four names for these decisions. Gary is still unmatched. |
 | `3.a.switch.options` | Amanda-Grace reconsiders | She returns to the hub. Highlight her MB-$7 bar and compare Molly $6.25 with Andrew $4.25 on the supply graph. Hold “Would Amanda-Grace keep paying $6.25?” |
 | `3.a.switch.accepted` | Choose the lower price | She walks to Andrew at $4.25. Molly stays put, now without a buyer. |
 | `3.a.counter.options` | Gary reconsiders | Gary enters the hub. Highlight MB $6; show Molly’s open $6.25 ask versus the $4.50 needed to outbid Amanda-Grace at Andrew. Hold “Could Gary gain by offering $4.50?” |
@@ -202,6 +202,10 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- Latest incremental edit: Andrew's price caption drops “Ask.” Check the
+  `3.a.entry-price-only.png` still; defer refreshing the full movie to the next
+  larger export. The full-render record below precedes this text-only edit.
 
 - Pure rule suite: 39 tests pass in the shared checkout, including 14
   discovery tests. These check every auction bid, both buyers' permitted
