@@ -164,36 +164,40 @@ Use B1/B2's grey divider, question titles, 0.7 minimum type, graph-to-math numbe
 transfers, and unknown-before-answer convention. The six units in the toy world
 are never labeled 40,000 pounds. Keep the representation change visible.
 
-## Deviations (back end)
+## Exercise pauses and deviations (refinement pass)
 
-The notes' two tests return to the same cast. The discrete example and aggregate
-example share the price but have separate quantities. A small market represents
-one-unit participants; a smooth market represents thousands of pounds.
+The exercise cards follow the editor-owned `Exercise/Exercise_B3.typ`, read on
+September 21. They are a separate pumpkin-pasties market, measured in galleons
+and pasties: demand P=12−Qd/2, supply P=2+Qs/2. Do not carry the spinach
+example's numerical answers into these cards, and do not reveal exercise answers.
+Use B2's serif gold heading, slightly indented white prompts, opaque rounded
+panel, and dimmed stage. Literal pauses remain available in the live viewer.
 
-| Pause | Action | Arithmetic / named move |
+| Pause | Action | Arithmetic / staging |
 |---|---|---|
-| `5.a` | $3 below equilibrium; supply trace then demand trace | Aggregate Qs=20, Qd=45. Discrete Qs=4, Qd=8. Show unknown before the corresponding substitution/answer. |
-| `5.b` | Name shortage with bottom definition and arrow | “Shortage: quantity demanded is greater than quantity supplied.” Amanda-Grace offers Molly $3.25; Gary is displaced. |
-| `5.c` | Continuous upward adjustment | Show offers increasing; return to the supported $4 state before the other experiment. |
-| `5.d` | $6 above equilibrium | Aggregate Qs=80, Qd=30. Discrete Qs=10, Qd=3. Unaccepted seller units remain visible. |
-| `5.e` | Excess terminology | “Excess: quantity supplied is greater than quantity demanded.” Textbook “surplus” is crossed out and replaced with “excess”; this does not relabel CS or PS. |
-| `5.f` | Molly cuts $6→$5 | Explicit staged reset has Gary at Andrew and Amanda-Grace at S5; Molly is unsold. Gary switches to Molly. This allocation is illustrative, not represented as the random discovery outcome. |
-| `5.g` | Continuous downward adjustment | Unaccepted sellers cut; matched buyers take strictly cheaper offers. |
-| `5.h` | Restore and test stability | Restore the saved uniform-price state. Select actual marginal participants: an MB-$4 buyer declines $4.25; an MC-$4 seller declines $3.75. Do not silently pretend these are necessarily the same pair in the discovery allocation. |
+| `4.exercise` | Exercise B3 Q1, after the worked equilibrium graph | Show the sheet's two curves and units. Ask for equilibrium quantity, equilibrium price, and the graph with the starred pair. |
+| `5.a.s.question`, `5.a.d.question`, `5.a` | $3 below equilibrium; supply then demand | Copy each colored graph equation into the math area; P and Qs/Qd become red. Copy the red price into P, move terms across the equality, move the denominator to multiply, and collect the result. Leave the original equation and completed algebra visible. Carry red Qs=20 and Qd=45 back to their unknown graph readouts. Highlight the gap at the selected price. |
+| `5.b` | Return to the one-unit plaza and name shortage | Discrete Qs=4, Qd=8, with separate red drops/readouts and P=$3 on the unit graph. Matched marginals dock at width 0.18, gap 0.035; accepted price lines span only the compact pair and sit 0.015 units toward the camera to prevent coplanar occlusion. Unmatched buyers wait on their own arc, with blue rings identifying the willing buyers left out. Sellers remain fixed. |
+| `5.b.lookout`, `5.b.options`, `5.b.i` | Amanda-Grace bids $3.25 for Molly | Show Gary, Molly, and Amanda-Grace with their existing camera-facing world names. Amanda-Grace enters the dashed center circle with a blue floor ring. Highlight her demand column, extend her MB as a dashed guide across the combined graph, and show required red offers over every seller's MC, including the outbid increment. Seller highlights use unfilled outlines, preserving the faint staircase shading. Highlight Molly's offer, return Gary to his buyer slot, move Amanda-Grace to Molly, dock the marginals, then show the solid accepted price. |
+| `5.c.round…`, `5.c` | Continuous upward adjustment | Retain unchanged pairs and links. Show only changed buyers moving and changed sellers' price markers/arrows. Undock before switching, dock after arrival, and keep prices attached to the compact pair. Each changed round has a skip pause. At settlement restore P=$4 and Qd=Qs=6. |
+| `5.d.s.question`, `5.d.d.question`, `5.d` | $6 above equilibrium | Same colored, term-by-term arithmetic: aggregate Qs=80, Qd=30. Discrete Qs=10, Qd=3. Show leftover units beside their stationary sellers. |
+| `5.d.i`, `5.e` | Name excess; distinguish the textbook term | Bottom definition points to unsold units. The brief crossed-out “Surplus” and replacement “Excess” sit in the screen's bottom caption band, outside the plaza action. |
+| `5.f.lookout`, `5.f.options`, `5.f` | Molly cuts $6→$5; Gary reconsiders | Gary starts with Andrew, the new buyer with S1, Amanda-Grace with S5. Molly's price falls on the supply column. Gary's blue ring follows him to the lookout; compare his MB and every required seller price before he chooses Molly. Names remain attached to Gary, Andrew, and Molly. |
+| `5.g.round…`, `5.g` | Continuous downward adjustment | Same compact pairs and selective movement as the shortage return. Unsold sellers cut; buyers move to strictly better prices. End with six $4 trades. |
+| `5.h`, `5.h.i.offer`, `5.h.i`, `5.h.ii`, `5.h.iii` | Test actual marginal participants | Keep the allocation from the just-completed excess adjustment. Do not reshuffle people to another equally valid equilibrium. For each actual marginal participant, fade unrelated people and zoom the real pair to a side-on view at the left of the fixed unit graph. Camera height 3.4 makes the quarter-dollar proposal legible; camera-facing MB/MC labels stay attached to the bars. Highlight an MB-$4 buyer and partner, show a dashed $4.25 proposal, pause to consider it, then show refusal with a short step back. Restore the same $4 match and explicitly re-establish its visible solid stroke at each close-up handoff. Highlight an MC-$4 seller for a dashed $3.75 bid, pause, then reject it and retain the accepted $4 trade. Return smoothly to the plaza after each test. Use the same world rings, graph column/MB/MC highlights, red proposals, and compact bars as the first half. |
+| `5.exercise` | Exercise B3 Q2, after stability | Show the same pasty curves and units. At 5 galleons, ask for Qd, Qs, shortage/excess and its size, and the direction of price movement. No solution on the card. |
 
 The aggregate calculations use the full graph and side calculation, then return
-to the plaza beside its own **Units** graph. This keeps both sets of quantities
-legible. At $3 the four initially matched buyers are B0–B3, leaving Amanda-Grace
-first in the queue. At $6 Gary starts with Andrew, the new buyer with S1, and Amanda-Grace with S5.
-After the named offer, seeded random search resumes (upward seed 473, 18 rounds;
-downward seed 361, 29 rounds). Both presentation traces pass the stopping audit
-and end with six $4 trades. During individual price changes, remove the common
-price readout until a uniform transaction price is restored.
-
-`5.b.i` holds the $3.25 switch; `5.d.i` holds the excess definition; `5.h.i`
-shows the MB-$4 buyer refusing $4.25, `5.h.ii` the MC-$4 seller refusing $3.75,
-and `5.h.iii` restores the equilibrium frame. Each final test uses an actual
-pair from the saved discovery state.
+to the plaza beside its own **Units** graph. The two representations share price,
+not quantity. At $3 the four initially matched buyers are B0–B3, leaving
+Amanda-Grace unserved. At $6 Gary starts with Andrew, the new buyer with S1,
+and Amanda-Grace with S5. These staged allocations illustrate the deviations;
+they are not described as the random discovery outcome.
+After the named offer, seeded random search resumes (upward seed 473;
+downward seed 361). Both traces must pass the stopping audit and end with six
+$4 trades. During individual price changes, remove the common-price readout;
+keep every seller's posted price on the supply columns. The final stability
+tests use actual, potentially different pairs from the final excess-adjustment state.
 
 ## Reconciliation with the live notes
 
@@ -283,21 +287,35 @@ neighboring buyer and seller (buyer left, seller right, common depth). They
 slide together after acceptance and separate when a buyer reconsiders or is
 displaced. The red price segment and floor shadow span only this compact pair
 (0.395 units). Seller bodies stay at their stations. This staging applies to
-the growth sequence; later deviation resets retain their existing choreography.
+the growth sequence, both deviation runs, and the final stability tests.
 
-The new closing prose is still marked as a draft in the notes. Leave its final
-stage treatment with the PPF coda for the next pass rather than place a closing
-before that unresolved tieback.
+Taylor explicitly deferred the PPF tieback on September 21. Leave its stage
+treatment and the following B4 closing for that later pass; this pass ends at
+the second exercise card after the stability tests.
 
 ## Remaining writing-dependent material
 
 The final PPF tieback needs a carrot price or permission to reuse A3's explicitly
 illustrative exchange ratio. Do not derive a carrot price from the spinach
-market. The notes' proposed exercises and B4 closer still await Taylor's final
-wording. Keep those as storyboard targets; do not invent lecture prose or add
-unsupported numerical markets. B4 is the next block, not B5.
+market. The exercise files now supply the prompts used above. Do not invent
+lecture prose or add unsupported numerical markets for the PPF tieback.
+B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 back-half refinement: added the two exercise holds from the
+  current editor-owned pasty handout, with its own curves and units and no
+  answers. Rebuilt both price calculations using colored graph-equation
+  copies, red selected values, explicit term movement, and answers carried
+  back to the graph. Live-reviewed the exercise cards, calculation layouts,
+  named decisions, compact plaza pairs, and both side-on stability tests.
+  Market adjustment preserves unchanged pairs and pauses at changed rounds;
+  the stability tests retain the final allocation. The discovery model's 20
+  tests pass, as do source compilation and whitespace checks. Corrected
+  unintentional filled highlights and coplanar price-line occlusion during
+  visual review. Used live checkpoints throughout; no video or checkpoint
+  image export. Notes and exercise files remain editor-owned; the PPF tieback
+  and B4 closing remain deferred at Taylor's request.
 
 - September 21 Amanda-Grace name spacing: reduced her maximum inward offset
   from 1.8 to 0.65 world units, retaining the existing front offset and camera
