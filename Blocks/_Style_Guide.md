@@ -482,8 +482,24 @@ available space.
 7. **Review the actual visuals.** Check representative stopped frames and the
    motion that matters: tracker rolls, guide persistence, reveal order, label
    placement, and stacking. Keep mathematical and visual verification distinct.
-   For a small requested update, use a targeted check and let Taylor review in
-   the viewer; do not repeatedly launch full renders or widen the redesign.
+   **Use the ManimLive development viewer as the default edit/review loop.**
+   Reuse an existing connected session for the exact scene file when available.
+   Otherwise launch `maniml path/to/03_Code.py EpisodeXN` (optionally
+   `--no-browser`), then open the reported local viewer. Keep Present mode off:
+   development mode watches the file, re-executes edited code from a safe
+   checkpoint, and displays the result without rebuilding a movie. Save an edit,
+   let the viewer update, then inspect the affected hold and nearby motion using
+   its rail/arrow controls. A change earlier in `construct()` may move the safe
+   checkpoint; navigate back to the beat rather than assuming the old frame is
+   current. Check the scene filename and Connected state before judging a frame.
+   Use the live browser frame or a screenshot of it for routine visual checks.
+   A static `*_present/` movie bundle does not hot-reload; distinguish it from
+   the development viewer. Do not regenerate video, every checkpoint PNG, or a
+   student bundle for a small review comment. Use those exports for requested
+   deliverables, larger milestones, or a specific export-only defect. If the
+   live viewer is unavailable, fall back to a targeted still or short clip.
+   This cycle was verified on B3's 3D market, including automatic source reload
+   and updated demand bars/bidding, on September 20, 2026.
    Keep progress updates concise and surface genuine issues while there is time
    to correct them.
 8. **Deliver locally.** Leave the changes ready for Taylor to review and push.

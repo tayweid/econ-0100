@@ -6,7 +6,7 @@ import unittest
 from discovery import State, improvements, simulate
 
 
-MB = (6, 5, 4, 3, 7, 5, 4, 3, 2, 2)
+MB = (6, 8, 4, 3, 7, 5, 4, 3, 2, 2)
 MC = (2, 4, 3, 5, 4, 2, 6, 3, 5, 6)
 ASKS = (6,) * 10
 
@@ -120,12 +120,12 @@ class DiscoveryTests(unittest.TestCase):
 
     def test_presentation_runs_reach_the_supported_four_dollar_state(self):
         fixtures = [
-            (537, (6.25, 4.5, 6, 6, 4.5, 6, 6, 6, 6, 6),
-             (4, 1, None, None, None, None, None, None, None, None)),
+            (296, (6.25, 4.5, 6, 6, 6.25, 6, 6, 6, 6, 6),
+             (1, 0, None, None, 4, None, None, None, None, None)),
             (473, (3.25, 4, 3, 5, 4, 3, 6, 3, 5, 6),
              (None, 2, 5, 7, 0, None, None, None, None, None)),
-            (249, (5, 6, 6, 6, 6, 6, 6, 6, 6, 6),
-             (0, None, None, None, 5, None, None, None, None, None)),
+            (361, (5, 6, 6, 6, 6, 6, 6, 6, 6, 6),
+             (0, 1, None, None, 5, None, None, None, None, None)),
         ]
         for seed, asks, initial in fixtures:
             run = simulate(MB, MC, asks, seed=seed, initial_sellers=initial)
@@ -133,7 +133,7 @@ class DiscoveryTests(unittest.TestCase):
             self.assertTrue(run.settled)
             self.assertEqual(len(trades), 6)
             self.assertEqual({run.final.asks[s] for b, s in trades}, {4})
-            self.assertEqual(sum(MB[b] - MC[s] for b, s in trades), 13)
+            self.assertEqual(sum(MB[b] - MC[s] for b, s in trades), 16)
             self.assertFalse(improvements(MB, MC, run.final))
 
     def test_andrews_entry_gives_both_buyers_a_permitted_improvement(self):
@@ -151,19 +151,41 @@ class DiscoveryTests(unittest.TestCase):
                        initial_sellers=countered.sellers, max_rounds=0)
         self.assertEqual(run.initial, countered)
 
-    def test_lookout_buyer_selects_the_cheaper_of_two_affordable_options(self):
-        # Gary is at Andrew for $4.50; Molly is open at $6.25.
-        # The new buyer's MB is $5; the new seller's MC is $4, ask $4.50.
-        values, costs = [6, 5, 7], [2, 4, 4]
-        state = State((6.25, 4.5, 4.5), (2, None, None))
+    def test_two_by_two_bids_and_cuts_reach_equal_prices_with_positive_gains(self):
+        values, costs = [6, 7], [2, 4]
+        run = simulate(values, costs, [6.25, 4.5], seed=54, initial_sellers=[1, None])
+        self.assertTrue(run.settled)
+        self.assertEqual(run.final, State((5.5, 5.5), (1, 0)))
+        cuts = [e for r in run.rounds for e in r.events if e.kind == 'cut']
+        self.assertEqual([(e.seller, e.price) for e in cuts], [(0, 6), (0, 5.75), (0, 5.5)])
+        for b, s in enumerate(run.final.sellers):
+            self.assertGreater(values[b] - run.final.asks[s], 0)
+            self.assertGreater(run.final.asks[s] - costs[s], 0)
+        self.assertFalse(improvements(values, costs, run.final))
+
+    def test_third_buyer_excludes_a_buyer_who_gained_in_the_two_by_two(self):
+        values, costs = [6, 7, 8], [2, 4]
+        run = simulate(values, costs, [5.5, 5.5], seed=6, initial_sellers=[1, 0, None])
+        self.assertEqual(values[0] - run.initial.asks[1], .5)
+        self.assertTrue(all(values[0] > cost for cost in costs))
+        self.assertEqual(run.final, State((6.25, 6.25), (None, 1, 0)))
+        self.assertTrue(all(price > values[0] for price in run.final.asks))
+        self.assertFalse(improvements(values, costs, run.final))
+        self.assertTrue(run.settled)
+
+    def test_third_seller_restores_an_affordable_trade_for_gary(self):
+        # The two incumbent sellers each have a buyer at $6.25.
+        # Gary, MB $6, returns when the third seller enters at MC $4, price $4.50.
+        values, costs = [6, 8, 7], [2, 4, 4]
+        state = State((6.25, 4.5, 6.25), (None, 0, 2))
         offers = [ask + (.25 if s in state.sellers else 0)
                   for s, ask in enumerate(state.asks)]
-        self.assertEqual(offers, [6.25, 4.5, 4.75])
+        self.assertEqual(offers, [6.5, 4.5, 6.5])
         choices = [action for action in improvements(values, costs, state)
-                   if action[:2] == ('visit', 1)]
-        self.assertEqual(choices, [('visit', 1, 1), ('visit', 1, 2)])
+                   if action[:2] == ('visit', 0)]
+        self.assertEqual(choices, [('visit', 0, 1)])
         self.assertLess(offers[1], offers[2])
-        self.assertEqual(values[1] - offers[1], .5)
+        self.assertEqual(values[0] - offers[1], 1.5)
         self.assertEqual(offers[1] - costs[1], .5)
 
     def test_rejects_invalid_inputs(self):

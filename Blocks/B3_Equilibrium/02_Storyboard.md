@@ -16,10 +16,11 @@ edits the storyboard and code. Taylor's original animation directions remain
 history. Their old episode/companion division and pause IDs do not govern this
 new single episode. The map below supersedes earlier proposals.
 
-**Review cadence:** use stopped-frame checks or short clips of changed beats
-for routine visual tweaks. Reserve full-episode exports for larger milestones
-or changes that affect playback throughout the episode, rather than rebuilding
-the whole movie for each small review comment.
+**Review cadence:** edit in the connected ManimLive development viewer,
+which hot-reloads this scene from a safe checkpoint. Inspect the live frame
+and nearby motion after saving. Use targeted stills/clips as a fallback; reserve
+full exports for deliverables or larger milestones. The static movie viewer
+does not hot-reload. See the animator workflow in `Blocks/_Style_Guide.md` §8.
 
 **Order:** first pair → side-view deliberation → payment and gains → Amanda-Grace’s
 incentive and buyer bidding → gradual arrivals → crowd discovers a price → name equilibrium → introduce the graph/recap →
@@ -71,11 +72,17 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 | `3.a.switch.options` | Amanda-Grace reconsiders | She returns to the hub. Highlight her MB-$7 bar and compare Molly $6.25 with Andrew $4.25 on the supply graph. Hold “Would Amanda-Grace keep paying $6.25?” |
 | `3.a.switch.accepted` | Choose the lower price | She walks to Andrew at $4.25. Molly stays put, now without a buyer. |
 | `3.a.counter.options` | Gary reconsiders | Gary enters the hub. Highlight MB $6; show Molly’s open $6.25 ask versus the $4.50 needed to outbid Amanda-Grace at Andrew. Hold “Could Gary gain by offering $4.50?” |
-| `3.a.counter.accepted` | Gary makes the affordable bid | Gary walks to Andrew at $4.50; Amanda-Grace returns to the buyer side. The seller stays in place. Continue gradual arrivals after this decision. |
-| `3.a` | Grow from four people to six | Add an MB-$5 buyer, then an MC-$4 seller asking $4.50. Insert each new bar into its sorted side curve. At the third seller, fade out plaza price labels. Every seller retains a red dashed posted-price marker over their supply column, following its sorted position and updating with each bid or cut. The original dashed center lookout remains on the floor. |
-| `3.a.lookout` | Walk into the decision | The new buyer walks into the center ring. Pause with this buyer and the three sellers lit; dim Gary, Amanda-Grace, and Gary’s standing connection. Highlight the buyer’s MB-$5 bar on the left. |
-| `3.a.options` | Read the options on the supply side | Highlight each seller and its MC column together, one at a time. Red ticks mark the price needed to buy: $6.25 at open Molly, $4.50 at the new seller, $4.75 at occupied Andrew. A teal MB-$5 line crosses the right panel. Pause with “Which offer is best for this buyer?” Two prices are affordable; the buyer selects the lower $4.50 offer. |
-| `3.a.chosen` | Make one visible choice | Highlight the $4.50 option, trace one dashed walking route, and move the buyer from the hub to that seller. Replace the route with a short red accepted-price line and its floor shadow. Then restore the full cast. |
+| `3.a.counter.accepted` | Gary makes the affordable bid | Gary walks to Andrew at $4.50; Amanda-Grace returns to the buyer side. Both sellers stay in place. Continue bargaining with these four people before admitting anyone else. |
+| `3.a.seller.cut` | Molly responds to losing her buyer | Buyers bid Andrew through $4.75 and $5. Show Molly still at $6.25 without a buyer; ask whether she would lower her price. Then her price falls to $6. Subsequent bids and cuts bring both sellers to $5.50. Each buyer visits the center before checking a seller; the checked MC column and offered price light together. |
+| `3.a.two_pairs` | Complete the two-by-two | Gary trades with Andrew; Amanda-Grace trades with Molly. Both prices are $5.50. MBs remain $6/$7 and MCs $2/$4, so all four gain. Hold “Both trades: $5.50. Gary's gain: $0.50.” This is a demonstrated path to equal prices, not a claim that every quarter-dollar path gives equality. |
+| `3.a.third_buyer` | Add only a buyer | A new buyer with MB $8 enters; supply remains exactly two units. Retain Gary, Amanda-Grace, Molly, and Andrew's names, and label the entrant “New buyer.” |
+| `3.a.third.options` | A third bidder wants a unit | The new buyer enters the center, compares the two sellers, and considers $5.75 at Molly. MB $8 makes this strictly beneficial. Ask “Would the new buyer offer $5.75?” before acceptance. |
+| `3.a.excluded` | Three buyers, two units | Continue permitted outbids to two prices of $6.25. The new buyer trades with Molly; Amanda-Grace trades with Andrew. Gary returns to the waiting side. Keep his MB $6 visible in the demand curve and ask “Why is Gary left out?” |
+| `3.a.excluded.reason` | Compare Gary's two situations | Hold “Gary traded at $5.50. Now $6.25 > MB $6.” Gary's benefit and both sellers' costs have not changed. His earlier positive gain demonstrates that he was willing and able to trade in the two-by-two; the higher-value third buyer changes the allocation. |
+| `3.a` | A third seller restores an option | With three buyers still present, add an MC-$4 seller posting $4.50. Insert its MC bar and dashed price in the supply curve. Fade out plaza price labels now that there are three sellers. Gary is still waiting; the new buyer and Amanda-Grace hold the other two units at $6.25. |
+| `3.a.lookout` | Gary reconsiders | Gary returns to the center. Highlight his unchanged MB-$6 bar, dim the other two buyers and their standing connections, and keep all three sellers visible. |
+| `3.a.options` | Read the three options | Highlight each world seller and its supply column together. Needed prices are $6.50 to outbid at Molly, $4.50 at the new seller, and $6.50 to outbid at Andrew. Add the teal MB-$6 guide. Hold “Would Gary trade with the new seller?” Only the new seller is affordable. |
+| `3.a.chosen` | Gary trades again | Gary walks from the hub to the new seller at $4.50. Show the short accepted-price connection and floor shadow. Hold before restoring the other buyers and fading the small-cast names. Then continue one-person-at-a-time growth. |
 | `3.a.i` | Grow from six to eight | Add the next buyer and seller separately. Pause with four of each. |
 | `3.a.ii` | Continue one person at a time to ten of each | Alternate buyer/seller entrances with faster pacing. No mass fade-in. Keep plaza price labels absent; red dashed prices stay on the supply graph, distinct from orange MC. |
 | `3.b` | Faster repetitions of the same decision | Keep both sorted curves and the hub visible. Animate successful sampled visits one buyer at a time: enter the hub, highlight the checked seller and its supply column, show the required offer, then approach and match. Animate displaced buyers returning to the waiting side. Omit unchanged unsuccessful visits after the worked example; do not draw the old all-buyer web of grey rays. Seller cuts move their red dashed supply markers downward. |
@@ -83,18 +90,23 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 
 Fixture, updated for the unequal-MB bidding scene:
 
-- MB: `[6, 5, 4, 3, 7, 5, 4, 3, 2, 2]`.
+- MB: `[6, 8, 4, 3, 7, 5, 4, 3, 2, 2]`.
 - MC: `[2, 4, 3, 5, 4, 2, 6, 3, 5, 6]`.
-- Gary B0; Amanda-Grace B4; Molly S0; Andrew S4.
-- Initial full-market asks: `[6.25, 4.5, 6, 6, 4.5, 6, 6, 6, 6, 6]`; B0→S4,
-  B1→S1. Both deals are demonstrated lookout choices; Amanda-Grace is unmatched.
-- Presentation seed 537 gives six matches at $4 after 22 rounds and 24
+- Gary B0; Amanda-Grace B4; new buyer B1 (MB $8); Molly S0; Andrew S4.
+- Initial full-market asks: `[6.25, 4.5, 6, 6, 6.25, 6, 6, 6, 6, 6]`; B0→S1,
+  B1→S0, B4→S4. These three trades follow the staged competition and Gary’s
+  return when the third seller arrives.
+- Presentation seed 296 gives six matches at $4 after 29 rounds and 28
   successful sampled visits. The seed is
   chosen for a readable classroom run; arbitrary seeds need not give one price.
 - The three-person bidding trace is the existing model with values [6, 7],
   cost [2], initial ask [4], Gary initially matched, seed 0.
 - Andrew’s new entry trace is $4.25 at MC $4; Amanda-Grace switches from Molly’s
-  $6.25; Gary then outbids her at Andrew for $4.50. The former two-$6-deal fixture
+  $6.25; Gary then outbids her at Andrew for $4.50. Seed 54 continues this
+  two-by-two to $5.50 at both sellers in four rounds. Seed 6 then adds the
+  MB-$8 buyer and reaches two $6.25 prices in five rounds, excluding Gary.
+  Both paths are actual model traces, with every bid/cut checked.
+  The former two-$6-deal fixture
   remains only as a model regression test. The $0.25 process can
   settle at unequal nearby prices on other paths; the common $4 is shown
   through actual permitted actions in the chosen trace.
@@ -131,7 +143,7 @@ one-unit participants; a smooth market represents thousands of pounds.
 | `5.a` | $3 below equilibrium; supply trace then demand trace | Aggregate Qs=20, Qd=45. Discrete Qs=4, Qd=8. Show unknown before the corresponding substitution/answer. |
 | `5.b` | Name shortage with bottom definition and arrow | “Shortage: quantity demanded is greater than quantity supplied.” Amanda-Grace offers Molly $3.25; Gary is displaced. |
 | `5.c` | Continuous upward adjustment | Show offers increasing; return to the supported $4 state before the other experiment. |
-| `5.d` | $6 above equilibrium | Aggregate Qs=80, Qd=30. Discrete Qs=10, Qd=2. Unaccepted seller units remain visible. |
+| `5.d` | $6 above equilibrium | Aggregate Qs=80, Qd=30. Discrete Qs=10, Qd=3. Unaccepted seller units remain visible. |
 | `5.e` | Excess terminology | “Excess: quantity supplied is greater than quantity demanded.” Textbook “surplus” is crossed out and replaced with “excess”; this does not relabel CS or PS. |
 | `5.f` | Molly cuts $6→$5 | Explicit staged reset has Gary at Andrew and Amanda-Grace at S5; Molly is unsold. Gary switches to Molly. This allocation is illustrative, not represented as the random discovery outcome. |
 | `5.g` | Continuous downward adjustment | Unaccepted sellers cut; matched buyers take strictly cheaper offers. |
@@ -140,9 +152,9 @@ one-unit participants; a smooth market represents thousands of pounds.
 The aggregate calculations use the full graph and side calculation, then return
 to the plaza beside its own **Units** graph. This keeps both sets of quantities
 legible. At $3 the four initially matched buyers are B0–B3, leaving Amanda-Grace
-first in the queue. At $6 Gary starts with Andrew and Amanda-Grace with S5.
+first in the queue. At $6 Gary starts with Andrew, the new buyer with S1, and Amanda-Grace with S5.
 After the named offer, seeded random search resumes (upward seed 473, 18 rounds;
-downward seed 249, 27 rounds). Both presentation traces pass the stopping audit
+downward seed 361, 29 rounds). Both presentation traces pass the stopping audit
 and end with six $4 trades. During individual price changes, remove the common
 price readout until a uniform transaction price is restored.
 
@@ -157,9 +169,10 @@ Taylor's latest review preserves the first Gary/Molly scene and replaces
 simultaneous entrances with sequential arrivals. Amanda-Grace's MB is now $7
 in animation code; the notes' cast comment still says $6 and belongs to the
 editor. The newer `2.c` prose already describes buyer first, seller second,
-then one-at-a-time expansion. Taylor's latest staging introduces Andrew during
-the growing market, at MC $4 and ask $4.25. This replaces his separate
-two-pair comparison: both existing buyers revisit the hub before later arrivals.
+then one-at-a-time expansion. Taylor’s latest staging finishes the two-by-two
+at $5.50 before adding the MB-$8 buyer. Gary’s unchanged MB $6 makes the
+three-by-two exclusion at $6.25 explicit. The third seller then offers him a
+trade again. These extensions run ahead of the editor’s prose; notes stay untouched.
 
 Taylor's latest direction supersedes the earlier “no graph before discovery”
 restriction for the two separate marginal curves. They begin after the approved
@@ -203,18 +216,25 @@ unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
 
-- Latest incremental edit: Andrew's price caption drops “Ask.” Check the
-  `3.a.entry-price-only.png` still; defer refreshing the full movie to the next
-  larger export. The full-render record below precedes this text-only edit.
+- Current incremental pass extends the two-by-two through equal prices and
+  the three-by-two through Gary’s exclusion, then lets the third seller restore
+  his trade. Verified automatic reload in the connected ManimLive development
+  viewer, then inspected the equal-$5.50 hold, third-buyer entrance and first
+  offer, Gary’s exclusion question/explanation, and third-seller reconsideration.
+  Continuing through crowd discovery reached the six-trade $4 state and the
+  equilibrium definition without assertion failures. The static movie awaits
+  the next larger export; the full-render record below precedes this extension.
 
-- Pure rule suite: 39 tests pass in the shared checkout, including 14
+- Pure rule suite: 41 tests pass in the shared checkout, including 16
   discovery tests. These check every auction bid, both buyers' permitted
   improvements after Andrew enters, and the lookout buyer’s choice of the
-  cheaper of two affordable options after including the cost of an outbid.
+  only affordable option after the third seller enters, including the cost
+  of an outbid. Separate checks verify positive gains at $5.50 in the
+  two-by-two and Gary’s lost trade at $6.25 in the three-by-two.
   The three presentation traces have
-  six $4 matches, total gains $13, unique reservations, no losses, and no
+  six $4 matches, total gains $16, unique reservations, no losses, and no
   remaining permitted moves.
-- The updated full GPU render passes at 2160×1080 and 15 fps: 604 checkpoints,
+- Prior full GPU render (before this extension) passes at 2160×1080 and 15 fps: 604 checkpoints,
   46 named teaching holds, and 283.40 seconds of motion. Reviewed the separate
   curves at three, four, six, and twenty people; Andrew's MC-$4/ask-$4.25 entry;
   both original buyers' return to the circle; the third-seller price-label
