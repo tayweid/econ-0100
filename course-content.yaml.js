@@ -156,6 +156,11 @@ parts:
       - checkpoint:
           reattempt: TBA
           date: '2026-09-09'
+          links:
+            - {label: Solutions V1, file: Blocks/A_MiniExam/Checkpoint_A_1_sols.pdf}
+            - {label: Solutions V2, file: Blocks/A_MiniExam/Checkpoint_A_2_sols.pdf}
+            - {label: Solutions V3, file: Blocks/A_MiniExam/Checkpoint_A_3_sols.pdf}
+            - {label: Solutions V4, file: Blocks/A_MiniExam/Checkpoint_A_4_sols.pdf}
           description: >-
             Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
