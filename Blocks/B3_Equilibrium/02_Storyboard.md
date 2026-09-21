@@ -16,8 +16,8 @@ edits the storyboard and code. Taylor's original animation directions remain
 history. Their old episode/companion division and pause IDs do not govern this
 new single episode. The map below supersedes earlier proposals.
 
-**Order:** first pair → side-view deliberation → payment and gains → switching
-→ crowd discovers a price → name equilibrium → introduce the graph/recap →
+**Order:** first pair → side-view deliberation → payment and gains → buyer bidding
+→ second seller and a price cut → gradual arrivals → crowd discovers a price → name equilibrium → introduce the graph/recap →
 algebra → deviations. No graph appears before the market has settled. This
 implements Taylor's latest placement and retains the notes' 2–6 act IDs.
 
@@ -35,9 +35,13 @@ implements Taylor's latest placement and retains the notes' 2–6 act IDs.
 | `2.b.iv` | Cost before PS | Green area 0–2, then “Cost $2.” |
 | `2.b.v` | Producer surplus | Orange area 2–4, then “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
-| `2.c` | Notes switching | Pull back to Gary and Molly only 1.6 units apart. Their bars stay between them, width 0.38 with a 0.06 gap; the $4 line spans their combined 0.82-unit width. Restore the wide-market orange MC color. Amanda-Grace and Andrew join. |
-| `2.c.i` | Small-cast deliberation | Amanda-Grace approaches Molly first. Their own bars then slide together at equal depth with a 0.06 gap; only afterward draw the short dashed $4.25 offer and its floor shadow. Dim Gary’s incumbent connection/bar and hide his name and price/MB labels during the question hold. Offset Amanda-Grace’s long name to keep the compact pair readable. |
-| `2.c.ii` | Resolve the switch | Molly accepts $4.25 and keeps the compact bar arrangement with Amanda-Grace. Gary approaches Andrew; their bars move inward before the $5 line appears. Both accepted price lines are 0.82 units long. MB and MC never change. |
+| `2.c` | One new person: a competing buyer | Pull back from the approved close-up. Amanda-Grace alone joins, MB $7 against Gary's unchanged MB $6. Molly remains the only seller, MC $2; their standing price is $4. |
+| `2.c.i` | First higher offer | Amanda-Grace approaches; her bar moves beside Molly's before the short dashed $4.25 offer appears. Hold “Would they both accept this price?”; accept on advance. |
+| `2.c.ii` | Gary responds | Gary offers $4.50. The pair changes, the price rises, and the displaced buyer waits nearby. Then alternate $0.25 bids without a hold on every repetition. |
+| `2.c.iii` | Different MBs determine the winner | Amanda-Grace wins at $6.25. Gary's next $6.50 offer would exceed his MB $6. His bar never changes; her MB stays $7. Keep the price below her MB and show why Gary stops. |
+| `2.d` | One new person: a second seller | Andrew enters only now, MC $4 and ask $6. Molly/Amanda-Grace still have their $6.25 deal. |
+| `2.d.i` | Compare prices | Hold “Would Amanda-Grace keep paying $6.25?” with both sellers' prices visible. She can switch to Andrew for $6. |
+| `2.d.ii` | A switch and a price cut make the prices agree | Amanda-Grace switches to Andrew at $6. Molly has no buyer and cuts $6.25→$6; Gary accepts at his MB. Two compact pairs now trade at $6. This is a demonstrated path to equal prices, not a claim that any two-pair allocation forces a unique price. |
 
 All dollar heights share `z = baseline + scale × dollars`; the ground connection
 is the projection of those exact endpoints. Dashed means contemplated; solid
@@ -49,18 +53,29 @@ actual B1/B2 implementations; the B2 revenue/cost/PS frame was inspected.
 
 | Pause | Action | Stopped frame |
 |---|---|---|
-| `3.a` | Introduce the rest of the existing ten-buyer/ten-seller cast | Keep Gary/Andrew and Amanda-Grace/Molly as the two standing deals, including $5/$4.25 prices. Seller price tags remain distinct from MC bars. Still no graph. |
-| `3.b` | Continuous random checks, outbids, and cuts | Every buyer samples one seller per round. An occupied unit needs a $0.25 higher offer. A matched buyer switches only to a strictly lower price. Sellers unmatched at both round boundaries cut $0.25, bounded by MC. No per-check holds. |
+| `3.a` | Grow from four people to six | Keep the two $6 deals. Add one buyer, then one seller, as separate entrances. Pause with three of each. |
+| `3.a.i` | Grow from six to eight | Add the next buyer and seller separately. Pause with four of each. |
+| `3.a.ii` | Continue one person at a time to ten of each | Alternate buyer/seller entrances with faster pacing. No mass fade-in. Seller tags are distinct from MC bars. |
+| `3.b` | Continuous random checks, outbids, and cuts | Run the complete market after the arrivals. Every buyer samples one seller per round; outbids and cuts use $0.25. No per-check holds. |
 | `4.a` | Name the stopping state | Six accepted trades at $4 in the presentation run. Keep nontraders visible. Bottom definition: “Equilibrium is where no one wants to change.” Gold arrow points to a settled price. |
 
-Fixture, retained from the lecture prototype:
+Fixture, updated for the unequal-MB bidding scene:
 
-- MB: `[6, 5, 4, 3, 6, 5, 4, 3, 2, 2]`.
+- MB: `[6, 5, 4, 3, 7, 5, 4, 3, 2, 2]`.
 - MC: `[2, 4, 3, 5, 4, 2, 6, 3, 5, 6]`.
 - Gary B0; Amanda-Grace B4; Molly S0; Andrew S4.
-- Initial asks: `[4.25, 6, 6, 6, 5, 6, 6, 6, 6, 6]`; B0→S4, B4→S0.
-- Seed 268 gives 17 rounds, six matches, all matched prices $4. This seed is
+- Initial asks: all $6; B0→S0, B4→S4. These are the two deals left by `2.d.ii`.
+- Seed 57 gives 25 rounds, six matches, all matched prices $4. The seed is
   chosen for a readable classroom run; arbitrary seeds need not give one price.
+- The three-person bidding trace is the existing model with values [6, 7],
+  cost [2], initial ask [4], Gary initially matched, seed 0.
+- Second-seller entry follows seed 4 with values [6, 7], costs [2, 4], asks
+  [6.25, 6], and Amanda-Grace initially matched to Molly. The actual sequence
+  is Amanda-Grace→Andrew at $6; Molly cuts to $6; Gary→Molly at $6.
+- At $6 Gary is indifferent and accepts, following the model's nonnegative-gain
+  convention. Uniform $6 is feasible here; it is not the unique equilibrium of
+  this four-person economy. The $0.25 search process can settle at unequal
+  nearby prices on other paths, so common prices are shown through actions.
 
 Stopping is an exhaustive audit of permitted improvements, not a quiet random
 round. The tick-based search rule is not a proof of general convergence or of
@@ -116,6 +131,13 @@ pair from the saved discovery state.
 
 ## Reconciliation with the live notes
 
+Taylor's latest review preserves the entire first Gary/Molly scene and replaces
+simultaneous entrances with sequential arrivals. Amanda-Grace's MB is now $7
+in animation code; the notes' cast comment still says $6 and belongs to the
+editor. The newer `2.c` prose already describes buyer first, seller second,
+then one-at-a-time expansion. Taylor confirmed that the next entrant is a
+second seller, forming two pairs.
+
 The notes changed again during this build: their latest 1.a/1.b brings the twin
 graph recap back to the opening and 4.e describes their first combination.
 Taylor's direct instruction here remains the animation's authority: **no graph
@@ -139,17 +161,22 @@ unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
 
-- Pure rule suite: 35 tests pass in the shared checkout, including 10 new
-  discovery tests. The three presentation traces have six $4 matches, total
-  gains $12, unique reservations, no losses, and no remaining permitted moves.
-- The updated full GPU render passes at 2160×1080 and 15 fps: 301 checkpoints,
-  34 named teaching holds, and 176.07 seconds of motion. The proximity/color
-  correction was visually checked at the affected small-cast holds, the
-  complete accounting comparison, and the scale-up transition.
+- Pure rule suite: 37 tests pass in the shared checkout, including 12
+  discovery tests. The new tests check every auction bid and the actual
+  switch/cut sequence after Andrew enters. The three presentation traces have
+  six $4 matches, total gains $13, unique reservations, no losses, and no
+  remaining permitted moves.
+- The updated full GPU render passes at 2160×1080 and 15 fps: 404 checkpoints,
+  40 named teaching holds, and 217.27 seconds of motion. Reviewed the new
+  three-person auction, second-seller comparison, two $6 pairs, six/eight/twenty
+  participant holds, and the moving switch. Old price lines and shadows finish
+  fading before a buyer moves; new lines enter after the marginals meet.
+- The approved opening choreography through `2.b.vi` is unchanged; its
+  first-deliberation and accounting frames were checked against the prior preview.
 - Reviewed actual stopped frames: first deliberation, all five accounting
   regions, switching, crowd settlement, graph sorting, algebra, both deviation
   calculations, shortage/excess, named switches, and stability.
-- Eight backward/forward restores across 3D and 2D scenes reproduce their
+- Thirteen backward/forward restores across 3D and 2D scenes reproduce their
   original rendered frames exactly (maximum channel error 0). The browser player
   also passed an actual forward/reverse camera-transition check.
 - Preview: `media/EpisodeB3_present/index.html`, generated locally; it is not

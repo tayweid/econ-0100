@@ -6,7 +6,7 @@ import unittest
 from discovery import State, improvements, simulate
 
 
-MB = (6, 5, 4, 3, 6, 5, 4, 3, 2, 2)
+MB = (6, 5, 4, 3, 7, 5, 4, 3, 2, 2)
 MC = (2, 4, 3, 5, 4, 2, 6, 3, 5, 6)
 ASKS = (6,) * 10
 
@@ -82,8 +82,8 @@ class DiscoveryTests(unittest.TestCase):
         self.assertFalse(improvements([4], [4], run.final))
 
     def test_scale_up_keeps_the_first_two_deals(self):
-        asks = (4.25, 6, 6, 6, 5, 6, 6, 6, 6, 6)
-        initial = (4, None, None, None, 0, None, None, None, None, None)
+        asks = (6,) * 10
+        initial = (0, None, None, None, 4, None, None, None, None, None)
         run = simulate(MB, MC, asks, initial_sellers=initial)
         self.assertEqual(run.initial, State(asks, initial))
         self.assertTrue(run.settled)
@@ -92,10 +92,36 @@ class DiscoveryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             simulate([3], [2], [4], initial_sellers=[0])
 
+    def test_two_buyers_bid_until_the_lower_value_buyer_cannot_counter(self):
+        run = simulate([6, 7], [2], [4], seed=0, initial_sellers=[0, None])
+        bids = [event for round_ in run.rounds for event in round_.events
+                if event.kind == 'match']
+        self.assertEqual([event.price for event in bids],
+                         [4.25, 4.5, 4.75, 5, 5.25, 5.5, 5.75, 6, 6.25])
+        self.assertEqual([event.buyer for event in bids], [1, 0, 1, 0, 1, 0, 1, 0, 1])
+        self.assertEqual(run.final, State((6.25,), (None, 0)))
+        self.assertTrue(run.settled)
+        self.assertGreater(run.final.asks[0] + .25, 6)
+        self.assertLess(run.final.asks[0], 7)
+
+    def test_second_seller_price_convergence_is_an_actual_switch_and_cut(self):
+        run = simulate([6, 7], [2, 4], [6.25, 6], seed=4, initial_sellers=[None, 0])
+        actions = [(e.kind, e.buyer, e.seller, e.price)
+                   for r in run.rounds for e in r.events if e.kind != 'check']
+        self.assertEqual(actions, [('match', 1, 1, 6), ('cut', None, 0, 6),
+                                   ('match', 0, 0, 6)])
+        self.assertEqual(run.final, State((6, 6), (0, 1)))
+        self.assertTrue(run.settled)
+        # Two pairs alone do not force equal prices under quarter-dollar outbids.
+        other_path = simulate([6, 7], [2, 4], [6.25, 6], seed=0,
+                              initial_sellers=[None, 0])
+        self.assertTrue(other_path.settled)
+        self.assertEqual(other_path.final.asks, (6.25, 6))
+
     def test_presentation_runs_reach_the_supported_four_dollar_state(self):
         fixtures = [
-            (268, (4.25, 6, 6, 6, 5, 6, 6, 6, 6, 6),
-             (4, None, None, None, 0, None, None, None, None, None)),
+            (57, (6,) * 10,
+             (0, None, None, None, 4, None, None, None, None, None)),
             (473, (3.25, 4, 3, 5, 4, 3, 6, 3, 5, 6),
              (None, 2, 5, 7, 0, None, None, None, None, None)),
             (249, (5, 6, 6, 6, 6, 6, 6, 6, 6, 6),
@@ -107,7 +133,7 @@ class DiscoveryTests(unittest.TestCase):
             self.assertTrue(run.settled)
             self.assertEqual(len(trades), 6)
             self.assertEqual({run.final.asks[s] for b, s in trades}, {4})
-            self.assertEqual(sum(MB[b] - MC[s] for b, s in trades), 12)
+            self.assertEqual(sum(MB[b] - MC[s] for b, s in trades), 13)
             self.assertFalse(improvements(MB, MC, run.final))
 
     def test_rejects_invalid_inputs(self):
