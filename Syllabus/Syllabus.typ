@@ -107,6 +107,8 @@ Each skill has three types of practice:
 + *Vignettes (due in rec.)*~are guided practice done _together~in recitation_.
 + *Homework (due on Sundays)*~is practice done on _your own time_.
 
+Each Exercise and Vignette is a *certificate of practice done in class*: turning one in certifies that you did that practice in the room with your classmates, in lecture for an Exercise and in recitation for a Vignette.
+
 Practice is graded for completion not correctness. You’re allowed to make mistakes. Group work on homework is strongly encouraged. I’d go as far as to say that if you’re not working in a group, you’re not doing this class right. Teach and learn from your classmates.
 
 You may sit for a Checkpoint even if you have not unlocked every skill. Simply~answer the skills you_ have_~unlocked on schedule. Practice cannot be made up before a Checkpoint. But you may make up any of your missed practice after the Checkpoint during the next Reattempt.

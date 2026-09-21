@@ -154,7 +154,8 @@ parts:
           homework: '2026-09-06'
 
       - checkpoint:
-          reattempt: TBA
+          reattempt: in recitation
+          reattempt_when: Thu Oct 8 and Fri Oct 9
           date: '2026-09-09'
           links:
             - {label: Solutions V1, file: Blocks/A_MiniExam/Checkpoint_A_1_sols.pdf}
