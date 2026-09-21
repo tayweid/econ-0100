@@ -1,171 +1,160 @@
 # B3 · Build equilibrium, then test deviations
 
-Overall animation arc · September 20, 2026 · **Storyboard, not yet implemented.**
+Current animation storyboard · September 20, 2026
 
-Taylor's direction: start with a small number of players, build up to equilibrium,
-then put the deviations animations on the back end. This page sets the order
-across the two existing animation branches while Taylor and Fable develop one
-coherent script. “Companion” and “episode” in existing filenames identify source
-material; they do not determine the eventual video split or playback order.
+## Entry point and ownership
 
-**Playback:** one pair → side-on deliberation → acceptance and marginal analysis → a few players
-choosing and switching → a larger market settling → read the equilibrium on
-the graph → move price away and watch incentives → return to the PPF question.
+Run `maniml Blocks/B3_Equilibrium/03_Equilibrium.py EpisodeB3` from the project
+root. This is the fresh, flat episode: one sequential `construct()`, literal
+pause IDs, the shared B1/B2 bumper, 15 fps, 2160×1080. The pure random-search
+rules live in `Blocks/Sim/discovery.py`; they contain no choreography.
 
-## Script and outline sources reviewed
+[01_Notes.md](01_Notes.md) is Taylor/Fable's read-only script source. The animator
+edits the storyboard and code. Taylor's original animation directions remain
+[verbatim in the detailed storyboard](02_Companion_Storyboard.md#taylors-animation-directions-verbatim).
+`Animate.py`, `Animate_A.py`, and their detailed storyboards are references and
+history. Their old episode/companion division and pause IDs do not govern this
+new single episode. The map below supersedes earlier proposals.
 
-| Source | What it contributes to this arc |
-|---|---|
-| [Part B outline](../B_Outline.typ) | Prices coordinate choices on the PPF. Its Equilibrium tutorial already describes contingent deals, continued searching, cancellation for a better deal, and the point where nobody wants to change. |
-| [Course outline](../_Parts.md) | One arc per block and per part; B3 is the market simulation, B4 develops efficiency, and B5 changes the underlying conditions. |
-| [B3 notes](01_Notes.md) | The price left unresolved by B1/B2; shortage, excess, algebra, stability, and the PPF tieback. The companion section adds the pit-market prediction/replay idea. |
-| [Original simulation outline](../Bx_Market_Animation/Bx_Equilibrium_Video.typ) | One pair → multiple sellers → multiple buyers → switching → settling → graph; marginal bars and CS/PS remain the visual bridge. |
-| [Original B3 script](_archive/B3_Equilibrium_Script.md) | Earlier version of the lecture/companion split; useful history, superseded by the current notes and this requested order. |
-| [Lecture 11 notes](<_archive/Lecture 11 (B7).md>) | Predict the market outcome, run it, set the predicted price and test whether anyone switches; the PPF coda. These ideas are already carried into the current B3 notes. |
-| [Market scene design](../Bx_Market_Animation/Market_Scene_Design.md) | Same people/model across views, provisional matching versus settlement, and explicit distinction between a simulated outcome and a competitive benchmark. |
+**Order:** first pair → side-view deliberation → payment and gains → switching
+→ crowd discovers a price → name equilibrium → introduce the graph/recap →
+algebra → deviations. No graph appears before the market has settled. This
+implements Taylor's latest placement and retains the notes' 2–6 act IDs.
 
-The notes' current prose still introduces the algebraic lecture before referring
-to a companion. This storyboard follows Taylor's newer order without rewriting
-that prose. The latest request also brings the two-player expenditure/CS/PS
-explanation into B3; market-wide efficiency and policy claims remain B4 material.
+## First pair and deliberate decisions
 
-## First branch · Build equilibrium from people
+| Pause | Script / action | Stopped frame |
+|---|---|---|
+| `0.a` | Shared MICROECONOMICS bumper, Part B / Episode 3 | Notes' thesis, “Equilibrium: when no one wants to change.” |
+| `2.a` | Notes 1.a/2.a: the question and the first exchange | Gary left, Molly right, no offered price yet. Teal MB $6, orange MC $2 above their orbs. Question title: “Would they exchange?” |
+| `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right; their original bars move between them, broaden to 1.10 units with a 0.12 gap. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
+| `2.b` | Accept on advance | Remove question; the same price and shadow become solid. |
+| `2.b.i` | Recall B1 expenditure | Green area 0–4 on the buyer's bar, then “Expenditure $4.” |
+| `2.b.ii` | Recall B1 CS | Teal area 4–6, then “CS $2.” |
+| `2.b.iii` | Recall B2 revenue | White revenue outline 0–4 on the seller's side, then “Revenue $4.” Keep the full outline visible through the next two fills. |
+| `2.b.iv` | Cost before PS | Green area 0–2, then “Cost $2.” |
+| `2.b.v` | Producer surplus | Orange area 2–4, then “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
+| `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
+| `2.c` | Notes switching | Pull back to the same pair. Amanda-Grace (MB $6) and Andrew (MC $4, ask $5) join. Molly/Gary's $4 connection remains. |
+| `2.c.i` | Small-cast deliberation | Amanda-Grace approaches Molly; $4.25 offer is dashed, Gary's incumbent connection remains. Hold the acceptance question. |
+| `2.c.ii` | Resolve the switch | Molly accepts $4.25; Gary leaves, then takes Andrew's $5 offer. MB and MC never change. |
 
-Detailed staging lives in [02_Companion_Storyboard.md](02_Companion_Storyboard.md).
-Reuse `PriceDiscovery` as the visual foundation. Open with a few people: move
-the existing twenty-person establishing/sorting sequence to the scale-up beat.
+All dollar heights share `z = baseline + scale × dollars`; the ground connection
+is the projection of those exact endpoints. Dashed means contemplated; solid
+means accepted but still revisable. No cancelled deal is counted as completed
+trade or accumulated surplus. Payment/cost colors and reveal order follow the
+actual B1/B2 implementations; the B2 revenue/cost/PS frame was inspected.
 
-1. **One pair's first deliberation.** Show an ask distinct from MC and the
-   contemplated price connection with its floor shadow. Before acceptance,
-   turn to a side view: buyer left, seller right, their MB and MC bars between
-   them and nearly touching. Hold the red price at its vertical position.
-   Once framed, only the bottom question appears: “Would they both accept
-   this price?” Pause for the class to consider the decision.
-2. **Resolve, then analyze the same pair.** On advance, remove the question
-   and reveal their choice. Stay in the same side view for the existing
-   expenditure/CS and cost/PS explanation, with receipts equal to payment.
-   The first deliberation therefore shows what the later abbreviated checks
-   mean; the accounting does not reveal the answer before the question hold.
-3. **A few players.** Keep deliberate comparison, the held preferred connection,
-   the challenger/incumbent/seller spotlight, and a clearly explained switch.
-4. **The crowd.** Introduce ten buyers and ten sellers, sort their marginal
-   values into the fixed graph, then run reproducible random price checks,
-   cuts, and outbids continuously. No survey-by-survey deliberation holds.
-5. **Equilibrium.** Show the stopping state and test whether permitted improvements
-   remain. Keep unmatched participants visible. Compare the observed outcome
-   with the benchmark; a quiet simulation alone does not establish equilibrium.
+## Crowd and stopping state
 
-## Bridge · The market we will test
+| Pause | Action | Stopped frame |
+|---|---|---|
+| `3.a` | Introduce the rest of the existing ten-buyer/ten-seller cast | Keep Gary/Andrew and Amanda-Grace/Molly as the two standing deals, including $5/$4.25 prices. Seller price tags remain distinct from MC bars. Still no graph. |
+| `3.b` | Continuous random checks, outbids, and cuts | Every buyer samples one seller per round. An occupied unit needs a $0.25 higher offer. A matched buyer switches only to a strictly lower price. Sellers unmatched at both round boundaries cut $0.25, bounded by MC. No per-check holds. |
+| `4.a` | Name the stopping state | Six accepted trades at $4 in the presentation run. Keep nontraders visible. Bottom definition: “Equilibrium is where no one wants to change.” Gold arrow points to a settled price. |
 
-Retain the settled tableau, identities, and marginal values when entering the
-deviations branch. Save that economic state as the reset point. A change in
-price is the experiment; changing the people at the same time would obscure it.
-
-**Proposed common crowd:** reuse the lecture prototype's existing population
-for both the revised discovery run and the deviation demonstrations:
+Fixture, retained from the lecture prototype:
 
 - MB: `[6, 5, 4, 3, 6, 5, 4, 3, 2, 2]`.
 - MC: `[2, 4, 3, 5, 4, 2, 6, 3, 5, 6]`.
-- Gary B0, Amanda-Grace B4, Molly S0, Andrew S4, as already cast in `Animate_A.py`.
-- At a uniform $4, Qd = Qs = 6 with zero-gain participation. Four units have
-  strictly positive gains; two marginal units have MB = MC = $4.
+- Gary B0; Amanda-Grace B4; Molly S0; Andrew S4.
+- Initial asks: `[4.25, 6, 6, 6, 5, 6, 6, 6, 6, 6]`; B0→S4, B4→S0.
+- Seed 268 gives 17 rounds, six matches, all matched prices $4. This seed is
+  chosen for a readable classroom run; arbitrary seeds need not give one price.
 
-This is a staging proposal to avoid jumping from the old companion's roughly
-$7 market to a different $4 population when testing deviations. It uses
-existing data, not newly invented curves. Keep the original small-pair examples
-as illustrative setups; clearly introduce the larger population at scale-up.
-The revised random-search run must earn its stopping state with these data.
-If it does not support the intended equilibrium demonstration, resolve the
-mechanism before animating a seamless handoff to the benchmark.
+Stopping is an exhaustive audit of permitted improvements, not a quiet random
+round. The tick-based search rule is not a proof of general convergence or of
+stability against every possible strategy. At the uniform $4 benchmark,
+Qd = Qs = 6, counting indifferent participants. Sorted marginal units have four
+strictly positive gains and two zero gains; this is not a claim that each
+observed pair has the same surplus split as that sorted pairing.
 
-**Proposed algebra placement:** after discovering the price, connect to the
-smooth market graph and solve the current notes' equations, then return to the
-saved crowd for deviations. Reuse the existing algebra beats rather than add a
-second derivation. Taylor/Fable can move this bridge within the back half as the
-script settles; the fixed requirement is discovery before deviations.
+## Graph bridge and algebra (implemented after discovery)
 
-Keep the scale change explicit. Six one-unit traders are not 40,000 pounds.
-The discrete crowd illustrates the mechanism; the lecture's aggregate example
-uses `D: P = 12 − Q/5` and `S: P = 2 + Q/20`, with Q in thousands of pounds,
-so Q* = 40 and P* = $4. Label that representation change before using the
-aggregate quantities.
+| Pause | Action | Values / reveal order |
+|---|---|---|
+| `4.b` | First graph; notes' recap | Keep the world beside a unit graph, x 0–10, y 0–8. Copies of buyer bars enter in arrival order, sort descending; sellers sort ascending. Add price $4 and Q=6 only after both staircases. |
+| `4.c` | Move to the aggregate example | Fade the crowd and unit graph. Explicit caption “Q in thousands of pounds.” New aggregate axes x 0–90, y 0–13; D: P=12−Q/5, S: P=2+Q/20. These curves represent a larger market, not a rescaling of six people. Leave numerical equilibrium answers off the graph. |
+| `4.d` | Solve quantity first | Side calculation: 2+Q/20=12−Q/5; Q/20+Q/5=10; Q/4=10; Q*=40. Reveal one step at a time. |
+| `4.d.i` | Then solve price | Substitute 40 into P=2+Q/20; obtain P*=$4. Carry quantity and price into graph guides only after the calculation. |
+| `4.e` | Read the combined graph | Red point and guides at (40,4); starred quantity and price. This fresh scene uses one combined graph from the bridge rather than introducing duplicate graphs just before combining them. |
 
-## Second branch · Test deviations after equilibrium
+Use B1/B2's grey divider, question titles, 0.7 minimum type, graph-to-math number
+transfers, and unknown-before-answer convention. The six units in the toy world
+are never labeled 40,000 pounds. Keep the representation change visible.
 
-Reuse the material in [02_Episode_Storyboard.md](02_Episode_Storyboard.md) and
-`Animate_A.py`, reorganized into the following back-half sequence. The old
-file's table remains an inventory of existing beats, not the new global order.
+## Deviations (back end)
 
-### Establish the comparison
+The notes' two tests return to the same cast. The discrete example and aggregate
+example share the price but have separate quantities. A small market represents
+one-unit participants; a smooth market represents thousands of pounds.
 
-Start from the saved equilibrium. Keep MB/MC, cast, graph positions, and the
-equilibrium marker fixed. Separate two experiments: a temporary market-wide
-price displaced from equilibrium, and one person's attempted better deal.
-Neither changes the supply/demand curves.
+| Pause | Action | Arithmetic / named move |
+|---|---|---|
+| `5.a` | $3 below equilibrium; supply trace then demand trace | Aggregate Qs=20, Qd=45. Discrete Qs=4, Qd=8. Show unknown before the corresponding substitution/answer. |
+| `5.b` | Name shortage with bottom definition and arrow | “Shortage: quantity demanded is greater than quantity supplied.” Amanda-Grace offers Molly $3.25; Gary is displaced. |
+| `5.c` | Continuous upward adjustment | Show offers increasing; return to the supported $4 state before the other experiment. |
+| `5.d` | $6 above equilibrium | Aggregate Qs=80, Qd=30. Discrete Qs=10, Qd=2. Unaccepted seller units remain visible. |
+| `5.e` | Excess terminology | “Excess: quantity supplied is greater than quantity demanded.” Textbook “surplus” is crossed out and replaced with “excess”; this does not relabel CS or PS. |
+| `5.f` | Molly cuts $6→$5 | Explicit staged reset has Gary at Andrew and Amanda-Grace at S5; Molly is unsold. Gary switches to Molly. This allocation is illustrative, not represented as the random discovery outcome. |
+| `5.g` | Continuous downward adjustment | Unaccepted sellers cut; matched buyers take strictly cheaper offers. |
+| `5.h` | Restore and test stability | Restore the saved uniform-price state. Select actual marginal participants: an MB-$4 buyer declines $4.25; an MC-$4 seller declines $3.75. Do not silently pretend these are necessarily the same pair in the discovery allocation. |
 
-### Below equilibrium · shortage and upward pressure
+The aggregate calculations use the full graph and side calculation, then return
+to the plaza beside its own **Units** graph. This keeps both sets of quantities
+legible. At $3 the four initially matched buyers are B0–B3, leaving Amanda-Grace
+first in the queue. At $6 Gary starts with Andrew and Amanda-Grace with S5.
+After the named offer, seeded random search resumes (upward seed 473, 18 rounds;
+downward seed 249, 27 rounds). Both presentation traces pass the stopping audit
+and end with six $4 trades. During individual price changes, remove the common
+price readout until a uniform transaction price is restored.
 
-Reuse episode `2.a`–`2.c`: set the common displayed price to $3, show the queue,
-then Amanda-Grace's offer of $3.25 to Molly and Gary's displacement/rebid.
-Continue the crowd response without adding per-person deliberation. Let the
-price-adjustment mechanism account for any claimed return toward $4.
+`5.b.i` holds the $3.25 switch; `5.d.i` holds the excess definition; `5.h.i`
+shows the MB-$4 buyer refusing $4.25, `5.h.ii` the MC-$4 seller refusing $3.75,
+and `5.h.iii` restores the equilibrium frame. Each final test uses an actual
+pair from the saved discovery state.
 
-At $3 the discrete cast has Qd 8 and Qs 4. In the separate smooth example,
-Qd = 45 and Qs = 20 thousand pounds. Never show one set of readouts on the
-other population's graph. Return to the saved equilibrium before the next test.
+## Reconciliation with the live notes
 
-### Above equilibrium · excess and downward pressure
+The notes changed again during this build: their latest 1.a/1.b brings the twin
+graph recap back to the opening and 4.e describes their first combination.
+Taylor's direct instruction here remains the animation's authority: **no graph
+before discovery**. This pass uses a combined stair-step graph at 4.b and a
+combined aggregate graph at 4.c, following the existing lecture prototype.
+The delayed twin-graph variant can replace that bridge when the writing arc is
+settled; it is not silently represented as already implemented. No notes edits
+were made to resolve this difference.
 
-Reuse episode `3.a`–`3.d`: set the displayed price to $6, leave unsold units
-visible, then show Molly's cut to $5, Gary's switch from Andrew, and subsequent
-cuts. Preserve the “excess” terminology. This is a useful callback to the
-earlier CS/PS close-up: excess units and gains from trade are different things.
+The new closing prose is still marked as a draft in the notes. Leave its final
+stage treatment with the PPF coda for the next pass rather than place a closing
+before that unresolved tieback.
 
-At $6 the discrete cast has Qd 2 and Qs 10. The smooth example has Qd = 30 and
-Qs = 80 thousand pounds. The $6 allocation currently uses named choice lists
-to put Gary with Andrew; retain this explicit staged reset rather than imply
-it is necessarily the allocation reached by the random run.
+## Remaining writing-dependent material
 
-### At equilibrium · an individual's deviation
+The final PPF tieback needs a carrot price or permission to reuse A3's explicitly
+illustrative exchange ratio. Do not derive a carrot price from the spinach
+market. The notes' proposed exercises and B4 closer still await Taylor's final
+wording. Keep those as storyboard targets; do not invent lecture prose or add
+unsupported numerical markets. B4 is the next block, not B5.
 
-Reuse episode `4.a` and `5.a` after restoring the equilibrium. Select the actual
-pair and outside options that support each comparison. The existing prototype
-tests Andrew raising $4 to $4.25 against an MB-$4 buyer, and an offer of $3.75
-against the seller's acceptable terms. The notes also discuss a seller cutting
-and a buyer offering more: use the same pair's payment/surplus geometry to show
-the consequence if those illustrations are retained in the revised script.
+## Validation record
 
-A seller losing a marginal buyer is an example with these values, not proof
-that every seller loses all business whenever a tag rises. Distinguish the
-successful switches shown during discovery from the lack of a profitable
-permitted deviation at the supported equilibrium. Restore the same snapshot
-after each attempt so the comparisons remain interpretable.
+- Pure rule suite: 35 tests pass in the shared checkout, including 10 new
+  discovery tests. The three presentation traces have six $4 matches, total
+  gains $12, unique reservations, no losses, and no remaining permitted moves.
+- Full GPU render: 2160×1080, 15 fps, 299 checkpoints, 34 named teaching holds,
+  174.47 seconds of motion (classroom pauses add time in the player).
+- Reviewed actual stopped frames: first deliberation, all five accounting
+  regions, switching, crowd settlement, graph sorting, algebra, both deviation
+  calculations, shortage/excess, named switches, and stability.
+- Eight backward/forward restores across 3D and 2D scenes reproduce their
+  original rendered frames exactly (maximum channel error 0). The browser player
+  also passed an actual forward/reverse camera-transition check.
+- Preview: `media/EpisodeB3_present/index.html`, generated locally; it is not
+  a published course artifact. Rebuild with `--export-present`. The application
+  supplies the standard ManimL forward/reverse controls.
 
-### Coda · Prices coordinate choices
-
-Return to the notes' PPF question using the existing `5.b` material. A price
-ratio connects the markets to specialization and the choice of quantities.
-The carrot price is still unspecified in the current notes; keep that writing
-decision visible rather than fabricate a second market equilibrium. The current
-prototype's A3 rate is an illustrative reuse, not a derived carrot price.
-
-## Editing and implementation order
-
-The small-player branch comes first in both the build and the eventual playback.
-Next implement the crowd and its saved outcome, then the deviations using the
-same data and visual vocabulary. Keep the one-pair price line and close-up as
-the first visual review milestone.
-
-For now identify beats by **scene + existing ID** (`PriceDiscovery:1.a`,
-`PostedPrice:2.a`, and so on); both scenes already use the same dotted numbers
-for different content. Choose unified literal pause IDs when a combined scene
-is actually built. Do not renumber the author's note cues during this planning
-pass. Keep the existing files runnable as references and record implemented
-changes in the detailed storyboard when coding begins.
-
-Writing reconciliation is now explicit: discovery precedes deviations; the
-companion/lecture split and algebra's exact placement are still editorial;
-the small-pair surplus explanation is requested. The existing rice/spinach,
-Marryville/Maryville, Cindy/Amanda-Grace, and pounds/kilograms differences remain
-for the writing pass. Animation layout and draft fixtures must not silently
-settle those choices.
+Gary's initial small-market position is spread left of Amanda-Grace so her MB
+label clears his bar. Unsold offers turn grey at settlement; matched $4 tags
+stay red. Price-change arrows repeat in discovery and the deviation runs.
+Deleting a match removes both its elevated line and its floor shadow.

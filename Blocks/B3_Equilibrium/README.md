@@ -1,17 +1,35 @@
 # B3 · Equilibrium
 
-Start here for the B3 animation work. Inventory and storyboard pass: September 20,
-2026. The new mechanics are specified; the running scenes have not been revised
-in this pass. The agreed animation order is **small-player discovery first,
-deviations from equilibrium afterward**, within one developing arc.
+The fresh animation is **[03_Equilibrium.py · EpisodeB3](03_Equilibrium.py)**.
+Its [current storyboard](02_Storyboard.md) follows the implemented order:
+small-player discovery → equilibrium → graph/algebra → deviations.
+Taylor/Fable own [01_Notes.md](01_Notes.md); animation work does not edit it.
+
+From the repository root:
+
+```sh
+maniml Blocks/B3_Equilibrium/03_Equilibrium.py EpisodeB3
+```
+
+For a local preview with named teaching stops in both directions:
+
+```sh
+maniml Blocks/B3_Equilibrium/03_Equilibrium.py EpisodeB3 --export-present
+```
+
+Open `media/EpisodeB3_present/index.html`. The preview currently ends after the
+stability checks (`5.h.iii`); the PPF tieback and final exercise/closing treatment
+remain storyboard items. Rendered previews can be regenerated from the source.
 
 ## Current work
 
 | Material | Purpose and status |
 |---|---|
-| [01_Notes.md](01_Notes.md) | Taylor's lecture and companion notes; Fable owns this file. Taylor's animation directions are recorded verbatim in the [storyboard](02_Companion_Storyboard.md#taylors-animation-directions-verbatim). |
-| [02_Storyboard.md](02_Storyboard.md) | Start here for the overall arc: source notes reviewed, discovery → graph → deviations, the shared-cast proposal, and the writing handoff. |
-| [02_Companion_Storyboard.md](02_Companion_Storyboard.md) | Detailed first branch: current implementation, requested mechanics, small-player close-up, crowd beats, and checks. The previous plan is retained as collapsed history. |
+| [03_Equilibrium.py](03_Equilibrium.py) · `EpisodeB3` | Current flat scene: first deliberation through both deviations and stability. |
+| [../Sim/discovery.py](../Sim/discovery.py) | Current pure random-search rules; tests in `test_discovery.py`. |
+| [01_Notes.md](01_Notes.md) | Current lecture script; Taylor/Fable own this file. Taylor's animation directions are recorded verbatim in the [storyboard](02_Companion_Storyboard.md#taylors-animation-directions-verbatim). |
+| [02_Storyboard.md](02_Storyboard.md) | Current implementation map, actual values/pauses, validation, and writing reconciliation. |
+| [02_Companion_Storyboard.md](02_Companion_Storyboard.md) | Historical first-branch design, source inventory, and verbatim animation directions. The current map is `02_Storyboard.md`. |
 | [Animate.py](Animate.py) · `PriceDiscovery` | Existing 3D companion: circular plaza, floating marginals, camera/spotlight choreography, midpoint bargaining, and a fixed graph. This is the visual foundation for the revision. |
 | [02_Episode_Storyboard.md](02_Episode_Storyboard.md) | In-progress lecture storyboard: shortage → excess → equilibrium → algebra → PPF tieback. Its description of the companion as the midpoint-only alternative predates the new direction. |
 | [Animate_A.py](Animate_A.py) · `PostedPrice` | In-progress lecture prototype with seller tags, queues, unsold units, and price adjustment. The filename's “A” does **not** mean companion/Track A. |
@@ -34,9 +52,8 @@ maniml Animate_A.py PostedPrice
 ```
 
 These commands open the existing prototypes, including their older mechanics.
-Both source files parse. This organization pass did not render them or certify
-their current visual behavior. The existing pure-Python model suite passes
-all 25 tests in this checkout:
+Both prototype source files parse; their current visuals were not certified in
+this fresh-scene pass. The shared pure-Python model tests can be run with:
 
 ```sh
 python3 -m unittest discover -s Blocks/Sim -v
@@ -56,9 +73,8 @@ of sellers' prices and continuous action, with no deliberation stop per visit.
 The [overall storyboard](02_Storyboard.md) puts the two branches in the agreed
 order and records the relevant Part B outline and script sources. The
 [detailed first-branch storyboard](02_Companion_Storyboard.md) distinguishes Taylor's
-instructions from staging proposals and tuning choices. Its first reviewable
-implementation should be the two-player price line and close-up; the crowd
-follows once the price/search rules have been tested, then the deviations.
+instructions from staging proposals and tuning choices. The new scene implements the two-player close-up, the crowd, the later graph
+and algebra, and the deviations; use its current beat map when reviewing.
 
 ## Earlier material and reference sources
 

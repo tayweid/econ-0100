@@ -1,6 +1,9 @@
 # B3 · Building Equilibrium in 3D
 
-Revision storyboard · September 20, 2026 · **Organize and storyboard first.**
+Historical design brief · September 20, 2026. The current implementation and
+pause map are [03_Equilibrium.py](03_Equilibrium.py) and [02_Storyboard.md](02_Storyboard.md).
+The inventory and proposals below describe the earlier sources; the verbatim
+animation directions remain authoritative where not superseded by Taylor.
 
 The existing scene is [Animate.py · PriceDiscovery](Animate.py). Its current
 behavior is recorded below. The new beats are a plan for the next implementation
