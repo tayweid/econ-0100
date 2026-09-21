@@ -56,7 +56,7 @@ their existing widths.
 
 | Pause | Script / action | Stopped frame |
 |---|---|---|
-| `0.a` | Shared MICROECONOMICS bumper, Part B / Episode 3 | Notes' thesis, “Equilibrium: when no one wants to change.” |
+| `0.a` | Shared MICROECONOMICS bumper, Part B / Episode 3 | Camera faces straight down onto the XY plane (phi/theta/gamma 0, center origin, height 8). After the bumper fades, resume the existing 58° plaza view. Notes' thesis, “Equilibrium: when no one wants to change.” |
 | `2.a` | Notes 1.a/2.a: the question and the first exchange | Gary and Molly start nearby (x=±1.65), with no offered price yet. Teal MB $6, orange MC $2 above their orbs. Question title: “Would they exchange?” |
 | `2.a.i` | Taylor's first-deliberation direction | Camera faces the pair from the side. Buyer left, seller right at x=±1.45; their original bars move inward between them, broaden to 1.10 units with a 0.12 gap. Molly’s MC bar, label, and orb remain orange throughout. Dashed red offer at $4, matching faint floor shadow. Only the bottom question, “Would they both accept this price?”, enters after the camera settles. No payoff labels yet. |
 | `2.b` | Accept on advance | Remove question; fill the gaps in the stationary red price and shadow over 0.45 seconds. The existing dashes and price label remain fixed as the offer becomes solid. |

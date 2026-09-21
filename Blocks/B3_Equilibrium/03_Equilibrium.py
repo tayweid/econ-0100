@@ -61,6 +61,8 @@ class EpisodeB3(ThreeDScene):
             m.face_mat = cur
 
         # ---- 0.a · Shared B1/B2 bumper, before turning into the 3D world.
+        self.set_camera_orientation(phi=0, theta=0, gamma=0)
+        self.camera.frame.move_to(ORIGIN).set_height(8)
         squares = bumper_raster(self)
         flicker(self, squares)
         episode = bumper_title(self, squares, 'B', 3)
