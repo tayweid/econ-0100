@@ -59,7 +59,7 @@ choreography remains sequential inside `construct()`.
 | `2.b.iv` | Move the marginal-cost label | Keep the orange area 0–2. Slide the existing orange “MC $2” label from above its bar to the right of that lower area in 1.2 seconds, as the area settles into the accounting view. Do not replace it with “Cost.” Restore its above-bar tracking position before Amanda-Grace's first offer. |
 | `2.b.v` | Producer surplus | Outline the upper region between MC $2 and price $4 in orange, with no orange fill; inset the border 0.045 world units on all four sides so it fits visibly inside the green revenue boundary. This inset is a highlight margin, not a change to the $2 surplus. Then reveal “PS $2.” Expenditure equals revenue; total gain $4 = 6−2. |
 | `2.b.vi` | Make the single-unit interpretation explicit | “One unit” bottom caption. Bars have widened visually; quantities have not changed. |
-| `2.c` | Keep the close-up as Amanda-Grace enters | Preserve the head-on composition at 30% world scale and a matching 2.16-unit camera height. Molly stands at (3.5, 1.2) on the centered radius-3.7 seller arc; Gary and Amanda-Grace flank her at x=2.63 and 4.37, all within the plaza. Scale the people, bars, attached text, and dollar heights together. All three people then stay still throughout the bidding. Keep MB $6/$7 fixed left/right, with Molly’s MC $2 beside Gary initially. His accepted $4 line and label remain solid red. No side curves yet. |
+| `2.c` | Center the three-person close-up on the plaza | Keep the first pair's head-on camera at center (0, 0, 2.05), height 7.2, and original world scale. Slide Gary and Molly 1.45 units left: Gary at x=−2.9, Molly at x=0. Amanda-Grace enters at x=2.9, all y=0, balanced around the plaza center. Move the existing bars, names, and $4 line with the pair. All three people then stay still throughout bidding; only Molly's MC switches between the two MBs. No side curves yet. |
 | `2.c.i` | Compare a new offer with the standing deal | Show Amanda-Grace’s dashed $4.25 line and label in the right-hand comparison, while Gary’s solid $4 line and label remain on the left. Hold “Would Amanda-Grace gain by offering $4.25?” Both MBs stay fully visible. On advance, slide only Molly’s MC bar and attached MC label to Amanda-Grace’s side. After the slide, fill the new offer's gaps in place over 0.45 seconds while fading Gary’s former line/price. The new dashes, endpoints, and price number never shift during acceptance; its floor shadow fills in the same way. |
 | `2.c.accepted` | Make her incentive explicit | Hold “Amanda-Grace gains $7−$4.25=$2.75.” Her $4.25 line is now solid; MC $2 is beside MB $7. All people and both MB bars remain at their original positions. |
 | `2.c.ii` | Gary responds without walking | Show Gary’s dashed $4.50 offer alongside Amanda-Grace’s standing solid $4.25. Pause before Molly’s MC moves back to Gary; then solidify his offer and remove the old deal. Continue the same offer → MC slide → acceptance sequence for the remaining quarter-dollar bids. |
@@ -83,7 +83,7 @@ green boundary transferred from expenditure, and its PS fill with an outline.
 
 | Pause | Action | Stopped frame |
 |---|---|---|
-| `3.a.plaza` | Keep the bidding outcome through one pullback | Clear the question and marginal/name labels, retaining the accepted $6.25 line, its shadow, and price number. In one 2.2-second camera move, tilt to 48° and widen to height 10.4. Molly stays at (3.5, 1.2) on the seller arc. Amanda-Grace approaches to (4.1, 0.85), just beside Molly and inside the plaza. Gary returns directly to his buyer-arc place, approximately (−3.53, 1.12), leaving the deliberation circle empty. Bring the same people, bars, and price line to their normal plaza sizes and compact paired positions. Hold before adding graphs. |
+| `3.a.plaza` | Keep the bidding outcome through one pullback | Clear the question and marginal/name labels, retaining the accepted $6.25 line, its shadow, and price number. Keep the approved 2.2-second pullback, final 48° tilt, height 10.4, and final market positions. From the centered close-up, Molly reaches (3.5, 1.2) on the seller arc, Amanda-Grace reaches (4.1, 0.85) beside her, and Gary reaches his buyer-arc place, approximately (−3.53, 1.12). Keep the center empty. Bring the same people, bars, and price line to their normal plaza sizes and compact paired positions. Hold before adding graphs. |
 | `3.a.overview` | Add the two marginal curves together | Both side panels and their sorted columns fade in together where they belong: MB $7/$6 on the left, MC $2 on the right. No copies fly across the plaza. Carry the $6.25 number to Molly's compact price tag, add her dashed graph price, and retain the original solid world-price line. Hold before Andrew enters. |
 | `3.a.entry` | Andrew enters deliberately | Keep the settled camera, Molly’s station, and Amanda-Grace’s $6.25 deal. Andrew enters at another fixed seller station; show MC $4 first, then his price $4.25 just above it in the world and supply graph. The price caption reads only “$4.25,” without “Ask.” Retain the four names for these decisions. Gary is still unmatched. |
 | `3.a.switch.options` | Amanda-Grace reconsiders | She returns to the hub. Highlight her MB-$7 bar and compare Molly $6.25 with Andrew $4.25 on the supply graph. Hold “Would Amanda-Grace keep paying $6.25?” |
@@ -236,7 +236,8 @@ beside his body. Amanda-Grace's name sits 0.55 units toward the front and up
 to 1.8 units toward the plaza center, blending its side offset as she crosses
 the hub. This clears Andrew's MC bar and keeps her long name inside the plaza
 when she returns to the buyer arc.
-Molly keeps her (3.5, 1.2) station, Andrew stays
+After the centered close-up resolves into the market, Molly keeps her
+(3.5, 1.2) station, Andrew stays
 at (3.5, −1.2), and further sellers fill the right arc. Only buyers walk between
 stations and the center. The worked survey highlights the three world sellers
 and their corresponding supply columns in the same order before the question
@@ -280,6 +281,14 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 centered-close-up correction: retained the first Gary/Molly
+  scene and its camera framing. The pair shifts left 1.45 units to admit
+  Amanda-Grace, producing a centered −2.9/0/+2.9 lineup on y=0. Live-reviewed
+  the three-person entrance, final $6.25 comparison, and subsequent pullback.
+  The plaza is balanced behind the close-up; the approved final market
+  positions, 2.2-second pullback timing, and final camera are unchanged.
+  Syntax/whitespace checks pass. No movie or checkpoint-image export needed.
 
 - September 21 buyer navigation: added eight circle-arrival pauses, one for
   the third buyer and seven during subsequent growth. Checked the simulation

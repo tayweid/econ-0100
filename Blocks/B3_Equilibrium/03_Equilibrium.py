@@ -258,14 +258,13 @@ class EpisodeB3(ThreeDScene):
                   FadeOut(seller_cost), FadeOut(seller_ps), FadeOut(expenditure_label),
                   FadeOut(cs_label), FadeOut(revenue_label), FadeOut(cost_label),
                   FadeOut(ps_label), FadeOut(zero), FadeOut(zero_word), FadeOut(price_word))
-        # Fit the head-on tableau around Molly's actual seller-arc station.
-        # Scale the camera and the whole comparison equally, preserving its
-        # screen composition while keeping Amanda-Grace inside the plaza.
-        BID_SCALE, ARC_RADIUS = 0.3, 3.7
+        # Keep the first pair's camera and plaza framing. Slide Gary and Molly
+        # left together, then admit Amanda-Grace on the right of the center.
+        BID_SCALE, ARC_RADIUS = 1.0, 3.7
         BID_BASE, BID_DOLLAR_HEIGHT = BAR_BASE * BID_SCALE, DOLLAR_HEIGHT * BID_SCALE
         BID_WIDTH = CLOSE_WIDTH * BID_SCALE
-        bid_y = 1.2
-        molly_x = np.sqrt(ARC_RADIUS ** 2 - bid_y ** 2)
+        bid_y = 0.0
+        molly_x = 0.0
         bid_body_x = {'buyer': molly_x - 2.9 * BID_SCALE, 'seller': molly_x,
                       'challenger': molly_x + 2.9 * BID_SCALE}
         bid_mb_x = {'buyer': molly_x - 2.06 * BID_SCALE,
