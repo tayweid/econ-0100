@@ -240,9 +240,9 @@ price tag sits 0.65 units right of her MC bar, 0.25 above the current price
 height, clear of the compact red line. The initial $6.25 readout changes to its
 tracked tag in the same position. Andrew's entry price retains its position
 beside his body. Amanda-Grace's name sits 0.55 units toward the front and up
-to 1.8 units toward the plaza center, blending its side offset as she crosses
-the hub. This clears Andrew's MC bar and keeps her long name inside the plaza
-when she returns to the buyer arc.
+to 0.65 units toward the plaza center, blending its modest side offset as she
+crosses the hub. This keeps the name close to her orb, clear of Andrew, and
+inside the plaza when she returns to the buyer arc.
 After the centered close-up resolves into the market, Molly keeps her
 (3.5, 1.2) station, Andrew stays
 at (3.5, −1.2), and further sellers fill the right arc. Only buyers walk between
@@ -297,6 +297,14 @@ wording. Keep those as storyboard targets; do not invent lecture prose or add
 unsupported numerical markets. B4 is the next block, not B5.
 
 ## Validation record
+
+- September 21 Amanda-Grace name spacing: reduced her maximum inward offset
+  from 1.8 to 0.65 world units, retaining the existing front offset and camera
+  facing. Checked the reported “Why is Gary left out?” hold, her deliberation
+  in the hub, and her waiting position after being outbid. The name stays
+  close and clears Andrew and the side graphs. All other choreography is
+  unchanged; syntax/whitespace checks pass. Refreshed the live market
+  checkpoints and left the viewer on the reported hold.
 
 - September 21 staircase refinement: reduced the combined graph's bar fills
   from 0.20 to 0.06 and removed box borders. Each curve is now one continuous

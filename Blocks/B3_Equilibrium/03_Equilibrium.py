@@ -17,6 +17,9 @@ from importlib import reload
 # Refresh the pure model when ManimLive reloads this scene.
 simulate = reload(discovery).simulate
 
+# A modest inset keeps Amanda-Grace's long plaza label close to her orb.
+PLAZA_NAME_INSET = 0.65
+
 
 class EpisodeB3(ThreeDScene):
     default_camera_config = {'fps': 15}
@@ -653,7 +656,7 @@ class EpisodeB3(ThreeDScene):
                     label.inward = key == ('B', 4)
                     label.add_updater(lambda m: m.move_to(
                         np.array([*m.anchor.get_center()[:2], 0.13]) + m.offset
-                        + (LEFT * 1.8 * np.clip(m.anchor.get_x(), -1, 1) if m.inward else ORIGIN)))
+                        + (LEFT * PLAZA_NAME_INSET * np.clip(m.anchor.get_x(), -1, 1) if m.inward else ORIGIN)))
                     label.update()
                     entry_names[key] = label
                 self.play(*[FadeIn(label) for label in entry_names.values()], run_time=0.4)
