@@ -184,4 +184,6 @@ plan 0100 simulation: equilibrium sim by using math to predict the price before.
 
 > but for you as we do that, lets plan to start with the small number of players first, building up equilibrium, then do the deviations ansimations on the back end.
 
+> oh and the picture i have in my mind about the marginal analysis for the two players with their marginals is to face them from the side, with the buyer on the left and the seller on the right, their marginals sitting between them, almost touching, and then a price somewhere on the vertical, and we pause to consider (nothing major in the animations besides a question bottom text) whether they would accept or not. and maybe we do this for the first deliberation, so show what's actually being done at the deliberation stage.
+
 Animation plan: [overall arc](02_Storyboard.md) and [detailed first branch](02_Companion_Storyboard.md).

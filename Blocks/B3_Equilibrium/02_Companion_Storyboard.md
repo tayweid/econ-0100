@@ -26,6 +26,13 @@ the buyer's MB and the seller's MC. Up close, those same marginals and that
 same price reveal payment, receipts, and gains. The ground connection is the
 price line's shadow, so the wide shot and the close-up describe the same deal.
 
+Enter that close-up at the **first deliberation, before acceptance**. Face the
+pair from the side: buyer on the left, seller on the right, their marginals
+between them and nearly touching. Hold the proposed price at its height on
+the common vertical scale. Once framed, only a bottom question appears:
+“Would they both accept this price?” Let the class consider it before showing
+the choice; the expenditure and surplus explanation follows the decision.
+
 Keep the small-cast deliberation: students need time to see a choice. At ten
 buyers and ten sellers, show short random price checks and the resulting
 actions continuously. The change in pacing should make the market legible
@@ -65,7 +72,8 @@ storyboard rather than treating the two files as unrelated lesson openings.
   An unmatched buyer has no transaction price; do not relabel MB as their price.
 - **One dollar scale per view.** Both head-bars start at the same dollar-zero
   elevation. With baseline `z0` and scale `k`, draw price at `z0 + k * p`.
-  Connect the buyer's and seller's horizontal positions at that height. A price
+  Connect the two marginal anchors at that height, following their inward
+  movement in the close-up as well as their usual positions over the players. A price
   between MC and MB is a horizontal crossbar, not a sloped line joining their
   bar tops. A faint neutral guide can extend above the seller's MC; it must not
   look like additional cost.
@@ -78,11 +86,21 @@ storyboard rather than treating the two files as unrelated lesson openings.
   is solid. A switch replaces the incumbent connection and its shadow together.
   The match remains provisional while displacement is allowed. Complete trades
   once at the end of the period; cancelled matches never accumulate realized gains.
-- **The close-up keeps the objects.** Move the two players and their attached
-  marginals near one another, with a narrow horizontal gap and aligned dollar
-  baselines. Do not move the tops together or alter their values. Orient the
-  camera so their common height scale is readable, then hold it during analysis.
-  Fade the market panel during this close-up; restore it when returning wide.
+- **The close-up is a side view.** Place the buyer at screen left and seller
+  at screen right, facing one another. Move their own marginal bars inward so
+  the left-to-right order is **buyer · MB bar · MC bar · seller**, with a narrow
+  gap between the bars. Retain their identities, common dollar baseline, and
+  original heights; do not move their tops together. View the bars squarely
+  from the side, at equal depth, so their shared vertical scale is readable.
+  Hold the camera still once this composition is established. Fade the market
+  panel during the close-up; restore the original bar offsets and panel when
+  returning wide.
+- **Deliberation is a quiet hold.** Before the first acceptance, retain the
+  contemplated connection, both marginals, and the proposed price. Fade in
+  only the bottom question, “Would they both accept this price?” Use the
+  established centered bottom-text size and margin, with `DEFINITION` gold
+  for the question. No answer, inequality chips, surplus fills, acceptance
+  animation, or price sweep appears during this hold. Resume only on advance.
 - **Graphite meanings persist.** Price/bid/ask: `GUIDE` red. MB and CS:
   `DEMAND`. MC and PS: `SUPPLY`. Expenditure/cost when explicitly taught:
   `GOV` green, with labels distinguishing their roles. Use faint grey for these
@@ -149,31 +167,40 @@ small space for the one-buyer/one-seller example; do not reveal the full crowd
 first. Move the existing crescent assembly and world/panel sorting to `3.a`,
 when the population actually expands. Pause at `0.a` on the simple setup.
 
-### 1.a · One buyer, one seller, one price
+### 1.a · First deliberation, seen from the side
 
 Use the existing MB $10 / MC $4 pair. **Proposed initial ask: $7**, retaining
 the current example's number but making it a posted input. Show the ask before
-the buyer's approach. The buyer checks $7 against MB $10; the seller's MC stays
-$4. The dashed connection at price height follows the approach, then becomes
-solid when accepted. Reveal its floor shadow and the same $7 tick on the panel.
+the buyer's approach. The buyer considers $7 against MB $10; the seller's MC
+stays $4. The dashed connection at price height follows the approach. Reveal
+its floor shadow and the same $7 tick on the panel; the pair is not matched yet.
 The small fixed panel uses Q = 0–2 one-unit slots and P = 0–12 dollars/unit,
 enough for this pair and the next small-cast example.
-Remove the old “split the difference” formula. Pause at `1.a` with one match,
-one price, and no accounting labels yet.
+Remove the old “split the difference” formula. Fade the fixed panel and turn
+to the side view: buyer left, seller right, MB and MC bars nearly touching
+between them. Keep the same dollar baseline and proposed red price at $7.
+Label MB $10, MC $4, and Price $7 on the model before the hold. The players
+remain visible outside the bars, with no overlapping silhouettes.
 
-### 1.b · Zoom into the same exchange
+Once the camera stops, fade in the bottom question, “Would they both accept
+this price?” Pause at `1.a`. The offer remains dashed and unaccepted; the only
+new animation at the question is the text appearing. This is the first
+deliberation made visible, not an explanation added after a completed match.
 
-Fade the panel and background cast. Bring the two attached marginals almost
-together, keeping a common zero and their original heights, and push the camera
-in until the bars carry the frame. Keep enough of the players visible to preserve
-identity. The red price crossbar stays at $7 throughout the transformation.
+### 1.b · Resolve the decision, then inspect the gains
+
+Stay in that same side-on close-up when advancing from `1.a`; do not pull
+back and zoom in again. The red price crossbar stays at $7, and both marginal
+values stay fixed. The quiet question hold comes before all the reveals below.
 
 Ordered close-up holds:
 
-1. **`1.b.i` · Read the marginals.** Label MB $10, MC $4, and Price $7 on the
-   model, with a common zero baseline. The price is visibly between their tops.
-   Reserve equal illustrative widths for the two views of the same one unit;
-   bringing them together does not create a second unit.
+1. **`1.b.i` · Resolve the first deliberation.** Remove the bottom question
+   before revealing the answer. The displayed price is below the buyer's MB
+   and above the seller's MC, so this pair accepts. Solidify the connection
+   and its shadow together with no extra celebratory motion. Keep the same
+   bars and price visible. Reserve equal illustrative widths for the two
+   views of this one unit; bringing them together does not create a second unit.
 2. **`1.b.ii` · The buyer.** Reveal the buyer's expenditure region from 0 to 7;
    then its label and $7. Reveal the region from 7 to 10; then name CS and show
    `10 − 7 = $3`. Keep the calculation beside the region, not in a sidebar.
@@ -281,8 +308,10 @@ until the revised sequence is ready to compare.
   verified settlement. Keep the existing 25 model tests passing.
 - **Accounting:** at 10/4/7, verify expenditure = receipts = 7, CS = PS = 3,
   and CS + PS = 6. Check zero-gain boundaries without negative fill heights.
-- **Visuals:** inspect price-height alignment, floor projection, label legibility,
-  near-touching bars with unchanged values, region-before-label reveals, and
+- **Visuals:** inspect the side-on order (buyer, MB, MC, seller), price-height
+  alignment, floor projection, and label legibility. At `1.a`, confirm the
+  question is the only new element after framing and the match is still
+  unaccepted. Then check near-touching bars with unchanged values, region-before-label reveals, and
   the restoration to the plaza. Review forward, backward, replay, and export.
 - **Pacing:** hold the small-cast choices; watch the ten-per-side run continuously
   to confirm there are no inherited survey pauses or repetitive camera turns.

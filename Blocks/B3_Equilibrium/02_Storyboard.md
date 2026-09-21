@@ -8,7 +8,7 @@ across the two existing animation branches while Taylor and Fable develop one
 coherent script. “Companion” and “episode” in existing filenames identify source
 material; they do not determine the eventual video split or playback order.
 
-**Playback:** one exchange → close-up of its marginals and price → a few players
+**Playback:** one pair → side-on deliberation → acceptance and marginal analysis → a few players
 choosing and switching → a larger market settling → read the equilibrium on
 the graph → move price away and watch incentives → return to the PPF question.
 
@@ -35,11 +35,17 @@ Detailed staging lives in [02_Companion_Storyboard.md](02_Companion_Storyboard.m
 Reuse `PriceDiscovery` as the visual foundation. Open with a few people: move
 the existing twenty-person establishing/sorting sequence to the scale-up beat.
 
-1. **One pair.** Give the seller an explicit ask distinct from MC; let the buyer
-   compare it with MB. Show the red price-height connection and its floor shadow.
-2. **The same pair, close up.** Bring their marginals nearly together. Keep one
-   price dividing buyer expenditure/CS and seller cost/PS, with seller receipts
-   equal to buyer payment. These are the same people and same deal throughout.
+1. **One pair's first deliberation.** Show an ask distinct from MC and the
+   contemplated price connection with its floor shadow. Before acceptance,
+   turn to a side view: buyer left, seller right, their MB and MC bars between
+   them and nearly touching. Hold the red price at its vertical position.
+   Once framed, only the bottom question appears: “Would they both accept
+   this price?” Pause for the class to consider the decision.
+2. **Resolve, then analyze the same pair.** On advance, remove the question
+   and reveal their choice. Stay in the same side view for the existing
+   expenditure/CS and cost/PS explanation, with receipts equal to payment.
+   The first deliberation therefore shows what the later abbreviated checks
+   mean; the accounting does not reveal the answer before the question hold.
 3. **A few players.** Keep deliberate comparison, the held preferred connection,
    the challenger/incumbent/seller spotlight, and a clearly explained switch.
 4. **The crowd.** Introduce ten buyers and ten sellers, sort their marginal

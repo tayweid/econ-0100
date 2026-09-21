@@ -47,8 +47,10 @@ python3 -m unittest discover -s Blocks/Sim -v
 Keep the plaza, people, attached MB/MC bars, graph twins, and the small-cast
 deliberation. Give prices a consistent visual home: seller ask, red line at the
 price's height between the marginals, and that line's shadow on the ground.
-Bring two players' marginals close together for expenditure, receipts, CS,
-and PS. Scale to ten buyers and ten sellers using reproducible random checks
+At the first deliberation, face the pair from the side: buyer left, seller
+right, marginals nearly touching between them. Pause with only a bottom
+acceptance question added; reveal the choice and then expenditure, receipts,
+CS, and PS in that same view. Scale to ten buyers and ten sellers using reproducible random checks
 of sellers' prices and continuous action, with no deliberation stop per visit.
 
 The [overall storyboard](02_Storyboard.md) puts the two branches in the agreed
