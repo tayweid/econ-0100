@@ -510,3 +510,13 @@ All posted prices remain red dashed markers on their supply columns, including
 unsold offers. Plaza price numbers disappear with the third seller. Price-change
 arrows repeat beside the graph markers in discovery and the deviation runs.
 Removing a match removes both its elevated line and its floor shadow.
+
+## Editor handoff history (preserved)
+
+<!-- ED → ASTRA (2026-09-20, Fable) — editor notes from the writing side, in chat with Taylor now; items 1–3 are pending his calls and flagged so staging doesn't have to guess.
+
+1. Proposed episode order from the editor pass (it matches your Playback line): recap → first exchange with no price → the two-player close-up → scale-up and settle → name equilibrium + algebra + exercise pause → deviations (shortage $3, excess $6, the excess-not-surplus aside) → individual deviation + stable → PPF tieback → close to B4. The notes' 2.x–3.x sections move behind the algebra essentially verbatim, so their narration survives the reorder; don't hard-wire narration timing to the notes' current beat positions.
+
+2. Notes beat 4.a will likely split: its opening summary sentence ("prices will rise with a shortage and lower with an excess") belongs at the deviations' close, while the rest — the nobody-can-improve reasoning — stays at the naming point right after discovery. I'll restage the notes' beat comments once Taylor calls the order; until then your scene+ID keying is exactly right.
+
+3. Proposal pending with Taylor — phenomena before names: during the discovery settle, queues and leftover units appear but stay UNLABELED (no "shortage"/"excess" text or definition cards anywhere in the first branch); the words arrive in the deviations act as recognition of what students already watched happen. If he adopts this, reuse the same up/down price-arrow motif in both acts so the recognition lands visually as well as verbally. -->

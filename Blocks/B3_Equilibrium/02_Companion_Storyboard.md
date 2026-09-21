@@ -113,6 +113,8 @@ storyboard rather than treating the two files as unrelated lesson openings.
   supporting regions when only surplus is the focus. All labels use Tex and
   shared style tokens; 2:1 frame, 15 fps, sparse on-model text.
 
+<!-- ED → ASTRA (2026-09-20, Fable) — the close-up is a reunion, not an introduction. Students have seen each half of this picture once already: B1 splits a standing bar at the PRICE into Expenditure below and CS above; B2 splits one at the COST line into Cost below and PS above, "keeping the full revenue rectangle visible," with the widening move narrated as "magnification, not more spinach." Stage this close-up to rhyme with those two (same widening/fade grammar, flat line inside a bar), and pacing can be brisker than a first exposure — the only genuinely new element is the two bars sharing one frame with the price between them. Vocabulary catch: the course's label words are Expenditure + CS (buyer, B1) and Revenue + Cost + PS (seller, B2) — the 1.b.iii "receipts"/"receipt brace" idea is fine as geometry, but the on-screen label should read Revenue. Taylor's direction confirms "expenditure" for the buyer side. Color check, not a directive: whatever colors B1/B2's rendered bars already taught for expenditure and cost should win over a fresh assignment, if they differ from the GOV plan above. And the 1.a bottom-text question is a good predict-then-run beat (it is Taylor's own quoted picture, and matches his pit-market plan) — just get his sign-off on the exact student-facing wording before render. -->
+
 ## Mechanics to implement next
 
 Taylor specified posted starting prices, cuts when no one buys, outbidding,
@@ -192,6 +194,9 @@ Once the camera stops, fade in the bottom question, “Would they both accept
 this price?” Pause at `1.a`. The offer remains dashed and unaccepted; the only
 new animation at the question is the text appearing. This is the first
 deliberation made visible, not an explanation added after a completed match.
+
+<!-- ED → ASTRA (2026-09-20, Fable) — open CHOICE with Taylor: whether this close-up pair keeps the 10/4 fixture or is drawn from the $4 crowd, so the same faces persist from first deal through scale-up into the deviations branch. His discovery prose may end up naming these numbers, so keep them swappable (they already are) and don't lock any narration-adjacent text to 10/4/$7 yet. -->
+
 
 ### 1.b · Resolve the decision, then inspect the gains
 
@@ -302,6 +307,9 @@ Final wording and placement remain with Taylor/Fable. Do not automatically
 end the lesson here: the deviation animations follow discovery. These points
 can be brief observations at the settled market or join the overall coda.
 
+<!-- ED → ASTRA (2026-09-20, Fable) — editor lean on placement, pending Taylor: B4 owns the full caveats (they are FWT territory there), and B3 keeps at most the wordless version — the dim nontraders staying visible says "not everyone trades" without a caption. -->
+
+
 ## Next implementation pass and review
 
 Build the two-player line, shadow, and close-up first. Review `1.a` through
@@ -406,6 +414,22 @@ Determinism for the build: agents act in ID order (no randomness, so checkpoints
 | 10×10 | full | proposed default: MB = 12, 11, …, 3; MC = 2, 3, …, 11 — crossing band ≈ $7, about 5 matches; integer midpoints throughout |
 
 Stop at 10 (per spec). The 10×10 lists are an animator default — swap freely; they live as constants at the top of the scene file. Note the companion's crowd is its own small world: the episode's market curves (S: 2 + Q/20, D: 12 − Q/5, in thousands of pounds) are the limit this staircase gestures at, not this cast's literal data.
+
+## Reference | Primer, "Simulating Supply and Demand" (2019)
+
+<!-- ED/ANIMATOR (2026-09-17, per chat) — the professor's named reference for this scene. It is the same video already posted on the B3 course page as the "Simulating a Market" extra (youtube id PNtKXWNKGN8), so students will see both; the scene should rhyme with it, not copy it. CC BY-NC-SA; made in Blender + python; staging source at github.com/Helpsypoo/primer if a mechanic is ever unclear from the frames. -->
+
+Reviewed by transcript captions and frame stills (2026-09-17). Their arc, with the beats it validates here:
+
+- **~0:40** — one Seller, one Buyer, each with a vertical bar ("which we'll show with this vertical bar"): bar-over-agent is exactly our head-bar. They color by side (blue sellers, orange buyers); we use Graphite DEMAND/SUPPLY.
+- **~1:30** — cost bar $20, WTP bar $40, arrows converge "in the middle at $30": our midpoint rule (mechanics step 2), frame for frame.
+- **~2:20** — one seller, two buyers, small bars between them: competition bids the price up toward the loser's limit; mirrored later with two sellers undercutting. Our 2.a/2.b beats.
+- **~4:30–5:55** — the crowd on a round platform, repeated meetings, deals at scattered prices, "eventually the price falls far enough": their scale-up is random pairwise meetings; ours is the deterministic walk-the-line with displacement (keep ours — checkpoints must replay exactly, and displacement is the incentive story the episode needs).
+- **~7:10** — they ALSO run the posted-price thought experiment ("if we set the price low…"): validation for the two-track split — their emergent-then-posted order is the mirror of ours (episode = posted, companion = emergent).
+- **~11:00** — surplus as the white cap on each bar above the price line: noted and deliberately NOT borrowed here — surplus is B4's material; when B4's pass arrives, the white-cap-on-bar reading is a good staging candidate there.
+- **~9:40 close** — "Ideal markets… maximize total surplus… and determine the right number of participants," then real-world caveats: their closing is our 5.a caveats beat and B4's FWT territory.
+
+Deliberate differences, so the scenes stay ours: Graphite style and the named cast (Amanda-Grace/Gary/Molly/Andrew continuity); the screen-glued panel stays visible throughout rather than cutting between world and chart; deterministic mechanics; no surplus overlays in B3.
 
 ## Engine work before animation
 
