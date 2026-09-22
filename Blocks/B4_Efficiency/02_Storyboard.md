@@ -1,15 +1,38 @@
 # Episode B4 | First Welfare Theorem | Storyboard
 
-Draft for Taylor's review · 2026-09-22 · No animation implementation yet.
+B3-based animation implementation · 2026-09-22.
 
-Live-note reconciliation pending: during the seven-stage recap revision,
-`01_Notes.md` was restaged concurrently with a ceiling-first sequence, exact
-crowd welfare totals, and new B4 exercise cues. The recap below follows Taylor's
-latest direct instruction. The later planner-first sequence follows his earlier
-interview answer; the smooth-area totals in section 6 remain a proposal and
-do not yet match the new notes' exact-crowd numbers. Reconcile those later beats
-and exercise placements before coding them. The live notes/exercise edits belong
-to their author and are not part of this storyboard change.
+Latest direction: interrupt the recap with Exercise B3 Q2 **before** resolving
+equilibrium. Establish the people and willingness counts at an off-equilibrium
+price, let the class reason about incentives, then show one deliberation and
+one compressed common-price adjustment in each direction. Never reveal $4 as
+the answer before that exercise. The seven stages remain independently runnable.
+
+The live B4 notes now specify exact crowd welfare totals. Use those totals for
+any crowd implementation; the continuous exercise market remains separate.
+The standalone later scenes retain Taylor’s confirmed planner → theorem → policy order; their order can change without rebuilding the recap.
+Lecture notes, exercise files, and the older Typst storyboard are author-owned.
+
+## Runnable scenes
+
+Each file is independent. Run its header command with `maniml` from this folder.
+All use 15 fps and flat, sequential `construct()` choreography. Existing B3
+geometry/model code is copied where indicated below; no shared assets changed.
+
+| File | Class | Teaching stops |
+|---|---|---|
+| `03_01_Exchange.py` | `B4Exchange` | `0.a`, `1.a` |
+| `03_02_Bidding.py` | `B4Bidding` | `1.b`, `1.b.settled` |
+| `03_03_TwoTrades.py` | `B4TwoTrades` | `1.b.two_trades`, `1.b.equal_prices` |
+| `03_04_Buyers.py` | `B4Buyers` | `1.c.buyers`, `1.c.buyers.low` |
+| `03_05_Sellers.py` | `B4Sellers` | `1.c.sellers` |
+| `03_06_Equilibrium.py` | `B4Equilibrium` | `1.d`, `1.e`, **`1.j`**, `1.f`–`1.i.stable` |
+| `03_07_Graph.py` | `B4Graph` | `1.i.graph`, `1.i.algebra` |
+| `03_08_Welfare.py` | `B4Welfare` | `2.a`–`5.d` |
+| `03_09_Controls.py` | `B4Controls` | `6.a`–`7.a`, including both B4 exercises |
+
+`03_Code.py` remains the older notebook export. The numbered scene files above
+are this build's entry points.
 
 ## Direction and sources
 
@@ -31,7 +54,7 @@ Confirmed in the September 22 storyboard interview:
 - Let the social planner establish the best allocation before connecting it to
   competitive equilibrium.
 - Edit only animation files and `02_Storyboard.md`; lecture prose stays with
-  Taylor/Fable. This pass creates only this storyboard.
+  Taylor/Fable. This pass implements the animation scenes and keeps this storyboard current.
 
 Read [B4's notes](01_Notes.md), especially Welfare Analysis, Efficiency, and Price
 Controls, alongside that outline. The older [welfare storyboard](B4_Welfare_Storyboard.typ)
@@ -45,6 +68,38 @@ the notes' social-planner argument visible. Their mathematics is checked; their
 wording and pacing remain reviewable. All quoted display text below is proposed
 on-screen text, not new lecture prose. No note sentences have been rewritten.
 
+## Reuse B3's finished staging
+
+Taylor's live review rejected the initial flat prototype. The implementation
+now uses B3's actual `ThreeDScene`, sphere/shadow people, upright `Rectangle3D`
+bars, ground circles, floor/rim, fixed graph overlays, and camera choreography.
+The prototype is superseded; it is not an alternative design to preserve.
+
+- Exchange and bidding copy B3 `2.a`–`2.c`, including the plaza-to-head-on
+  move, bar width 1.10, gap 0.12, dollar height 0.55, base 0.75, and the
+  camera centered at `[0, 0, 2.05]`, height 7.2, phi 90°.
+- Two trades copies B3's `3.a` plaza and uses the familiar head-on view for
+  Amanda-Grace's alternatives. It returns to the plaza for the recorded trace.
+- Crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
+  phi 48°, theta 0°, focal distance 50, center `[4, 0, 0.65]`, height 11.
+  More participants require smaller people/bars and folded sorted rows inside
+  that same floor. No new camera orbit or replacement illustration is added.
+- Buyer/seller introductions face the actual 3D rows. A projected copy of their
+  bar tops moves into the graph using B3's `screen_point` technique, while the
+  camera pulls back to the existing plaza view. The rows do not merely appear
+  beside unrelated curves.
+- Crowd deliberations enlarge the actual selected people/bars into B3's
+  head-on view. The graphs temporarily clear for that comparison, then return
+  with the original plaza camera. One illustrated switch precedes the common
+  price adjustment; this is not a replay of every person's decision.
+- Welfare comparisons retain B3's dollar-to-height scale. Pair 20, the buyer/
+  seller substitutions, and proposed pair 21 need the taller head-on frame:
+  center `[0, 0, 3.4]`, height 10.2, phi 90°. The later marginal pairs return to
+  B3's center `[0, 0, 2.05]`, height 7.2. This keeps the $8–$10 bars below the title.
+- `fixed`, `add_market_objects`, and the original text billboard adapter are
+  reused from B3. They handle renderer/label behavior, not teaching choreography.
+  No shared asset or engine code is changed.
+
 ## Shared stage and meaning
 
 - Use the existing 2:1 graphite stage, 2160 × 1080, 15 fps, CMU serif teaching
@@ -57,8 +112,8 @@ on-screen text, not new lecture prose. No note sentences have been rewritten.
 - Keep the market at left and its graph at right during market-wide beats.
   Use the B3 sorted buyer/seller rows, with buyers above sellers. Keep each side
   in compact rows of at most 20; mark every person but label only selected people.
-  Individual comparisons enlarge the relevant bars into a head-on inset while
-  the unchanged crowd remains dimly visible. A full-width head-on row is reserved
+  Individual comparisons enlarge the relevant bars into a head-on view while
+  hiding the other people; their allocation stays unchanged. A full-width head-on row is reserved
   for the quantity sweep; it is not squeezed beside two small graphs.
 - Read each compact row left to right, then continue on the next row. Preserve
   rank order across folds. Every row has the same local zero and dollar scale;
@@ -87,9 +142,9 @@ on-screen text, not new lecture prose. No note sentences have been rewritten.
 - Use one source for the market price, willingness tests, counts, and graph
   guides. Count predicates include indifference. During motion, integer counts
   follow the actual bar thresholds; never interpolate an independent count.
-  The exact crowd's read guides land on staircase boundaries. Smooth lines are
-  faint fitted references until the explicit approximation at `6.a`.
-- New files eventually use flat, sequential `construct()` choreography, visible
+  The exact crowd's read guides land on staircase boundaries. Smooth lines remain
+  faint fitted references; policy totals use the exact crowd's rectangles.
+- The scene files use flat, sequential `construct()` choreography, visible
   constants, simple loops for repeated objects, and literal `self.pause('id')`
   boundaries. No per-beat helper framework. Each independent scene reconstructs
   its opening state without replaying earlier teaching stops.
@@ -130,10 +185,9 @@ unique maximizing quantity is Q=40. Exact discrete totals are
 | P=$3, Q=20 | 138 / 9.5 / 147.5 / 47.5 | 140 / 10 / 150 / 50 |
 | P=$6, Q=30 | 87 / 96.75 / 183.75 / 11.25 | 90 / 97.5 / 187.5 / 12.5 |
 
-Use each model's own optimum as its loss benchmark. `6.a` explicitly introduces
-the smooth approximation; a copy of the bars may refine into areas, but the
-crowd's original MB/MC values never change. Before that transition, show exact
-per-lot differences without a running aggregate numerical tally.
+The exact crowd is the implemented welfare model: $195,000 is its benchmark.
+The smooth column is a numerical comparison for review, not an animated change
+of model. Exercise B3/B4 cards explicitly switch to their separate pasty market.
 
 ## 0.a · Open B4
 
@@ -161,8 +215,9 @@ short responses from the room; they are not timed waits in the scene.
 
 The working allocation totals **6 minutes 20 seconds to 9 minutes 20 seconds**,
 within Taylor's 5–10 minute request. Keep the equilibrium explanation spacious
-and the earlier examples brief. Exercise Q2 follows the seven stages and has
-its own classroom time. The bumper is outside this recap budget.
+and the earlier examples brief. Exercise Q2 interrupts stage 6 after the
+shortage count, before the adjustment to equilibrium, and has its own classroom
+time. The bumper is outside this recap budget.
 
 ## 1.a · Recall one exchange
 
@@ -198,12 +253,12 @@ its own classroom time. The bumper is outside this recap budget.
 
 ## 1.b.two_trades · Give the buyer another option
 
-1. Admit Andrew with MC $4 and an entry ask of $4.25. Keep the four people
-   head-on; arrange Gary, Andrew, Amanda-Grace, Molly from left to right so the
-   relevant pair connections join neighbors. Bars stay with their owners.
+1. Admit Andrew with MC $4 and an entry ask of $4.25 in B3's original plaza.
+   Use B3's head-on comparison geometry to face Amanda-Grace, Molly, and Andrew
+   during the decision. Gary remains the unserved buyer in the underlying market.
 2. Retain Amanda-Grace's solid $6.25 deal with Molly. Show her two alternatives:
-   “Molly: $6.25” / “Andrew: $4.25.” Title: “Would she keep paying more?” Hold.
-3. On advance, let Amanda-Grace take Andrew's $4.25 offer, then let Gary outbid
+   “Molly: $6.25; gain $0.75” / “Andrew: $4.25; gain $2.75.” Title: “Stay or switch?” Hold.
+3. On advance, return to the same plaza and let Amanda-Grace take Andrew's $4.25 offer, then let Gary outbid
    at $4.50. Keep Molly at $6.25 with no buyer. Continue the recorded seed-54
    events without per-event pauses: Amanda-Grace $4.75, Gary $5, Molly cuts to
    $6; Amanda-Grace $5.25, Molly $5.75; Gary $5.50, Molly $5.50; Amanda-Grace
@@ -212,7 +267,7 @@ its own classroom time. The bumper is outside this recap budget.
 
 ## 1.b.equal_prices · Park on two trades
 
-1. Keep Gary with Andrew and Amanda-Grace with Molly. Both prices are $5.50.
+1. Return to B3’s original plaza. Keep Gary with Andrew and Amanda-Grace with Molly. Both prices are $5.50.
    Show “2 willing buyers; 2 sellers” and “Both trades: $5.50.”
 2. Ask “Would either buyer switch?” Hold with the alternative prices visible.
    The new seller has given buyers an alternative and made Molly respond.
@@ -223,8 +278,7 @@ its own classroom time. The bumper is outside this recap budget.
 
 ## 1.c.buyers · Build quantity demanded from the people
 
-1. Clear the four-person scene in one transition; reveal all 59 buyers as a
-   sorted head-on row. Caption “One person = 1,000 pounds”; keep bar heights in
+1. Reconstruct all 59 buyers as a sorted 3D head-on row. This independent scene does not replay the small-market story. Caption “One person = 1,000 pounds”; keep bar heights in
    dollars per pound. This explicitly changes the unit from the one-pound trades.
 2. Lift a copy of the sorted profile onto the demand graph at upper right;
    retain the people and their bars. Label the fitted line (P=12-Q_d/5).
@@ -232,9 +286,14 @@ its own classroom time. The bumper is outside this recap budget.
 3. Place the price at $6 and reveal 30 checks, with Gary exactly on the line.
    Show Qd=30 and “MB ≥ P.” Only Gary and the nearest excluded buyer need tags:
    $6 and MB $5.80. Hold; touching the line counts as willing.
-4. On advance, lower the price to $3 in one play, revealing 45 checks and Qd=45.
-   Willing buyers' tags read the price; an unwilling buyer's tag reads their MB.
-   No trading circles or Qx appear: sellers have not entered this comparison.
+
+## 1.c.buyers.low · Willingness is not a trade count
+
+1. Lower the price from $6 to $3 in one play, revealing 45 checks and Qd=45.
+2. Park on “At $3, 45 buyers are willing. We have not counted trades.”
+   No trading circles or Qx appear; sellers have not entered this comparison.
+3. Gary's preceding caption gives his MB $6 and the next buyer's $5.80 offer;
+   individual tags are kept sparse rather than printed over every person.
 
 ## 1.c.sellers · Build quantity supplied the same way
 
@@ -249,16 +308,12 @@ its own classroom time. The bumper is outside this recap budget.
 
 ## 1.c · One price, many decisions
 
-1. Fold the already-present buyer and seller rows into the common plaza. Retain
-   their stacked graphs and sorted ranks. Do not introduce another crowd or
-   animate entrants one at a time.
-2. Keep “Dollars per pound” and “Q in thousands of pounds” beside the graph axes.
-   Title: “Why does $4 hold?”
-3. Move the common price to $4. Show checks on ranks 1–40 on each side, circles
-   on those same people, and Qd=Qs=Qx=40.
-4. Hold on the known benchmark as the question to explain. This full market's
-   values determine $4; it is not a continuation to $4 of the two-seller trace.
-   Keep this market's identity through the entire lesson.
+1. Reconstruct the sorted buyer and seller rows together, with demand above
+   supply at right. The independent scene begins at $3, as the seller scene ends.
+2. Keep the unit convention visible: one person is 1,000 lb; price is dollars/lb.
+   No equilibrium answer, crossing, or starred pair is visible yet.
+3. Introduce the distinction between a willingness check and a trading circle.
+   This is a transition into `1.d`, not an additional teaching hold.
 
 ## 1.d · Predict the low-price result
 
@@ -275,14 +330,28 @@ its own classroom time. The bumper is outside this recap budget.
    buyers without circles. Amanda-Grace and Gary are among them.
 3. Hold. Keep the distinction between willingness and actual exchange visible.
 
+## 1.j · Exercise B3 Q2 — before resolving equilibrium
+
+1. After the $3 shortage has been counted at `1.e`, replace the market with the
+   existing Exercise B3 Q2 card. Preserve the problem's pasty equations:
+   (P=12-Q_d/2), (P=2+Q_s/2), price 5 galleons; quantities are pasties.
+2. Use the sheet's exact four prompts: “What is the quantity demanded?”, “What
+   is the quantity supplied?”, “Is this a shortage or an excess, and how large?”,
+   and “Which way will the price move?” No answers appear before this pause.
+3. Below the four prompts ask “What would buyers and sellers want to do?”
+   This discussion cue supplements the existing sheet; it does not edit it.
+4. On advance restore the spinach market at $3, still 45/20/20. The next beat
+   enacts the incentives students just discussed. The pasty problem never
+   substitutes its data into the spinach simulation.
+
 ## 1.f · Recall the incentive to raise price
 
-1. Highlight Amanda-Grace. Replace the bottom text with two concise options:
+1. Highlight Amanda-Grace in the original 3D plaza, then bring her and a served seller into B3’s head-on view. Clear the fixed graphs during that comparison. Replace the bottom text with two concise options:
    “Wait: no trade” / “Offer $3.25: gain $3.75/lb.” Draw the proposed bid dashed.
-   Show that the served seller receives more if the bid is accepted.
+   Show that the served seller receives more if the bid is accepted. The two options stay in the bottom band; a dashed connector identifies the proposed switch, not an extra trade.
 2. Ask “Which way does price move?” Hold with the answer still withheld.
-3. On advance, clear the individual proposal and show “Shortage → price rises.”
-   Raise the common price to $4 in one continuous play. Keep counts and marks
+3. On advance, accept the proposed price in the close-up, return to B3’s plaza camera, and show Amanda-Grace moving to the seller. Then clear the individual proposal and show “Other unserved buyers have the same incentive.” Follow with “Shortage → price rises.”
+   Raise the common price to $4 in one continuous play. A faint price ladder retains the starting and ending prices; intermediate quarter-dollar steps are not extra pauses. Keep counts and marks
    synchronized; do not narrate every threshold crossing or stop at each tick.
 4. Keep 40/40/40 visible as the next question enters; no navigation-only stop.
 
@@ -296,23 +365,21 @@ its own classroom time. The bumper is outside this recap budget.
 
 1. Reveal Qd=30, Qs=80, Qx=30: 30 buyer checks, 80 seller checks, 30 circles on
    each side. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
-2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
+2. Highlight Andrew among the unserved sellers and Gary among the served buyers. Show the same B3 head-on inspection view, with Andrew’s MC $4 and Gary’s MB $6. The actual plaza returns before Gary moves to Andrew.
    Replace the bottom content with “Keep $6: no buyer” / “Ask $5.75: gain $1.75/lb.”
    Gary would also gain by paying less. Ask “Which way does price move?” Hold.
-3. On advance, clear the proposed deal and show “Excess → price falls.” Move the
+3. On advance, briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
    common price to $4 in one play, retaining the counts throughout.
 
 ## 1.i · State the two parts of equilibrium together
 
 1. Park on 40 checks and circles on each side and Qd=Qs=Qx=40. Keep unwilling
    people visible and dim, with their bars on the wrong side of the price.
-2. Replace the adjustment caption with the B3 definition:
-   “Equilibrium: the price and quantity at which quantity supplied equals
-   quantity demanded — where no one wants to change.” Reflow at the usual size.
-3. Point to each part of the definition on this same frame: the matching counts,
+2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
+   “No willing buyer or seller is left without a trade.”
+3. Point to both parts on this same frame: the matching counts,
    the absence of willing people left without trades, and the dim people whose
-   MB/MC keeps them out at $4. Hold. “No one wants to change” does not mean the
-   excluded people no longer want spinach or would never sell at another price.
+   MB/MC keeps them out at $4. Hold before testing the pressure at nearby prices.
 
 ## 1.i.stability · Test why the price holds
 
@@ -320,15 +387,23 @@ its own classroom time. The bumper is outside this recap budget.
    $4.25 line without its count answers. Ask “Would a higher price hold?” Hold.
 2. On advance, test $4.25: Qd=38, Qs=45, Qx=38. Show seven willing sellers
    without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
-   willing but unserved. A dashed undercut points back toward $4; restore $4.
+   willing but unserved. Caption “Seven willing sellers have no buyer. They
+   can undercut.” Restore $4.
 3. Test $3.75 in the same short sequence: Qd=41, Qs=35, Qx=35. Show six willing
    buyers without circles. Buyers 36–40 lose trades; buyer 41 is newly willing.
-   A dashed higher offer points back toward $4; restore $4 and the 40 trades.
-4. Leave “Above $4: excess. Below $4: shortage.” briefly visible before the
+   Caption “Six willing buyers have no seller. They can offer more.” Restore
+   $4 and the 40 trades.
+4. Park at `1.i.stable` on “Above $4: excess. Below $4: shortage.” before the
    graph transition. Use staircase count guides for these tests: the exact
    whole-lot counts differ from smooth-curve intersections at quarter dollars.
    Keep the cause visible as willing people left out, not just the marginal
    pair refusing an unaffordable price.
+
+## 1.i.stable · Keep the conclusion visible
+
+1. End the two deviation tests back at $4 and 40 trades.
+2. Hold “Above $4: excess. Below $4: shortage.” This is the stable endpoint
+   from which the independent graph scene begins.
 
 ## 1.i.graph · Recognize the same condition at the crossing
 
@@ -349,19 +424,8 @@ its own classroom time. The bumper is outside this recap budget.
    arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
 3. Carry the starred pair to the crossing. Hold “Same price; equal quantities.”
    This is a short explanation of what the algebra means; leave Exercise Q1
-   completed. On advance, clear the working lines, slide the merged graph back
-   to the right, and restore the unchanged crowd at left before the exercise.
-
-## 1.j · Exercise B3 Q2
-
-1. Dim the market. Show the existing Exercise B3 Q2 card with its original
-   numbering and pasty equations: (P=12-Q_d/2), (P=2+Q_s/2).
-2. State the units, galleons and pasties, and the price of 5 galleons. Ask parts
-   (a) Qd, (b) Qs, (c) shortage/excess and its size, (d) direction of price change,
-   using the exercise sheet's exact wording. Show no answers on this card.
-3. Hold for the exercise. On advance, remove the card and restore the same
-   spinach market at $4. The exercise is a separate problem, not a new dataset
-   for the subsequent simulation.
+   completed. This independent file ends on the solved frame. The welfare file reconstructs
+   the same unchanged crowd and merged graph at $4; it does not replay the algebra.
 
 ## 2.a · Ask whether the market's answer is good
 
@@ -374,8 +438,8 @@ its own classroom time. The bumper is outside this recap budget.
 
 ## 2.b · Separate the size of the gain from its division
 
-1. Enlarge the two bars for ranked pair 20: buyer MB $8, seller MC $3. Keep the
-   rest of the current allocation fixed and dim. Caption “One 1,000-lb lot.”
+1. Enlarge the two bars for ranked pair 20: buyer MB $8, seller MC $3. Hide the
+   other people while keeping their allocation fixed. Caption “One 1,000-lb lot.”
 2. Show (CS=MB-P), (PS=P-MC), and then ((MB-P)+(P-MC)=MB-MC), with matching
    colored terms. Cancel only the payment terms; show the total gap of $5/lb.
 3. Move this pair's payment from $4 to $5 while both people and the traded lot
@@ -432,7 +496,7 @@ its own classroom time. The bumper is outside this recap budget.
 
 1. Show the two sorted selected prefixes with “Highest-value buyers” above and
    “Lowest-cost sellers” below. Fade out the individual arithmetic.
-2. Keep one-to-one connections by rank for visual bookkeeping. Do not imply
+2. Compare the selected prefixes by rank using their circles. Do not imply
    that this particular pairing is uniquely efficient: total benefit and cost
    depend on who participates, not which selected buyer meets which seller.
 3. Hold “Now choose how many.” Keep Q=20 for the next question.
@@ -461,8 +525,9 @@ its own classroom time. The bumper is outside this recap budget.
 
 ## 4.c · Inspect the boundary
 
-1. Show rank 40 beside rank 39: MB $4 and MC $4. Its potential gain has zero
-   height. Ask “What does this trade add?” Hold before the answer.
+1. Return pair 39 to its row and enlarge only pair 40: MB $4 and MC $4. Its
+   potential gain has zero height. Ask “What does this trade add?” Hold before
+   the answer.
 
 ## 4.d · Account for indifference
 
@@ -476,8 +541,8 @@ its own classroom time. The bumper is outside this recap budget.
 
 1. Keep the 40 chosen trades intact. Enlarge rank 41: MB $3.80, MC $4.05.
    Its connection stays dashed and its people stay uncircled.
-2. Show the buyer's acceptable price interval ending at $3.80 and the seller's
-   starting at $4.05. Leave their non-overlap clearly visible.
+2. Label the buyer's acceptable prices P≤$3.80 and the seller's P≥$4.05 beside
+   the enlarged bars. Their values leave no mutually acceptable price.
 3. Ask “Would this trade help?” Hold. On advance, reveal “−$250” and “MC > MB.”
    Do not paint negative private gains as realized CS/PS or execute a voluntary
    trade that neither common price can support.
@@ -487,10 +552,10 @@ its own classroom time. The bumper is outside this recap budget.
 1. Return the enlarged pair to the full-width head-on comparison; the graph
    remains parked off screen. Begin with 40 chosen pairs; outline the
    positive gains through pair 39 and the zero-height boundary at pair 40.
-2. Sweep a quantity marker back to 30. Remove circles and solid connections from
+2. Sweep a quantity marker back to 30. Remove circles and gain fills from
    pairs 31–40 as they leave the allocation, leaving the forgone positive gains
-   from pairs 31–39 as empty outlines. Return to 40, restoring the circles,
-   connections, and gain fills as each pair rejoins; pair 40 still adds no gain.
+   from pairs 31–39 as empty outlines. Return to 40, restoring the circles
+   and gain fills as each pair rejoins; pair 40 still adds no gain.
    Price is still absent: this is the notes' quantity-controlled planner.
 3. Show “Take the gains; stop when additional cost exceeds benefit.” Hold on
    the maximum, with the previously demonstrated zero-gain boundary retained.
@@ -509,9 +574,9 @@ its own classroom time. The bumper is outside this recap budget.
 1. Reveal checks on the 40 buyers with MB≥$4 and 40 sellers with MC≤$4. Circle
    those participants and print Qd=Qs=Qx=40. The actual selection coincides
    with the saved planner outlines.
-2. Enlarge the boundary and first excluded bars briefly: buyer 40 is indifferent,
-   buyer 41 will not pay $4; seller 40 is indifferent, seller 41 will not sell
-   at $4. Keep their thresholds and quantities consistent.
+2. Recall the boundary with two threshold captions on the plaza: buyer 40 is
+   indifferent, buyer 41 will not pay $4; seller 40 is indifferent, seller 41
+   will not sell at $4. The enlarged comparison has already established why.
 3. Hold “The same people; the same gains.” Fade the comparison outlines on advance.
 
 ## 5.c · Close the argument on the simulation
@@ -539,131 +604,123 @@ its own classroom time. The bumper is outside this recap budget.
    settles distributional questions. This is an implementation boundary, not
    extra text to place on screen.
 
-## 6.a · Move from exact lots to the familiar smooth areas
+## 6.a · The same market's welfare benchmark
 
-1. Return the $4 market to the compact plaza-left/graph-right layout. Title:
-   “What do price controls change?” Retain the selected 40 lots.
-2. Lift a copy of the traded CS/PS strips onto the overlaid graph. Keep the
-   original crowd bars fixed. Caption the graph “Smooth-market approximation.”
-3. Refine the graph copy into narrow strips and then the familiar continuous
-   CS/PS regions. Do not morph the literal crowd's aggregate dollar total into
-   the continuous total or claim exact equality of the two measurements.
-4. Use the known triangle geometry briefly: CS $160,000, PS $40,000, TS $200,000.
-   Hold this smooth-market benchmark. Subsequent area totals use these curves;
-   crowd counts at $3/$4/$6 still coincide exactly with graph quantities.
+1. Reconstruct B3's 3D plaza beside the merged market graph at $4, 40 trades.
+2. Shade one rectangle per traded lot: teal MB minus price and orange price
+   minus MC. These are the exact people from the recap, not smooth triangles.
+3. Hold on CS $156,000, PS $39,000, total surplus $195,000. State the policy
+   comparison's allocation assumption: highest-value buyers and lowest-cost
+   sellers trade. This keeps rationing explicit rather than asserting that any
+   real-world control necessarily achieves that allocation.
 
-## 6.b · A ceiling that does not bind
+## 6.b · A nonbinding ceiling
 
-1. Keep the market at $4. Introduce a maximum legal price of $5, with a distinct
-   labeled cap and a bracket for the legal prices below it. Do not move the
-   actual market-price line to the cap.
-2. Ask “Does this ceiling change the outcome?” Hold. On advance, show
-   “Nonbinding”; retain the same 40 trades and welfare areas.
+1. Introduce a maximum legal price of $5, with the legal interval below it.
+2. Actual price stays $4 and Qx stays 40. Hold “Nonbinding.” The policy line
+   and the actual market price are distinct.
 
-## 6.c · Pin the price below equilibrium
+## 6.c · Predict a binding ceiling
 
-1. Lower the ceiling to $3. The market stays at $4 until the cap reaches it,
-   then follows the cap down to $3. Keep the faint
-   equilibrium reference at $4. Show “Maximum legal price.”
-2. Reveal the familiar 45/20/20 counts and shortage of 25,000 pounds. Circle the
-   highest-value 20 buyers and lowest-cost 20 sellers. Beside the rows, briefly
-   show “Assume highest-value buyers and lowest-cost sellers trade.” This is the
-   best allocation of the available trades, not something a ceiling guarantees.
-3. Revisit Amanda-Grace's outbid from `1.f`. Strike the $3.25 option with “Above
-   the ceiling.” Hold “The incentive remains; the higher price is prohibited.”
-   The shortage persists; do not run the recap's return-to-equilibrium play.
+1. Hide counts, willingness checks, trade circles, and welfare fills before
+   lowering the ceiling from $5 to $3.
+2. Actual price stays $4 until the ceiling crosses it, then follows it to $3.
+3. Ask how much actually trades. Hold before the answer appears.
 
-## 6.d · Show the beneficial trades that are missing
+## 6.c.blocked · The incentive remains; the bid is prohibited
 
-1. Keep the cap, actual price, and 20 trades visible. In the unselected rows,
-   outline the beneficial pairs 21–39 and the zero-gain boundary pair 40.
-2. Enlarge pair 21 once: MB $7.80 > MC $3.05, but the seller cannot cover cost
-   at a legal price ≤$3. This is an available social gain blocked in this
-   price-controlled market, not welfare already received by an unserved buyer.
-3. Copy the outlines to the graph's Q=20…40 interval. Shade the smooth-model
-   lost-gains region grey. Hold “Deadweight loss: gains from trade left unrealized.”
+1. Reveal Qd=45, Qs=20, Qx=20. The first 20 people on each side trade.
+2. Recall Amanda-Grace's proposed $3.25 bid and mark it “Not allowed.” The
+   ceiling prevents the earlier rise play; it does not remove her incentive.
+3. Hold on the shortage and the blocked bid.
 
-## 6.e · Measure the ceiling's welfare effects
+## 6.d · The lost beneficial trades
 
-1. Shade CS only under demand, above $3, through Qx=20; PS only above supply,
-   below $3, through Qx=20. Shade DWL between the curves from 20 to 40.
-2. Carry the known measurements to brief area arithmetic. Reveal CS $140,000,
-   PS $10,000, total surplus $150,000, and DWL $50,000; keep the $200,000
-   benchmark faintly visible for the comparison.
-3. Hold “Lower price; fewer trades.” Make visible that continuing buyers pay
-   less but buyers as a group lose surplus in this example. Do not animate the
-   notes' current claim that aggregate CS rises for these numbers.
+1. Outline the forgone gains from pairs 21–39 in grey. Pair 40 adds zero.
+2. Keep the 20 actual trades filled; proposed/missing trades acquire no circles.
+3. Define deadweight loss as the lost total surplus. Hold before the total is
+   revealed, retaining the exact per-lot geometry.
 
-## 6.f · Restore equilibrium and introduce a floor
+## 6.e · Measure the ceiling
 
-1. Remove the ceiling and let the market return to $4 and 40 trades. Restore
-   the same benchmark areas before introducing the new policy.
-2. Introduce a minimum legal price of $3 with legal prices above it. Keep the
-   actual price at $4; show “Nonbinding” without a separate prediction stop.
-3. Hide counts, checks, circles, quantity read guides, and filled welfare areas
-   before raising the floor. The actual price stays at $4 until the floor
-   reaches it, then follows the floor up to $6. Ask “How much actually trades?”
-   Hold before revealing the answer; no stale 40-trade marks remain.
+1. Reveal CS $138,000, PS $9,500, TS $147,500, and DWL $47,500.
+2. Continuing buyers pay less, but buyers as a group lose surplus in this
+   example. Compare with the original $156,000 rather than claiming that a
+   lower controlled price always raises aggregate CS.
 
-## 6.g · A floor leaves sellers without buyers
+## 6.exercise_ceiling · Exercise B4 Q1
 
-1. Reveal Qd=30, Qs=80, Qx=30, and excess 50,000 pounds. Circle only the
-   lowest-cost 30 sellers and highest-value 30 buyers.
-2. Revisit Andrew's $5.75 undercut from `1.h`; strike it with “Below the floor.”
-   Keep his MC $4 visible: wanting to sell is not the same as finding a buyer.
-3. Outline missing beneficial trades 31–39, and the zero-gain pair 40. Hold
-   “The lower price is prohibited.” There are no government purchases in this
-   example; 80 willing sellers do not produce 80 realized sales or PS areas.
+1. Clear the simulation for the original pasty equations and 5-galleon ceiling.
+2. Copy the sheet's prompts: quantity exchanged, CS, PS, DWL, and plotting the
+   demand/supply/ceiling with shaded areas. Show no answers.
+3. Hold, then restore the spinach market. The exercise's continuous pasty areas
+   are not the crowd's exact spinach totals.
 
-## 6.h · Measure the floor's welfare effects
+## 6.f.nonbinding · Remove the ceiling; introduce a floor
 
-1. Shade the smooth-model areas only through Qx=30. Reveal CS $90,000,
-   PS $97,500, total surplus $187,500, and DWL $12,500.
-2. Hold the comparison with the original $160,000 CS and $40,000 PS: buyers
-   lose, producers in aggregate gain in this particular example, and total
-   gains fall. Keep the unserved sellers visible so a group gain is not read as
-   every seller gaining.
-3. Do not generalize the sign of CS or PS changes to every possible control.
+1. Restore the $4 market, its 40 trades, and its original welfare.
+2. Introduce a minimum legal price of $3. Actual price stays $4. Hold on this
+   nonbinding case before moving the floor.
+
+## 6.f · Predict a binding floor
+
+1. Hide counts, checks, circles, and welfare fills before raising the floor.
+2. Actual price stays $4 until the floor reaches it, then follows it to $6.
+3. Ask how much actually trades. Hold with answers hidden.
+
+## 6.g · The undercut is prohibited
+
+1. Reveal Qd=30, Qs=80, Qx=30: 50 willing sellers have no buyer.
+2. Recall Andrew's proposed $5.75 offer and mark it “Below the floor.”
+3. Circle only the first 30 on each side. There are no government purchases;
+   80 willing sellers do not mean 80 sales or 80 units of realized PS.
+
+## 6.h · Measure the floor
+
+1. Shade gains only on the 30 actual trades. Outline missing positive gains
+   from 31–39; pair 40 contributes zero.
+2. Reveal CS $87,000, PS $96,750, TS $183,750, and DWL $11,250.
+3. Producers gain in aggregate in this example; the visible excluded sellers
+   prevent that group result from implying that every seller gains.
+
+## 6.exercise_floor · Exercise B4 Q2
+
+1. Show the sheet's 9-galleon floor and original prompts: quantity exchanged,
+   producer surplus, deadweight loss, and whether a floor of 6 changes the market.
+2. Show no answers. Hold, then return to the spinach market.
 
 ## 7.a · Return to the result and its limits
 
-1. Remove the floor and restore the $4 market, 40 trades, and maximum smooth
-   surplus. Show the theorem line again on the same stage.
-2. Highlight its two conditions in turn. Keep the notes' externality examples
-   and Adam Smith discussion as spoken material; introduce no new market or
-   externality simulation in this episode.
-3. Hold “Does efficiency settle the policy question?” Keep CS/PS separately
-   colored within total surplus. This supports the notes' final distinction
-   between welfare analysis and society's other policy objectives.
+1. Remove the floor and restore $4, 40 trades, and exact TS $195,000.
+2. Keep “Does efficiency settle the policy question?” as the final question.
+   Preserve the distinction between maximal gains and other policy objectives.
+3. Retain the theorem's conditions: competition and all relevant benefits and
+   costs counted. The exercise is not a claim that every policy objective is
+   captured by CS plus PS.
 
 ## Review and implementation checks
 
-- The opening has 17 teaching holds before Exercise Q2 and covers all seven
-  B3 stages in the order specified above. Taylor's budget is 5–10 minutes;
-  rehearse around 7–8 minutes, excluding the exercise. Protect the equilibrium
-  explanation. Shorten bidding motion and spoken repetition first if needed;
-  do not cut buyers, sellers, two trades, or the graph/equality bridge.
-- The draft has 46 named holds including the bumper and exercise. Beat actions
-  explicitly marked “on advance” belong after that beat's pause. Recount after
-  review; do not add hidden per-person or navigation-only pauses in code.
-- Review whether the buyer and seller substitution beats make the planner's
-  problem clear without feeling like a new lecture on rationing. These are the
-  principal new staging proposals; keep them separate from the already-approved
-  B3 recap mechanics.
-- Preserve the integer-lot/continuous distinction, the zero-gain boundary, and
-  units in every label. At held market prices, circles per side equal Qx and
-  check totals equal Qd/Qs. Planner quantities are explicitly chosen allocations.
-- Confirm the $4↔$5 price movement in `2.b` leaves total gain and quantity fixed.
-  Confirm the swaps change only the intended participant, and that pending or
-  rejected trades contribute no realized surplus.
-- Check proposed full-crowd and head-on stopped frames at actual projection size
-  before implementing all motion. Keep label size; simplify the visible detail
-  if needed. Verify overlays, forward/backward seeks, and retained states in the
-  ManimLive development viewer. No visual validation has been done for this draft.
-- B4's existing `03_Code.py` is a legacy notebook export using a different
-  market. Reuse useful choreography from B3/B1/B2 without importing its old
-  equilibrium price or welfare geometry. Shared assets, model files, notes,
-  exercises, and other blocks are outside this storyboard edit.
+- There are **51 literal named holds** across the nine files. The opening seven
+  scenes contain 20: the bumper, Exercise Q2, and 18 teaching holds. Target
+  5–10 minutes of recap excluding the exercise, around 7–8 minutes in rehearsal.
+  Keep the equilibrium explanation; shorten spoken bidding repetition first.
+- Exercise Q2 comes after the shortage is counted, before any $4 equilibrium
+  answer appears in the full market. The pasty exercise remains a separate model.
+- The exact quarter-dollar counts, inclusive willingness, and 39/40 welfare tie
+  are retained. Circle interiors stay empty: visibility updates change stroke
+  opacity, never fill opacity. Check marks likewise remain open strokes.
+- Source execution and checkpoint restoration have been checked in ManimL.
+  B3's copied small-market trace retains its final matching/price assertions.
+  Each policy/planner state is checked against exact participant counts and gains.
+- Visual review uses the development viewer and selected full-resolution native
+  frames for this build. Native frame caches can display stale glyphs after
+  unrelated checkpoint captures; suspected failures are checked with an isolated
+  direct run before changing correct scene geometry.
+- The recap, welfare, and control views have been reviewed. Direct native
+  captures verify the welfare close-up labels, payment line, one enlarged pair
+  at a time, and complete restoration of the ranked row at `4.f`.
+- Only these animation files and this storyboard belong to the update. Notes,
+  exercises, shared assets, and B3 files remain outside the animator's edits.
 
 ## Notes reconciliation for Taylor/Fable
 
@@ -681,11 +738,8 @@ its own classroom time. The bumper is outside this recap budget.
   intended area: realized total surplus is summed over the units exchanged.
 - “When price decreases, CS increases” applies to an unchanged set of trades
   in `2.b`; it is not a general result after quantity/rationing changes. At the
-  specified $3 ceiling aggregate CS falls, from $160,000 to $140,000 in the
-  smooth model proposed here. The live notes now correct the earlier ceiling
-  claim using exact-crowd CS of $156,000 to $138,000, and correct the floor's
-  “slightly” claim. Match the eventual animation's aggregate labels to the
-  agreed model; retain the fixed-quantity qualification for the general sentence.
+  specified $3 ceiling aggregate CS falls, from $156,000 to $138,000 in the implemented exact crowd. The floor’s
+  producer surplus rises from $39,000 to $96,750. These agree with the live notes; retain the fixed-quantity qualification for the general sentence.
 - “Any deviation from this outcome reduces welfare” is too strong for the exact
   crowd: dropping its zero-gain final trade changes no welfare, and swapping
   counterparties among the same selected people changes no aggregate benefit
