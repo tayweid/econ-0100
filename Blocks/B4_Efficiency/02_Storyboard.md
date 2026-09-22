@@ -2,6 +2,15 @@
 
 Draft for Taylor's review · 2026-09-22 · No animation implementation yet.
 
+Live-note reconciliation pending: during the seven-stage recap revision,
+`01_Notes.md` was restaged concurrently with a ceiling-first sequence, exact
+crowd welfare totals, and new B4 exercise cues. The recap below follows Taylor's
+latest direct instruction. The later planner-first sequence follows his earlier
+interview answer; the smooth-area totals in section 6 remain a proposal and
+do not yet match the new notes' exact-crowd numbers. Reconcile those later beats
+and exercise placements before coding them. The live notes/exercise edits belong
+to their author and are not part of this storyboard change.
+
 ## Direction and sources
 
 Taylor's current direction is to make the simulation carry the welfare argument.
@@ -12,7 +21,13 @@ then showing that the market selects that allocation.
 Confirmed in the September 22 storyboard interview:
 
 - The newly written source is [B3's conversation outline](../B3_Equilibrium/00_Outline.md).
-- Begin with one quick exchange/switching reminder, then the full market.
+- Give the opening 5–10 minutes, excluding Exercise Q2, to teach all seven stages
+  of that outline in their simplest form. This is B4's complete explanation of
+  the equilibrium ideas that did not land clearly in class; it must stand on
+  its own without returning to a separate B3 animation.
+- Retain the small exchange, bidding, and two-trade stages, then build buyers,
+  sellers, equilibrium, and the graph/algebra bridge. Give the largest share of
+  the time to explaining why the equilibrium price holds.
 - Let the social planner establish the best allocation before connecting it to
   competitive equilibrium.
 - Edit only animation files and `02_Storyboard.md`; lecture prose stays with
@@ -49,9 +64,10 @@ on-screen text, not new lecture prose. No note sentences have been rewritten.
   rank order across folds. Every row has the same local zero and dollar scale;
   repeat a local price segment at the appropriate height in each row, all driven
   by the same price. These are copies of one common price, not separate asks.
-- The recap begins its full-market portion with the two stacked B3 graphs. At
-  `2.a`, slide those same axes into a single overlaid graph while retaining the
-  crowd. The overlaid graph remains the common reference for welfare.
+- Build the demand graph from its buyers and the supply graph from its sellers
+  during the recap; stack them when both sides share the stage. At
+  `1.i.graph`, slide those same axes into a single overlaid graph while retaining
+  the crowd. That graph carries directly into the welfare argument at `2.a`.
 - One check means willing at the displayed market price. One ground circle means
   actually trading. Keep marks distinguishable by shape; default to side-colored
   checks and green circles, as proposed in the B3 outline. A selected comparison
@@ -125,14 +141,40 @@ per-lot differences without a running aggregate numerical tally.
    “Under some conditions, nothing can do better than markets.”
 2. Hold, then clear the bumper for the exchange reminder.
 
+## The seven-stage opening — teaching and pacing contract
+
+These are the seven stages from B3's outline, taught here as one short sequence.
+Each stage contributes one claim. Simplification means fewer examples and
+stops within each stage, not skipping the link between individual choices,
+quantities, and equilibrium. These timings include animation, explanation, and
+short responses from the room; they are not timed waits in the scene.
+
+| B3 stage | B4 beats | The claim to leave visible | Speaking + motion budget |
+|---|---|---|---|
+| 1. Exchange | `1.a` | A price between cost and value makes both sides gain. | 30–45 s |
+| 2. Bidding | `1.b`, `1.b.settled` | A buyer left out can offer more; the seller gains from switching. | 40–60 s |
+| 3. Two trades | `1.b.two_trades`, `1.b.equal_prices` | A better alternative gives someone a reason to switch; competition brings these prices together. | 45–60 s |
+| 4. Buyers | `1.c.buyers` | At a common price, count the buyers whose MB reaches it: Qd. | 35–50 s |
+| 5. Sellers | `1.c.sellers` | At that same price, count the sellers whose MC is covered: Qs. | 35–50 s |
+| 6. Equilibrium | `1.c`–`1.i`, then `1.i.stability` | Unequal counts leave willing people without trades; their incentives move price. At $4 the counts match and the pressure disappears. | 150–220 s |
+| 7. Graph and algebra | `1.i.graph`, `1.i.algebra` | The crossing and Qd=Qs express the same market condition. | 45–75 s |
+
+The working allocation totals **6 minutes 20 seconds to 9 minutes 20 seconds**,
+within Taylor's 5–10 minute request. Keep the equilibrium explanation spacious
+and the earlier examples brief. Exercise Q2 follows the seven stages and has
+its own classroom time. The bumper is outside this recap budget.
+
 ## 1.a · Recall one exchange
 
 1. Restore B3's approved Gary/Molly head-on close-up: MB $6, MC $2, price $4,
-   “One pound.” Title: “Why trade?”
+   “One pound.” Title: “Which prices work?”
 2. Reveal the already familiar CS $2 and PS $2 together. Retain the green
    expenditure/revenue boundary and orange cost. Do not replay the five-step
    accounting construction or introduce either surplus definition again.
-3. Hold the two gains and their shared price line.
+3. Mark the open $2–$6 interval between the two thresholds and show “MC < P < MB.”
+   Keep $4 inside it. At an endpoint one person is indifferent; the interval
+   marks strictly positive gains for both. Hold this one example rather than
+   cycling through several accepted and rejected prices.
 
 ## 1.b · Recall why a deal changes
 
@@ -142,18 +184,81 @@ per-lot differences without a running aggregate numerical tally.
    before acceptance.
 3. On advance, move Molly's MC comparison to Amanda-Grace's side, solidify $4.25,
    and release Gary's old connection. Carry forward B3's accepted-line grammar.
-   Do not run the remaining bidding war or make an equilibrium claim here.
+   Show Gary's $4.50 response, then compress the remaining quarter-dollar bids
+   into one uninterrupted sequence with no extra teaching stops.
+
+## 1.b.settled · Explain why the bidding stops
+
+1. Park with Amanda-Grace buying from Molly at $6.25. Keep Gary's MB $6 and
+   Amanda-Grace's MB $7 visible; show “Gary's next bid: $6.50 > MB $6.”
+2. Show the small count “At $6.25: 1 willing buyer, 1 seller.” Hold “Who still
+   wants to bid?” The point is that the buyer-side outbidding has stopped.
+3. Do not claim Molly cannot ask more, or use this one-seller case as the full
+   competitive-equilibrium argument. The whole-market claim comes in stage 6.
+
+## 1.b.two_trades · Give the buyer another option
+
+1. Admit Andrew with MC $4 and an entry ask of $4.25. Keep the four people
+   head-on; arrange Gary, Andrew, Amanda-Grace, Molly from left to right so the
+   relevant pair connections join neighbors. Bars stay with their owners.
+2. Retain Amanda-Grace's solid $6.25 deal with Molly. Show her two alternatives:
+   “Molly: $6.25” / “Andrew: $4.25.” Title: “Would she keep paying more?” Hold.
+3. On advance, let Amanda-Grace take Andrew's $4.25 offer, then let Gary outbid
+   at $4.50. Keep Molly at $6.25 with no buyer. Continue the recorded seed-54
+   events without per-event pauses: Amanda-Grace $4.75, Gary $5, Molly cuts to
+   $6; Amanda-Grace $5.25, Molly $5.75; Gary $5.50, Molly $5.50; Amanda-Grace
+   takes Molly's open $5.50 offer. Show each changed price; do not invent or
+   duplicate a seller cut. This is the same trace as B3's outline.
+
+## 1.b.equal_prices · Park on two trades
+
+1. Keep Gary with Andrew and Amanda-Grace with Molly. Both prices are $5.50.
+   Show “2 willing buyers; 2 sellers” and “Both trades: $5.50.”
+2. Ask “Would either buyer switch?” Hold with the alternative prices visible.
+   The new seller has given buyers an alternative and made Molly respond.
+3. This path demonstrates prices coming together. Do not claim the finite
+   quarter-dollar model rules out a one-tick difference or that $5.50 is the
+   unique possible small-market price. Omit the extra scripted price-rise test;
+   the full crowd receives the stability test below.
+
+## 1.c.buyers · Build quantity demanded from the people
+
+1. Clear the four-person scene in one transition; reveal all 59 buyers as a
+   sorted head-on row. Caption “One person = 1,000 pounds”; keep bar heights in
+   dollars per pound. This explicitly changes the unit from the one-pound trades.
+2. Lift a copy of the sorted profile onto the demand graph at upper right;
+   retain the people and their bars. Label the fitted line (P=12-Q_d/5).
+   Title: “How many would buy at this price?”
+3. Place the price at $6 and reveal 30 checks, with Gary exactly on the line.
+   Show Qd=30 and “MB ≥ P.” Only Gary and the nearest excluded buyer need tags:
+   $6 and MB $5.80. Hold; touching the line counts as willing.
+4. On advance, lower the price to $3 in one play, revealing 45 checks and Qd=45.
+   Willing buyers' tags read the price; an unwilling buyer's tag reads their MB.
+   No trading circles or Qx appear: sellers have not entered this comparison.
+
+## 1.c.sellers · Build quantity supplied the same way
+
+1. Keep demand parked at $3 and Qd=45 on the upper graph. Reveal all 100 sellers
+   as their own sorted head-on row; retain the 1,000-lb-lot convention.
+2. Lift a copy of their profile to the supply graph directly below demand,
+   with the same quantity scale. Label the fitted line (P=2+Q_s/20).
+   Title: “How many would sell at this price?”
+3. At the same $3, reveal 20 checks and Qs=20. Show “MC ≤ P.” Tag the boundary
+   seller at $3 and the next seller at MC $3.05. Hold. Supply counts willingness;
+   it is not a tally of completed sales. Keep circles and Qx absent until `1.c`.
 
 ## 1.c · One price, many decisions
 
-1. Clear the small-cast scene in one transition and reveal the entire fixed
-   crowd, already sorted. Do not animate entrants one at a time.
-2. Caption “One person = 1,000 pounds”; axis caption “Dollars per pound.” Title:
-   “Who would trade at this price?”
-3. Restore the stacked demand/supply graphs and the common price $4. Show checks
-   on ranks 1–40 on each side, circles on those same people, and Qd=Qs=Qx=40.
-4. Hold. This is the full market's known benchmark, not the conclusion of the
-   preceding one-seller negotiation. Keep its identity through the entire lesson.
+1. Fold the already-present buyer and seller rows into the common plaza. Retain
+   their stacked graphs and sorted ranks. Do not introduce another crowd or
+   animate entrants one at a time.
+2. Keep “Dollars per pound” and “Q in thousands of pounds” beside the graph axes.
+   Title: “Why does $4 hold?”
+3. Move the common price to $4. Show checks on ranks 1–40 on each side, circles
+   on those same people, and Qd=Qs=Qx=40.
+4. Hold on the known benchmark as the question to explain. This full market's
+   values determine $4; it is not a continuation to $4 of the two-seller trace.
+   Keep this market's identity through the entire lesson.
 
 ## 1.d · Predict the low-price result
 
@@ -204,7 +309,48 @@ per-lot differences without a running aggregate numerical tally.
 2. Replace the adjustment caption with the B3 definition:
    “Equilibrium: the price and quantity at which quantity supplied equals
    quantity demanded — where no one wants to change.” Reflow at the usual size.
-3. Hold. Do not solve the equilibrium algebra again.
+3. Point to each part of the definition on this same frame: the matching counts,
+   the absence of willing people left without trades, and the dim people whose
+   MB/MC keeps them out at $4. Hold. “No one wants to change” does not mean the
+   excluded people no longer want spinach or would never sell at another price.
+
+## 1.i.stability · Test why the price holds
+
+1. Keep $4 and the 40 trades as the faint reference. Show a dashed proposed
+   $4.25 line without its count answers. Ask “Would a higher price hold?” Hold.
+2. On advance, test $4.25: Qd=38, Qs=45, Qx=38. Show seven willing sellers
+   without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
+   willing but unserved. A dashed undercut points back toward $4; restore $4.
+3. Test $3.75 in the same short sequence: Qd=41, Qs=35, Qx=35. Show six willing
+   buyers without circles. Buyers 36–40 lose trades; buyer 41 is newly willing.
+   A dashed higher offer points back toward $4; restore $4 and the 40 trades.
+4. Leave “Above $4: excess. Below $4: shortage.” briefly visible before the
+   graph transition. Use staircase count guides for these tests: the exact
+   whole-lot counts differ from smooth-curve intersections at quarter dollars.
+   Keep the cause visible as willing people left out, not just the marginal
+   pair refusing an unaffordable price.
+
+## 1.i.graph · Recognize the same condition at the crossing
+
+1. Retain the settled crowd and $4 line. Slide the two stacked graphs onto the
+   same axes. Their continuous lines cross at Q=40, P=$4, matching the crowd's
+   counts exactly at this price.
+2. Title: “Why does the crossing give equilibrium?” Highlight Qd=Qs=40 below
+   the graph and their shared point. Keep the people visible so this is another
+   representation of the same result, not a second definition. Hold.
+
+## 1.i.algebra · Make the equality explicit
+
+1. Temporarily fade the crowd and slide the same merged graph to the left,
+   opening B3's established right-hand math area. Carry copies of the displayed
+   equations there, retaining their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
+2. Show (Q_d=Q_s=Q) before setting their right-hand sides equal. Then reveal
+   (12-Q/5=2+Q/20), (10=Q/4), and (Q^*=40) in that order, with no extra
+   arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
+3. Carry the starred pair to the crossing. Hold “Same price; equal quantities.”
+   This is a short explanation of what the algebra means; leave Exercise Q1
+   completed. On advance, clear the working lines, slide the merged graph back
+   to the right, and restore the unchanged crowd at left before the exercise.
 
 ## 1.j · Exercise B3 Q2
 
@@ -220,8 +366,9 @@ per-lot differences without a running aggregate numerical tally.
 ## 2.a · Ask whether the market's answer is good
 
 1. Title: “Could we do better?” Keep the 40 trades in the crowd.
-2. Slide the two stacked graphs onto common axes. Retain their objects, units,
-   colors, selected quantity, and $4 price. Do not replace the market.
+2. Retain the already-merged graph from `1.i.graph`, its units, colors, selected
+   quantity, and $4 price. Clear any remaining recap labels without rebuilding
+   the graph or replaying its overlay move.
 3. Briefly light the familiar CS and PS portions of traded bars together. Hold
    the notes' welfare question without re-teaching how those regions are defined.
 
@@ -491,11 +638,12 @@ per-lot differences without a running aggregate numerical tally.
 
 ## Review and implementation checks
 
-- The opening has nine teaching holds (`1.a`–`1.i`) before Exercise Q2. Confirm
-  the time budget with Taylor; the initial proposal is roughly five minutes,
-  excluding the exercise. Keep the one switch; remove extra arithmetic or
-  intermediate price stops first if the recap runs long.
-- The draft has 38 named holds including the bumper and exercise. Beat actions
+- The opening has 17 teaching holds before Exercise Q2 and covers all seven
+  B3 stages in the order specified above. Taylor's budget is 5–10 minutes;
+  rehearse around 7–8 minutes, excluding the exercise. Protect the equilibrium
+  explanation. Shorten bidding motion and spoken repetition first if needed;
+  do not cut buyers, sellers, two trades, or the graph/equality bridge.
+- The draft has 46 named holds including the bumper and exercise. Beat actions
   explicitly marked “on advance” belong after that beat's pause. Recount after
   review; do not add hidden per-person or navigation-only pauses in code.
 - Review whether the buyer and seller substitution beats make the planner's
@@ -519,6 +667,10 @@ per-lot differences without a running aggregate numerical tally.
 
 ## Notes reconciliation for Taylor/Fable
 
+- B4 now includes the seven-stage equilibrium explanation requested by Taylor.
+  It needs to work as the class's clear account of these ideas, without requiring
+  a separate return to B3. Use B3's conversation outline as its source; keep the
+  literal lesson notes and the separate B3 storyboard untouched in this pass.
 - Condense the long CS and PS sections to familiar-tool callbacks, per Taylor's
   latest instruction. Keep the gain-cancellation argument because it explains
   what the planner is maximizing.
@@ -530,8 +682,10 @@ per-lot differences without a running aggregate numerical tally.
 - “When price decreases, CS increases” applies to an unchanged set of trades
   in `2.b`; it is not a general result after quantity/rationing changes. At the
   specified $3 ceiling aggregate CS falls, from $160,000 to $140,000 in the
-  smooth model. The notes' ceiling claim and low-price offset sentence need
-  reconciliation. The $6 floor raises PS substantially, not merely “slightly.”
+  smooth model proposed here. The live notes now correct the earlier ceiling
+  claim using exact-crowd CS of $156,000 to $138,000, and correct the floor's
+  “slightly” claim. Match the eventual animation's aggregate labels to the
+  agreed model; retain the fixed-quantity qualification for the general sentence.
 - “Any deviation from this outcome reduces welfare” is too strong for the exact
   crowd: dropping its zero-gain final trade changes no welfare, and swapping
   counterparties among the same selected people changes no aggregate benefit
