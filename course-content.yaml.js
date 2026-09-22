@@ -154,8 +154,8 @@ parts:
           homework: '2026-09-06'
 
       - checkpoint:
-          reattempt: in recitation
-          reattempt_when: Thu Oct 8 and Fri Oct 9
+          reattempt: sign up on Canvas
+          reattempt_when: Thu Oct 8, 2:30–4:30 PM, room TBA
           date: '2026-09-09'
           links:
             - {label: Solutions V1, file: Blocks/A_MiniExam/Checkpoint_A_1_sols.pdf}
@@ -231,6 +231,7 @@ parts:
         description: Markets find the equilibrium price where quantity supplied equals quantity demanded.
         episode:
           video: 8CQ3D2Kv2i0
+          links: [{label: Animations, file: Blocks/B3_Equilibrium/media/EpisodeB3_present/, icon: fa fa-desktop}]
           description: >-
             *This video introduces shortage and surplus and the incentives of buyers and sellers to move prices toward equilibrium.*
         reading:

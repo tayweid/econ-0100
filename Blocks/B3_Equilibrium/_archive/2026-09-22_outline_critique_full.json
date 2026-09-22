@@ -1,0 +1,1066 @@
+{
+  "summary": "Six independent critics check the draft B3 rebuild outline against code, numbers, style guide, prior diagnosis, downstream blocks, and a simulated student",
+  "agentCount": 6,
+  "logs": [],
+  "result": {
+    "animator": {
+      "lens": "Animator feasibility and style-guide compliance (lead animator receiving the brief)",
+      "verdict": "Not ready to hand off. The reuse claims for scenes 1, 2, 4, 5, 7 check out against 03_Equilibrium.py, but scene 3 as written has no model trace and discovery.py answers the 3.g test the opposite way (Gary buys Molly's $6 lot at zero gain and the 2×2 settles at $6.00/$5.75, contradicting the \"unequal prices don't last\" card), the 6.d count sequence is wrong (should be 45/20 → 43/25 → 42/30 → 41/35 → 40/40), and the scene-6 layout (159 people with 2.8-unit bars in a 48° plaza, two stacked 0–13 graphs, a three-box card in the caption band) does not fit a 2:1 stage at legible sizes. The single most important fix is to rewrite scene 3 onto the existing seed-54 trace (03_Equilibrium.py:783) and either drop 3.g or restage it as a scripted deviation that says so; second is to replace the stacked graphs with the existing 4.c/5.a combined graph so the \"5.a gold segment\" reuse is real and the price resolution stays 12 px per quarter.",
+      "issues": [
+        {
+          "where": "§5 scene 3, 3.a–3.g (and §2 row 3 'Reuses: small-cast 3.a.* (head-on)')",
+          "severity": "blocker",
+          "problem": "Scene 3's path is not a model trace, and the one test it stages (3.g) is answered the opposite way by the model. (a) 3.a has Gary take Andrew's $4.25 first, then AG outbids at $4.50, Gary at $4.75; the existing seed-54 trace starts from AG switching to Andrew at $4.25 and Gary countering at $4.50 (code initial_sellers=[1, None], asks [6.25, 4.5]). From the draft's state (Gary–Andrew $4.75, AG out, Molly $6.25) only 1 of 200 seeds reaches $5.50/$5.50; most settle at $5.75/$5.50 or $6.00/$5.75. (b) 3.d 'Cut to $4.50' is not a permitted move: unsold sellers cut one tick per round. (c) 3.g: after Molly asks $6 and AG switches to Andrew at $5.75, improvements() returns visit(Gary→Molly) at $6.00 (zero gain, permitted); seeds 0–9 from that state settle at (6.00, 5.75), (6.00, 6.00) or (5.75, 6.00) — never back to $5.50/$5.50. The card 'Stable prices are equal prices' is contradicted on screen by the model's own stopping audit (the model tolerates a one-tick gap).",
+          "evidence": "03_Equilibrium.py:783–785 `simulate([6,7],[2,4],[6.25,4.5], initial_sellers=[1,None], seed=54)` → rounds: AG→Andrew 4.75, Gary→Andrew 5.00, Molly cut 6.00 | AG 5.25, Molly 5.75 | Gary 5.50, Molly 5.50 | AG→Molly 5.50. discovery.py:154–158 (one-tick cuts), :46–64 improvements; my run: improvements(State((6.0,5.75),(None,1))) = (cut Molly, visit Gary→Molly, visit Gary→Andrew); simulate from that state, seeds 0–9: finals (6.0,6.0)/(6.0,5.75)/(5.75,6.0). 02_Storyboard.md:140–143 already warns 'The $0.25 process can settle at unequal nearby prices on other paths.'",
+          "fix": "Replace 3.a–3.e with the traced path and mark 3.g as scripted:\n\n3.a Andrew enters, MC $4, asks $4.25 (existing `3.a.entry`). Two people are unserved: Gary (no seller) and Andrew (no buyer). Title **\"Can two prices last?\"** Card for Amanda-Grace: \"Stay: Molly $6.25 / gain $0.75\" | \"Switch: Andrew $4.25 / gain $2.75\". Question \"Would Amanda-Grace keep paying $6.25?\" (existing wording). She switches.\n3.b Gary's card: \"Molly $6.25 / ✗ > MB $6\" | \"Outbid at Andrew, $4.50 / gain $1.50\". Question \"Could Gary gain by offering $4.50?\" (existing wording). He takes Andrew; Amanda-Grace is displaced.\n3.c Molly's card, unsold: \"Keep $6.25 / no buyer\" | \"Cut one step, $6.00 / may sell\". Question \"Would Molly lower her price?\" (existing `3.a.seller.cut` wording). She cuts one tick per round from here on.\n3.d One compressed play, seed 54 from [Gary–Andrew $4.50, Amanda-Grace out, Molly $6.25]: AG $4.75, Gary $5.00, Molly $6.00 | AG $5.25, Molly $5.75 | Gary $5.50, Molly $5.50 | AG→Molly $5.50. Park on \"Both trades: $5.50.\" Question **\"Would anyone switch?\"** Hold.\n3.e Card: **\"Stable prices are equal prices.\"** Caption: \"If one pair paid more, that buyer would switch.\"\n3.f (scripted, not model-checked — storyboard must say so) Molly asks $6.50 of Amanda-Grace. Her card: \"Molly $6.50 / gain $0.50\" | \"Outbid at Andrew, $5.75 / gain $1.25\" → she switches. Gary's card: \"Molly $6.50 / ✗ > MB $6\" → he waits. Molly unsold; she cuts $6.25, $6.00; Gary takes her at $6.00 (zero gain). Park: \"$6.50 lasted one round. Prices are back within one bid.\" Delete the claim that the 2×2 returns to $5.50/$5.50.\n\nAlso change §2 row 3 'Reuses' to: \"seed-54 trace and the three question strings from `3.a.entry`, `3.a.switch.options`, `3.a.counter.options`, `3.a.seller.cut`; no choreography (those beats are plaza-view with side panels and the hub walk).\""
+        },
+        {
+          "where": "§5 scene 6, 6.d",
+          "severity": "blocker",
+          "problem": "The rolling count sequence is wrong; on screen the printed Qd would disagree with the checks at two ticks.",
+          "evidence": "Qd(P) = #{n ≤ 59: 12 − n/5 ≥ P}: $3.25 → 43, $3.50 → 42, $3.75 → 41, $4 → 40. Qs: 25, 30, 35, 40. The draft's own §4 table gives $3.75 = 41/35, which the 6.d sequence (… → 40/35 → 40/40) contradicts.",
+          "fix": "Replace \"(45/20 → 43/25 → 41/30 → 40/35 → 40/40)\" with \"(45/20 → 43/25 → 42/30 → 41/35 → 40/40, one pair per quarter-dollar tick)\". In 6.h write the full sequence too: \"30/80 → 31/75 → 32/70 → 33/65 → 35/60 → 36/55 → 37/50 → 38/45 → 40/40\"."
+        },
+        {
+          "where": "§4 Numbers, table and the sentence 'At each test price exactly one person per side sits on the line'",
+          "severity": "major",
+          "problem": "The 'On the line' column and the sentence are wrong, and decision 6 has a consequence the draft misses: with $0.25 ticks the demand count is not the algebra at quarter prices (5(12−3.25) = 43.75), so the graph's horizontal read lands inside a bar and the printed Qd is the floor. The 'equal the algebra at every quarter-dollar price' claim is false for demand at .25/.75 prices.",
+          "evidence": "Computed: $3 → buyer 45, seller 20; $3.75 → seller 35 only (2 + 35/20 = 3.75), no buyer; $4 → buyer 40, seller 40; $4.25 → seller 45 only; $5 → buyer 35 and seller 60 (table says '—'); $6 → buyer 30, seller 80. Algebra Qd at 3.25/3.75/4.25 = 43.75/41.25/38.75.",
+          "fix": "Replace the table's last column with: $3: buyer 45, seller 20 | $3.75: seller 35 | $4: buyer 40, seller 40 (Andrew) | $4.25: seller 45 | $5: buyer 35, seller 60 | $6: buyer 30 (Gary), seller 80. Replace the sentence with: \"Counts equal the algebra at whole and half-dollar prices for supply and at whole dollars for demand; at other quarter-dollar prices the graph's dashed read lands inside a bar and the printed Qd is the number of bars whose top is at or above the line (43 at $3.25, not 43.75). Say once, at $3, that the last one in is just indifferent (B4 uses this).\" Add to §10 for Taylor: \"Tick the big-market line in $0.20 steps instead of $0.25? Then every tick gives whole-person counts on both sides (Qd −1, Qs +4 per tick) and the graph read always lands on a bar edge; the small cast keeps $0.25.\""
+        },
+        {
+          "where": "§4 Axes ('Shared Q axis 0–90 … the line stops at Q = 100, P = $7') and §5 7.b port",
+          "severity": "major",
+          "problem": "Q = 100 is off a 0–90 axis; the existing 4.c axes are 0–90 and the supply Line ends at (90, 6.5).",
+          "evidence": "03_Equilibrium.py:1295 `style_axes([0, 90, 10], [0, 13, 2], x_length=6.4, y_length=4.8)`; :1306–1307 demand Line (0,12)→(60,0), supply Line (0,2)→(90,6.5).",
+          "fix": "Replace the Axes paragraph with: \"Axes for every crowd graph (scenes 4–7): Q 0–100 (ticks 0, 20, 40, 60, 80, 100), P 0–13 (ticks 2, 4, 6, 8, 10, 12), x_length 6.4, y_length 4.8 as 4.c. Demand line (0, 12)→(60, 0); supply line (0, 2)→(100, 7). Bars: buyer n spans [n−1, n] with its top-right corner on the line at 12 − n/5 (B1's convention, 03_Code.py:911–915); seller n spans [n−1, n] with top-right corner at 2 + n/20. The 7.b port re-ranges 4.c's axes to 0–100.\""
+        },
+        {
+          "where": "§3 Deliberation card; §5 6.c, 6.g, 6.i",
+          "severity": "major",
+          "problem": "Three one-line boxes at the fixed bottom-text size do not fit the 14.8-unit safe width, and beats that list a card AND a caption put three to four rows of text in the caption band on one stop.",
+          "evidence": "Frame 46_5_b.jpg: the 62-character definition spans ~1000 of 1600 px ≈ 10 units → 0.16 u/char at scale 0.7443 (style §3). 6.c one-line boxes: 19 + 40 + 43 chars = 16.4 u before padding/gaps. 6.i lists a two-line card plus a caption; 6.c lists a question, a three-box card and a caption.",
+          "fix": "Replace the card spec with: \"Deliberation card: a gold question line, then two or three boxes side by side; each box is exactly two lines at the bottom-text size (0.7443), line 1 the option (≤ 24 characters), line 2 the gain. Box outlines carry the verdict as in the choice-boxes device (§7): chosen = EFFICIENT green outline, rejected = NASH red outline, unaffordable options print `✗ > MB $6` as line 2. No check or circle glyphs inside the card. Total band height 1.6 units; the world/graph body sits above y = −2.3. A caption and a card never share a stop: when a beat lists both, the card is the hold and the caption is the next hold (or narration).\" Rewrite 6.c's card as: \"Wait at $3 / $0\" | \"Outbid at $3.25 / gain $2.75\" | \"Seller 21 at $3.05 / gain $2.95\"; 6.g as: \"Keep $6 / no buyer\" | \"Undercut at $5.75 / gain $1.75\" | \"Buyer 31 at $5.80 / gain $1.80\"."
+        },
+        {
+          "where": "§5 scenes 4–6: 4.a, 4.d, 4.g, 5, 6 layout ('bars attached', 59-bar/100-bar rows, tags on every person)",
+          "severity": "major",
+          "problem": "Three geometric infeasibilities. (1) Plaza bars: at the crowd scale a $11.80 bar is 2.83 units; at the 48° tilt a row standing behind another needs > 1.11 × bar height of depth clearance (screen-up = 0.743·z + 0.669·y), so 59 buyers in rows inside a radius-4.8 plaza is a forest, and a single 'price line in the world at bar height' cannot cross more than one row. The existing arcs hold ten people (0.2-unit pitch would overlap 0.16-radius orbs). (2) Head-on rows: 59 people in ~13 units = 0.22 pitch, 100 in 0.13 (17 px); with the graph on the right third the row gets ~9.5 units → 0.16/0.095 pitch; 'Amanda-Grace' at 0.6 scale is ~1.6 units wide. (3) Tags: a '$5.80' tag at 0.58 scale is ~0.6 units; 59 of them at any pitch overlap.",
+          "evidence": "03_Equilibrium.py:443 CROWD_SCALE 0.24; :80 plaza radius 4.8; :448–453 ten arc spots; :483–486 orb radius 0.16; :497–498 tag scale 0.58; :36 BAR_WIDTH 0.16; :125 side view is `reorient(0, 90, …, height=7.2)` (there is no orthographic mode in use). results.json load lens: a $0.25 step on a small panel is ~15 px at native resolution.",
+          "fix": "Add to §3 a 'World layout for the crowd' paragraph: \"Head-on row (4.a, 5): camera as `2.a.i` (phi 90, focal_distance 50), row width 12.6 units; buyers at pitch 0.21, sellers at 0.125; orbs radius 0.08, bar width = 0.7 × pitch, dollar height 0.20 (tallest bar 2.4). Named people get a leader line (MUTED, 1 px) to a name on one of two staggered rows above the bars. Plaza (4.d on): people stand in rows facing the camera, ≤ 20 per row, pitch 0.45, row depth 0.9; buyers' block left of centre, sellers' block right (scene 6: both). In the plaza the bar is a stub of at most 0.6 units (dollar height 0.05); the height comparison lives on the graph, the check/circle/tag carry it in the world. The world price line is one red line per row across the front of the row at the stub height that corresponds to P. Tags: only a window — the last person in and the first three out on each side (scene 4 at $6: Gary '$6', then '$5.80', '$5.60', '$5.40', then '…'), plus the named people; everyone else's offer is read from the graph.\" In 4.g replace 'The other 29 show their MB' with that window rule, and in scene 5 likewise ('$3.05', '$3.10', '$3.15', '…')."
+        },
+        {
+          "where": "§5 scene 6 Layout ('the two graphs stack vertically at the right … existing 5.a gold segment') and 7.a",
+          "severity": "major",
+          "problem": "Stacked graphs do not fit and halve price resolution: the body band between a title and a 1.6-unit card band is ~4.9 units; two 0–13 graphs of ~2.0 units give 0.154 u/$ → the 6.j $4.25 test is 5 px from the $4 line. And the 'existing 5.a gold segment' does not exist on a stacked layout: 5.a draws it at price height between the two curves on ONE graph, not on the Q axis.",
+          "evidence": "03_Equilibrium.py:1557–1559 `quantity_gap = Line(ax.c2p(min(qs,qd), P), ax.c2p(max(qs,qd), P), color=DEFINITION)`; frame 45_5_a.jpg shows it between the curves. 4.c graph is 6.4 × 4.8 (py:1295) → 0.37 u/$ → 12 px per quarter. Frame 46_5_b.jpg shows the plaza-left/graph-right layout already working at one price.",
+          "fix": "Replace the Layout paragraph with: \"Layout (frame `5.b`'s): one plaza at the left (x −7.4 … 0.8), one combined graph at the right on 4.c's axes (6.4 × 4.8, centred x ≈ 4.4, y ≈ 0.3) with both curves, one red line, Qd and Qs read down to the Q axis and printed side by side, and the gap as 5.a's gold segment at price height between the curves. Scene 6 opens by sliding scene 4's demand graph and scene 5's supply graph onto these shared axes (this is the Primer overlay, moved here from 7.a). The card band (1.6 units) holds the question and boxes.\" Rewrite 7.a as: \"Fade the plaza (as `4.b`, 0.8 s); the combined graph slides to x = −2.7 and the grey divider enters — 4.c's layout exactly. The red guides meet at (40, $4). Title 'Where do supply and demand meet?'\""
+        },
+        {
+          "where": "§5 scene 3 header ('Head-on view, four people … Andrew stands beside Molly on the seller side') and §8 pass 3",
+          "severity": "major",
+          "problem": "No four-person head-on geometry exists to refit; the existing 2.c lineup is three people at x = −2.9, 0, 2.9 with 1.10-wide bars and Molly's MC bar sliding between buyers. With Andrew beside Molly (B B S S or B S S B) every switch in the trace makes a bar cross a third person.",
+          "evidence": "03_Equilibrium.py:266–278 (bid_body_x, bid_mb_x, bid_mc_x for three people), :397 (only Molly's MC bar moves). Trace pairings: Gary–Andrew, Andrew–AG, AG–Molly (all needed).",
+          "fix": "Add to scene 3: \"Lineup left→right: Gary (MB 6) · Andrew (MC 4) · Amanda-Grace (MB 7) · Molly (MC 2) at x = −4.2, −1.4, +1.4, +4.2, y = 0; camera as `2.c` (phi 90, centre (0, 0, 2.05), height 7.2 → 14.4 wide). Every pairing in the trace (Gary–Andrew, Andrew–Amanda-Grace, Amanda-Grace–Molly) is adjacent, so a deal is a red line spanning the two adjacent bars (as `2.b`'s accepted_line) and a switch is that line moving to the other side of a buyer; no bar slides. Bars stay at their owner's x; width 1.10 as `2.a.i`.\""
+        },
+        {
+          "where": "§8 Build order and files",
+          "severity": "major",
+          "problem": "Seven files each 'presented on its own' means every scene must begin in the previous scene's parked state without spending stops on it; the draft never says how. The `face_camera` billboard (20 lines, nested in construct) and the people/bar/tag construction would be copied six times, or the animator will invent a choreography module the style guide forbids. Class base, fps, header and bumper policy are unstated.",
+          "evidence": "03_Equilibrium.py:24–29 `class EpisodeB3(ThreeDScene)`, `default_camera_config={'fps':15}`, `self.camera.fps=15`; :44–61 face_camera nested; 02_Storyboard.md:36–46 'The new episode keeps this one small orientation helper'; _Assets/style.py:85 default FPS = 60; style guide §8 (flat code; factories fine; no helper closures).",
+          "fix": "Replace the Files paragraph with: \"Files: `03_S1_Exchange.py` … `03_S7_Algebra.py`, header `# maniml 03_S<n>_<Name>.py EpisodeB3_S<n>`, one `class EpisodeB3_S<n>(ThreeDScene)` (S7 too, since it opens on the parked plaza), `default_camera_config = {'fps': 15}` and `self.camera.fps = 15`, 2160×1080. Each file's construct() first BUILDS (no plays, no pauses) the previous scene's parked state — the row/plaza, graph, line, checks, circles, card — from the shared factories, then the first play is the scene's first beat. Move `face_camera`, `screen_point` and one `market(...)` factory (bodies, stub bars, tags, checks, circles for a list of values, returning dicts; no plays) into `Blocks/Sim/scene_layers.py`, which the current file already imports; that is an object factory, not choreography. Bumper: `0.a` in S1 only; S2–S7 open on their title. Exports: `--export-present` per file → `media/EpisodeB3_S<n>_present/`; every `self.pause` is a click, so the per-scene stop lists in §5 are the click budgets.\""
+        },
+        {
+          "where": "§5 scene 7, 7.b–7.e ('port with Q_d and Q_s subscripts … set equal')",
+          "severity": "major",
+          "problem": "The existing rows use plain Q; with subscripts, `2 + Q_s/20 = 12 − Q_d/5` is not solvable without a bridge row saying the two quantities are equal at equilibrium. The animator cannot add that teaching content unasked.",
+          "evidence": "03_Equilibrium.py:1309–1316 eq_d/eq_s with 'Q'; :1350 `equal = Tex('${{2}}+{{\\frac{Q}{20}}}={{12}}-{{\\frac{Q}{5}}}$')`; the exercise card (:1456) and 5.a rows (:1493–1496) use Q_d/Q_s. results.json student_typical: 'the exercise card writes Qd and Qs while the worked example used plain Q'.",
+          "fix": "Replace 7.b–7.e with: \"7.b Copies of the graph equations travel to the math area as `P = 2 + Q_s/20` and `P = 12 − Q_d/5` (existing `4.c.i`, subscripts added; Q_s, Q_d red). 7.c New row, gold caption below the title: 'At equilibrium Q_s = Q_d; call it Q.' Row: `Q_s = Q_d = Q` in red. Hold. 7.d–7.f Existing `4.d.collect`, `4.d.simplify`, `4.d`, `4.d.i`, `4.e` unchanged (plain Q from here, Q* = 40, P* = $4, starred pair carried to the graph).\""
+        },
+        {
+          "where": "§5 scene 1, 1.c–1.g 'exactly as built' vs 1.h 'both areas resize live', 1.i band, and the 10–12 stop budget",
+          "severity": "major",
+          "problem": "The built accounting is static Polygons with baked labels ('CS $2'), so 1.h's live resize means rebuilding 1.c–1.g on a tracker (allowed, but must be said, or the animator will Transform between rebuilt shapes — the §4 'wobble'). The band's token is unspecified. The beat list implies 14–15 stops (7 accounting holds + 4 prices + band + question + 2 openers) against a budget of 10–12, and two existing holds (`2.b`, `2.b.iv`) have no new text, which §3 retires.",
+          "evidence": "03_Equilibrium.py:181–246 (Polygon areas, Tex labels with f-string values), :139–178 (price_line static DashedLine → Line swap); present.json: `2.b` and `2.b.iv` are stops with no new text (facts lens onscreen_text). Style §6 'one tracker, one source of truth'; §2c no token for a price window.",
+          "fix": "Add after 1.h: \"Build note: the price is one `ValueTracker(4)`; the line, its shadow, the four areas and the four DecimalNumber labels ride it (B1's B12c grammar). When P > MB the expenditure/CS fills and labels hide and `✗ > MB $6` appears beside Gary's bar in GUIDE red; when P < MC the cost/PS fills hide and `✗ < MC $2` appears beside Molly's.\" Add to 1.i: \"Band = `TOTAL` purple @ 0.35 spanning both bars from MC height to MB height (it is the $4 total gain; B4 names it). [Taylor: or MUTED if the band should not pre-empt B4.]\" Replace the scene-1 stop budget with an explicit list: ⏸ 1.a, 1.b, 1.c Expenditure, 1.d CS, 1.e Revenue, 1.f PS (MC-label slide has no hold), 1.g 'One lot', 1.h $5 (both yes), 1.h $7 (✗), 1.h $1 (✗), 1.i band, 1.j question = 12. The dashed→solid acceptance plays on the advance out of 1.b, no stop."
+        },
+        {
+          "where": "§5 scene 6, 6.a/6.c/6.g/6.d ('seeded, not the top 20', 'Gary is one of them (seeded)') and §8 'Retire the 5.c/5.g random-visit runs'",
+          "severity": "major",
+          "problem": "Retiring the runs leaves no rule for who is circled at each tick, whether circles persist across ticks, or how Gary/Andrew are guaranteed uncircled; and discovery.simulate cannot be used as a fallback because the crowd values are off the $0.25 grid.",
+          "evidence": "discovery.py:93–94 raises 'Prices and marginals must lie on the chosen price grid'; verified: simulate(crowd, step=0.25) → ValueError, step=0.05 → ok. Existing seeds 473/361 (py:1675, 1682) belong to the retired runs.",
+          "fix": "Add to §3 Counts: \"Rationing rule (scenes 4–6): the crowd is not simulated; the line is scripted. At each price P the short side is fully circled; on the long side the circles go to the people who were circled at the previous tick and are still willing, then to a seeded random draw (seed 473 rising, 361 falling) among the remaining willing people, so circles persist and only the gap changes. Gary (buyer 30) is excluded from the draw at $3 and Andrew (seller 40) at $6, so they are the left-out people in 6.c and 6.g. Precompute the circled set for every quarter-dollar price once, in a dict at the top of construct(); the check/circle updaters read it from the price tracker so backward seeks reproduce the frame.\""
+        },
+        {
+          "where": "§3 Price line ('solid when it is the going price, dashed while proposed … same meaning … on every graph') vs §5 7.a ('the red guides meet there')",
+          "severity": "minor",
+          "problem": "The style guide's equilibrium device is dashed GUIDE drop-lines at opacity 0.3, and 5.a/4.c read prices with dashed guides; under the draft's rule those read as 'proposed'.",
+          "evidence": "_Style_Guide.md §4 'Equilibrium: GUIDE dot + two dashed GUIDE drop-lines (dashed_ratio 0.85, opacity 0.3)'; 03_Equilibrium.py:1325–1327, 1523–1526 dashed reads.",
+          "fix": "Append to the Price line bullet: \"The rule governs the market price line (stroke 3 in close-ups, 4.5 in the plaza, opacity 1). The graph's read guides and the P*/Q* drop-lines stay dashed at opacity 0.3 per style §4; they are reads, not proposals.\""
+        },
+        {
+          "where": "§3 Marks (check colour, circle, ✗) and §10 item 4",
+          "severity": "minor",
+          "problem": "The check and ✗ glyphs and their tokens are unspecified (Tex only, no icons), and the circle geometry already exists in the code with the OPPOSITE meaning (ring = willing but left out), which the animator will carry over unless told.",
+          "evidence": "03_Equilibrium.py:1606–1608 `waiting_rings.add(Circle(radius=0.29, color=DEMAND, stroke_width=3).move_to([..., 0.045]))` for queued buyers; 02_Storyboard.md:268–275 buyer rings. Style §0 'no icons', §3 'Tex for everything', §2 hue-as-noun.",
+          "fix": "Replace the Check/Circle bullets with: \"Check: `Tex(r'$\\checkmark$')` at scale 0.7 above the bar stub, DEMAND for buyers, SUPPLY for sellers (a check means 'willing', which is the side's own noun; green would say 'money'). Circle: the existing floor ring (radius 0.29, stroke 3, z 0.045, py:1607) recoloured GOV green — note the meaning flips from the current build: ring = trading, not left out. ✗: `Tex(r'$\\times$')` in GUIDE red followed by the reason (`> MB $6`).\" Keep §10 item 4 but recommend the side colour."
+        },
+        {
+          "where": "§5 scene 5 and scene 6 beat lists; 7.f 'Q1 card'; §6",
+          "severity": "minor",
+          "problem": "§6 renumbers the sheet (Q1 after scene 5, Q2 after 6.h, Q3 after scene 7) but the beat lists have no card beats in scenes 5 and 6, and 7.f still says 'Q1 card'.",
+          "evidence": "Exercise_B3.typ: Q1 = solve/plot, Q2 = 5 galleons (current order). §2 'Exercise cards: three (§6)'.",
+          "fix": "Add \"5.h ⏸ Exercise card — Q1 (if renumbered): at 5 galleons find Qd and Qs. Dimmed stage, B2 card style (existing `4.exercise` panel code, py:1453–1474).\" Add \"6.h.i ⏸ Exercise card — Q2: name the situation, its size, the direction.\" Change 7.f to \"7.g ⏸ Exercise card — Q3: solve Q*, P*, plot the starred pair.\" Note that until §6 is accepted the card headings keep the sheet's current numbers."
+        },
+        {
+          "where": "§5 scenes 2, 3, 4, 5 — titles at 2.a–2.d, 3.a, 4.a–4.d, 5 (opening)",
+          "severity": "minor",
+          "problem": "Titles are only given at the scene's payoff beat; the opening beats have none, and the existing 2.c title would otherwise be inherited.",
+          "evidence": "03_Equilibrium.py:353 `title('What would Amanda-Grace gain?')`; :442 `title('Where do prices settle?')`; style §3 'Every screen has one'.",
+          "fix": "Add: 2.a–2.d title \"What would Amanda-Grace gain?\" (existing), changing to \"Who gets the spinach?\" at 2.e. 3.a–3.d \"Can two prices last?\" (as drafted, from 3.a). 4.a–4.d \"Who would buy spinach?\", changing at 4.e. Scene 5 opens \"Who would sell spinach?\", changing to \"How many would sell at this price?\" at the first line."
+        },
+        {
+          "where": "§5 6.j 'Existing 5.h refusals as close-ups if wanted' and 6.f 'orange unsold-lot boxes optional'",
+          "severity": "minor",
+          "problem": "'If wanted' and 'optional' force the animator to guess teaching content, and 5.h's close-up depends on docked compact pairs (0.18-wide bars, camera height 3.4) that the new plaza does not have.",
+          "evidence": "03_Equilibrium.py:1897–2016; frame 61_5_h_i_offer.jpg (side-on docked pair); 02_Storyboard.md:187, 285–290.",
+          "fix": "Replace with: \"No close-ups in 6.j: the refusal is the ✗ line in a deliberation card (a seller's card at $4.25: 'Keep $4.25 / no buyer' | 'Cut to $4 / sells'; a buyer's at $3.75: 'Offer $3.75 / ✗ no seller' | 'Offer $4 / gain'). No unsold-lot boxes: a check without a circle is the unsold lot.\""
+        },
+        {
+          "where": "§3 Cards ('Long definitions may take two lines (style guide §7 width rule)') and 6.i",
+          "severity": "minor",
+          "problem": "The rule is in style §3 (14.8-unit safe width, reflow at the same size), not §7; and a two-line card changes the arrow origin and band height.",
+          "evidence": "_Style_Guide.md §3 definitions bullet; 03_Equilibrium.py:1650–1651 arrow from `definition.get_top()`.",
+          "fix": "Change to \"(style guide §3: reflow at the same 0.7443 size within 14.8 units)\" and add to 6.i: \"Two lines, centred, 0.05 bottom margin; the gold arrow leaves the card's top edge; the world/graph body ends at y = −2.3 for this scene.\""
+        },
+        {
+          "where": "§5 2.d 'Compress the remaining bids into one play (existing 2.c.ii→2.c.iii, 14 s)'",
+          "severity": "minor",
+          "problem": "The existing run is three short plays per bid (offer 0.35 s, MC slide 0.7 s, gap fill 0.45 s) × 7 bids ≈ 12.8 s of discrete events; 'one play' would need a redesign, and §6 permits sequential plays for discrete bars/events.",
+          "evidence": "03_Equilibrium.py:384–416.",
+          "fix": "Replace with: \"Run the remaining bids ($4.75 … $6.25) with the existing per-bid plays at their fast timing and no holds (≈ 11 s). Park on 'Gary: next bid $6.50 > MB $6.'\""
+        },
+        {
+          "where": "§9 Editor tasks (and §4 named cast)",
+          "severity": "minor",
+          "problem": "Decisions 5–6 make the notes' numbers comment wrong ('At $4 Molly supplies 20, Andrew 10, the rest 10') while the draft only fixes the Amanda-Grace MB.",
+          "evidence": "01_Notes.md:6.",
+          "fix": "Add task 9: \"Update the notes' numbers comment: one person = one lot = 1,000 lb; Amanda-Grace buyer 25, Gary buyer 30, Andrew seller 40; Molly is the supply intercept; delete 'Molly supplies 20, Andrew 10'.\" Also add task 10: \"Record decision 1 (seven scene files, one class each) in the style guide's §9 as the sanctioned exception to one-class-per-episode.\""
+        },
+        {
+          "where": "§0 '145 stops preceded the word equilibrium'",
+          "severity": "minor",
+          "problem": "Off by one.",
+          "evidence": "present.json: 225 stops; `4.a` is stop index 144, so 144 stops precede it (including the t = 0 start stop).",
+          "fix": "\"144 stops preceded the word 'equilibrium'\"."
+        }
+      ],
+      "confirmed_right": [
+        "Scene 1 reuse: `2.a`, `2.a.i`, `2.b.i`–`2.b.vi` exist and do what the draft says (03_Equilibrium.py:78–258; frames 00–06); 'One unit' caption is at :255.",
+        "Scene 2 reuse: `2.c` three-person lineup (:266–356), `2.c.i` question 'Would Amanda-Grace gain by offering $4.25?' (:387), `2.c.ii` (:394), `2.c.iii` 'Gary: next bid $6.50 > MB $6' (:425); the seed-0 bidding trace ends at $6.25 with Gary out (verified with discovery.simulate).",
+        "Scene 5/7 reuse: `4.b` staircase tracing (:1258–1265), `4.c` aggregate axes and equations (:1295–1316), `4.c.i`–`4.e` algebra rows (:1332–1450) exist; title 'Where do supply and demand meet?' is the existing 4.c title (:1294).",
+        "Scene 6 reuse: `5.a`/`5.d` count-and-gap treatment (:1556–1560), `5.b`/`5.d.i` definition cards with arrow (:1643–1653, wording matches 01_Notes.md:115, 133), `5.e` Surplus→Excess strike (:1655–1664) all exist.",
+        "§4 count table values Qd/Qs at $3, $3.75, $4, $4.25, $5, $6 (45/20, 41/35, 40/40, 38/45, 35/60, 30/80) are correct; named cast positions correct (MB_25 = 7, MB_30 = 6, MC_40 = 4); 6.j deltas correct (7 uncircled sellers at $4.25, 6 uncircled buyers at $3.75).",
+        "§4 exercise numbers match Exercise_B3.typ (P = 12 − Qd/2, P = 2 + Qs/2; Q* = 10, P* = 7; at 5 galleons Qd = 14, Qs = 6).",
+        "§0 figures: 225 stops and 547.3 s (present.json), S2 arrival = 47 stops, B1 = 75 stops (B1 present.json).",
+        "4.c lift-off is feasible with the existing technique: world bars are already projected to fixed screen rectangles via `screen_point` (:613–620) and Transformed onto axes (:625–629, 1254–1257).",
+        "§3 'existing 3.a.overview panel' technique (fixed 2D panel over the 3D world, :554–573) exists, though only the technique transfers — the panel is 0–8 × 0–10 at x = ±5.9.",
+        "§8's factories-yes/choreography-no line matches style §8; retiring the growth loop, `5.c`/`5.g` runs and posted-price markers is consistent with the flat-code rule.",
+        "§11 class-09 pause ids `4.e`, `5.a`, `5.d` exist in the current export with the stated content (frames 41, 45, 52)."
+      ],
+      "missing": [
+        "An explicit per-scene stop list (mark each beat ⏸ or 'no stop'), since §3 retires navigation-only holds and the present export makes every `self.pause` a click. Proposed scene 4: ⏸ 4.a row + caption, ⏸ 4.b line + caption, 4.c lift (no stop), 4.d pull-out (no stop), ⏸ 4.e $8/Qd = 20, ⏸ 4.f $6, ⏸ 4.f $4, ⏸ 4.f $2, ⏸ 4.f park $6, ⏸ 4.g tags = 9. Scene 5 mirrors at 8 (+1 if the Q1 card lands here). Scene 6 as drafted counts 17 (+1 card). Scene 7: 7.a, 7.b, 7.c bridge, 7.d.collect, 7.d.simplify, 7.d, 7.e, 7.f star, 7.g card = 9. Total ≈ 12 + 8 + 10 + 9 + 9 + 18 + 9 = 75.",
+        "A 'World layout for the crowd' paragraph in §3 with numbers (row pitch, orb radius, stub height, rows of ≤ 20, world line per row, tag window) — text proposed in the scene 4–6 issue.",
+        "Scene 6 screen budget in units: title band y 2.9–4.0; body y −2.3–2.7; card band y −4.0–2.3; plaza x −7.4–0.8; graph 6.4 × 4.8 at x ≈ 4.4 — so the animator does not re-derive the layout.",
+        "The rationing rule and seeds for circles (text proposed), plus the statement that the crowd is scripted, not simulated (discovery.simulate rejects it at step 0.25).",
+        "A bumper/opening policy per scene file and the requirement that each file constructs the prior parked state without stops (text proposed in the §8 issue).",
+        "The geometric bar convention for the crowd (top-right corner on the line, B1's) alongside the counting convention (§4 of the style guide asks the storyboard to state it).",
+        "Glyph and token specs for check, circle and ✗ (Tex `\\checkmark`, `\\times`; DEMAND/SUPPLY/GOV/GUIDE) — text proposed.",
+        "A sentence in §8 that the deliberation card is a new §7 device (question + two-line boxes with choice-box outlines) to be added to the style guide, so later blocks reuse it rather than re-invent it.",
+        "Card beats for the exercise questions in scenes 5 and 6 and the 7.f renumbering (text proposed).",
+        "§10 item for Taylor: $0.20 vs $0.25 ticks for the big-market line (whole-person counts on both sides at every tick) — text proposed in the §4 issue."
+      ]
+    },
+    "econ": {
+      "lens": "Economics and arithmetic",
+      "verdict": "Not ready to hand off: two numbers that go on screen are wrong (the 6.d tick sequence contradicts the draft's own table, and three \"on the line\" cells plus the \"equals the algebra at every quarter-dollar\" sentence are false), and scene 3 as written does not play under the model's rules (Molly's jump to $4.50 settles the 2×2 at $4.50/$4.75 and never reaches $5.50; the 3.g test never returns to $5.50; the cited seed-54 trace starts from a state the draft never produces and no seed from the draft's state ends at $5.50/$5.50 with Amanda-Grace at Molly). The single most important fix is scene 3: replace 3.d with a one-tick cut, script 3.e to the survey seed-0 trace (five rounds, pairs swap), and either stop 3.g at the switch or park at $5.75/$5.75. Everything in scenes 4–6 checks out except the tick sequence, the table cells, the rationing-vs-B4 tension, and the $0.25 grid the crowd cannot live on.",
+      "issues": [
+        {
+          "where": "§5 scene 6, 6.d",
+          "severity": "blocker",
+          "problem": "The tick sequence is wrong at $3.50 and $3.75 and contradicts the draft's own §4 table (which correctly gives $3.75 → 41/35).",
+          "evidence": "Recomputed from MB_n = 12 − n/5, MC_n = 2 + n/20: $3.00 45/20, $3.25 43/25, $3.50 42/30, $3.75 41/35, $4.00 40/40. At $3.50 buyers with MB ≥ 3.50 are 1–42 (MB_42 = 3.60, MB_43 = 3.40); at $3.75 they are 1–41 (MB_41 = 3.80).",
+          "fix": "Replace \"(45/20 → 43/25 → 41/30 → 40/35 → 40/40)\" with \"($3.00 45/20 → $3.25 43/25 → $3.50 42/30 → $3.75 41/35 → $4.00 40/40; four ticks; Qd drops by two on the first tick because buyers 44 ($3.20) and 45 ($3.00) both leave)\"."
+        },
+        {
+          "where": "§4 Numbers, table and the sentence after it",
+          "severity": "blocker",
+          "problem": "Three \"On the line\" cells are wrong and the claim that the counts equal the algebra \"at every quarter-dollar price up to $7\" is false for Qd; \"exactly one person per side sits on the line\" at each test price is false at $3.75 and $4.25.",
+          "evidence": "Sellers sit on every quarter-dollar (MC_n = 2 + n/20 hits every $0.05): $3.75 → seller 35, $4.25 → seller 45, $5.00 → buyer 35 and seller 60. Buyers hit the line only at multiples of $0.20, so at $3.25 the algebra gives Qd = 43.75 while the count is 43; mismatches at every non-whole-dollar quarter ($3.25, $3.50, $3.75, $4.25, $4.50, $4.75, $5.25, …). Qs = 20(P − 2) matches the count at every quarter-dollar.",
+          "fix": "Table rows: \"$3.75 | 41 | 35 | seller 35 ($3.75)\", \"$4.25 | 38 | 45 | seller 45 ($4.25)\", \"$5 | 35 | 60 | buyer 35 ($5), seller 60 ($5)\". Replace the sentence with: \"Qs equals the algebra's 20(P − 2) at every quarter-dollar; Qd equals 5(12 − P) only at whole dollars (at $3.25 the algebra says 43.75, the count is 43). Every price at which a count is read aloud ($2, $3, $4, $5, $6, $8) is a whole dollar, so the printed counts and the equations never disagree on screen; during the 6.d/6.h ticks and the 6.j tests the graph prints the count, never the formula. At whole-dollar prices exactly one person per side sits on the line; at the quarter-dollar ticks one seller does and no buyer. Say once that the last one in is just indifferent (B4 uses this).\""
+        },
+        {
+          "where": "§5 scene 3, 3.d",
+          "severity": "blocker",
+          "problem": "Molly cutting straight to $4.50 \"below Andrew's price\" does not lead to $5.50: the model cuts one tick per round, and a $4.50 ask while Andrew is at $4.75 is taken by Amanda-Grace at once, leaving a settled 2×2 at $4.50/$4.75 (or $4.75/$4.75). 3.e's \"bids and cuts alternate until both prices are equal … $5.50\" then never happens.",
+          "evidence": "discovery.py:154-158 cuts one tick (max(cost, ask − 1)) per round for a unit unreserved at both round boundaries; $6.25 → $4.50 is seven ticks. From State((4.50, 4.75), (Gary→Andrew, AG free)), survey seeds 1–3 settle at (4.50, 4.75) in one round, seed 0 at (4.75, 4.75); improvements() is empty at (4.50, 4.75) because Gary's outbid at Molly would be $4.75, not strictly below his $4.75.",
+          "fix": "3.d Molly's card, unsold: \"Keep $6.25: no buyer | Cut a step to $6.00: closer to the bidding.\" She cuts one step; a seller cuts one step per round, never below MC. Storyboard note: do not let her jump below Andrew's price — at $4.50 Amanda-Grace takes her at once and the two pairs settle at $4.50/$4.75, one bid apart, and the scene never reaches $5.50."
+        },
+        {
+          "where": "§5 scene 3, 3.a (\"seed 54 reaches $5.50/$5.50 in four rounds\") and 3.e",
+          "severity": "blocker",
+          "problem": "The seed-54 fixture starts from a state the draft never produces, and from the draft's own 3.a state the model never ends at $5.50/$5.50 with Amanda-Grace at Molly; when it does reach $5.50/$5.50 the pairs have swapped (Gary–Molly, Amanda-Grace–Andrew), which 3.g (\"Molly asks $6 of Amanda-Grace\") silently assumes away.",
+          "evidence": "test_discovery.py:156 runs simulate([6,7],[2,4],[6.25,4.5], seed=54, initial_sellers=[1,None]) — Molly unsold at $6.25, Gary at Andrew for $4.50, AG free; the draft's 3.a has AG–Molly $6.25, Gary–Andrew $4.25. From the draft's state, 200 survey seeds end: (5.50,5.50) Gary–Molly/AG–Andrew ×49, (5.75,5.50) ×62, (5.75,5.75) ×50, one-tick gaps ×39; zero end at (5.50,5.50) with AG at Molly; random-visit mode gives 7/200 at (5.50,5.50). Survey seed 0 from the draft's state: R1 AG outbids at Andrew $4.50; R2 Gary $4.75, Molly cuts $6.00; R3 AG $5.00, Molly $5.75; R4 Gary $5.25, AG $5.50, Molly $5.50; R5 Gary takes Molly at $5.50.",
+          "fix": "3.a parenthetical: \"(Animator's choice of entry ask; $4.25 works. The model trace from this exact state is survey mode, seed 0: five rounds to $5.50/$5.50, ending Gary–Molly and Amanda-Grace–Andrew — the pairs swap. The seed-54 fixture in test_discovery.py starts from a different state and ends with the original pairs; no seed from this state does. About half of all seeds settle one bid apart rather than equal, so script 3.e by hand to the seed-0 trace.)\" 3.e: \"One compressed play (the seed-0 trace): Amanda-Grace $4.50, Gary $4.75 and Molly cuts to $6.00, Amanda-Grace $5.00 and Molly $5.75, Gary $5.25, Amanda-Grace $5.50 and Molly $5.50; then Gary's card: 'Outbid at Andrew $5.75: gain $0.25 | Molly, now $5.50: gain $0.50' → he takes Molly. Park on 'Both trades: $5.50' with Gary–Molly and Amanda-Grace–Andrew.\" Update 3.g and §2 to the swapped pairs (see next issue)."
+        },
+        {
+          "where": "§5 scene 3, 3.g and \"Ends parked: two pairs at $5.50\"; §2 row 3",
+          "severity": "major",
+          "problem": "After Molly asks $6 and Amanda-Grace switches, the market does not \"cut back to $5.50\": the displaced Gary (MB $6) can only gain at Molly once she reaches $5.75, so the honest play ends at $5.75/$5.75 (or a one-tick gap); the raise ratchets both trades up a bid.",
+          "evidence": "From State((6.00, 5.50), AG→Molly, Gary→Andrew), every survey and random seed 0–5 settles at (5.75, 6.00), (6.00, 6.00) or (6.00, 5.75); none returns to 5.50. improvements() lets Gary take Molly at $6.00 (zero gain, discovery.py:59 blocks only offer > value) or wait; Molly's next cut is $5.75 and Gary takes it (gain $0.25 > outbid at Andrew $6.00, gain $0).",
+          "fix": "3.g: \"The test. Molly asks $6 of her buyer. His card: 'Molly $6: gain $0 (Gary) / $1 (Amanda-Grace) | Outbid at Andrew $5.75: gain $0.25 / $1.25' → the buyer switches → Molly is unsold. Hold on 'Unequal prices don't last: the buyer paying more leaves.' Then a visible rewind to $5.50/$5.50 (caption 'Back to where they were'). Do not play Molly's cut out: under the rules it stops at $5.75, not $5.50, because Gary has room up to $6, and both trades end a bid higher.\" If Taylor prefers to play it out, change every '$5.50' park (3.g, Ends parked, §2 row 3) to '$5.75/$5.75' and caption 'Her raise didn't stick as a gap; it moved both trades up one bid.'"
+        },
+        {
+          "where": "§5 scene 3, 3.f caption and editor note",
+          "severity": "major",
+          "problem": "\"Stable prices are equal prices\" / \"If one pair paid more, that buyer would switch\" is not what the model shows: prices one bid apart are also stable, because switching to an occupied seller costs ask + $0.25 and must be strictly cheaper.",
+          "evidence": "test_discovery.py:115 (\"Two pairs alone do not force equal prices under quarter-dollar outbids\") and :119 final asks (6.25, 6). Checked: State((p+0.25, p), AG→Molly, Gary→Andrew) has no improvements for p = 4, 4.25, 5, 5.5, 6; State((p+0.50, p)) does. 3.g works only because the $6/$5.50 gap is two bids.",
+          "fix": "3.f caption: \"If one pair paid more — by more than one bid — that buyer would switch.\" Editor note, add: \"Under the model's one-tick outbid rule, prices one bid ($0.25) apart are also stable; the scene shows a two-bid gap collapsing. Keep the card wording, but never claim the small market forces exactly equal prices.\""
+        },
+        {
+          "where": "§5 scene 1, 1.i caption; §3 Check rule; scene 4 4.f",
+          "severity": "major",
+          "problem": "1.i says \"MC < P < MB\" (strict) while §3 counts MB ≥ P / MC ≤ P as willing and 4.f says Gary \"is the last one in\" at $6 = his MB; 2.d also has Gary bid exactly $6 (zero gain) in the existing choreography. A student who takes 1.i literally will say Gary is out at $6.",
+          "evidence": "Draft §3 line 47 (\"MB ≥ P for a buyer, MC ≤ P for a seller\"); §4 line 72 (\"a bar whose top touches the line counts as willing\", B1 02_Storyboard.md:37 \"top-right corner ON the line\"); model trace for scene 2: Gary matches at 6.00 in round 5 before AG's 6.25 (discovery.py:59 allows offer == value).",
+          "fix": "1.i caption: \"Any price from MC up to MB works: MC ≤ P ≤ MB. At the ends one of them gains nothing — and still says yes.\" 1.h: after \"Slide to $7: Gary's side gets ✗ '> MB $6'\", add \"Slide to $6: Gary still says yes, gain $0 — the edge of the band.\""
+        },
+        {
+          "where": "§5 scene 6, 6.a/6.e (\"seeded, not the top 20 — at one price who gets served is luck\"); §7 Pinned line",
+          "severity": "major",
+          "problem": "Random rationing is inconsistent with the welfare arithmetic B4 does: B4 computes CS under a ceiling as the area under demand above the ceiling out to Qs and DWL as the triangle, which assumes the highest-MB buyers (and lowest-MC sellers) are the ones served. With a random 20 of 45 at $3, summed per-person CS is below that area, the lost surplus exceeds the triangle, and a zero-gain buyer (buyer 45, MB $3.00) can be circled while Gary (gain $3) is not.",
+          "evidence": "B4_Efficiency/01_Notes.md:257-261 (CS = area below demand above price inside the quantity exchanged; DWL = the area between the curves above the lost quantity), :287 (\"consumer surplus is a bit larger, since the price is lower\"), :233 (\"DWL is a triangle\"). Draft §7 promises \"per-person CS/PS areas can be shaded and summed; the lost trades become DWL\". Efficient rationing also makes the named outcomes automatic: Gary is #30 > 20 at $3, Andrew is #40 > 30 at $6.",
+          "fix": "6.a: \"Circles: 20 pairs — the 20 buyers with the highest MB and the 20 sellers who are willing (buyers 1–20, sellers 1–20). Gary (#30) is checked and uncircled without any seeding.\" 6.e: \"Circles 30: buyers 1–30 with sellers 1–30 (lowest MC). Andrew (#40) is unsold without seeding.\" Drop \"(seeded)\" from 6.c and 6.g. If Taylor wants the luck framing instead, add to §7 Pinned line: \"B4's CS/PS/DWL areas assume the line sorts by MB and MC; if B3 says 'who gets served is luck', B4 must say once that it assumes the highest-value buyers get the units, or its triangle understates the loss.\""
+        },
+        {
+          "where": "§4 (\"Bids and cuts move in $0.25 steps\"), §5 6.c/6.g, §8 (\"Crowd values are visible constants\")",
+          "severity": "major",
+          "problem": "The crowd cannot run on the $0.25 grid: MC_n = 2 + n/20 and MB_n = 12 − n/5 are nickel prices, and discovery.py refuses off-grid values. The 6.c card mixes a grid outbid ($3.25) with an off-grid ask ($3.05), and 6.d's \"the line rises in $0.25 ticks\" is a presentation step, not the model's.",
+          "evidence": "discovery.py:93-94 raises 'Prices and marginals must lie on the chosen price grid' for the crowd at step=0.25; step=0.05 accepts it and improvements() is empty at the $4 allocation (buyers 1–40 with sellers 1–40 at $4.00, others asking MC). Under a $0.05 step Gary's outbid at a $3 seller is $3.05, not $3.25, and at $3.75 the cheapest yes is seller 36 at $3.80, not $4.00.",
+          "fix": "§4, after \"Bids and cuts move in $0.25 steps\": \"(small cast). The crowd's MB and MC are nickel prices; if the animator drives any crowd beat with discovery.py, use step=0.05. Taylor steps the line by quarters (decision 7); the quarter tick is a presentation step, and the graph prints counts at each tick.\" 6.c caption, append: \"We'll move the line a quarter at a time.\" 6.c card: keep $3.25 as the outbid only if the caption says the small-cast bid step is being reused; otherwise write \"Outbid at a $3 seller: a little over $3\"."
+        },
+        {
+          "where": "§5 scene 6, 6.j",
+          "severity": "minor",
+          "problem": "\"seven sellers lose their circles\" overstates: at $4.25 only two sellers lose circles (their buyers 39 and 40 drop out); five sellers (41–45) are newly checked and were never circled. Likewise at $3.75 five buyers lose circles and buyer 41 is newly checked.",
+          "evidence": "Qd($4.25) = 38 (MB_39 = 4.20, MB_40 = 4.00 fall below), Qs($4.25) = 45 (sellers 41–45, MC $4.05–$4.25 enter); 45 − 38 = 7. Qd($3.75) = 41 (buyer 41, MB 3.80 enters), Qs($3.75) = 35 (sellers 36–40 leave); 41 − 35 = 6.",
+          "fix": "6.j: \"Test up: dashed $4.25. Qd 38, Qs 45: two circled sellers lose their buyers (MB $4.20 and $4.00 are now under the line) and five more sellers ($4.05–$4.25) step in — seven checked, uncircled; one undercuts; the line falls back. Test down: dashed $3.75. Qd 41, Qs 35: five sellers ($3.80–$4.00) step out, one more buyer ($3.80) steps in — six buyers checked, uncircled; one bids; it rises back.\""
+        },
+        {
+          "where": "§5 scene 6, 6.h",
+          "severity": "minor",
+          "problem": "The ellipsis hides that the downward play is eight ticks (twice 6.d's four) and that Qd jumps by two at $5.00 and $4.00; the animator needs the full sequence.",
+          "evidence": "Recomputed: $6.00 30/80, $5.75 31/75, $5.50 32/70, $5.25 33/65, $5.00 35/60, $4.75 36/55, $4.50 37/50, $4.25 38/45, $4.00 40/40.",
+          "fix": "6.h: \"One continuous play down, eight ticks: $6.00 30/80 → $5.75 31/75 → $5.50 32/70 → $5.25 33/65 → $5.00 35/60 → $4.75 36/55 → $4.50 37/50 → $4.25 38/45 → $4.00 40/40 (Qd rises by two at $5 and at $4). Stops at $4 by itself: no seller is uncircled, so no one cuts. Park.\""
+        },
+        {
+          "where": "§4 Axes",
+          "severity": "minor",
+          "problem": "A Q axis of 0–90 cannot hold a supply row of 100 sellers or a line that \"stops at Q = 100, P = $7\".",
+          "evidence": "03_Equilibrium.py:1295 style_axes([0, 90, 10], …) and :1305 supply = Line(ax.c2p(0, 2), ax.c2p(90, 6.5)) — the current graph ends supply at Q = 90, $6.50.",
+          "fix": "Either \"Shared Q axis 0–100 (ticks 0, 20, 40, 60, 80, 100), P axis 0–13; the supply row is drawn to 100 sellers and the line to (100, $7)\" or \"90 sellers (MC $2.05–$6.50); the line stops at (90, $6.50) as in the current aggregate graph\". Pick one; scene 5's \"100 sellers\" and §2 row 5 must match."
+        },
+        {
+          "where": "§9 Editor tasks",
+          "severity": "major",
+          "problem": "Two notes sentences contradict the draft's crowd and are not on the editor's list: the notes allocate 20 lots to Molly and 10 to Andrew at $4 (one person per bar makes each of them one lot, and Molly is not in the crowd), and the notes' 5.b shortage prose has Amanda-Grace bidding $3.25 to Molly, who under §4 is the intercept, not a seller in the crowd; the draft's 6.c uses Gary and seller #21.",
+          "evidence": "01_Notes.md:6 \"At $4 Molly supplies 20, Andrew 10, the rest of the market 10\"; 01_Notes.md:113 \"Amanda-Grace … decides to offer Molly a higher price. Let's say three dollars and twenty-five cents.\" Draft §4 \"Molly's $2 is the supply intercept, not a crowd member\"; §5 6.c names Gary. §9.1 claims \"the current 5.x prose fits scene 6\".",
+          "fix": "Add §9.9: \"Delete 'At $4 Molly supplies 20, Andrew 10, the rest of the market 10' from the numbers line; under decision 5 every crowd member is one lot and Molly is the intercept.\" Add §9.10: \"Rewrite the 5.b sentence so the line-jumper is the buyer scene 6 uses (Gary, or Amanda-Grace if Taylor prefers — she is buyer 25, MB $7, and is also left out at $3 under top-20 rationing) and the seller is 'a seller who wasn't selling at $3' (seller #21, cost $3.05), not Molly.\""
+        },
+        {
+          "where": "§0, bullet 3",
+          "severity": "minor",
+          "problem": "\"145 stops preceded the word 'equilibrium'\" is off: the word is on the bumper at stop 1, and 144 stops (143 named) precede the definition at 4.a.",
+          "evidence": "03_Equilibrium.py:69 thesis 'Equilibrium: when no one wants to change' shown before pause '0.a' (t = 7.3 s); present.json stop indices: 4.a is stop 144 at t = 386.5 s, 4.b stop 145 at 390.8 s; results.json: \"143 of 225 stops and 386 of 547 s before 4.a\".",
+          "fix": "\"144 stops preceded the definition at 4.a (t = 387 s; the word itself appears only on the bumper); one seller's arrival alone cost 47 clicks with no caption.\""
+        },
+        {
+          "where": "§5 scene 2, editor note",
+          "severity": "minor",
+          "problem": "The note says the answer to \"why doesn't Molly raise to $6.75\" arrives in scene 6; scene 3's own test (3.g) is the first answer (a second seller), and the model has no raise action at all, so the small-cast 'stable' is purely partner-stability. The note is right in substance but under-cites and, as computed above, 3.g played out shows a raise partly sticks.",
+          "evidence": "discovery.py improvements() offers only 'cut' (unmatched seller, :50-52) and 'visit'; no raise. In the 3-person case Molly could ask up to $7.00 and Amanda-Grace would still say yes (7.00 ≤ MB 7).",
+          "fix": "Editor note: \"in scenes 2–3 'stable' means no one wants to switch partners; the model has no 'raise' move. A sharp student will ask why Molly doesn't raise to $6.75 — with one seller she could, up to $7. The first answer is 3.g (a second seller: her buyer leaves); the full answer is scene 6. Don't claim price-stability here.\""
+        }
+      ],
+      "confirmed_right": [
+        "Crowd formulas and endpoints: MB_1 = $11.80, MB_59 = $0.20, MC_1 = $2.05, MC_100 = $7.00 (recomputed).",
+        "Named crowd positions: Amanda-Grace = buyer 25 (MB 12 − 5 = $7), Gary = buyer 30 ($6), Andrew = seller 40 (2 + 2 = $4); Molly's $2 is the intercept and no seller has MC $2.00.",
+        "Table counts at $3, $3.75, $4, $4.25, $5, $6: 45/20, 41/35, 40/40, 38/45, 35/60, 30/80 all correct; 'on the line' correct for $3 (buyer 45, seller 20), $4 (buyer 40, seller 40 = Andrew) and $6 (buyer 30 = Gary, seller 80).",
+        "Scene 4: $8 → 20 checks (buyer 20 has MB exactly $8), $6 → 30 with Gary last in, $4 → 40, $2 → 50; the 29 unwilling at $6 show $5.80, $5.60, … (buyers 31, 32).",
+        "Scene 5: $3 → 20, $4 → 40 with Andrew last in, $6 → 80; the 80 unwilling at $3 show $3.05, $3.10, … (sellers 21, 22).",
+        "6.c: seller #21's cost is 2 + 21/20 = $3.05, gain 6 − 3.05 = $2.95; outbid at $3.25 gains $2.75; cheapest yes is $3.05. 6.g: buyer #31's MB is 12 − 31/5 = $5.80, gain 5.80 − 4 = $1.80; undercut at $5.75 gains $1.75; highest yes is $5.80.",
+        "6.a/6.e leftovers: 45 − 20 = 25 buyers checked-uncircled at $3; 80 − 30 = 50 sellers checked-uncircled at $6. 6.j counts 38/45 and 41/35 are right.",
+        "Scene 6 stopping: from $3 in quarter ticks the line lands exactly on $4 (4 ticks) and from $6 exactly on $4 (8 ticks) with no overshoot; at $4 with buyers 1–40 matched to sellers 1–40 and the rest asking MC, discovery.improvements() (step 0.05) returns nothing, so 'it stops by itself' holds, given the on-the-line convention that buyer 40 (MB $4) and seller 40 (MC $4) trade at zero gain — the draft's 'say once that the last one in is just indifferent' covers this.",
+        "Scene 2 arithmetic: 2.b gain 7 − 4.25 = $2.75; 2.c gain 6 − 4.50 = $1.50; the model's bid sequence (test_discovery.py:99-101 and a live run) is 4.25, 4.50, 4.75, 5.00, 5.25, 5.50, 5.75, 6.00 (Gary, zero gain), 6.25 (AG); Gary's next bid $6.50 > $6; final State((6.25,), (None, 0)) is settled — 'no one wants to switch' is true at $6.25.",
+        "Scene 3 cards: 3.b stay 7 − 6.25 = $0.75, switch 7 − 4.50 = $2.50; 3.c Molly $6.25 > MB $6, outbid at Andrew $4.75 gains $1.25; 3.g Molly $6 gains $1, outbid at Andrew $5.75 gains $1.25 so Amanda-Grace does switch. Editor note 'any equal price between $4 and $6 is stable' confirmed for p = 4, 4.25, 5, 5.5, 6.",
+        "Scene 1: at $5 CS = $1, PS = $3; $7 fails Gary (> $6), $1 fails Molly (< $2), $3 passes both; band $2–$6.",
+        "Scene 7 algebra: 12 − Q/5 = 2 + Q/20 → Q* = 40, P* = $4. Exercise: 12 − Q/2 = 2 + Q/2 → Q* = 10, P* = 7; at 5 galleons Qd = 14, Qs = 6 (Exercise_B3.typ:36-59).",
+        "§0 figures: 547 s and 225 stops (present.json), B1 75 stops, B2 85 stops (their present.json), 47-click seller arrival and t = 546 s single frame (results.json).",
+        "§11: the current 5.a/5.d aggregate readouts are Qs = 20 / Qd = 45 at $3 and 80 / 30 at $6 (02_Storyboard.md:179, 183).",
+        "Stop budget: scene ranges sum to 67–83 plus three exercise cards, under the ≤ 100 target."
+      ],
+      "missing": [
+        "The pairing at the end of scene 3 is never stated, and 3.g depends on it. Add to 3.e: \"Park on 'Both trades: $5.50' — Gary with Molly, Amanda-Grace with Andrew (the pairs swapped during the bidding; say so in one line: 'Notice they've traded partners — it's the price that settled, not who buys from whom').\"",
+        "A one-line statement of which mechanism moves the price in the big market vs. the small one, since the crowd's own rule ('cheapest seller who'd say yes') gives nickel moves while the line moves by quarters. Add to §3 Price line: \"In scenes 4–7 the line moves in quarter-dollar ticks stepped by Taylor; each tick stands for the individual deals (6.c/6.g) that happen just above or below the going price.\"",
+        "§7 Pinned line needs the rationing assumption written down so B4's areas are computable from the engine: \"At a pinned price the engine circles the highest-MB buyers and lowest-MC sellers up to the short side (B4's CS/PS/DWL areas assume this); an option to randomize the served set exists only if B4 states the assumption.\"",
+        "§4 should record the crowd's price grid for the animator: \"The crowd's MB and MC lie on a $0.05 grid; the small cast's bids lie on $0.25. Any model run over the crowd uses step=0.05.\"",
+        "§9 needs the two notes fixes from the issues list (delete 'Molly supplies 20, Andrew 10'; rewrite the 5.b line-jumper sentence away from Molly), and §9.2 should also correct any '$6' for Amanda-Grace in the 2.x prose, not only the cast comment."
+      ]
+    },
+    "pedagogy": {
+      "lens": "Does the plan fix what was diagnosed, and is the new sequence learnable?",
+      "verdict": "Structurally the draft fixes every core finding: the arrival confound is gone (decision 2, scenes 4–6 are fixed-population), counts sit beside the price line whenever one exists (§3), and the two-clause definition lands at 6.i with 40 = 40 and no uncircled checks before any algebra. It is not ready to hand off: 6.d's on-screen count sequence is wrong (41/30 → 40/35 should be 42/30 → 41/35; §4's \"equal the algebra at every quarter-dollar price\" is false for Qd), 6.c/6.g's third box reintroduces per-seller asks against decision 7, there is still no opening hold that poses the day's question, and the counting idea first appears at 59 people, so the 2×1 naming at 2.f still attaches \"equilibrium\" to \"the loser drops out\". The single most important learning-design fix is to put a two-number count on the small-cast frames (1.b, 2.f, 3.e) so 6.i's \"re-earning\" is a callback rather than a first meeting; the single must-fix before the animator codes is the 6.d/§4 arithmetic.",
+      "issues": [
+        {
+          "where": "§5 scene 6, 6.d (and §4 crowd table + the sentence after it)",
+          "severity": "blocker",
+          "problem": "The count roll written for 6.d is wrong, and §4's claim that the counts 'equal the algebra at every quarter-dollar price' is false for Qd. Qd = 5(12 − P) is an integer only when P is a multiple of $0.20, so at $3.25/$3.75/$4.25 the head-count is the algebra rounded down. §4 also says 'at each test price exactly one person per side sits on the line' while its own table marks $3.75/$4.25 '—', and the $5 row is marked '—' although buyer 35 (MB $5) and seller 60 (MC $5) both sit on the line.",
+          "evidence": "Computed from the draft's own formulas MB_n = 12 − n/5, MC_n = 2 + n/20: $3.25 → Qd 43 (algebra 43.75), Qs 25; $3.50 → 42 (42.5), 30; $3.75 → 41 (41.25), 35; $4 → 40, 40; $4.25 → 38 (38.75), 45; $5 → 35, 60 with buyer 35 and seller 60 exactly on the line. Draft 6.d writes '45/20 → 43/25 → 41/30 → 40/35 → 40/40'.",
+          "fix": "6.d: 'One continuous play: the line rises in ticks, Qd and Qs roll (45/20 → 43/25 → 42/30 → 41/35 → 40/40), the left-out count rolls 25 → 18 → 12 → 6 → 0, checks and circles update.' §4, replace the sentence after the table with: 'Qs equals 20(P − 2) at every quarter-dollar price. Qd equals 5(12 − P) only at multiples of $0.20; at $3.25, $3.75 and $4.25 the head-count is the algebra rounded down (43, 41, 38). Nothing on screen prints a fractional count. Someone sits exactly on the line at $3, $4, $5 and $6 (buyer 45/seller 20, 40/40, 35/60, 30/80), never at $3.75 or $4.25.' Fix the $5 row: 'buyer 35 ($5), seller 60 ($5)'. Alternative for Taylor: step the scene-6 line in $0.20 ticks (a Taylor-stepped line, not a bid, per decision 7) so every displayed count equals the algebra and each tick reads 'one buyer out, four sellers in' — then 6.c's outbid becomes $3.20 and 6.g's undercut $5.80, which is also buyer 31's MB."
+        },
+        {
+          "where": "§5 scene 6, 6.c and 6.g (deliberation cards)",
+          "severity": "blocker",
+          "problem": "The third box ('Seller #21 asks his cost, $3.05: gain $2.95'; 'Buyer #31 offers his MB, $5.80: gain $1.80') reintroduces per-seller/per-buyer posted prices into the big market, which decision 7 retired, and it makes the 'cheapest yes' land at $3.05 while 6.d then steps the line in $0.25 ticks. The card also does not connect the bid to the thing the student is about to watch: the count roll.",
+          "evidence": "Draft §1 decision 7: 'One market price line, stepped by Taylor, plus one boxed deliberation per direction. Not decentralized per-seller asks in the big market.' 6.c: 'He takes the cheapest yes.' 6.d: 'the line rises in $0.25 ticks'. Sim rule for reference: discovery.py:46-64 improvements() has only 'cut' and 'visit' (visit at ask, +step if the seller is taken).",
+          "fix": "6.c card, two boxes: 'Wait at $3: nothing — 25 of us, 20 lots | Offer $3.25: gain $6 − $3.25 = $2.75, and five more sellers say yes at $3.25.' Question 'What does Gary do?' Caption after the choice: 'A left-out buyer's best move is a quarter more. Every quarter brings sellers in and drops the last buyers out — watch the two counts.' 6.g card, two boxes: 'Keep $6: no buyer — 50 of us unsold | Ask $5.75: gain $5.75 − $4 = $1.75, and one more buyer says yes.' Add one institution sentence at the top of scene 6 (econ lens, major, confirmed): 'From here on there is one going price everyone can see. A left-out buyer can offer a quarter more; an unsold seller can ask a quarter less. That is all anyone can do.'"
+        },
+        {
+          "where": "§5 scene 1 (no beat before 1.a); §2 table (starts at scene 1); §9 editor tasks",
+          "severity": "blocker",
+          "problem": "The day's question is never posed on screen. Scene 1 opens on 'Would they exchange?' (Gary and Molly), exactly as the current export goes 0.a → 2.a. The notes' 1.a/1.b (recap two curves, the price line detaches with a '?') still have no beat, and the draft does not list them as cut or as kept. Three lenses flagged this and verification confirmed the fix (reuse B2's 8.a tracker literally).",
+          "evidence": "logic finding 6 (major, partially confirmed → 'B3's animation never re-poses B2's cliffhanger… Re-use B2's closing tracker as a 1.b hold'); course finding 4 (major); econ verification 'missed': 'The opening question has no hold.' 01_Notes.md:14-25 (1.a, 1.b). B2_Supply/02_Storyboard.md:142-143 (8.a: shared red dashed price line on one ValueTracker, Q_d and Q_s labels moving in opposite directions, 'Next time…'). Style guide §7 'Last time…: reuse the specified prior animation literally.'",
+          "fix": "Add to §5 before scene 1 (and a row 0 to the §2 table, 2 stops): '### Scene 0 · Last time, one question. 0.a B2's closing frame, copied literally (B2 8.a): demand and supply side by side, one red price line drifting on one tracker, Q_d and Q_s sliding apart and together, no numbers. Title \"Is there a price where the two counts agree?\" Hold. 0.b The line stops with a \"?\" beside it. Caption: \"Last week left the price floating. Today we find where it stops — and why it stays.\" Advance: the graphs step aside, Gary and Molly walk in.' Add §9.9: 'Keep notes 1.a/1.b prose; the opening line is the day's question and returns as 7.a's title.' The same two curves are the ones scenes 4–5 build (decision 6), so the recap is literal, not schematic."
+        },
+        {
+          "where": "§3 Counts rule ('more than four people'); §5 scene 2, 2.f; scene 3, 3.e",
+          "severity": "major",
+          "problem": "The count (checks → Qd, Qs) is first introduced at 59 buyers (4.e), which cannot be counted by eye, and the §3 rule explicitly withholds counts from the small cast. So 2.f names 'equilibrium' on a frame whose only visible fact is that Gary was outbid; the word attaches to 'auction ends when the loser's next bid exceeds his MB', a rule scene 6 then contradicts (the price is where counts match, not loser's MB + a tick). The econ verification's cheapest fix was exactly a head count at these holds.",
+          "evidence": "Draft §3: 'Whenever a price line is on screen with more than four people, Qd and Qs are printed.' 2.f caption gives three individual reasons and no count. econ finding 1 verification corrected_claim: 'The script-only head count at 2.c.i, 3.a.entry and 3.a.excluded is a sound and cheap fix.' course finding 0 fix: draw one price line across both panels at the small settles with Q_d and Q_s readouts.",
+          "fix": "§3 Counts: 'Whenever a price line is on screen, the count on each side is printed: in words for the small cast (\"Want to buy at $4: 2 · Lots for sale at $4: 1\"), as Qd and Qs on the graph from scene 4 on.' 1.b add: 'Two checks, one each; caption \"1 wants to buy, 1 wants to sell.\"' 2.b (after Amanda-Grace enters, line at $4): 'Checks over both buyers; caption \"2 want to buy at $4. 1 lot.\" — the miniature shortage, unnamed.' 2.f caption becomes: 'Count at $6.25: one buyer still wants spinach (Gary's bar is under the line — he isn't losing, he's out), one lot for sale. Equal. No one is left out, so no one moves.' 3.e park: 'checks 2 and 2; caption \"$5.50: 2 want to buy, 2 want to sell.\"' This makes 6.i's card a callback ('the same count, forty a side')."
+        },
+        {
+          "where": "§5 scene 2, 2.d–2.e; scene 4, 4.e–4.f; scene 6, before 6.d, 6.e and 6.j",
+          "severity": "major",
+          "problem": "There is still no market-level commit-before-reveal. 2.e asks 'Who gets the spinach?' after the compressed bidding has parked on 'Gary: next bid $6.50 > MB $6', so the answer is on screen. 4.e reveals the 20 checks and 'Qd = 20' in the same beat as the question. 6.d plays to $4 with no 'where will it stop?' hold; 6.e drops the line to $6 and reveals 30/80 at once. The lit lens's core finding ('the crossing is asserted, not predicted') was verified: a one-line pause split creates the slot.",
+          "evidence": "lit finding 1 (core, partially confirmed: 'A pause before the red guides (one line) creates that slot'); load finding 5 (major, partially confirmed: 'the gap is specifically a missing prediction hold… before each deviation'). Draft 2.d 'Park on Gary: next bid $6.50 > MB $6' precedes 2.e's question; 4.e 'Red line enters… Checks appear… Qd = 20 prints' is one beat.",
+          "fix": "2.d → split: '2.d Amanda-Grace has it at $4.50. Title \"Who gets the spinach — and at what price?\" Hold for the room. 2.d.i Advance: the remaining bids play as one 14 s run (existing 2.c.ii→2.c.iii); park on \"Gary: next bid $6.50 > MB $6.\"' 4.e → '4.e Line enters at $8 in the world and on the graph, no checks yet. Title \"How many would buy at $8?\" Hold. 4.e.i Advance: 20 checks, Qd = 20.' Do the same split once more at $6 (Gary is the last in), then $4 and $2 as one continuous play. Scene 6, insert before 6.d: '6.c.i Title \"Where will the price stop?\" Both graphs and both counts visible, line at $3. Hold; take a number from the room. Advance into 6.d.' 6.e → 'Line jumps to $6, no checks. Title \"At $6 — shortage or excess, and which way?\" Hold. Advance: 30/80.' 6.j: 'Dashed $4.25 appears; question \"Will $4.25 hold?\" Hold. Advance.'"
+        },
+        {
+          "where": "§5 scene 6, 6.d and 6.h (continuous plays); §3 Counts",
+          "severity": "major",
+          "problem": "Transient-information risk. During each play three things change at once (line, ~40 circles reshuffling among the checked as the seeded rationing re-draws each tick, two rolling counts) and nothing persists afterward except the parked frame, so a student who looks at the plaza misses the counts and vice versa. The assessed number — the size of the shortage/excess — is never printed, only 'highlighted'.",
+          "evidence": "lit finding 3 (major, partially confirmed: 'No persistent price record exists'); load finding 2 (salience in the plaza, quantitative read on the panel); course finding 5 (major, confirmed: 'the gap is highlighted but never given a number… Exercise Q2c asks how large'). Draft 6.a: 'the gap between them highlighted (existing 5.a gold segment)'; 6.d: 'checks and circles update'.",
+          "fix": "§3 Counts, add: 'Beside the gap, its size in FOCUS yellow: \"Qd − Qs = 25\", rolling with the counts. Circles never reshuffle during a play: a circle is added when a newly willing seller (or buyer) comes in, removed when its owner drops below the line; nobody swaps partners mid-roll. Each tick the line leaves a faint MUTED ghost at the previous price on both graphs, so the path $3 → $3.25 → … → $4 is readable at the park.' 6.d: 'The first tick is a held stop: line at $3.25, caption \"Still 18 left out — they bid again.\" Then one continuous play to $4.' 6.h: same, first tick held at $5.75 (\"Still 44 unsold — they cut again\"). Use FOCUS, not DEFINITION gold, for the gap segment (style guide §2: gold belongs to terms; course finding 9 flagged this exact segment)."
+        },
+        {
+          "where": "§5 scene 6, 6.a and 6.e; §6 exercise placement",
+          "severity": "major",
+          "problem": "Two assessed B3.1 sub-skills still get no on-screen object: 'measure its size' and 'quantity exchanged = the smaller of Qd and Qs'. The circles are the exchanged quantity but no label says so, and Exercise Q2 has no part for it.",
+          "evidence": "B_Skillsheet.typ B3.1 bullets 2–3. load finding 9 (minor, confirmed); course finding 5 (major, confirmed). Draft 6.a lists 'Circles: 20 pairs' with no readout; Exercise_B3.typ Q2 has parts a–d only.",
+          "fix": "6.a add: 'Under the circles a red readout \"Exchanged: 20\" at the short-side drop on the axis; caption \"Only 20 lots change hands — the smaller count wins.\"' 6.e add: '\"Exchanged: 30\".' 6.i: '\"Exchanged: 40\" — at $4 the two counts and the trades are the same number.' §6: 'Q2 gains a part (e): \"How many pasties are exchanged?\" (answer 6).'"
+        },
+        {
+          "where": "§5 scene 4, 4.g; scene 5 (tags)",
+          "severity": "major",
+          "problem": "Made worse relative to the current design rule: 29 MB tags in 4.g and 80 MC tags in scene 5 ('$3.05, $3.10, …') pack numerals onto a crowd the load lens already found unreadable at ~11 px resolution, and the current storyboard deliberately chose one legible selected price over packed numerals.",
+          "evidence": "load finding 2 (core, partially confirmed); load 'missed': 'per-column solid segments… render as a long-dashed line across 8–10 narrow columns'; 02_Storyboard.md:258-260 ('one legible selected price below the graph instead of packing numerals'). Draft scene 5: 'the 80 others show their MC: \"$3.05,\" \"$3.10,\" …'.",
+          "fix": "4.g: 'Tags on the five buyers just past the line ($5.80 … $5.00) and on the named people; everyone else untagged. Caption: \"They still want spinach — just not at $6. Their offer is their marginal benefit, and it reads off the graph.\"' Scene 5: 'Tags on the five sellers just past $3 ($3.05 … $3.25) and on Andrew; the rest untagged.' §3 Tag rule: 'Tags appear only on the people nearest the line (five per side) and on named people; the graph carries everyone else's number.'"
+        },
+        {
+          "where": "§5 scene 6, layout paragraph",
+          "severity": "major",
+          "problem": "'Two plazas at the left, buyers above sellers (or one world…; animator's call)' plus two stacked graphs, two counts, a card and a deliberation box is the densest frame in the course and is the asset B4 reuses; leaving it as an animator's call defers the one layout decision that decides legibility.",
+          "evidence": "load finding 6 verification: 'The side-on camera on the same world is the asset to use more'; load finding 4 (two answer sets under one title) was caused by too many representations on one screen. Draft scene 5: 'Mirror of scene 4, separate plaza.'",
+          "fix": "Replace the parenthetical with: 'One world: the buyer arc from scene 4 on the left half, the seller arc added opposite it (same camera pose as scene 4), so a trade is a circle on the ground between the arcs. Two graphs stack at the right sharing the Q axis. Scene 5 builds its row and graph in the same world, not a separate plaza, so scene 6 is a camera move, not a scene change.'"
+        },
+        {
+          "where": "§5 scene 6, 6.a ('at one price who gets served is luck'); §7 pinned line",
+          "severity": "major",
+          "problem": "'Who gets served is luck' is right for $3 and is B4's price-ceiling setup (line-jumping), but B4's surplus arithmetic at a ceiling shades the top-MB buyers ('the difference between WTP and WTS for every unit above the quantity exchanged'), i.e. it assumes the highest-value buyers are the ones served. If the engine rations by seed, B4's shaded CS at a pinned price will not be the triangle B4 draws. Nothing in 6.a says luck stops at $4, so a student can carry 'served = luck' into 'equilibrium is a lottery'.",
+          "evidence": "B4_Efficiency/01_Notes.md:177 ('surplus at any price is the difference between willingness to pay and willingness to sell for every unit above the quantity exchanged'); :281 ('Buyers would be able to jump the line with a slightly higher price'); ED note :267 calls it 'a direct callback to B3's Cindy story'. Draft 6.a: 'seeded, not the top 20'. Current code already rations by hand (03_Equilibrium.py:1567: initial_matches [0,2,5,7,…] serves B3 (MB $3) and leaves B4 Amanda-Grace (MB $7) out).",
+          "fix": "6.a caption, add: 'At $3 who gets served is luck — the price hasn't sorted anyone yet.' 6.i caption, add: 'At $4 there is no luck: everyone willing is served, and everyone served is willing. That sorting is what B4 adds up.' §7 pinned line, add: 'Rationing is a switch: seeded (scene 6, B4's ceiling story) or by MB/MC (B4's surplus triangles). Both must be available on the same pinned line, and the switch is a visible constant.' §9 add: 'Tell B4's editor that the line-jumping callback (\"Cindy story\") is now 6.c, Gary.'"
+        },
+        {
+          "where": "§4 Axes; §5 scene 5",
+          "severity": "major",
+          "problem": "The shared Q axis is 0–90 but the supply row has 100 sellers and 'the line stops at Q = 100, P = $7'; Q = 100 is off the axis. Nothing in scenes 4–7 needs a price above $6 on the crowd.",
+          "evidence": "03_Equilibrium.py:1295 style_axes([0, 90, 10], [0, 13, 2]) is the 'current aggregate graph' the draft cites. Draft §4: 'Sellers n = 1…100 with MC_n = 2 + n/20 ($2.05 up to $7.00)… The supply row is drawn to 100 sellers; the line stops at Q = 100.'",
+          "fix": "§4 Crowd: 'Sellers n = 1…90 with MC_n = 2 + n/20 ($2.05 up to $6.50).' §4 Axes: 'Shared Q axis 0–90, P axis 0–13. The supply line ends at (90, $6.50); the demand line at (59, $0.20) — both rows fill their axis.' Scene 5: '90 sellers'. (If Taylor wants sellers to $7, extend both axes to 0–100 and say so once for B4–C4.)"
+        },
+        {
+          "where": "§2 table row 7 ('Ends parked on … Q1 card'); §5 scene 7, 7.f ('Q1 card'); §6",
+          "severity": "major",
+          "problem": "Internal contradiction: §6 renumbers so the algebra question is Q3 (after scene 7), but the scene table and 7.f still call it Q1, and no beat in scenes 5 or 6 shows the Q1/Q2 cards.",
+          "evidence": "Draft §6: 'Q1 at 5 galleons find Qd and Qs (after scene 5)… Q2 … (after 6.h); Q3 solve and plot (after scene 7).' Draft 7.f: 'Q1 card (§6).' Table row 7: 'Q1 card'.",
+          "fix": "7.f → 'Q3 card: solve and plot the starred pair.' Table row 7 → 'Q3 card'. Add '5.x Q1 card: at 5 galleons find Qd and Qs' after scene 5's park and '6.h.i Q2 card: name the situation, its size, the direction, and the quantity exchanged' after 6.h. Table 'Stops' column: add one stop to scenes 5, 6, 7 for the cards."
+        },
+        {
+          "where": "§5 scene 6, 6.j",
+          "severity": "minor",
+          "problem": "'Seven sellers lose their circles' is wrong: at $4.25 circles fall from 40 to 38 (two sellers lose theirs); seven sellers are checked-and-uncircled (five newly willing plus the two). Buyers 39 and 40 also lose their checks, which the beat should show since it is the buyer-side reason the price cannot rise.",
+          "evidence": "Counts at $4.25: Qd 38, Qs 45 (draft table, correct). Circles = min(Qd, Qs) = 38.",
+          "fix": "6.j: 'Test up: dashed $4.25. Buyers 39 and 40 lose their checks (Qd 38); five more sellers gain checks (Qs 45). 38 circles: seven sellers stand checked and uncircled; one cuts; the line falls back. Test down: dashed $3.75. Sellers 36–40 lose their checks (Qs 35); buyer 41 gains one (Qd 41). 35 circles: six buyers checked and uncircled; one bids; it rises back.'"
+        },
+        {
+          "where": "§2 table Stops column; §5 scene 1 (1.c–1.g, 1.h)",
+          "severity": "minor",
+          "problem": "Scene 1's beats sum to about 14 stops (1.a, 1.b, accept, five accounting holds, four 1.h slides each with new text, 1.i, 1.j), not 10–12; with the prediction holds above, scene 6 runs to about 22. The total stays under 100, but the table under-counts, and scene 1 spends five stops on accounting whose only B3 job is the CS/PS resize in 1.h.",
+          "evidence": "Draft §3 Stops rule: 'Every stop has new on-screen text or a question.' 1.h lists four slides ($5, $7, $1, $3) each with new labels. Load finding 8 verification: 'Trim to the two gains rather than deferring the whole block'; course finding 7 verification: 'Shrinking or moving 2.b goes against Taylor's explicit request.'",
+          "fix": "Table: scene 1 '13–14', scene 6 '20–22', total '≈ 90 with cards'. If Taylor allows, 1.c–1.g → two stops ('buyer side: Expenditure $4 and CS $2 in one fade; seller side: Revenue $4, MC, PS $2 in one fade'); otherwise keep and take the two stops from 6.f (speak the surplus/excess aside over the card rather than staging the strike-through) and from the optional 5.h close-ups in 6.j."
+        },
+        {
+          "where": "§0 third bullet",
+          "severity": "minor",
+          "problem": "'145 stops preceded the word equilibrium' — the export has 144 stops (143 named) before 4.a.",
+          "evidence": "present.json: 4.a is stop index 144; 143 named stops precede it (S2 = 47, B1 = 75, B2 = 85, B3 = 225 all verified).",
+          "fix": "'144 stops (143 named) preceded the word \"equilibrium\"; one seller's arrival alone cost 47 clicks with no caption.'"
+        },
+        {
+          "where": "§9 editor tasks (item 2); §4 'Named people in the crowd'",
+          "severity": "minor",
+          "problem": "Decision 6 has a consequence in the notes the draft misses: the numbers comment says 'At $4 Molly supplies 20, Andrew 10, the rest of the market 10', which contradicts one lot per person and Molly-as-intercept.",
+          "evidence": "01_Notes.md:6. Draft §9.2 only corrects Amanda-Grace's MB.",
+          "fix": "§9.2 → 'Fix the numbers comment (notes line 6): Amanda-Grace MB $7; delete \"Molly supplies 20, Andrew 10, the rest 10\"; replace with \"One person = one lot = 1,000 lb. Amanda-Grace is buyer 25 ($7), Gary buyer 30 ($6), Andrew seller 40 ($4); Molly's $2 is the supply intercept.\"'"
+        },
+        {
+          "where": "§5 scene 4, 4.b–4.c; scene 5",
+          "severity": "minor",
+          "problem": "The scene-4/5 graphs are written with bare Q ('P = 12 − Q/5', 'P = 2 + Q/20') while 7.b insists on Q_d/Q_s subscripts; the logic lens's confirmed notation finding applies to every graph label, and B2 already used Q_s on its supply equation.",
+          "evidence": "logic finding 5 (major, confirmed); logic 'missed': 'At 5.a the graph labels read P=12−Q/5… while the working uses Q_s and Q_d… B2 used Q_s throughout.'",
+          "fix": "4.b: 'Draw the line through the bar tops: P = 12 − Q_d/5.' 4.c: 'labelled Demand with P = 12 − Q_d/5.' Scene 5: 'P = 2 + Q_s/20.' 7.b: 'the two equations arrive already subscripted; the new row is Q_d = Q_s = Q*.'"
+        },
+        {
+          "where": "§4 small cast ('First offer $4'); §5 scene 1, 1.j ('Line back at $4')",
+          "severity": "minor",
+          "problem": "Scene 1 still opens and parks at $4, the midpoint of $2–$6 with a $2/$2 split, and $4 is also P*. Three lenses noted this feeds 'the price was always $4' and 'price = fair middle'; the verification called a non-$4 opening 'sound'. If 'unchanged' here is Taylor's, skip; the draft does not say.",
+          "evidence": "lit finding 5 (partially confirmed); econ finding 7 verification ('OFFER=5 is a one-constant change'); course finding 7 verification ('a non-$4 opening offer [is] sound'). 03_Equilibrium.py computes 2.b labels from OFFER.",
+          "fix": "§4: 'First offer $5 (CS $1, PS $3 — the split is visibly not a fair half).' 1.h slides: $4 (both yes), $7 (Gary ✗), $1 (Molly ✗). 1.j: 'Line back at $5.' 2.b: Amanda-Grace offers $5.25. Add to §10: '6. First offer $4 or $5?'"
+        },
+        {
+          "where": "§9 editor task 1",
+          "severity": "minor",
+          "problem": "'Restage 01_Notes.md into the seven scenes' does not list the connectives the logic lens found broken; the editor will need the line numbers.",
+          "evidence": "logic finding 3 (major, partially confirmed): notes lines 63 ('Can there ever be a price that doesn't change?'), 65 ('In this way…'), 79 ('There's one price… that's where they intersect'), 105–107 (buyer huddle then 'sellers decide' — two agents for one price), 48 and 120 (queue/leftover promises for an act that no longer exists).",
+          "fix": "§9.1 add: 'Specifically rewrite: line 63 → becomes 6.i's question after both tests; line 65 \"In this way\" → follows 6.h; line 79 → scene 7 only; lines 105–107 → one agent for $3 (§9.4); lines 48 and 120 → the 3.a/5.c beat comments are retired with the growth act.'"
+        },
+        {
+          "where": "§5 scene 2, 2.f caption",
+          "severity": "minor",
+          "problem": "'Molly has no one else to sell to' is false as stated (she could sell to Gary at $6); the sharp-student question the editor note anticipates starts here.",
+          "evidence": "Draft 2.f; editor note under scene 2.",
+          "fix": "'Molly has no one else to sell to at $6.25 — Gary's bar is under the line.'"
+        },
+        {
+          "where": "§5 scene 4, 4.a caption; §10 item 2",
+          "severity": "minor",
+          "problem": "The reconciling line ('Someone who wants two is standing here twice') is asserted but nobody visibly stands twice, so B1's intensive-margin law of demand (Amanda-Grace buys more as price falls) has no picture in the market; the row reads as 59 one-lot people. Also '1,000 lb per person' will draw a 'who buys that much spinach?' question.",
+          "evidence": "B1_Demand/01_Notes.md:17-39 (Amanda-Grace's individual demand: 0 at $4, 1 at $2, 2 at $1); B1 00_Outline.md ('some people even buying multiple things'); B1 02_Storyboard.md:129 (market bars are thousand-lb units, not people).",
+          "fix": "4.a caption: 'Each bar is one lot — think of each person as a stall or a kitchen buying by the thousand pounds. Someone who wants two lots stands here twice.' Then make it visible once: label bar 25 \"Amanda-Grace — her first lot, $7\" and bar 45 \"Amanda-Grace — her second, $3\". At $6 she is in once; at $3 twice (and on the line for the second). That is B1's individual law of demand inside the market, and it costs one label. Add to §10.2: 'and Amanda-Grace's second lot at buyer 45?'"
+        }
+      ],
+      "confirmed_right": [
+        "§0 numbers: B1 75 stops, B2 85, B3 225 (present.json stop flags); S2 arrival 47 stops; both halves of the definition co-displayed only at 5.h.iii t = 546.3 s of 547.3 s; 5.b (frame 46) is the frame with plaza + price line + Qs/Qd + ringed left-out buyers.",
+        "§1 decision 2 + §5 scenes 4–6 fix the three core 'arrival confound' findings (econ 0, lit 0, logic 2): every price move in 6.d/6.h/6.j is a fixed population correcting a wrong price, with counts visible.",
+        "§5 6.i restores the notes' two-clause definition (01_Notes.md:67) that the code drops (03_Equilibrium.py:1213 and :2008 carry only 'no one wants to change'), and co-displays 40 = 40, the line, and the world before scene 7's algebra — fixes logic 1, load 1, course 1, lit 4.",
+        "§3 shared grammar retires the plaza/panel dashed–solid reversal (load finding 3, confirmed) and gives 'willing but left out' its own mark, distinct from 'unwilling, dimmed' (lit finding 6).",
+        "§1 decision 6 removes the toy-vs-aggregate double answer set (load 4, econ 8, lit 7 all confirmed): with MB_n = 12 − n/5 and MC_n = 2 + n/20, head-counts equal the algebra at $3, $4, $5, $6 (45/20, 40/40, 35/60, 30/80) and Amanda-Grace #25 = $7, Gary #30 = $6, Andrew #40 = $4 check out.",
+        "Scene 4 steps ($8 → 20, $6 → 30, $4 → 40, $2 → 50) and scene 5 steps ($3 → 20, $4 → 40, $6 → 80) are correct; 6.h's first ticks 30/80 → 31/75 are correct; 6.j's $3.75 test (41/35, six buyers uncircled) is correct.",
+        "Card arithmetic: 2.b $7 − $4.25 = $2.75 (matches code 2.c.accepted); 3.b $7 − $4.50 = $2.50; 3.c $6 − $4.75 = $1.25; 3.g $6 − $5.75 = $0.25 gain difference; 6.c $6 − $3.25 = $2.75; 6.g $5.75 − $4 = $1.75.",
+        "§3 'No exceptions, including while the line is moving' fixes econ finding 3 / course finding 4 (readouts were removed during 5.c/5.g; code :1668-1669).",
+        "3.f/3.g argue the law of one price with a test (econ 6, confirmed absent before); 1.h/1.i draw the $2–$6 window (econ 4, confirmed absent); 6.j gives the market-level stability reason (verification of logic 8 / econ 5 / course 8 asked for exactly this rather than the marginal-person refusal).",
+        "§4 reuse claims exist where cited: 2.a–2.b.vi at py:121–258, 2.c–2.c.iii at py:356–429, 5.a/5.d gold gap at py:1557–1560, 5.b/5.d.i cards at py:1643–1653, 5.h at py:1890+; seed 54 → $5.50/$5.50 (facts H2). Exercise numbers (Q* = 10, P* = 7; at 5 galleons Qd 14, Qs 6) verified against Exercise_B3.typ.",
+        "Scene 2's editor note (Molly raising her ask) and scene 3's note (equal ≠ unique; [4,6] window) are correct and pre-empt the two sharpest student objections."
+      ],
+      "missing": [
+        "An opening hold that poses the day's question (see blocker 3): Scene 0 reusing B2's 8.a two-curve price tracker literally, title 'Is there a price where the two counts agree?', returning as 7.a's frame.",
+        "A count while the market is countable by eye: two-number readouts at 1.b ('1 wants to buy, 1 wants to sell'), 2.b ('2 want to buy at $4, 1 lot'), 2.f ('at $6.25: 1 and 1') and 3.e ('$5.50: 2 and 2'), and the §3 rule amended to 'whenever a price line is on screen'.",
+        "Commit-before-reveal holds: 2.d 'Who gets the spinach — and at what price?' before the compressed bids; 4.e line-then-checks split at $8 and $6; 6.c.i 'Where will the price stop?' before 6.d; 6.e question before the $6 counts; 6.j 'Will $4.25 hold?' before the test.",
+        "On-screen size of the gap ('Qd − Qs = 25' in FOCUS, rolling to 0) and the exchanged quantity ('Exchanged: 20 / 30 / 40' at the short-side drop), plus an Exercise Q2(e) 'How many pasties are exchanged?' — the two B3.1 sub-skills with no object.",
+        "A persistent trace of the price path in 6.d/6.h (faint MUTED ghost of the line at each previous tick on both graphs) and a first-tick held stop in each play, so the continuous roll is not the only record.",
+        "One institution sentence at the top of scene 6 ('one going price everyone can see; a left-out buyer can offer a quarter more; an unsold seller can ask a quarter less') so the switch from bidding (scenes 2–3) to a Taylor-stepped line (scene 6) is stated, not silent.",
+        "A rationing switch in §7 (seeded vs by MB/MC) with the 6.a/6.i sentences that keep 'luck' at $3 from contaminating 'sorted' at $4 and B4's surplus triangles.",
+        "§9: the specific notes lines to rewrite for the seams (63, 65, 79, 105–107, 48, 120), the numbers-comment fix at line 6, and a pointer to B4's editor that the 'Cindy story' callback is now 6.c.",
+        "A decision on scene 6's frame (one world with both arcs, two stacked graphs) rather than an animator's call, since it is the asset B4–C4 reuse.",
+        "A §10 item for the first offer ($4 vs $5) if §4's 'unchanged' is not Taylor's, and a §10 item for Amanda-Grace's visible second lot (bar 45)."
+      ]
+    },
+    "downstream": {
+      "lens": "Downstream reuse: what B4 (price controls, CS/PS/DWL, government purchases), B5 (shifters), B6/C1 (world price, tariff), C2 (tax wedge), C3/C4 (external cost, corrective tax) need from the scene 4–6 market engine, and whether §7 and the scene 4–6 design deliver it.",
+      "verdict": "Not ready to hand to the animator as the B4 asset. §7 lists the right nouns but three things in the scene 4–6 design as written would have to be rebuilt for B4: the seeded-random rationing at 6.a/6.e (B4.2's standard and B4_Efficiency/01_Notes.md:53 assume the highest-value buyers and lowest-cost sellers trade), the stacked-graphs layout with no overlay until scene 7 (DWL is an area between the two curves, so it does not exist on stacked graphs), and the absence of a quantity-exchanged readout (B3.1 bullet 3, B4.2 bullet 2). The single most important fix: make the 6.a/6.e tableau sorted-rationed, overlay-capable, and Qx-counting, so that B4's ceiling and floor beats are literally scene 6 with the 6.d/6.h play switched off. B4 tomorrow (Sep 23) cannot be built on scenes 4–6 regardless; §11's plan on the current export is right, with one warning added.",
+      "issues": [
+        {
+          "where": "§5 scene 6, 6.a and 6.e (draft lines 157, 161: \"Circles: 20 pairs (seeded, not the top 20 — at one price who gets served is luck)\")",
+          "severity": "blocker",
+          "problem": "Random rationing contradicts the assumption every later welfare beat is built on, and it makes the head-on sorted row unshadeable (circles scattered along the row instead of the first Qx bars). B4 would have to switch the rule and explain why the picture changed. Sorted rationing serves B3's own named-cast beats unchanged: at $3 the top 20 (MB ≥ $8) are served, so Gary (#30, $6) and Amanda-Grace (#25, $7) are both left out; at $6 the 30 lowest-cost sellers (MC ≤ $3.50) sell, so Andrew (#40, $4) is unsold.",
+          "evidence": "B_Skillsheet.typ:126 (B4.1: \"with the highest-value buyers and lowest-cost sellers trading\") and :136 (B4.2: \"assuming the highest-value buyers and lowest-cost sellers make the available trades\"); B4_Efficiency/01_Notes.md:51–53 (\"start by finding the CS for the buyers with the highest willingness to pay. This is a small assumption that those who are most willing will be the ones who make it happen\"); Sim/README.md:99–102 (\"Highest-WTP willing buyers trade with lowest-cost willing sellers. Under the ceiling, that priority is a rationing assumption\"). scratchpad/reuse_check.py: with buyers 26–45 served at $3, CS = 38 vs 138 under sorted rationing, so the two rules give different B4 numbers.",
+          "fix": "6.a: \"Circles: 20 pairs — the 20 keenest buyers (MB $11.80 down to $8.00) with the 20 cheapest sellers, paired in order: buyer n with seller n. Say once: 'we'll assume the people who want it most get there first.' (B4 leans on this; it is the sorted-row picture: circled bars, then checked-but-uncircled bars, then unchecked.) Gary (#30) and Amanda-Grace (#25) are among the 25 left out.\" 6.e: \"Circles 30 — the 30 cheapest sellers (MC ≤ $3.50) with the 30 keenest buyers, in order. Andrew (#40, $4) is one of the 50 unsold.\" 6.c/6.g: delete \"(seeded)\"; Gary and Andrew are left out by rank, not by seed. §7: add a `rationing` switch (sorted default; random available) so the luck point can still be made in narration or a later block."
+        },
+        {
+          "where": "§5 scene 6 layout paragraph (line 155: \"the two graphs stack vertically at the right\") and §5 scene 7, 7.a (line 172); §7 pinned-line bullet (line 186: \"the lost trades become DWL\")",
+          "severity": "blocker",
+          "problem": "DWL, total surplus and the marginal comparison (B4.1) are areas and gaps between the two curves on one graph. On stacked graphs they do not exist, and the overlay first appears in scene 7 with the cast gone (§2 table, scene 7 cast \"—\"). B4's ceiling beat needs the overlaid graph AND the plaza/row visible at once (the DWL triangle must point at the 20 lost pairs).",
+          "evidence": "B4_Efficiency/01_Notes.md:257–261 (CS, PS, DWL as areas \"between the supply and demand curves above the lost quantity\"), :129–139 (\"Slide quantity back and forth\" on one graph), :143 (\"Start with price far from equilibrium, and let it oscillate\"). Current 5.a frame (frames/45_5_a.jpg) is already the overlaid picture B4 will use tomorrow. Draft 7.a: \"The two stacked graphs slide together into one.\"",
+          "fix": "Add to the scene 6 layout paragraph: \"The two graphs are the same axes objects at the same P scale; the stack→overlay move (7.a) is a slide of those objects, not a new graph, and it must be playable with the plaza/rows still on screen. Both readouts survive the overlay (Qd and Qs side by side under one Q axis, as in the current 5.a frame). Every area B4 shades (CS, PS, expenditure, DWL) is drawn on the overlaid graph or on the head-on row, never in the 3D plaza.\" Add to §7 pinned-line bullet: \"B4's ceiling/floor opening is 7.a's overlay performed on the 6.a/6.e tableau.\""
+        },
+        {
+          "where": "§3 Counts (line 62) and §5 6.b/6.f captions (lines 158, 162)",
+          "severity": "major",
+          "problem": "No quantity-exchanged readout anywhere. B3.1 bullet 3 assesses it, B4.2 bullet 2 assumes it, and the draft prints only Qd and Qs. The circle count is Qx and it should be printed.",
+          "evidence": "B_Skillsheet.typ:115 (\"Find the quantity exchanged as the smaller of quantity demanded and quantity supplied in a closed market without government purchases\"); :135; B4_Efficiency/01_Notes.md:283–285 (\"how much is sold? A. Q_S. How much is bought? A. Q_S\"); B_Outline.typ:176 (\"Talk about the quantity exchanged, as the minimum of the two q_s\"). Draft §3 line 62 lists only Qd and Qs.",
+          "fix": "§3 Counts: \"Whenever a price line is on screen with more than four people, Qd, Qs and the number of circles (trades) are printed on the graph and match the marks in the world; the trades count sits on the Q axis at the shorter of the two.\" 6.b caption: \"25 people want spinach at $3 and can't get it. Only 20 trades happen — the smaller of the two counts.\" 6.f caption: \"…30 trades happen; 50 sellers are left holding spinach.\""
+        },
+        {
+          "where": "§5 scene 6, 6.d (line 160: \"45/20 → 43/25 → 41/30 → 40/35 → 40/40\")",
+          "severity": "major",
+          "problem": "The rolling counts are wrong at $3.50 and $3.75; the draft's own §4 table (line 77) gives 41/35 at $3.75. B4 reuses this play (\"let it oscillate toward equilibrium\") so the numbers must be right.",
+          "evidence": "scratchpad/reuse_check.py on the §4 formulas: $3.00 45/20, $3.25 43/25, $3.50 42/30, $3.75 41/35, $4.00 40/40.",
+          "fix": "\"the line rises in $0.25 ticks, Qd and Qs roll (45/20 → 43/25 → 42/30 → 41/35 → 40/40)\""
+        },
+        {
+          "where": "§4 Numbers (line 83: \"These equal the algebra … at every quarter-dollar price up to $7\") and §1 decision 6 (\"Counts in the plaza equal the algebra's Qd and Qs at every price\")",
+          "severity": "major",
+          "problem": "A discrete crowd cannot match 5(12 − P) at quarter prices: at $3.25 the algebra says 43.75, the count is 43; at $4.25, 38.75 vs 38. Qd matches only on the $0.20 lattice, Qs on the $0.05 lattice; both match at whole dollars. This is a consequence of decision 6 the draft missed, and it constrains every later block's example prices (B4 ceiling/floor, C2 tax, B5 shifts) to prices where both counts are exact.",
+          "evidence": "reuse_check.py: MB values on the $0.25 grid: 11 of 59; MC: 20 of 100. Exact-match set: P with 5(12 − P) and 20(P − 2) both integers, i.e. P on the $0.20 lattice for Qd and $0.05 for Qs.",
+          "fix": "Replace line 83 with: \"Counts equal the algebra wherever the algebra gives whole people: Qd at every $0.20 (so at $3, $4, $5, $6, $7), Qs at every $0.05. At quarter prices between, the count is the algebra rounded down. Every price a later block tests (ceilings, floors, tax prices, shifted equilibria) must be chosen from the exact set; the whole dollars $3, $4, $5, $6, $7 and the pairs ($5, $3.75), ($6, $3.50) are.\""
+        },
+        {
+          "where": "§5 scene 6, 6.c and 6.d (lines 159–160: \"Seller #21 asks his cost, $3.05\" then \"the line rises in $0.25 ticks\"); §8 (line 197: reuse of 03_Equilibrium.py mechanics)",
+          "severity": "major",
+          "problem": "Two price grids are in play. The card quotes a $0.05 number, the play ticks in $0.25, and the existing model code cannot drive this crowd at all: discovery.simulate() raises \"Prices and marginals must lie on the chosen price grid\" for MB $11.80 or MC $3.05 at step 0.25. So 6.c–6.d must be new counting logic, and the grid must be stated once because C2's wedge and B5's shifted equilibria have to land on it.",
+          "evidence": "Sim/discovery.py:93–94 (grid check), :95 (ask ≥ cost). reuse_check.py: only 11/59 MB and 20/100 MC values sit on $0.25.",
+          "fix": "6.c third box: \"Seller #21 would take $3.25 (his cost is $3.05): gain $2.75\" — keep every card number on the $0.25 step. Add to §4: \"Price grid: the line and every offer move on $0.25; marginals live on finer lattices and are quoted only as bar heights/tags.\" Add to §8: \"6.c–6.h are count logic on the two formulas, not `discovery.py`; the crowd is off its grid.\""
+        },
+        {
+          "where": "§4 Axes (line 87: \"Shared Q axis 0–90 … the line stops at Q = 100, P = $7\")",
+          "severity": "major",
+          "problem": "Internal contradiction, and B6 needs the top end: a world price of $7 gives Qs = 100 (exports 75); at $8 the supply row is exhausted and the line has nowhere to go. B4's floor at $6 (Qs 80) fits either way. The current graph (frames/45_5_a.jpg) ends supply at Q = 90, P = $6.50.",
+          "evidence": "reuse_check.py: Pw $6 → 30/80 (exports 50); $7 → 25/100; $8 → 20/100 (capped). B6_Trade/01_Notes.md:112–148 (world price above/below domestic, imports/exports as the gap).",
+          "fix": "\"Shared Q axis 0–100 (thousands of pounds), P axis 0–13. The supply row and line run to seller 100 at $7.00; B4 floors and B6 world prices must stay at or below $7 (above it the crowd is exhausted).\""
+        },
+        {
+          "where": "§7 Pinned line bullet (line 186) and §5 6.c (line 159)",
+          "severity": "major",
+          "problem": "B4's ceiling story is that the 6.c outbid is illegal: the deliberation card must be able to strike an option for a legal reason, not only \"> MB\". Nothing in §3's card spec allows it.",
+          "evidence": "B4_Efficiency/01_Notes.md:281 (\"here with the legal price being low, Buyers cannot jump the line with a higher price, meaning the shortage will persist despite the incentives\"); draft §3 line 60 allows only \"✗ > MB\" / \"< MC\".",
+          "fix": "§3 Deliberation card: add \"A box can also be struck for a rule: '✗ above the ceiling' / '✗ below the floor' (B4). The strike style is the same.\" §7 pinned line: \"…the line stops at a level and cannot move; the 6.c/6.g card is shown with the outbid/undercut box struck for the rule; checks without circles stay on screen; rationing is sorted; per-person CS/PS are bar segments on the head-on row and areas on the overlaid graph; the lost pairs (n = Qx+1 … 40) are the DWL.\""
+        },
+        {
+          "where": "§7 Government purchases bullet (line 187) and §7 Second population bullet (line 189)",
+          "severity": "major",
+          "problem": "These are one primitive, not two: an outside counterparty that takes the gap at a pinned line (government at a floor; the world at Pw for exports/imports). Specifying them separately invites two implementations. Also unspecified: where the bought lots go, a spending tally, and how the readouts change (Qx = Qd + G).",
+          "evidence": "B_Outline.typ:63 (\"first modeled using a price line, then … re-done using government purchases\"); B6_Trade/01_Notes.md:146–148 (\"rhymes with our model of price controls. Except the difference … is compensated for by the global market with imports and exports\"); Sim/README.md:168 (\"government purchases additionally need public inventory and a budget\"). reuse_check.py: floor $6 → government buys 50 lots, $300k.",
+          "fix": "Replace both bullets with: \"**Outside counterparty at a pinned line** (B4 government purchases; B6/C1 world market): a party that is not in either row circles the uncircled people on the long side at the line's price. It has a label and colour (GOV green for the government, a neutral label for 'the world'), a running tally (lots × price: at a $6 floor, 50 lots, $300k), and the Q-axis readouts become Qd, Qs, and trades = Qd + G (or Qs + imports). Its circles must be distinguishable from ordinary trade circles (both are green: put the label on the circle). B6's two-country picture is two engine instances side by side; nothing may assume one market on stage.\""
+        },
+        {
+          "where": "§7 Wedge bullet (line 190) and §3 Price line / Check / Tag (lines 47, 50–51)",
+          "severity": "major",
+          "problem": "The check and tag rules are written against \"the current price\". With a wedge there are two prices; buyers' checks read against P_b, sellers' against P_s. §6 of the style guide requires one tracker per quantity, so the line must be built as a (P_b, P_s) pair from day one. The tax size must land on the grid: on this crowd only t = $1.25 (P_b $5, P_s $3.75, Q 35) and t = $2.50 (P_b $6, P_s $3.50, Q 30) give exact counts on the $0.25 step.",
+          "evidence": "C2_Taxes_and_Subsidies/01_Notes.md:13, :75–77 (wedge \"slid in from the left until it gets stuck\"); _Style_Guide.md:366 (tax invariant), :380 (\"One tracker, one source of truth\"). reuse_check.py: P_b = 4 + 0.8t, P_s = 4 − 0.2t, Q = 40 − 4t; t = $1 gives $4.80/$3.80 (off-grid), t = $1.25 gives $5.00/$3.75 with Qd(5) = Qs(3.75) = 35.",
+          "fix": "§3 Price line: \"The line is a pair of trackers, P_b (what buyers pay) and P_s (what sellers get), bound equal in B3–B5. Buyer checks/tags read against P_b, seller checks/tags against P_s.\" §7 Wedge: \"…two price lines from the same pair of trackers; the wedge area is revenue (GOV green), the lost pairs are DWL. Sizes that land on the grid for this crowd: $1.25 → (35, $5 / $3.75); $2.50 → (30, $6 / $3.50).\""
+        },
+        {
+          "where": "§7 Shifters bullet (line 188: \"the line re-finds the crossing with the same 6.d/6.h play\")",
+          "severity": "major",
+          "problem": "The 6.d play stops \"by itself\" only if the new equilibrium price is on the $0.25 step. A $1 demand shift gives P* = $4.20; a $1 cost rise gives $4.80; adding 5 or 10 buyers gives $4.20/$4.40. The draft gives no sizes. Also, B5's prose shifts \"Molly's individual supply curve\" (multi-lot), which decision 5 removed from the crowd.",
+          "evidence": "reuse_check.py: demand +Δ → P* = 4 + Δ/5, Q* = 40 + 4Δ (Δ = 1.25 → 45, $4.25; Δ = 2.50 → 50, $4.50); cost +c → P* = 4 + 0.8c, Q* = 40 − 4c (c = 1.25 → 35, $5.00; c = 2.50 → 30, $6.00); +N buyers → P* = 4 + N/25 (N = 25 → 60, $5). B5_Changes/01_Notes.md:25 (\"Molly's Individual Supply Curve\"), :37 (\"every time another seller opens their doors the supply curve shifts out\"), :48 (shock parameter a).",
+          "fix": "\"**Shifters** (B5): every bar in a row moves by the same amount, or a block of people is added/removed and the row re-sorts; the line re-finds the crossing with the 6.d/6.h play. Shift sizes must put the new P* on the $0.25 step: for this crowd, ±$1.25 or ±$2.50 on either side (demand +$1.25 → (45, $4.25); cost +$1.25 → (35, $5); +25 buyers → (60, $5)). Rows are generated from a list of (owner, value) so an owner can hold several bars (decision 5) and 'Molly's costs rise' can lift only hers.\""
+        },
+        {
+          "where": "§4 Named people in the crowd (line 85: \"Molly's $2 is the supply intercept, not a crowd member\") and §10 item 2",
+          "severity": "minor",
+          "problem": "A consequence of decision 6 the draft missed: Molly is the character C3 uses for the externality (her fertilizer, her farm) and B5 uses for the supply shift, and the intercept owns no bar to stack an EXT segment on. Either Molly holds bars or those blocks switch to Andrew (#40).",
+          "evidence": "C3_Externalities/01_Notes.md:21–27 (\"Lets go back to our friend, Molly … nitrogen fertilizer … Show Molly's farm\"), :63 (\"Add an externality on top of the cost line\"); B5_Changes/01_Notes.md:25; _Style_Guide.md:367 (externality \"built at one quantity first (MPC segment, EXT on top)\").",
+          "fix": "§10 item 2, append: \"Note: C3 builds the externality on Molly's own lot and B5 shifts Molly's supply; as the intercept she has no bar. Options: (a) Molly stands twice as sellers 1–2 ($2.05, $2.10) under decision 5 and the line 'starts at Molly'; (b) keep her as the intercept and hand C3/B5 to Andrew (#40, $4).\""
+        },
+        {
+          "where": "§7 External cost bullet (line 191)",
+          "severity": "minor",
+          "problem": "No size, and C3/C4 need the social optimum and the corrective tax to land on the same grid points as C2's wedge. A $1.25 per-lot external cost gives social optimum Q = 35 at MSC = MB = $5, and C4's corrective tax of $1.25 reproduces C2's (35, $5 / $3.75).",
+          "evidence": "reuse_check.py: MSC at Q = 35 is 2 + 1.75 + 1.25 = $5.00 = MB(35). C4_Corrective_Policy/01_Notes.md:9–14 (tax equal to the externality sets q_s = q_d = q_SOC).",
+          "fix": "\"**External cost** (C3, C4): a second segment (EXT pink) stacked on each seller's MC, so bars are VGroups of segments from the start; a social supply row/curve above the private one. Use $1.25 per lot: private equilibrium (40, $4), social optimum Q = 35 where MSC = MB = $5, and C4's corrective tax of $1.25 lands on C2's wedge numbers (35, $5 / $3.75).\""
+        },
+        {
+          "where": "§7 (whole section) — missing quantity-driven mode",
+          "severity": "major",
+          "problem": "B4.1's efficiency argument and B4's social-planner beats drive a chosen QUANTITY, not a price: pick Q, read MB_n and MC_n for the n-th pair, compare. The engine as specified is price-driven only.",
+          "evidence": "B4_Efficiency/01_Notes.md:127–139 (\"you get to decide how much is bought and sold … Slide quantity back and forth … showing the change in the WTP / marginal cost\"); B_Skillsheet.typ:125–126 (\"Compare marginal benefit and marginal cost … locate the efficient quantity. For a specified quantity exchanged …\").",
+          "fix": "Add to §7: \"**Quantity-driven mode** (B4 efficiency, C3): a vertical Q guide is the tracker; the n-th buyer and n-th seller (sorted pairing) light up with MB_n and MC_n, their gap shown as a segment on the overlaid graph and as the pair in the world; the price line is absent or dashed. Sorted pairing (buyer n with seller n) is therefore a first-class state, which is another reason 6.a/6.e use it.\""
+        },
+        {
+          "where": "§7 (whole section) — missing head-on row re-entry and per-bar fills",
+          "severity": "major",
+          "problem": "§7 says per-person CS/PS \"can be shaded and summed\" but the head-on sorted row exists only as scene 4's intro (4.a–4.c) before the camera pulls out; B4 needs to return to it at any price with checks/circles intact, shade bar segments above/below the line, and lift them to the graph (the B1 halving → triangle move). Note the discrete sums differ from the triangles B4 computes (CS 156 vs 160, PS 39 vs 40 at $4; DWL 47.5 vs 50 at a $3 ceiling).",
+          "evidence": "_Style_Guide.md:314–318 (split bars in half, fade into the triangle); B1_Demand/02_Storyboard.md:129 (many thin grey bars under the line); reuse_check.py sums.",
+          "fix": "Add to §7: \"**Head-on row as a re-enterable view**: the orthographic sorted row (4.a, 5's mirror) is a camera/view state the engine can return to at any price with the line, checks, circles and tags preserved. Per-bar fills (CS above the line inside circled bars, PS below, expenditure/revenue in GOV green) are drawn on this row and lifted to the overlaid graph with the 4.c lift. B4 will say 'about' when it reads the triangle (160) against the bars (156).\""
+        },
+        {
+          "where": "§5 scene 6, 6.j (line 166: \"seven sellers lose their circles\")",
+          "severity": "minor",
+          "problem": "At $4.25, Qd = 38 so only two sellers lose circles; five newly willing sellers arrive without one. Seven is the uncircled count, not the lost count. Mark semantics matter for B4's floor picture.",
+          "evidence": "reuse_check.py: $4.25 → 38/45; $4.00 → 40/40.",
+          "fix": "\"Qd 38, Qs 45; seven sellers are checked without a circle (two lose theirs, five newly willing); one cuts; the line falls back.\""
+        },
+        {
+          "where": "§8 Pass 1 (line 197) and §1 decision 9 (\"Scenes 4–6 first … the assets B4's price controls reuse\")",
+          "severity": "major",
+          "problem": "Pass 1 does not name what to build first inside scenes 4–6, and §7 is headed \"design toward, don't build yet\". Four §7 items cost nothing extra and are the B4 asset: pinned mode (6.a with the 6.d play not fired), the rationing switch, the Qx readout, and overlay-with-plaza. Scenes 4 and 5 are single-side special cases of scene 6's tableau, so building them first builds the engine last.",
+          "evidence": "Decision 9 text; B_Outline.typ:59–63 (B4 = price controls via price line, then government purchases); B4 continues after Sep 23 on its own animation.",
+          "fix": "Replace Pass 1 with: \"Pass 1 — **the scene 6 tableau**: a function of price P that places the 59+100 sorted rows, draws the (P_b, P_s) line, marks checks (by side's price), circles (sorted pairing, `rationing='sorted'|'random'`), tags, and prints Qd, Qs and trades on the shared Q axis; a `pinned` flag that disables 6.d/6.h; the stack↔overlay slide of the same axes with the plaza on screen. Review it at $3, $4, $6 in the live viewer before any play. Pass 1b — the 6.d/6.h continuous play and the 6.c/6.g cards. Pass 1c — scenes 4 and 5 as the single-side views of the same objects. B4's price-control beats then reuse Pass 1 with `pinned=True` and the overlay.\" Change §7's heading to \"(design toward; items marked * are built in Pass 1)\" and star pinned line, rationing switch, trades readout, overlay."
+        },
+        {
+          "where": "§11 Class 09 (line 225: \"then B4's price ceiling on the same picture with the line pinned\")",
+          "severity": "minor",
+          "problem": "Correct plan, but one step past 5.a on the export is 5.b, which is the toy 10×10 market (Qs = 4, Qd = 8) with index rationing (a $3-MB buyer served, Amanda-Grace not) — the opposite of B4.2's assumption and a different market from the algebra. If Taylor advances a click too far, tomorrow's ceiling contradicts B4's sheet.",
+          "evidence": "frames/46_5_b.jpg (Units graph, Qs = 4, Qd = 8, ringed waiting buyers); 03_Equilibrium.py:1567–1569 (initial_matches [0, 2, 5, 7, …] at $3); present.json order 5.a → 5.b.",
+          "fix": "Append to §11: \"Stay on `5.a` and `5.d` (the algebra market, overlaid graph). Do not advance into `5.b`/`5.d.i`: those are the toy 10×10 with hand-picked matches, and B4.2 assumes the keenest trade. Draw the ceiling on `5.a` by hand: 20 trades at $3, buyers 21–40 lost.\""
+        }
+      ],
+      "confirmed_right": [
+        "§7's list of downstream nouns is the right list: pinned line (B4_Efficiency/01_Notes.md:249–291), government purchases (B_Outline.typ:63), shifters (B5_Changes/01_Notes.md:15–39, :48), world price and imports/exports as the gap (B6_Trade/01_Notes.md:112–148), wedge with revenue and DWL (C2_Taxes_and_Subsidies/01_Notes.md:75–91), stacked EXT segment and social curve (C3_Externalities/01_Notes.md:63–75, _Style_Guide.md:367).",
+        "Line 193 (\"Nothing in scenes 4–6 should assume there is exactly one line, one population per side, or that a person's bar is a single segment\") anticipates C2, B6 and C3 correctly.",
+        "§4's price table is right at $3, $3.75, $4, $4.25, $5, $6 (reuse_check.py), and the named placements hold: Gary = buyer 30 (MB $6), Amanda-Grace = 25 ($7), Andrew = seller 40 (MC $4); both Gary and Andrew are left out under sorted rationing at $3 and $6 respectively, so 6.c/6.g work without seeds.",
+        "6.h's sequence (30/80 → 31/75 → … → 40/40) and 6.j's counts (38/45 at $4.25, 41/35 at $3.75) check out.",
+        "The one-lot / 1,000 lb convention (decisions 5–6) matches B1's market units (B1_Demand/02_Storyboard.md:129, 'Q 0–60 thousand') and B4/B5's 'thousands of pounds' prose, so no unit change is needed downstream.",
+        "The stack→overlay in 7.a matches the picture B4 will use tomorrow (frames/45_5_a.jpg: overlaid curves, red $3 line, Qs = 20 and Qd = 45 side by side, gold gap segment); the requirement is only that it be reachable with the plaza still up.",
+        "§11's class-09 plan (4.e, 5.a, 5.d on the current export, then Exercise Q2, then the ceiling) is independent of the rebuild and consistent with decision 10; B4 tomorrow cannot and need not be built on scenes 4–6.",
+        "§8's retirement of the growth loop and `5.c`/`5.g` random-visit runs is also forced by the model: discovery.py:93–94 rejects the crowd's off-grid marginals, so none of that code could have driven scenes 4–6 anyway."
+      ],
+      "missing": [
+        "A §7 engine contract in one line per block, with numbers, so the animator can test each mode at build time: B4 ceiling $3 → 20 trades (buyers/sellers 1–20), CS 138, PS 9.5, DWL 47.5 (pairs 21–40); floor $6 → 30 trades, CS 87, PS 96.75, DWL 11.25; government at $6 floor buys 50 lots for $300k; B5 demand +$1.25 → (45, $4.25), cost +$1.25 → (35, $5); B6 Pw $6 → exports 50, Pw $3 → imports 25; C2 tax $1.25 → (35, $5 / $3.75), revenue 43.75; C3 EXT $1.25 → social Q 35 at $5; C4 corrective tax $1.25 → same as C2. (All from reuse_check.py on the §4 formulas.)",
+        "A 'trades' (quantity exchanged) readout in §3 and on every scene 6 hold — see the Counts issue.",
+        "The (P_b, P_s) two-tracker line in §3 so the wedge is an addition, not a rewrite — see the Wedge issue.",
+        "Quantity-driven mode and sorted pairing as first-class states — see the missing-mode issue.",
+        "The head-on row as a re-enterable view with per-bar fills and the 4.c lift reused for B4's CS/PS build — see the head-on issue.",
+        "A colour note for circles: GOV green already means expenditure/revenue and government money (_Assets/style.py:50, _Style_Guide.md:152, :171). A green trade circle is consistent with 'money changes hands', but a government-purchase circle is also green; specify that outside-counterparty circles carry their label (G / World) on the ring.",
+        "A one-sentence handoff in scene 6 (6.b or 6.i) that B4 will pin the line: the notes' closing already promises 'what happens when a government moves the price' (B3 01_Notes.md:201); say at 6.j 'next time we stop the line from moving and see who pays for that' so B4's opening is a callback to the exact tableau."
+      ]
+    },
+    "editor": {
+      "lens": "Editor / notes coherence — can 01_Notes.md be restaged into the seven scenes with Taylor's words only, is the on-screen wording consistent with the notes, B1/B2, and the skillsheet, and are §6/§9/§11 and the file itself ready to hand off",
+      "verdict": "Not ready to hand off as an editor brief. §9.1 tells the editor that Taylor's prose already covers scenes 1–3 and 6, but the scene 1–3 sentences (01_Notes.md:33, 39, 45, 51, 57) are all {++editor insertions++} from the 2026-09-20 restage, scenes 4–5 have no lecture prose at all, and scene 6 recasts Taylor's two dictated deviation stories (Amanda-Grace offers Molly $3.25; Molly cuts to $5 for Gary, Andrew follows — 01_Notes.md:113–117, 145–147) into different actors and numbers while §4 removes Molly from the crowd, which also breaks B4's \"jump the line\" callback (B4_Efficiency/01_Notes.md:267, 281). The single most important fix: replace §9.1 with an explicit map of which beats have Taylor's dictated words, which rest on pending insertions, and which need Taylor to speak new lines — and restage 6.c/6.g on the notes' own actors. Second: the draft's full-sentence captions are lecture content the editor is not allowed to write and the style guide rejects on screen; cut them to definitions, questions, and counts, and move the sentences into ED-comment candidates.",
+      "issues": [
+        {
+          "where": "§9 task 1 (\"the 2.x–3.x sentences already describe scenes 1–3 and the current 5.x prose fits scene 6\")",
+          "severity": "blocker",
+          "problem": "Misstates provenance. Every sentence the draft relies on for scenes 1–3 is a {++…++} insertion from the 09-20 restage (editor-drafted, pending Taylor), not Taylor's dictation; 01_Notes_Original.md has none of them. Scenes 4 and 5 have no prose at all (only the recap at 01_Notes.md:17, 19). The editor cannot restage what does not exist, and the B1 precedent (B1_Demand/01_Notes.md:5) is that new wording appears only in ED comments for Taylor to adopt.",
+          "evidence": "01_Notes.md:33, 39, 45, 51, 57, 105, 165, 201 are all wrapped in {++ ++}; 01_Notes_Original.md:11–19 jumps from the recap straight to the $3 shortage paragraph (line 41); 01_Notes.md:6 header carries no ED PASS comment for the 09-20 restage (the 09-16 header in _archive/01_Notes_pre_restage_2026-09-20.md:5 was dropped).",
+          "fix": "Replace §9.1 with:\n\n1. Restage `01_Notes.md` into the seven scenes, keeping Taylor's dictated prose where it exists and renumbering every `plass:comment` beat header to the new scene IDs (0.a bumper; 1.a–1.j; 2.a–2.f; …). Restore an `ED: PASS (2026-09-2x)` header comment naming this outline and the pre-restage backup. Provenance, so nothing is invented by the editor:\n   - **Taylor's dictated words exist for:** the opener (17–27), 6.a/6.b/6.e/6.f/6.h/6.i (107, 113–117, 123, 131–139, 145–153, 159–163, 63–65), and all of scene 7 (77–97). These are restaged, not rewritten.\n   - **Pending editor insertions (09-20), still {++marked++} and awaiting Taylor:** every scene 1–3 sentence (33, 39, 45, 51, 57), the $3 huddle (105), the break-ranks line (165), the two exercise pauses (99, 167), the B4 handoff (201). Leave them marked; the restage may move them but not silently accept them.\n   - **No prose at all — Taylor to dictate (listed as ED: AUTHOR WORDING NEEDED comments at the beat):** 1.h–1.j (test prices, the band as MC < P < MB, \"which price\" and why more people are needed); 2.e–2.f (who gets the spinach; naming equilibrium on the small case); all of scene 3 (3.a–3.g); all of scene 4 (one-person-per-bar line, the line through the bar tops, one price, Qd as a count, tags as MB); all of scene 5 (mirror); 6.c and 6.g if the staging departs from 113–117 and 145–147; the 6.j test up/down; the scene 7 step \"at equilibrium Q_d = Q_s, so call it Q.\""
+        },
+        {
+          "where": "§5 scene 6, 6.c and 6.g; §4 \"Named people in the crowd\" (Molly = intercept); §10 item 2",
+          "severity": "blocker",
+          "problem": "The draft's deviation close-ups replace Taylor's stories. Notes 5.b: Amanda-Grace, left out at $3, offers Molly $3.25; Gary is displaced and \"should raise the price.\" Notes 5.f: Molly and Andrew are unsold at $6; Molly offers Gary $5; Gary leaves Andrew for Molly; Andrew lowers too. The draft stages Gary → seller #21 at $3.05 and Andrew → buyer #31 at $5.80, and removes Molly from the crowd, so the notes' paragraphs cannot be spoken over the pictures. B4's price-ceiling section depends on the line-jumping story (\"Buyers cannot jump the line with a higher price\").",
+          "evidence": "01_Notes.md:113 (\"Amanda-Grace … offer Molly a higher price … three dollars and twenty-five cents\"), :117 (\"Gary … can't get any spinach … He should raise the price\"), :145–147 (\"Molly and Andrew … can't sell at 6 … Molly … offer a price of $5 to Gary … Andrew … lower his prices too\"); draft §4 line 85 (\"Molly's $2 is the supply intercept, not a crowd member\"); B4_Efficiency/01_Notes.md:267 (\"a direct callback to B3's Cindy story\"), :281.",
+          "fix": "Replace 6.c with:\n\n6.c Amanda-Grace is one of the 25 (seeded: buyer 25 is checked and uncircled). Her card: \"Wait at $3: nothing | Offer Molly $3.25: gain $7 − $3.25 = $3.75.\" Question \"Would Amanda-Grace pay a little more to get spinach?\" She jumps the line; Molly's circle moves to her; Gary (buyer 30, seeded as Molly's $3 buyer) loses his circle. Second card, Gary: \"Wait at $3: nothing | Offer $3.50 to a $3.25 seller: gain $2.50.\" This is 01_Notes.md:113–117 as written; the spoken lines are Taylor's.\n\nReplace 6.g with:\n\n6.g Molly and Andrew are unsold at $6 (seeded among the 50). Molly's card: \"Keep $6: no buyer | Offer Gary $5: sells, gain $5 − $2 = $3.\" Gary (circled with Andrew at $6) switches to Molly; Andrew's card: \"Keep $6: no buyer | Cut to $4.75: sells.\" This is 01_Notes.md:145–147 as written.\n\nAnd in §4 replace the Molly sentence with: \"Molly is in the crowd: her twenty lots are twenty sellers with MC $2.10 … $4.00 (B2's P = 2 + Q_s/10), Andrew's ten lots MC $2.20 … $4.00 (P = 2 + Q_s/5); both have a lot exactly at $4, which is why 'Andrew is the last one in' still holds. In scenes 1–3 Molly stands for her first lot ($2, the intercept) and Andrew for his last ($4).\" Close §10.2 accordingly."
+        },
+        {
+          "where": "§4 \"Small cast … unchanged\", §5 1.c–1.g (\"One unit\" becomes \"One lot\"), 2.a caption, 4.a–4.b captions; §1 decisions 5–6 consequence",
+          "severity": "major",
+          "problem": "Units are inconsistent between Taylor's prose and the draft. Taylor's scene 1 sentence prices a pound (\"Gary would pay up to $6 for a pound of spinach. Growing that pound costs Molly $2\"), the graph caption is \"Dollars per pound,\" and Q is thousands of pounds. If one person = one lot = 1,000 lb, then the scene-1 accounting (Expenditure $4, CS $2, PS $2) is per pound, not per lot — a lot at $4/lb costs $4,000. \"Lot\" also appears nowhere in the notes, B1, B2, the skillsheet, or the current export (which says \"One unit\", \"Dollars per unit\").",
+          "evidence": "01_Notes.md:33; frames/41_4_e.jpg axis caption \"Dollars per pound\" / \"Q in thousands of pounds\"; 02_Storyboard.md:68 (\"One unit\" caption at 2.b.vi); grep for \"lot\" across B1/B2/B3 notes, skillsheet, storyboard, code: no hits; B_Skillsheet.typ:88 (\"one more unit\").",
+          "fix": "Add to §4 after the crowd paragraph:\n\n**Units.** Prices are always dollars per pound, on every bar, tag, card, and axis. A person's bar is their MB or MC per pound. In scenes 1–3 the exchange is one pound (Taylor's line, 01_Notes.md:33); the 2.b.vi caption stays \"One pound.\" In the crowd, each person stands for a thousand pounds so that the counts equal the algebra's Q in thousands; this is said once, at 4.b, in Taylor's words (candidate for his adoption: \"Each person here stands for a thousand pounds of spinach; the price is still per pound\"). If Taylor wants the word \"lot\" (decision 5), the notes need one sentence defining it (\"a lot is a thousand pounds\") before 4.a, and \"lot\" replaces \"unit\" everywhere in B3 only; B1/B2 keep \"unit\"/\"bar\"/\"kilogram.\" Open: B2 still says kilograms (01_Notes.md:6)."
+        },
+        {
+          "where": "§3 \"Deliberation card\", \"Cards\"; §5 captions at 1.i, 1.j, 2.e, 2.f, 3.e, 3.f, 3.g, 4.a, 4.g, scene 5, 6.b, 6.c, 6.d, 6.i, 6.j",
+          "severity": "major",
+          "problem": "The draft puts full explanatory sentences on screen (e.g. 4.g \"They still want spinach — just not at $6. Their offer is their marginal benefit.\"; 6.i \"Everyone still standing alone has a bar on the wrong side of the line. They don't want in at $4.\"). These are lecture content the editor wrote, not Taylor's, and the style guide rejects transcribed narration on the stage: only the azure question title, one-line gold definitions at fixed size, small unit captions, and gold question lines are permitted.",
+          "evidence": "_Style_Guide.md:93–100 (\"The animation supports the spoken explanation; it does not transcribe it\"), :204–211 (\"Taylor rejected broad sans-serif explanatory text as cluttered\"), :224 (bottom definitions one line, fixed size), :144–147 (gold question lines); B1_Demand/01_Notes.md:5 (new wording only in ED comments).",
+          "fix": "Replace the §3 \"Cards\" paragraph with:\n\n**Cards and captions.** On-screen text is limited to: the azure title question; a one-line bottom definition (gold term, Taylor's wording from the notes, fixed size per style guide §3); a gold question line; counts (Qd = 45, Qs = 20); and unit captions of six words or fewer (\"One pound\", \"Q in thousands of pounds\"). Deliberation boxes hold only options and arithmetic. Every explanatory sentence in §5 marked *caption* is a spoken line, not screen text: the editor lists each as an `ED: AUTHOR WORDING NEEDED` candidate in the notes at its beat, and Taylor adopts, rewrites, or cuts it.\n\nThen in §5 relabel every \"Caption:\" that is a full sentence as \"Spoken (candidate):\", and where Taylor's words exist use them verbatim: 6.j → 01_Notes.md:159 \"So prices will rise with a shortage and lower with an excess.\"; 6.i → :63–65; 6.d/6.h → :123/:153; 3.e → :57 \"Nobody told anyone to stop. No one wants to change.\""
+        },
+        {
+          "where": "§1 decision 5 (\"One spoken line reconciles this with B1's multi-unit Amanda-Grace\"); §4 named cast; §5 scene 5 (\"the intercept labelled '$2 — Molly'\")",
+          "severity": "major",
+          "problem": "The reconciliation the draft names is the smaller one. B2 built market supply as Molly 20 + Andrew 10 + the rest 10 = 40 at $4, and the notes' numbers-of-record header repeats it. \"One person per bar\" and \"Molly is where the supply line starts\" contradict that unless Molly stands twenty times. The draft never says so, and its scene-5 label makes Molly a one-lot $2 seller.",
+          "evidence": "B2_Supply/01_Notes.md:131 (\"Molly would supply 20 kilograms and Andrew would supply 10 … Thirty kilograms\"), :43 (P = 2 + Q_s/10), :139–141; 01_Notes.md:6 (\"At $4 Molly supplies 20, Andrew 10, the rest of the market 10\").",
+          "fix": "In §1 decision 5 append (as a consequence, not a change): \"Consequence: the same line must cover B2's Molly and Andrew, who supplied 20 and 10 at $4 (B2 notes 131; B3 notes header). Candidate for Taylor: 'In the last two episodes Amanda-Grace and Molly each stood for many units. Here every bar is one person buying or selling one amount, so a farmer with twenty to sell stands twenty times.'\" In scene 5 replace \"the intercept labelled '$2 — Molly'\" with \"Molly's first lot is seller 2 (MC $2.10) and her last is seller 40 ($4.00), beside Andrew's last; label those three.\" Update §9.3 to match."
+        },
+        {
+          "where": "§5 6.c–6.d (\"Every left-out buyer does the same\"), 6.g–6.h; §3 \"These are the people who move the price\"",
+          "severity": "major",
+          "problem": "The draft makes the shortage adjustment buyer-only and the excess adjustment seller-only. Taylor's lesson lines say both sides have the incentive in each case, the skillsheet assesses \"the incentives of buyers and sellers,\" and the Gradescope key for Q2.4 is the both-sides answer. A student who learns the draft's version picks a distractor.",
+          "evidence": "01_Notes.md:123 (\"whenever there's a shortage both buyers and sellers have an incentive to raise their prices\"), :153; B_Skillsheet.typ:116; Exercise_B3_gradescope.md:89 (\"(x) It will rise: buyers who can't get pasties and sellers with willing buyers both push it up\").",
+          "fix": "In 6.c add a third box to the seller side of the card, spoken in Taylor's words: after Amanda-Grace's $3.25 offer, Molly's card: \"Stay at $3 with Gary | Take $3.25: gain $1.25.\" Add to 6.d: \"Spoken: 01_Notes.md:123 verbatim. On screen the play shows sellers accepting the higher offers, not only buyers making them.\" Mirror in 6.g–6.h with :153 and a buyer box (Gary takes Molly's $5)."
+        },
+        {
+          "where": "§6 Exercise placement; §9 task 8; §1 decision 10 / §11",
+          "severity": "major",
+          "problem": "Renumbering now collides with this week. Students did Q1 on Sep 21 and §11 sends Class 09 to \"Exercise Q2\" on the same sheet; the Gradescope form is live with Q1/Q2 and a Gradescope-only Q3 concept check that would become Q4. The draft says \"if §6 is accepted\" but not when.",
+          "evidence": "Exercise_B3.typ:41–68 (Q1 equilibrium, Q2 price away); Exercise_B3_gradescope.md:20–111 (Q1, Q2, Q3 \"Which concepts?\"); frames/42_4_exercise.jpg and 66_5_exercise.jpg (cards titled Q1/Q2 in the current export); draft §11 (\"Then Exercise Q2 in full\").",
+          "fix": "Replace the first sentence of §6 with: \"The sheet is editor-owned. The current sheet (Q1 equilibrium, Q2 price away) stays as printed through Class 09 and the Gradescope close; the renumbering below is for the rebuilt episode's first run and is done in one pass with the Gradescope sheet.\" Append: \"Consequences: `Exercise_B3.typ` — Q2(a,b) → Q1 with the setup 'Suppose the price is 5 galleons'; Q2(c,d) → Q2 with 'Still at 5 galleons'; old Q1 → Q3 and its four blank graph lines move with it; re-export the PDF from Plass. `Exercise_B3_gradescope.md` — Q2.1–2.2 → Q1.1–1.2, Q2.3–2.4 → Q2.1–2.2, Q1.1–1.3 → Q3.1–3.3, concept check Q3 → Q4. Scene files carry the new card titles (the old titles are at 03_Equilibrium.py:1454, 2020 and retire with it). Practice_Bank/Vignette_B3_v1.md is a 24F externalities/subsidy vignette, not the pasty market; unaffected, but note B3 has no Vignette/ folder although the skillsheet lists Vignette B3.\""
+        },
+        {
+          "where": "§2 table and §5 (no scene for the bumper, recap, or floating price); §8 files",
+          "severity": "major",
+          "problem": "The notes open with 0.a (bumper), 1.a (recap of B1/B2), 1.b (the floating price, \"two graphs. One for supply and one for demand\") — eleven lines of Taylor's dictated prose with no scene in the draft. Every episode carries the bumper and its italic thesis line; scene 1 starting at \"Would they exchange?\" leaves the subtitle \"Equilibrium: when no one wants to change\" nowhere.",
+          "evidence": "01_Notes.md:3, 9–27; _Style_Guide.md:407–408 (Episode bumper, Episode subtitle: \"every episode has one\"), :428 (0.* production beats).",
+          "fix": "Add before scene 1 in §5:\n\n### Scene 0 · Opener (part of the scene 1 file)\n0.a Bumper: raster MICROECONOMICS, \"Part B | Episode 3\", subtitle *Equilibrium: when no one wants to change* (01_Notes.md:3).\n0.b Recap, two graphs: B1's demand and B2's supply on twin (Q,P) graphs, apart, no crossing (01_Notes.md:14, prose 17–19).\n0.c The floating price: the price line detaches with a \"?\" (01_Notes.md:22, prose 25–27). Taylor's \"two graphs, one for supply and one for demand\" is the setup scene 6's stacked layout pays off; say so in the storyboard.\n\nAnd in §2 add a row 0 with stops 3."
+        },
+        {
+          "where": "§5 scene 2 (2.f caption \"The price is stable.\") and scene 3 (3.f card \"Stable prices are equal prices.\"); §9 task 5",
+          "severity": "minor",
+          "problem": "The draft's own rule (§9.5) says the small scenes claim only \"no one wants to switch partners,\" but its cards use \"stable,\" which the notes reserve for the big-market property (\"no buyer and no seller wants to change the price they're offering and the quantity\"). Same word, two meanings, three scenes apart.",
+          "evidence": "01_Notes.md:161–163; draft lines 113, 128; draft §9.5.",
+          "fix": "2.f caption → drop \"The price is stable.\" 3.f card → \"Two trades, one price.\" with the gold term \"one price\". Reserve \"stable\" for 6.i–6.j, where Taylor's line 163 is spoken."
+        },
+        {
+          "where": "§9 task 3 (\"Add the one-lot line … and the 'Molly is where the line starts' line\") and task 4 (huddle provenance and the B4 callback claim)",
+          "severity": "minor",
+          "problem": "Task 3 has the editor writing lecture lines, which the house rule forbids. Task 4 misdescribes the huddle: it is a 09-20 editor insertion, while Taylor's dictation has *sellers* deciding on $3 and on $6; and B4 does not call back to \"break ranks\" — it calls back to the line-jumping story.",
+          "evidence": "B1_Demand/01_Notes.md:5; 01_Notes.md:105 and :165 are {++ ++}; 01_Notes_Original.md:41 (\"spinach sellers … decide to sell spinach at a price of $3\"), :57; B4_Efficiency/01_Notes.md:267, 281 (line-jumping), no hit for \"break ranks\"/\"teamed up\" in B4 or B5 notes.",
+          "fix": "Task 3 → \"Draft, as ED comments only, the one-person-per-bar line (scene 4) and the Molly/Andrew lots line (scene 5) for Taylor to adopt.\" Task 4 → \"Decide the $3/$6 framing. Taylor's dictation has the sellers deciding both prices (Notes_Original 41, 57); the buyer huddle (105) and 'break ranks' (165) are 09-20 editor insertions still pending. B4 calls back to the line-jumping story (B4 notes 281), not to 'break ranks', so 6.c must keep a buyer jumping the line at $3.25 whichever framing wins. Taylor's call; §10.\""
+        },
+        {
+          "where": "§4 count table (\"On the line\" column) and the sentence after it; §5 6.d roll",
+          "severity": "minor",
+          "problem": "Arithmetic slips in a numbers section the animator will copy. At $3.75 seller 35 is on the line, at $4.25 seller 45, at $5 buyer 35 and seller 60; \"exactly one person per side sits on the line\" fails for buyers at $3.75 and $4.25 (n = 41.25, 38.75). The 6.d roll should read 45/20 → 43/25 → 42/30 → 41/35 → 40/40.",
+          "evidence": "Qd(P) = floor(5(12 − P)): 3.25 → 43, 3.5 → 42, 3.75 → 41; Qs(P) = floor(20(P − 2)); 2 + 35/20 = 3.75, 2 + 45/20 = 4.25, 2 + 60/20 = 5, 12 − 35/5 = 5.",
+          "fix": "Table rows → \"$3.75 | 41 | 35 | seller 35\"; \"$4.25 | 38 | 45 | seller 45\"; \"$5 | 35 | 60 | buyer 35, seller 60\". Sentence → \"At $3, $4, $5, and $6 one buyer and one seller sit exactly on the line; at the quarter-dollar tests only a seller does. Say once that the last one in is just indifferent (B4 uses this).\" 6.d → \"45/20 → 43/25 → 42/30 → 41/35 → 40/40\"."
+        },
+        {
+          "where": "File header, title, §0",
+          "severity": "minor",
+          "problem": "The precedent file is `# Episode B1 | Demand — Outline` with an `ED:` header stating what is verbatim and what the editor touched. The draft's header says \"transcribed and expanded,\" mixing Taylor's decisions with eight sections of editor proposal under one voice, and §0 carries diagnosis numbers whose source is a session scratchpad no reader can open.",
+          "evidence": "B1_Demand/00_Outline.md:1–3; draft lines 1–13; results.json lives only under /private/tmp/claude-501/…/scratchpad.",
+          "fix": "Title → `# Episode B3 | Equilibrium — Outline`. Header → `<!-- ED: §1 transcribed from Taylor's direction (2026-09-22, per chat); §§2–11 are the editor's staging of that direction and are proposals unless marked otherwise. This file guides the notes edit and a new storyboard; it supersedes 02_Storyboard.md, which moves to _archive/ with 03_Equilibrium.py. Pre-restage backup: _archive/01_Notes_pre_restage_2026-09-20.md. -->`. §0 → three sentences: \"Sep 21 ran the single episode (547 s, 225 stops; B1 75, B2 85) and reached only Q1. The definition's two halves met on one frame, at t = 546 s, after 145 stops without the word 'equilibrium'; the frame that would have made it click (plaza beside graph, one price, Qs and Qd printed, the left-out marked) came after the algebra. The rebuild keeps every close-up that worked and puts counts on screen whenever a price line exists.\" File location stays `Blocks/B3_Equilibrium/00_Outline.md`."
+        },
+        {
+          "where": "§11 Class 09",
+          "severity": "minor",
+          "problem": "Consistent with the export, but the three named pauses are not adjacent on the rail: `4.exercise`, `5.a.s.question`, `5.a.s.algebra` sit between `4.e` and `5.a`, and six plaza stops (`5.b` … `5.c`) sit between `5.a` and `5.d` on the same chip, so stepping with the arrow shows the plaza the note says to avoid.",
+          "evidence": "present.json indices 1028 (4.e), 1030, 1036, 1040, 1053 (5.a), 1057–1160 (5.b–5.c), 1164 (5.d); rail.js:173 (chips are clickable); frames/41_4_e.jpg, 45_5_a.jpg, 52_5_d.jpg are graph-only as claimed.",
+          "fix": "Append to §11: \"Navigate by rail chip, then arrow: `4.e` is chip 79; `5.a` and `5.d` share chip 82 with the plaza stops between them, so click the chip, arrow to `5.a`, and jump again for `5.d`. `5.a` is already the ceiling picture — a $3 line, Qs 20, Qd 45 — so B4's ceiling is 'suppose the law says $3' on that frame.\""
+        },
+        {
+          "where": "§5 scene 2, 2.e (\"Editor: Taylor's words — 'Gary is able to pay Molly and had a nice deal if AG weren't there.'\") and 3.e (\"No one moves.\")",
+          "severity": "minor",
+          "problem": "A chat remark is not notes prose; presenting it as \"Taylor's words\" invites the editor to write the caption. And \"moves\" is a third verb beside the notes' \"change\" and decision 3's \"switch.\"",
+          "evidence": "No such sentence in 01_Notes.md; draft §9.5 sets switch/change.",
+          "fix": "2.e → \"Spoken (candidate, from Taylor's 09-22 remark, needs his wording): Gary had it at $4 and would have kept it if Amanda-Grace weren't there.\" 3.e → \"No one switches.\""
+        }
+      ],
+      "confirmed_right": [
+        "§0 counts: present.json has 225 stop-flagged checkpoints over 547.3 s; B1 75, B2 85 (stop flags in each EpisodeB*_present/present.json).",
+        "§4/§9.2 cast fix: 01_Notes.md:6 says Amanda-Grace MB $6; 03_Equilibrium.py:341 and :359 use MB $7.",
+        "§4 Qd/Qs at $3, $4, $5, $6 (45/20, 40/40, 35/60, 30/80), the 6.j test numbers (38/45 with 7 sellers uncircled; 41/35 with 6 buyers uncircled), the 6.h first step 31/75, scene-1 CS $1 / PS $3 at $5, and every card's arithmetic (2.b $2.75, 2.c $1.50, 3.b $0.75/$2.50, 3.c $1.25, 3.g $1/$1.25, 6.c $2.75/$2.95, 6.g $1.75/$1.80) check against MB_n = 12 − n/5 and MC_n = 2 + n/20.",
+        "Named crowd indices: buyer 25 → $7, buyer 30 → $6, seller 40 → $4.",
+        "Definition cards 6.b, 6.f, 6.i match 01_Notes.md:115, :133, :67 verbatim; 'excess, not surplus' aside at 6.f matches :139 and style guide §4 (:242).",
+        "§5 3.a model trace: 02_Storyboard.md:135–138 confirms Andrew's $4.25 entry, Amanda-Grace's switch, Gary's $4.50, and seed 54 reaching $5.50/$5.50 in four rounds; 2.d's 14 s compression matches 2.c.ii → 2.c.iii (t = 37.6 → 51.5).",
+        "Exercise numbers: Exercise_B3.typ:36 curves; Q* = 10, P* = 7; at 5 galleons Qd = 14, Qs = 6, shortage 8 (gradescope Q1–Q2 keys).",
+        "§11 frames: 41_4_e.jpg is the starred crossing with the worked algebra; 45_5_a.jpg is the $3 line with Qs = 20, Qd = 45 and the gold gap; 52_5_d.jpg is $6 with 30/80 — all graph-only, no plaza, as the note claims.",
+        "File location: B1's precedent is Blocks/B1_Demand/00_Outline.md; Blocks/B3_Equilibrium/ has no 00_Outline.md yet, so the path is free.",
+        "§9.5's distinction (switch partners vs raise/lower) is the right one; the notes use 'change' for the definition (:3, :57, :67, :163) and 'switch' only for buyers changing sellers (:51)."
+      ],
+      "missing": [
+        "§9 needs a task for the numbers header: rewrite 01_Notes.md:6 to record the crowd formulas, one person = 1,000 lb (or 'lot'), the named indices, the Molly/Andrew lots reconciliation, and 'prices per pound'. Proposed text: \"Numbers (decided 2026-09-22): D: P = 12 − Q/5, S: P = 2 + Q/20, Q in thousands of pounds, prices per pound. Crowd: 59 buyers MB_n = 12 − n/5, 100 sellers MC_n = 2 + n/20, one person per thousand pounds; counts equal the algebra at every quarter-dollar price. Amanda-Grace = buyer 25 ($7), Gary = buyer 30 ($6); Molly's lots are sellers 2–40 (even), Andrew's 4–40 (by fours), both with a last lot at $4. Small cast: Gary MB $6, Amanda-Grace MB $7, Molly MC $2, Andrew MC $4. Shortage test $3 (Qs 20, Qd 45); excess test $6 (Qs 80, Qd 30). Units: pounds (B2 still says kilograms).\"",
+        "The skillsheet's assessed term 'quantity exchanged' (B_Skillsheet.typ:115, 'the smaller of quantity demanded and quantity supplied'; used throughout B4 notes 259–287) has no home in any scene or on the exercise. Proposed: at 6.a and 6.e print the circle count beside the counts — \"20 trades\" / \"30 trades\" — and add an ED comment at 6.b for Taylor: \"Candidate: 'Twenty pounds change hands — the smaller of the two. We call that the quantity exchanged.'\" Optionally Exercise Q2(e): \"How many pasties are exchanged? \\_\\_\\_\\_\\_\\_\\_\\_\\_\\_\" (answer 6).",
+        "Scene 7 with subscripts needs a step Taylor's prose lacks: setting 12 − Q_d/5 equal to 2 + Q_s/20 requires saying Q_d = Q_s first (skillsheet B3.1: 'by setting quantity demanded equal to quantity supplied'). Proposed ED comment at 7.b: \"AUTHOR WORDING NEEDED — one sentence: 'At equilibrium quantity demanded equals quantity supplied, so we can call both of them Q and set the two curves equal.'\"",
+        "§9.7 'PPF tieback stays deferred' should say what happens to the prose: keep 01_Notes.md:169–193 in the file under `#### PPF Tieback` with a comment `<!-- plass:comment 8.a · Tieback | not animated in the rebuild; prose kept for a later pass -->`, not cut.",
+        "§8 archive list omits three files the rebuild invalidates: `README.md` (points at 03_Equilibrium.py and 02_Storyboard.md as current, lines 3–5, 28–31); `course-content.yaml.js:234` (the Animations link targets the single `EpisodeB3_present/` bundle — per-scene bundles need one link each or an index page) and `:236` (the episode blurb says 'shortage and surplus', violating the excess rule); and `_Style_Guide.md:364`, whose S&D invariants row still lists the old spinach numbers (S: 2Q/5, D: 8 − Q/5, Q* = 40/3) — the animator will read it. Add: \"Also update: README.md entry points; course-content.yaml.js B3 links and blurb ('shortage and excess'); style guide §5 S&D row to the decided pair.\"",
+        "§7 should note that scene 4 is the same asset B1 deferred: B1_Demand/01_Notes.md:161 DECIDED a 3D MarketRound market-demand beat (agents walk bars into the wall, camera flattens to the staircase) with a placeholder holding the beat. Proposed line: \"Scene 4's row-to-graph lift is B1's deferred market-demand beat; build it once and B1's placeholder is replaced by the same scene file with sellers absent.\"",
+        "§10 should carry the unresolved unit across episodes: \"6. Units course-wide: B3 is in pounds; B2 still says kilograms (B3 notes header). Pounds or kilograms for Part B?\"",
+        "§3 'Deliberation card' should say whose words the box labels are: 'Stay', 'Switch', 'Offer', 'Cut', 'Keep' are the editor's; the notes use 'offer' for buyers (:113) and 'ask'/'lower their asks' for sellers (:51). Proposed: \"Box verbs are limited to the notes' pair: buyers *offer*, sellers *ask*; a box is 'Offer Molly $4.25' or 'Ask $6.25', never 'Stay'/'Switch'.\""
+      ]
+    },
+    "student": {
+      "lens": "Simulated first-year student (non-major, knows only B1 and B2), walking the seven draft scenes beat by beat",
+      "verdict": "Through this lens the draft is a large improvement and is close to hand-off: the frame that clicked last time (old 5.b, frame 46) now arrives before the definition, and 6.i finally says the sentence I had to work out for myself. It is not ready as written: the 6.d count roll is wrong (41/30 → 40/35 should be 42/30 → 41/35, verified against the §4 formulas), which the animator would code literally into the \"counts always match\" invariant, and scene 2 hands me my first definition of equilibrium as \"the bidding stopped\" with no count on screen, which is exactly the process-endpoint misconception last time's diagnosis flagged. Fix the roll, and put a one-line count on the two small stages (2.f: 1 wants to buy, 1 wants to sell; 3.f: 2 and 2) so the two halves of the definition are the same fact from the start.",
+      "issues": [
+        {
+          "where": "§5 scene 6, 6.d",
+          "severity": "blocker",
+          "problem": "The count roll is wrong at two of five ticks, and it contradicts the draft's own §4 table (which lists $3.75 as Qd 41, Qs 35). Scene 6's whole promise (§3 'Counts... match the checks in the world. No exceptions, including while the line is moving') is that I can trust the printed numbers; the animator will code this line as written.",
+          "evidence": "Draft line 160: '45/20 → 43/25 → 41/30 → 40/35 → 40/40'. Python against §4 formulas (MB_n = 12 − n/5, MC_n = 2 + n/20): $3.00 → 45/20, $3.25 → 43/25, $3.50 → 42/30, $3.75 → 41/35, $4.00 → 40/40. Draft line 79 (table) already says $3.75 = 41/35.",
+          "fix": "Replace in 6.d: 'the line rises in $0.25 ticks, Qd and Qs roll (45/20 → 43/25 → 42/30 → 41/35 → 40/40)'. Add to §4 after the table: 'The roll in 6.d and 6.h must be generated from these two formulas, not typed.'"
+        },
+        {
+          "where": "§5 scene 2, 2.f (and §3 'Counts' rule)",
+          "severity": "major",
+          "problem": "My first definition of equilibrium is 'no one wants to switch' at the moment a bidding war ends. Nothing on screen lets me check it as a property of the price; I store 'equilibrium = the auction stopped'. That is the misconception the Sep 21 diagnosis named ('a state of the process, rather than a property of a price you can check'), and the §3 rule 'Counts... with more than four people' excludes precisely the cases where I could count on one hand. Decision 3 says name it here; it does not say name it without a count.",
+          "evidence": "Draft line 62 ('more than four people'); line 113 (2.f card and caption have no numbers). results.json student_typical moments_lost: 'These were the countable cases where Qd = Qs could have been seen on the fingers of one hand' (29_3_a_growth_S2_settled, 19_3_a_two_pairs). Check: at $6.25 Amanda-Grace (MB $7) is willing, Gary (MB $6) is not, Molly is: 1 = 1. At the opening $4 with Amanda-Grace present: 2 want to buy, 1 can sell.",
+          "fix": "§3 Counts: replace 'with more than four people' with 'with a single going price, in any scene (scenes 2 and 3 count on fingers: \"1 wants to buy, 1 wants to sell\")'. 2.a caption: 'Two buyers. One lot. At $4: 2 want to buy, 1 can sell.' 2.f caption: 'At $6.25: 1 wants to buy, 1 wants to sell. Gary can't outbid. Amanda-Grace has no reason to. The price is stable.' 3.f add: 'At $5.50: 2 want to buy, 2 want to sell.'"
+        },
+        {
+          "where": "§5 scene 2, 2.f caption",
+          "severity": "major",
+          "problem": "'Molly has no one else to sell to' reads as the reason the price is stable, and it is false in the world I am looking at: Amanda-Grace's bar says $7 and Molly could ask $6.75. The draft's own editor note admits a sharp student will ask this. A caption that I can see is wrong costs trust at the exact moment the gold word appears. Scene 3.g is the real answer (with a second seller, a raised ask loses the buyer) and the draft never points back to it.",
+          "evidence": "Draft line 113 caption; line 117 editor note ('don't claim it here'); line 129 (3.g Molly asks $6, is abandoned, cuts back).",
+          "fix": "2.f caption: 'Gary can't outbid. Amanda-Grace has no reason to. The price is stable — for these three. (Could Molly ask for more? Hold that question.)' 3.g caption: 'Unequal prices don't last. And there's Molly's answer: with another seller next to her, a higher ask loses the buyer.'"
+        },
+        {
+          "where": "§5 scene 3, 3.a (with §3 'Tag' rule)",
+          "severity": "major",
+          "problem": "Andrew walks in and asks $4.25 while Molly is being paid $6.25 beside him. Last time this read as a simulation rule, not a person (results.json: 'Why would Andrew ask $4.25... If I were Andrew I'd ask $6'). The draft leaves the entry ask to the animator, and §3 makes it worse: the tag rule (all scenes) says an unwilling buyer shows his MB, so Gary is standing there wearing '$6' and Andrew ignores it. Either give Andrew a one-line reason or keep tags out of scenes 1–3.",
+          "evidence": "Draft line 123 ('Animator's choice of entry ask; the current $4.25 works'); line 50 (tag rule, under 'Shared grammar (all scenes)'); 02_Storyboard.md:95 (current entry at $4.25); frame 14_3_a_entry.jpg.",
+          "fix": "§3 Tag: add 'Tags start at 4.g; scenes 1–3 have bars and prices only.' 3.a: replace 'posts an ask. (Animator's choice...)' with 'asks $4.25, one tick above his cost. Caption: \"A new seller. He doesn't know what anyone would pay, so he asks just above his cost.\" Gary, unserved at $6.25, takes it.' Keep the seed-54 trace note."
+        },
+        {
+          "where": "§6 Exercise placement, new Q1; §5 scenes 4–5",
+          "severity": "major",
+          "problem": "The renumbered Q1 ('at 5 galleons find Qd and Qs') is placed after scene 5, but no beat in scenes 4–6 ever plugs a price into the market equation. Scenes 4–5 read counts off the graph (which I can do from B1/B2) and scene 7 sets the equations equal; the one place B3 modelled '5 = 12 − Qd/5 → Qd = 35' was the old 5.a.s.algebra beat, which the draft drops (6.a reuses only the 5.a gap treatment). I could still answer Q1 from B1/B2 habit, but the beat that equips me is not in this episode, and the coloured, subscripted plug-in already exists in code.",
+          "evidence": "Draft line 180 (Q1 after scene 5); lines 141–149 (4.e–5: graph reads only); line 157 (6.a reuses 'existing 5.a gold segment', not 5.a.s); 02_Storyboard.md:179 (5.a.s.question / 5.a.d.question: 'Copy each colored graph equation into the math area... Carry red Qs=20 and Qd=45 back'); 03_Equilibrium.py:1494–1496 (that algebra already uses Q_s and Q_d); frames 43_5_a_s_question.jpg, 44_5_a_s_algebra.jpg.",
+          "fix": "4.f, at the $6 step, add: 'One line of algebra beside the graph, as in old 5.a.d: 6 = 12 − Q_d/5 → Q_d = 30. Caption: \"The equation gives the same count.\"' Scene 5 at $3: '3 = 2 + Q_s/20 → Q_s = 20.' §8 Pass 1: add '5.a.s/5.a.d term-by-term plug-in' to the reused code list."
+        },
+        {
+          "where": "§5 scene 6, 6.a (seeded circles)",
+          "severity": "major",
+          "problem": "'Who gets served is luck' is written as an aside to the animator, but on screen I will see buyer #45 (MB $3.00, exactly indifferent) holding spinach while Gary (MB $6) stands empty, and the caption says nothing. My question is 'why does the guy who barely wants it get it over Gary?' That question IS the lesson (at one price the price isn't sorting anyone; the price rise does the sorting), and it is the same emotional beat that landed last time (Gary priced out, frames 21/22). Left unsaid, it reads as a glitch.",
+          "evidence": "Draft line 157: 'Circles: 20 pairs (seeded, not the top 20 — at one price who gets served is luck)'; results.json moments_that_landed: '3.a.excluded / .reason... emotionally sticky... the day's best raw material for a price rations out the lowest-value buyer'.",
+          "fix": "6.a caption (before the shortage card): 'At $3, 45 want it and 20 get it — whoever got there first. The price isn't sorting anyone yet.' 6.d end caption: 'At $4, 40 want to buy and 40 want to sell. The price did the sorting: everyone left out has a bar below the line.' Same at 6.e for sellers: 'Andrew (cost $4) is unsold while a $6-cost seller sold — luck, at this price.'"
+        },
+        {
+          "where": "§5 scene 6, 6.d and 6.h (captions during the play)",
+          "severity": "major",
+          "problem": "During the two continuous plays the only text is the end caption ('At $4, 40 want to buy and 40 want to sell'). The rules 'shortage → price rises' and 'excess → price falls' appear on screen only at 6.j, after both plays. Last time the same rules were spoken but never printed and I wrote them down from memory. The play is where the rule should be readable; 6.j should repeat it, not introduce it.",
+          "evidence": "Draft lines 160, 164, 166; results.json moments_lost: '5.c and 5.g end states: the rules... are spoken but never appear as on-screen text.'",
+          "fix": "6.d: 'Caption during the play: \"Shortage → left-out buyers offer more → the price rises.\" Park caption: \"At $4, 40 want to buy and 40 want to sell.\"' 6.h: 'Caption during the play: \"Excess → unsold sellers ask less → the price falls.\"' 6.j keeps both lines as the summary."
+        },
+        {
+          "where": "§5 scene 6, 6.j ('Existing 5.h refusals as close-ups if wanted')",
+          "severity": "major",
+          "problem": "The 5.h close-ups test only the marginal pair (MB $4 refuses $4.25; MC $4 refuses $3.75). Last time that produced the belief 'the price can't rise because buyers can't afford more'. The crowd version in 6.j (seven sellers lose circles, one cuts) is the right picture; if a close-up is added it must be a non-marginal person refusing because 40 others say yes at $4, which is the notes' argument ('they would lose all their business').",
+          "evidence": "Draft line 166; 02_Storyboard.md:187 ('Highlight an MB-$4 buyer... dashed $4.25 proposal'); 03_Equilibrium.py:1901, 1972 ('$4.25 > MB $4'); results.json misconceptions_formed: 'At equilibrium the price can't rise because buyers can't afford more... The reason the $8 buyer wouldn't pay $4.25 is that others are available at $4.'",
+          "fix": "Replace 'Existing 5.h refusals as close-ups if wanted' with: 'If a close-up is used, it is Amanda-Grace (MB $7) refusing a $4.25 ask with the one-line reason \"40 sellers say yes at $4\" — not the MB-$4 buyer. The marginal-pair refusals (old 5.h.i/ii) are retired.'"
+        },
+        {
+          "where": "§5 scene 1, 1.i (band caption) vs §3 Check and §4",
+          "severity": "minor",
+          "problem": "1.i says the rule is strict, 'MC < P < MB', and 1.h only tests $7 and $1, never $6 or $2. Three scenes later Gary at MB $6 is counted willing at P = $6 (4.f, 'Gary is the last one in') and §3 defines a check as MB ≥ P. I will notice the sign changed and wonder whether Gary buys at $6 or not; last time the 'last buyer gets zero and trades anyway' confusion came from exactly this.",
+          "evidence": "Draft line 101 ('MC < P < MB'); line 47 ('MB ≥ P for a buyer'); line 142 ('$6 → 30 checks... Gary is the last one in'); line 83 ('say once that the last one in is just indifferent').",
+          "fix": "1.i caption: 'Any price from MC up to MB works: MC ≤ P ≤ MB.' 1.h add one slide: 'Slide to $6: Gary's check stays, caption \"$6 = MB $6: just indifferent — we count him in.\"' 4.f at $6: print 'Gary: MB $6 = P' beside his check instead of only saying it."
+        },
+        {
+          "where": "§1 decision 6 consequence; §5 scene 1 (1.c–1.g) and 4.b",
+          "severity": "minor",
+          "problem": "Decision 6 makes one person = 1,000 lb, and B1 told me spinach is priced per pound ('$5 per pound, 35,000 pounds'). Scene 1 shows 'Expenditure $4, CS $2' as whole dollars for one lot. When 4.b says 'one lot each, Q in thousands of pounds' I do the sum: Gary paid $4 for a thousand pounds? The draft never says what the bar height's unit is once a person is a lot.",
+          "evidence": "Draft line 24 (decision 6); line 99 ('One unit' becomes 'One lot'); line 138 (4.b caption); frame 05_2_b_v.jpg (Expenditure $4, Revenue $4); B1_Demand/01_Notes.md:169 ('At a price of $5 per pound, we have a quantity demanded of 35,000 pounds').",
+          "fix": "1.a narration/caption: 'Gary would pay up to $6 a pound; a pound costs Molly $2.' 1.c caption 'One lot' becomes 'One lot, priced per pound'. 4.b caption: 'Each person here buys one lot: 1,000 pounds, priced per pound. Q in thousands of pounds.'"
+        },
+        {
+          "where": "§4 Axes vs scene 5",
+          "severity": "minor",
+          "problem": "The shared Q axis is 0–90 but the seller row is drawn to 100 and 'the line stops at Q = 100, P = $7'. Ten sellers and the end of the supply line fall off the graph, and at $6 I see 80 checked out of a row that is longer than the axis.",
+          "evidence": "Draft line 87 ('Shared Q axis 0–90... The supply row is drawn to 100 sellers; the line stops at Q = 100').",
+          "fix": "Either 'Shared Q axis 0–100' or 'Sellers n = 1…90 (MC $2.05 to $6.50); the line stops at Q = 90, P = $6.50.' Every count in the table is unchanged either way (max Qs used is 80)."
+        },
+        {
+          "where": "§4, sentence after the table",
+          "severity": "minor",
+          "problem": "'These equal the algebra... at every quarter-dollar price up to $7' is false for demand: Qd = 5(12 − P) is an integer only when P is a multiple of $0.20, so at $3.25/$3.75/$4.25 the count is the floor (43 vs 43.75, 41 vs 41.25, 38 vs 38.75). If the horizontal read on the demand graph shows the line value while the axis prints the count, the 'counts match, no exceptions' rule is visibly broken at every intermediate tick in 6.d, 6.h and 6.j.",
+          "evidence": "Python: $3.25 → count 43, algebra 43.75; $3.75 → 41 vs 41.25; $4.25 → 38 vs 38.75; $5.75 → 31 vs 31.25. Draft lines 83, 62.",
+          "fix": "Replace with: 'These equal the algebra at whole-dollar prices (and at any multiple of $0.20 for demand, $0.05 for supply). At intermediate ticks the printed Qd is the whole-person count (the algebra's floor); the graph read at those ticks shows the count, not the line value.'"
+        },
+        {
+          "where": "§5 scene 3, 3.e caption",
+          "severity": "minor",
+          "problem": "'Each buyer's other option costs an outbid for the same spinach' is a sentence I would read twice and not parse; it is the answer to the hold question 'Would anyone switch?' and should be plain.",
+          "evidence": "Draft line 127.",
+          "fix": "'Both pay $5.50. To switch, a buyer would have to bid more than $5.50 for the same spinach. No one moves.'"
+        },
+        {
+          "where": "§5 scene 6, 6.c (Gary's card)",
+          "severity": "minor",
+          "problem": "Three options, and one of them moves in 5-cent steps ($3.05) while the market line moves in 25-cent ticks. I will ask whether the price goes to $3.05 or $3.25, and the caption 'either way above $3' dodges it. The third option is valuable (it is the payoff of the scene-5 tags), so keep it but say why the line steps by quarters.",
+          "evidence": "Draft line 159; §4 'Bids and cuts move in $0.25 steps'.",
+          "fix": "Add to 6.c caption: 'Every left-out buyer does the same, so the going price moves — we'll step it a quarter at a time.'"
+        },
+        {
+          "where": "§5 scene 4, 4.f (step list)",
+          "severity": "minor",
+          "problem": "The steps are $8, $6, $4, $2. B1's two worked examples on this same curve were $5 → 35,000 pounds and $2 → 50,000. One step at $5 with '35 people — the 35,000 pounds from B1' is the cheapest possible bridge from last week's algebra to this week's crowd, and the draft skips it.",
+          "evidence": "Draft line 142; B1_Demand/01_Notes.md:167–173 (P = 12 − Q/5, $5 → 35,000, $2 → 50,000).",
+          "fix": "4.f: 'Step the line: $6 → 30 (Gary is the last one in). $5 → 35 — caption \"35 people: the 35,000 pounds from B1.\" $4 → 40. $2 → 50. Park at $6.'"
+        },
+        {
+          "where": "§5 scene 2, title placement",
+          "severity": "minor",
+          "problem": "The table (§2) gives scene 2's title question as 'Who gets the spinach?' but the beats put it up only at 2.e, after the bidding. The question is what makes the bids meaningful; with 'Two buyers. One lot.' at 2.a I am already asking it.",
+          "evidence": "Draft line 35 vs lines 108, 112.",
+          "fix": "2.a: 'Title \"Who gets the spinach?\" Caption \"Two buyers. One lot.\"' 2.e: 'Hold on the same title; caption after advance as written.'"
+        },
+        {
+          "where": "§5 scene 5 (Molly as the intercept)",
+          "severity": "minor",
+          "problem": "The seller I know best vanishes from the big market ('not a crowd member') while Gary, Amanda-Grace and Andrew stay. 'Molly is where the line starts' is a nice line but it must be said on screen or I will look for her among the 20 at $3.",
+          "evidence": "Draft line 85; line 149 ('the intercept labelled \"$2 — Molly\"').",
+          "fix": "Scene 5 caption at the intercept label: 'Molly's cost, $2, is where supply starts. Everyone else costs a little more.'"
+        }
+      ],
+      "confirmed_right": [
+        "Scene-by-scene engagement as a student, assuming captions as written: S1 locked in (1.b–1.j); S2 locked in through 2.c, following at 2.d, locked in at 2.e; S3 following, locked in at 3.d and 3.g; S4 following at 4.a–4.d, locked in at 4.e–4.f, following at 4.g; S5 following (predictable mirror, short); S6 locked in at 6.a–6.b, following 6.c, locked in 6.d end, following 6.e–6.h (I am ahead of it), locked in at 6.i–6.j; S7 locked in. No beat where I would be lost; nearest to drifting is 6.h, which the draft already compresses to one play.",
+        "(a) In my own words after this draft: equilibrium is the price where the number of people willing to buy equals the number willing to sell, so nobody is standing there willing and empty-handed; anyone still alone has a bar on the wrong side of the line. The market gets there because at any other price the willing-but-left-out people exist and they offer more (shortage) or ask less (excess). That is a checkable property of a price, not the end of a process — provided the count issues above are fixed.",
+        "(b) Exercise readiness: Q1 (Qd, Qs at 5 galleons) yes, from B1/B2 plug-in habit plus 4.e–4.f's 'line across, read the count' (equipping beat in B3 is missing, see issue); Q2 (name, size, direction) yes, from 6.b/6.f cards, the gold gap on the shared axis at 6.a/6.e, and the 6.j caption; Q3 (solve and plot) yes, from 7.b–7.e with subscripts and the B1/B2 plotting habit.",
+        "1.b–1.g reuses the accounting choreography exactly (frame 05_2_b_v.jpg: Expenditure slides across and becomes Revenue). Last time this was 'keep this exactly as it is' and the draft does (line 99, 'Keep the approved accounting choreography exactly' at §8 Pass 3).",
+        "1.h–1.j: sliding the line to $5/$7/$1/$3 with live CS/PS resizing, then the band, then 'What price should they choose?' held with no answer on screen. This is the best hook from Sep 21 (frame 01_2_a_i.jpg) made explicit, and it makes me want scene 2.",
+        "2.b/2.c deliberation cards: a named person, a yes/no question, one line of arithmetic ('$7 − $4.25 = $2.75'). This is the pattern the diagnosis said worked (03_Equilibrium.py:387, :419, :425) and §3 makes it the grammar for every decision.",
+        "2.e 'Who gets the spinach?' with the caption 'Amanda-Grace values it more, so the price rose past what Gary would pay' reuses the moment that was emotionally sticky last time (frames 21_3_a_excluded.jpg, 22_3_a_excluded_reason.jpg) and this time says the rule.",
+        "3.d (Molly cuts) and 3.g (Molly's raised ask fails) answer the question I had all through Sep 21, 'do sellers do anything?' (frame 18_3_a_seller_cut.jpg was a landed moment); the draft gives sellers a decision in every scene from 3 on (3.d, 3.g, 6.g).",
+        "3.f 'Stable prices are equal prices' plus the editor note (line 133) that the 2×2 shows equal, not unique, and 'Don't say the small market found the price'. That is exactly the 'why 5.50 and not 5?' confusion from frame 19_3_a_two_pairs.jpg, pre-empted.",
+        "4.e–4.f: one red line across the graph and the world at bar height, checks on the people whose bars reach it, Qd printed on the axis, stepped four times. This is B1's 'draw a price line, read a quantity' made literal on people; it is the lens I lacked going into the old growth section.",
+        "§4 counts at the whole-dollar test prices are correct: $3 → 45/20, $4 → 40/40, $6 → 30/80, $5 → 35/60 (python against the two formulas); named cast positions correct (Amanda-Grace #25 = $7, Gary #30 = $6, Andrew #40 = $4); 6.j figures correct (at $4.25 45 − 38 = 7 sellers uncircled; at $3.75 41 − 35 = 6 buyers uncircled); 6.h roll 30/80 → 31/75 correct.",
+        "6.a–6.b puts the frame that clicked on Sep 21 (46_5_b.jpg: plaza and graph, one price line, Qs and Qd printed, rings on the left-out buyers, shortage card with arrow) before the definition instead of 150 s after it. §0's diagnosis of why the old order failed matches my experience of it.",
+        "6.i two-clause card with both halves visible at once (40 = 40 on the axis, no uncircled checks) and the caption 'Everyone still standing alone has a bar on the wrong side of the line. They don't want in at $4.' That is, almost word for word, the sentence the Sep 21 student lens said nobody said in one breath.",
+        "6.j tests stability at the crowd level (seven sellers lose circles, one cuts, the line falls back) rather than with a marginal pair, which is the correct picture of 'nothing pushing it' and avoids the 'buyers can't afford more' reading — as long as the optional 5.h close-ups are not the marginal ones (see issue).",
+        "7.b–7.e ports the coloured algebra (frame 39_4_d.jpg, which landed) and adds Q_d/Q_s subscripts so the worked example matches the exercise card; last time I had to decide on my own that setting Q_d = Q_s was allowed. 7.a's overlay as the first crossing, after the counts have already matched at 6.i, is the right reveal.",
+        "§6 renumbering (read counts → name and size and direction → solve and plot) runs in the order the scenes teach it; each card lands on the beat that equips it.",
+        "Decision compliance: the draft does not contradict decisions 1–10 as far as I can trace them (stages 1×1 → 2×1 → 2×2 → full; band only in scene 1; one stepped line in the big market; rows → side graph → plaza; equilibrium named at 2.f and re-earned at 6.i)."
+      ],
+      "missing": [
+        "The count on the small stages. One line at 2.a ('At $4: 2 want to buy, 1 can sell'), 2.f ('At $6.25: 1 wants to buy, 1 wants to sell') and 3.f ('At $5.50: 2 and 2') is the picture that lets me see that 'no one wants to switch' and 'Qd = Qs' are the same fact before 59 buyers arrive. Without it the two halves of the definition are introduced two scenes apart, as they were on Sep 21.",
+        "The one missing sentence, on screen during the plays rather than only at 6.j: 'Shortage → left-out buyers offer more → the price rises' over 6.d, and its mirror over 6.h. Proposed text is in the 6.d/6.h issue.",
+        "Misconceptions I could still walk out with under the draft as written, each tied to a fix above: (1) equilibrium = the bidding stopped (2.f, no count); (2) a lone seller cannot raise her price (2.f caption 'no one else to sell to'); (3) the price can't rise because buyers can't afford more (if 5.h marginal close-ups are used at 6.j); (4) the indifferent last person trades 'for some reason' (1.i strict inequality vs 4.f Gary counted in); (5) who gets served at a shortage price is a glitch rather than luck the price will sort out (6.a seeded circles unexplained); (6) $6 is the price of a lot rather than of a pound (decision 6 units never stated in scene 1 or 4.b).",
+        "A one-line algebra plug-in in scene 4 and scene 5 ('6 = 12 − Q_d/5 → Q_d = 30'; '3 = 2 + Q_s/20 → Q_s = 20'), reusing the term-by-term treatment from the old 5.a.s/5.a.d beats (02_Storyboard.md:179; 03_Equilibrium.py:1494–1496), so that the renumbered Q1 has a beat in this episode that equips it."
+      ]
+    }
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Critique"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "critique:animator",
+      "phaseIndex": 1,
+      "phaseTitle": "Critique",
+      "agentId": "aa6d357fcc956938c",
+      "model": "claude-fable-5-1",
+      "state": "done",
+      "startedAt": 1790110040477,
+      "queuedAt": 1790110040465,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Animator feasibility and style-guide compliance (lead anima…",
+      "promptPreview": "SITUATION. Taylor teaches ECON 0100 (intro micro). On 2026-09-21 the B3 \"Equilibrium\" class, taught over a long 3D ManimL animation, did not land; a multi-lens diagnosis was run (results in /private/tmp/claude-501/-Users-taylorjweidman-Projects-econ-0100/e013bc14-9d83-4adf-ba3c-e4250cf4fe21/scratchpad/results.json — keys logic, load, econ, course, lit, student_typical, facts; each has .review with…",
+      "promptFramed": true,
+      "lastProgressAt": 1790111056391,
+      "tokens": 233314,
+      "toolCalls": 37,
+      "durationMs": 1015911,
+      "resultPreview": "{\"lens\":\"Animator feasibility and style-guide compliance (lead animator receiving the brief)\",\"verdict\":\"Not ready to hand off. The reuse claims for scenes 1, 2, 4, 5, 7 check out against 03_Equilibrium.py, but scene 3 as written has no model trace and discovery.py answers the 3.g test the opposite way (Gary buys Molly's $6 lot at zero gain and the 2×2 settles at $6.00/$5.75, contradicting the \\\"u…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "critique:econ",
+      "phaseIndex": 1,
+      "phaseTitle": "Critique",
+      "agentId": "a75654270e73a1d25",
+      "model": "claude-fable-5-1",
+      "state": "done",
+      "startedAt": 1790110040477,
+      "queuedAt": 1790110040465,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Economics and arithmetic",
+      "promptPreview": "SITUATION. Taylor teaches ECON 0100 (intro micro). On 2026-09-21 the B3 \"Equilibrium\" class, taught over a long 3D ManimL animation, did not land; a multi-lens diagnosis was run (results in /private/tmp/claude-501/-Users-taylorjweidman-Projects-econ-0100/e013bc14-9d83-4adf-ba3c-e4250cf4fe21/scratchpad/results.json — keys logic, load, econ, course, lit, student_typical, facts; each has .review with…",
+      "promptFramed": true,
+      "lastProgressAt": 1790110776067,
+      "tokens": 119127,
+      "toolCalls": 18,
+      "durationMs": 734480,
+      "resultPreview": "{\"lens\":\"Economics and arithmetic\",\"verdict\":\"Not ready to hand off: two numbers that go on screen are wrong (the 6.d tick sequence contradicts the draft's own table, and three \\\"on the line\\\" cells plus the \\\"equals the algebra at every quarter-dollar\\\" sentence are false), and scene 3 as written does not play under the model's rules (Molly's jump to $4.50 settles the 2×2 at $4.50/$4.75 and never…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "critique:pedagogy",
+      "phaseIndex": 1,
+      "phaseTitle": "Critique",
+      "agentId": "a78312b78a4f694dc",
+      "model": "claude-fable-5-1",
+      "state": "done",
+      "startedAt": 1790110040478,
+      "queuedAt": 1790110040465,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Does the plan fix what was diagnosed, and is the new sequen…",
+      "promptPreview": "SITUATION. Taylor teaches ECON 0100 (intro micro). On 2026-09-21 the B3 \"Equilibrium\" class, taught over a long 3D ManimL animation, did not land; a multi-lens diagnosis was run (results in /private/tmp/claude-501/-Users-taylorjweidman-Projects-econ-0100/e013bc14-9d83-4adf-ba3c-e4250cf4fe21/scratchpad/results.json — keys logic, load, econ, course, lit, student_typical, facts; each has .review with…",
+      "promptFramed": true,
+      "lastProgressAt": 1790110851092,
+      "tokens": 206131,
+      "toolCalls": 34,
+      "durationMs": 809505,
+      "resultPreview": "{\"lens\":\"Does the plan fix what was diagnosed, and is the new sequence learnable?\",\"verdict\":\"Structurally the draft fixes every core finding: the arrival confound is gone (decision 2, scenes 4–6 are fixed-population), counts sit beside the price line whenever one exists (§3), and the two-clause definition lands at 6.i with 40 = 40 and no uncircled checks before any algebra. It is not ready to han…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "critique:downstream",
+      "phaseIndex": 1,
+      "phaseTitle": "Critique",
+      "agentId": "a004f96c6b528fadf",
+      "model": "claude-fable-5-1",
+      "state": "done",
+      "startedAt": 1790110040478,
+      "queuedAt": 1790110040465,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Downstream reuse: what B4 (price controls, CS/PS/DWL, gover…",
+      "promptPreview": "SITUATION. Taylor teaches ECON 0100 (intro micro). On 2026-09-21 the B3 \"Equilibrium\" class, taught over a long 3D ManimL animation, did not land; a multi-lens diagnosis was run (results in /private/tmp/claude-501/-Users-taylorjweidman-Projects-econ-0100/e013bc14-9d83-4adf-ba3c-e4250cf4fe21/scratchpad/results.json — keys logic, load, econ, course, lit, student_typical, facts; each has .review with…",
+      "promptFramed": true,
+      "lastProgressAt": 1790110653201,
+      "tokens": 175840,
+      "toolCalls": 30,
+      "durationMs": 611613,
+      "resultPreview": "{\"lens\":\"Downstream reuse: what B4 (price controls, CS/PS/DWL, government purchases), B5 (shifters), B6/C1 (world price, tariff), C2 (tax wedge), C3/C4 (external cost, corrective tax) need from the scene 4–6 market engine, and whether §7 and the scene 4–6 design deliver it.\",\"verdict\":\"Not ready to hand to the animator as the B4 asset. §7 lists the right nouns but three things in the scene 4–6 des…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "critique:editor",
+      "phaseIndex": 1,
+      "phaseTitle": "Critique",
+      "agentId": "a84748e7ff793c354",
+      "model": "claude-fable-5-1",
+      "state": "done",
+      "startedAt": 1790110040479,
+      "queuedAt": 1790110040466,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Editor / notes coherence — can 01_Notes.md be restaged into…",
+      "promptPreview": "SITUATION. Taylor teaches ECON 0100 (intro micro). On 2026-09-21 the B3 \"Equilibrium\" class, taught over a long 3D ManimL animation, did not land; a multi-lens diagnosis was run (results in /private/tmp/claude-501/-Users-taylorjweidman-Projects-econ-0100/e013bc14-9d83-4adf-ba3c-e4250cf4fe21/scratchpad/results.json — keys logic, load, econ, course, lit, student_typical, facts; each has .review with…",
+      "promptFramed": true,
+      "lastProgressAt": 1790110729835,
+      "tokens": 192311,
+      "toolCalls": 38,
+      "durationMs": 688247,
+      "resultPreview": "{\"lens\":\"Editor / notes coherence — can 01_Notes.md be restaged into the seven scenes with Taylor's words only, is the on-screen wording consistent with the notes, B1/B2, and the skillsheet, and are §6/§9/§11 and the file itself ready to hand off\",\"verdict\":\"Not ready to hand off as an editor brief. §9.1 tells the editor that Taylor's prose already covers scenes 1–3 and 6, but the scene 1–3 senten…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "critique:student",
+      "phaseIndex": 1,
+      "phaseTitle": "Critique",
+      "agentId": "a0ae5403b86189dd9",
+      "model": "claude-fable-5-1",
+      "state": "done",
+      "startedAt": 1790110040479,
+      "queuedAt": 1790110040466,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "Simulated first-year student (non-major, knows only B1 and …",
+      "promptPreview": "SITUATION. Taylor teaches ECON 0100 (intro micro). On 2026-09-21 the B3 \"Equilibrium\" class, taught over a long 3D ManimL animation, did not land; a multi-lens diagnosis was run (results in /private/tmp/claude-501/-Users-taylorjweidman-Projects-econ-0100/e013bc14-9d83-4adf-ba3c-e4250cf4fe21/scratchpad/results.json — keys logic, load, econ, course, lit, student_typical, facts; each has .review with…",
+      "promptFramed": true,
+      "lastProgressAt": 1790110630833,
+      "tokens": 125462,
+      "toolCalls": 14,
+      "durationMs": 589244,
+      "resultPreview": "{\"lens\":\"Simulated first-year student (non-major, knows only B1 and B2), walking the seven draft scenes beat by beat\",\"verdict\":\"Through this lens the draft is a large improvement and is close to hand-off: the frame that clicked last time (old 5.b, frame 46) now arrives before the definition, and 6.i finally says the sentence I had to work out for myself. It is not ready as written: the 6.d count …"
+    }
+  ],
+  "totalTokens": 1052185,
+  "totalToolCalls": 171
+}

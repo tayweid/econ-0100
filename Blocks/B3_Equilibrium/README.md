@@ -1,5 +1,7 @@
 # B3 · Equilibrium
 
+**Rebuild in progress (2026-09-22).** The plan for the seven core scenes, Taylor's decisions, the numbers, and Taylor's verbatim direction are in **[00_Outline.md](00_Outline.md)**; the reason for the rebuild is in [00_Class_Review_2026-09-21.md](00_Class_Review_2026-09-21.md). Everything below describes the single-episode animation that the rebuild supersedes.
+
 The fresh animation is **[03_Equilibrium.py · EpisodeB3](03_Equilibrium.py)**.
 Its [current storyboard](02_Storyboard.md) follows the implemented order:
 small-player discovery → equilibrium → graph/algebra → deviations.
