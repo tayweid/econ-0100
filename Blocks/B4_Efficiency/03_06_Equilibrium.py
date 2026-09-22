@@ -128,10 +128,11 @@ class B4Equilibrium(ThreeDScene):
         supply_word = fixed(Tex(r'Supply: $P=2+Q_s/20$', color=SUPPLY)).scale(0.59).move_to([4.45, 0.18, 0])
         graph_units = fixed(Tex(r'$Q$: thousands of pounds', color=CAPTION)).scale(0.48).move_to([4.5, -2.25, 0])
         graph_prices = VGroup()
-        for ax in [demand_axes, supply_axes]:
-            line = Line(ax.c2p(0, 3), ax.c2p(100, 3), color=GUIDE, stroke_width=2.3)
-            line.axes, line.price = ax, price
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(100, m.price.get_value())))
+        for ax, values, side in [(demand_axes, BUYER_MB, 'buyer'), (supply_axes, SELLER_MC, 'seller')]:
+            quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
+            line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
+            line.axes, line.price, line.values, line.side = ax, price, values, side
+            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())))
             graph_prices.add(line)
         demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
         demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
@@ -270,7 +271,7 @@ class B4Equilibrium(ThreeDScene):
         buyer_circles[19].resume_updating()
         buyer_circles[24].resume_updating()
         self.add(units)
-        tried_low = VGroup(*[DashedLine(ax.c2p(0, 3), ax.c2p(100, 3), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax in [demand_axes, supply_axes]])
+        tried_low = VGroup(*[DashedLine(ax.c2p(0, 3), ax.c2p(q, 3), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax, q in [(demand_axes, 45), (supply_axes, 20)]])
         fixed(tried_low)
         self.add(tried_low)
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=linear)
@@ -359,7 +360,7 @@ class B4Equilibrium(ThreeDScene):
         seller_circles[29].resume_updating()
         seller_circles[39].resume_updating()
         self.add(units)
-        tried_high = VGroup(*[DashedLine(ax.c2p(0, 6), ax.c2p(100, 6), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax in [demand_axes, supply_axes]])
+        tried_high = VGroup(*[DashedLine(ax.c2p(0, 6), ax.c2p(q, 6), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax, q in [(demand_axes, 30), (supply_axes, 80)]])
         fixed(tried_high)
         self.add(tried_high)
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=linear)
@@ -374,7 +375,7 @@ class B4Equilibrium(ThreeDScene):
         self.pause('1.i')
 
         # ---- 1.i.stability · Test a deviation; count the exact whole lots.
-        proposed = VGroup(*[DashedLine(ax.c2p(0, 4.25), ax.c2p(100, 4.25), color=GUIDE, stroke_width=2) for ax in [demand_axes, supply_axes]])
+        proposed = VGroup(*[DashedLine(ax.c2p(0, 4.25), ax.c2p(q, 4.25), color=GUIDE, stroke_width=2) for ax, q in [(demand_axes, 38), (supply_axes, 45)]])
         fixed(proposed)
         test_question = fixed(Tex(r'Would $\$4.25$ hold?', color=DEFINITION)).scale(0.85).move_to([0, -3.55, 0])
         self.play(FadeOut(equilibrium), FadeIn(proposed), FadeIn(test_question))

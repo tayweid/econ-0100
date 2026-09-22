@@ -142,6 +142,10 @@ The prototype is superseded; it is not an alternative design to preserve.
 - Use one source for the market price, willingness tests, counts, and graph
   guides. Count predicates include indifference. During motion, integer counts
   follow the actual bar thresholds; never interpolate an independent count.
+  Horizontal graph price guides are dashed, from the price axis to the curve,
+  with no extension past the intersection. Separate graphs stop at their own
+  willingness quantity; overlaid graphs stop at the first curve encountered.
+  Reference prices and proposed policy prices follow the same convention.
   The exact crowd's read guides land on staircase boundaries. Smooth lines remain
   faint fitted references; policy totals use the exact crowd's rectangles.
 - The scene files use flat, sequential `construct()` choreography, visible

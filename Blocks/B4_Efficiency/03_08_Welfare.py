@@ -94,7 +94,8 @@ class B4Welfare(ThreeDScene):
         curve_names = VGroup(fixed(Tex('MB', color=DEMAND)).scale(0.6).move_to(ax.c2p(13, 11.3)),
                              fixed(Tex('MC', color=SUPPLY)).scale(0.6).move_to(ax.c2p(88, 7.5)))
         graph = VGroup(ax, p_label, q_label, graph_units, ticks, fitted, demand, supply, curve_names)
-        price_line = Line(ax.c2p(0, PRICE), ax.c2p(100, PRICE), color=GUIDE, stroke_width=2)
+        price_line = DashedLine(ax.c2p(0, PRICE), ax.c2p(40, PRICE), color=GUIDE, stroke_width=2)
+        price_line.put_start_and_end_on(ax.c2p(0, PRICE), ax.c2p(40, PRICE))
         price_read = fixed(Tex(r'\$4', color=GUIDE)).scale(0.65).next_to(ax.c2p(0, PRICE), LEFT, buff=0.3)
         quantity = ValueTracker(40)
         q_guide = DashedLine(ax.c2p(40, 0), ax.c2p(40, 12), color=GUIDE, stroke_width=1.6).set_opacity(0.55)
