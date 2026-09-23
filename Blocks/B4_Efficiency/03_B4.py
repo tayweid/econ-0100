@@ -1052,7 +1052,7 @@ class B4(ThreeDScene):
                        for y in np.linspace(ARC_RADIUS * np.sin(65 * DEGREES),
                                             -ARC_RADIUS * np.sin(65 * DEGREES), 10)]
         buyer_spots[0], buyer_spots[3] = buyer_spots[3], buyer_spots[0]
-        first_partner_spot = seller_spots[0] + np.array([0.6, -0.35, 0])
+        first_partner_spot = seller_spots[0] + np.array([-0.75, -0.35, 0])
         first_pair_mid = (seller_spots[0] + first_partner_spot) / 2
         crowd_bodies, crowd_bars, price_tags, price_trackers = {}, {}, {}, {}
         inherited = {('B', 0): 'buyer', ('B', 4): 'challenger',
@@ -1065,9 +1065,7 @@ class B4(ThreeDScene):
                 pair_side = -1 if side == 'B' else 1
                 bar_at = spot.copy()
                 if (side, i) in [('B', 4), ('S', 0)]:
-                    # Keep MC on the left and MB on the right until this
-                    # first partnership ends; no crossing through Molly.
-                    pair_side *= -1
+                    # Keep the buyer and MB bar left of the seller and MC bar.
                     bar_at = first_pair_mid + RIGHT * pair_side * (PAIR_WIDTH + PAIR_GAP) / 2
                 if (side, i) in inherited:
                     key = inherited[side, i]
@@ -1126,7 +1124,7 @@ class B4(ThreeDScene):
                 np.append(pair_left, 0.04), np.append(pair_right, 0.04)).set_stroke(width=MARKET_SHADOW_WIDTH),
             deal_number.animate.scale(1 / BID_SCALE).rotate(-42 * DEGREES, RIGHT)
                 .set_fill(border_width=0.5).move_to([
-                    first_pair_mid[0] - (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
+                    first_pair_mid[0] + (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
                     first_pair_mid[1] - 0.12, price_height + 0.25]),
             floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=2.2)
         # Start this independent reminder in B3's actual oblique plaza.
@@ -1181,11 +1179,23 @@ class B4(ThreeDScene):
             .move_to([m.anchor.get_center()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0]))
         mark.update()
         posted_marks[0] = mark
+        # The accepted deal appears on both partners' own graph bars.
+        # Molly's dashed ask underneath is revealed when this partnership ends.
+        accepted_panel_marks = fixed(VGroup())
+        for key in [('B', 4), ('S', 0)]:
+            deal_mark = fixed(Line(LEFT, RIGHT, color=GUIDE, stroke_width=3))
+            deal_mark.anchor, deal_mark.axis = panel_bars[key], side_axes[key[0]]
+            deal_mark.tracker = price_trackers[0]
+            deal_mark.add_updater(lambda m: m.put_start_and_end_on(
+                np.array([m.anchor.get_left()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0]),
+                np.array([m.anchor.get_right()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0])))
+            deal_mark.update()
+            accepted_panel_marks.add(deal_mark)
         posted_caption = fixed(Tex('Posted prices', color=GUIDE).scale(0.7).move_to([5.9, -3.05, 0]))
         price_tags[0].update()
         self.play(*[FadeIn(m) for m in side_frames.values()],
             *[FadeIn(m) for m in panel_bars.values()],
-            ReplacementTransform(deal_number, price_tags[0]), FadeIn(mark),
+            ReplacementTransform(deal_number, price_tags[0]), FadeIn(mark), FadeIn(accepted_panel_marks),
             FadeIn(posted_caption), run_time=0.45)
         # Buyers have separate circle-arrival and price-comparison holds.
         # The long buyer name stays toward the plaza interior on either arc.
@@ -1248,16 +1258,15 @@ class B4(ThreeDScene):
                 entry_names = {}
                 for key, word, offset in [
                     (('B', 0), 'Gary', DOWN * 0.55),
-                    (('B', 4), 'Amanda-Grace', DOWN * 0.35),
-                    (('S', 0), 'Molly', DOWN * 0.30 + LEFT * 0.85),
+                    (('B', 4), 'Amanda-Grace', DOWN * 0.55 + LEFT * 0.65),
+                    (('S', 0), 'Molly', DOWN * 0.55 + RIGHT * 0.6),
                     (('S', 4), 'Andrew', DOWN * 0.55 + RIGHT * 0.6),
                 ]:
                     label = Tex(word, color=INK).scale(0.60)
                     label.face_mat = np.eye(3)
                     label.add_updater(face_camera)
                     label.anchor, label.offset = crowd_bodies[key], offset
-                    # At entry Amanda-Grace stands to Molly's right. Keep her
-                    # name beneath her own orb, with Molly's name left/below.
+                    # Names sit outward from the pair: buyer left, seller right.
                     label.inward = False
                     label.add_updater(lambda m: m.move_to(
                         np.array([*m.anchor.get_center()[:2], 0.13]) + m.offset
@@ -1286,7 +1295,7 @@ class B4(ThreeDScene):
                     if chooser in connection_by_buyer:
                         old_line = connection_by_buyer.pop(chooser)
                         old_ground = ground_by_buyer.pop(chooser)
-                        self.play(FadeOut(old_line), FadeOut(old_ground),
+                        self.play(FadeOut(old_line), FadeOut(old_ground), FadeOut(accepted_panel_marks),
                             crowd_bars['B', chooser].pairing.animate.set_value(0),
                             crowd_bars['S', crowd_matches[chooser]].pairing.animate.set_value(0),
                             run_time=0.25)

@@ -405,8 +405,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Begin in B3's actual oblique plaza: phi 48°, center `[0, 0, 0.65]`, height
    10.4. Preserve the floor, people, bars, and side graphs from B3's `3.a`.
-2. Animate Andrew's arrival and hold with all four people visible, Molly's
-   $6.25 ask and Andrew's $4.25 ask. The plaza entrance is not skipped.
+2. Animate Andrew's arrival and hold with all four people visible. Place
+   Amanda-Grace to Molly's left, with her MB bar on the left and Molly's MC bar
+   on the right. Show their accepted $6.25 trade as a solid red line across
+   Amanda-Grace's own demand/MB bar and Molly's own supply/MC bar in the side
+   graphs. Andrew's unmatched $4.25 remains a dashed ask. The plaza entrance
+   is not skipped.
 
 ## 1.b.two_trades · Give the buyer another option
 
