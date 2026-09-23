@@ -391,8 +391,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Park with Amanda-Grace buying from Molly at $6.25. Keep Gary's MB $6 and
    Amanda-Grace's MB $7 visible; show “Gary's next bid: $6.50 > MB $6.”
-2. Show the small count “At $6.25: 1 willing buyer, 1 seller.” Hold “Who still
-   wants to bid?” The point is that the buyer-side outbidding has stopped.
+2. Show the small count “At $6.25: 1 willing buyer, 1 seller.” Use the title
+   “We stop when no one wants to bid.” The point is that the buyer-side outbidding has stopped.
 3. Do not claim Molly cannot ask more, or use this one-seller case as the full
    competitive-equilibrium argument. The whole-market claim comes in stage 6.
 
