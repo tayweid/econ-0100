@@ -1214,13 +1214,15 @@ class B4(ThreeDScene):
             settlement_moves.append(line.animate.put_start_and_end_on(start, end))
         self.play(*settlement_moves, run_time=2.5, rate_func=smooth)
         crowd_asks[0] = crowd_asks[4] = 5.5
-        self.play(FadeOut(settlement_caption), run_time=0.25)
         # ---- 1.b.equal_prices · Keep the two actual B3 pairs and both posted asks.
         self.remove(posted_caption)
-        equal_prices = fixed(Tex(r'Both trades: $\$5.50$.', color=GUIDE).scale(DEFINITION_SCALE))
-        equal_counts = fixed(Tex('2 willing buyers; 2 sellers.', color=CAPTION).scale(DEFINITION_SCALE))
-        VGroup(equal_prices, equal_counts).arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(equal_prices), FadeIn(equal_counts))
+        settled_axis_prices = fixed(VGroup(*[
+            Tex(r'\$5.50', color=GUIDE).scale(0.5).next_to(
+                side_axes[side].c2p(0, 5.5), LEFT, buff=0.06)
+            for side in ('B', 'S')]))
+        # Replace the nearby 6 ticks with the selected price; retain the gold footer.
+        self.play(FadeIn(settled_axis_prices),
+                  *[FadeOut(side_frames[side][1][3]) for side in ('B', 'S')], run_time=0.35)
         self.pause('1.b.equal_prices')
 
         # ========== 4. Buyers ==========

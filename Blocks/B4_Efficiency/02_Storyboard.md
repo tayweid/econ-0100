@@ -452,7 +452,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.b.equal_prices · Park on two trades
 
 1. Return to B3’s original plaza. Keep Gary with Andrew and Amanda-Grace with Molly. Both prices are $5.50.
-   Show “2 willing buyers; 2 sellers” and “Both trades: $5.50.”
+   Retain the preceding gold footer “The same incentives bring both prices
+   together.” Omit the willing-player counts and separate “Both trades” caption.
+   Put a red “$5.50” at each demand and supply panel's vertical axis, aligned
+   with its red horizontal price line.
 2. Retain “Would either player switch?” without another title transformation.
    Hold with the alternative prices visible.
    The new seller has given buyers an alternative and made Molly respond.
