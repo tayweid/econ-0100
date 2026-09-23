@@ -259,6 +259,7 @@ parts:
         description: Competitive markets maximize total surplus, achieving social efficiency.
         episode:
           video: RC9vcoqQm-U
+          links: [{label: Animations, file: Blocks/B4_Efficiency/media/B4_present/, icon: fa fa-desktop}]
           description: >-
             *This video introduces government price controls to show that the market maximizes total surplus in some environments.*
         reading:

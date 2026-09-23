@@ -2,27 +2,89 @@
 
 *Under some conditions, nothing can do better than markets.*
 
-<!-- ED: PASS (2026-09-16, per chat) — one roof for the welfare material. What happened: (1) three runs MOVED IN from "Lecture 08 (B4).md" (which was misfiled in B3_Equilibrium/ and is now archived at B4_Efficiency/_archive/): the "is the market even good?" hook up top, the health-equity/line-jumping price-ceiling mechanics into Price Controls, and the named First Welfare Theorem with its two caveats and the Adam Smith riff into Efficiency — B4_Welfare_Storyboard.typ holds the same runs and stays where you put it; (2) the Consumer Surplus section's seller-first review is struck there — its sentences already live nearly verbatim in the Producer Surplus section, and the new ladder reviews demand first (B1 Demand, B2 Supply); the two "*~Actually do a review here.*" directions moved with it; (3) one copy-paste slip in PS and one "surplus"-for-excess slip are marked; (4) overlap between your Efficiency prose and the moved-in FWT block is handled as marked CHOICE strikes with picks stated. NOTE for your pass: under the new ladder B1 built CS (bars → triangle) and B2 built PS, so this episode's CS/PS sections now read as re-builds — your own "review here" directions suggest compressing them toward review; flagged, not done. Pre-edit backup: _archive/01_Notes_pre_edit_2026-09-16.md. -->
+<!-- plass:comment
+Numbers (decided): B3's market throughout — D: P = 12 − Q/5, S: P = 2 + Q/20, equilibrium (40, $4), Q in thousands of pounds, one person = one 1,000-lb lot. Equilibrium: CS $156,000, PS $39,000, TS $195,000. Ceiling at $3: Qd 45, Qs 20, Qx 20 → CS $138,000 (falls), PS $9,500, DWL $47,500. Floor at $6: Qd 30, Qs 80, Qx 30 → CS $87,000, PS $96,750 (more than doubles), DWL $11,250. Exercise (pasties, P = 12 − Qd/2, P = 2 + Qs/2, equilibrium (10, 7)): ceiling 5 galleons → Qx 6, CS 33, PS 9, DWL 8; floor 9 galleons → Qx 6, CS 9, PS 33, DWL 8.
+-->
+
+<!-- plass:comment
+0.a · Title | MICROECONOMICS raster, "Part B | Episode 4"
+-->
 
 #### Welfare Analysis
 
-<!-- ED: MOVED IN from "Lecture 08 (B4).md" — the episode hook; it bridges from B3 (the market picked a price) into this episode's question. -->
+<!-- plass:comment
+1.a · Hook | hold on B3's settled frame: line at $4, 40 = 40 = 40, plaza beside the stacked graphs
+-->
 
 But at this point you might be wondering: Ok, this is nice. Markets pick a price, which gives us a quantity, and a point on the PPF. But is the market even good? Like, do markets give us a coordination device that makes us as well off as possible?
 
 The answer is complicated as we'll see. But what I'm going to show you is a simple answer to a simpler question.
 
+<!-- plass:comment
+1.b · The question | azure title question; the price line gets a lock at $3 — proposed, not yet moved
+-->
+
+To show this, I'm going to ask you a simple question, related to the previous class.
+
+What would happen to our market if the government decided the price should be low?
+
+Maybe there's a health equity concern with spinach. We'd like people to not have to pay too much to get healthy food.
+
+~~In this video we're going to return back to price controls now that we're equipped with the tools to evaluate welfare.~~
+
+~~In this video, we're going to ask the question, when~~ {++When++} we impose a price control, who benefits and who loses?
+
+And we'll use our notions of consumer surplus, producer surplus, and deadweight loss to answer this question.
+
+~~To start, let's set up a supply and demand system.~~
+
+~~*Merge with the concept of a social planner*~~
+
+#### A Price Ceiling
+
+<!-- plass:comment
+2.a · Pin at $3 | B3 scene 6's frame with the line pinned at $3 in both graphs; counts fill: Qd 45, Qs 20, circles 20; 25 checked-uncircled buyers, Amanda-Grace and Gary among them
+-->
+
+What about a binding price ceiling, a maximum legal price?
+
+Here incentives push the price toward equilibrium, but are constrained, since the equilibrium doesn’t lie on the legal interval.
+
+So prices get as close as possible: the price ceiling.
+
+<!-- plass:comment
+2.b · The blocked jump | Amanda-Grace's B3 deliberation card returns; her "offer $3.25" box gets ✗ not allowed; B3's rise play does not fire
+-->
+
+At this price, Buyers want to buy a great deal and Sellers wish to sell only a little. This is a shortage. Typically in shortages, Buyers would be able to jump the line with a slightly higher price, paying a little more, but being happy to at least get their spinach. Sellers would obviously accept the higher prices. However, here with the legal price being low, Buyers cannot jump the line with a higher price, meaning the shortage will persist despite the incentives to raise the price.
+
+<!-- plass:comment
+2.c · Short side | Q&A over the counts; Qx printed on the shared axis
+-->
+
+Q. In this situation, how much is sold? A. $Q_S$.
+
+Q. How much is bought? A. $Q_S$, since that's all that's available, meaning many Buyers who would want to buy will go without.
+
+<!-- plass:comment
+2.d · The welfare question | title question; hold — the next two sections answer it
+-->
+
+What's the welfare in this market?
+
 #### Consumer Surplus
+
+<!-- plass:comment
+3.a · CS review | B1 replay on the sorted buyer row: per-bar CS above the price, then the area on the graph; brisk — this is review, not a rebuild
+-->
 
 ~~In the previous set of videos, we introduced a model to capture the relationship for an individual seller between a price and their willingness and ability to sell at that price.~~
 
 ~~Then we added up all the sellers in the market to find the market supply curve.~~
 
-<!-- ED: struck — the seller review opened the episode under the old order; these two sentences live nearly verbatim in the Producer Surplus section below, where the new order wants them (demand reviewed first, sellers reviewed with PS). Their two "*~Actually do a review here.*" directions moved down with them. -->
-
 We ~~also~~ built the intuition for demand as the relationship for an individual buyer between a price and their willingness and ability to pay at that price.
 
-Then similarly, we added up all the individual buyers' demand curves to find the market demand curve, which gives us a relationship between a price and quantity demanded.
+Then ~~similarly,~~ we added up all the individual buyers' demand curves to find the market demand curve, which gives us a relationship between a price and quantity demanded.
 
 Then for a given price, if we have the demand curve we can always find the quantity demanded by intersecting the price with the demand curve.
 
@@ -30,9 +92,9 @@ This essentially answers the question: "How much is the market willing and able 
 
 And when we change the price, from the Law of Demand, we know the quantity can change, and will move in the opposite direction as price.
 
-If price increases, quantity demanded decreases.
+~~If price increases, quantity demanded decreases.~~
 
-If price decreases, quantity demanded increases.
+~~If price decreases, quantity demanded increases.~~
 
 What if I pay 5, but I'm willing to pay 7.
 
@@ -52,13 +114,17 @@ We can start by finding the CS for the buyers with the highest willingness to pa
 
 This is a small assumption that those who are most willing will be the ones who make it happen.
 
+<!-- plass:comment
+3.a.i · Rationing note | this assumption is B3's sorted-circles rule; under a pinned line it decides who the Qx circles go to
+-->
+
 Then we move out across the whole range of units sold, quantity demanded.
 
 This gives us geometric objects that have area. We can find the area with some basic geometry.
 
-When the price changes, quantity demanded changes.
+~~When the price changes, quantity demanded changes.~~
 
-And since CS and expenditure depend on these changing numbers, they also change in the ways we would expect.
+~~And since CS and expenditure depend on these changing numbers, they also change in the ways we would expect.~~
 
 Summary -- Consumer Surplus is represented by the area
 1. Below the buyer's willingness to pay
@@ -66,6 +132,10 @@ Summary -- Consumer Surplus is represented by the area
 3. Inside the quantity bought
 
 #### Producer Surplus
+
+<!-- plass:comment
+3.b · PS review | mirror on the sorted seller row (B2); brisk
+-->
 
 Buyers form one side of the market. Sellers form the other.
 
@@ -85,9 +155,9 @@ This essentially answers the question: "How much is the market willing and able 
 
 And when we change the price, from the Law of Supply, we know the quantity can change, and will move in the same direction as price.
 
-If price increases, quantity supplied increases.
+~~If price increases, quantity supplied increases.~~
 
-If price decreases, quantity supplied decreases too.
+~~If price decreases, quantity supplied decreases too.~~
 
 What if I sell for $7$, but I'm willing to sell for $5$.
 
@@ -103,8 +173,6 @@ To find the PS in the market we need to add up the producer surplus for every un
 
 We can start by finding the PS for the ~~buyer with the highest willingness to pay~~ {++seller with the lowest willingness to sell++}.
 
-<!-- ED: marked — copy-paste slip from the CS section; the PS sweep starts from the lowest-cost seller. "Willingness to sell" is your term from the Efficiency section below. -->
-
 Then we move out across the whole range of units sold, quantity supplied.
 
 This gives us geometric objects that have area.
@@ -113,34 +181,20 @@ We can find the area with some basic geometry.
 
 We're going to focus mainly on PS here. But be aware of costs, as we'll come back to them in a later section.
 
-When the price changes, quantity supplied changes.
+~~When the price changes, quantity supplied changes.~~
 
-And since PS and cost depend on these changing numbers, they also change in the ways we would expect.
+~~And since PS and cost depend on these changing numbers, they also change in the ways we would expect.~~
 
 Summary -- Producer Surplus is represented by the area
 1. Below the price received by the seller
 2. Above the supply curve
 3. Inside quantity sold
 
-#### Efficiency
+#### Total Surplus
 
-Imagine you’re a benevolent overlord trying to maximize social welfare. And you get to decide how much is bought and sold. We do this sometimes with government policies by regulating which prices are legal.
-
-*~Slide quantity back and forth.*
-
-In economics this imaginary person, called the social planner, can make thinking about problems more simple.
-
-We have the demand curve telling us the willingness to pay at any quantity, satisfying the law of demand: higher prices mean less is demanded.
-
-*~Highlight the demand curve and slide quantity back and forth, showing the change in the WTP.*
-
-And we have the supply curve telling us the firm's costs associated with any quantity supplied, satisfying the law of supply: higher prices mean more is supplied.
-
-*~Highlight the supply curve and slide quantity back and forth, showing the change in the marginal cost.*
-
-And we found that both buyers and sellers have incentives to move price toward equilibrium, where quantity demanded equals quantity supplied at the market price.
-
-*~Start with price far from equilibrium, and let it oscillate toward equilibrium.*
+<!-- plass:comment
+3.c · Welfare named | the overlay at equilibrium: CS and PS stack, expenditure in green below; "welfare"
+-->
 
 We're now equipped with consumer and producer surplus to let us evaluate how good the market is for buyers and sellers.
 
@@ -162,11 +216,103 @@ Surplus Value is the sum of producer and consumer surplus, essentially measuring
 
 *~Highlight*
 
-<!-- ED: candidate callback (Claude draft, comment only; adopt or rewrite) — this is where B3's aside cashes in: "Here's the reason I promised in the last episode: from here on, surplus means value created — CS and PS — which is why we say excess, not surplus, when quantity supplied outruns quantity demanded." -->
-
 Here is where you can think back to our conversation on specialization and trade.
 
 We’re benefitting both sides, and by the amount represented by surplus, sometimes called welfare.
+
+#### Deadweight Loss
+
+<!-- plass:comment
+4.a · Welfare at $3 | back to the pinned frame; the areas redraw: CS cut off at Qx = 20, PS a sliver; the equilibrium areas ghosted behind for comparison
+-->
+
+Consumer surplus is the area below the demand curve, above the price, and inside the quantity exchanged.
+
+Producer surplus is the area below the price, above the supply curve, and inside the quantity exchanged.
+
+~~Here, consumer surplus is a bit larger, since the price is lower, despite the quantity exchanged being smaller than equilibrium.~~
+
+{++Here you might expect consumer surplus to grow — the price is lower. But count what was lost. The quantity collapsed to 20, and the trades that disappeared took their surplus with them: consumer surplus falls from \$156,000 at equilibrium to \$138,000. The ceiling hurt even the buyers it was meant to help.++}
+
+Producer surplus is smaller due to both the lower price and the smaller quantity exchanged.
+
+<!-- plass:comment
+4.b · DWL named | the lost trades: bars 21–40 dim in both rows; the triangle between the curves from Qx to Q* fills; gold card, arrow at the triangle
+-->
+
+Have we lost welfare? Yes! This loss in welfare is what we call **Deadweight Loss**. For now, we're going to define **DWL** as the loss in **Welfare** compared to its maximum.
+
+~~And we still have deadweight loss, since we're losing some quantity.~~
+
+And deadweight loss is the area between the supply and demand curves above the lost quantity.
+
+> {++*Pause for Exercise B4 | Q1: the pumpkin-pasty market gets a price ceiling of 5 galleons. You found Qd = 14 and Qs = 6 at that price on the B3 sheet — now find the quantity exchanged, consumer surplus, producer surplus, and deadweight loss, and shade all three on your plot.*++}
+
+#### A Price Floor
+
+<!-- plass:comment
+5.a · Pin at $6 | mirror; counts 30/80; 50 sellers checked-uncircled, Andrew among them; his card: "cut to $5.75" ✗ not allowed
+-->
+
+Q. Now what if the government wants to protect sellers, and mandated a high price?
+
+And let's impose a price floor.
+
+This is a legal minimum price.
+
+If we impose the price floor below equilibrium the control is not binding.
+
+If we impose it above equilibrium, the incentives pushing the market toward equilibrium are impeded, and the price gets as close as possible to equilibrium: the binding price floor.
+
+<!-- plass:comment
+5.b · Welfare at $6 | areas redraw; the DWL triangle is smaller this time — demand does the cutting and it's steeper than supply
+-->
+
+Is this good for those exchanging in the market?
+
+Well it's kind of good for sellers. But it's very bad for Buyers, which means TS goes down.
+
+Here we can see that higher price and lower quantity exchanged both decrease the consumer surplus, while producer surplus goes up ~~slightly.~~ {++More than doubles, actually: from \$39,000 to \$96,750. The sellers still selling collect \$6 a pound on spinach that cost far less to grow.++}
+
+This policy though cuts off a region of total surplus, since it raises the price, which causes an excess and a reduction in the quantity exchanged.
+
+<!-- plass:comment
+5.c · Excess callback | B3's aside pays off; card optional
+-->
+
+{++And here's the reason I promised in the last episode: from now on, surplus means value created — consumer and producer surplus — which is why we say excess, not surplus, when quantity supplied outruns quantity demanded.++}
+
+The interpretation here is not that price controls like the minimum wage and rent control are bad.
+
+We have many policy agendas, and we can evaluate them based on our wants and needs as a society.
+
+But when we evaluate how well a policy is doing, welfare analysis of this type gives us a toolset to effectively evaluate the welfare implications.
+
+> {++*Pause for Exercise B4 | Q2: the pasty market gets a price floor of 9 galleons instead. Find the quantity exchanged, producer surplus, and deadweight loss — and decide whether a floor of 6 galleons would change anything.*++}
+
+#### Efficiency
+
+<!-- plass:comment
+6.a · The planner | the lock comes off; slide the line with a live TS readout; the maximum sits at $4
+-->
+
+Imagine you’re a benevolent overlord trying to maximize social welfare. And you get to decide how much is bought and sold. We do this sometimes with government policies by regulating which prices are legal.
+
+*~Slide quantity back and forth.*
+
+In economics this imaginary person, called the social planner, can make thinking about problems more simple.
+
+~~We have the demand curve telling us the willingness to pay at any quantity, satisfying the law of demand: higher prices mean less is demanded.~~
+
+~~*~Highlight the demand curve and slide quantity back and forth, showing the change in the WTP.*~~
+
+~~And we have the supply curve telling us the firm's costs associated with any quantity supplied, satisfying the law of supply: higher prices mean more is supplied.~~
+
+~~*~Highlight the supply curve and slide quantity back and forth, showing the change in the marginal cost.*~~
+
+And we found that both buyers and sellers have incentives to move price toward equilibrium, where quantity demanded equals quantity supplied at the market price.
+
+*~Start with price far from equilibrium, and let it oscillate toward equilibrium.*
 
 But we can see that PS and CS are in some sense at odds with each other.
 
@@ -178,31 +324,33 @@ Visually it's relatively easy here to see that surplus at any price is the diffe
 
 But how should the social planner maximize total surplus? Let's give you the social planner control over price.
 
-When price is high, we have ~~a surplus~~ {++an excess++}, many sellers can't sell all they have at the price in the market.
+~~When price is high, we have a surplus, many sellers can't sell all they have at the price in the market.~~
 
-<!-- ED: marked swap — B3's convention reserves "surplus" for CS/PS; "excess" is your word for quantity supplied exceeding quantity demanded. -->
+~~We lose some PS from the smaller quantity exchanged: buyers are buying less from sellers.~~
 
-We lose some PS from the smaller quantity exchanged: buyers are buying less from sellers.
+~~For sellers PS this is more than compensated for by the higher prices.~~
 
-For sellers PS this is more than compensated for by the higher prices.
+~~But we're losing CS from both the higher prices AND the smaller quantity exchanged.~~
 
-But we're losing CS from both the higher prices AND the smaller quantity exchanged.
-
-We’ve also lost some of our total surplus. This loss in total surplus is called deadweight loss.
+~~We’ve also lost some of our total surplus. This loss in total surplus is called deadweight loss.~~
 
 From here, you probably can see that our job as the social planner is to minimize deadweight loss.
 
-Let's finally look at when the price is low, where we have a shortage, and buyers can't buy all they want at the price in the market.
+~~Let's finally look at when the price is low, where we have a shortage, and buyers can't buy all they want at the price in the market.~~
 
-Sellers PS is lower from both a smaller quantity exchanged AND a lower price.
+~~Sellers PS is lower from both a smaller quantity exchanged AND a lower price.~~
 
-For buyers, the smaller quantity exchanged is offset by the lower price.
+~~For buyers, the smaller quantity exchanged is offset by the lower price.~~
 
 So how should the social planner set prices?
 
 Taken as a whole, you as the social planner can conclude that maximizing welfare involves setting the price at equilibrium, since any increase or decrease lowers surplus.
 
-<!-- ED: MOVED IN from "Lecture 08 (B4).md" — the named theorem, its two caveats with examples, and the Adam Smith riff; the notes had the substance but never the name. The two struck paragraphs after the block are CHOICE points: each says what the moved-in block now says with more structure — my pick is the block; delete the strikes to accept, or restore and cut the block. -->
+<!-- plass:comment
+6.b · The theorem | gold card; then the two caveats; the Smith riff plays over the whole settled tableau
+-->
+
+This type of logic applies to any price that's not equilibrium, which leaves us with a big result.
 
 ***First Welfare Theorem***. Competitive markets with no externalities maximize welfare.
 
@@ -220,13 +368,17 @@ This is the idea that made Adam Smith famous. By the end of this class, you're g
 
 ~~But it's an amazing result that the incentives for buyers and sellers move prices and quantities to reach efficiency in competitive markets with private goods.~~
 
+<!-- plass:comment
+6.c · Efficiency card | definition at the bottom, arrow at the maximized areas
+-->
+
 Maximized welfare is what we call efficiency: the property of a resource allocation of maximizing the total surplus received by all members of society
 
 It's always important to approach models with some scepticism, but it's worth a moment to just recognize how surprising this might seem.
 
 No one is trying to maximize welfare, it’s maximized by individuals following their incentives in competitive private goods markets.
 
-Any deviation from this outcome reduces welfare. And this reduction is called deadweight loss.
+Any deviation from this outcome reduces welfare. ~~And this reduction is called deadweight loss.~~
 
 DWL can be found by looking at where we are and comparing to where the social planner wants us.
 
@@ -234,66 +386,16 @@ In our model here, DWL is a triangle, but it doesn't need to be triangular.
 
 We'll see an example or two in coming videos.
 
-#### Price Controls
+#### Closing
 
-*Merge with the concept of a social planner*
+<!-- plass:comment
+7.a · Closing | handoff to B5
+-->
 
-In this video we’re going to return back to price controls now that we’re equipped with the tools to evaluate welfare.
+{++We asked how good the market’s answer is, and got the First Welfare Theorem: leave the price alone, and no one can do better. Next time we ask what happens to equilibrium when the world changes — when the curves themselves move.++}
 
-In this video, we’re going to ask the question, when we impose a price control, who benefits and who loses?
+---
 
-And we’ll use our notions of consumer surplus, producer surplus, and deadweight loss to answer this question.
-
-To start, let's set up a supply and demand system.
-
-And let's impose a price floor.
-
-This is a legal minimum price.
-
-If we impose the price floor below equilibrium the control is not binding.
-
-If we impose it above equilibrium, the incentives pushing the market toward equilibrium are impeded, and the price gets as close as possible to equilibrium: the binding price floor.
-
-Consumer surplus is the area below the demand curve, above the price, and inside the quantity exchanged.
-
-Producer surplus is the area below the price, above the supply curve, and inside the quantity exchanged.
-
-And deadweight loss is the area between the supply and demand curves above the lost quantity.
-
-Here we can see that higher price and lower quantity exchanged both decrease the consumer surplus, while producer surplus goes up slightly.
-
-This policy though cuts off a region of total surplus, since it raises the price, which causes an excess and a reduction in the quantity exchanged.
-
-<!-- ED: MOVED IN from "Lecture 08 (B4).md" — the ceiling's motivation and mechanics: the health-equity setup, the blocked line-jumping (a direct callback to B3's Cindy story), and the short-side Q&A. Placed to open the ceiling half. -->
-
-To show this, I'm going to ask you a simple question, related to the previous class.
-
-What would happen to our market if the government decided the price should be low?
-
-Maybe there's a health equity concern with spinach. We'd like people to not have to pay too much to get healthy food.
-
-What about a binding price ceiling, a maximum legal price?
-
-Here incentives push the price toward equilibrium, but are constrained, since the equilibrium doesn’t lie on the legal interval.
-
-So prices get as close as possible: the price ceiling.
-
-At this price, Buyers want to buy a great deal and Sellers wish to sell only a little. This is a shortage. Typically in shortages, Buyers would be able to jump the line with a slightly higher price, paying a little more, but being happy to at least get their spinach. Sellers would obviously accept the higher prices. However, here with the legal price being low, Buyers cannot jump the line with a higher price, meaning the shortage will persist despite the incentives to raise the price.
-
-Q. In this situation, how much is sold? A. $Q_S$.
-
-Q. How much is bought? A. $Q_S$, since that's all that's available, meaning many Buyers who would want to buy will go without.
-
-Here, consumer surplus is a bit larger, since the price is lower, despite the quantity exchanged being smaller than equilibrium.
-
-Producer surplus is smaller due to both the lower price and the smaller quantity exchanged.
-
-And we still have deadweight loss, since we’re losing some quantity.
-
-The interpretation here is not that price controls like the minimum wage and rent control are bad.
-
-We have many policy agendas, and we can evaluate them based on our wants and needs as a society.
-
-But when we evaluate how well a policy is doing, welfare analysis of this type gives us a toolset to effectively evaluate the welfare implications.
-
-<!-- ED: candidate handoff to B5 (Claude draft, comment only; adopt or rewrite): "Next time we ask what happens to equilibrium when the world changes — when the curves themselves move." Also left in Lecture 08 and not moved (covered here already): its DWL definition and high-price paragraphs, and the "Surplus Value Intuition" chocolate-bar tail — this file's CS/PS sections carry all of it; the archived original keeps every word. -->
+<!-- plass:comment
+Reference: pre-restage file at _archive/01_Notes_pre_restage_2026-09-22.md; the ceiling-first arc source at _archive/Lecture 08 (B4).md. The animation reuses B3's scene-6 engine (pinned line, counts, sorted rationing, deliberation cards with ✗ not allowed) — see B3/00_Outline.md §7.
+-->
