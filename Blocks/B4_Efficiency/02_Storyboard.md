@@ -250,6 +250,11 @@ this layout review. Camera movement is available for deliberate example close-up
   with no extension past the intersection. Separate graphs stop at their own
   willingness quantity; overlaid graphs stop at the first curve encountered.
   Reference prices and proposed policy prices follow the same convention.
+  When a dashed guide changes length, keep dash lengths and gaps fixed, with
+  the pattern anchored at the price axis or the guide's starting endpoint.
+  Reveal or clip dashes at the moving endpoint instead of stretching the pattern.
+  Apply this to the demand/supply comparisons, recap graphs, welfare quantity
+  guides, and price-control guides; it changes no episode order or teaching hold.
   The exact crowd's read guides land on staircase boundaries. Smooth lines remain
   faint fitted references; policy totals use the exact crowd's rectangles.
 - The scene files use flat, sequential `construct()` choreography, visible

@@ -24,6 +24,27 @@ class B4(ThreeDScene):
     add = add_market_objects
 
     def construct(self):
+        # Changing endpoints must reveal dashes, not stretch an existing pattern.
+        # Keep one vector object so 3D/fixed placement and checkpoint identity survive.
+        def set_dashed_endpoints(m, start, end):
+            start, end = np.array(start, dtype=float), np.array(end, dtype=float)
+            vector = end - start
+            length = np.linalg.norm(vector)
+            if m.submobjects:
+                m.set_submobjects([])
+            if length < 1e-8:
+                return m.set_points(np.array([start, start, start]))
+            dash_length, gap = 0.05, 0.05
+            offsets = np.arange(0, length, dash_length + gap)
+            starts = start + offsets[:, None] * vector / length
+            ends = start + np.minimum(offsets + dash_length, length)[:, None] * vector / length
+            # A repeated endpoint separates consecutive quadratic subpaths.
+            points = np.stack([starts, (starts + ends) / 2, ends, ends], axis=1).reshape(-1, 3)[:-1]
+            if np.linalg.norm(ends[-1] - end) > 1e-8:
+                # Preserve the exact logical endpoint even when it lies in a gap.
+                points = np.vstack([points, ends[-1], end])
+            return m.set_points(points)
+
         # Pre-Q2 rehearsal budget: 8 minutes including bumper; hard ceiling 10.
         # Demonstrate a switch once, then compress settlement. No new material here.
         # ========== 1. Exchange ==========
@@ -1548,7 +1569,7 @@ class B4(ThreeDScene):
                                 color=GUIDE, stroke_width=2.2)
         price_guide.price, price_guide.x0, price_guide.dx = price, Q_ZERO, Q_STEP
         price_guide.base, price_guide.dollar_height = ROW_BASE, ROW_DOLLAR_HEIGHT
-        price_guide.add_updater(lambda m: m.put_start_and_end_on(
+        price_guide.add_updater(lambda m: set_dashed_endpoints(m,
             np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
             np.array([m.x0 + (60 - 5 * m.price.get_value()) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
         # The dollar amount follows the left end of the guide in world space.
@@ -1656,7 +1677,7 @@ class B4(ThreeDScene):
                                 color=GUIDE, stroke_width=2.2)
         price_guide.price, price_guide.x0, price_guide.dx = price, Q_ZERO, Q_STEP
         price_guide.base, price_guide.dollar_height = ROW_BASE, ROW_DOLLAR_HEIGHT
-        price_guide.add_updater(lambda m: m.put_start_and_end_on(
+        price_guide.add_updater(lambda m: set_dashed_endpoints(m,
             np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
             np.array([m.x0 + (20 * (m.price.get_value() - 2)) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
         # The dollar amount follows the left end of the guide in world space.
@@ -1845,7 +1866,7 @@ class B4(ThreeDScene):
             quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
             line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
             line.axes, line.price, line.values, line.side = ax, price, values, side
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
+            line.add_updater(lambda m: set_dashed_endpoints(m, m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
             graph_prices.add(line)
         demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
         demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
@@ -2351,7 +2372,7 @@ class B4(ThreeDScene):
             quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
             line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
             line.axes, line.price, line.values, line.side = ax, price, values, side
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
+            line.add_updater(lambda m: set_dashed_endpoints(m, m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
             graph_prices.add(line)
         demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
         demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
@@ -2577,7 +2598,7 @@ class B4(ThreeDScene):
         price_read = fixed(Tex(r'\$4', color=GUIDE)).scale(0.65).next_to(ax.c2p(0, PRICE), LEFT, buff=0.3)
         quantity = ValueTracker(40)
         q_guide = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=1.6).set_opacity(0.55)
-        q_guide.add_updater(lambda m: m.put_start_and_end_on(
+        q_guide.add_updater(lambda m: set_dashed_endpoints(m,
             ax.c2p(quantity.get_value(), 0), ax.c2p(quantity.get_value(),
                 max(12 - quantity.get_value() / 5, 2 + quantity.get_value() / 20))))
         counts = fixed(Tex(r'$Q_d=Q_s=Q_x=40$', color=GUIDE)).scale(0.65).move_to([4.1, -2.98, 0])
@@ -3266,20 +3287,15 @@ class B4(ThreeDScene):
                              graph_units, price_units, demand_word, supply_word))
         actual_line = fixed(DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2.4))
         actual_line.axes, actual_line.price = ax, price
-        # Update individual dashes so even a zero-quantity guide remains dashed.
-        guide_start_x = actual_line.get_start()[0]
-        guide_span = actual_line.get_end()[0] - guide_start_x
-        for dash in actual_line:
-            dash.first = (dash.get_start()[0] - guide_start_x) / guide_span
-            dash.last = (dash.get_end()[0] - guide_start_x) / guide_span
-            dash.axes, dash.level, dash.mb, dash.mc = ax, price, BUYER_MB, SELLER_MC
-            dash.add_updater(lambda m: m.put_start_and_end_on(
-                m.axes.c2p(m.first * max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value()),
-                m.axes.c2p(m.last * max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value())))
+        # Preserve dash spacing through shrinking, zero trade, and regrowth.
+        actual_line.level = price
+        actual_line.add_updater(lambda m: set_dashed_endpoints(m,
+            m.axes.c2p(0, m.level.get_value()),
+            m.axes.c2p(max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value())))
         trade_guide = fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2))
         trade_guide.axes, trade_guide.price = ax, price
         trade_guide.mb, trade_guide.mc, trade_guide.visibility = BUYER_MB, SELLER_MC, show_counts
-        trade_guide.add_updater(lambda m: m.put_start_and_end_on(
+        trade_guide.add_updater(lambda m: set_dashed_endpoints(m,
             m.axes.c2p(min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)), 0),
             m.axes.c2p(min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)), m.price.get_value())).set_opacity(m.visibility.get_value()))
 
@@ -3364,15 +3380,10 @@ class B4(ThreeDScene):
         ceiling.set_value(5)
         ceiling_line = fixed(DashedLine(ax.c2p(0, 5), ax.c2p(40, 5), color=GUIDE, stroke_width=2.2))
         ceiling_line.axes, ceiling_line.limit = ax, ceiling
-        guide_start_x = ceiling_line.get_start()[0]
-        guide_span = ceiling_line.get_end()[0] - guide_start_x
-        for dash in ceiling_line:
-            dash.first = (dash.get_start()[0] - guide_start_x) / guide_span
-            dash.last = (dash.get_end()[0] - guide_start_x) / guide_span
-            dash.axes, dash.level, dash.mb, dash.mc = ax, ceiling, BUYER_MB, SELLER_MC
-            dash.add_updater(lambda m: m.put_start_and_end_on(
-                m.axes.c2p(m.first * max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value()),
-                m.axes.c2p(m.last * max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value())))
+        ceiling_line.level = ceiling
+        ceiling_line.add_updater(lambda m: set_dashed_endpoints(m,
+            m.axes.c2p(0, m.level.get_value()),
+            m.axes.c2p(max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value())))
         ceiling_word = Tex(r'Ceiling \$', color=GUIDE).scale(0.58)
         ceiling_number = DecimalNumber(5, num_decimal_places=2, color=GUIDE).scale(0.58)
         ceiling_number.limit = ceiling
@@ -3448,15 +3459,10 @@ class B4(ThreeDScene):
         floor_limit.set_value(3)
         floor_line = fixed(DashedLine(ax.c2p(0, 3), ax.c2p(40, 3), color=GUIDE, stroke_width=2.2))
         floor_line.axes, floor_line.limit = ax, floor_limit
-        guide_start_x = floor_line.get_start()[0]
-        guide_span = floor_line.get_end()[0] - guide_start_x
-        for dash in floor_line:
-            dash.first = (dash.get_start()[0] - guide_start_x) / guide_span
-            dash.last = (dash.get_end()[0] - guide_start_x) / guide_span
-            dash.axes, dash.level, dash.mb, dash.mc = ax, floor_limit, BUYER_MB, SELLER_MC
-            dash.add_updater(lambda m: m.put_start_and_end_on(
-                m.axes.c2p(m.first * max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value()),
-                m.axes.c2p(m.last * max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value())))
+        floor_line.level = floor_limit
+        floor_line.add_updater(lambda m: set_dashed_endpoints(m,
+            m.axes.c2p(0, m.level.get_value()),
+            m.axes.c2p(max(0, min(60 - 5 * m.level.get_value(), 20 * (m.level.get_value() - 2), 100)), m.level.get_value())))
         floor_word = Tex(r'Floor \$', color=GUIDE).scale(0.58)
         floor_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(0.58)
         floor_number.limit = floor_limit
