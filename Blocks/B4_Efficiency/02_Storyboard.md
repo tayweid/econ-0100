@@ -582,8 +582,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.f · Recall the incentive to raise price
 
-1. Highlight the deciding buyer (internally buyer 25) and seller 20 (MC $3),
-   then bring them into B3's head-on view. Retain the context title “A low price: $3.”
+1. In the low-price plaza, highlight the left-out buyer (internally buyer 25)
+   with a yellow ring and a red proposal link to seller 20 (MC $3). Show the
+   gold bottom caption “A buyer who's left out offers a seller more than $3.”
+   at scale 0.7443 and margin 0.05 for 1.5 seconds before zooming. Fade the
+   ring, link, and footer with the plaza-to-close-up transition, not beforehand;
+   add no hold. Retain the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
    incumbent buyer 20 right. Include the incumbent's **MB $8** bar and label.
@@ -596,8 +600,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Use two world-space camera-facing choices: “Wait at $3: gain $0” with a
    short arrow to the current solid price, and “Offer $3.25: gain $3.75/lb” with
    a short arrow to the proposed dashed price spanning buyer and seller. Keep
-   both arrows visible and route them clear of the three bars. Any seller-gain
-   narration uses the bottom footer first; replace it with the yellow question
+   both arrows visible and route them clear of the three bars. After the plaza
+   setup caption has faded with the transition, show the yellow question
    “What would this buyer do?” at the existing `1.f` decision hold. Keep one
    footer at a time, at scale 0.7443 and bottom margin 0.05.
 3. On advance, remove the yellow question and accept in the close-up: move

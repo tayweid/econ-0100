@@ -1820,10 +1820,10 @@ class B4(ThreeDScene):
                                .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
-        seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(Create(ag_focus), Create(bid), FadeOut(units), FadeIn(seller_gain))
-
-        self.play(FadeOut(ag_focus), FadeOut(bid), FadeOut(seller_gain))
+        buyer_offer_intro = fixed(Tex(r"A buyer who's left out offers a seller more than $\$3$.",
+            color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(Create(ag_focus), Create(bid), FadeOut(units), FadeIn(buyer_offer_intro))
+        self.wait(1.5)
 
         # Three people, their own values, and two visible trading alternatives.
         buy_person = buyer_people[24].copy().clear_updaters()
@@ -1849,6 +1849,7 @@ class B4(ThreeDScene):
         crowd_marks.suspend_updating()
         graphs.suspend_updating()
         self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(graphs),
+                  FadeOut(ag_focus), FadeOut(bid), FadeOut(buyer_offer_intro),
                   Transform(buy_person, buy_targets[0]),
                   Transform(buy_counterparty, buy_targets[1]),
                   Transform(buy_incumbent, buy_targets[2]),
