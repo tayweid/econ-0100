@@ -84,11 +84,13 @@ The prototype is superseded; it is not an alternative design to preserve.
   trade sequence and settled hold return to that same plaza.
 - Crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
   phi 48°, theta 0°, focal distance 50, center `[4, 0, 0.65]`, height 11.
-  Each side occupies one uninterrupted line across that same floor. Buyer
-  spheres have radius 0.042 and seller spheres 0.026. Bars use a common base
-  0.18 and dollar-height 0.19, with widths 0.095/0.058 for buyers/sellers.
-  The buyer line is at y=2 and seller line at y=−1.7, each spanning x=−3.7…3.7.
-  Checks and trading circles shrink to fit individual people without overlap.
+  Waiting buyers and sellers each occupy one uninterrupted line, at y=2 and
+  y=−1.7. Both use the same rank spacing, 7.4/99, beginning at x=−3.7.
+  Waiting spheres have radius 0.026, bars width 0.058, and circles radius 0.035.
+  Bars retain the common base 0.18 and dollar-height 0.19.
+  Actual trading partners stand beside one another at the seller's station,
+  at x offsets −0.019/+0.019. Paired spheres have radius 0.014, bars width
+  0.030, and circles radius 0.018, leaving space between neighboring pairs.
 - Buyer/seller introductions face the actual 3D rows. A projected copy of their
   bar tops moves into the graph using B3's `screen_point` technique, while the
   camera pulls back to the existing plaza view. The rows do not merely appear
@@ -115,16 +117,20 @@ The prototype is superseded; it is not an alternative design to preserve.
   comparison. Remove its previous content before replacing it. Do not stack a
   definition, caption, and deliberation card there simultaneously.
 - Keep the market at left and its graph at right during market-wide beats.
-  Keep all 59 buyers in one sorted line and all 100 sellers in another, with
-  buyers above sellers. Mark every person but label only selected people.
+  Begin with 59 buyers and 100 sellers in separate ranked waiting lines.
+  When actual trades are revealed, each trading buyer joins their seller.
+  Those without trades stay at their waiting positions. Mark every person but
+  label only selected people.
   Individual comparisons enlarge the relevant bars into a head-on view while
   hiding the other people; their allocation stays unchanged. A full-width head-on row is reserved
   for the quantity sweep; it is not squeezed beside two small graphs.
 - Read each line left to right with no row breaks. Both have the same local
   zero and dollar scale. Show the common price in the readout and dashed graph
   guides; do not draw a price line through either row of people on the plaza.
-  Buyers and sellers have different horizontal spacing because the two lines
-  contain different numbers of people; quantity is counted from people.
+  The common rank spacing keeps potential counterparts aligned; the seller-only
+  tail continues past buyer 59. Adjacency represents an actual trade, not mere
+  willingness. Prediction holds keep buyers waiting until trades are revealed.
+  The ranked pairing is visual bookkeeping, not a claim of unique partners.
 - Build the demand graph from its buyers and the supply graph from its sellers
   during the recap; stack them when both sides share the stage. At
   `1.i.graph`, slide those same axes into a single overlaid graph while retaining
@@ -341,7 +347,8 @@ time. The bumper is outside this recap budget.
 
 ## 1.e · Count the shortage and the actual trades
 
-1. Reveal 45 buyer checks and 20 seller checks. Circle the first 20 on each side.
+1. Reveal 45 buyer checks and 20 seller checks. Move the first 20 buyers beside
+   their sellers and circle both members of each actual trading pair.
    Print Qd=45, Qs=20, Qx=20, with a quantity gap from 20 to 45.
 2. Show “Shortage: 25,000 pounds” beside that gap; point once to the 25 willing
    buyers without circles. Amanda-Grace and Gary are among them.
@@ -363,18 +370,25 @@ time. The bumper is outside this recap budget.
 
 ## 1.f · Recall the incentive to raise price
 
-1. Highlight Amanda-Grace in the original 3D plaza, then bring her and a served seller into B3’s head-on view. Clear the fixed graphs during that comparison. Replace the bottom text with two concise options:
+1. Highlight Amanda-Grace in the original 3D plaza, then bring her and served
+   seller 20 (MC $3) into B3's head-on view. Clear the fixed graphs during that
+   comparison. Replace the bottom text with two concise options:
    “Wait: no trade” / “Offer $3.25: gain $3.75/lb.” Draw the proposed bid dashed.
    Show that the served seller receives more if the bid is accepted. The two options stay in the bottom band; a dashed connector identifies the proposed switch, not an extra trade.
 2. Ask “Which way does price move?” Hold with the answer still withheld.
-3. On advance, accept the proposed price in the close-up, return to B3’s plaza camera, and show Amanda-Grace moving to the seller. Then clear the individual proposal and show “Other unserved buyers have the same incentive.” Follow with “Shortage → price rises.”
+3. On advance, accept the proposed price in the close-up and return to B3's
+   plaza camera. Amanda-Grace joins seller 20; displaced buyer 20 returns to
+   the waiting line. Then clear the individual proposal, restore the ranked
+   snapshot, and show “Other unserved buyers have the same incentive.” Follow
+   with “Shortage → price rises.”
    Raise the common price to $4 in one continuous play. A faint price ladder retains the starting and ending prices; intermediate quarter-dollar steps are not extra pauses. Keep counts and marks
    synchronized; do not narrate every threshold crossing or stop at each tick.
 4. Keep 40/40/40 visible as the next question enters; no navigation-only stop.
 
 ## 1.g · Predict the high-price result
 
-1. Hide numerical counts, willingness checks, trading circles, and quantity
+1. Return buyers to their waiting stations and hide numerical counts,
+   willingness checks, trading circles, and quantity
    read guides before moving the common price to $6. Ask “At $6, who is left
    out?” Hold with those answers still hidden.
 
@@ -382,7 +396,9 @@ time. The bumper is outside this recap budget.
 
 1. Reveal Qd=30, Qs=80, Qx=30: 30 buyer checks, 80 seller checks, 30 circles on
    each side. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
-2. Highlight Andrew among the unserved sellers and Gary among the served buyers. Show the same B3 head-on inspection view, with Andrew’s MC $4 and Gary’s MB $6. The actual plaza returns before Gary moves to Andrew.
+2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
+   Show the same B3 head-on inspection view, with Andrew's MC $4 and Gary's MB $6.
+   The actual plaza returns before Gary leaves seller 30 and joins Andrew.
    Replace the bottom content with “Keep $6: no buyer” / “Ask $5.75: gain $1.75/lb.”
    Gary would also gain by paying less. Ask “Which way does price move?” Hold.
 3. On advance, briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
@@ -390,7 +406,8 @@ time. The bumper is outside this recap budget.
 
 ## 1.i · State the two parts of equilibrium together
 
-1. Park on 40 checks and circles on each side and Qd=Qs=Qx=40. Keep unwilling
+1. Park on 40 adjacent buyer–seller pairs, checks and circles on each side,
+   and Qd=Qs=Qx=40. Keep unwilling
    people visible and dim, with MB below $4 or MC above $4.
 2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
    “No willing buyer or seller is left without a trade.”
@@ -479,7 +496,8 @@ time. The bumper is outside this recap budget.
 
 1. Set the planner's allocation to 20 trades. For this explicit counterfactual,
    select buyers 1–20 except buyer 10, with Gary (buyer 30) in that slot; select
-   sellers 1–20. Mark “20 trades” and retain all unselected people.
+   sellers 1–20. Gary joins seller 10; unselected buyers return to their waiting
+   stations. Mark “20 trades” and retain all unselected people.
 2. Show Gary's MB $6 beside unserved buyer 10's MB $10. Keep their potential
    counterpart, seller 10 (MC $2.50), fixed. Use an empty outline for buyer 10's
    proposed connection; the other 19 trades stay unchanged.
@@ -496,7 +514,8 @@ time. The bumper is outside this recap budget.
 ## 3.c · Hold quantity fixed and test the sellers
 
 1. Retain the efficient first 20 buyers. For a separate, explicitly hypothetical
-   allocation, replace selected seller 10 with Andrew (seller 40). Keep Q=20.
+   allocation, replace selected seller 10 with Andrew (seller 40). Buyer 10
+   joins Andrew at his station. Keep Q=20.
 2. Fix buyer 10 (MB $10). Compare Andrew's MC $4 with unselected seller 10's
    MC $2.50. Ask “Who should produce this lot?” Hold before switching.
 
@@ -579,8 +598,8 @@ time. The bumper is outside this recap budget.
 
 ## 5.a · Return control to buyers and sellers
 
-1. Return both single lines to the plaza and restore the saved overlaid
-   graph beside them. Preserve every participant's rank and value. Store the
+1. Return everyone to their waiting stations on the plaza and restore the saved
+   overlaid graph beside them. Preserve every participant's rank and value. Store the
    planner's selected prefixes as faint outlines. Remove the planner selection
    circles, quantity control, and hypothetical comparison marks.
 2. Restore the market price of $4. Title: “Does the market choose these trades?”
@@ -588,8 +607,9 @@ time. The bumper is outside this recap budget.
 
 ## 5.b · Let the common price select participants
 
-1. Reveal checks on the 40 buyers with MB≥$4 and 40 sellers with MC≤$4. Circle
-   those participants and print Qd=Qs=Qx=40. The actual selection coincides
+1. Reveal checks on the 40 buyers with MB≥$4 and 40 sellers with MC≤$4. Move
+   those buyers beside their sellers, circle both partners, and print
+   Qd=Qs=Qx=40. The actual selection coincides
    with the saved planner outlines.
 2. Recall the boundary with two threshold captions on the plaza: buyer 40 is
    indifferent, buyer 41 will not pay $4; seller 40 is indifferent, seller 41
@@ -729,6 +749,9 @@ time. The bumper is outside this recap budget.
 - Source execution and checkpoint restoration have been checked in ManimL.
   B3's copied small-market trace retains its final matching/price assertions.
   Each policy/planner state is checked against exact participant counts and gains.
+- Actual partner placement follows the selected allocation. The $3/$4/$6
+  market states contain 20/40/30 adjacent pairs; the individual switches preserve
+  trade counts. Prediction holds return people to their waiting stations.
 - Visual review uses the development viewer and selected full-resolution native
   frames for this build. Native frame caches can display stale glyphs after
   unrelated checkpoint captures; suspected failures are checked with an isolated
