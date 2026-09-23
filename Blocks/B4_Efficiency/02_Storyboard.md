@@ -565,7 +565,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Clear the close-up callouts and return to the untouched full-crowd snapshot.
    Do not replay the switch on the plaza or animate a rollback there.
 4. Change the title to “Price adjustment.” Show “Other unserved buyers have
-   the same incentive,” followed by “Shortage → price rises.” Raise the common
+   the same incentive,” followed by “Shortages lead to an increase in the price.” Raise the common
    price to **$4** in one smooth
    play, with the totem, counts, willingness marks, and per-person ground segments
    synchronized. Show only current-price guides, with no ghost $3 guide.

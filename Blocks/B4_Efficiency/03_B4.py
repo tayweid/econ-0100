@@ -2207,7 +2207,7 @@ class B4(ThreeDScene):
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
-        rising = fixed(Tex(r'Shortage $\longrightarrow$ price rises. The counts meet.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        rising = fixed(Tex('Shortages lead to an increase in the price.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(everyone, rising))
 
         # ---- 1.g · Predict the other direction before revealing its counts.
