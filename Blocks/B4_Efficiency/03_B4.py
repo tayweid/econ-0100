@@ -3022,29 +3022,27 @@ class B4(ThreeDScene):
                   Group(*ceiling_people[:2]).animate.shift(RIGHT * 1.05),
                   Group(*ceiling_people[2:]).animate.shift(LEFT * 1.05),
                   ceiling_gain_bracket.animate.set_color(TOTAL), run_time=0.9, rate_func=smooth)
-        self.play(FadeOut(ceiling_detail), FadeOut(recovered), run_time=0.35)
-        # Refresh the recovered lot and hidden guides before the graph reappears.
+        self.pause('5.a')
+
+        # ---- 5.b · Return to all beneficial trades, without an isolated gap.
+        next_head = fixed(title('Allow all beneficial trades'))
+        self.play(FadeOut(head), FadeIn(next_head),
+                  FadeOut(ceiling_detail), FadeOut(recovered), run_time=0.35)
+        head = next_head
+        # Complete the allocation off-screen; reveal one continuous purple region.
+        for n in range(20, 40):
+            allocation_flags[n].set_value(1)
+        show_loss.set_value(0)
+        market_state.update(0)
         graph.resume_updating()
         graph.suspend_updating()
         self.play(Transform(ceiling_buyer_bar, fixed(Polygon(ax.c2p(24.04, 0), ax.c2p(24.47, 0),
             ax.c2p(24.47, 7), ax.c2p(24.04, 7), stroke_width=0, fill_color=DEMAND, fill_opacity=0.75))),
             Transform(ceiling_seller_bar, fixed(Polygon(ax.c2p(24.53, 0), ax.c2p(24.96, 0),
             ax.c2p(24.96, 3.25), ax.c2p(24.53, 3.25), stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))),
-            FadeIn(graph), FadeIn(total_label), run_time=1.0, rate_func=smooth)
+            FadeIn(graph), FadeIn(total_label), run_time=1.4, rate_func=smooth)
         graph.resume_updating()
-        ceiling_lot = fixed(Polygon(ax.c2p(24, 3.25), ax.c2p(25, 3.25), ax.c2p(25, 7), ax.c2p(24, 7),
-            color=TOTAL, stroke_width=3, fill_color=TOTAL, fill_opacity=0.65))
-        self.play(FadeOut(ceiling_source), FadeIn(ceiling_lot), run_time=0.45)
-        self.pause('5.a')
-
-        # ---- 5.b · Fill the remaining gains in one movement.
-        self.play(FadeOut(ceiling_lot), run_time=0.3)
-        next_head = fixed(title('Allow all beneficial trades'))
-        self.play(FadeOut(head), FadeIn(next_head), run_time=0.35)
-        head = next_head
-        self.play(*[allocation_flags[n].animate.set_value(1) for n in range(20, 40) if n != 24],
-                  run_time=1.8, rate_func=smooth)
-        self.play(show_loss.animate.set_value(0), run_time=0.2)
+        self.play(FadeOut(ceiling_source), run_time=0.3)
         self.pause('5.b')
 
         # ---- 5.c · The crossing is the zero-gain boundary.

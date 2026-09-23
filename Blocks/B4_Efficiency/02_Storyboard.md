@@ -765,23 +765,22 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 1. Lift the ceiling while still in the selected two-person figure. Remove its
    legal restriction and complete the trade at **$4**, showing the agreed price
    inside the mutually beneficial interval.
-2. Return the selected bars to the graph and fill lot 25's exact gain strip
-   **purple**, retaining the first 20 filled lots and the remaining grey gains.
-   Remove policy price/quantity guides before this partial-allocation overview.
-3. Hold `5.a` on the new purple strip. Internally this is lots 1–20 plus 25,
-   but show no quantity-21 tick/drop, which would imply the wrong ranked prefix.
-   The close-up briefly changes its lost-surplus bracket to purple surplus
-   gained ($3,750); the graph has no individual or aggregate dollar totals. Active guides stay
-   hidden thereafter; the ordinary 40 axis tick remains visible.
+2. Change the close-up's lost-surplus bracket to **purple surplus gained
+   ($3,750)**. Hold `5.a` on this completed trade in the two-person figure.
+   Do not return to a held partial-allocation graph or isolated purple lot strip.
+3. Internally the allocation is lots 1–20 plus 25, with total surplus $151,250.
+   Keep that aggregate total and any quantity-21 readout off screen. Remove the
+   policy price/quantity guides before returning to the graph on the next advance.
 
 ## 5.b · Allow the remaining beneficial trades
 
-1. In one smooth fill, turn the remaining positive-gain lots through 39 purple
-   and include indifferent lot 40 under the inclusive convention. Keep the
-   graph fixed and omit per-trade teaching stops.
-2. Finish with the full purple total-surplus region through the ordinary
-   **40** axis tick. Keep price/quantity guides hidden. Hold `5.b`; no
-   positive-gain strip remains grey.
+1. On advance from `5.a`, return the selected bars to the graph while filling
+   all remaining positive-gain lots through 39 in one continuous transition;
+   include indifferent lot 40 under the inclusive convention. Do not pause
+   on the intermediate gap or isolated lot-25 strip, or add per-trade stops.
+2. Hold `5.b` only after the purple total-surplus region is **contiguous through
+   40**. Keep the ordinary 40 axis tick visible and active price/quantity guides
+   hidden; no positive-gain strip remains grey.
 
 ## 5.c · Inspect the zero-gain boundary
 
