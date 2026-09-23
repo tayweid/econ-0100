@@ -656,20 +656,24 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    (4 in red), the “Price ($/lb)” heading, and the dashed $4 graph guide. Remove
    only the second plot's duplicate axes/ticks. The lines cross at Q=40, P=$4,
    matching the crowd's counts without sharing the totem's position.
-2. Title: “Why does the crossing give equilibrium?” Highlight one shared “40”
-   at the graph's quantity position and the crossing. Keep the people visible so this is another
-   representation of the same result, not a second definition. Hold.
+2. Keep the title **Equilibrium**. Highlight one shared “40” at the graph's
+   quantity position and the crossing, with the people still visible. Restore
+   the same bottom definition used at `1.i`: “Equilibrium: no willing buyer or
+   seller is left without a trade. Q_s = Q_d.” Color the term gold and the rest
+   white. Hold with this definition, without a “Same price, same quantity” caption.
 
 ## 1.i.algebra · Make the equality explicit
 
-1. Fade the plaza and totem while leaving the already-complete merged graph,
-   its price axis, and lot bars unchanged at right. Add no replacement axis.
+1. Keep the title **Equilibrium**. Fade the plaza, totem, and bottom definition
+   while leaving the already-complete merged graph, its price axis, and lot bars
+   unchanged at right. Add no replacement axis.
    Use the vacated left half for the arithmetic. Show the two equations with
    their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
 2. Show (Q_d=Q_s=Q) before setting their right-hand sides equal. Then reveal
    (12-Q/5=2+Q/20), (10=Q/4), and (Q^*=40) in that order, with no extra
    arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
-3. Carry the starred pair to the crossing. Hold “Same price; equal quantities.”
+3. Carry the starred pair to the crossing. Keep the existing numeric result
+   footer: “40,000 pounds at $4 per pound.”
    This is a short explanation of what the algebra means; leave Exercise Q1
    completed. Hold on the solved frame. The welfare stage restores the same
    actual crowd and merged-graph objects at $4; it does not replay the algebra.

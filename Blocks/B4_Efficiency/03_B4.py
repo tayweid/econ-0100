@@ -2585,7 +2585,7 @@ class B4(ThreeDScene):
 
         # ---- 1.i.graph · Merge the two representations of the same market.
         price.set_value(4)
-        head = fixed(title('Why does the crossing give equilibrium?'))
+        head = fixed(title('Equilibrium'))
         self.add(head, crowd, crowd_marks, graphs)
         # Carry the original objects together. Their geometry and scale never morph.
         demand_plot = fixed(VGroup(demand_axes, demand_lot_bars, demand_steps,
@@ -2623,18 +2623,15 @@ class B4(ThreeDScene):
             Tex('S / MC', color=SUPPLY).scale(0.60)
                 .next_to(merged_axes.c2p(84, 6.2), UP, buff=0.10)))
         self.play(FadeIn(merged_labels), FadeIn(merged_dot), run_time=0.4)
-        same = fixed(Tex('Same price, same quantity.', color=INK)).scale(0.7443)
-        same.set_x(0).to_edge(DOWN, buff=0.05)
-        self.play(FadeIn(same))
+        equilibrium.set_opacity(1)
+        self.play(FadeIn(equilibrium))
         self.pause('1.i.graph')
 
         # ---- 1.i.algebra · Equality first, then solve. No exercise Q1 repeat.
         merged_graph = fixed(VGroup(merged_axes, demand_lot_bars, supply_lot_bars,
             merged_demand, merged_supply, merged_ticks, merged_labels, merged_price, merged_drop, merged_dot))
         crowd.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same))
-        algebra_head = fixed(title('What equation expresses equilibrium?'))
-        self.play(ReplacementTransform(head, algebra_head))
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(equilibrium))
         equality = fixed(Tex(r'$Q_d=Q_s=Q$', color=DEFINITION)).scale(1.1).move_to([-3.75, 2.10, 0])
         demand_equation = fixed(Tex(r'$P=12-Q_d/5$', color=DEMAND)).scale(0.82).move_to([-3.75, 1.20, 0])
         supply_equation = fixed(Tex(r'$P=2+Q_s/20$', color=SUPPLY)).scale(0.82).move_to([-3.75, 0.50, 0])
