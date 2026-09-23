@@ -928,13 +928,9 @@ class B4(ThreeDScene):
         self.add(new_line, new_shadow)
         accepted_line, accepted_shadow, deal_number = new_line, new_shadow, offer_label
         # ---- 1.b.settled · Buyer-side outbidding has stopped.
-        self.play(Transform(head, fixed(title('We stop when no one wants to bid.'))), run_time=0.4)
-        stop_reason = fixed(Tex(r"Gary's next bid: $\$6.50 > \mathrm{MB}\ \$6$.",
-                               color=DEFINITION).scale(DEFINITION_SCALE))
-        counts = fixed(Tex(r'At $\$6.25$: 1 willing buyer, 1 seller.', color=CAPTION)
-                       .scale(DEFINITION_SCALE))
-        VGroup(stop_reason, counts).arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(stop_reason), FadeIn(counts))
+        stop_reason = fixed(Tex('We stop when no one wants to bid.', color=DEFINITION)
+                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(stop_reason))
         self.pause('1.b.settled')
 
         # ========== 3. TwoTrades ==========
