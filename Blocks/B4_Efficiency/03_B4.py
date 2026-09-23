@@ -1836,10 +1836,8 @@ class B4(ThreeDScene):
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
         crowd_marks = VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses)
 
-        # Both plots begin on the totem's price scale: merging needs only a move.
-        totem_zero = screen_point(self.camera.frame, [4.8, 0, 0.035])
-        totem_twelve = screen_point(self.camera.frame, [4.8, 0, 0.035 + 12 * 0.28])
-        graph_price_height = (totem_twelve[1] - totem_zero[1]) * 13 / 12
+        # Both graphs share their own price scale, independent of the 3D totem.
+        graph_price_height = 2.0
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
         supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
         demand_axes.shift(np.array([1.90, 0.80, 0]) - demand_axes.c2p(0, 0))
@@ -2478,10 +2476,8 @@ class B4(ThreeDScene):
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
         crowd_marks = VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses)
 
-        # Both plots begin on the totem's price scale: merging needs only a move.
-        totem_zero = screen_point(self.camera.frame, [4.8, 0, 0.035])
-        totem_twelve = screen_point(self.camera.frame, [4.8, 0, 0.035 + 12 * 0.28])
-        graph_price_height = (totem_twelve[1] - totem_zero[1]) * 13 / 12
+        # Both graphs share their own price scale, independent of the 3D totem.
+        graph_price_height = 2.0
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
         supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
         demand_axes.shift(np.array([1.90, 0.80, 0]) - demand_axes.c2p(0, 0))
@@ -2604,23 +2600,25 @@ class B4(ThreeDScene):
         self.add(demand_plot, supply_plot, demand_word, supply_word, graph_units)
         self.play(FadeOut(demand_word), FadeOut(supply_word), FadeOut(graph_units),
                   FadeOut(units), run_time=0.35)
-        demand_shift = totem_zero - demand_axes.c2p(0, 0)
-        supply_shift = totem_zero - supply_axes.c2p(0, 0)
+        merged_origin = np.array([1.90, -0.90, 0])
+        demand_shift = merged_origin - demand_axes.c2p(0, 0)
+        supply_shift = merged_origin - supply_axes.c2p(0, 0)
         self.play(demand_plot.animate.shift(demand_shift),
                   supply_plot.animate.shift(supply_shift), run_time=2.0, rate_func=smooth)
 
-        # The totem is the shared vertical price axis while the plaza is present.
+        # Keep one complete graph on the right; the plaza retains its own totem.
         merged_axes, merged_demand, merged_supply = demand_axes, demand_steps, supply_steps
         merged_price, merged_drop = graph_prices[0], demand_guide
         self.play(FadeOut(supply_axes), FadeOut(supply_ticks), FadeOut(supply_guide),
-                  FadeOut(graph_prices[1]), FadeOut(counts[1]),
-                  demand_axes.y_axis.animate.set_opacity(0),
-                  FadeOut(VGroup(*demand_ticks[6:])), FadeOut(current_price),
-                  post_numbers[1].animate.set_color(GUIDE), run_time=0.35)
+                  FadeOut(graph_prices[1]), FadeOut(counts[1]), run_time=0.35)
         counts[0].set_color(CAPTION)
-        merged_ticks = fixed(VGroup(*demand_ticks[:6], counts[0]))
+        demand_ticks[6].set_color(GUIDE)
+        merged_ticks = fixed(VGroup(demand_ticks, counts[0]))
         merged_dot = fixed(Dot(merged_axes.c2p(40, 4), radius=0.055, color=GUIDE))
+        graph_price_heading = fixed(Tex(r'Price (\$/lb)', color=CAPTION)).scale(0.48)
+        graph_price_heading.next_to(merged_axes.c2p(0, 13), UP, buff=0.16, aligned_edge=LEFT)
         merged_labels = fixed(VGroup(
+            graph_price_heading,
             Tex(r'$Q$: thousands of pounds', color=CAPTION).scale(0.48)
                 .next_to(merged_axes.c2p(50, 0), DOWN, buff=0.48),
             Tex('D / MB', color=DEMAND).scale(0.60)
@@ -2636,15 +2634,8 @@ class B4(ThreeDScene):
         # ---- 1.i.algebra · Equality first, then solve. No exercise Q1 repeat.
         merged_graph = fixed(VGroup(merged_axes, demand_lot_bars, supply_lot_bars,
             merged_demand, merged_supply, merged_ticks, merged_labels, merged_price, merged_drop, merged_dot))
-        graph_price_ticks = fixed(VGroup(*[
-            Tex(str(p), color=GUIDE if p == 4 else CAPTION).scale(0.40)
-                .next_to(merged_axes.c2p(0, p), LEFT, buff=0.10) for p in [4, 8, 12]]))
-        graph_price_heading = fixed(Tex(r'Price (\$/lb)', color=CAPTION)).scale(0.48)
-        graph_price_heading.next_to(merged_axes.c2p(0, 13), UP, buff=0.16, aligned_edge=LEFT)
         crowd.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same),
-                  merged_axes.y_axis.animate.set_opacity(1),
-                  FadeIn(graph_price_ticks), FadeIn(graph_price_heading))
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same))
         algebra_head = fixed(title('What equation expresses equilibrium?'))
         self.play(ReplacementTransform(head, algebra_head))
         equality = fixed(Tex(r'$Q_d=Q_s=Q$', color=DEFINITION)).scale(1.1).move_to([-3.75, 2.10, 0])

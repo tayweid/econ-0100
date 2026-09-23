@@ -95,6 +95,10 @@ September 22 live-review confirmations and open points:
   later direction places price on a vertical totem at the right rim. The dashed
   ground diameter is the meeting line; dashed graph price guides still end at
   their curves.
+- **Combined graph stays separate from the totem.** The latest review supersedes
+  the earlier shared-axis arrangement. The graph keeps its own price axis and
+  fixed right-side position; the plaza keeps its own totem and price readout.
+  The transition still moves the complete plots and their bars without resizing.
 - **Bottom boxes rejected; broader unboxed convention still open.** Taylor
   said the bottom boxes were throwing him off and identified the decision
   close-ups as the layout problem. The current implementation uses plain-text
@@ -129,8 +133,8 @@ The prototype is superseded; it is not an alternative design to preserve.
 - All crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
   phi 48°, theta 0°, focal distance 50, center `[4, 0, -0.4]`, height 11.
   This lifts the full-market plaza about 0.55 screen units, leaving the bottom
-  caption strip clear. Use the same framing for all returns from close-ups;
-  the merged graph alignment remains derived from the price totem's projection.
+  caption strip clear. Use the same framing for all returns from close-ups.
+  The merged graph has a fixed right-side origin independent of totem projection.
   The recap now uses the curved-plaza convention below. The later welfare/control
   stages retain this earlier placement pending review: buyers and sellers each
   occupy one uninterrupted line, at y=2 and
@@ -250,12 +254,13 @@ this layout review. Camera movement is available for deliberate example close-up
   The ranked pairing is visual bookkeeping, not a claim of unique partners.
 - Build the demand graph from its buyers and the supply graph from its sellers,
   with narrow per-lot bars behind each straight equation line. Give both separate
-  graphs the same price scale from the start, matching the projected foot and
-  top of the plaza's price totem. At `1.i.graph`, translate each complete graph,
-  including its bars, to a shared origin at the projected totem foot. Do not
-  morph or resize the axes or curves. Clear duplicate axis labels and use the
-  actual 3D totem as the merged graph's visible price axis while the plaza stays
-  visible. Retain the bars through the algebra and later welfare transition.
+  plots the same ordinary price-axis height, 2.0, independent of totem projection.
+  At `1.i.graph`, translate each complete plot, including its bars, to the fixed
+  right-side origin `[1.90, -0.90, 0]`. Do not morph or resize axes or curves.
+  Keep the graph's own vertical axis, price ticks 4/8/12 (4 in red), and
+  “Price ($/lb)” heading; remove only the duplicate second plot's axes/ticks.
+  The plaza retains its own totem and $4 readout. Keep the complete graph and
+  its bars unchanged through the algebra and later welfare transition.
 - Quantity readouts are bare numbers at their corresponding horizontal graph
   positions: teal for demand and orange for supply. Apply this to the full-width
   rows, separate recap graphs, and merged welfare/control graph. Keep the number
@@ -657,21 +662,22 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.i.graph · Recognize the same condition at the crossing
 
-1. Retain the settled crowd, horizontal meeting line, $4 price totem, and dashed
-   $4 graph guide. Simply translate the two complete graphs, carrying their
-   narrow lot bars and straight curves, to a common origin at the projected
-   totem foot. Their price scales already match the totem; no axes or curve
-   morphing/resizing. Remove duplicate axis labels and let the actual 3D totem
-   serve as the visible price axis. The lines cross at Q=40, P=$4, matching the
-   crowd's counts exactly at this price.
+1. Retain the settled crowd, horizontal meeting line, and price totem with its
+   own $4 readout. Simply translate the two complete graphs, carrying their
+   narrow lot bars and straight curves, to the fixed right-side origin
+   `[1.90, -0.90, 0]`. Both already use price-axis height 2.0; no axes or curve
+   morphing/resizing. Keep one ordinary graph price axis with ticks 4/8/12
+   (4 in red), the “Price ($/lb)” heading, and the dashed $4 graph guide. Remove
+   only the second plot's duplicate axes/ticks. The lines cross at Q=40, P=$4,
+   matching the crowd's counts without sharing the totem's position.
 2. Title: “Why does the crossing give equilibrium?” Highlight one shared “40”
    at the graph's quantity position and the crossing. Keep the people visible so this is another
    representation of the same result, not a second definition. Hold.
 
 ## 1.i.algebra · Make the equality explicit
 
-1. Keep the merged graph and its lot bars fixed at right while fading the plaza.
-   As the 3D totem fades, show an ordinary graph price axis in the same place.
+1. Fade the plaza and totem while leaving the already-complete merged graph,
+   its price axis, and lot bars unchanged at right. Add no replacement axis.
    Use the vacated left half for the arithmetic. Show the two equations with
    their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
 2. Show (Q_d=Q_s=Q) before setting their right-hand sides equal. Then reveal
