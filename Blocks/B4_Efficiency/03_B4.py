@@ -2091,9 +2091,17 @@ class B4(ThreeDScene):
                   show_sellers.animate.set_value(1), run_time=0.8)
         # Keep quantity lines through matching; yellow marks the unserved remainder.
         self.play(show_trades.animate.set_value(1), run_time=1.1)
-        shortage = fixed(Tex(r'20 pairs trade. 25 willing buyers are still waiting.', color=INK))
-        shortage.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(shortage))
+        quantity_comparison = fixed(VGroup(*[
+            DashedLine(demand_axes.c2p(quantity, 0), supply_axes.c2p(quantity, 0),
+                       color=color, stroke_width=2.3, dash_length=0.05)
+            for quantity, color in [(45, DEMAND), (20, SUPPLY)]
+        ]))
+        # Keep the axis numbers and intervening supply label clear of the dashes.
+        for label in [supply_word, counts[0], demand_ticks[1]]:
+            label_copy = label.copy().clear_updaters()
+            label_copy.add_background_rectangle(color=BG, opacity=1, buff=0.045)
+            quantity_comparison.add(fixed(label_copy))
+        self.play(FadeIn(quantity_comparison), run_time=0.4)
         unserved = VGroup()  # The checked buyers on the inner arc are the unserved group.
         self.pause('1.e')
 
@@ -2121,7 +2129,7 @@ class B4(ThreeDScene):
         exercise = fixed(VGroup(cover, card_panel, card_text))
         self.play(FadeIn(exercise))
         self.pause('1.j')
-        self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(shortage))
+        self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(quantity_comparison))
 
         # ---- 1.f · Amanda-Grace compares waiting with an actual alternative.
         self.remove(head)

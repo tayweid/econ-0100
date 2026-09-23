@@ -520,10 +520,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 3. Let each ground segment follow its person as the first 20 buyers and sellers move
    to matching x stations along the dashed diameter. Buyers stop just above it
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
-   Center the occupied stations on the plaza. The matching and next caption
-   communicate the 20 trades; add no separate Qx counter.
-4. Keep the title “At $3, who trades?” Show the existing bottom
-   narration “20 pairs trade. 25 willing buyers are still waiting.” Hold with
+   Center the occupied stations on the plaza. The matching communicates the
+   20 trades; add no separate Qx counter.
+4. Keep the title “At $3, who trades?” Leave the bottom narration empty. Add
+   dashed vertical comparison guides between the stacked graphs: teal at
+   quantity demanded 45 and orange at quantity supplied 20, aligned to those
+   quantities on both horizontal axes. Hold with
    the checked unmatched buyers, including Amanda-Grace and Gary, on the inner arc.
    Give each unmatched willing buyer a short yellow ground segment following
    that person, and keep demand's 20–45 graph gap yellow with nearby “Shortage 25”
