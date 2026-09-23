@@ -2827,16 +2827,17 @@ class B4(ThreeDScene):
         # First control exercise follows both controls and their DWL examples.
         cover = fixed(Rectangle(width=16, height=8, stroke_width=0, fill_color=BG, fill_opacity=1))
         card_text = fixed(VGroup(
-            Tex('Exercise B4 $|$ Q2: A Price Floor', color=DEFINITION).scale(1.1),
+            Tex('Exercise B4 $|$ Q1: A Price Ceiling', color=DEFINITION).scale(1.1),
             Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
             Tex('Pumpkin pasties: equilibrium is 10 pasties at 7 galleons.', color=INK).scale(0.82),
-            Tex('Minimum legal price: 9 galleons.', color=INK).scale(0.82),
-            Tex(r'$(Q_d = 6;\ Q_s = 14)$', color=INK).scale(0.82),
+            Tex('Maximum legal price: 5 galleons.', color=INK).scale(0.82),
+            Tex(r'$(Q_d = 14;\ Q_s = 6)$', color=INK).scale(0.82),
             Tex('a) How many pasties are exchanged?', color=INK).scale(0.88),
-            Tex('b) What is producer surplus?', color=INK).scale(0.88),
-            Tex('c) What is deadweight loss?', color=INK).scale(0.88),
-            Tex('d) Would a floor of 6 galleons change the market?', color=INK).scale(0.88))
-            .arrange(DOWN, buff=0.29, aligned_edge=LEFT).move_to(ORIGIN))
+            Tex('b) What is consumer surplus?', color=INK).scale(0.88),
+            Tex('c) What is producer surplus?', color=INK).scale(0.88),
+            Tex('d) What is deadweight loss?', color=INK).scale(0.88),
+            Tex('e) Plot demand, supply, and the ceiling; shade CS, PS, and DWL.', color=INK).scale(0.82))
+            .arrange(DOWN, buff=0.25, aligned_edge=LEFT).move_to(ORIGIN))
         card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
             corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
         card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
@@ -2848,7 +2849,7 @@ class B4(ThreeDScene):
             glyph.set_z_index(51)
         exercise = fixed(VGroup(cover, card_panel, card_text))
         self.play(FadeIn(exercise), run_time=0.5)
-        self.pause('6.exercise_floor')
+        self.pause('6.exercise_ceiling')
         self.play(FadeOut(exercise), run_time=0.3)
 
         # ---- 5.a · Compare surplus if the same $4 exchange occurs.
@@ -2998,17 +2999,16 @@ class B4(ThreeDScene):
         # Save the second price-control exercise for the final scene.
         cover = fixed(Rectangle(width=16, height=8, stroke_width=0, fill_color=BG, fill_opacity=1))
         card_text = fixed(VGroup(
-            Tex('Exercise B4 $|$ Q1: A Price Ceiling', color=DEFINITION).scale(1.1),
+            Tex('Exercise B4 $|$ Q2: A Price Floor', color=DEFINITION).scale(1.1),
             Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
             Tex('Pumpkin pasties: equilibrium is 10 pasties at 7 galleons.', color=INK).scale(0.82),
-            Tex('Maximum legal price: 5 galleons.', color=INK).scale(0.82),
-            Tex(r'$(Q_d = 14;\ Q_s = 6)$', color=INK).scale(0.82),
+            Tex('Minimum legal price: 9 galleons.', color=INK).scale(0.82),
+            Tex(r'$(Q_d = 6;\ Q_s = 14)$', color=INK).scale(0.82),
             Tex('a) How many pasties are exchanged?', color=INK).scale(0.88),
-            Tex('b) What is consumer surplus?', color=INK).scale(0.88),
-            Tex('c) What is producer surplus?', color=INK).scale(0.88),
-            Tex('d) What is deadweight loss?', color=INK).scale(0.88),
-            Tex('e) Plot demand, supply, and the ceiling; shade CS, PS, and DWL.', color=INK).scale(0.82))
-            .arrange(DOWN, buff=0.25, aligned_edge=LEFT).move_to(ORIGIN))
+            Tex('b) What is producer surplus?', color=INK).scale(0.88),
+            Tex('c) What is deadweight loss?', color=INK).scale(0.88),
+            Tex('d) Would a floor of 6 galleons change the market?', color=INK).scale(0.88))
+            .arrange(DOWN, buff=0.29, aligned_edge=LEFT).move_to(ORIGIN))
         card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
             corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
         card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
@@ -3020,4 +3020,4 @@ class B4(ThreeDScene):
             glyph.set_z_index(51)
         exercise = fixed(VGroup(cover, card_panel, card_text))
         self.play(FadeIn(exercise), run_time=0.5)
-        self.pause('6.exercise_ceiling')
+        self.pause('6.exercise_floor')

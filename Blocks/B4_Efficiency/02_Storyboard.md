@@ -39,12 +39,12 @@ while the screen omits aggregate dollar totals and the recap's crowd displays.
 | 8 | Market benefits | `2.a`, `2.b.parts`, `2.b.sum`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
-| 8 | First control exercise: floor | `6.exercise_floor` |
+| 8 | First control exercise: ceiling (Q1) | `6.exercise_ceiling` |
 | 8 | Compare surplus, reach the boundary, add/remove ten extra trades; state theorem | `5.a`–`5.e` |
-| 8 | Final scene: ceiling exercise | `6.exercise_ceiling` |
+| 8 | Final scene: floor exercise (Q2) | `6.exercise_floor` |
 
-The first B4 exercise (floor, Q2) follows `4.c`, immediately after both price
-controls and DWL examples. The second (ceiling, Q1) is the final scene after
+The first B4 exercise (ceiling, Q1) follows `4.c`, immediately after both price
+controls and DWL examples. The second (floor, Q2) is the final scene after
 `5.e`. Exercise content and IDs remain intact. The redundant `7.a` theorem
 return is removed so the lesson ends on the second exercise.
 
@@ -963,17 +963,18 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 3. Hold `4.c` on the disjoint intervals and caption **Both gain at $4; that
    price is illegal.** Keep this figure for the next surplus comparison.
 
-## 6.exercise_floor · Exercise B4 Q2
+## 6.exercise_ceiling · Exercise B4 Q1
 
-1. Place the floor exercise immediately after `4.c`, completing the price
-   controls and DWL section, and before the surplus comparison at `5.a`. Use the sheet's 9-galleon floor and original prompts: quantity
-   exchanged, producer surplus, deadweight loss, and a floor of 6. State
-   **$(Q_d = 6;\ Q_s = 14)$** on a separate line below
-   the minimum legal price.
+1. Place Q1 immediately after `4.c`, completing the price controls and DWL
+   section, and before the surplus comparison at `5.a`. Use the original
+   pasty equations and 5-galleon ceiling with its prompts: quantity exchanged,
+   CS, PS, DWL, and the graph with shaded regions. State
+   **$(Q_d = 14;\ Q_s = 6)$** below the maximum legal price.
 2. Use the approved muted rounded panel, gold serif exercise heading, white
    concise body, and centered equations. Show no answers. Hold
-   `6.exercise_floor`, then uncover the same blocked-trade close-up to
+   `6.exercise_ceiling`, then uncover the same blocked-trade close-up to
    continue at `5.a`.
+3. The pasty model's continuous areas never replace the exact spinach lots.
 
 ## 5.a · The surplus from this trade
 
@@ -1036,16 +1037,14 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 3. Hold `5.e` on the graph and stated conditions. This does not establish unique
    partners, resolve distribution, or assert that every market satisfies them.
 
-## 6.exercise_ceiling · Exercise B4 Q1
+## 6.exercise_floor · Exercise B4 Q2
 
-1. Use the original pasty equations and 5-galleon ceiling with its prompts:
-   quantity exchanged, CS, PS, DWL, and the graph with shaded regions.
-   State **$(Q_d = 14;\ Q_s = 6)$** on a separate line
-   below the maximum legal price.
+1. Use the sheet's 9-galleon floor and original prompts: quantity exchanged,
+   producer surplus, deadweight loss, and a floor of 6. State
+   **$(Q_d = 6;\ Q_s = 14)$** below the minimum legal price.
 2. Use the same exercise-card styling, without extra repeated questions or
-   answers. Show this after `5.e` as the final scene. Hold
-   `6.exercise_ceiling` and leave the card visible.
-3. The pasty model's continuous areas never replace the exact spinach lots.
+   answers. Show Q2 after `5.e` as the final scene. Hold
+   `6.exercise_floor` and leave the card visible.
 
 ## Implementation and review boundaries
 
