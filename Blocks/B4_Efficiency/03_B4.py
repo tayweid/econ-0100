@@ -2831,7 +2831,7 @@ class B4(ThreeDScene):
         self.pause('5.a')
 
         # ---- 5.b · Return to all beneficial trades, without an isolated gap.
-        next_head = fixed(title('Total surplus at equilibrium'))
+        next_head = fixed(title('The market without controls allows all beneficial trades.'))
         self.play(FadeOut(head), FadeIn(next_head),
                   FadeOut(ceiling_detail), FadeOut(recovered), run_time=0.35)
         head = next_head

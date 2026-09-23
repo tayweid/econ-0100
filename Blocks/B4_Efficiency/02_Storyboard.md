@@ -967,9 +967,10 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    Keep that aggregate total and any quantity-21 readout off screen. Remove the
    policy price/quantity guides before returning to the graph on the next advance.
 
-## 5.b · Total surplus at equilibrium
+## 5.b · The market without controls
 
-1. Title: **Total surplus at equilibrium.** On advance from `5.a`, return the selected bars to the graph while filling
+1. Title: **The market without controls allows all beneficial trades.**
+   On advance from `5.a`, return the selected bars to the graph while filling
    all remaining positive-gain lots through 39 in one continuous transition;
    include indifferent lot 40 under the inclusive convention. Do not pause
    on the intermediate gap or isolated lot-25 strip, or add per-trade stops.
