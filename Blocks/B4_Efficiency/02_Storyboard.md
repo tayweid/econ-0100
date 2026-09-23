@@ -143,8 +143,8 @@ The prototype is superseded; it is not an alternative design to preserve.
   Q=n thousand pounds. Both rows use base 0.75 and dollar-height 0.28. The
   price guide ends at the equation line; checks and counts show exact willing
   people. Keep its price readout just left of the dashed guide, tracking its
-  height. The quantity label tracks the corresponding horizontal position below
-  the row. Ease in and out of every price move in these comparisons, including
+  height. A bare quantity number tracks the corresponding horizontal position
+  below the row, teal for buyers and orange for sellers. Ease in and out of every price move in these comparisons, including
   the sellers' return to $3. Keep the current episode order and teaching holds.
   Bring the plaza and separate market graphs back only when both sides enter
   the equilibrium argument.
@@ -195,8 +195,9 @@ this layout review. Camera movement is available for deliberate example close-up
 
 - Use the existing 2:1 graphite stage, 2160 × 1080, 15 fps, CMU serif teaching
   text, azure question titles, gold definition terms, and existing style tokens.
-  Demand/CS is teal; supply/PS is orange; price guides and selected price/quantity
-  readouts are red. Payment/expenditure **areas** are green; total surplus is
+  Demand/CS is teal; supply/PS is orange; price guides and price readouts are red.
+  Quantity numbers follow their demand/supply colors. Payment/expenditure
+  **areas** are green; total surplus is
   `TOTAL`; DWL is grey. The small exchange retains B3's orange cost and PS outline.
 - Reserve one bottom band for the current question, definition, or two-option
   comparison. Remove its previous content before replacing it. Do not stack a
@@ -227,6 +228,13 @@ this layout review. Camera movement is available for deliberate example close-up
   during the recap; stack them when both sides share the stage. At
   `1.i.graph`, slide those same axes into a single overlaid graph while retaining
   the crowd. That graph carries directly into the welfare argument at `2.a`.
+- Quantity readouts are bare numbers at their corresponding horizontal graph
+  positions: teal for demand and orange for supply. Apply this to the full-width
+  rows, separate recap graphs, and merged welfare/control graph. Keep the number
+  below its row or quantity axis, moving with its guide; omit detached `Qd =`
+  and `Qs =` labels and the separate `Qx` counter. When quantities coincide on
+  the merged graph, show one number. Actual matching or the current caption
+  communicates trades. Keep quantity symbols in equations and teaching math.
 - One check means willing at the displayed market price. One ground circle means
   actually trading. Keep marks distinguishable by shape; default to side-colored
   checks and green circles, as proposed in the B3 outline. A selected comparison
@@ -234,7 +242,7 @@ this layout review. Camera movement is available for deliberate example close-up
 - In the uncontrolled and policy cases, (Q_x=\min(Q_d,Q_s)), with highest-MB
   buyers and lowest-MC sellers trading. This is an explicit rationing assumption
   under controls. During planner experiments, chosen (Q) replaces this rule;
-  hide market-willingness checks and Qd/Qs readouts so they do not masquerade as
+  hide market-willingness checks and demand/supply quantity numbers so they do not masquerade as
   the planner's allocation rule. Circles still identify the selected trades.
 - Distinguish actual allocations from proposals. Dashed trade connections and
   unfilled gain outlines are hypothetical; solid connections and filled gain
@@ -418,8 +426,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    the demand comparison, without pulling back to a separate graph.
 3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 checks,
    dim excluded people/bars, and highlight Gary, whose MB=$6. Put the price
-   readout just left of the guide and Qd below the row at Q=30, in thousands of
-   pounds. Hold “MB ≥ P”; equality is willing.
+   readout just left of the guide and a teal “30” below the row at Q=30;
+   quantities are thousands of pounds. Hold “MB ≥ P”; equality is willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
@@ -436,7 +444,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 2. Draw P=2+Qs/20 as a straight line through the cost-bar centers and display
    its equation. Keep the whole supply comparison in this view.
 3. At $3, end the dashed price guide at Qs=20. Keep its price readout just left
-   of the guide and Qs below the row at Q=20. Show 20 checks, dim unwilling
+   of the guide and an orange “20” below the row at Q=20. Show 20 checks, dim unwilling
    sellers, and hold “MC ≤ P.” Counts show willingness, not completed sales.
 
 ## 1.c.sellers.high · A higher price brings more sellers
@@ -467,13 +475,15 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.e · Count the shortage and the actual trades
 
 1. Willing people step to the inner arcs and receive green checks. Unwilling
-   people stay at the rim with small red Xs. Reveal Qd=45 and Qs=20.
+   people stay at the rim with small red Xs. Reveal teal “45” at demand's
+   quantity position and orange “20” at supply's quantity position.
 2. Briefly highlight the 45 willing buyers' ground arc with demand's horizontal
    0–45 span. Repeat for the 20 willing sellers and supply's 0–20 span.
 3. Clear the correspondence marks, then move the first 20 buyers and sellers
    to matching x stations along the dashed diameter. Buyers stop just above it
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
-   Center the occupied stations on the plaza. Reveal Qx=20 only as matching happens.
+   Center the occupied stations on the plaza. The matching and next caption
+   communicate the 20 trades; add no separate Qx counter.
 4. Hold “20 pairs trade. 25 willing buyers are still waiting.” The checked
    unmatched buyers, including Amanda-Grace and Gary, remain on the inner arc.
    The spatial difference distinguishes willingness from actual exchange.
@@ -521,8 +531,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.h · Count the excess and recall undercutting
 
-1. Reveal Qd=30, Qs=80, Qx=30: 30 buyer checks, 80 seller checks, and 30
-   central pairs. Fifty checked sellers remain on the inner arc. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
+1. Reveal teal “30” and orange “80” at their graph quantity positions, 30 buyer
+   checks, 80 seller checks, and 30 central pairs. Fifty checked sellers remain on the inner arc. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
 2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
    Show the same B3 head-on inspection view, with Andrew's MC $4 and Gary's MB $6.
    The actual plaza returns before Andrew replaces seller 30 beside Gary.
@@ -536,7 +546,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.i · State the two parts of equilibrium together
 
 1. Park on 40 buyer–seller pairs meeting across the dashed diameter, with buyers
-   above and sellers below. Keep green checks, the totem at $4, and Qd=Qs=Qx=40.
+   above and sellers below. Keep green checks and the totem at $4. Show “40” at
+   the quantity position on each separate graph; matching communicates 40 trades.
    Unwilling people remain at the rim with red Xs; no willing
    person remains unmatched on the inner arcs.
 2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
@@ -575,8 +586,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    $4 graph guide. Slide the two stacked graphs onto the same axes. Their
    continuous lines cross at Q=40, P=$4, matching the crowd's
    counts exactly at this price.
-2. Title: “Why does the crossing give equilibrium?” Highlight Qd=Qs=40 below
-   the graph and their shared point. Keep the people visible so this is another
+2. Title: “Why does the crossing give equilibrium?” Highlight one shared “40”
+   at the graph's quantity position and the crossing. Keep the people visible so this is another
    representation of the same result, not a second definition. Hold.
 
 ## 1.i.algebra · Make the equality explicit
@@ -616,7 +627,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 2.c · Give the planner the two choices
 
-1. Remove the graph's market-price guide, checks, Qd/Qs readouts, and all CS/PS division
+1. Remove the graph's market-price guide, checks, demand/supply quantity numbers, and all CS/PS division
    lines. Retain each person's MB/MC and the 40 trading circles.
 2. Title: “Which trades should happen?” Show only two short prompts beside the
    model: “Who trades?” and “How many trades?”
@@ -729,9 +740,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 5.b · Let the common price select participants
 
 1. Reveal checks on the 40 buyers with MB≥$4 and 40 sellers with MC≤$4. Move
-   those buyers beside their sellers, circle both partners, and print
-   Qd=Qs=Qx=40. The actual selection coincides
-   with the saved planner outlines.
+   those buyers beside their sellers and circle both partners. Show one “40”
+   at the merged graph's quantity position. The actual selection coincides
+   with the saved planner outlines; add no separate trade counter.
 2. Recall the boundary with two threshold captions on the plaza: buyer 40 is
    indifferent, buyer 41 will not pay $4; seller 40 is indifferent, seller 41
    will not sell at $4. The point comparison has already established why.
@@ -792,7 +803,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 6.c.blocked · The incentive remains; the bid is prohibited
 
-1. Reveal Qd=45, Qs=20, Qx=20. The first 20 people on each side trade.
+1. Reveal teal “45” and orange “20” at their quantity positions on the graph.
+   The first 20 people on each side trade; matching conveys the trade count.
 2. Recall Amanda-Grace's proposed $3.25 bid and mark it “Not allowed.” The
    ceiling prevents the earlier rise play; it does not remove her incentive.
 3. Hold on the shortage and the blocked bid.
@@ -834,7 +846,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 6.g · The undercut is prohibited
 
-1. Reveal Qd=30, Qs=80, Qx=30: 50 willing sellers have no buyer.
+1. Reveal teal “30” and orange “80” at their quantity positions on the graph.
+   Thirty pairs trade; the caption states that 50 willing sellers have no buyer.
 2. Recall Andrew's proposed $5.75 offer and mark it “Below the floor.”
 3. Circle only the first 30 on each side. There are no government purchases;
    80 willing sellers do not mean 80 sales or 80 units of realized PS.

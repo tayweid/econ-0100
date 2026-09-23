@@ -1592,19 +1592,13 @@ class B4(ThreeDScene):
         quantity_tracker.price, quantity_tracker.values = price, values
         quantity_tracker.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()))))
         self.add(quantity_tracker)
-        quantity_word = Tex(r'$Q_d=$', color=DEMAND).scale(0.70)
         quantity_number = Integer(30, color=DEMAND).scale(0.70)
         quantity_number.tracker = quantity_tracker
-        quantity_units = Tex('thousand lb', color=CAPTION).scale(0.54)
-        # Keep the count directly below the guide's intersection with the curve.
-        # Its position moves continuously; its value counts whole willing people.
-        for label, offset in [(quantity_word, -0.95), (quantity_number, 0), (quantity_units, 1.45)]:
-            label.anchor, label.x_offset = price_guide, offset
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.add_updater(lambda m: m.move_to([m.anchor.get_end()[0] + m.x_offset, 0, -0.70]))
-            label.update()
-        quantity_readout = VGroup(quantity_word, quantity_number, quantity_units)
+        # Bare quantity number, directly below the curve's current intersection.
+        quantity_number.anchor, quantity_number.face_mat = price_guide, np.eye(3)
+        quantity_number.add_updater(face_camera)
+        quantity_number.add_updater(lambda m: m.move_to([m.anchor.get_end()[0], 0, -0.70]))
+        quantity_readout = VGroup(quantity_number)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
@@ -1700,19 +1694,13 @@ class B4(ThreeDScene):
         quantity_tracker.price, quantity_tracker.values = price, values
         quantity_tracker.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values <= m.price.get_value() + 1e-7))))
         self.add(quantity_tracker)
-        quantity_word = Tex(r'$Q_s=$', color=SUPPLY).scale(0.70)
         quantity_number = Integer(20, color=SUPPLY).scale(0.70)
         quantity_number.tracker = quantity_tracker
-        quantity_units = Tex('thousand lb', color=CAPTION).scale(0.54)
-        # Keep the count directly below the guide's intersection with the curve.
-        # Its position moves continuously; its value counts whole willing people.
-        for label, offset in [(quantity_word, -0.95), (quantity_number, 0), (quantity_units, 1.45)]:
-            label.anchor, label.x_offset = price_guide, offset
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.add_updater(lambda m: m.move_to([m.anchor.get_end()[0] + m.x_offset, 0, -0.70]))
-            label.update()
-        quantity_readout = VGroup(quantity_word, quantity_number, quantity_units)
+        # Bare quantity number, directly below the curve's current intersection.
+        quantity_number.anchor, quantity_number.face_mat = price_guide, np.eye(3)
+        quantity_number.add_updater(face_camera)
+        quantity_number.add_updater(lambda m: m.move_to([m.anchor.get_end()[0], 0, -0.70]))
+        quantity_readout = VGroup(quantity_number)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
@@ -1846,7 +1834,13 @@ class B4(ThreeDScene):
         ticks = VGroup()
         for ax in [demand_axes, supply_axes]:
             for q in [0, 20, 40, 60, 80, 100]:
-                ticks.add(fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10))
+                tick = fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10)
+                tick.quantity, tick.price, tick.visibility = q, price, show_counts
+                tick.values, tick.side = (BUYER_MB, 'buyer') if ax is demand_axes else (SELLER_MC, 'seller')
+                tick.add_updater(lambda m: m.set_opacity(1 - m.visibility.get_value() * float(abs(
+                    m.quantity - (np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
+                                  np.count_nonzero(m.values <= m.price.get_value() + 1e-7))) < 7)))
+                ticks.add(tick)
             for p in [4, 8, 12]:
                 ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
         demand_points, supply_points = [], []
@@ -1874,17 +1868,19 @@ class B4(ThreeDScene):
         supply_guide = Line(supply_axes.c2p(20, 0), supply_axes.c2p(20, 3), color=SUPPLY, stroke_width=2)
         supply_guide.axes, supply_guide.price, supply_guide.values, supply_guide.visibility = supply_axes, price, SELLER_MC, show_counts
         supply_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), 0), m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())).set_opacity(m.visibility.get_value()))
-        # Readouts are computed from exactly the same predicates as the marks.
+        # Each bare count sits at its quantity-axis position, in its curve's color.
         counts = VGroup()
-        for label, x, values, side in [('Q_d', 2.30, BUYER_MB, 'buyer'), ('Q_s', 4.10, SELLER_MC, 'seller'), ('Q_x', 5.90, BUYER_MB, 'trade')]:
-            word = fixed(Tex(rf'${label}=$', color=DEMAND if side == 'buyer' else SUPPLY if side == 'seller' else GREEN)).scale(0.65).move_to([x, -2.85, 0])
-            number = Integer(0, color=word.get_color()).scale(0.65).move_to([x + 0.77, -2.85, 0])
-            number.price, number.values, number.mb, number.mc, number.side = price, values, BUYER_MB, SELLER_MC, side
-            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), (show_trades if side == 'trade' else show_counts)
-            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
-            word.visibility = number.visibility
-            word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
-            counts.add(word, number)
+        for ax, values, side, color in [(demand_axes, BUYER_MB, 'buyer', DEMAND),
+                                         (supply_axes, SELLER_MC, 'seller', SUPPLY)]:
+            number = fixed(Integer(0, color=color)).scale(0.50)
+            number.axes, number.price, number.values = ax, price, values
+            number.side, number.visibility = side, show_counts
+            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
+                m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
+                np.count_nonzero(m.values <= m.price.get_value() + 1e-7)))
+                .next_to(m.axes.c2p(m.get_value(), 0), DOWN, buff=0.10)
+                .set_opacity(m.visibility.get_value()))
+            counts.add(number)
         # The posted price is a height on the totem at the right end of the divider.
         TOTEM_X, TOTEM_BASE, TOTEM_DOLLAR_HEIGHT = 4.8, 0.035, 0.28
         plaza_divider = DashedLine([-4.8, 0, TOTEM_BASE], [4.8, 0, TOTEM_BASE],
@@ -2352,7 +2348,13 @@ class B4(ThreeDScene):
         ticks = VGroup()
         for ax in [demand_axes, supply_axes]:
             for q in [0, 20, 40, 60, 80, 100]:
-                ticks.add(fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10))
+                tick = fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10)
+                tick.quantity, tick.price, tick.visibility = q, price, show_counts
+                tick.values, tick.side = (BUYER_MB, 'buyer') if ax is demand_axes else (SELLER_MC, 'seller')
+                tick.add_updater(lambda m: m.set_opacity(1 - m.visibility.get_value() * float(abs(
+                    m.quantity - (np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
+                                  np.count_nonzero(m.values <= m.price.get_value() + 1e-7))) < 7)))
+                ticks.add(tick)
             for p in [4, 8, 12]:
                 ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
         demand_points, supply_points = [], []
@@ -2380,17 +2382,19 @@ class B4(ThreeDScene):
         supply_guide = Line(supply_axes.c2p(20, 0), supply_axes.c2p(20, 3), color=SUPPLY, stroke_width=2)
         supply_guide.axes, supply_guide.price, supply_guide.values, supply_guide.visibility = supply_axes, price, SELLER_MC, show_counts
         supply_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), 0), m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())).set_opacity(m.visibility.get_value()))
-        # Readouts are computed from exactly the same predicates as the marks.
+        # Each bare count sits at its quantity-axis position, in its curve's color.
         counts = VGroup()
-        for label, x, values, side in [('Q_d', 2.30, BUYER_MB, 'buyer'), ('Q_s', 4.10, SELLER_MC, 'seller'), ('Q_x', 5.90, BUYER_MB, 'trade')]:
-            word = fixed(Tex(rf'${label}=$', color=DEMAND if side == 'buyer' else SUPPLY if side == 'seller' else GREEN)).scale(0.65).move_to([x, -2.85, 0])
-            number = Integer(0, color=word.get_color()).scale(0.65).move_to([x + 0.77, -2.85, 0])
-            number.price, number.values, number.mb, number.mc, number.side = price, values, BUYER_MB, SELLER_MC, side
-            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), (show_trades if side == 'trade' else show_counts)
-            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
-            word.visibility = number.visibility
-            word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
-            counts.add(word, number)
+        for ax, values, side, color in [(demand_axes, BUYER_MB, 'buyer', DEMAND),
+                                         (supply_axes, SELLER_MC, 'seller', SUPPLY)]:
+            number = fixed(Integer(0, color=color)).scale(0.50)
+            number.axes, number.price, number.values = ax, price, values
+            number.side, number.visibility = side, show_counts
+            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
+                m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
+                np.count_nonzero(m.values <= m.price.get_value() + 1e-7)))
+                .next_to(m.axes.c2p(m.get_value(), 0), DOWN, buff=0.10)
+                .set_opacity(m.visibility.get_value()))
+            counts.add(number)
         # The posted price is a height on the totem at the right end of the divider.
         TOTEM_X, TOTEM_BASE, TOTEM_DOLLAR_HEIGHT = 4.8, 0.035, 0.28
         plaza_divider = DashedLine([-4.8, 0, TOTEM_BASE], [4.8, 0, TOTEM_BASE],
@@ -2601,7 +2605,6 @@ class B4(ThreeDScene):
         q_guide.add_updater(lambda m: set_dashed_endpoints(m,
             ax.c2p(quantity.get_value(), 0), ax.c2p(quantity.get_value(),
                 max(12 - quantity.get_value() / 5, 2 + quantity.get_value() / 20))))
-        counts = fixed(Tex(r'$Q_d=Q_s=Q_x=40$', color=GUIDE)).scale(0.65).move_to([4.1, -2.98, 0])
         cs_strips, ps_strips, gain_strips = VGroup(), VGroup(), VGroup()
         for n in range(1, 40):
             cs_strips.add(Polygon(ax.c2p(n - 1, 4), ax.c2p(n, 4),
@@ -2618,7 +2621,7 @@ class B4(ThreeDScene):
         for mob in [graph, cs_strips, ps_strips, gain_strips, price_line, q_guide]:
             fixed(mob)
         self.add(head, crowd, crowd_words, market_checks, graph, cs_strips, ps_strips,
-                 price_line, price_read, q_guide, counts)
+                 price_line, price_read, q_guide)
 
         # ---- 2.a · CS and PS are familiar; ask what could improve.
         self.play(FadeIn(bottom), cs_strips.animate.set_fill(opacity=0.55),
@@ -2631,7 +2634,7 @@ class B4(ThreeDScene):
                   *[ring.animate.set_stroke(opacity=0).set_fill(opacity=0) for ring in rings.values()], FadeOut(crowd_words),
                   market_checks.animate.set_opacity(0),
                   FadeOut(graph), FadeOut(cs_strips), FadeOut(ps_strips), FadeOut(price_line), FadeOut(price_read),
-                  FadeOut(q_guide), FadeOut(counts), run_time=0.45)
+                  FadeOut(q_guide), run_time=0.45)
         self.play(FadeOut(head), run_time=0.2)
         self.remove(*[mob for key in bodies if key not in [('B', 20), ('S', 20)]
                       for mob in [bodies[key], bars[key], rings[key]]])
@@ -3113,7 +3116,7 @@ class B4(ThreeDScene):
         self.play(*[checks[side, n].animate.set_opacity(1) for side in ['B', 'S'] for n in range(1, 41)],
                   *market_pairs,
                   *[strip.animate.set_fill(opacity=AREA_OPACITY).set_stroke(opacity=1) for strip in gain_strips],
-                  FadeIn(counts), run_time=0.9)
+                  run_time=0.9)
         thresholds = VGroup(fixed(Tex(r'Buyer 40: $MB=\$4$\quad Buyer 41: $MB<\$4$', color=DEMAND)).scale(0.58),
                             fixed(Tex(r'Seller 40: $MC=\$4$\quad Seller 41: $MC>\$4$', color=SUPPLY)).scale(0.58))
         fixed(thresholds)
@@ -3273,7 +3276,13 @@ class B4(ThreeDScene):
         ax.move_to([4.48, 0.45, 0])
         ticks = VGroup()
         for q in [0, 20, 40, 60, 80, 100]:
-            ticks.add(Tex(str(q), color=CAPTION).scale(0.40).next_to(ax.c2p(q, 0), DOWN, buff=0.10))
+            tick = fixed(Tex(str(q), color=CAPTION)).scale(0.40).next_to(ax.c2p(q, 0), DOWN, buff=0.10)
+            tick.quantity, tick.price, tick.visibility = q, price, show_counts
+            tick.mb, tick.mc = BUYER_MB, SELLER_MC
+            tick.add_updater(lambda m: m.set_opacity(1 - m.visibility.get_value() * float(min(
+                abs(m.quantity - np.count_nonzero(m.mb + 1e-7 >= m.price.get_value())),
+                abs(m.quantity - np.count_nonzero(m.mc <= m.price.get_value() + 1e-7))) < 7)))
+            ticks.add(tick)
         for p in [8, 12]:
             ticks.add(Tex(str(p), color=CAPTION).scale(0.40).next_to(ax.c2p(0, p), LEFT, buff=0.10))
         graph_units = Tex(r'$Q$: thousands of pounds', color=CAPTION).scale(0.48).move_to([4.48, -2.07, 0])
@@ -3330,15 +3339,18 @@ class B4(ThreeDScene):
         fixed(loss_cells)
 
         counts = fixed(VGroup())
-        for label, x, side, color in [('Q_d', 2.30, 'buyer', GUIDE), ('Q_s', 4.10, 'seller', GUIDE), ('Q_x', 5.90, 'trade', GUIDE)]:
-            word = fixed(Tex(rf'${label}=$', color=color).scale(0.63).move_to([x, -2.62, 0]))
-            number = fixed(Integer(40, color=color).scale(0.63).move_to([x + 0.77, -2.62, 0]))
-            number.price, number.mb, number.mc, number.side, number.visibility = price, BUYER_MB, SELLER_MC, side, show_counts
-            number.anchor = np.array([x + 0.77, -2.62, 0])
-            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.mc <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
-            word.visibility = show_counts
-            word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
-            counts.add(word, number)
+        for side, color in [('buyer', DEMAND), ('seller', SUPPLY)]:
+            number = fixed(Integer(40, color=color)).scale(0.50)
+            number.axes, number.price, number.mb, number.mc = ax, price, BUYER_MB, SELLER_MC
+            number.side, number.visibility, number.side_color = side, show_counts, color
+            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value())
+                if m.side == 'buyer' else np.count_nonzero(m.mc <= m.price.get_value() + 1e-7))))
+            number.add_updater(lambda m: setattr(m, 'equal', np.count_nonzero(m.mb + 1e-7 >= m.price.get_value())
+                == np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))
+            number.add_updater(lambda m: m.next_to(m.axes.c2p(m.get_value(), 0), DOWN, buff=0.10)
+                .set_color(CAPTION if m.equal else m.side_color)
+                .set_opacity(m.visibility.get_value() * float(m.side == 'buyer' or not m.equal)))
+            counts.add(number)
         # Price stays beside its y-axis level. When a bound binds, its label is the price label.
         price_word = Tex(r'$P=$ \$', color=GUIDE).scale(0.58)
         price_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.58)
