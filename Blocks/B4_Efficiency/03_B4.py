@@ -832,7 +832,7 @@ class B4(ThreeDScene):
         # explicitly so the billboard updater cannot restore its close-up size.
         deal_number.clear_updaters()
         self.remove(head)
-        head = fixed(title('Would either player switch?'))
+        head = fixed(title('Would any player switch?'))
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
         MARKET_PRICE_WIDTH, MARKET_SHADOW_WIDTH = 4.5, 2.4
         PAIR_WIDTH, PAIR_GAP = 0.18, 0.035
@@ -1079,6 +1079,11 @@ class B4(ThreeDScene):
                           FadeIn(posted_marks[4]), FadeIn(ask_caption), run_time=0.7)
                 # Establish all four people before Gary considers Andrew's offer.
                 self.pause('1.b.two_trades.plaza')
+                # Gary enters the deliberation circle before the camera follows.
+                self.play(crowd_bodies['B', 0].animate.move_to(
+                    [*hub.get_center()[:2], crowd_bodies['B', 0].get_center()[2]]),
+                    run_time=1.2, rate_func=smooth)
+                self.pause('1.b.two_trades.center')
                 self.play(FadeOut(entry_caption), FadeOut(ask_world), FadeOut(ask_caption), run_time=0.3)
                 entry_caption = None
 

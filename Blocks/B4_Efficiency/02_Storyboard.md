@@ -27,15 +27,15 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections have
-**51 named holds**; section 8 has **22 named holds**, including the first-lot
+**52 named holds**; section 8 has **22 named holds**, including the first-lot
 CS/PS and TS explanation and the two selected-lot holds before expansion,
-for **73 total** with the exercise placement below. Section 8 presents the welfare
+for **74 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 | Code section | Content | Named holds |
 |---|---|---|
-| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (51) |
+| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (52) |
 | 8 | Market benefits | `2.a`, `2.b.parts`, `2.b.sum`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
@@ -366,7 +366,7 @@ eight-minute working budget; the added stops do not prescribe extra discussion.
 |---|---|---|
 | Bumper and one exchange | `0.a`, `1.a.price_question`, `1.a.surplus`, `1.a` | 1:00 |
 | One bidding incentive | `1.b`, `1.b.competition`, `1.b.settled` | 1:15 |
-| A second trade and common price | `1.b.before_entry`, `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.two_trades.accepted`, `1.b.convergence`, `1.b.equal_prices` | 1:15 |
+| A second trade and common price | `1.b.before_entry`, `1.b.two_trades.plaza`, `1.b.two_trades.center`, `1.b.two_trades`, `1.b.two_trades.accepted`, `1.b.convergence`, `1.b.equal_prices` | 1:15 |
 | Buyers at two prices | `1.c.buyers.rule`, `1.c.buyers.curve`, `1.c.buyers`, `1.c.buyers.low` | 1:00 |
 | Sellers at two prices | `1.c.sellers.units`, `1.c.sellers.curve`, `1.c.sellers`, `1.c.sellers.high` | 1:00 |
 | Both sides at $3; willingness versus trades | `1.d`, `1.e.willing`, `1.e`, `1.e.exchanged` | 1:30 |
@@ -435,7 +435,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Begin in B3's actual oblique plaza: phi 48°, center `[0, 0, 0.65]`, height
    10.4. Preserve the floor, people, bars, and side graphs from B3's `3.a`.
-   From the initial plaza pullback, use the title “Would either player switch?”
+   From the initial plaza pullback, use the title “Would any player switch?”
    and retain it through the equal-price hold, except for the “Gary and Andrew”
    close-up. Pause at `1.b.before_entry` on the posted-price setup before Andrew
    arrives.
@@ -445,10 +445,13 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Amanda-Grace's own demand/MB bar and Molly's own supply/MC bar in the side
    graphs. Andrew's unmatched $4.25 remains a dashed ask. The plaza entrance
    is not skipped.
+3. After this hold, Gary moves into the central dashed deliberation circle
+   over 1.2 seconds. His MB bar and name follow, while the other three people
+   stay in place. Pause at `1.b.two_trades.center` before the close-up.
 
 ## 1.b.two_trades · Gary and Andrew make a second trade
 
-1. Fly smoothly over 2.2 seconds from the four-person plaza into Gary and
+1. With Gary in the center circle, fly smoothly over 2.2 seconds into Gary and
    Andrew's **same actual bodies and bars**, Gary left and Andrew right. Do
    not fade to an empty frame or introduce a replacement cast. Amanda-Grace
    and Molly remain paired at $6.25 in the underlying market.
@@ -459,8 +462,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    the gold bottom question “Would Gary buy at $4.25?”
 3. On advance, show “Gary gains $1.75.” in gold and pause at
    `1.b.two_trades.accepted`, replacing the short timed wait. Then fly the actual objects
-   back to their saved plaza geometry and restore their bar updaters and the
-   plaza title “Would either player switch?” World
+   back to their saved plaza geometry (Gary in the circle, Andrew on his arc)
+   and restore their bar updaters and the
+   plaza title “Would any player switch?” World
    names and price tags keep following during the flight. Gary visibly
    joins Andrew once; Amanda-Grace and Molly stay paired. Show solid accepted
    red price lines across all four participants' own side-graph bars.
@@ -477,7 +481,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    together.” Omit the willing-player counts and separate “Both trades” caption.
    Put a red “$5.50” at each demand and supply panel's vertical axis, aligned
    with its red horizontal price line.
-2. Retain “Would either player switch?” without another title transformation.
+2. Retain “Would any player switch?” without another title transformation.
    Hold with the alternative prices visible.
    The new seller has given buyers an alternative and made Molly respond.
 3. This path demonstrates prices coming together. Do not claim the finite
@@ -856,7 +860,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   Highlight lot 50, the largest negative TS among those shown, then enlarge
   that same bar for a close-up before returning it to its exact graph position.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 73 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 74 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -1044,8 +1048,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 ## Implementation and review boundaries
 
-- Preserve all **51 opening holds** through `1.i.algebra`, including the new
-  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 22 holds, for **73 total**, including
+- Preserve all **52 opening holds** through `1.i.algebra`, including the new
+  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 22 holds, for **74 total**, including
   `2.b.parts`, `2.b.sum`, `5.d.negative_ts`, and `5.d.detail`, plus the existing
   `3.c.select` and `4.c.select`.
 - The graph overview and graph-derived two-person comparisons supersede the
