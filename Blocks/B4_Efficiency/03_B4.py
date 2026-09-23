@@ -972,7 +972,7 @@ class B4(ThreeDScene):
         mark.update()
         posted_marks[0] = mark
         # The accepted deal appears on both partners' own graph bars.
-        # Molly's dashed ask underneath is revealed when this partnership ends.
+        # Both accepted marks follow Molly's price during convergence.
         accepted_panel_marks = fixed(VGroup())
         for key in [('B', 4), ('S', 0)]:
             deal_mark = fixed(Line(LEFT, RIGHT, color=GUIDE, stroke_width=3))
@@ -1075,254 +1075,146 @@ class B4(ThreeDScene):
                 self.remove(posted_caption)
                 self.play(FadeIn(price_tags[4]), FadeIn(ask_world),
                           FadeIn(posted_marks[4]), FadeIn(ask_caption), run_time=0.7)
-                # Establish all four actual people in the approved B3 frame.
-                # The close-up below is only Amanda-Grace's deliberation.
+                # Establish all four people before Gary considers Andrew's offer.
                 self.pause('1.b.two_trades.plaza')
                 self.play(FadeOut(entry_caption), FadeOut(ask_world), FadeOut(ask_caption), run_time=0.3)
                 entry_caption = None
 
-                # One buyer deliberates; the remaining adjustment is compressed below.
-                for chooser, offer, displaced in [(4, 4.25, None)]:
-                    chooser_body = crowd_bodies['B', chooser]
-                    if chooser in connection_by_buyer:
-                        old_line = connection_by_buyer.pop(chooser)
-                        old_ground = ground_by_buyer.pop(chooser)
-                        self.play(FadeOut(old_line), FadeOut(old_ground), FadeOut(accepted_panel_marks),
-                            crowd_bars['B', chooser].pairing.animate.set_value(0),
-                            crowd_bars['S', crowd_matches[chooser]].pairing.animate.set_value(0),
-                            run_time=0.25)
-                        crowd_bars['B', chooser].pair_side = -1
-                        crowd_bars['S', crowd_matches[chooser]].pair_side = 1
-                    buyer_ring = Circle(radius=0.29, color=DEMAND, stroke_width=3)
-                    buyer_ring.move_to([0, 0, 0.045])
-                    buyer_focus = fixed(SurroundingRectangle(panel_bars['B', chooser],
-                        color=DEMAND, buff=0.04, stroke_width=3))
-                    self.play(chooser_body.animate.move_to([0, 0, chooser_body.get_center()[2]]),
-                              FadeIn(buyer_focus),
-                              FadeIn(buyer_ring, shift=-np.append(crowd_bodies['B', chooser].get_center()[:2], 0)),
-                              hub.animate.set_stroke(opacity=1), run_time=0.65)
-                    if chooser == 4:
-                        # Once that first partnership separates, restore B3's
-                        # established offsets for the later paired positions.
-                        entry_names['B', 4].offset = DOWN * 0.55
-                        entry_names['B', 4].inward = True
-                        entry_names['S', 0].offset = DOWN * 0.55 + RIGHT * 0.6
-                    value = CROWD_MB[chooser]
-                    mb_guide = fixed(DashedLine(side_axes['S'].c2p(0, value),
-                        side_axes['S'].c2p(10, value), color=DEMAND, stroke_width=2))
-                    mb_read = fixed(Tex(rf'MB $\${value}$', color=DEMAND).scale(0.7)
-                        .move_to(side_axes['S'].c2p(5, value) + UP * 0.35))
-                    price_caption = fixed(Tex('Price to buy', color=GUIDE).scale(0.7)
-                        .move_to([5.9, -3.05, 0]))
-                    self.play(FadeIn(mb_guide), FadeIn(mb_read), FadeIn(price_caption), run_time=0.5)
-                    option_rings, option_columns, option_prices = {}, {}, {}
-                    for rank, seller in enumerate(panel_ids['S']):
-                        needed = crowd_asks[seller] + (BID_STEP
-                            if seller in crowd_matches and crowd_matches[chooser] != seller else 0)
-                        ring = Circle(radius=0.29, color=SUPPLY, stroke_width=3)
-                        ring.move_to([*seller_spots[seller][:2], 0.045])
-                        column = fixed(SurroundingRectangle(panel_bars['S', seller],
-                            color=SUPPLY, buff=0.035, stroke_width=3))
-                        x0, x1 = rank * 5, (rank + 1) * 5
-                        tick = Line(side_axes['S'].c2p(x0 + 0.15, needed),
-                                    side_axes['S'].c2p(x1 - 0.15, needed), color=GUIDE, stroke_width=3)
-                        number = Tex(rf'$\${needed:.2f}$', color=GUIDE).scale(0.7)
-                        number.move_to(side_axes['S'].c2p((x0 + x1) / 2, needed) + DOWN * 0.36)
-                        price_mark = fixed(VGroup(tick, number))
-                        option_rings[seller], option_columns[seller] = ring, column
-                        option_prices[seller] = price_mark
-                        self.play(FadeIn(ring), FadeIn(column), FadeIn(price_mark), run_time=0.6)
-                    words = (r'Would Amanda-Grace keep paying $\$6.25$?' if chooser == 4
-                             else r'Could Gary gain by offering $\$4.50$?')
-                    decision_question = fixed(Tex(words, color=DEFINITION).scale(DEFINITION_SCALE)
-                        .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-                    self.play(FadeIn(decision_question))
-
-                    if chooser == 4:
-                        # Fly with the actual plaza players; keep their identities and homes.
-                        close_people = {'Molly': crowd_bodies['S', 0],
-                                        'Amanda-Grace': chooser_body,
-                                        'Andrew': crowd_bodies['S', 4]}
-                        close_bars = {'Molly': crowd_bars['S', 0],
-                                      'Amanda-Grace': crowd_bars['B', chooser],
-                                      'Andrew': crowd_bars['S', 4]}
-                        close_homes = {who: (close_people[who].copy(), close_bars[who].copy())
-                                       for who in close_people}
-                        for bar in close_bars.values():
-                            bar.suspend_updating()
-                        self.remove(head, decision_question)
-                        keep_family = {id(m) for root in [floor, rim, *close_people.values(), *close_bars.values()]
-                                       for m in root.get_family()}
-                        decision_background = [m for m in self.mobjects
-                            if not any(id(child) in keep_family for child in m.get_family())]
-                        close_head = fixed(title('Stay or switch?'))
-                        close_moves = []
-                        CLOSE_BASE = 0.90
-                        for who, x, value, color in [
-                            ('Molly', -2.9, 2, SUPPLY),
-                            ('Amanda-Grace', 0.0, 7, DEMAND),
-                            ('Andrew', 2.9, 4, SUPPLY),
-                        ]:
-                            # Copy each original mesh, so the flight does not swap actors.
-                            person_target = close_people[who].copy().clear_updaters()
-                            person_target[0].set_width(0.56).move_to([x, 0, 0.025]).set_opacity(0.28)
-                            person_target[1].set_width(0.46).move_to([x, 0, 0.32]).set_opacity(1)
-                            bar_target = close_bars[who].copy().clear_updaters()
-                            bar_target.set_width(1.10).stretch_to_fit_depth(value * DOLLAR_HEIGHT)
-                            bar_target.move_to([x, 0, CLOSE_BASE + value * DOLLAR_HEIGHT / 2]).set_opacity(0.65)
-                            close_moves.extend([Transform(close_people[who], person_target),
-                                                Transform(close_bars[who], bar_target)])
-                        self.play(*[FadeOut(m) for m in decision_background], FadeIn(close_head),
-                                  *close_moves,
-                                  self.camera.frame.animate.reorient(0, 90, center=CLOSE_CENTER, height=7.2),
-                                  floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
-                                  run_time=2.2, rate_func=smooth)
-                        close_names, close_values = {}, {}
-                        for who, value, term, color in [
-                            ('Molly', 2, 'MC', SUPPLY),
-                            ('Amanda-Grace', 7, 'MB', DEMAND),
-                            ('Andrew', 4, 'MC', SUPPLY),
-                        ]:
-                            name = Tex(who, color=INK).scale(0.56)
-                            name.face_mat, name.anchor = np.eye(3), close_people[who][1]
-                            name.add_updater(face_camera)
-                            # Positive height, above the orb: the floor cannot clip the name.
-                            name.add_updater(lambda m: m.move_to(m.anchor.get_center() + DOWN * 0.55 + OUT * 0.42))
-                            name.update()
-                            close_names[who] = name
-                            value_label = Tex(rf'{term} $\${value}$', color=color).scale(0.62)
-                            value_label.face_mat, value_label.anchor = np.eye(3), close_bars[who]
-                            value_label.add_updater(face_camera)
-                            value_label.add_updater(lambda m: m.move_to(
-                                m.anchor.get_center() + OUT * (m.anchor.get_depth() / 2 + 0.30) + DOWN * 0.08))
-                            value_label.update()
-                            close_values[who] = value_label
-                        stay_price_line = Line([-3.45, -0.045, CLOSE_BASE + 6.25 * DOLLAR_HEIGHT],
-                                               [0.55, -0.045, CLOSE_BASE + 6.25 * DOLLAR_HEIGHT], color=GUIDE, stroke_width=3).set_flat_stroke(False)
-                        switch_price_line = DashedLine([-0.55, -0.055, CLOSE_BASE + 4.25 * DOLLAR_HEIGHT],
-                            [3.45, -0.055, CLOSE_BASE + 4.25 * DOLLAR_HEIGHT], color=GUIDE, stroke_width=3, dash_length=0.05).set_flat_stroke(False)
-                        close_ring = Circle(radius=0.31, color=FOCUS, stroke_width=2.5)
-                        close_ring.rotate(90 * DEGREES, RIGHT).move_to([0, -0.04, 0.32]).set_flat_stroke(False)
-                        # Both choices sit below their seller, in the same world-space frame.
-                        stay_words = VGroup(Tex(r'Pay $\$6.25$', color=INK), Tex(r'Gain $\$0.75$', color=DEMAND))
-                        switch_words = VGroup(Tex(r'Pay $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
-                        for words, who in [(stay_words, 'Molly'), (switch_words, 'Andrew')]:
-                            words.arrange(DOWN, buff=0.12).scale(0.56)
-                            words.face_mat = np.eye(3)
-                            words.add_updater(face_camera)
-                            words.update()
-                            words.move_to([close_people[who].get_x(), -0.55, -0.85])
-                        close_annotations = [*close_names.values(), *close_values.values(),
-                            stay_price_line, switch_price_line, close_ring, stay_words, switch_words]
-                        self.play(*[FadeIn(m) for m in close_annotations], run_time=0.5)
-                        self.pause('1.b.two_trades')
-                        self.play(*[FadeOut(m) for m in close_annotations], FadeOut(close_head), run_time=0.3)
-                        self.add(head)
-                        self.play(*[Transform(close_people[who], close_homes[who][0]) for who in close_people],
-                                  *[Transform(close_bars[who], close_homes[who][1]) for who in close_bars],
-                                  self.camera.frame.animate.reorient(0, 48, center=[0, 0, 0.65], height=10.4),
-                                  floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
-                                  *[FadeIn(m) for m in decision_background], run_time=2.2, rate_func=smooth)
-                        # Restore every home first; following can then resume without a snap.
-                        for bar in close_bars.values():
-                            bar.resume_updating()
-                    self.remove(decision_question)
-                    seller_at = seller_spots[4]
-                    destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
-                    route = DashedLine([0, 0, 0.045], [*destination[:2], 0.045],
-                                       color=MUTED, stroke_width=2).set_opacity(0.7)
-                    self.play(FadeOut(option_rings[0]), FadeOut(option_columns[0]),
-                              FadeOut(option_prices[0]), FadeIn(route), run_time=0.4)
-                    if displaced is not None:
-                        old_line = connection_by_buyer.pop(displaced)
-                        old_ground = ground_by_buyer.pop(displaced)
-                        self.play(FadeOut(old_line), FadeOut(old_ground),
-                            crowd_bars['B', displaced].pairing.animate.set_value(0),
-                            crowd_bars['S', crowd_matches[displaced]].pairing.animate.set_value(0),
-                            run_time=0.25)
-                    moves = [chooser_body.animate.move_to(
-                        [*destination[:2], chooser_body.get_center()[2]]),
-                             buyer_ring.animate.move_to([*destination[:2], 0.045])]
-                    if displaced is not None:
-                        displaced_body = crowd_bodies['B', displaced]
-                        moves.append(displaced_body.animate.move_to(
-                            [*buyer_spots[displaced][:2], displaced_body.get_center()[2]]))
-                        crowd_matches[displaced] = None
-                    crowd_matches[chooser], crowd_asks[4] = 4, offer
-                    self.play(*moves, price_trackers[4].animate.set_value(offer), run_time=0.65)
-                    for key, partner in [(('B', chooser), ('S', 4)), (('S', 4), ('B', chooser))]:
-                        crowd_bars[key].partner = crowd_bodies[partner]
-                    self.play(crowd_bars['B', chooser].pairing.animate.set_value(1),
-                              crowd_bars['S', 4].pairing.animate.set_value(1), run_time=0.4)
-                    midpoint = (destination[:2] + seller_at[:2]) / 2
-                    pair_left = midpoint - np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
-                    pair_right = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
-                    height = CROWD_BASE + offer * CROWD_SCALE
-                    connection_by_buyer[chooser] = Line([*pair_left, height], [*pair_right, height],
-                                                       color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
-                    ground_by_buyer[chooser] = Line([*pair_left, 0.04], [*pair_right, 0.04],
-                                                   color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
-                    self.play(FadeOut(route), FadeIn(connection_by_buyer[chooser]),
-                              FadeIn(ground_by_buyer[chooser]), run_time=0.4)
-                    self.play(FadeOut(buyer_focus), FadeOut(buyer_ring), FadeOut(mb_guide), FadeOut(mb_read),
-                              FadeOut(price_caption), FadeOut(option_rings[4]),
-                              FadeOut(option_columns[4]), FadeOut(option_prices[4]),
-                              hub.animate.set_stroke(opacity=0.6), run_time=0.4)
-                self.play(FadeIn(posted_caption), run_time=0.3)
-            # After Amanda-Grace's single deliberation, let the whole market settle.
-            # This verified run fixes both the final prices and the actual partners.
-            local_buyers, local_sellers = [0, 4], [0, 4]
-            small_run = simulate([6, 7], [2, 4], [6.25, 4.25],
-                initial_sellers=[None, 1], seed=34, step=BID_STEP)
-            assert small_run.final.asks == (5.5, 5.5)
-            assert tuple(crowd_asks[s] for s in local_sellers) == small_run.initial.asks
-            assert tuple(None if crowd_matches[b] is None else
-                local_sellers.index(crowd_matches[b]) for b in local_buyers) == small_run.initial.sellers
-            settlement_caption = fixed(Tex('The same incentives bring both prices together.',
-                color=INK).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-            self.play(FadeIn(settlement_caption), run_time=0.35)
-            settlement_moves, settled_bars, new_connections = [], [], []
-            for local_s, s in enumerate(local_sellers):
-                crowd_asks[s] = small_run.final.asks[local_s]
-                settlement_moves.append(price_trackers[s].animate.set_value(crowd_asks[s]))
-            for local_b, b in enumerate(local_buyers):
-                s = local_sellers[small_run.final.sellers[local_b]]
-                crowd_matches[b] = s
-                body, seller_at = crowd_bodies['B', b], seller_spots[s]
-                destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
-                settlement_moves.append(body.animate.move_to([*destination[:2], body.get_center()[2]]))
-                midpoint = (destination[:2] + seller_at[:2]) / 2
-                for key, partner, pair_side in [(('B', b), ('S', s), -1), (('S', s), ('B', b), 1)]:
-                    bar = crowd_bars[key]
-                    # Hold the current geometry while its partner changes, then move once.
+                # Fly with Gary and Andrew; Amanda-Grace remains matched to Molly.
+                close_people = {'Gary': crowd_bodies['B', 0],
+                                'Andrew': crowd_bodies['S', 4]}
+                close_bars = {'Gary': crowd_bars['B', 0],
+                              'Andrew': crowd_bars['S', 4]}
+                close_homes = {who: (close_people[who].copy(), close_bars[who].copy())
+                               for who in close_people}
+                for bar in close_bars.values():
                     bar.suspend_updating()
-                    bar.partner, bar.pair_side = crowd_bodies[partner], pair_side
-                    bar.pairing.set_value(1)
-                    bar_position = np.append(midpoint + np.array([pair_side * (PAIR_WIDTH + PAIR_GAP) / 2, 0]),
-                                             CROWD_BASE + bar.value * CROWD_SCALE / 2)
-                    settlement_moves.append(bar.animate.move_to(bar_position))
-                    settled_bars.append(bar)
+                self.remove(head)
+                keep_family = {id(m) for root in [floor, rim, *close_people.values(), *close_bars.values()]
+                               for m in root.get_family()}
+                decision_background = [m for m in self.mobjects
+                    if not any(id(child) in keep_family for child in m.get_family())]
+                close_head = fixed(title('Gary and Andrew'))
+                close_moves = []
+                CLOSE_BASE = 0.90
+                for who, person_x, bar_x, value in [
+                    ('Gary', -1.45, -0.61, 6),
+                    ('Andrew', 1.45, 0.61, 4),
+                ]:
+                    person_target = close_people[who].copy().clear_updaters()
+                    person_target[0].set_width(0.56).move_to([person_x, 0, 0.025]).set_opacity(0.28)
+                    person_target[1].set_width(0.46).move_to([person_x, 0, 0.32]).set_opacity(1)
+                    bar_target = close_bars[who].copy().clear_updaters()
+                    bar_target.set_width(1.10).stretch_to_fit_depth(value * DOLLAR_HEIGHT)
+                    bar_target.move_to([bar_x, 0, CLOSE_BASE + value * DOLLAR_HEIGHT / 2]).set_opacity(0.65)
+                    close_moves.extend([Transform(close_people[who], person_target),
+                                        Transform(close_bars[who], bar_target)])
+                self.play(*[FadeOut(m, suspend_mobject_updating=False) for m in decision_background], FadeIn(close_head),
+                          *close_moves,
+                          self.camera.frame.animate.reorient(0, 90, center=CLOSE_CENTER, height=7.2),
+                          floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
+                          run_time=2.2, rate_func=smooth)
+                close_names, close_values = {}, {}
+                for who, value, term, color in [
+                    ('Gary', 6, 'MB', DEMAND),
+                    ('Andrew', 4, 'MC', SUPPLY),
+                ]:
+                    name = Tex(who, color=INK).scale(0.56)
+                    name.face_mat, name.anchor = np.eye(3), close_people[who][1]
+                    name.add_updater(face_camera)
+                    name.add_updater(lambda m: m.move_to(m.anchor.get_center() + DOWN * 0.55 + OUT * 0.42))
+                    name.update()
+                    close_names[who] = name
+                    value_label = Tex(rf'{term} $\${value}$', color=color).scale(0.62)
+                    value_label.face_mat, value_label.anchor = np.eye(3), close_bars[who]
+                    value_label.add_updater(face_camera)
+                    value_label.add_updater(lambda m: m.move_to(
+                        m.anchor.get_center() + OUT * (m.anchor.get_depth() / 2 + 0.30) + DOWN * 0.08))
+                    value_label.update()
+                    close_values[who] = value_label
+                close_price_z = CLOSE_BASE + 4.25 * DOLLAR_HEIGHT
+                close_offer = DashedLine([-1.16, -0.045, close_price_z],
+                    [1.16, -0.045, close_price_z], color=GUIDE, stroke_width=3,
+                    dash_length=0.05).set_flat_stroke(False)
+                close_price = Tex(r'\$4.25', color=GUIDE).scale(0.62)
+                close_price.face_mat = np.eye(3)
+                close_price.add_updater(face_camera)
+                close_price.update()
+                close_price.move_to([1.80, -0.08, close_price_z])
+                close_ring = Circle(radius=0.31, color=FOCUS, stroke_width=2.5)
+                close_ring.rotate(90 * DEGREES, RIGHT).move_to([-1.45, -0.04, 0.32]).set_flat_stroke(False)
+                close_question = fixed(Tex(r'Would Gary buy at $\$4.25$?', color=DEFINITION)
+                    .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+                close_annotations = [*close_names.values(), *close_values.values(),
+                    close_offer, close_price, close_ring, close_question]
+                self.play(*[FadeIn(m) for m in close_annotations], run_time=0.5)
+                self.pause('1.b.two_trades')
+                close_deal = Line(close_offer.get_start(), close_offer.get_end(),
+                                  color=GUIDE, stroke_width=3).set_flat_stroke(False)
+                close_gain = fixed(Tex(r'Gary gains $\$1.75$.', color=DEFINITION)
+                    .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+                self.play(FadeOut(close_offer), FadeIn(close_deal),
+                          FadeOut(close_question), FadeIn(close_gain), run_time=0.5)
+                self.wait(0.5)
+                close_annotations = [*close_names.values(), *close_values.values(),
+                    close_deal, close_price, close_ring, close_gain]
+                self.play(*[FadeOut(m) for m in close_annotations], FadeOut(close_head), run_time=0.3)
+                self.add(head)
+                self.play(*[Transform(close_people[who], close_homes[who][0]) for who in close_people],
+                          *[Transform(close_bars[who], close_homes[who][1]) for who in close_bars],
+                          self.camera.frame.animate.reorient(0, 48, center=[0, 0, 0.65], height=10.4),
+                          floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
+                          *[FadeIn(m, suspend_mobject_updating=False) for m in decision_background], run_time=2.2, rate_func=smooth)
+                for bar in close_bars.values():
+                    bar.resume_updating()
+
+                # Gary joins Andrew once; both partnerships then stay in place.
+                seller_at = seller_spots[4]
+                destination = seller_at + np.array([-0.75, -0.35, 0])
+                entry_names['B', 0].offset = DOWN * 0.55 + LEFT * 0.60
+                self.play(crowd_bodies['B', 0].animate.move_to(
+                    [*destination[:2], crowd_bodies['B', 0].get_center()[2]]),
+                    run_time=1.2, rate_func=smooth)
+                crowd_matches[0] = 4
+                for key, partner in [(('B', 0), ('S', 4)), (('S', 4), ('B', 0))]:
+                    crowd_bars[key].partner = crowd_bodies[partner]
+                self.play(crowd_bars['B', 0].pairing.animate.set_value(1),
+                          crowd_bars['S', 4].pairing.animate.set_value(1), run_time=0.4)
+                midpoint = (destination[:2] + seller_at[:2]) / 2
                 pair_left = midpoint - np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
                 pair_right = midpoint + np.array([PAIR_WIDTH + PAIR_GAP / 2, 0])
-                height = CROWD_BASE + crowd_asks[s] * CROWD_SCALE
-                if b in connection_by_buyer:
-                    settlement_moves.append(connection_by_buyer[b].animate.put_start_and_end_on(
-                        np.append(pair_left, height), np.append(pair_right, height)))
-                    settlement_moves.append(ground_by_buyer[b].animate.put_start_and_end_on(
-                        np.append(pair_left, 0.04), np.append(pair_right, 0.04)))
-                else:
-                    connection_by_buyer[b] = Line([*pair_left, height], [*pair_right, height],
-                        color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
-                    ground_by_buyer[b] = Line([*pair_left, 0.04], [*pair_right, 0.04],
-                        color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
-                    new_connections.extend([connection_by_buyer[b], ground_by_buyer[b]])
-            self.play(*settlement_moves, *[FadeIn(m) for m in new_connections], run_time=1.8)
-            for bar in settled_bars:
-                bar.resume_updating()
-            self.play(FadeOut(settlement_caption), run_time=0.25)
-            assert tuple(crowd_asks[s] for s in local_sellers) == small_run.final.asks
-            assert tuple(None if crowd_matches[b] is None else
-                local_sellers.index(crowd_matches[b]) for b in local_buyers) == small_run.final.sellers
+                height = CROWD_BASE + crowd_asks[4] * CROWD_SCALE
+                connection_by_buyer[0] = Line([*pair_left, height], [*pair_right, height],
+                                             color=GUIDE, stroke_width=MARKET_PRICE_WIDTH)
+                ground_by_buyer[0] = Line([*pair_left, 0.04], [*pair_right, 0.04],
+                    color=GUIDE, stroke_width=MARKET_SHADOW_WIDTH).set_opacity(0.3)
+                gary_panel_marks = fixed(VGroup())
+                for key in [('B', 0), ('S', 4)]:
+                    deal_mark = fixed(Line(LEFT, RIGHT, color=GUIDE, stroke_width=3))
+                    deal_mark.anchor, deal_mark.axis = panel_bars[key], side_axes[key[0]]
+                    deal_mark.tracker = price_trackers[4]
+                    deal_mark.add_updater(lambda m: m.put_start_and_end_on(
+                        np.array([m.anchor.get_left()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0]),
+                        np.array([m.anchor.get_right()[0], m.axis.c2p(0, m.tracker.get_value())[1], 0])))
+                    deal_mark.update()
+                    gary_panel_marks.add(deal_mark)
+                self.play(FadeIn(connection_by_buyer[0]), FadeIn(ground_by_buyer[0]),
+                          FadeIn(gary_panel_marks), *[FadeOut(m) for m in posted_marks.values()],
+                          run_time=0.4)
+
+        # Prices converge while Gary/Andrew and Amanda-Grace/Molly remain paired.
+        settlement_caption = fixed(Tex('The same incentives bring both prices together.',
+            color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(settlement_caption), run_time=0.35)
+        settlement_moves = [price_trackers[s].animate.set_value(5.5) for s in (0, 4)]
+        for buyer in (0, 4):
+            line = connection_by_buyer[buyer]
+            start, end = line.get_start().copy(), line.get_end().copy()
+            start[2] = end[2] = CROWD_BASE + 5.5 * CROWD_SCALE
+            settlement_moves.append(line.animate.put_start_and_end_on(start, end))
+        self.play(*settlement_moves, run_time=2.5, rate_func=smooth)
+        crowd_asks[0] = crowd_asks[4] = 5.5
+        self.play(FadeOut(settlement_caption), run_time=0.25)
         # ---- 1.b.equal_prices · Keep the two actual B3 pairs and both posted asks.
         self.remove(posted_caption)
         equal_prices = fixed(Tex(r'Both trades: $\$5.50$.', color=GUIDE).scale(DEFINITION_SCALE))

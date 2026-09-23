@@ -82,10 +82,11 @@ The prototype is superseded; it is not an alternative design to preserve.
   camera centered at `[0, 0, 2.05]`, height 7.2, phi 90°.
 - Two trades first holds B3's `3.a` oblique plaza with both buyers and both
   sellers visible. Andrew's arrival animates into this frame. Only then does
-  the camera fly continuously into the same actual people and bars for
-  Amanda-Grace's alternatives, without an empty transition or replacement cast.
+  the camera fly continuously into Gary and Andrew's same actual people and
+  bars, without an empty transition or replacement cast.
   The fly-back restores their saved plaza geometry and updaters before the
-  recorded trade sequence and settled hold.
+  pair joins once. Prices then move smoothly together while both pairs stay
+  fixed, before the settled hold.
 - All crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
   phi 48°, theta 0°, focal distance 50, center `[4, 0, -0.4]`, height 11.
   This lifts the full-market plaza about 0.55 screen units, leaving the bottom
@@ -348,7 +349,7 @@ budget for explanation and brief responses.
 |---|---|---|
 | Bumper and one exchange | `0.a`, `1.a` | 1:00 |
 | One bidding incentive | `1.b`, `1.b.settled` | 1:15 |
-| Two sellers and switching | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | 1:15 |
+| A second trade and common price | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | 1:15 |
 | Buyers at two prices | `1.c.buyers`, `1.c.buyers.low` | 1:00 |
 | Sellers at two prices | `1.c.sellers`, `1.c.sellers.high` | 1:00 |
 | Both sides at $3; willingness versus trades | `1.d`, `1.e` | 1:30 |
@@ -356,11 +357,11 @@ budget for explanation and brief responses.
 | Flex for brief responses/transitions | — | 0:30 |
 | **Total before students begin Q2** | | **8:00** |
 
-Show Amanda-Grace's explicit switching decision once, then compress the remaining
-small-market bids into one smooth 1.8-second settlement of prices and partners.
-Gary has no second deliberation. No repeated deliberation for each increment. Keep
-CS/PS as familiar labels. If discussion runs long, shorten the exchange/bidding
-commentary before cutting the willingness-versus-trades distinction.
+Show Gary's decision to buy from Andrew once. After that pair joins, settle the
+two prices in one smooth 2.5-second move, with people, bars, and partners fixed.
+Do not replay bids or reassign partners. Keep CS/PS as familiar labels. If
+discussion runs long, shorten the exchange/bidding commentary before cutting
+the willingness-versus-trades distinction.
 
 After Q2, stages 6 and 7 finish the recap: one full-market buyer deliberation,
 one seller deliberation, compressed adjustment to equilibrium, then the crossing
@@ -419,27 +420,27 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    graphs. Andrew's unmatched $4.25 remains a dashed ask. The plaza entrance
    is not skipped.
 
-## 1.b.two_trades · Give the buyer another option
+## 1.b.two_trades · Gary and Andrew make a second trade
 
-1. Fly continuously from the four-person plaza into the **same actual actor,
-   body, and bar objects**, with Molly left, Amanda-Grace center, and Andrew
-   right. Do not fade to an empty frame or introduce a replacement cast. Gary
-   remains the unserved buyer in the underlying market.
+1. Fly smoothly over 2.2 seconds from the four-person plaza into Gary and
+   Andrew's **same actual bodies and bars**, Gary left and Andrew right. Do
+   not fade to an empty frame or introduce a replacement cast. Amanda-Grace
+   and Molly remain paired at $6.25 in the underlying market.
 2. Attach each name in world space above its orb, in the gap before its bar
    and at positive z so the floor does not clip it. Put each value label above
-   its own bar. Ring central Amanda-Grace in yellow. The solid **$6.25** price
-   line spans Molly to Amanda-Grace; the dashed **$4.25** line spans Amanda-Grace
-   to Andrew. Keep “Pay $6.25; gain $0.75” beneath Molly and “Pay $4.25; gain
-   $2.75” beneath Andrew as plain text. Title: “Stay or switch?” Hold.
-3. On advance, fly back to the saved actual plaza geometry and restore the
-   objects' updaters, then let Amanda-Grace take Andrew's $4.25 offer. Both asks
-   and actual partners settle in the existing continuous 1.8-second move.
-   No Gary deliberation, new pause, or per-bid replay. Caption:
-   “The same incentives bring both prices together.”
-4. The compressed transition uses a verified seed-34 simulation from asks
-   ($6.25, $4.25), with Gary unmatched and Amanda-Grace at Andrew. Its final
-   state has Gary at Andrew, Amanda-Grace at Molly, both asks $5.50. Internal
-   bids determine the endpoint; they are not separate teaching beats.
+   its own bar: MB $6 for Gary and MC $4 for Andrew. Ring Gary in yellow. A red
+   dashed **$4.25** ask spans both bars. Title: “Gary and Andrew.” Hold with
+   the gold bottom question “Would Gary buy at $4.25?”
+3. On advance, show “Gary gains $1.75.” in gold, then fly the actual objects
+   back to their saved plaza geometry and restore their bar updaters. World
+   names and price tags keep following during the flight. Gary visibly
+   joins Andrew once; Amanda-Grace and Molly stay paired. Show solid accepted
+   red price lines across all four participants' own side-graph bars.
+4. Move Molly's $6.25 and Andrew's $4.25 price readouts and red plaza/graph
+   lines smoothly to $5.50 in one 2.5-second animation. Bodies, bars, and
+   partners remain fixed throughout. No simulation, partner reassignment,
+   per-bid replay, or new hold. Caption: “The same incentives bring both
+   prices together.”
 
 ## 1.b.equal_prices · Park on two trades
 
