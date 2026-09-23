@@ -2463,8 +2463,7 @@ class B4(ThreeDScene):
             ticks.add(tick)
         ticks.add(Tex('12', color=CAPTION).scale(0.48).next_to(ax.c2p(0, 12), LEFT, buff=0.15))
 
-        # Narrow gutters keep individual CS/PS lots visible in the overview.
-        # Their combined total-surplus region below still joins edge to edge.
+        # Keep the same narrow gutters when CS/PS lots become TS lots.
         SURPLUS_BAR_INSET = 0.07
         cs_area, ps_area, total_area, lost_area = VGroup(), VGroup(), VGroup(), VGroup()
         for n in range(39):
@@ -2477,8 +2476,8 @@ class B4(ThreeDScene):
                 ax.c2p(right, 4), ax.c2p(left, 4),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=0.43))
             for group, color, realized in [(total_area, TOTAL, True), (lost_area, MUTED, False)]:
-                cell = Polygon(ax.c2p(n, cost), ax.c2p(n + 1, cost),
-                    ax.c2p(n + 1, benefit), ax.c2p(n, benefit),
+                cell = Polygon(ax.c2p(left, cost), ax.c2p(right, cost),
+                    ax.c2p(right, benefit), ax.c2p(left, benefit),
                     stroke_width=0, fill_color=color, fill_opacity=0)
                 cell.state, cell.rank, cell.realized = market_state, n, realized
                 cell.visibility = show_total if realized else show_loss
@@ -2520,13 +2519,59 @@ class B4(ThreeDScene):
         self.play(FadeIn(fixed(cs_label)), FadeIn(fixed(ps_label)), run_time=0.6)
         self.pause('2.a')
 
-        # ---- 2.b · Join the two familiar benefits into one purple region.
+        # ---- 2.b · Follow the first lot out, add its gains, and return it.
+        first_parts = fixed(VGroup(cs_area[0].copy(), ps_area[0].copy()))
+        first_parts.clear_updaters()
+        lot_bottom, lot_scale = -2.1, 0.45
+        lot_price = lot_bottom + (4 - SELLER_MC[0]) * lot_scale
+        lot_top = lot_bottom + (BUYER_MB[0] - SELLER_MC[0]) * lot_scale
+        enlarged_parts = fixed(VGroup(
+            Polygon([-0.8, lot_price, 0], [0.4, lot_price, 0],
+                    [0.4, lot_top, 0], [-0.8, lot_top, 0],
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=0.6),
+            Polygon([-0.8, lot_bottom, 0], [0.4, lot_bottom, 0],
+                    [0.4, lot_price, 0], [-0.8, lot_price, 0],
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=0.6)))
+        part_labels = fixed(VGroup(
+            Tex('CS', color=DEMAND).scale(0.85).next_to(enlarged_parts[0], LEFT, buff=0.35),
+            Tex('PS', color=SUPPLY).scale(0.85).next_to(enlarged_parts[1], LEFT, buff=0.35)))
+        lot_price_line = fixed(Line([-0.95, lot_price, 0], [0.55, lot_price, 0],
+                                    color=GUIDE, stroke_width=2.5))
+        self.add(first_parts)
+        self.play(FadeOut(graph), FadeOut(cs_label), FadeOut(ps_label),
+                  Transform(first_parts, enlarged_parts), run_time=1.6, rate_func=smooth)
+        self.play(FadeIn(part_labels), FadeIn(lot_price_line), run_time=0.5)
+        self.pause('2.b.parts')
+
+        lot_total_line = fixed(Line([1.1, lot_bottom, 0], [1.1, lot_top, 0],
+                                    color=TOTAL, stroke_width=5))
+        lot_total_label = fixed(Tex('TS', color=TOTAL).scale(0.85)
+                                .next_to(lot_total_line, RIGHT, buff=0.28))
         total_definition = fixed(Tex(r'Total surplus $=$ PS $+$ CS', color=TOTAL,
             tex_to_color_map={'PS': SUPPLY, 'CS': DEMAND}).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeOut(cs_label), FadeOut(ps_label), FadeOut(cs_area), FadeOut(ps_area),
-                  show_total.animate.set_value(1), show_price.animate.set_value(0),
-                  FadeIn(fixed(total_label)), FadeIn(total_definition), run_time=0.9, rate_func=smooth)
+        self.play(ShowCreation(lot_total_line), FadeIn(lot_total_label),
+                  FadeIn(total_definition), run_time=0.8)
+        self.pause('2.b.sum')
+
+        self.play(first_parts.animate.set_fill(TOTAL), FadeOut(part_labels),
+                  FadeOut(lot_price_line), run_time=0.6)
+        first_total = fixed(Polygon([-0.8, lot_bottom, 0], [0.4, lot_bottom, 0],
+            [0.4, lot_top, 0], [-0.8, lot_top, 0],
+            stroke_width=0, fill_color=TOTAL, fill_opacity=0.6))
+        self.remove(first_parts)
+        self.add(first_total)
         graph.remove(cs_area, ps_area)
+        show_total.set_value(1)
+        show_price.set_value(0)
+        graph.update(0)
+        first_total_home = total_area[0]
+        total_area.remove(first_total_home)
+        first_total_target = first_total_home.copy().clear_updaters()
+        self.play(FadeOut(lot_total_line), FadeOut(lot_total_label),
+                  FadeIn(graph), Transform(first_total, first_total_target),
+                  FadeIn(fixed(total_label)), run_time=1.6, rate_func=smooth)
+        total_area.set_submobjects([first_total_home, *total_area.submobjects])
+        self.remove(first_total)
         self.add(graph, total_label)
         self.pause('2.b')
 

@@ -25,15 +25,16 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections have
-**51 named holds**; section 8 has **18 named holds**, including the two
-selected-lot holds before expansion, for **69 total** with the exercise placement below. Section 8 presents the welfare
+**51 named holds**; section 8 has **20 named holds**, including the first-lot
+CS/PS and TS explanation and the two selected-lot holds before expansion,
+for **71 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 | Code section | Content | Named holds |
 |---|---|---|
 | 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (51) |
-| 8 | Market benefits | `2.a`, `2.b` |
+| 8 | Market benefits | `2.a`, `2.b.parts`, `2.b.sum`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
 | 8 | Permit trades, reach the boundary, force/undo harmful trade | `5.a`–`5.e` |
@@ -819,14 +820,16 @@ After `1.i.algebra`, establish one large graph for the rest of the economic
 argument. This supersedes any earlier forward-looking instruction to restore
 plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
-- Keep demand and supply curves and a clear price/quantity scale. Exact
-  adjacent total-surplus lot cells form a visually continuous filled area;
-  the initial CS/PS bars retain narrow gaps to distinguish individual lots.
+- Keep demand and supply curves and a clear price/quantity scale. CS/PS,
+  total-surplus, and lost-surplus bars retain the same narrow gaps to
+  distinguish individual lots, with exact benefit and cost heights.
   CS is teal and PS orange,
   with labels **inside** their colored regions.
   Do not attach dollar totals, arrows, or extra readout rows to those labels.
-- Combine CS and PS into **one purple total-surplus area**, labeled inside the
-  area. Keep realized gains purple, forgone positive gains grey, and a forced
+- Enlarge the first stacked CS/PS bar from its graph location. Show a purple
+  vertical TS line spanning both parts, then return the combined bar to the
+  graph with every realized lot purple and individually visible. Label
+  **Total surplus** inside the area. Keep forgone positive gains grey and a forced
   negative-gain lot red. Do not continue displaying CS/PS splits after combining.
 - During the floor/ceiling beats, use **one price guide**, stopping at the
   short-side curve, and **one actual quantity tick/drop**. From `5.a` onward,
@@ -848,7 +851,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   teal/orange endpoint dots and an adjacent “MC > MB” label. Never exaggerate
   its area or add individual gain/loss dollars.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 69 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 71 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -857,18 +860,24 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    on the large graph. Keep each lot distinct with a 0.07-lot inset on both
    sides of each CS/PS bar (a 0.14-lot gap between neighbors). Preserve exact
    bar heights and economic quantities. Put only **CS** and **PS** inside their
-   respective areas. The later unified purple total-surplus fill stays continuous.
+   respective areas. The later purple TS bars keep the same gaps.
 2. Hold `2.a` on this simple callback to B1/B2. Do not show aggregate dollar
    totals, arrows, a separate table, or a detailed surplus construction.
 
 ## 2.b · Sum the gains
 
-1. Unite the realized CS/PS fills into a single **purple total-surplus region**
-   between benefit and cost for the traded lots. Place **Total surplus** inside.
-2. Show only the simple bottom definition **Total surplus = PS + CS**, without
-   expanding either component. Hold `2.b` on the unified purple area, then fade
-   the definition before the floor. No payment demonstration, numerical total,
-   or detached legend is needed.
+1. Carry the first lot's stacked CS/PS bar from its graph position into a
+   close-up as the overview fades. Preserve the relative heights of both
+   parts and the red price separator. Label CS and PS beside their parts;
+   hold `2.b.parts`.
+2. Draw a purple vertical **TS** line beside the bar, spanning from MC to MB
+   across both parts. Add **Total surplus = PS + CS** at the bottom and hold
+   `2.b.sum`. No dollar totals or payment demonstration are needed.
+3. Color both parts purple and remove the price separator. Shrink the same
+   combined bar back into its exact graph position while the full graph
+   returns with all TS bars purple. Preserve the narrow gaps between lots.
+   Place **Total surplus** inside the area and hold `2.b`. Keep the definition
+   through the return, then fade it before the floor.
 
 ## 3.a · Impose a binding price floor first
 
@@ -961,8 +970,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    all remaining positive-gain lots through 39 in one continuous transition;
    include indifferent lot 40 under the inclusive convention. Do not pause
    on the intermediate gap or isolated lot-25 strip, or add per-trade stops.
-2. Hold `5.b` only after the purple total-surplus region is **contiguous through
-   40**. Keep the ordinary 40 axis tick visible and active price/quantity guides
+2. Hold `5.b` only after **every beneficial lot through 40** is represented by
+   the purple total-surplus bars. Keep the ordinary 40 axis tick visible and active price/quantity guides
    hidden; no positive-gain strip remains grey.
 
 ## 5.c · Inspect the zero-gain boundary
@@ -1020,8 +1029,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 ## Implementation and review boundaries
 
 - Preserve all **51 opening holds** through `1.i.algebra`, including the new
-  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 18 holds, for **69 total**, including
-  `3.c.select` and `4.c.select` before the selected graph bars expand.
+  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 20 holds, for **71 total**, including
+  `2.b.parts` and `2.b.sum` and the existing `3.c.select` and `4.c.select`.
 - The graph overview and graph-derived two-person comparisons supersede the
   old back-half crowd/plaza staging. All earlier 67 hold IDs retain their relative
   order, with `1.h.match` and `1.h.wait` added before `1.h`;
