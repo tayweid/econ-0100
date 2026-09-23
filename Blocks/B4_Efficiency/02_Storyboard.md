@@ -167,11 +167,15 @@ From `5.a`, its active price/quantity guides stay hidden.
   Quantity numbers follow their demand/supply colors. Payment/expenditure
   **areas** are green; total surplus is
   `TOTAL`; DWL is grey. The small exchange retains B3's orange cost and PS outline.
-- Reserve one bottom band for the current question, definition, or two-option
-  comparison. Remove its previous content before replacing it. Do not stack a
-  definition, caption, and deliberation card there simultaneously. Use one
-  question per beat rather than repeating a title question at the bottom;
-  numerical/explanatory captions may use the clear bottom strip.
+- Put narration, principle, and definition footers at the centered bottom,
+  with margin **0.05** and text scale **0.7443**, following the style guide.
+  Use this baseline for all standalone bottom captions, including the seller's
+  gain narration in `1.f` and excess narration in `1.h`; do not lay them over
+  the plaza. Replace the previous footer before showing the next. For an
+  intentional multiline footer, such as theorem plus conditions, preserve the
+  vertical stack and anchor the whole group at the bottom so lines do not overlap.
+  Keep model values, price/choice labels, and quantity-gap labels attached to
+  their visual features. Use one question per beat, without repeating the title.
 - During the recap, keep the market at left and its graph at right.
   Keep the same 59 buyers and 100 sellers on their ranked curved arcs.
   Actual partners meet across the central diameter; willing unmatched people
@@ -525,7 +529,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Use two world-space camera-facing choices: “Wait at $3: gain $0” with a
    short arrow to the current solid price, and “Offer $3.25: gain $3.75/lb” with
    a short arrow to the proposed dashed price spanning buyer and seller. Keep
-   both arrows visible and route them clear of the three bars. Hold before
+   both arrows visible and route them clear of the three bars. Put the seller's
+   gain narration at the standard centered bottom footer position. Hold before
    acceptance at the existing `1.f` stop.
 3. On advance, accept in the close-up: move the seller's MC bar/label to the
    deciding buyer's new pair and solidify their floating **$3.25** price at its
@@ -555,6 +560,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    30 buyer checks, 80 seller checks, and 30 central pairs. Short teal/orange
    ground segments move with each willing person. Fifty unserved sellers keep
    local yellow segments; supply's 30–80 graph gap and “Excess 50” remain yellow.
+   Keep the separate excess narration centered at the standard bottom footer
+   position, clear of the plaza; the quantity-gap labels stay attached.
 2. Inspect the deciding seller (internally seller 40) with buyer 30 in the
    familiar head-on view. Title: “What would this seller do?” Ring the deciding
    seller's orb in yellow. Mirror the compact figure: incumbent seller 30 left,

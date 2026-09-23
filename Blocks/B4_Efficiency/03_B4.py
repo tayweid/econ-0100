@@ -24,6 +24,7 @@ class B4(ThreeDScene):
     add = add_market_objects
 
     def construct(self):
+        DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         # Raise the full-market plaza in frame, leaving the caption strip clear.
         PLAZA_CENTER = [4, 0, -0.4]
 
@@ -268,11 +269,10 @@ class B4(ThreeDScene):
             window_labels.add(label)
         chosen_price = Sphere(radius=0.055, color=GUIDE, resolution=(8, 6))
         chosen_price.move_to([4.175, -0.08, price_z])
-        claim = fixed(Tex(r'$MC < P < MB$', color=DEFINITION).scale(0.95))
-        claim.move_to([0, -2.75, 0])
-        endpoint_note = fixed(Tex('At an endpoint, one person is indifferent.', color=CAPTION).scale(0.65))
-        endpoint_note.move_to([0, -3.30, 0])
-        unit = fixed(Tex('One pound', color=CAPTION).scale(0.65).move_to([0, -3.72, 0]))
+        claim = fixed(Tex(r'$MC < P < MB$', color=DEFINITION).scale(DEFINITION_SCALE))
+        endpoint_note = fixed(Tex('At an endpoint, one person is indifferent.', color=CAPTION).scale(DEFINITION_SCALE))
+        unit = fixed(Tex('One pound', color=CAPTION).scale(DEFINITION_SCALE))
+        VGroup(claim, endpoint_note, unit).arrange(DOWN, buff=0.10).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(window), ShowCreation(window_line), FadeIn(low_endpoint), FadeIn(high_endpoint),
                   FadeIn(window_labels), FadeIn(chosen_price), FadeIn(claim), FadeIn(endpoint_note), FadeIn(unit))
         self.pause('1.a')
@@ -292,7 +292,6 @@ class B4(ThreeDScene):
         GROWTH_SEED = 6
         DOLLAR_HEIGHT, BAR_BASE = 0.55, 0.75
         BAR_WIDTH, CLOSE_WIDTH, CLOSE_GAP = 0.16, 1.10, 0.12
-        DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         WORLD_CENTER = np.array([0.0, 0.0, 1.8])
         CLOSE_CENTER = np.array([0.0, 0.0, 2.05])
 
@@ -524,7 +523,7 @@ class B4(ThreeDScene):
                   run_time=0.45)
         # Molly compares the existing price with the proposed price above.
         seller_gain = fixed(Tex(r'Molly receives $\$0.25$ more.', color=SUPPLY).scale(0.7443)
-            .set_x(0).to_edge(DOWN, buff=0.18))
+            .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(seller_gain))
         self.pause('1.b')
         self.play(FadeOut(seller_gain),
@@ -931,9 +930,10 @@ class B4(ThreeDScene):
         # ---- 1.b.settled · Buyer-side outbidding has stopped.
         self.play(Transform(head, fixed(title('Who still wants to bid?'))), run_time=0.4)
         stop_reason = fixed(Tex(r"Gary's next bid: $\$6.50 > \mathrm{MB}\ \$6$.",
-                               color=DEFINITION).scale(0.85).move_to([0, -2.85, 0]))
+                               color=DEFINITION).scale(DEFINITION_SCALE))
         counts = fixed(Tex(r'At $\$6.25$: 1 willing buyer, 1 seller.', color=CAPTION)
-                       .scale(0.75).move_to([0, -3.45, 0]))
+                       .scale(DEFINITION_SCALE))
+        VGroup(stop_reason, counts).arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(stop_reason), FadeIn(counts))
         self.pause('1.b.settled')
 
@@ -952,7 +952,6 @@ class B4(ThreeDScene):
         GROWTH_SEED = 6
         DOLLAR_HEIGHT, BAR_BASE = 0.55, 0.75
         BAR_WIDTH, CLOSE_WIDTH, CLOSE_GAP = 0.16, 1.10, 0.12
-        DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         WORLD_CENTER = np.array([0.0, 0.0, 1.8])
         CLOSE_CENTER = np.array([0.0, 0.0, 2.05])
 
@@ -1508,10 +1507,9 @@ class B4(ThreeDScene):
                 local_sellers.index(crowd_matches[b]) for b in local_buyers) == small_run.final.sellers
         # ---- 1.b.equal_prices · Keep the two actual B3 pairs and both posted asks.
         self.remove(posted_caption)
-        equal_prices = fixed(Tex(r'Both trades: $\$5.50$.', color=GUIDE).scale(0.8)
-                             .move_to([0, -3.15, 0]))
-        equal_counts = fixed(Tex('2 willing buyers; 2 sellers.', color=CAPTION).scale(0.7)
-                             .move_to([0, -3.65, 0]))
+        equal_prices = fixed(Tex(r'Both trades: $\$5.50$.', color=GUIDE).scale(DEFINITION_SCALE))
+        equal_counts = fixed(Tex('2 willing buyers; 2 sellers.', color=CAPTION).scale(DEFINITION_SCALE))
+        VGroup(equal_prices, equal_counts).arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(Transform(head, fixed(title('Would either buyer switch?'))), FadeIn(equal_prices), FadeIn(equal_counts))
         self.pause('1.b.equal_prices')
 
@@ -1534,7 +1532,7 @@ class B4(ThreeDScene):
         self.add(price, show_willing)
         head = fixed(title('How many would buy at this price?'))
         one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION))
-        one_lot.scale(0.77).move_to([0, -3.40, 0])
+        one_lot.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         full_bars, full_people, full_checks = Group(), Group(), VGroup()
         for n, value in enumerate(values):
             x = Q_ZERO + (n + 1) * Q_STEP
@@ -1609,12 +1607,12 @@ class B4(ThreeDScene):
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
         rule = fixed(Tex(r'$MB\geq P$: willing to buy. The marginal buyer is indifferent at $\$6$.', color=INK))
-        rule.scale(0.72).move_to([0, -3.40, 0])
+        rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
         self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=smooth)
         low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=INK))
-        low.scale(0.72).move_to([0, -3.40, 0])
+        low.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(rule, low))
         self.pause('1.c.buyers.low')
 
@@ -1637,7 +1635,7 @@ class B4(ThreeDScene):
         self.add(price, show_willing)
         head = fixed(title('How many would sell at this price?'))
         one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION))
-        one_lot.scale(0.77).move_to([0, -3.40, 0])
+        one_lot.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         full_bars, full_people, full_checks = Group(), Group(), VGroup()
         for n, value in enumerate(values):
             x = Q_ZERO + (n + 1) * Q_STEP
@@ -1712,12 +1710,12 @@ class B4(ThreeDScene):
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
         rule = fixed(Tex(r'$MC\leq P$: willing to sell. At $\$3$, 20 sellers are willing.', color=INK))
-        rule.scale(0.72).move_to([0, -3.40, 0])
+        rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(one_lot, rule))
         self.pause('1.c.sellers')
         self.play(price.animate.set_value(6), run_time=2.0, rate_func=smooth)
         high = fixed(Tex(r'At $\$6$, 80 sellers are willing. A higher price brings more sellers.', color=INK))
-        high.scale(0.72).move_to([0, -3.40, 0])
+        high.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(rule, high))
         self.pause('1.c.sellers.high')
         self.play(FadeOut(high), price.animate.set_value(3), run_time=1.3, rate_func=smooth)
@@ -2065,7 +2063,7 @@ class B4(ThreeDScene):
         # Keep quantity lines through matching; yellow marks the unserved remainder.
         self.play(show_trades.animate.set_value(1), run_time=1.1)
         shortage = fixed(Tex(r'20 pairs trade. 25 willing buyers are still waiting.', color=INK))
-        shortage.scale(0.76).move_to([0, -3.65, 0])
+        shortage.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(shortage))
         unserved = VGroup()  # The checked buyers on the inner arc are the unserved group.
         self.pause('1.e')
@@ -2102,7 +2100,7 @@ class B4(ThreeDScene):
         head = ag_head
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
-        seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(0.52).move_to([-3.3, -1.35, 0])
+        seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(Create(ag_focus), Create(bid), FadeOut(units), FadeIn(seller_gain))
 
         self.play(FadeOut(ag_focus), FadeOut(bid), FadeOut(seller_gain))
@@ -2193,14 +2191,14 @@ class B4(ThreeDScene):
         self.remove(units)
         # The three-person close-up has shown the switch. Keep every original
         # crowd member in its ranked snapshot and compress the common response.
-        everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
+        everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
         tried_low = VGroup(*[DashedLine(ax.c2p(0, 3), ax.c2p(q, 3), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax, q in [(demand_axes, 45), (supply_axes, 20)]])
         fixed(tried_low)
         self.add(tried_low)
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
-        rising = fixed(Tex(r'Shortage $\longrightarrow$ price rises. The counts meet.', color=INK)).scale(0.8).move_to([0, -3.55, 0])
+        rising = fixed(Tex(r'Shortage $\longrightarrow$ price rises. The counts meet.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(everyone, rising))
 
         # ---- 1.g · Predict the other direction before revealing its counts.
@@ -2213,7 +2211,7 @@ class B4(ThreeDScene):
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
         self.play(show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
-        excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(0.65).move_to([-3.3, -1.35, 0])
+        excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
@@ -2309,7 +2307,7 @@ class B4(ThreeDScene):
         self.remove(units)
         self.remove(excess)
         self.add(tried_low)
-        everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
+        everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
         tried_high = VGroup(*[DashedLine(ax.c2p(0, 6), ax.c2p(q, 6), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax, q in [(demand_axes, 30), (supply_axes, 80)]])
@@ -2340,16 +2338,16 @@ class B4(ThreeDScene):
         self.pause('1.i.stability')
         self.play(FadeOut(proposed), FadeOut(proposed_prices), FadeIn(four_dollar_ticks),
                   price.animate.set_value(4.25), run_time=1.0)
-        excess_test = fixed(Tex('Seven willing sellers have no buyer. They can undercut.', color=INK)).scale(0.78).move_to([0, -3.55, 0])
+        excess_test = fixed(Tex('Seven willing sellers have no buyer. They can undercut.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(excess_test), run_time=0.3)
         self.wait(0.8)
         self.play(price.animate.set_value(4), run_time=1.0)
         self.play(price.animate.set_value(3.75), run_time=1.0)
-        shortage_test = fixed(Tex('Six willing buyers have no seller. They can offer more.', color=INK)).scale(0.78).move_to([0, -3.55, 0])
+        shortage_test = fixed(Tex('Six willing buyers have no seller. They can offer more.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeOut(excess_test), FadeIn(shortage_test), run_time=0.3)
         self.wait(0.8)
         self.play(price.animate.set_value(4), run_time=1.0)
-        stable = fixed(Tex(r'Above $\$4$: excess. Below $\$4$: shortage.', color=INK)).scale(0.83).move_to([0, -3.55, 0])
+        stable = fixed(Tex(r'Above $\$4$: excess. Below $\$4$: shortage.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeOut(shortage_test), FadeIn(stable), run_time=0.3)
         self.pause('1.i.stable')
 
@@ -2637,7 +2635,7 @@ class B4(ThreeDScene):
         result = fixed(Tex(r'$Q^*=40,\qquad P^*=2+40/20=4$', color=GUIDE)).scale(0.85).move_to([-3.75, -2.05, 0])
         self.play(FadeIn(simplified))
         self.play(FadeIn(result))
-        final = fixed(Tex(r'40,000 pounds at $\$4$ per pound.', color=INK)).scale(0.9).move_to([0, -3.45, 0])
+        final = fixed(Tex(r'40,000 pounds at $\$4$ per pound.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(final))
         self.pause('1.i.algebra')
 
@@ -2750,7 +2748,7 @@ class B4(ThreeDScene):
 
         # ---- 2.b · Join the two familiar benefits into one purple region.
         total_definition = fixed(Tex(r'Total surplus $=$ PS $+$ CS', color=TOTAL,
-            tex_to_color_map={'PS': SUPPLY, 'CS': DEMAND}).scale(0.85).move_to([0, -3.57, 0]))
+            tex_to_color_map={'PS': SUPPLY, 'CS': DEMAND}).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(cs_label), FadeOut(ps_label), FadeOut(cs_area), FadeOut(ps_area),
                   show_total.animate.set_value(1), show_price.animate.set_value(0),
                   FadeIn(fixed(total_label)), FadeIn(total_definition), run_time=0.9, rate_func=smooth)
@@ -2798,7 +2796,7 @@ class B4(ThreeDScene):
 
         # ---- 3.b · Grey is the surplus the missing trades could have created.
         loss_definition = fixed(Tex('Deadweight loss: gains from trade that are lost.', color=INK)
-                                .scale(0.78).move_to([0, -3.57, 0]))
+                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(show_loss.animate.set_value(1), FadeIn(fixed(dwl_label)), FadeIn(loss_definition),
                   FadeIn(lost_trade_reference), run_time=0.7)
         self.pause('3.b')
@@ -2812,7 +2810,7 @@ class B4(ThreeDScene):
             stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))
         floor_source = fixed(VGroup(floor_buyer_bar, floor_seller_bar))
         selected_caption = fixed(Tex('One of the trades lost from equilibrium.', color=INK)
-                                 .scale(0.77).move_to([0, -3.57, 0]))
+                                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(dwl_label), FadeOut(loss_definition),
                   FadeIn(floor_source), FadeIn(selected_caption), run_time=0.6)
         self.pause('3.c.select')
@@ -2878,7 +2876,7 @@ class B4(ThreeDScene):
             Tex(r'$\$1{,}250$', color=INK).scale(0.75)).arrange(DOWN, buff=0.12)
             .move_to([3.40, DETAIL_BASE + 4.375 * DETAIL_SCALE, 0], aligned_edge=LEFT))
         floor_reason = fixed(Tex(r'Both gain at $\$4$; that price is illegal.', color=INK)
-                               .scale(0.78).move_to([0, -3.57, 0]))
+                               .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         floor_detail = Group(floor_axis, floor_labels, floor_limit, floor_limit_label,
             floor_legal_detail, floor_mutual, floor_proposal, floor_proposal_label,
             floor_gain_bracket, floor_gain_label, floor_people)
@@ -2922,7 +2920,7 @@ class B4(ThreeDScene):
             stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))
         ceiling_source = fixed(VGroup(ceiling_buyer_bar, ceiling_seller_bar))
         selected_caption = fixed(Tex('One of the trades lost from equilibrium.', color=INK)
-                                 .scale(0.77).move_to([0, -3.57, 0]))
+                                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(dwl_label),
                   FadeIn(ceiling_source), FadeIn(selected_caption), run_time=0.6)
         self.pause('4.c.select')
@@ -2988,7 +2986,7 @@ class B4(ThreeDScene):
             Tex(r'$\$3{,}750$', color=INK).scale(0.75)).arrange(DOWN, buff=0.12)
             .move_to([3.40, DETAIL_BASE + 5.125 * DETAIL_SCALE, 0], aligned_edge=LEFT))
         ceiling_reason = fixed(Tex(r'Both gain at $\$4$; that price is illegal.', color=INK)
-                               .scale(0.78).move_to([0, -3.57, 0]))
+                               .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         ceiling_detail = Group(ceiling_axis, ceiling_labels, ceiling_limit, ceiling_limit_label,
             ceiling_legal_detail, ceiling_mutual, ceiling_proposal, ceiling_proposal_label,
             ceiling_gain_bracket, ceiling_gain_label, ceiling_people)
@@ -3036,7 +3034,7 @@ class B4(ThreeDScene):
 
         # ---- 5.c · The crossing is the zero-gain boundary.
         marginal = fixed(Dot(ax.c2p(40, 4), radius=0.075, color=FOCUS))
-        boundary = fixed(Tex('At the boundary, benefit equals cost.', color=INK).scale(0.78).move_to([0, -3.57, 0]))
+        boundary = fixed(Tex('At the boundary, benefit equals cost.', color=INK).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(marginal), FadeIn(boundary), run_time=0.5)
         self.pause('5.c')
 
@@ -3050,7 +3048,7 @@ class B4(ThreeDScene):
             tex_to_color_map={'MC': SUPPLY, 'MB': DEMAND}).scale(0.60)
             .next_to(ax.c2p(41, 4.05), UP + RIGHT, buff=0.18))
         negative_caption = fixed(Tex('The next unit costs more than it is worth.', color=INK)
-                                 .scale(0.78).move_to([0, -3.57, 0]))
+                                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(head), FadeIn(next_head), FadeOut(marginal), FadeOut(boundary), run_time=0.35)
         head = next_head
         self.play(allocation_flags[40].animate.set_value(1), FadeIn(negative_lot),
@@ -3062,9 +3060,10 @@ class B4(ThreeDScene):
                   FadeOut(negative_label), FadeOut(negative_caption), run_time=0.6)
         next_head = fixed(title('The First Welfare Theorem'))
         theorem = fixed(Tex('Competitive equilibrium maximizes total surplus.', color=DEFINITION)
-                        .scale(0.83).move_to([0, -3.40, 0]))
+                        .scale(DEFINITION_SCALE))
         conditions = fixed(Tex('Price-taking, voluntary trade, and all benefits and costs counted.', color=CAPTION)
-                           .scale(0.56).move_to([0, -3.82, 0]))
+                           .scale(DEFINITION_SCALE))
+        VGroup(theorem, conditions).arrange(DOWN, buff=0.10).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeOut(head), FadeIn(next_head), FadeIn(theorem), FadeIn(conditions), run_time=0.7)
         head = next_head
         self.pause('5.e')
@@ -3123,6 +3122,6 @@ class B4(ThreeDScene):
         # ---- 7.a · Efficiency is the sum, not a verdict on distribution.
         closing_head = fixed(title('Efficiency and distribution'))
         closing = fixed(Tex('The largest total gain does not settle how it should be shared.', color=INK)
-                        .scale(0.72).move_to([0, -3.62, 0]))
+                        .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(head), FadeIn(closing_head), FadeOut(theorem), FadeOut(conditions), FadeIn(closing), run_time=0.6)
         self.pause('7.a')
