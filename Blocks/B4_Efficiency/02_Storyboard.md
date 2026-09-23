@@ -24,14 +24,14 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections have
-**23 named holds**, including `1.e.willing`; section 8 has **18 named holds**,
-including the two selected-lot holds before expansion, for **41 total** with the exercise placement below. Section 8 presents the welfare
+**46 named holds**; section 8 has **18 named holds**, including the two
+selected-lot holds before expansion, for **64 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 | Code section | Content | Named holds |
 |---|---|---|
-| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (23, including new `1.e.willing`) |
+| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (46) |
 | 8 | Market benefits | `2.a`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
@@ -41,6 +41,12 @@ while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 The two B4 exercise holds follow the completed argument, floor before ceiling,
 using Taylor's delegated placement decision. Their content and IDs remain intact.
+
+The latest pacing direction adds 23 manual advances around teaching sentences,
+questions, acceptance results, and algebra stages. All earlier 41 IDs retain
+their relative order. These pauses supersede compressed pacing and earlier
+no-extra-hold directions for the affected beats; ordinary names, ticks, and
+moving prices still animate continuously. The economic sequence is unchanged.
 
 `03_01_Exchange.py` through `03_09_Controls.py` are **stale development snapshots**,
 not imported or executed by the canonical file. Their old back-half order and
@@ -342,18 +348,18 @@ of model. Exercise B3/B4 cards explicitly switch to their separate pasty market.
 
 The pre-exercise review has a **hard ceiling of ten minutes**, with an eight-minute
 working budget including the bumper, animation, explanation, and brief responses.
-These are rehearsal allocations, not automatic waits. The viewer's internal play
-steps are not invitations to explain every movement. The authored animation
-before Q2 totals about **81 seconds**, leaving the rest of the eight-minute
-budget for explanation and brief responses.
+These are rehearsal allocations, not automatic waits. New teaching sentences,
+questions, and mathematical stages wait for manual advance. Ordinary visual
+movement remains continuous. Keep explanations brief enough to meet the
+eight-minute working budget; the added stops do not prescribe extra discussion.
 
 | Before Exercise Q2 | B4 beats | Budget |
 |---|---|---|
-| Bumper and one exchange | `0.a`, `1.a` | 1:00 |
-| One bidding incentive | `1.b`, `1.b.settled` | 1:15 |
-| A second trade and common price | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | 1:15 |
-| Buyers at two prices | `1.c.buyers`, `1.c.buyers.low` | 1:00 |
-| Sellers at two prices | `1.c.sellers`, `1.c.sellers.high` | 1:00 |
+| Bumper and one exchange | `0.a`, `1.a.price_question`, `1.a.surplus`, `1.a` | 1:00 |
+| One bidding incentive | `1.b`, `1.b.competition`, `1.b.settled` | 1:15 |
+| A second trade and common price | `1.b.before_entry`, `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.two_trades.accepted`, `1.b.convergence`, `1.b.equal_prices` | 1:15 |
+| Buyers at two prices | `1.c.buyers.rule`, `1.c.buyers.curve`, `1.c.buyers`, `1.c.buyers.low` | 1:00 |
+| Sellers at two prices | `1.c.sellers.units`, `1.c.sellers.curve`, `1.c.sellers`, `1.c.sellers.high` | 1:00 |
 | Both sides at $3; willingness versus trades | `1.d`, `1.e.willing`, `1.e` | 1:30 |
 | Transition to the exercise | `1.j` | 0:30 |
 | Flex for brief responses/transitions | — | 0:30 |
@@ -373,10 +379,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.a · Recall one exchange
 
 1. Restore B3's approved Gary/Molly head-on close-up: MB $6, MC $2, price $4,
-   “One pound.” Title: “Which prices work?”
+   “One pound.” Title: “Which prices work?” Pause at `1.a.price_question`
+   before drawing the price and accounting features.
 2. Reveal the already familiar CS $2 and PS $2 together. Retain the green
    expenditure/revenue boundary and orange cost. Do not replay the five-step
    accounting construction or introduce either surplus definition again.
+   Pause at `1.a.surplus` before revealing the acceptable-price interval.
 3. Mark the open $2–$6 interval between the two thresholds and show “MC < P < MB.”
    Keep $4 inside it. At an endpoint one person is indifferent; the interval
    marks strictly positive gains for both. Hold this one example rather than
@@ -388,13 +396,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    accepted $4 line. Fade the accounting decorations, visibly slide that pair
    left, and bring Amanda-Grace with her MB $7 bar in from the right to form
    B3's three-person head-on layout. Keep this transition brisk and visible:
-   no cleared scene, reconstructed setup, skipped movement, or extra hold.
+   no cleared scene, reconstructed setup, or skipped movement.
 2. Show her dashed $4.75 proposal and the question “Would Molly switch?” Hold
    before acceptance. Put “Molly receives $0.75 more.” in yellow at the bottom.
    Add a yellow vertical line in world space spanning exactly the $4–$4.75
    price heights, horizontally centered in the gap between the two red price
    lines. Keep the existing and proposed prices on their bars.
-3. On advance, fade the yellow line and caption before moving Molly's MC
+3. On advance, fade the yellow line and caption, reveal “Who gets the spinach?”,
+   and pause at `1.b.competition` before moving Molly's MC
    comparison to Amanda-Grace's side, solidifying $4.75, and releasing Gary's
    old connection. Carry forward B3's accepted-line grammar. Show Gary's $5
    response, then compress the remaining alternating quarter-dollar bids
@@ -417,7 +426,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    10.4. Preserve the floor, people, bars, and side graphs from B3's `3.a`.
    From the initial plaza pullback, use the title “Would either player switch?”
    and retain it through the equal-price hold, except for the “Gary and Andrew”
-   close-up.
+   close-up. Pause at `1.b.before_entry` on the posted-price setup before Andrew
+   arrives.
 2. Animate Andrew's arrival and hold with all four people visible. Place
    Amanda-Grace to Molly's left, with her MB bar on the left and Molly's MC bar
    on the right. Show their accepted $6.25 trade as a solid red line across
@@ -436,18 +446,18 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    its own bar: MB $6 for Gary and MC $4 for Andrew. Ring Gary in yellow. A red
    dashed **$4.25** ask spans both bars. Title: “Gary and Andrew.” Hold with
    the gold bottom question “Would Gary buy at $4.25?”
-3. On advance, show “Gary gains $1.75.” in gold, then fly the actual objects
+3. On advance, show “Gary gains $1.75.” in gold and pause at
+   `1.b.two_trades.accepted`, replacing the short timed wait. Then fly the actual objects
    back to their saved plaza geometry and restore their bar updaters and the
    plaza title “Would either player switch?” World
    names and price tags keep following during the flight. Gary visibly
    joins Andrew once; Amanda-Grace and Molly stay paired. Show solid accepted
    red price lines across all four participants' own side-graph bars.
-4. Move Molly's $6.25 and Andrew's $4.25 price readouts and red plaza/graph
+4. Show the gold caption “The same incentives bring both prices together.”
+   and pause at `1.b.convergence`. On advance, move Molly's $6.25 and Andrew's $4.25 price readouts and red plaza/graph
    lines smoothly to $5.50 in one 2.5-second animation. Bodies, bars, and
    partners remain fixed throughout. Retain the plaza title throughout price
-   convergence. No simulation, partner reassignment,
-   per-bid replay, or new hold. Caption: “The same incentives bring both
-   prices together.”
+   convergence. No simulation, partner reassignment, or per-bid replay.
 
 ## 1.b.equal_prices · Park on two trades
 
@@ -472,10 +482,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    from the initial reveal in a **gold** footer at scale **0.7443**, bottom
    margin **0.05**, and retain it throughout the price changes. Omit the
    introductory lot/bar-height caption and its transformation; the grey
-   quantity caption already supplies the units.
+   quantity caption already supplies the units. Pause at `1.c.buyers.rule`.
 2. Draw the straight equation line P=12−Qd/5 through the bar-top centers; no
    stepped outline. Put its equation above the row. Keep this camera throughout
-   the demand comparison, without pulling back to a separate graph.
+   the demand comparison, without pulling back to a separate graph. Pause at
+   `1.c.buyers.curve` before revealing the price and quantity guides.
 3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 **green**
    checks, dim excluded people/bars, and highlight the marginal buyer (MB=$6).
    Put the price readout just left of the guide and a teal “30” below the row
@@ -498,9 +509,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Replace the buyers with all 100 sellers in their own full-width head-on row.
    Use the same camera, base **0.55**, dollar-height **0.28**, and 1,000-lb-lot
    convention. Keep green checks clear of both bars and people; every row
-   narration footer is gold at scale 0.7443 and bottom margin 0.05.
+   narration footer is gold at scale 0.7443 and bottom margin 0.05. Pause on
+   the introductory units at `1.c.sellers.units`.
 2. Draw P=2+Qs/20 as a straight line through the cost-bar centers and display
-   its equation. Keep the whole supply comparison in this view.
+   its equation. Keep the whole supply comparison in this view. Pause at
+   `1.c.sellers.curve` before revealing the price and quantity guides.
 3. At $3, end the dashed price guide at Qs=20. Keep its price readout just left
    of the guide and an orange “20” below the row at Q=20, with grey **thousand lb**
    immediately beneath the number. Show 20 **green** checks, dim unwilling
@@ -594,10 +607,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. In the low-price plaza, highlight the left-out buyer (internally buyer 25)
    with a yellow ring and a red proposal link to seller 20 (MC $3). Show the
    gold bottom caption “A buyer who's left out offers a seller more than $3.”
-   at scale 0.7443 and margin 0.05 for 1.5 seconds before zooming. Keep the grey
+   at scale 0.7443 and margin 0.05. Pause at `1.f.offer` before zooming, replacing
+   the 1.5-second timed wait. Keep the grey
    “One person = 1,000 lb” beneath the plaza throughout the highlight and offer
    setup. Fade it, the ring, link, and footer with the plaza-to-close-up transition, not beforehand;
-   add no hold. Retain the context title “A low price: $3.”
+   retain the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
    incumbent buyer 20 right. Include the incumbent's **MB $8** bar and label.
@@ -619,15 +633,18 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    deciding buyer's new pair and solidify their floating **$3.25** price at its
    dollar height. Let the incumbent buyer step aside with their MB bar/label.
    Fade the waiting choice and its arrow, clear the proposal arrow as its price
-   is accepted, and color the offer green.
+   is accepted, and color the offer green. Pause at `1.f.accepted` on the
+   accepted trade before returning to the plaza.
    Clear the close-up callouts and return to the untouched full-crowd snapshot.
    Do not replay the switch on the plaza or animate a rollback there.
 4. Change the title to “Price adjustment.” Show “Other unserved buyers have
-   the same incentive,” followed by “Shortages lead to an increase in the price.” Raise the common
-   price to **$4** in one smooth
+   the same incentive.” in gold and pause at `1.f.incentive`. On advance, raise
+   the common price to **$4** in one smooth
    play, with the totem, counts, willingness marks, and per-person ground segments
    synchronized. Show only current-price guides, with no ghost $3 guide.
-   Finish at 40/40/40; no extra teaching or navigation stop.
+   Finish at 40/40/40. Use plain fades to replace that footer with the gold
+   “Shortages lead to an increase in the price.” and pause at `1.f.adjusted`.
+   Do not morph the two paragraphs.
 
 ## 1.g · Predict the high-price result
 
@@ -645,8 +662,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    ground segments move with each willing person. Fifty unserved sellers keep
    local yellow segments; supply's 30–80 graph gap and “Excess 50” remain yellow.
    Keep the title “At $6, who trades?” Show the
-   existing excess narration at the standard bottom footer position, clear
-   of the plaza; the quantity-gap labels stay attached.
+   existing excess narration in gold at the standard bottom footer position,
+   clear of the plaza; the quantity-gap labels stay attached. Highlight the
+   unserved seller and proposed cut, then pause at `1.h.offer` before zooming.
 2. Inspect the deciding seller (internally seller 40) with buyer 30 in the
    familiar head-on view, changing to “A high price: $6” as the context title.
    Ring the deciding seller's orb in yellow. Mirror the compact figure: incumbent seller 30 left,
@@ -665,12 +683,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    floating **$5.75** price at dollar height, and let the incumbent seller step
    aside with their MC bar/label. Fade the keep-price choice and its arrow,
    clear the proposal arrow as its price is accepted, and color the offer green.
+   Pause at `1.h.accepted` on the accepted trade.
 4. Clear the close-up and return to the untouched full crowd, without a second
    plaza switch or rollback. Change the title to “Price adjustment.” Show
-   “Other unserved sellers have the same incentive,” followed by “Excess → price falls.” Move the common price to
-   **$4** in one smooth play, retaining synchronized counts and moving ground
-   segments. Show only current-price guides, with no ghost $6 guide. No new
-   hold is introduced.
+   “Other unserved sellers have the same incentive.” in gold and pause at
+   `1.h.incentive`. On advance, move the common price to **$4** in one smooth
+   play, retaining synchronized counts and moving ground segments. Show only
+   current-price guides, with no ghost $6 guide, then proceed to the equilibrium
+   definition.
 
 ## 1.i · State the two parts of equilibrium together
 
@@ -701,26 +721,29 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
    willing but unserved. Keep the local quantity segments and mark each waiting
    seller's ground segment and supply's 38–45 graph span yellow, with “Excess 7.” Caption:
-   “Seven willing sellers have no buyer. They can undercut.” Restore $4 and
+   “Seven willing sellers have no buyer. They can undercut.” in gold. Pause at
+   `1.i.excess` instead of a timed wait. On advance, restore $4 and
    fade the yellow gap marks/readouts at zero.
 3. Test $3.75 in the same short sequence: Qd=41, Qs=35, Qx=35. Show six willing
    buyers without circles. Buyers 36–40 lose trades; buyer 41 is newly willing.
    Keep the local quantity segments and mark each waiting buyer's ground segment
    and demand's 35–41 graph span yellow, with “Shortage 6.” Caption: “Six willing buyers have
-   no seller. They can offer more.” Restore $4 and the 40 trades, fading the
+   no seller. They can offer more.” in gold. Pause at `1.i.shortage` instead of
+   a timed wait. On advance, restore $4 and the 40 trades, fading the
    yellow gap marks/readouts at zero.
-4. Park at `1.i.stable` on “Above $4: excess. Below $4: shortage.” before the
+4. Park at `1.i.stable` on the gold “Above $4: excess. Below $4: shortage.” before the
    graph transition. Use staircase count guides for these tests: the exact
    whole-lot counts differ from smooth-curve intersections at quarter dollars.
    Keep the cause visible as willing people left out, not just the marginal
    pair refusing an unaffordable price. Use plain fades for all caption changes
    in this beat—excess, shortage, and stable conclusion—with no paragraph morphs.
-   Keep their existing wording and the teaching holds unchanged.
+   Keep their existing wording; the added excess and shortage pauses let each
+   explanation wait for manual advance.
 
 ## 1.i.stable · Keep the conclusion visible
 
 1. End the two deviation tests back at $4 and 40 trades.
-2. Hold “Above $4: excess. Below $4: shortage.” This is the stable endpoint
+2. Hold the gold “Above $4: excess. Below $4: shortage.” This is the stable endpoint
    from which the graph stage begins.
 
 ## 1.i.graph · Recognize the same condition at the crossing
@@ -746,9 +769,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    unchanged at right. Add no replacement axis.
    Use the vacated left half for the arithmetic. Show the two equations with
    their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
-2. Show (Q_d=Q_s=Q) before setting their right-hand sides equal. Then reveal
-   (12-Q/5=2+Q/20), (10=Q/4), and (Q^*=40) in that order, with no extra
-   arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
+2. Show (Q_d=Q_s=Q) with the original demand and supply equations and pause at
+   `1.i.algebra.equal`. Set their right-hand sides equal as (12-Q/5=2+Q/20)
+   and pause at `1.i.algebra.equate`. Reveal (10=Q/4) and pause at
+   `1.i.algebra.simplify`. Show (Q^*=40) and substitute into supply to show
+   (P^*=2+40/20=4), then pause at `1.i.algebra.solve`.
 3. Carry the starred pair to the crossing. Keep the existing numeric result
    footer: “40,000 pounds at $4 per pound.”
    This is a short explanation of what the algebra means; leave Exercise Q1
@@ -789,7 +814,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   teal/orange endpoint dots and an adjacent “MC > MB” label. Never exaggerate
   its area or add individual gain/loss dollars.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 41 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 64 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -957,12 +982,12 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 ## Implementation and review boundaries
 
-- Preserve all **23 opening holds** through `1.i.algebra`, including the new
-  `1.e.willing` pause and eight-minute pre-Q2 budget. Section 8 has 18 holds, for **41 total**, including
+- Preserve all **46 opening holds** through `1.i.algebra`, including the new
+  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 18 holds, for **64 total**, including
   `3.c.select` and `4.c.select` before the selected graph bars expand.
 - The graph overview and graph-derived two-person comparisons supersede the
-  old back-half crowd/plaza staging. Existing recap holds retain their order,
-  with `1.e.willing` inserted between `1.d` and `1.e`;
+  old back-half crowd/plaza staging. All earlier 41 hold IDs retain their relative
+  order, with 23 manual teaching pauses added in the opening;
   the September 23 close-up and per-person ground-segment refinements apply.
 - The welfare display has inside-area CS/PS labels, unified purple total surplus,
   grey DWL, and red negative gain. Policy beats have one price guide and one
@@ -974,12 +999,12 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 - Preserve the 39/40 tie, ranked lot identities, and the distinction between
   willingness at a price and actual selected trades. No government purchases
   or extra planner-sorting episode is introduced.
-- The earlier 40-hold scene passed its end-of-pass construction and exact
-  allocation/arithmetic checks. Captured selection, close-up, and return frames
-  were inspected. Its 22 opening holds remain in the same relative order;
-  the added `1.e.willing` pause is not covered by that earlier validation.
-  Front-half review also covers the decision figures, original crowd membership,
-  and fixed-length ground segments through both plaza returns.
+- The 64-hold revision completed a full construction with animations skipped:
+  all 64 IDs were unique and the previous 41 remained in order. Existing exact
+  welfare allocation/arithmetic checks passed. The rendered `1.f.adjusted`
+  frame was inspected: gold footer at the bottom, units visible, and price $4
+  consistent across the plaza and graphs. This does not constitute a rendered
+  review of every animation frame.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 

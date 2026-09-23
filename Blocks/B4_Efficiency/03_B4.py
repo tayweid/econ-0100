@@ -152,6 +152,7 @@ class B4(ThreeDScene):
                 (CLOSE_WIDTH + CLOSE_GAP) / 2),
             floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
             run_time=2.2)
+        self.pause('1.a.price_question')
         left_edge = -CLOSE_WIDTH - CLOSE_GAP / 2
         right_edge = CLOSE_WIDTH + CLOSE_GAP / 2
         price_z = BAR_BASE + OFFER * DOLLAR_HEIGHT
@@ -249,6 +250,7 @@ class B4(ThreeDScene):
                   FadeIn(expenditure), FadeIn(buyer_cs), FadeIn(revenue),
                   FadeIn(seller_cost), FadeIn(seller_ps), FadeIn(expenditure_label),
                   FadeIn(cs_label), FadeIn(revenue_label), FadeIn(ps_label))
+        self.pause('1.a.surplus')
         window = Polygon([4.0, -0.03, BAR_BASE + MC * DOLLAR_HEIGHT],
                          [4.35, -0.03, BAR_BASE + MC * DOLLAR_HEIGHT],
                          [4.35, -0.03, BAR_BASE + MB * DOLLAR_HEIGHT],
@@ -414,6 +416,7 @@ class B4(ThreeDScene):
         self.pause('1.b')
         self.play(FadeOut(seller_gain_line), FadeOut(seller_gain),
                   Transform(head, fixed(title('Who gets the spinach?'))), run_time=0.3)
+        self.pause('1.b.competition')
         # Keep the old solid price and the new dashed price visible until
         # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
         self.play(bars['seller'].animate.set_x(mc_x),
@@ -989,6 +992,7 @@ class B4(ThreeDScene):
             *[FadeIn(m) for m in panel_bars.values()],
             ReplacementTransform(deal_number, price_tags[0]), FadeIn(mark), FadeIn(accepted_panel_marks),
             FadeIn(posted_caption), run_time=0.45)
+        self.pause('1.b.before_entry')
         # Buyers have separate circle-arrival and price-comparison holds.
         # The long buyer name stays toward the plaza interior on either arc.
 
@@ -1155,7 +1159,7 @@ class B4(ThreeDScene):
                     .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
                 self.play(FadeOut(close_offer), FadeIn(close_deal),
                           FadeOut(close_question), FadeIn(close_gain), run_time=0.5)
-                self.wait(0.5)
+                self.pause('1.b.two_trades.accepted')
                 close_annotations = [*close_names.values(), *close_values.values(),
                     close_deal, close_price, close_ring, close_gain]
                 self.play(*[FadeOut(m) for m in close_annotations], FadeOut(close_head), run_time=0.3)
@@ -1206,6 +1210,7 @@ class B4(ThreeDScene):
         settlement_caption = fixed(Tex('The same incentives bring both prices together.',
             color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(settlement_caption), run_time=0.35)
+        self.pause('1.b.convergence')
         settlement_moves = [price_trackers[s].animate.set_value(5.5) for s in (0, 4)]
         for buyer in (0, 4):
             line = connection_by_buyer[buyer]
@@ -1319,7 +1324,9 @@ class B4(ThreeDScene):
         quantity_readout = VGroup(quantity_number, quantity_units)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(rule), run_time=1.0)
+        self.pause('1.c.buyers.rule')
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
+        self.pause('1.c.buyers.curve')
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
         self.play(full_people[29][1].animate.set_color(FOCUS))
@@ -1421,7 +1428,9 @@ class B4(ThreeDScene):
         quantity_readout = VGroup(quantity_number, quantity_units)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
+        self.pause('1.c.sellers.units')
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
+        self.pause('1.c.sellers.curve')
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
         rule = fixed(Tex(r'Sell if $MC\leq P$.', color=DEFINITION))
@@ -1837,7 +1846,7 @@ class B4(ThreeDScene):
         buyer_offer_intro = fixed(Tex(r"A buyer who's left out offers a seller more than $\$3$.",
             color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(Create(ag_focus), Create(bid), FadeIn(buyer_offer_intro))
-        self.wait(1.5)
+        self.pause('1.f.offer')
 
         # Three people, their own values, and two visible trading alternatives.
         buy_person = buyer_people[24].copy().clear_updaters()
@@ -1915,6 +1924,7 @@ class B4(ThreeDScene):
                   buy_zero[2].animate.shift(RIGHT * 0.65), buy_values[2].animate.shift(RIGHT * 0.65),
                   FadeOut(buyer_question), FadeOut(buy_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
                   FadeOut(offer_arrow), offer_text.animate.set_color(GOV), run_time=0.9, rate_func=smooth)
+        self.pause('1.f.accepted')
         adjustment_head = fixed(title('Price adjustment'))
         self.remove(head)
         self.play(FadeOut(buy_detail), FadeOut(buy_zero), FadeOut(buy_price), FadeOut(buy_values),
@@ -1929,12 +1939,14 @@ class B4(ThreeDScene):
         self.remove(units)
         # The three-person close-up has shown the switch. Keep every original
         # crowd member in its ranked snapshot and compress the common response.
-        everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
+        self.pause('1.f.incentive')
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
-        rising = fixed(Tex('Shortages lead to an increase in the price.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(ReplacementTransform(everyone, rising))
+        rising = fixed(Tex('Shortages lead to an increase in the price.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeOut(everyone), FadeIn(rising), run_time=0.35)
+        self.pause('1.f.adjusted')
 
         # ---- 1.g · Predict the other direction before revealing its counts.
         self.play(FadeOut(rising), show_counts.animate.set_value(0), show_trades.animate.set_value(0), show_buyers.animate.set_value(0), show_sellers.animate.set_value(0))
@@ -1947,11 +1959,12 @@ class B4(ThreeDScene):
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
         self.play(show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
-        excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
         self.play(FadeIn(excess), Create(andrew_focus), Create(cut))
+        self.pause('1.h.offer')
 
         self.remove(head)
         head = fixed(title(r'A high price: $\$6$'))
@@ -2034,6 +2047,7 @@ class B4(ThreeDScene):
                   sell_zero[0].animate.shift(LEFT * 0.65), sell_values[0].animate.shift(LEFT * 0.65),
                   FadeOut(seller_question), FadeOut(sell_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
                   FadeOut(offer_arrow), offer_text.animate.set_color(GOV), run_time=0.9, rate_func=smooth)
+        self.pause('1.h.accepted')
         adjustment_head = fixed(title('Price adjustment'))
         self.remove(head)
         self.play(FadeOut(sell_detail), FadeOut(sell_zero), FadeOut(sell_price), FadeOut(sell_values),
@@ -2047,9 +2061,10 @@ class B4(ThreeDScene):
         self.add(crowd, crowd_marks, graphs)
         self.remove(units)
         self.remove(excess)
-        everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
+        self.pause('1.h.incentive')
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
 
         # ---- 1.i · Counts and incentives are two views of the same condition.
@@ -2073,16 +2088,16 @@ class B4(ThreeDScene):
         self.pause('1.i.stability')
         self.play(FadeOut(stability_question), price.animate.set_value(4.25),
                   run_time=1.0, rate_func=smooth)
-        excess_test = fixed(Tex('Seven willing sellers have no buyer. They can undercut.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        excess_test = fixed(Tex('Seven willing sellers have no buyer. They can undercut.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(excess_test), run_time=0.3)
-        self.wait(0.8)
+        self.pause('1.i.excess')
         self.play(FadeOut(excess_test), price.animate.set_value(4), run_time=1.0, rate_func=smooth)
         self.play(price.animate.set_value(3.75), run_time=1.0, rate_func=smooth)
-        shortage_test = fixed(Tex('Six willing buyers have no seller. They can offer more.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        shortage_test = fixed(Tex('Six willing buyers have no seller. They can offer more.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(shortage_test), run_time=0.3)
-        self.wait(0.8)
+        self.pause('1.i.shortage')
         self.play(FadeOut(shortage_test), price.animate.set_value(4), run_time=1.0, rate_func=smooth)
-        stable = fixed(Tex(r'Above $\$4$: excess. Below $\$4$: shortage.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        stable = fixed(Tex(r'Above $\$4$: excess. Below $\$4$: shortage.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(stable), run_time=0.3)
         self.pause('1.i.stable')
 
@@ -2361,12 +2376,16 @@ class B4(ThreeDScene):
         demand_equation = fixed(Tex(r'$P=12-Q_d/5$', color=DEMAND)).scale(0.82).move_to([-3.75, 1.20, 0])
         supply_equation = fixed(Tex(r'$P=2+Q_s/20$', color=SUPPLY)).scale(0.82).move_to([-3.75, 0.50, 0])
         self.play(FadeIn(equality), FadeIn(demand_equation), FadeIn(supply_equation))
+        self.pause('1.i.algebra.equal')
         equation = fixed(Tex(r'$12-Q/5=2+Q/20$', color=INK)).scale(0.93).move_to([-3.75, -0.40, 0])
         self.play(FadeIn(equation))
+        self.pause('1.i.algebra.equate')
         simplified = fixed(Tex(r'$10=Q/4$', color=INK)).scale(0.95).move_to([-3.75, -1.17, 0])
         result = fixed(Tex(r'$Q^*=40,\qquad P^*=2+40/20=4$', color=GUIDE)).scale(0.85).move_to([-3.75, -2.05, 0])
         self.play(FadeIn(simplified))
+        self.pause('1.i.algebra.simplify')
         self.play(FadeIn(result))
+        self.pause('1.i.algebra.solve')
         final = fixed(Tex(r'40,000 pounds at $\$4$ per pound.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(final))
         self.pause('1.i.algebra')
