@@ -272,11 +272,9 @@ class B4(ThreeDScene):
         chosen_price = Sphere(radius=0.055, color=GUIDE, resolution=(8, 6))
         chosen_price.move_to([4.175, -0.08, price_z])
         claim = fixed(Tex(r'$MC < P < MB$', color=DEFINITION).scale(DEFINITION_SCALE))
-        endpoint_note = fixed(Tex('At an endpoint, one person is indifferent.', color=CAPTION).scale(DEFINITION_SCALE))
-        unit = fixed(Tex('One pound', color=CAPTION).scale(DEFINITION_SCALE))
-        VGroup(claim, endpoint_note, unit).arrange(DOWN, buff=0.10).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        claim.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(window), ShowCreation(window_line), FadeIn(low_endpoint), FadeIn(high_endpoint),
-                  FadeIn(window_labels), FadeIn(chosen_price), FadeIn(claim), FadeIn(endpoint_note), FadeIn(unit))
+                  FadeIn(window_labels), FadeIn(chosen_price), FadeIn(claim))
         self.pause('1.a')
 
         # ========== 2. Bidding ==========
@@ -286,7 +284,7 @@ class B4(ThreeDScene):
             expenditure, buyer_cs, revenue, seller_cost, seller_ps,
             expenditure_label, cs_label, revenue_label, cost_label, ps_label,
             zero, zero_word, price_word, window, window_line, low_endpoint,
-            high_endpoint, window_labels, chosen_price, claim, endpoint_note, unit,
+            high_endpoint, window_labels, chosen_price, claim,
         ]], run_time=0.6)
 
         # Keep the first pair's camera and plaza framing. Slide Gary and Molly

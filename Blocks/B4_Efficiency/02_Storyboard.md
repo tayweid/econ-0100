@@ -384,15 +384,17 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.a · Recall one exchange
 
-1. Restore B3's approved Gary/Molly head-on close-up: MB $6, MC $2, price $4,
-   “One pound.” Title: “Which prices work?” Pause at `1.a.price_question`
+1. Restore B3's approved Gary/Molly head-on close-up: MB $6, MC $2, price $4.
+   Title: “Which prices work?” Pause at `1.a.price_question`
    before drawing the price and accounting features.
 2. Reveal the already familiar CS $2 and PS $2 together. Retain the green
    expenditure/revenue boundary and orange cost. Do not replay the five-step
    accounting construction or introduce either surplus definition again.
    Pause at `1.a.surplus` before revealing the acceptable-price interval.
-3. Mark the open $2–$6 interval between the two thresholds and show “MC < P < MB.”
-   Keep $4 inside it. At an endpoint one person is indifferent; the interval
+3. Mark the open $2–$6 interval between the two thresholds and show only the gold
+   “MC < P < MB” at the standard bottom margin. Omit the grey endpoint sentence
+   and “One pound” below it. Keep $4 inside the interval. At an endpoint one
+   person is indifferent; the interval
    marks strictly positive gains for both. Hold this one example rather than
    cycling through several accepted and rejected prices.
 
