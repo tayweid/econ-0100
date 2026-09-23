@@ -1914,7 +1914,7 @@ class B4(ThreeDScene):
             label.update()
             label.move_to(at, aligned_edge=edge)
             buy_values.add(label)
-        stay_text = Tex(r'Wait at $\$3$: gain $\$0$', color=CAPTION).scale(0.60)
+        stay_text = Tex(r'Wait at $\$3$:\\gain $\$0$', color=CAPTION).scale(0.60)
         offer_text = Tex(r'Offer $\$3.25$\\Gain $\$3.75$/lb', color=INK).scale(0.62)
         for label, at, edge in [(stay_text, [3.05, -0.07, 1.55], LEFT),
                                 (offer_text, [-3.05, -0.07, 2.95], RIGHT)]:

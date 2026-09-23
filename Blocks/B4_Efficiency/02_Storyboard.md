@@ -639,8 +639,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    role labels. With the baseline, bars, all MB/MC values, yellow ring, and
    current pair's solid $3 price visible, pause at `1.f.match`.
 2. Clear the fixed graphs during inspection. Keep MB/MC labels beside the bars.
-   Reveal the world-space camera-facing “Wait at $3: gain $0” choice with a
-   short arrow to the current solid price, then pause at `1.f.wait`. On advance,
+   Reveal the world-space camera-facing waiting choice in two rows: “Wait at $3:”
+   above “gain $0,” with a short arrow to the current solid price, then pause at
+   `1.f.wait`. On advance,
    reveal the dashed $3.25 offer and “Offer $3.25: gain $3.75/lb” with a short
    arrow to that proposed price spanning buyer and seller. Keep both arrows
    visible and route them clear of the three bars. Retain
