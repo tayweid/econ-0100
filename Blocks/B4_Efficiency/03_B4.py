@@ -2053,12 +2053,14 @@ class B4(ThreeDScene):
         show_trades.set_value(0)
         show_buyers.set_value(0)
         show_sellers.set_value(0)
-        head = fixed(title(r'At $\$3$, who can trade?'))
-        self.add(head, crowd, crowd_marks, graphs)
+        head = fixed(title(r'A low price: $\$3$'))
+        low_question = fixed(Tex('Who can trade?', color=DEFINITION).scale(DEFINITION_SCALE)
+                             .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.add(head, crowd, crowd_marks, graphs, low_question)
         self.pause('1.d')
 
         # ---- 1.e · Willingness first, matching second.
-        self.play(show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
+        self.play(FadeOut(low_question), show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
                   show_sellers.animate.set_value(1), run_time=0.8)
         # Keep quantity lines through matching; yellow marks the unserved remainder.
         self.play(show_trades.animate.set_value(1), run_time=1.1)
@@ -2095,9 +2097,8 @@ class B4(ThreeDScene):
         self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(shortage))
 
         # ---- 1.f · Amanda-Grace compares waiting with an actual alternative.
-        ag_head = fixed(title('What would this buyer do?'))
-        self.play(ReplacementTransform(head, ag_head))
-        head = ag_head
+        buyer_question = fixed(Tex('What would this buyer do?', color=DEFINITION).scale(DEFINITION_SCALE)
+                               .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
         seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -2169,7 +2170,7 @@ class B4(ThreeDScene):
             arrow.rotate(90 * DEGREES, RIGHT, about_point=ORIGIN).shift(DOWN * 0.07)
         self.play(Create(buy_ring), Create(buy_zero), Create(buy_price),
                   Create(buy_proposal), FadeIn(buy_values), FadeIn(stay_text), FadeIn(offer_text),
-                  Create(wait_arrow), Create(offer_arrow))
+                  Create(wait_arrow), Create(offer_arrow), FadeIn(buyer_question))
         self.pause('1.f')
         self.play(buy_price.animate.put_start_and_end_on(
                       np.array([-2.15, -0.045, 0.75 + 3.25 * 0.48]), np.array([-0.45, -0.045, 0.75 + 3.25 * 0.48])),
@@ -2178,11 +2179,14 @@ class B4(ThreeDScene):
                   buy_incumbent.animate.shift(RIGHT * 0.65),
                   buy_incumbent_bar.animate.shift(RIGHT * 0.65),
                   buy_zero[2].animate.shift(RIGHT * 0.65), buy_values[2].animate.shift(RIGHT * 0.65),
-                  FadeOut(buy_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
+                  FadeOut(buyer_question), FadeOut(buy_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
                   FadeOut(offer_arrow), offer_text.animate.set_color(GOV), run_time=0.9, rate_func=smooth)
+        adjustment_head = fixed(title('Price adjustment'))
+        self.remove(head)
         self.play(FadeOut(buy_detail), FadeOut(buy_zero), FadeOut(buy_price), FadeOut(buy_values),
-                  FadeOut(offer_text), FadeOut(buy_ring),
+                  FadeOut(offer_text), FadeOut(buy_ring), FadeIn(adjustment_head),
                   self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
+        head = adjustment_head
         # Return to the exact B3 plaza before compressing everyone's adjustment.
         crowd.resume_updating()
         crowd_marks.resume_updating()
@@ -2204,22 +2208,25 @@ class B4(ThreeDScene):
         # ---- 1.g · Predict the other direction before revealing its counts.
         self.play(FadeOut(rising), show_counts.animate.set_value(0), show_trades.animate.set_value(0), show_buyers.animate.set_value(0), show_sellers.animate.set_value(0))
         self.play(price.animate.set_value(6), run_time=1.0)
-        high_head = fixed(title(r'At $\$6$, who is left out?'))
-        self.play(ReplacementTransform(head, high_head))
+        high_head = fixed(title(r'A high price: $\$6$'))
+        high_question = fixed(Tex('Who is left out?', color=DEFINITION).scale(DEFINITION_SCALE)
+                              .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.remove(head)
+        self.play(FadeIn(high_head), FadeIn(high_question))
         head = high_head
         self.pause('1.g')
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
-        self.play(show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
+        self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
         excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
         self.play(FadeIn(excess), Create(andrew_focus), Create(cut))
 
-        andrew_head = fixed(title('What would this seller do?'))
-        self.play(FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low), ReplacementTransform(head, andrew_head))
-        head = andrew_head
+        seller_question = fixed(Tex('What would this seller do?', color=DEFINITION).scale(DEFINITION_SCALE)
+                                .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low))
 
         # Three people, their own values, and two visible trading alternatives.
         sell_incumbent = seller_people[29].copy().clear_updaters()
@@ -2285,7 +2292,7 @@ class B4(ThreeDScene):
             arrow.rotate(90 * DEGREES, RIGHT, about_point=ORIGIN).shift(DOWN * 0.07)
         self.play(Create(sell_ring), Create(sell_zero), Create(sell_price),
                   Create(sell_proposal), FadeIn(sell_values), FadeIn(stay_text), FadeIn(offer_text),
-                  Create(wait_arrow), Create(offer_arrow))
+                  Create(wait_arrow), Create(offer_arrow), FadeIn(seller_question))
         self.pause('1.h')
         self.play(sell_price.animate.put_start_and_end_on(
                       np.array([0.45, -0.045, 0.75 + 5.75 * 0.55]), np.array([2.15, -0.045, 0.75 + 5.75 * 0.55])),
@@ -2294,11 +2301,14 @@ class B4(ThreeDScene):
                   sell_incumbent.animate.shift(LEFT * 0.65),
                   sell_incumbent_bar.animate.shift(LEFT * 0.65),
                   sell_zero[0].animate.shift(LEFT * 0.65), sell_values[0].animate.shift(LEFT * 0.65),
-                  FadeOut(sell_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
+                  FadeOut(seller_question), FadeOut(sell_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
                   FadeOut(offer_arrow), offer_text.animate.set_color(GOV), run_time=0.9, rate_func=smooth)
+        adjustment_head = fixed(title('Price adjustment'))
+        self.remove(head)
         self.play(FadeOut(sell_detail), FadeOut(sell_zero), FadeOut(sell_price), FadeOut(sell_values),
-                  FadeOut(offer_text), FadeOut(sell_ring),
+                  FadeOut(offer_text), FadeOut(sell_ring), FadeIn(adjustment_head),
                   self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
+        head = adjustment_head
         # Return to the exact B3 plaza before compressing everyone's adjustment.
         crowd.resume_updating()
         crowd_marks.resume_updating()

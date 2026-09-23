@@ -176,6 +176,10 @@ From `5.a`, its active price/quantity guides stay hidden.
   vertical stack and anchor the whole group at the bottom so lines do not overlap.
   Keep model values, price/choice labels, and quantity-gap labels attached to
   their visual features. Use one question per beat, without repeating the title.
+  In `1.d`–`1.h`, titles give context: “A low price: $3” or “A high price: $6.”
+  Put each question in yellow at the same bottom margin/scale, replacing any
+  narration there. Remove the question on acceptance. Before the common price
+  changes, replace the fixed-price context title with “Price adjustment.”
 - During the recap, keep the market at left and its graph at right.
   Keep the same 59 buyers and 100 sellers on their ranked curved arcs.
   Actual partners meet across the central diameter; willing unmatched people
@@ -474,9 +478,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Keep everyone at the outer rim, withholding plaza willingness marks and
    trades. Keep vertical graph guides from the $3 curve intersections to the
    Q axes, with teal “45” and orange “20” attached there. Hide yellow gap marks.
-2. Use the existing title “At $3, who can trade?” as the single prompt. Omit
-   the repeated bottom question “How much would each side trade?” Hold before
-   revealing willingness.
+2. Title: “A low price: $3.” Put “Who can trade?” in yellow at the standard
+   bottom footer position (scale 0.7443, margin 0.05). Hold before revealing
+   willingness; show no other footer simultaneously.
 
 ## 1.e · Count the shortage and the actual trades
 
@@ -491,8 +495,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
    Center the occupied stations on the plaza. The matching and next caption
    communicate the 20 trades; add no separate Qx counter.
-4. Hold “20 pairs trade. 25 willing buyers are still waiting.” The checked
-   unmatched buyers, including Amanda-Grace and Gary, remain on the inner arc.
+4. Keep the title “A low price: $3.” Replace “Who can trade?” with the existing
+   narration “20 pairs trade. 25 willing buyers are still waiting.” Hold with
+   the checked unmatched buyers, including Amanda-Grace and Gary, on the inner arc.
    Give each unmatched willing buyer a short yellow ground segment following
    that person, and keep demand's 20–45 graph gap yellow with nearby “Shortage 25”
    readouts. The marks stay local to people rather than connecting their positions.
@@ -516,7 +521,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.f · Recall the incentive to raise price
 
 1. Highlight the deciding buyer (internally buyer 25) and seller 20 (MC $3),
-   then bring them into B3's head-on view. Title: “What would this buyer do?”
+   then bring them into B3's head-on view. Keep the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
    incumbent buyer 20 right. Include the incumbent's **MB $8** bar and label.
@@ -529,18 +534,21 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Use two world-space camera-facing choices: “Wait at $3: gain $0” with a
    short arrow to the current solid price, and “Offer $3.25: gain $3.75/lb” with
    a short arrow to the proposed dashed price spanning buyer and seller. Keep
-   both arrows visible and route them clear of the three bars. Put the seller's
-   gain narration at the standard centered bottom footer position. Hold before
-   acceptance at the existing `1.f` stop.
-3. On advance, accept in the close-up: move the seller's MC bar/label to the
+   both arrows visible and route them clear of the three bars. Any seller-gain
+   narration uses the bottom footer first; replace it with the yellow question
+   “What would this buyer do?” at the existing `1.f` decision hold. Keep one
+   footer at a time, at scale 0.7443 and bottom margin 0.05.
+3. On advance, remove the yellow question and accept in the close-up: move
+   the seller's MC bar/label to the
    deciding buyer's new pair and solidify their floating **$3.25** price at its
    dollar height. Let the incumbent buyer step aside with their MB bar/label.
    Fade the waiting choice and its arrow, clear the proposal arrow as its price
    is accepted, and color the offer green.
    Clear the close-up callouts and return to the untouched full-crowd snapshot.
    Do not replay the switch on the plaza or animate a rollback there.
-4. Show “Other unserved buyers have the same incentive,” followed by
-   “Shortage → price rises.” Raise the common price to **$4** in one smooth
+4. Change the title to “Price adjustment.” Show “Other unserved buyers have
+   the same incentive,” followed by “Shortage → price rises.” Raise the common
+   price to **$4** in one smooth
    play, with the totem, counts, willingness marks, and per-person ground segments
    synchronized. Finish at 40/40/40; no extra teaching or navigation stop.
 
@@ -550,9 +558,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    yellow gap marks before moving the common price to $6. Keep graph quantity
    guides and attached numbers visible throughout: verticals drop from the
    price/curve intersections to the Q axes, ending at teal “30” and orange “80.”
-   Keep “At $6, who is left out?” as the single title prompt; omit the repeated
-   bottom “Who would buy? Who would sell? Who actually trades?” Hold before
-   revealing the plaza response and actual matching.
+   Title: “A high price: $6.” Put “Who is left out?” in yellow at the standard
+   bottom footer position. Hold before revealing the plaza response and actual
+   matching; do not show another footer or repeat the question in the title.
 
 ## 1.h · Count the excess and recall undercutting
 
@@ -560,11 +568,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    30 buyer checks, 80 seller checks, and 30 central pairs. Short teal/orange
    ground segments move with each willing person. Fifty unserved sellers keep
    local yellow segments; supply's 30–80 graph gap and “Excess 50” remain yellow.
-   Keep the separate excess narration centered at the standard bottom footer
-   position, clear of the plaza; the quantity-gap labels stay attached.
+   Keep the title “A high price: $6.” Replace “Who is left out?” with the
+   existing excess narration at the standard bottom footer position, clear
+   of the plaza; the quantity-gap labels stay attached.
 2. Inspect the deciding seller (internally seller 40) with buyer 30 in the
-   familiar head-on view. Title: “What would this seller do?” Ring the deciding
-   seller's orb in yellow. Mirror the compact figure: incumbent seller 30 left,
+   familiar head-on view, retaining “A high price: $6” as the context title.
+   Ring the deciding seller's orb in yellow. Mirror the compact figure: incumbent seller 30 left,
    buyer center, deciding seller right. Include the incumbent's **MC $3.50**
    bar and label. Buyer 30 already trades with that seller. Move the buyer's MB
    bar/label to this left-hand pair and keep the solid red **$6** price floating
@@ -573,14 +582,16 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 3. Use two world-space choices: “Keep $6: gain $0” with a short arrow to the
    current solid price, and “Ask $5.75: gain $1.75/lb” with a short arrow to
    the proposed dashed price spanning seller and buyer. Keep both arrows
-   visible and clear of all three bars. Hold the existing `1.h` decision stop.
-   On advance, move the buyer's MB bar/label to the new pair, solidify the
+   visible and clear of all three bars. Replace the excess narration with the
+   yellow footer “What would this seller do?” at the existing `1.h` decision
+   stop, using scale 0.7443 and bottom margin 0.05. On advance, remove that
+   question, move the buyer's MB bar/label to the new pair, and solidify the
    floating **$5.75** price at dollar height, and let the incumbent seller step
    aside with their MC bar/label. Fade the keep-price choice and its arrow,
    clear the proposal arrow as its price is accepted, and color the offer green.
 4. Clear the close-up and return to the untouched full crowd, without a second
-   plaza switch or rollback. Show “Other unserved sellers have the same
-   incentive,” followed by “Excess → price falls.” Move the common price to
+   plaza switch or rollback. Change the title to “Price adjustment.” Show
+   “Other unserved sellers have the same incentive,” followed by “Excess → price falls.” Move the common price to
    **$4** in one smooth play, retaining synchronized counts and moving ground
    segments. No new hold is introduced.
 
