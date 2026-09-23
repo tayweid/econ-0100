@@ -179,7 +179,8 @@ From `5.a`, its active price/quantity guides stay hidden.
   vertical stack and anchor the whole group at the bottom so lines do not overlap.
   Keep model values, price/choice labels, and quantity-gap labels attached to
   their visual features. Use one question per beat, without repeating the title.
-  In `1.d`–`1.h`, titles give context: “A low price: $3” or “A high price: $6.”
+  In `1.d`–`1.e`, use the title “At $3, who trades?” without a second question
+  at the bottom. In `1.f`–`1.h`, titles give context: “A low price: $3” or “A high price: $6.”
   Put each question in yellow at the same bottom margin/scale, replacing any
   narration there. Remove the question on acceptance. Before the common price
   changes, replace the fixed-price context title with “Price adjustment.”
@@ -490,9 +491,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Keep everyone at the outer rim, withholding plaza willingness marks and
    trades. Keep vertical graph guides from the $3 curve intersections to the
    Q axes, with teal “45” and orange “20” attached there. Hide yellow gap marks.
-2. Title: “A low price: $3.” Put “Who can trade?” in yellow at the standard
-   bottom footer position (scale 0.7443, margin 0.05). Hold before revealing
-   willingness; show no other footer simultaneously.
+2. Title: “At $3, who trades?” Hold before revealing willingness, without
+   repeating the question at the bottom.
 
 ## 1.e · Count the shortage and the actual trades
 
@@ -507,7 +507,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
    Center the occupied stations on the plaza. The matching and next caption
    communicate the 20 trades; add no separate Qx counter.
-4. Keep the title “A low price: $3.” Replace “Who can trade?” with the existing
+4. Keep the title “At $3, who trades?” Show the existing bottom
    narration “20 pairs trade. 25 willing buyers are still waiting.” Hold with
    the checked unmatched buyers, including Amanda-Grace and Gary, on the inner arc.
    Give each unmatched willing buyer a short yellow ground segment following
@@ -533,7 +533,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.f · Recall the incentive to raise price
 
 1. Highlight the deciding buyer (internally buyer 25) and seller 20 (MC $3),
-   then bring them into B3's head-on view. Keep the context title “A low price: $3.”
+   then bring them into B3's head-on view. Change to the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
    incumbent buyer 20 right. Include the incumbent's **MB $8** bar and label.

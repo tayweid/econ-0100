@@ -2061,14 +2061,12 @@ class B4(ThreeDScene):
         show_trades.set_value(0)
         show_buyers.set_value(0)
         show_sellers.set_value(0)
-        head = fixed(title(r'A low price: $\$3$'))
-        low_question = fixed(Tex('Who can trade?', color=DEFINITION).scale(DEFINITION_SCALE)
-                             .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.add(head, crowd, crowd_marks, graphs, low_question)
+        head = fixed(title(r'At $\$3$, who trades?'))
+        self.add(head, crowd, crowd_marks, graphs)
         self.pause('1.d')
 
         # ---- 1.e · Willingness first, matching second.
-        self.play(FadeOut(low_question), show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
+        self.play(show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
                   show_sellers.animate.set_value(1), run_time=0.8)
         # Keep quantity lines through matching; yellow marks the unserved remainder.
         self.play(show_trades.animate.set_value(1), run_time=1.1)
@@ -2105,12 +2103,14 @@ class B4(ThreeDScene):
         self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(shortage))
 
         # ---- 1.f · Amanda-Grace compares waiting with an actual alternative.
+        self.remove(head)
+        head = fixed(title(r'A low price: $\$3$'))
         buyer_question = fixed(Tex('What would this buyer do?', color=DEFINITION).scale(DEFINITION_SCALE)
                                .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
         seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(Create(ag_focus), Create(bid), FadeOut(units), FadeIn(seller_gain))
+        self.play(FadeIn(head), Create(ag_focus), Create(bid), FadeOut(units), FadeIn(seller_gain))
 
         self.play(FadeOut(ag_focus), FadeOut(bid), FadeOut(seller_gain))
 
