@@ -1836,7 +1836,7 @@ class B4(ThreeDScene):
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
         buyer_offer_intro = fixed(Tex(r"A buyer who's left out offers a seller more than $\$3$.",
             color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(Create(ag_focus), Create(bid), FadeOut(units), FadeIn(buyer_offer_intro))
+        self.play(Create(ag_focus), Create(bid), FadeIn(buyer_offer_intro))
         self.wait(1.5)
 
         # Three people, their own values, and two visible trading alternatives.

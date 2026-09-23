@@ -594,8 +594,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. In the low-price plaza, highlight the left-out buyer (internally buyer 25)
    with a yellow ring and a red proposal link to seller 20 (MC $3). Show the
    gold bottom caption “A buyer who's left out offers a seller more than $3.”
-   at scale 0.7443 and margin 0.05 for 1.5 seconds before zooming. Fade the
-   ring, link, and footer with the plaza-to-close-up transition, not beforehand;
+   at scale 0.7443 and margin 0.05 for 1.5 seconds before zooming. Keep the grey
+   “One person = 1,000 lb” beneath the plaza throughout the highlight and offer
+   setup. Fade it, the ring, link, and footer with the plaza-to-close-up transition, not beforehand;
    add no hold. Retain the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
