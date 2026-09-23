@@ -94,11 +94,14 @@ The prototype is superseded; it is not an alternative design to preserve.
 - Buyer/seller price comparisons remain in Taylor's approved full-width front
   view: phi 90°, center `[0, 0, 1.9]`, height 8. Keep every person in one row.
   The straight equation line passes through bar-top centers, with rank n at
-  Q=n thousand pounds. Both rows use base 0.75 and dollar-height 0.28. The
-  price guide ends at the equation line; checks and counts show exact willing
-  people. Keep its price readout just left of the dashed guide, tracking its
+  Q=n thousand pounds. Both rows use base 0.55 and dollar-height 0.28, bringing
+  the bars nearer the people while leaving the checks clear. The price guide
+  ends at the equation line; green checks and counts show exact willing people. Keep its price readout just left of the dashed guide, tracking its
   height. A bare quantity number tracks the corresponding horizontal position
-  below the row, teal for buyers and orange for sellers. Ease in and out of every price move in these comparisons, including
+  below the row, teal for buyers and orange for sellers, with grey “thousand lb”
+  immediately below and tracking the number. All row narration uses a gold
+  bottom footer at scale 0.7443 and margin 0.05. Ease in and out of every price
+  move in these comparisons, including
   the sellers' return to $3. Keep the current episode order and teaching holds.
   Bring the plaza and separate market graphs back only when both sides enter
   the equilibrium argument.
@@ -423,43 +426,52 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.c.buyers · Build quantity demanded from the people
 
-1. Show all 59 buyers in the approved full-width head-on row. Keep the caption
-   “One person = 1,000 lb. Bar height = dollars per pound.” This changes the
-   unit from the preceding one-pound trades.
+1. Show all 59 buyers in the approved full-width head-on row. Set the bars'
+   base to **0.55**, retaining dollar-height 0.28, so they sit closer to the
+   people with green willingness checks clear between them. Show “One person =
+   1,000 lb. Bar height = dollars per pound” in a **gold** footer at scale
+   **0.7443**, bottom margin **0.05**. This announces the unit change.
 2. Draw the straight equation line P=12−Qd/5 through the bar-top centers; no
    stepped outline. Put its equation above the row. Keep this camera throughout
    the demand comparison, without pulling back to a separate graph.
-3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 checks,
-   dim excluded people/bars, and highlight the marginal buyer (MB=$6). Put the
-   price readout just left of the guide and a teal “30” below the row at Q=30;
-   quantities are thousands of pounds. Caption: “The marginal buyer is
-   indifferent at $6.” Hold “MB ≥ P”; equality is willing.
+3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 **green**
+   checks, dim excluded people/bars, and highlight the marginal buyer (MB=$6).
+   Put the price readout just left of the guide and a teal “30” below the row
+   at Q=30, with grey **thousand lb** immediately beneath that number. Caption:
+   “The marginal buyer is indifferent at $6.” Keep all row narration gold at
+   the same bottom baseline. Hold “MB ≥ P”; equality is willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
 1. Lower price from $6 to $3 in this same view with ease-in/ease-out motion.
-   The dashed guide and its price readout descend together; the quantity label
-   tracks horizontally to Q=45 as the actual willingness count reaches 45.
-2. Hold “At $3, 45 buyers are willing. We have not counted trades.”
-   Do not show trading circles or Qx.
+   The dashed guide and its price readout descend together; the teal quantity
+   number and grey **thousand lb** below it track horizontally to Q=45. Green
+   checks show the actual willingness count reaching 45.
+2. Hold “At $3, 45 buyers are willing. We have not counted trades” in the gold
+   footer at scale 0.7443 and bottom margin 0.05. No trading circles or Qx appear.
 
 ## 1.c.sellers · Build quantity supplied the same way
 
 1. Replace the buyers with all 100 sellers in their own full-width head-on row.
-   Use the same camera, dollar-height, and 1,000-lb-lot convention.
+   Use the same camera, base **0.55**, dollar-height **0.28**, and 1,000-lb-lot
+   convention. Keep green checks clear of both bars and people; every row
+   narration footer is gold at scale 0.7443 and bottom margin 0.05.
 2. Draw P=2+Qs/20 as a straight line through the cost-bar centers and display
    its equation. Keep the whole supply comparison in this view.
 3. At $3, end the dashed price guide at Qs=20. Keep its price readout just left
-   of the guide and an orange “20” below the row at Q=20. Show 20 checks, dim unwilling
+   of the guide and an orange “20” below the row at Q=20, with grey **thousand lb**
+   immediately beneath the number. Show 20 **green** checks, dim unwilling
    sellers, and hold “MC ≤ P.” Counts show willingness, not completed sales.
 
 ## 1.c.sellers.high · A higher price brings more sellers
 
 1. Raise price from $3 to $6 without moving the camera, easing in and out.
-   The price readout follows the guide upward and the quantity label moves
-   horizontally to Q=80. Exact checks identify 80 willing sellers. Hold at Qs=80.
+   The price readout follows the guide upward; the orange quantity number and
+   grey **thousand lb** below it move together to Q=80. Green checks identify
+   80 willing sellers. Hold at Qs=80 with the gold willing-seller narration at
+   the standard footer size and margin.
 2. On advance, clear that caption and ease back to $3 and 20 willing sellers,
-   with both labels tracking their positions, before bringing both market sides
+   with the price, quantity number, and units tracking their positions, before bringing both market sides
    together. Do not stop at or label $4 as equilibrium during the sweep.
 
 ## 1.c · One price, many decisions

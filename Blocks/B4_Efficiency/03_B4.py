@@ -1526,12 +1526,12 @@ class B4(ThreeDScene):
         ROW_WIDTH, ROW_COUNT = 13.6, 59
         Q_STEP = ROW_WIDTH / ROW_COUNT
         Q_ZERO = -ROW_WIDTH / 2 - Q_STEP / 2
-        ROW_BASE, ROW_DOLLAR_HEIGHT = 0.75, 0.28
+        ROW_BASE, ROW_DOLLAR_HEIGHT = 0.55, 0.28
         price = ValueTracker(6)
         show_willing = ValueTracker(0)
         self.add(price, show_willing)
         head = fixed(title('How many would buy at this price?'))
-        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION))
+        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=DEFINITION))
         one_lot.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         full_bars, full_people, full_checks = Group(), Group(), VGroup()
         for n, value in enumerate(values):
@@ -1547,7 +1547,7 @@ class B4(ThreeDScene):
             orb.price, orb.value, orb.visibility = price, value, show_willing
             orb.add_updater(lambda m: m.set_opacity(1 - 0.65 * m.visibility.get_value() * float(not (m.value + 1e-7 >= m.price.get_value()))))
             person = Group(shadow, orb)
-            check = (VMobject(color=DEMAND, stroke_width=1.5).set_points_as_corners(
+            check = (VMobject(color=GOV, stroke_width=1.5).set_points_as_corners(
                 [[-0.025, 0, 0], [-0.005, -0.018, 0], [0.032, 0.032, 0]]))
             check.price, check.value, check.visibility = price, value, show_willing
             check.anchor, check.face_mat = orb, np.eye(3)
@@ -1596,22 +1596,26 @@ class B4(ThreeDScene):
         self.add(quantity_tracker)
         quantity_number = Integer(30, color=DEMAND).scale(0.70)
         quantity_number.tracker = quantity_tracker
-        # Bare quantity number, directly below the curve's current intersection.
+        # Quantity and its grey units follow the curve's current intersection.
         quantity_number.anchor, quantity_number.face_mat = price_guide, np.eye(3)
         quantity_number.add_updater(face_camera)
         quantity_number.add_updater(lambda m: m.move_to([m.anchor.get_end()[0], 0, -0.70]))
-        quantity_readout = VGroup(quantity_number)
+        quantity_units = Tex('thousand lb', color=CAPTION).scale(0.43)
+        quantity_units.anchor, quantity_units.face_mat = quantity_number, np.eye(3)
+        quantity_units.add_updater(face_camera)
+        quantity_units.add_updater(lambda m: m.move_to(m.anchor.get_center() + IN * 0.32))
+        quantity_readout = VGroup(quantity_number, quantity_units)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
-        rule = fixed(Tex(r'$MB\geq P$: willing to buy. The marginal buyer is indifferent at $\$6$.', color=INK))
+        rule = fixed(Tex(r'$MB\geq P$: willing to buy. The marginal buyer is indifferent at $\$6$.', color=DEFINITION))
         rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
         self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=smooth)
-        low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=INK))
+        low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=DEFINITION))
         low.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(rule, low))
         self.pause('1.c.buyers.low')
@@ -1629,12 +1633,12 @@ class B4(ThreeDScene):
         ROW_WIDTH, ROW_COUNT = 13.8, 100
         Q_STEP = ROW_WIDTH / ROW_COUNT
         Q_ZERO = -ROW_WIDTH / 2 - Q_STEP / 2
-        ROW_BASE, ROW_DOLLAR_HEIGHT = 0.75, 0.28
+        ROW_BASE, ROW_DOLLAR_HEIGHT = 0.55, 0.28
         price = ValueTracker(3)
         show_willing = ValueTracker(0)
         self.add(price, show_willing)
         head = fixed(title('How many would sell at this price?'))
-        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION))
+        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=DEFINITION))
         one_lot.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         full_bars, full_people, full_checks = Group(), Group(), VGroup()
         for n, value in enumerate(values):
@@ -1650,7 +1654,7 @@ class B4(ThreeDScene):
             orb.price, orb.value, orb.visibility = price, value, show_willing
             orb.add_updater(lambda m: m.set_opacity(1 - 0.65 * m.visibility.get_value() * float(not (m.value <= m.price.get_value() + 1e-7))))
             person = Group(shadow, orb)
-            check = (VMobject(color=SUPPLY, stroke_width=1.5).set_points_as_corners(
+            check = (VMobject(color=GOV, stroke_width=1.5).set_points_as_corners(
                 [[-0.025, 0, 0], [-0.005, -0.018, 0], [0.032, 0.032, 0]]))
             check.price, check.value, check.visibility = price, value, show_willing
             check.anchor, check.face_mat = orb, np.eye(3)
@@ -1699,22 +1703,26 @@ class B4(ThreeDScene):
         self.add(quantity_tracker)
         quantity_number = Integer(20, color=SUPPLY).scale(0.70)
         quantity_number.tracker = quantity_tracker
-        # Bare quantity number, directly below the curve's current intersection.
+        # Quantity and its grey units follow the curve's current intersection.
         quantity_number.anchor, quantity_number.face_mat = price_guide, np.eye(3)
         quantity_number.add_updater(face_camera)
         quantity_number.add_updater(lambda m: m.move_to([m.anchor.get_end()[0], 0, -0.70]))
-        quantity_readout = VGroup(quantity_number)
+        quantity_units = Tex('thousand lb', color=CAPTION).scale(0.43)
+        quantity_units.anchor, quantity_units.face_mat = quantity_number, np.eye(3)
+        quantity_units.add_updater(face_camera)
+        quantity_units.add_updater(lambda m: m.move_to(m.anchor.get_center() + IN * 0.32))
+        quantity_readout = VGroup(quantity_number, quantity_units)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
-        rule = fixed(Tex(r'$MC\leq P$: willing to sell. At $\$3$, 20 sellers are willing.', color=INK))
+        rule = fixed(Tex(r'$MC\leq P$: willing to sell. At $\$3$, 20 sellers are willing.', color=DEFINITION))
         rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(one_lot, rule))
         self.pause('1.c.sellers')
         self.play(price.animate.set_value(6), run_time=2.0, rate_func=smooth)
-        high = fixed(Tex(r'At $\$6$, 80 sellers are willing. A higher price brings more sellers.', color=INK))
+        high = fixed(Tex(r'At $\$6$, 80 sellers are willing. A higher price brings more sellers.', color=DEFINITION))
         high.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(rule, high))
         self.pause('1.c.sellers.high')
