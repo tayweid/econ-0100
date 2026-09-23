@@ -1946,6 +1946,103 @@ class B4(ThreeDScene):
         fixed(graphs)
         # World and fixed overlay objects are added separately, as in B3.
 
+        # Persistent quantity spans: match the counted people to their graph baselines.
+        gap_count = ValueTracker(25)
+        gap_count.price, gap_count.mb, gap_count.mc = price, BUYER_MB, SELLER_MC
+        gap_count.add_updater(lambda m: m.set_value(abs(
+            np.count_nonzero(m.mb + 1e-7 >= m.price.get_value())
+            - np.count_nonzero(m.mc <= m.price.get_value() + 1e-7))))
+        self.add(gap_count)
+        buyer_quantity = VGroup(VMobject(color=DEMAND, stroke_width=3), VMobject(color=DEMAND, stroke_width=3))
+        seller_quantity = VGroup(VMobject(color=SUPPLY, stroke_width=3), VMobject(color=SUPPLY, stroke_width=3))
+        waiting_gap = VMobject(color=FOCUS, stroke_width=4)
+        for line in [*buyer_quantity, *seller_quantity, waiting_gap]:
+            line.set_flat_stroke(False)
+        plaza_shortage = Tex('Shortage', color=FOCUS).scale(0.58)
+        plaza_excess = Tex('Excess', color=FOCUS).scale(0.58)
+        plaza_gap_number = Integer(25, color=FOCUS).scale(0.58)
+        plaza_gap_number.tracker = gap_count
+        for label in [plaza_shortage, plaza_excess, plaza_gap_number]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+        plaza_quantities = VGroup(buyer_quantity, seller_quantity, waiting_gap,
+                                  plaza_shortage, plaza_excess, plaza_gap_number)
+        plaza_quantities.price, plaza_quantities.mb, plaza_quantities.mc = price, BUYER_MB, SELLER_MC
+        plaza_quantities.buyers, plaza_quantities.sellers = buyer_circles, seller_circles
+        plaza_quantities.counts, plaza_quantities.trades = show_counts, show_trades
+
+        def update_plaza_quantities(m):
+            qd = int(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()))
+            qs = int(np.count_nonzero(m.mc <= m.price.get_value() + 1e-7))
+            waiting_by_side = []
+            for paths, people, quantity, side in [(m[0], m.buyers, qd, 1), (m[1], m.sellers, qs, -1)]:
+                points = [person.get_center() for person in people[:quantity]]
+                # Use actual positions, including the illustrative partner switch.
+                paired = sorted([p for p in points if abs(p[1]) < 1], key=lambda p: p[0])
+                waiting = sorted([p for p in points if abs(p[1]) >= 1], key=lambda p: p[0])
+                waiting_by_side.append(waiting)
+                for path, run in zip(paths, [paired, waiting]):
+                    if run:
+                        line_points = [p + np.array([0, -side * 0.18, 0.015]) for p in run]
+                        if len(line_points) == 1:
+                            line_points = [line_points[0] + LEFT * 0.05, line_points[0] + RIGHT * 0.05]
+                        path.set_points_as_corners(line_points)
+                    path.set_stroke(opacity=m.counts.get_value() if run else 0)
+            side = 1 if qd > qs else -1
+            waiting = waiting_by_side[0 if side == 1 else 1]
+            visible = m.counts.get_value() if qd != qs and waiting and m.trades.get_value() > 0.999 else 0
+            if waiting:
+                gap_points = [p + np.array([0, -side * 0.38, 0.02]) for p in waiting]
+                if len(gap_points) == 1:
+                    gap_points = [gap_points[0] + LEFT * 0.05, gap_points[0] + RIGHT * 0.05]
+                m[2].set_points_as_corners(gap_points)
+                middle = gap_points[len(gap_points) // 2]
+                m[5].move_to(middle + np.array([0.55, -side * 0.48, 0.12]))
+                m[3].next_to(m[5], LEFT, buff=0.10)
+                m[4].next_to(m[5], LEFT, buff=0.10)
+            m[2].set_stroke(opacity=visible)
+            m[3].set_opacity(visible if side == 1 else 0)
+            m[4].set_opacity(visible if side == -1 else 0)
+            m[5].set_opacity(visible)
+
+        plaza_quantities.add_updater(update_plaza_quantities)
+        # Last in the crowd: its lines follow the updated actor positions.
+        crowd.add(plaza_quantities)
+        demand_span = Line(demand_axes.c2p(0, 0), demand_axes.c2p(45, 0), color=DEMAND, stroke_width=4)
+        supply_span = Line(supply_axes.c2p(0, 0), supply_axes.c2p(20, 0), color=SUPPLY, stroke_width=4)
+        graph_gap = VMobject(color=FOCUS, stroke_width=3)
+        graph_shortage = Tex('Shortage', color=FOCUS).scale(0.40)
+        graph_excess = Tex('Excess', color=FOCUS).scale(0.40)
+        graph_gap_number = Integer(25, color=FOCUS).scale(0.40)
+        graph_gap_number.tracker = gap_count
+        graph_gap_number.add_updater(lambda m: m.set_value(int(m.tracker.get_value())))
+        graph_quantities = fixed(VGroup(demand_span, supply_span, graph_gap,
+                                       graph_shortage, graph_excess, graph_gap_number))
+        graph_quantities.price, graph_quantities.mb, graph_quantities.mc = price, BUYER_MB, SELLER_MC
+        graph_quantities.demand, graph_quantities.supply = demand_axes, supply_axes
+        graph_quantities.counts, graph_quantities.trades = show_counts, show_trades
+
+        def update_graph_quantities(m):
+            qd = int(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()))
+            qs = int(np.count_nonzero(m.mc <= m.price.get_value() + 1e-7))
+            for line, ax, quantity in [(m[0], m.demand, qd), (m[1], m.supply, qs)]:
+                line.set_points_as_corners([ax.c2p(0, 0), ax.c2p(quantity, 0)])
+                line.set_stroke(opacity=m.counts.get_value())
+            ax = m.demand if qd > qs else m.supply
+            start = ax.c2p(min(qd, qs), 0) + UP * 0.18
+            end = ax.c2p(max(qd, qs), 0) + UP * 0.18
+            m[2].set_points_as_corners([start + DOWN * 0.06, start, end, end + DOWN * 0.06])
+            visible = m.counts.get_value() if qd != qs and m.trades.get_value() > 0.999 else 0
+            m[2].set_stroke(opacity=visible)
+            m[5].move_to((start + end) / 2 + np.array([0.35, 0.23, 0]))
+            m[3].next_to(m[5], LEFT, buff=0.07).set_opacity(visible if qd > qs else 0)
+            m[4].next_to(m[5], LEFT, buff=0.07).set_opacity(visible if qs > qd else 0)
+            m[5].set_opacity(visible)
+
+        graph_quantities.add_updater(update_graph_quantities)
+        graphs.add(graph_quantities)
+
         # ---- 1.c / 1.d · Off-equilibrium first. No $4 answer has appeared.
         show_counts.set_value(0)
         show_trades.set_value(0)
@@ -1958,19 +2055,7 @@ class B4(ThreeDScene):
         # ---- 1.e · Willingness first, matching second.
         self.play(show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
                   show_sellers.animate.set_value(1), run_time=0.8)
-        # Briefly connect each willing arc to its 0-to-Q span on the graph.
-        demand_span = fixed(Line(demand_axes.c2p(0, 0), demand_axes.c2p(45, 0), color=DEMAND, stroke_width=5))
-        supply_span = fixed(Line(supply_axes.c2p(0, 0), supply_axes.c2p(20, 0), color=SUPPLY, stroke_width=5))
-        buyer_bracket = VMobject(color=DEMAND, stroke_width=3).set_points_as_corners([
-            np.array([p[0] * STEP_IN * 0.95, p[1] * STEP_IN * 0.95, 0.04]) for p in buyer_positions[:45]])
-        seller_bracket = VMobject(color=SUPPLY, stroke_width=3).set_points_as_corners([
-            np.array([p[0] * STEP_IN * 0.95, p[1] * STEP_IN * 0.95, 0.04]) for p in seller_positions[:20]])
-        self.play(Create(buyer_bracket), Create(demand_span), run_time=0.6)
-        self.wait(0.3)
-        self.play(FadeOut(buyer_bracket), FadeOut(demand_span), run_time=0.2)
-        self.play(Create(seller_bracket), Create(supply_span), run_time=0.6)
-        self.wait(0.3)
-        self.play(FadeOut(seller_bracket), FadeOut(supply_span), run_time=0.2)
+        # Keep quantity lines through matching; yellow marks the unserved remainder.
         self.play(show_trades.animate.set_value(1), run_time=1.1)
         shortage = fixed(Tex(r'20 pairs trade. 25 willing buyers are still waiting.', color=INK))
         shortage.scale(0.76).move_to([0, -3.65, 0])
@@ -2547,7 +2632,7 @@ class B4(ThreeDScene):
         graph_price_ticks = fixed(VGroup(*[
             Tex(str(p), color=GUIDE if p == 4 else CAPTION).scale(0.40)
                 .next_to(merged_axes.c2p(0, p), LEFT, buff=0.10) for p in [4, 8, 12]]))
-        graph_price_heading = fixed(Tex(r'Price ($/lb)', color=CAPTION)).scale(0.48)
+        graph_price_heading = fixed(Tex(r'Price (\$/lb)', color=CAPTION)).scale(0.48)
         graph_price_heading.next_to(merged_axes.c2p(0, 13), UP, buff=0.16, aligned_edge=LEFT)
         crowd.suspend_updating()
         self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same),

@@ -189,8 +189,16 @@ stay at the rim, willing unmatched people stand on an inner arc in their own
 half, and partners meet across the center line. Pair adjacency carries the
 trading meaning; the old circle objects remain invisible code anchors only.
 
-Briefly highlight each willing group's ground arc together with the same-colored
-horizontal 0–Q span on its graph. Clear these correspondence marks before matching.
+Keep teal buyer and orange seller quantity lines visible on the full-market
+recap plaza and its graphs once willingness is revealed. On the plaza, draw the
+central matched run and remaining waiting arc separately; never join them with a
+diagonal across the plaza. Graph baselines run from 0 to each side's actual Q.
+Mark the unmatched willing arc on the longer side in yellow and the corresponding
+min(Qd,Qs)–max(Qd,Qs) graph span in yellow. Attach a yellow “Shortage 25” or
+“Excess 50” readout beside each span; the existing units are thousands of pounds.
+Update these lines and counts with price, fading the yellow span/readout when
+the gap reaches zero. Hide them with the plaza/graphs during example close-ups
+and restore them on return; prediction holds keep them hidden with the counts.
 The older circle/row convention below continues only in the later stages awaiting
 this layout review. Camera movement is available for deliberate example close-ups.
 
@@ -499,16 +507,18 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Willing people step to the inner arcs and receive green checks. Unwilling
    people stay at the rim with small red Xs. Reveal teal “45” at demand's
    quantity position and orange “20” at supply's quantity position.
-2. Briefly highlight the 45 willing buyers' ground arc with demand's horizontal
-   0–45 span. Repeat for the 20 willing sellers and supply's 0–20 span.
-3. Clear the correspondence marks, then move the first 20 buyers and sellers
+2. Reveal persistent teal quantity lines for the 45 willing buyers and demand's
+   horizontal 0–45 span, and orange lines for the 20 sellers and supply's 0–20 span.
+3. Keep those quantity lines, then move the first 20 buyers and sellers
    to matching x stations along the dashed diameter. Buyers stop just above it
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
    Center the occupied stations on the plaza. The matching and next caption
    communicate the 20 trades; add no separate Qx counter.
 4. Hold “20 pairs trade. 25 willing buyers are still waiting.” The checked
    unmatched buyers, including Amanda-Grace and Gary, remain on the inner arc.
-   The spatial difference distinguishes willingness from actual exchange.
+   Mark their waiting arc and demand's 20–45 graph gap in yellow, with adjacent
+   “Shortage 25” readouts. Keep central matched runs separate from waiting arcs;
+   the spatial difference distinguishes willingness from actual exchange.
 
 ## 1.j · Exercise B3 Q2 — before resolving equilibrium
 
@@ -563,7 +573,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.h · Count the excess and recall undercutting
 
 1. Reveal teal “30” and orange “80” at their graph quantity positions, 30 buyer
-   checks, 80 seller checks, and 30 central pairs. Fifty checked sellers remain on the inner arc. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
+   checks, 80 seller checks, and 30 central pairs. Keep the teal/orange plaza
+   quantity lines and graph baselines visible. Fifty checked sellers remain on
+   the inner arc: mark that arc and supply's 30–80 graph gap in yellow, with
+   adjacent “Excess 50” readouts.
 2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
    Show the same B3 head-on inspection view, titled “What would this seller do?”
    Display only “MC $4” and “MB $6” beside the bars, without names or individual
@@ -587,7 +600,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    above and sellers below. Keep green checks and the totem at $4. Show “40” at
    the quantity position on each separate graph; matching communicates 40 trades.
    Unwilling people remain at the rim with red Xs; no willing
-   person remains unmatched on the inner arcs.
+   person remains unmatched on the inner arcs. Teal/orange quantity lines
+   remain visible; the yellow gap marks and readouts fade at zero.
 2. Fade in the incoming title and one line at the standard bottom definition
    position: “Equilibrium: no willing buyer or seller is left without a trade.
    Q_s = Q_d.” Color only “Equilibrium” gold; body and formula remain white.
@@ -603,12 +617,16 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    $4.25 line without its count answers. Ask “Would a higher price hold?” Hold.
 2. On advance, test $4.25: Qd=38, Qs=45, Qx=38. Show seven willing sellers
    without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
-   willing but unserved. Caption “Seven willing sellers have no buyer. They
-   can undercut.” Restore $4.
+   willing but unserved. Keep the quantity lines and mark the waiting sellers'
+   arc and supply's 38–45 graph span in yellow, labeled “Excess 7.” Caption:
+   “Seven willing sellers have no buyer. They can undercut.” Restore $4 and
+   fade the yellow gap marks/readouts at zero.
 3. Test $3.75 in the same short sequence: Qd=41, Qs=35, Qx=35. Show six willing
    buyers without circles. Buyers 36–40 lose trades; buyer 41 is newly willing.
-   Caption “Six willing buyers have no seller. They can offer more.” Restore
-   $4 and the 40 trades.
+   Keep the quantity lines and mark the waiting buyers' arc and demand's 35–41
+   graph span in yellow, labeled “Shortage 6.” Caption: “Six willing buyers have
+   no seller. They can offer more.” Restore $4 and the 40 trades, fading the
+   yellow gap marks/readouts at zero.
 4. Park at `1.i.stable` on “Above $4: excess. Below $4: shortage.” before the
    graph transition. Use staircase count guides for these tests: the exact
    whole-lot counts differ from smooth-curve intersections at quarter dollars.
