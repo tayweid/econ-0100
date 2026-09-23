@@ -142,8 +142,12 @@ The prototype is superseded; it is not an alternative design to preserve.
   The straight equation line passes through bar-top centers, with rank n at
   Q=n thousand pounds. Both rows use base 0.75 and dollar-height 0.28. The
   price guide ends at the equation line; checks and counts show exact willing
-  people. Bring the plaza and separate market graphs back only when both sides
-  enter the equilibrium argument.
+  people. Keep its price readout just left of the dashed guide, tracking its
+  height. The quantity label tracks the corresponding horizontal position below
+  the row. Ease in and out of every price move in these comparisons, including
+  the sellers' return to $3. Keep the current episode order and teaching holds.
+  Bring the plaza and separate market graphs back only when both sides enter
+  the equilibrium argument.
 - Crowd deliberations enlarge the actual selected people/bars into B3's
   head-on view. The graphs temporarily clear for that comparison, then return
   with the original plaza camera. One illustrated switch precedes the common
@@ -408,13 +412,15 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    stepped outline. Put its equation above the row. Keep this camera throughout
    the demand comparison, without pulling back to a separate graph.
 3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 checks,
-   dim excluded people/bars, and highlight Gary, whose MB=$6. Read Qd in
-   thousands of pounds beneath the row. Hold “MB ≥ P”; equality is willing.
+   dim excluded people/bars, and highlight Gary, whose MB=$6. Put the price
+   readout just left of the guide and Qd below the row at Q=30, in thousands of
+   pounds. Hold “MB ≥ P”; equality is willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
-1. Lower price from $6 to $3 in this same view. The dashed guide follows the
-   equation; the actual willingness marks and quantity readout reach 45.
+1. Lower price from $6 to $3 in this same view with ease-in/ease-out motion.
+   The dashed guide and its price readout descend together; the quantity label
+   tracks horizontally to Q=45 as the actual willingness count reaches 45.
 2. Hold “At $3, 45 buyers are willing. We have not counted trades.”
    Do not show trading circles or Qx.
 
@@ -424,16 +430,18 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Use the same camera, dollar-height, and 1,000-lb-lot convention.
 2. Draw P=2+Qs/20 as a straight line through the cost-bar centers and display
    its equation. Keep the whole supply comparison in this view.
-3. At $3, end the dashed price guide at Qs=20. Show 20 checks, dim unwilling
+3. At $3, end the dashed price guide at Qs=20. Keep its price readout just left
+   of the guide and Qs below the row at Q=20. Show 20 checks, dim unwilling
    sellers, and hold “MC ≤ P.” Counts show willingness, not completed sales.
 
 ## 1.c.sellers.high · A higher price brings more sellers
 
-1. Raise price from $3 to $6 without moving the camera. The line/guide and
-   exact checks identify 80 willing sellers. Hold at Qs=80.
-2. On advance, clear that caption and return to $3 and 20 willing sellers
-   before bringing both market sides together. Do not stop at or label $4 as
-   equilibrium during the sweep.
+1. Raise price from $3 to $6 without moving the camera, easing in and out.
+   The price readout follows the guide upward and the quantity label moves
+   horizontally to Q=80. Exact checks identify 80 willing sellers. Hold at Qs=80.
+2. On advance, clear that caption and ease back to $3 and 20 willing sellers,
+   with both labels tracking their positions, before bringing both market sides
+   together. Do not stop at or label $4 as equilibrium during the sweep.
 
 ## 1.c · One price, many decisions
 

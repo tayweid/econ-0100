@@ -1539,20 +1539,10 @@ class B4(ThreeDScene):
                             [Q_ZERO + 60 * Q_STEP, -0.045, ROW_BASE + 0 * ROW_DOLLAR_HEIGHT],
                             color=DEMAND, stroke_width=2.6)
         equation = Tex(r'$P=12-Q_d/5$', color=DEMAND).scale(0.67)
-        price_word = Tex(r'Price: \$', color=GUIDE).scale(0.57)
-        price_number = DecimalNumber(6, num_decimal_places=2, color=GUIDE).scale(0.57)
-        price_number.tracker = price
-        price_units = Tex('/lb', color=CAPTION).scale(0.45)
-        for label, xy in [(equation, [4.7, 2.75]), (price_word, [-5.90, 2.75]),
-                          (price_number, [-4.78, 2.75]), (price_units, [-4.08, 2.75])]:
-            label.scale(self.camera.frame.get_scale())
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.update()
-            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([*xy, 0]) * self.camera.frame.get_scale())
-            label.add_updater(lambda m: m.move_to(m.anchor))
-            label.update()
-        price_readout = VGroup(price_word, price_number, price_units)
+        equation.face_mat = np.eye(3)
+        equation.add_updater(face_camera)
+        equation.update()
+        equation.move_to([4.7, 0, 4.65])
         price_guide = DashedLine([Q_ZERO, -0.045, ROW_BASE + 6 * ROW_DOLLAR_HEIGHT],
                                 [Q_ZERO + 30 * Q_STEP, -0.045, ROW_BASE + 6 * ROW_DOLLAR_HEIGHT],
                                 color=GUIDE, stroke_width=2.2)
@@ -1561,6 +1551,22 @@ class B4(ThreeDScene):
         price_guide.add_updater(lambda m: m.put_start_and_end_on(
             np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
             np.array([m.x0 + (60 - 5 * m.price.get_value()) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
+        # The dollar amount follows the left end of the guide in world space.
+        price_number = DecimalNumber(6, num_decimal_places=2, color=GUIDE).scale(0.57)
+        price_number.tracker, price_number.anchor = price, price_guide
+        price_number.face_mat = np.eye(3)
+        price_number.add_updater(face_camera)
+        price_number.add_updater(lambda m: m.move_to(m.anchor.get_start() + LEFT * 0.12, aligned_edge=RIGHT))
+        price_word = Tex(r'\$', color=GUIDE).scale(0.57)
+        price_word.anchor, price_word.face_mat = price_number, np.eye(3)
+        price_word.add_updater(face_camera)
+        price_word.add_updater(lambda m: m.next_to(m.anchor, LEFT, buff=0.03))
+        price_units = Tex('/lb', color=CAPTION).scale(0.34)
+        price_units.anchor, price_units.face_mat = price_number, np.eye(3)
+        price_units.add_updater(face_camera)
+        price_units.add_updater(lambda m: m.move_to(m.anchor.get_center() + LEFT * 0.12 + IN * 0.24))
+        price_readout = VGroup(price_number, price_word, price_units)
+        price_readout.update()
         quantity_tracker = ValueTracker(30)
         quantity_tracker.price, quantity_tracker.values = price, values
         quantity_tracker.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()))))
@@ -1569,13 +1575,13 @@ class B4(ThreeDScene):
         quantity_number = Integer(30, color=DEMAND).scale(0.70)
         quantity_number.tracker = quantity_tracker
         quantity_units = Tex('thousand lb', color=CAPTION).scale(0.54)
-        for label, x in [(quantity_word, -1.15), (quantity_number, -0.20), (quantity_units, 1.25)]:
-            label.scale(self.camera.frame.get_scale())
+        # Keep the count directly below the guide's intersection with the curve.
+        # Its position moves continuously; its value counts whole willing people.
+        for label, offset in [(quantity_word, -0.95), (quantity_number, 0), (quantity_units, 1.45)]:
+            label.anchor, label.x_offset = price_guide, offset
             label.face_mat = np.eye(3)
             label.add_updater(face_camera)
-            label.update()
-            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([x, -2.60, 0]) * self.camera.frame.get_scale())
-            label.add_updater(lambda m: m.move_to(m.anchor))
+            label.add_updater(lambda m: m.move_to([m.anchor.get_end()[0] + m.x_offset, 0, -0.70]))
             label.update()
         quantity_readout = VGroup(quantity_word, quantity_number, quantity_units)
         self.add(head)
@@ -1587,7 +1593,7 @@ class B4(ThreeDScene):
         rule.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
-        self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=linear)
+        self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=smooth)
         low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=INK))
         low.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(rule, low))
@@ -1641,20 +1647,10 @@ class B4(ThreeDScene):
                             [Q_ZERO + 100 * Q_STEP, -0.045, ROW_BASE + 7 * ROW_DOLLAR_HEIGHT],
                             color=SUPPLY, stroke_width=2.6)
         equation = Tex(r'$P=2+Q_s/20$', color=SUPPLY).scale(0.67)
-        price_word = Tex(r'Price: \$', color=GUIDE).scale(0.57)
-        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(0.57)
-        price_number.tracker = price
-        price_units = Tex('/lb', color=CAPTION).scale(0.45)
-        for label, xy in [(equation, [4.7, 2.75]), (price_word, [-5.90, 2.75]),
-                          (price_number, [-4.78, 2.75]), (price_units, [-4.08, 2.75])]:
-            label.scale(self.camera.frame.get_scale())
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.update()
-            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([*xy, 0]) * self.camera.frame.get_scale())
-            label.add_updater(lambda m: m.move_to(m.anchor))
-            label.update()
-        price_readout = VGroup(price_word, price_number, price_units)
+        equation.face_mat = np.eye(3)
+        equation.add_updater(face_camera)
+        equation.update()
+        equation.move_to([4.7, 0, 4.65])
         price_guide = DashedLine([Q_ZERO, -0.045, ROW_BASE + 3 * ROW_DOLLAR_HEIGHT],
                                 [Q_ZERO + 20 * Q_STEP, -0.045, ROW_BASE + 3 * ROW_DOLLAR_HEIGHT],
                                 color=GUIDE, stroke_width=2.2)
@@ -1663,6 +1659,22 @@ class B4(ThreeDScene):
         price_guide.add_updater(lambda m: m.put_start_and_end_on(
             np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
             np.array([m.x0 + (20 * (m.price.get_value() - 2)) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
+        # The dollar amount follows the left end of the guide in world space.
+        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(0.57)
+        price_number.tracker, price_number.anchor = price, price_guide
+        price_number.face_mat = np.eye(3)
+        price_number.add_updater(face_camera)
+        price_number.add_updater(lambda m: m.move_to(m.anchor.get_start() + LEFT * 0.12, aligned_edge=RIGHT))
+        price_word = Tex(r'\$', color=GUIDE).scale(0.57)
+        price_word.anchor, price_word.face_mat = price_number, np.eye(3)
+        price_word.add_updater(face_camera)
+        price_word.add_updater(lambda m: m.next_to(m.anchor, LEFT, buff=0.03))
+        price_units = Tex('/lb', color=CAPTION).scale(0.34)
+        price_units.anchor, price_units.face_mat = price_number, np.eye(3)
+        price_units.add_updater(face_camera)
+        price_units.add_updater(lambda m: m.move_to(m.anchor.get_center() + LEFT * 0.12 + IN * 0.24))
+        price_readout = VGroup(price_number, price_word, price_units)
+        price_readout.update()
         quantity_tracker = ValueTracker(20)
         quantity_tracker.price, quantity_tracker.values = price, values
         quantity_tracker.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values <= m.price.get_value() + 1e-7))))
@@ -1671,13 +1683,13 @@ class B4(ThreeDScene):
         quantity_number = Integer(20, color=SUPPLY).scale(0.70)
         quantity_number.tracker = quantity_tracker
         quantity_units = Tex('thousand lb', color=CAPTION).scale(0.54)
-        for label, x in [(quantity_word, -1.15), (quantity_number, -0.20), (quantity_units, 1.25)]:
-            label.scale(self.camera.frame.get_scale())
+        # Keep the count directly below the guide's intersection with the curve.
+        # Its position moves continuously; its value counts whole willing people.
+        for label, offset in [(quantity_word, -0.95), (quantity_number, 0), (quantity_units, 1.45)]:
+            label.anchor, label.x_offset = price_guide, offset
             label.face_mat = np.eye(3)
             label.add_updater(face_camera)
-            label.update()
-            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([x, -2.60, 0]) * self.camera.frame.get_scale())
-            label.add_updater(lambda m: m.move_to(m.anchor))
+            label.add_updater(lambda m: m.move_to([m.anchor.get_end()[0] + m.x_offset, 0, -0.70]))
             label.update()
         quantity_readout = VGroup(quantity_word, quantity_number, quantity_units)
         self.add(head)
@@ -1689,12 +1701,12 @@ class B4(ThreeDScene):
         rule.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(one_lot, rule))
         self.pause('1.c.sellers')
-        self.play(price.animate.set_value(6), run_time=2.0, rate_func=linear)
+        self.play(price.animate.set_value(6), run_time=2.0, rate_func=smooth)
         high = fixed(Tex(r'At $\$6$, 80 sellers are willing. A higher price brings more sellers.', color=INK))
         high.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(rule, high))
         self.pause('1.c.sellers.high')
-        self.play(FadeOut(high), price.animate.set_value(3), run_time=1.3, rate_func=linear)
+        self.play(FadeOut(high), price.animate.set_value(3), run_time=1.3, rate_func=smooth)
 
         # ========== 6. Equilibrium ==========
         # Advance directly into the next stage on the same navigation rail.
