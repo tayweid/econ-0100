@@ -2457,9 +2457,8 @@ class B4(ThreeDScene):
         ticks = VGroup()
         for q in [0, 20, 40, 60]:
             tick = Tex(str(q), color=CAPTION).scale(0.48).next_to(ax.c2p(q, 0), DOWN, buff=0.12)
-            tick.state, tick.quantity, tick.visibility = market_state, q, show_price
-            tick.add_updater(lambda m: m.set_opacity(float(m.visibility.get_value() < 0.01
-                or abs(m.quantity - min(m.state.qd, m.state.qs)) > 3)))
+            tick.state, tick.quantity = market_state, q
+            tick.add_updater(lambda m: m.set_opacity(float(abs(m.quantity - m.state.count) > 3)))
             ticks.add(tick)
         ticks.add(Tex('12', color=CAPTION).scale(0.48).next_to(ax.c2p(0, 12), LEFT, buff=0.15))
 
@@ -2502,18 +2501,21 @@ class B4(ThreeDScene):
         price_number.add_updater(lambda m: m.set_value(m.price.get_value())
             .next_to(m.axes.c2p(0, m.price.get_value()), LEFT, buff=0.17).set_opacity(m.visibility.get_value()))
         quantity_drop = VMobject(color=MUTED, stroke_width=1.3)
-        quantity_drop.axes, quantity_drop.state, quantity_drop.visibility = ax, market_state, show_price
-        quantity_drop.add_updater(lambda m: m.set_points_as_corners([
-            m.axes.c2p(min(m.state.qd, m.state.qs), 0),
-            m.axes.c2p(min(m.state.qd, m.state.qs), m.state.price.get_value())])
-            .set_stroke(opacity=0.65 * m.visibility.get_value()))
+        quantity_drop.axes, quantity_drop.state = ax, market_state
+        quantity_drop.add_updater(lambda m: set_dashed_endpoints(m,
+            m.axes.c2p(m.state.count, 0),
+            m.axes.c2p(m.state.count, max(12 - m.state.count / 5, 2 + m.state.count / 20)))
+            .set_stroke(opacity=0.85))
         quantity_number = Integer(40, color=GUIDE).scale(0.52)
-        quantity_number.axes, quantity_number.state, quantity_number.visibility = ax, market_state, show_price
-        quantity_number.add_updater(lambda m: m.set_value(min(m.state.qd, m.state.qs))
-            .next_to(m.axes.c2p(m.get_value(), 0), DOWN, buff=0.12).set_opacity(m.visibility.get_value()))
+        quantity_number.axes, quantity_number.state = ax, market_state
+        quantity_number.add_updater(lambda m: m.set_value(m.state.count)
+            .next_to(m.axes.c2p(m.state.count, 0), DOWN, buff=0.12))
+        quantity_prefix = Tex('$Q=$', color=GUIDE).scale(0.52)
+        quantity_prefix.number = quantity_number
+        quantity_prefix.add_updater(lambda m: m.next_to(m.number, LEFT, buff=0.06))
         graph = fixed(VGroup(ax, cs_area, ps_area, total_area, lost_area,
             demand, supply, curve_labels, axis_labels, ticks,
-            price_guide, price_number, quantity_drop, quantity_number))
+            price_guide, price_number, quantity_drop, quantity_number, quantity_prefix))
         head = fixed(title('The gains from trade'))
         self.add(head, graph)
         self.play(FadeIn(fixed(cs_label)), FadeIn(fixed(ps_label)), run_time=0.6)
@@ -2535,12 +2537,14 @@ class B4(ThreeDScene):
         part_labels = fixed(VGroup(
             Tex('CS', color=DEMAND).scale(0.85).next_to(enlarged_parts[0], LEFT, buff=0.35),
             Tex('PS', color=SUPPLY).scale(0.85).next_to(enlarged_parts[1], LEFT, buff=0.35)))
+        lot_quantity = fixed(Tex('Quantity: 1,000 lb', color=CAPTION).scale(0.52)
+            .move_to([0, -2.8, 0]))
         lot_price_line = fixed(Line([-0.95, lot_price, 0], [0.55, lot_price, 0],
                                     color=GUIDE, stroke_width=2.5))
         self.add(first_parts)
         self.play(FadeOut(graph), FadeOut(cs_label), FadeOut(ps_label),
                   Transform(first_parts, enlarged_parts), run_time=1.6, rate_func=smooth)
-        self.play(FadeIn(part_labels), FadeIn(lot_price_line), run_time=0.5)
+        self.play(FadeIn(part_labels), FadeIn(lot_price_line), FadeIn(lot_quantity), run_time=0.5)
         self.pause('2.b.parts')
 
         lot_total_line = fixed(Line([1.1, lot_bottom, 0], [1.1, lot_top, 0],
@@ -2567,7 +2571,7 @@ class B4(ThreeDScene):
         first_total_home = total_area[0]
         total_area.remove(first_total_home)
         first_total_target = first_total_home.copy().clear_updaters()
-        self.play(FadeOut(lot_total_line), FadeOut(lot_total_label),
+        self.play(FadeOut(lot_total_line), FadeOut(lot_total_label), FadeOut(lot_quantity),
                   FadeIn(graph), Transform(first_total, first_total_target),
                   FadeIn(fixed(total_label)), run_time=1.6, rate_func=smooth)
         total_area.set_submobjects([first_total_home, *total_area.submobjects])
@@ -2698,7 +2702,8 @@ class B4(ThreeDScene):
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         floor_detail = Group(floor_axis, floor_labels, floor_limit, floor_limit_label,
             floor_legal_detail, floor_mutual, floor_proposal, floor_proposal_label,
-            floor_gain_bracket, floor_gain_label, floor_people)
+            floor_gain_bracket, floor_gain_label, floor_people,
+            Tex('Quantity: 1,000 lb', color=CAPTION).scale(0.52).move_to([0, -3.02, 0]))
         fixed(floor_detail)
         floor_legal_detail.add(VMobject(color=GOV, stroke_width=3).set_points_as_corners([
             [-3.13, DETAIL_BASE + 8 * DETAIL_SCALE - 0.13, 0], [-3.05, DETAIL_BASE + 8 * DETAIL_SCALE, 0],
@@ -2808,7 +2813,8 @@ class B4(ThreeDScene):
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         ceiling_detail = Group(ceiling_axis, ceiling_labels, ceiling_limit, ceiling_limit_label,
             ceiling_legal_detail, ceiling_mutual, ceiling_proposal, ceiling_proposal_label,
-            ceiling_gain_bracket, ceiling_gain_label, ceiling_people)
+            ceiling_gain_bracket, ceiling_gain_label, ceiling_people,
+            Tex('Quantity: 1,000 lb', color=CAPTION).scale(0.52).move_to([0, -3.02, 0]))
         fixed(ceiling_detail)
         self.play(FadeIn(ceiling_detail), FadeIn(ceiling_reason), run_time=0.65)
         self.pause('4.c')
@@ -2857,26 +2863,71 @@ class B4(ThreeDScene):
         self.play(FadeIn(marginal), FadeIn(boundary), run_time=0.5)
         self.pause('5.c')
 
-        # ---- 5.d · Keep the negative strip at its true scale. Cost exceeds benefit.
-        next_head = fixed(title('One additional trade'))
-        negative_lot = fixed(Polygon(ax.c2p(40, 3.8), ax.c2p(41, 3.8), ax.c2p(41, 4.05), ax.c2p(40, 4.05),
-            color=GUIDE, stroke_width=3, fill_color=GUIDE, fill_opacity=0.65))
-        endpoint_dots = fixed(VGroup(Dot(ax.c2p(41, 3.8), radius=0.035, color=DEMAND),
-                                    Dot(ax.c2p(41, 4.05), radius=0.035, color=SUPPLY)))
-        negative_label = fixed(Tex(r'MC $>$ MB', color=INK,
-            tex_to_color_map={'MC': SUPPLY, 'MB': DEMAND}).scale(0.60)
-            .next_to(ax.c2p(41, 4.05), UP + RIGHT, buff=0.18))
-        negative_caption = fixed(Tex('For this unit, MC exceeds MB.', color=INK)
+        # ---- 5.d · Compare ten additional lots, keeping their exact MC–MB gaps.
+        next_head = fixed(title('Trades beyond equilibrium'))
+        negative_ranks = range(40, 50)
+        negative_lots = fixed(VGroup())
+        for n in negative_ranks:
+            left, right = n + SURPLUS_BAR_INSET, n + 1 - SURPLUS_BAR_INSET
+            negative_lots.add(fixed(Polygon(
+                ax.c2p(left, BUYER_MB[n]), ax.c2p(right, BUYER_MB[n]),
+                ax.c2p(right, SELLER_MC[n]), ax.c2p(left, SELLER_MC[n]),
+                stroke_width=0, fill_color=GUIDE, fill_opacity=0.65)))
+        negative_caption = fixed(Tex('For these trades, MC exceeds MB.', color=DEFINITION)
                                  .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(head), FadeIn(next_head), FadeOut(marginal), FadeOut(boundary), run_time=0.35)
         head = next_head
-        self.play(allocation_flags[40].animate.set_value(1), FadeIn(negative_lot),
-                  FadeIn(endpoint_dots), FadeIn(negative_label), FadeIn(negative_caption), run_time=0.8)
+        self.play(*[allocation_flags[n].animate.set_value(1) for n in negative_ranks],
+                  LaggedStart(*[FadeIn(bar) for bar in negative_lots], lag_ratio=0.12),
+                  FadeIn(negative_caption), run_time=1.2)
         self.pause('5.d')
 
-        # ---- 5.e · Undo that loss. The graph itself is the welfare argument.
-        self.play(allocation_flags[40].animate.set_value(0), FadeOut(negative_lot), FadeOut(endpoint_dots),
-                  FadeOut(negative_label), FadeOut(negative_caption), run_time=0.6)
+        largest_negative_index = int(np.argmax(SELLER_MC[40:50] - BUYER_MB[40:50]))
+        largest_negative = negative_lots[largest_negative_index]
+        negative_highlight = fixed(SurroundingRectangle(largest_negative,
+            buff=0.035, color=FOCUS, stroke_width=2.5))
+        negative_label = fixed(Tex('Negative TS', color=GUIDE).scale(0.62)
+            .next_to(negative_highlight, RIGHT, buff=0.24))
+        self.play(ShowCreation(negative_highlight), FadeIn(negative_label), run_time=0.6)
+        self.pause('5.d.negative_ts')
+
+        # Follow that same negative-surplus bar into a legible close-up.
+        negative_zoom_home = largest_negative.copy().clear_updaters()
+        negative_zoom = negative_zoom_home.copy()
+        negative_zoom_target = fixed(Rectangle(width=1.2, height=3,
+            stroke_width=0, fill_color=GUIDE, fill_opacity=0.65).move_to([0, -0.1, 0]))
+        negative_zoom_labels = fixed(VGroup(
+            Tex(r'MC $\$4.50$', color=SUPPLY).scale(0.72)
+                .next_to(negative_zoom_target, UP, buff=0.22),
+            Tex(r'MB $\$2$', color=DEMAND).scale(0.72)
+                .next_to(negative_zoom_target, DOWN, buff=0.22),
+            Tex('Quantity: 1,000 lb', color=CAPTION).scale(0.52)
+                .move_to([0, -2.8, 0])))
+        negative_zoom_line = fixed(Line([1.1, -1.6, 0], [1.1, 1.4, 0],
+            color=GUIDE, stroke_width=4))
+        negative_zoom_text = fixed(Tex('Negative TS', color=GUIDE).scale(0.72)
+            .next_to(negative_zoom_line, RIGHT, buff=0.25))
+        self.add(negative_zoom)
+        self.play(FadeOut(graph), FadeOut(total_label), FadeOut(negative_lots),
+                  FadeOut(negative_highlight), FadeOut(negative_label),
+                  Transform(negative_zoom, negative_zoom_target), run_time=1.6, rate_func=smooth)
+        self.play(FadeIn(negative_zoom_labels), ShowCreation(negative_zoom_line),
+                  FadeIn(negative_zoom_text), run_time=0.6)
+        self.pause('5.d.detail')
+
+        # Land in the same lot before removing the ten hypothetical trades.
+        negative_lots.remove(largest_negative)
+        self.play(FadeOut(negative_zoom_labels), FadeOut(negative_zoom_line),
+                  FadeOut(negative_zoom_text), Transform(negative_zoom, negative_zoom_home),
+                  FadeIn(graph), FadeIn(total_label), FadeIn(negative_lots),
+                  run_time=1.6, rate_func=smooth)
+        negative_lots.add(largest_negative)
+        self.remove(negative_zoom)
+        self.add(negative_lots)
+
+        # ---- 5.e · Return to equilibrium and state the conditional result.
+        self.play(*[allocation_flags[n].animate.set_value(0) for n in negative_ranks],
+                  FadeOut(negative_lots), FadeOut(negative_caption), run_time=0.6)
         next_head = fixed(title('The First Welfare Theorem'))
         theorem = fixed(Tex('Competitive equilibrium maximizes total surplus.', color=DEFINITION)
                         .scale(DEFINITION_SCALE))

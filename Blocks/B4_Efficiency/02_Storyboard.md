@@ -4,7 +4,7 @@ B3-based animation implementation · 2026-09-22.
 
 Latest authorized order: **market benefits (CS/PS → total surplus) → binding
 floor → binding ceiling → surplus from a missing trade → equilibrium surplus →
-one additional trade → remove it and state the conditional welfare result**.
+ten trades beyond equilibrium → remove them and state the conditional welfare result**.
 Present these as descriptive surplus comparisons, without recommending policy
 changes or editorializing about what should be done.
 This explicitly supersedes the earlier planner-first draft, the ceiling-first
@@ -27,9 +27,9 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections have
-**51 named holds**; section 8 has **20 named holds**, including the first-lot
+**51 named holds**; section 8 has **22 named holds**, including the first-lot
 CS/PS and TS explanation and the two selected-lot holds before expansion,
-for **71 total** with the exercise placement below. Section 8 presents the welfare
+for **73 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
@@ -39,7 +39,7 @@ while the screen omits aggregate dollar totals and the recap's crowd displays.
 | 8 | Market benefits | `2.a`, `2.b.parts`, `2.b.sum`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
-| 8 | Compare surplus, reach the boundary, add/remove one extra trade | `5.a`–`5.e` |
+| 8 | Compare surplus, reach the boundary, add/remove ten extra trades | `5.a`–`5.e` |
 | 8 | B4 exercises, floor then ceiling | `6.exercise_floor`, `6.exercise_ceiling` |
 | 8 | Scope and close | `7.a` |
 
@@ -69,14 +69,14 @@ latest directive above determines the animation order. Do not edit those files.
 CS/PS are familiar from B1/B2, so begin with their benefits in this market and
 sum them. Use the floor and ceiling to make lost mutually beneficial trades
 visible. Then compare surplus with one missing trade included, return to
-equilibrium, and demonstrate how an additional lot changes total surplus. The graph's
+equilibrium, and demonstrate how ten additional lots change total surplus. The graph's
 realized and missing gain areas carry the argument; the final theorem names
 the result and its conditions.
 
 Keep the approved opening intact. Its 3D plaza and recap graph conventions
 below apply through the algebra. The welfare sequence instead uses a single
 large graph: teal CS and orange PS labels inside their own areas, then a unified
-purple total-surplus region. Grey marks lost gains and red marks a harmful lot.
+purple total-surplus region. Grey marks lost gains and red marks negative TS.
 Use attached labels and simple fades, without arrows, dashboards, aggregate
 dollar totals, or repeated questions. First select the two MB/MC bars for a
 missing lot on the graph, then expand those bars into a clear two-person figure.
@@ -271,9 +271,9 @@ From `5.a`, its active price/quantity guides stay hidden.
 - In the uncontrolled and policy cases, (Q_x=\min(Q_d,Q_s)), with highest-MB
   buyers and lowest-MC sellers trading. This is an explicit rationing assumption
   under controls. After removing the ceiling, distinguish a permitted trade
-  from completion of all willing matches. In the forced-pair experiment, mark
-  the extra lot as forced. The resulting 41 trades are not a market-clearing
-  outcome. Policy quantity markers denote actual selected trades; the later
+  from completion of all willing matches. The later comparison includes ten
+  trades beyond equilibrium. The resulting 50 trades are a hypothetical
+  allocation, not a market-clearing outcome. Policy quantity markers denote actual selected trades; the later
   additions are shown directly in the realized-gain area without counters.
 - Distinguish actual allocations from proposals. Dashed trade connections and
   unfilled gain outlines are hypothetical; solid connections and filled gain
@@ -831,11 +831,14 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 - Enlarge the first stacked CS/PS bar from its graph location. Show a purple
   vertical TS line spanning both parts, then return the combined bar to the
   graph with every realized lot purple and individually visible. Label
-  **Total surplus** inside the area. Keep forgone positive gains grey and a forced
-  negative-gain lot red. Do not continue displaying CS/PS splits after combining.
+  **Total surplus** inside the area. Keep forgone positive gains grey and
+  negative-TS bars red. Do not continue displaying CS/PS splits after combining.
 - During the floor/ceiling beats, use **one price guide**, stopping at the
-  short-side curve, and **one actual quantity tick/drop**. From `5.a` onward,
-  keep both active guides hidden; the ordinary 40 axis tick remains visible.
+  short-side curve. Throughout every welfare overview, retain **one actual
+  quantity label and dashed drop**, tracking the allocation: Q=40 at equilibrium,
+  30 under the floor, 20 under the ceiling, and 50 with the additional trades.
+  The axis is in thousands of pounds. Hide only the price guide after `5.a`.
+  Every enlarged single-lot comparison shows **Quantity: 1,000 lb** below it.
   Omit willingness counters, yellow shortage/excess spans, dashboard totals,
   and all aggregate dollar amounts from the welfare visuals.
 - Keep the overview graph stable, with **P*=4** at the crossing and a drop to the ordinary
@@ -849,11 +852,11 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   the axis and mark the mutually acceptable **$4**. The disjoint intervals show
   that the restriction blocks a still-beneficial trade. Caption: **Both gain
   at $4; that price is illegal.**
-- The forced negative lot remains an exact red strip on the overview with small
-  teal/orange endpoint dots and an adjacent “MC > MB” label. Never exaggerate
-  its area or add individual gain/loss dollars.
+- Show lots 41–50 as separate red negative-TS bars at their exact graph heights.
+  Highlight lot 50, the largest negative TS among those shown, then enlarge
+  that same bar for a close-up before returning it to its exact graph position.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 71 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 73 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -965,7 +968,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    Do not return to a held partial-allocation graph or isolated purple lot strip.
 3. Internally the allocation is lots 1–20 plus 25, with total surplus $151,250.
    Keep that aggregate total and any quantity-21 readout off screen. Remove the
-   policy price/quantity guides before returning to the graph on the next advance.
+   policy price guide before returning to the graph on the next advance;
+   restore the quantity label with the completed equilibrium allocation.
 
 ## 5.b · The market without controls
 
@@ -975,8 +979,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    include indifferent lot 40 under the inclusive convention. Do not pause
    on the intermediate gap or isolated lot-25 strip, or add per-trade stops.
 2. Hold `5.b` only after **every beneficial lot through 40** is represented by
-   the purple total-surplus bars. Keep the ordinary 40 axis tick visible and active price/quantity guides
-   hidden; no positive-gain strip remains grey.
+   the purple total-surplus bars. Keep the **Q=40** label and quantity drop
+   visible, with the price guide hidden; no positive-gain strip remains grey.
 
 ## 5.c · Inspect the zero-gain boundary
 
@@ -985,21 +989,26 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 2. Hold `5.c` on the zero gap. The exact crowd's 39 and 40 trades tie for maximum
    gains; do not claim that removing this lot would lower welfare.
 
-## 5.d · One additional trade
+## 5.d · Trades beyond equilibrium
 
-1. Title: **One additional trade.** Compare the allocation with lot **41**
-   included immediately past the ordinary 40 axis tick. Color its exact negative
-   gain strip red; do not widen it, add a 41 counter, or restore active guides.
-2. Add small teal/orange dots at the MB/MC endpoints and one nearby **MC > MB**
-   label. Internally MB is $3.80 and MC $4.05; display no individual loss dollars.
-3. Hold `5.d` on the unchanged graph with one bottom caption: **For this unit,
-   MC exceeds MB.** No inset, extra diagram, or camera move.
+1. Title: **Trades beyond equilibrium.** Add lots **41–50** as ten separate red
+   bars between MB and MC, with the same narrow gaps used for positive TS.
+   Their heights increase from $0.25 to $2.50 per pound; do not exaggerate them
+   on the overview. Caption: **For these trades, MC exceeds MB.** Hold `5.d`.
+2. Outline lot **50**, the largest negative TS among these ten, in yellow.
+   Label it **Negative TS** in red and hold `5.d.negative_ts`.
+3. Bring that same red bar forward as the graph fades. In the close-up, label
+   its upper endpoint **MC $4.50** and lower endpoint **MB $2**. A red vertical
+   line beside the full gap is labeled **Negative TS**. Hold `5.d.detail`.
+4. Return the bar to its exact lot-50 position as the overview comes back.
+   Internally, the hypothetical allocation has 50 trades and total surplus
+   $181,250. Keep aggregate totals off screen.
 
-## 5.e · Undo the harmful trade and name the result
+## 5.e · Return to equilibrium and name the result
 
-1. Remove forced lot 41 and its red strip, then clear its endpoint dots/label.
-   Retain the full purple maximum-gain area and ordinary 40 axis tick; active
-   price/quantity guides remain hidden.
+1. Remove all ten additional trades (41–50) and their red bars and caption.
+   Retain the full purple maximum-gain area and restore **Q=40** and its
+   quantity drop; the price guide remains hidden.
 2. Name the **First Welfare Theorem** with a concise conditional statement:
    competitive markets with no externalities maximize welfare when all relevant
    benefits and opportunity costs are counted.
@@ -1033,15 +1042,17 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 ## Implementation and review boundaries
 
 - Preserve all **51 opening holds** through `1.i.algebra`, including the new
-  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 20 holds, for **71 total**, including
-  `2.b.parts` and `2.b.sum` and the existing `3.c.select` and `4.c.select`.
+  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 22 holds, for **73 total**, including
+  `2.b.parts`, `2.b.sum`, `5.d.negative_ts`, and `5.d.detail`, plus the existing
+  `3.c.select` and `4.c.select`.
 - The graph overview and graph-derived two-person comparisons supersede the
   old back-half crowd/plaza staging. All earlier 67 hold IDs retain their relative
   order, with `1.h.match` and `1.h.wait` added before `1.h`;
   the September 23 close-up and per-person ground-segment refinements apply.
 - The welfare display has inside-area CS/PS labels, unified purple total surplus,
   grey DWL, and red negative gain. Policy beats have one price guide and one
-  actual-quantity tick/drop; both stay hidden after `5.a`. No aggregate dollar
+  actual-quantity label/drop. The quantity remains visible after `5.a`;
+  only the price guide stays hidden. No aggregate dollar
   totals or shortage/excess dashboard appears.
 - Keep exact arithmetic internally: equilibrium TS $195,000; floor TS $183,750
   and DWL $11,250; ceiling TS $147,500 and DWL $47,500; permitting lot 25 gives
@@ -1079,7 +1090,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   comparisons after the equilibrium/algebra recap. Legal and mutually
   beneficial price intervals explain why the controls block gains.
 - CS/PS are familiar callbacks, then become one purple measure of total gain.
-  Blocked positive-gain lots and the forced negative-gain lot carry the theorem
+  Blocked positive-gain lots and the negative-TS comparison carry the theorem
   argument without a separate planner episode or payment-cancellation proof.
 - The exact discrete totals remain unchanged in the model. Lost gains concern
   unrealized beneficial lots; maximum gains can have a zero-gain final lot.
