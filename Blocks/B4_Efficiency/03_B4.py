@@ -1831,13 +1831,17 @@ class B4(ThreeDScene):
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
         crowd_marks = VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses)
 
-        # Same Q and P scales; one straight equation line per graph.
-        demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        demand_axes.move_to([4.48, 1.75, 0])
-        supply_axes.move_to([4.48, -0.89, 0])
+        # Both plots begin on the totem's price scale: merging needs only a move.
+        totem_zero = screen_point(self.camera.frame, [4.8, 0, 0.035])
+        totem_twelve = screen_point(self.camera.frame, [4.8, 0, 0.035 + 12 * 0.28])
+        graph_price_height = (totem_twelve[1] - totem_zero[1]) * 13 / 12
+        demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
+        supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
+        demand_axes.shift(np.array([1.90, 0.80, 0]) - demand_axes.c2p(0, 0))
+        supply_axes.shift(np.array([1.90, -1.84, 0]) - supply_axes.c2p(0, 0))
         ticks = VGroup()
-        for ax in [demand_axes, supply_axes]:
+        demand_ticks, supply_ticks = VGroup(), VGroup()
+        for ax, side_ticks in [(demand_axes, demand_ticks), (supply_axes, supply_ticks)]:
             for q in [0, 20, 40, 60, 80, 100]:
                 tick = fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10)
                 tick.quantity, tick.price, tick.visibility = q, price, show_counts
@@ -1845,14 +1849,19 @@ class B4(ThreeDScene):
                 tick.add_updater(lambda m: m.set_opacity(1 - m.visibility.get_value() * float(abs(
                     m.quantity - (np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
                                   np.count_nonzero(m.values <= m.price.get_value() + 1e-7))) < 7)))
-                ticks.add(tick)
+                side_ticks.add(tick)
             for p in [4, 8, 12]:
-                ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
-        demand_points, supply_points = [], []
-        for n, value in enumerate(BUYER_MB):
-            demand_points.extend([demand_axes.c2p(n, value), demand_axes.c2p(n + 1, value)])
-        for n, value in enumerate(SELLER_MC):
-            supply_points.extend([supply_axes.c2p(n, value), supply_axes.c2p(n + 1, value)])
+                side_ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
+            ticks.add(side_ticks)
+        # One narrow bar per lot. The two colors occupy adjacent slots when overlaid.
+        demand_lot_bars, supply_lot_bars = VGroup(), VGroup()
+        for ax, values, color, left, right, lot_bars in [
+                (demand_axes, BUYER_MB, DEMAND, 0.12, 0.45, demand_lot_bars),
+                (supply_axes, SELLER_MC, SUPPLY, 0.55, 0.88, supply_lot_bars)]:
+            for n, value in enumerate(values):
+                lot_bars.add(Polygon(ax.c2p(n + left, 0), ax.c2p(n + right, 0),
+                    ax.c2p(n + right, value), ax.c2p(n + left, value),
+                    stroke_width=0, fill_color=color, fill_opacity=0.50))
         demand_steps = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND, stroke_width=2.4)
         supply_steps = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY, stroke_width=2.4)
         demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0)
@@ -1929,7 +1938,7 @@ class B4(ThreeDScene):
         price_readout = VGroup(post_numbers, price_heading, current_price)
         price_readout.update()
         crowd.add(plaza_divider, post_foot, price_post, post_ticks, price_marker, price_readout)
-        graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
+        graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_lot_bars, supply_lot_bars, demand_steps, supply_steps,
                         demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts)
         fixed(graphs)
         # World and fixed overlay objects are added separately, as in B3.
@@ -2357,13 +2366,17 @@ class B4(ThreeDScene):
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
         crowd_marks = VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses)
 
-        # Same Q and P scales; one straight equation line per graph.
-        demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        demand_axes.move_to([4.48, 1.75, 0])
-        supply_axes.move_to([4.48, -0.89, 0])
+        # Both plots begin on the totem's price scale: merging needs only a move.
+        totem_zero = screen_point(self.camera.frame, [4.8, 0, 0.035])
+        totem_twelve = screen_point(self.camera.frame, [4.8, 0, 0.035 + 12 * 0.28])
+        graph_price_height = (totem_twelve[1] - totem_zero[1]) * 13 / 12
+        demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
+        supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=graph_price_height)
+        demand_axes.shift(np.array([1.90, 0.80, 0]) - demand_axes.c2p(0, 0))
+        supply_axes.shift(np.array([1.90, -1.84, 0]) - supply_axes.c2p(0, 0))
         ticks = VGroup()
-        for ax in [demand_axes, supply_axes]:
+        demand_ticks, supply_ticks = VGroup(), VGroup()
+        for ax, side_ticks in [(demand_axes, demand_ticks), (supply_axes, supply_ticks)]:
             for q in [0, 20, 40, 60, 80, 100]:
                 tick = fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10)
                 tick.quantity, tick.price, tick.visibility = q, price, show_counts
@@ -2371,14 +2384,19 @@ class B4(ThreeDScene):
                 tick.add_updater(lambda m: m.set_opacity(1 - m.visibility.get_value() * float(abs(
                     m.quantity - (np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
                                   np.count_nonzero(m.values <= m.price.get_value() + 1e-7))) < 7)))
-                ticks.add(tick)
+                side_ticks.add(tick)
             for p in [4, 8, 12]:
-                ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
-        demand_points, supply_points = [], []
-        for n, value in enumerate(BUYER_MB):
-            demand_points.extend([demand_axes.c2p(n, value), demand_axes.c2p(n + 1, value)])
-        for n, value in enumerate(SELLER_MC):
-            supply_points.extend([supply_axes.c2p(n, value), supply_axes.c2p(n + 1, value)])
+                side_ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
+            ticks.add(side_ticks)
+        # One narrow bar per lot. The two colors occupy adjacent slots when overlaid.
+        demand_lot_bars, supply_lot_bars = VGroup(), VGroup()
+        for ax, values, color, left, right, lot_bars in [
+                (demand_axes, BUYER_MB, DEMAND, 0.12, 0.45, demand_lot_bars),
+                (supply_axes, SELLER_MC, SUPPLY, 0.55, 0.88, supply_lot_bars)]:
+            for n, value in enumerate(values):
+                lot_bars.add(Polygon(ax.c2p(n + left, 0), ax.c2p(n + right, 0),
+                    ax.c2p(n + right, value), ax.c2p(n + left, value),
+                    stroke_width=0, fill_color=color, fill_opacity=0.50))
         demand_steps = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND, stroke_width=2.4)
         supply_steps = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY, stroke_width=2.4)
         demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0)
@@ -2455,7 +2473,7 @@ class B4(ThreeDScene):
         price_readout = VGroup(post_numbers, price_heading, current_price)
         price_readout.update()
         crowd.add(plaza_divider, post_foot, price_post, post_ticks, price_marker, price_readout)
-        graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
+        graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_lot_bars, supply_lot_bars, demand_steps, supply_steps,
                         demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts)
         fixed(graphs)
         # World and fixed overlay objects are added separately, as in B3.
@@ -2464,42 +2482,57 @@ class B4(ThreeDScene):
         price.set_value(4)
         head = fixed(title('Why does the crossing give equilibrium?'))
         self.add(head, crowd, crowd_marks, graphs)
-        merged_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=3.8).move_to([4.48, 0.45, 0])
-        merged_demand = Line(merged_axes.c2p(0, 12), merged_axes.c2p(60, 0), color=DEMAND, stroke_width=3)
-        merged_supply = Line(merged_axes.c2p(0, 2), merged_axes.c2p(100, 7), color=SUPPLY, stroke_width=3)
-        merged_price = DashedLine(merged_axes.c2p(0, 4), merged_axes.c2p(40, 4), color=GUIDE, stroke_width=2)
-        merged_drop = DashedLine(merged_axes.c2p(40, 0), merged_axes.c2p(40, 4), color=GUIDE)
-        merged_dot = Dot(merged_axes.c2p(40, 4), radius=0.07, color=GUIDE)
-        merged_ticks = VGroup()
-        for q in [0, 20, 40, 60, 80, 100]:
-            merged_ticks.add(fixed(Tex(str(q), color=CAPTION)).scale(0.40).next_to(merged_axes.c2p(q, 0), DOWN, buff=0.10))
-        for p in [8, 12]:
-            merged_ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.40).next_to(merged_axes.c2p(0, p), LEFT, buff=0.10))
-        merged_labels = VGroup(
-            fixed(Tex(r'\$4', color=GUIDE)).scale(0.60).next_to(merged_axes.c2p(0, 4), LEFT, buff=0.14),
-            fixed(Tex('Dollars per pound', color=CAPTION)).scale(0.48).next_to(merged_axes.c2p(0, 13), UP, buff=0.16, aligned_edge=LEFT),
-            fixed(Tex(r'$Q$: thousands of pounds', color=CAPTION)).scale(0.48).move_to([4.48, -2.07, 0]),
-            fixed(Tex('D / MB', color=DEMAND)).scale(0.60).next_to(merged_axes.c2p(10, 10), RIGHT, buff=0.14),
-            fixed(Tex('S / MC', color=SUPPLY)).scale(0.60).next_to(merged_axes.c2p(84, 6.2), UP, buff=0.14),
-        )
-        # Freeze outgoing guide geometry before the axes change.
+        # Carry the original objects together. Their geometry and scale never morph.
+        demand_plot = fixed(VGroup(demand_axes, demand_lot_bars, demand_steps,
+            demand_ticks, graph_prices[0], demand_guide, counts[0]))
+        supply_plot = fixed(VGroup(supply_axes, supply_lot_bars, supply_steps,
+            supply_ticks, graph_prices[1], supply_guide, counts[1]))
         graphs.suspend_updating()
-        fixed(VGroup(merged_axes, merged_demand, merged_supply, merged_price, merged_drop, merged_dot, merged_ticks, merged_labels))
-        self.play(ReplacementTransform(demand_axes, merged_axes), Transform(supply_axes, merged_axes.copy()),
-                  ReplacementTransform(demand_steps, merged_demand), ReplacementTransform(supply_steps, merged_supply),
-                  FadeOut(ticks), FadeOut(demand_fit), FadeOut(supply_fit), FadeOut(demand_word), FadeOut(supply_word),
-                  FadeOut(graph_prices), FadeOut(demand_guide), FadeOut(supply_guide), FadeOut(graph_units), FadeOut(counts),
-                  run_time=2.0)
-        self.remove(supply_axes)
-        self.play(FadeIn(merged_ticks), FadeIn(merged_labels), Create(merged_price), Create(merged_drop), FadeIn(merged_dot))
-        same = fixed(Tex(r'Same price. Equal quantities: $Q_d=Q_s=40$.', color=INK)).scale(0.84).move_to([0, -3.55, 0])
+        self.remove(graphs)
+        self.add(demand_plot, supply_plot, demand_word, supply_word, graph_units)
+        self.play(FadeOut(demand_word), FadeOut(supply_word), FadeOut(graph_units),
+                  FadeOut(units), run_time=0.35)
+        demand_shift = totem_zero - demand_axes.c2p(0, 0)
+        supply_shift = totem_zero - supply_axes.c2p(0, 0)
+        self.play(demand_plot.animate.shift(demand_shift),
+                  supply_plot.animate.shift(supply_shift), run_time=2.0, rate_func=smooth)
+
+        # The totem is the shared vertical price axis while the plaza is present.
+        merged_axes, merged_demand, merged_supply = demand_axes, demand_steps, supply_steps
+        merged_price, merged_drop = graph_prices[0], demand_guide
+        self.play(FadeOut(supply_axes), FadeOut(supply_ticks), FadeOut(supply_guide),
+                  FadeOut(graph_prices[1]), FadeOut(counts[1]),
+                  demand_axes.y_axis.animate.set_opacity(0),
+                  FadeOut(VGroup(*demand_ticks[6:])), FadeOut(current_price),
+                  post_numbers[1].animate.set_color(GUIDE), run_time=0.35)
+        counts[0].set_color(CAPTION)
+        merged_ticks = fixed(VGroup(*demand_ticks[:6], counts[0]))
+        merged_dot = fixed(Dot(merged_axes.c2p(40, 4), radius=0.055, color=GUIDE))
+        merged_labels = fixed(VGroup(
+            Tex(r'$Q$: thousands of pounds', color=CAPTION).scale(0.48)
+                .next_to(merged_axes.c2p(50, 0), DOWN, buff=0.48),
+            Tex('D / MB', color=DEMAND).scale(0.60)
+                .next_to(merged_axes.c2p(12, 9.6), UP, buff=0.10),
+            Tex('S / MC', color=SUPPLY).scale(0.60)
+                .next_to(merged_axes.c2p(84, 6.2), UP, buff=0.10)))
+        self.play(FadeIn(merged_labels), FadeIn(merged_dot), run_time=0.4)
+        same = fixed(Tex('Same price, same quantity.', color=INK)).scale(0.7443)
+        same.set_x(0).to_edge(DOWN, buff=0.05)
         self.play(FadeIn(same))
         self.pause('1.i.graph')
 
         # ---- 1.i.algebra · Equality first, then solve. No exercise Q1 repeat.
-        merged_graph = fixed(VGroup(merged_axes, merged_demand, merged_supply, merged_ticks, merged_labels, merged_price, merged_drop, merged_dot))
+        merged_graph = fixed(VGroup(merged_axes, demand_lot_bars, supply_lot_bars,
+            merged_demand, merged_supply, merged_ticks, merged_labels, merged_price, merged_drop, merged_dot))
+        graph_price_ticks = fixed(VGroup(*[
+            Tex(str(p), color=GUIDE if p == 4 else CAPTION).scale(0.40)
+                .next_to(merged_axes.c2p(0, p), LEFT, buff=0.10) for p in [4, 8, 12]]))
+        graph_price_heading = fixed(Tex(r'Price ($/lb)', color=CAPTION)).scale(0.48)
+        graph_price_heading.next_to(merged_axes.c2p(0, 13), UP, buff=0.16, aligned_edge=LEFT)
         crowd.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same))
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same),
+                  merged_axes.y_axis.animate.set_opacity(1),
+                  FadeIn(graph_price_ticks), FadeIn(graph_price_heading))
         algebra_head = fixed(title('What equation expresses equilibrium?'))
         self.play(ReplacementTransform(head, algebra_head))
         equality = fixed(Tex(r'$Q_d=Q_s=Q$', color=DEFINITION)).scale(1.1).move_to([-3.75, 2.10, 0])

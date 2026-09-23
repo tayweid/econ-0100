@@ -224,10 +224,14 @@ this layout review. Camera movement is available for deliberate example close-up
   tail continues past buyer 59. Adjacency represents an actual trade, not mere
   willingness. Prediction holds keep buyers waiting until trades are revealed.
   The ranked pairing is visual bookkeeping, not a claim of unique partners.
-- Build the demand graph from its buyers and the supply graph from its sellers
-  during the recap; stack them when both sides share the stage. At
-  `1.i.graph`, slide those same axes into a single overlaid graph while retaining
-  the crowd. That graph carries directly into the welfare argument at `2.a`.
+- Build the demand graph from its buyers and the supply graph from its sellers,
+  with narrow per-lot bars behind each straight equation line. Give both separate
+  graphs the same price scale from the start, matching the projected foot and
+  top of the plaza's price totem. At `1.i.graph`, translate each complete graph,
+  including its bars, to a shared origin at the projected totem foot. Do not
+  morph or resize the axes or curves. Clear duplicate axis labels and use the
+  actual 3D totem as the merged graph's visible price axis while the plaza stays
+  visible. Retain the bars through the algebra and later welfare transition.
 - Quantity readouts are bare numbers at their corresponding horizontal graph
   positions: teal for demand and orange for supply. Apply this to the full-width
   rows, separate recap graphs, and merged welfare/control graph. Keep the number
@@ -590,17 +594,22 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.i.graph · Recognize the same condition at the crossing
 
 1. Retain the settled crowd, horizontal meeting line, $4 price totem, and dashed
-   $4 graph guide. Slide the two stacked graphs onto the same axes. Their
-   continuous lines cross at Q=40, P=$4, matching the crowd's
-   counts exactly at this price.
+   $4 graph guide. Simply translate the two complete graphs, carrying their
+   narrow lot bars and straight curves, to a common origin at the projected
+   totem foot. Their price scales already match the totem; no axes or curve
+   morphing/resizing. Remove duplicate axis labels and let the actual 3D totem
+   serve as the visible price axis. The lines cross at Q=40, P=$4, matching the
+   crowd's counts exactly at this price.
 2. Title: “Why does the crossing give equilibrium?” Highlight one shared “40”
    at the graph's quantity position and the crossing. Keep the people visible so this is another
    representation of the same result, not a second definition. Hold.
 
 ## 1.i.algebra · Make the equality explicit
 
-1. Keep the merged graph fixed at right and fade the crowd. Use the vacated
-   left half for the arithmetic. Show the two equations with their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
+1. Keep the merged graph and its lot bars fixed at right while fading the plaza.
+   As the 3D totem fades, show an ordinary graph price axis in the same place.
+   Use the vacated left half for the arithmetic. Show the two equations with
+   their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
 2. Show (Q_d=Q_s=Q) before setting their right-hand sides equal. Then reveal
    (12-Q/5=2+Q/20), (10=Q/4), and (Q^*=40) in that order, with no extra
    arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
