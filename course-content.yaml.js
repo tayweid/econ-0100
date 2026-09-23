@@ -240,6 +240,9 @@ parts:
         vignette:
           description: "*Markets practice problems*"
           files: B3
+        homework:
+          due: Sunday, September 27
+          file: B3
         extras:
           - name: Simulating a Market
             video: PNtKXWNKGN8
@@ -263,6 +266,9 @@ parts:
           topic: Demand, supply, and efficiency
         vignette:
           description: "*Efficiency practice problems*"
+        homework:
+          due: Sunday, September 27
+          file: B4
         dates:
           class: '2026-09-23'
           recitation: '2026-09-25'
