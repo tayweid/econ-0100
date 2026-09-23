@@ -415,6 +415,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Begin in B3's actual oblique plaza: phi 48°, center `[0, 0, 0.65]`, height
    10.4. Preserve the floor, people, bars, and side graphs from B3's `3.a`.
+   From the initial plaza pullback, use the title “Would either player switch?”
+   and retain it through the equal-price hold, except for the “Gary and Andrew”
+   close-up.
 2. Animate Andrew's arrival and hold with all four people visible. Place
    Amanda-Grace to Molly's left, with her MB bar on the left and Molly's MC bar
    on the right. Show their accepted $6.25 trade as a solid red line across
@@ -434,13 +437,15 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    dashed **$4.25** ask spans both bars. Title: “Gary and Andrew.” Hold with
    the gold bottom question “Would Gary buy at $4.25?”
 3. On advance, show “Gary gains $1.75.” in gold, then fly the actual objects
-   back to their saved plaza geometry and restore their bar updaters. World
+   back to their saved plaza geometry and restore their bar updaters and the
+   plaza title “Would either player switch?” World
    names and price tags keep following during the flight. Gary visibly
    joins Andrew once; Amanda-Grace and Molly stay paired. Show solid accepted
    red price lines across all four participants' own side-graph bars.
 4. Move Molly's $6.25 and Andrew's $4.25 price readouts and red plaza/graph
    lines smoothly to $5.50 in one 2.5-second animation. Bodies, bars, and
-   partners remain fixed throughout. No simulation, partner reassignment,
+   partners remain fixed throughout. Retain the plaza title throughout price
+   convergence. No simulation, partner reassignment,
    per-bid replay, or new hold. Caption: “The same incentives bring both
    prices together.”
 
@@ -448,7 +453,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Return to B3’s original plaza. Keep Gary with Andrew and Amanda-Grace with Molly. Both prices are $5.50.
    Show “2 willing buyers; 2 sellers” and “Both trades: $5.50.”
-2. Ask “Would either buyer switch?” Hold with the alternative prices visible.
+2. Retain “Would either player switch?” without another title transformation.
+   Hold with the alternative prices visible.
    The new seller has given buyers an alternative and made Molly respond.
 3. This path demonstrates prices coming together. Do not claim the finite
    quarter-dollar model rules out a one-tick difference or that $5.50 is the

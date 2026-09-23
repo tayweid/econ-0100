@@ -831,7 +831,7 @@ class B4(ThreeDScene):
         # explicitly so the billboard updater cannot restore its close-up size.
         deal_number.clear_updaters()
         self.remove(head)
-        head = fixed(title('Where do prices settle?'))
+        head = fixed(title('Would either player switch?'))
         CROWD_SCALE, CROWD_BASE = 0.24, 0.52
         MARKET_PRICE_WIDTH, MARKET_SHADOW_WIDTH = 4.5, 2.4
         PAIR_WIDTH, PAIR_GAP = 0.18, 0.035
@@ -1220,7 +1220,7 @@ class B4(ThreeDScene):
         equal_prices = fixed(Tex(r'Both trades: $\$5.50$.', color=GUIDE).scale(DEFINITION_SCALE))
         equal_counts = fixed(Tex('2 willing buyers; 2 sellers.', color=CAPTION).scale(DEFINITION_SCALE))
         VGroup(equal_prices, equal_counts).arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(Transform(head, fixed(title('Would either buyer switch?'))), FadeIn(equal_prices), FadeIn(equal_counts))
+        self.play(FadeIn(equal_prices), FadeIn(equal_counts))
         self.pause('1.b.equal_prices')
 
         # ========== 4. Buyers ==========
