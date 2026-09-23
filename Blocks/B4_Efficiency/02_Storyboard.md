@@ -127,7 +127,10 @@ The prototype is superseded; it is not an alternative design to preserve.
   the familiar head-on view show Amanda-Grace's alternatives; the recorded
   trade sequence and settled hold return to that same plaza.
 - All crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
-  phi 48°, theta 0°, focal distance 50, center `[4, 0, 0.65]`, height 11.
+  phi 48°, theta 0°, focal distance 50, center `[4, 0, -0.4]`, height 11.
+  This lifts the full-market plaza about 0.55 screen units, leaving the bottom
+  caption strip clear. Use the same framing for all returns from close-ups;
+  the merged graph alignment remains derived from the price totem's projection.
   The recap now uses the curved-plaza convention below. The later welfare/control
   stages retain this earlier placement pending review: buyers and sellers each
   occupy one uninterrupted line, at y=2 and
@@ -201,7 +204,9 @@ this layout review. Camera movement is available for deliberate example close-up
   `TOTAL`; DWL is grey. The small exchange retains B3's orange cost and PS outline.
 - Reserve one bottom band for the current question, definition, or two-option
   comparison. Remove its previous content before replacing it. Do not stack a
-  definition, caption, and deliberation card there simultaneously.
+  definition, caption, and deliberation card there simultaneously. Use one
+  question per beat rather than repeating a title question at the bottom;
+  numerical/explanatory captions may use the clear bottom strip.
 - Keep the market at left and its graph at right during market-wide beats.
   Begin with 59 buyers and 100 sellers in separate ranked waiting lines.
   When actual trades are revealed, each trading buyer joins their seller.
@@ -485,7 +490,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.d · Predict the low-price result
 
 1. Keep everyone at the outer rim, with willingness marks and counts hidden.
-2. Ask how much each side would trade at $3. Hold before revealing willingness.
+2. Use the existing title “At $3, who can trade?” as the single prompt. Omit
+   the repeated bottom question “How much would each side trade?” Hold before
+   revealing willingness.
 
 ## 1.e · Count the shortage and the actual trades
 
@@ -548,8 +555,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.g · Predict the high-price result
 
 1. Return both sides to the outer rim and hide numerical counts,
-   checks, Xs, and quantity read guides before moving the common price to $6. Ask “At $6, who is left
-   out?” Hold with those answers still hidden.
+   checks, Xs, and quantity read guides before moving the common price to $6.
+   Keep “At $6, who is left out?” as the single title prompt; omit the repeated
+   bottom “Who would buy? Who would sell? Who actually trades?” Hold with
+   those answers still hidden.
 
 ## 1.h · Count the excess and recall undercutting
 
@@ -641,7 +650,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 2.a · Ask whether the market's answer is good
 
-1. Title: “Could we do better?” Keep the 40 trades in the crowd.
+1. Title: “Could we do better?” Keep the 40 trades in the crowd. Omit the
+   duplicate bottom question “Could we make the total gain larger?”
 2. Retain the already-merged graph from `1.i.graph`, its units, colors, selected
    quantity, and $4 price. Clear any remaining recap labels without rebuilding
    the graph or replaying its overlay move.
@@ -669,8 +679,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Remove the graph's market-price guide, checks, demand/supply quantity numbers, and all CS/PS division
    lines. Retain each person's MB/MC and the 40 trading circles.
-2. Title: “Which trades should happen?” Show only two short prompts beside the
-   model: “Who trades?” and “How many trades?”
+2. Title: “The social planner.” Keep “Who trades? How many trades?” in the
+   bottom strip as this beat's only prompt.
 3. Highlight the selected participants, then the Q marker. Hold. From here the
    planner chooses an allocation; no automatic price adjustment runs.
 

@@ -24,6 +24,9 @@ class B4(ThreeDScene):
     add = add_market_objects
 
     def construct(self):
+        # Raise the full-market plaza in frame, leaving the caption strip clear.
+        PLAZA_CENTER = [4, 0, -0.4]
+
         # Changing endpoints must reveal dashes, not stretch an existing pattern.
         # Keep one vector object so 3D/fixed placement and checkpoint identity survive.
         def set_dashed_endpoints(m, start, end):
@@ -1744,7 +1747,7 @@ class B4(ThreeDScene):
 
         # B3's camera: buyers occupy the upper half, sellers the lower half.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
+        self.camera.frame.move_to(PLAZA_CENTER).set_height(11)
         BAR_BASE, DOLLAR_HEIGHT = 0.17, 0.035
         ARC_RADIUS, STEP_IN = 4.35, 0.82
         PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.40
@@ -1949,8 +1952,7 @@ class B4(ThreeDScene):
         show_buyers.set_value(0)
         show_sellers.set_value(0)
         head = fixed(title(r'At $\$3$, who can trade?'))
-        question = fixed(Tex('How much would each side trade?', color=DEFINITION)).scale(0.82).move_to([0, -3.65, 0])
-        self.add(head, crowd, crowd_marks, graphs, question)
+        self.add(head, crowd, crowd_marks, graphs)
         self.pause('1.d')
 
         # ---- 1.e · Willingness first, matching second.
@@ -1972,7 +1974,7 @@ class B4(ThreeDScene):
         self.play(show_trades.animate.set_value(1), run_time=1.1)
         shortage = fixed(Tex(r'20 pairs trade. 25 willing buyers are still waiting.', color=INK))
         shortage.scale(0.76).move_to([0, -3.65, 0])
-        self.play(FadeOut(question), FadeIn(shortage))
+        self.play(FadeIn(shortage))
         unserved = VGroup()  # The checked buyers on the inner arc are the unserved group.
         self.pause('1.e')
 
@@ -2071,7 +2073,7 @@ class B4(ThreeDScene):
                   FadeOut(stay_text), FadeOut(wait_arrow), bid_text.animate.set_color(GREEN), run_time=0.7)
         self.play(FadeOut(buy_detail), FadeOut(buy_zero), FadeOut(buy_price), FadeOut(buy_values),
                   FadeOut(bid_text), FadeOut(bid_arrow),
-                  self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.3)
+                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
         # Return to the exact B3 plaza before compressing everyone's adjustment.
         crowd.resume_updating()
         crowd_marks.resume_updating()
@@ -2122,12 +2124,10 @@ class B4(ThreeDScene):
         high_head = fixed(title(r'At $\$6$, who is left out?'))
         self.play(ReplacementTransform(head, high_head))
         head = high_head
-        high_question = fixed(Tex('Who would buy? Who would sell? Who actually trades?', color=DEFINITION)).scale(0.76).move_to([0, -3.55, 0])
-        self.play(FadeIn(high_question))
         self.pause('1.g')
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
-        self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
+        self.play(show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
         excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(0.65).move_to([-3.3, -1.35, 0])
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
@@ -2195,7 +2195,7 @@ class B4(ThreeDScene):
                   FadeOut(stay_text), FadeOut(keep_arrow), cut_text.animate.set_color(GREEN), run_time=0.7)
         self.play(FadeOut(sell_detail), FadeOut(sell_zero), FadeOut(sell_price), FadeOut(sell_values),
                   FadeOut(cut_text), FadeOut(cut_arrow),
-                  self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.3)
+                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
         # Return to the exact B3 plaza before compressing everyone's adjustment.
         crowd.resume_updating()
         crowd_marks.resume_updating()
@@ -2299,7 +2299,7 @@ class B4(ThreeDScene):
 
         # B3's camera: buyers occupy the upper half, sellers the lower half.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
+        self.camera.frame.move_to(PLAZA_CENTER).set_height(11)
         BAR_BASE, DOLLAR_HEIGHT = 0.17, 0.035
         ARC_RADIUS, STEP_IN = 4.35, 0.82
         PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.40
@@ -2578,7 +2578,7 @@ class B4(ThreeDScene):
 
         self.camera.fps = 15
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
+        self.camera.frame.move_to(PLAZA_CENTER).set_height(11)
         MB = np.array([12 - n / 5 for n in range(1, 60)])
         MC = np.array([2 + n / 20 for n in range(1, 101)])
         LOT = 1000
@@ -2592,8 +2592,6 @@ class B4(ThreeDScene):
 
         # Independent opening: the same $4 market, already on merged axes.
         head = fixed(title('Could we do better?'))
-        bottom = fixed(Tex('Could we make the total gain larger?', color=DEFINITION))
-        bottom.scale(BOTTOM_SCALE).set_x(0).to_edge(DOWN, buff=0.05)
         units = fixed(Tex(r'One person: 1,000 lb\quad Bars: dollars/lb', color=CAPTION))
         units.scale(0.55).move_to([-3.3, -2.90, 0])
         buyers_label = Tex('Buyers: highest MB first', color=DEMAND).scale(0.65 * self.camera.frame.get_scale())
@@ -2696,12 +2694,12 @@ class B4(ThreeDScene):
                  price_line, price_read, q_guide)
 
         # ---- 2.a · CS and PS are familiar; ask what could improve.
-        self.play(FadeIn(bottom), cs_strips.animate.set_fill(opacity=0.55),
+        self.play(cs_strips.animate.set_fill(opacity=0.55),
                   ps_strips.animate.set_fill(opacity=0.55), run_time=0.7)
         self.pause('2.a')
 
         # ---- 2.b · Total surplus is PS plus CS; keep this one trade fixed.
-        self.play(FadeOut(bottom), *[mob.animate.set_opacity(0) for body in bodies.values() for mob in body],
+        self.play(*[mob.animate.set_opacity(0) for body in bodies.values() for mob in body],
                   *[bar.animate.set_opacity(0) for bar in bars.values()],
                   *[ring.animate.set_stroke(opacity=0).set_fill(opacity=0) for ring in rings.values()], FadeOut(crowd_words),
                   market_checks.animate.set_opacity(0),
@@ -2777,7 +2775,7 @@ class B4(ThreeDScene):
                                        cs_label, ps_label, total_definition]], run_time=0.45)
         self.play(Restore(mb_bar), Restore(mc_bar), Restore(bodies['B', 20]), Restore(bodies['S', 20]),
                   Restore(rings['B', 20]), Restore(rings['S', 20]), FadeIn(floor), FadeIn(rim),
-                  self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.0)
+                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.0)
 
         # ---- 2.c · The planner controls participants and quantity, not price.
         self.remove(cs_strips, ps_strips)
@@ -2796,7 +2794,7 @@ class B4(ThreeDScene):
         units.set_opacity(1)
         self.play(FadeOut(head), FadeIn(graph), run_time=0.25)
         fitted.set_opacity(0.17)
-        head = fixed(title('Which trades should happen?'))
+        head = fixed(title('The social planner'))
         q_word = fixed(Tex('Trades:', color=GUIDE)).scale(0.65).move_to([3.7, -2.97, 0])
         q_number = fixed(Integer(40, color=GUIDE)).scale(0.65).next_to(q_word, RIGHT, buff=0.15)
         q_number.add_updater(lambda m: m.set_value(int(quantity.get_value() + 1e-7)).next_to(q_word, RIGHT, buff=0.15))
@@ -2968,7 +2966,7 @@ class B4(ThreeDScene):
         for key in focus_keys:
             bodies[key].restore()
             bars[key].restore()
-        self.play(self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.0)
+        self.play(self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.0)
         allocation = {n: n for n in range(1, 21)}
         for key, body in bodies.items():
             side, n = key
@@ -3237,10 +3235,10 @@ class B4(ThreeDScene):
         show_buyers = ValueTracker(1)
         show_sellers = ValueTracker(1)
         self.add(price, show_counts, show_trades, show_buyers, show_sellers)
-        # B3's plaza, material objects and camera are retained literally.
+        # B3's plaza and material objects, with the raised full-market framing.
         # One uninterrupted ranked line per side; the bars carry the values.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
+        self.camera.frame.move_to(PLAZA_CENTER).set_height(11)
         BAR_BASE = 0.18
         ROW_LEFT, ROW_WIDTH = -3.7, 7.4
         RANK_STEP = ROW_WIDTH / (max(len(BUYER_MB), len(SELLER_MC)) - 1)
