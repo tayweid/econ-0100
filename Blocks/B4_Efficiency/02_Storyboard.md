@@ -189,16 +189,22 @@ stay at the rim, willing unmatched people stand on an inner arc in their own
 half, and partners meet across the center line. Pair adjacency carries the
 trading meaning; the old circle objects remain invisible code anchors only.
 
-Keep teal buyer and orange seller quantity lines visible on the full-market
-recap plaza and its graphs once willingness is revealed. On the plaza, draw the
-central matched run and remaining waiting arc separately; never join them with a
-diagonal across the plaza. Graph baselines run from 0 to each side's actual Q.
+Keep the full-market recap's price-derived graph quantities visible at both
+prediction and revealed states: vertical guides drop from each price/curve
+intersection to the Q axis, with bare teal demand and orange supply numbers
+attached to their quantity positions. These guides/numbers follow price and
+are independent of the plaza reveal. Keep the teal/orange plaza quantity lines
+visible once willingness is revealed. Draw the central matched run and remaining
+waiting arc separately; never join them with a diagonal across the plaza. Graph
+baselines run from 0 to each side's actual Q.
 Mark the unmatched willing arc on the longer side in yellow and the corresponding
 min(Qd,Qs)–max(Qd,Qs) graph span in yellow. Attach a yellow “Shortage 25” or
 “Excess 50” readout beside each span; the existing units are thousands of pounds.
 Update these lines and counts with price, fading the yellow span/readout when
-the gap reaches zero. Hide them with the plaza/graphs during example close-ups
-and restore them on return; prediction holds keep them hidden with the counts.
+the gap reaches zero. Hide these marks with the plaza/graphs during example
+close-ups and restore them on return. Prediction holds keep plaza willingness
+marks, trades, and yellow gaps hidden; graph quantity guides and numbers remain
+visible. Reveal yellow shortage/excess marks only with matching.
 The older circle/row convention below continues only in the later stages awaiting
 this layout review. Camera movement is available for deliberate example close-ups.
 
@@ -497,7 +503,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.d · Predict the low-price result
 
-1. Keep everyone at the outer rim, with willingness marks and counts hidden.
+1. Keep everyone at the outer rim, withholding plaza willingness marks and
+   trades. Keep vertical graph guides from the $3 curve intersections to the
+   Q axes, with teal “45” and orange “20” attached there. Hide yellow gap marks.
 2. Use the existing title “At $3, who can trade?” as the single prompt. Omit
    the repeated bottom question “How much would each side trade?” Hold before
    revealing willingness.
@@ -505,8 +513,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.e · Count the shortage and the actual trades
 
 1. Willing people step to the inner arcs and receive green checks. Unwilling
-   people stay at the rim with small red Xs. Reveal teal “45” at demand's
-   quantity position and orange “20” at supply's quantity position.
+   people stay at the rim with small red Xs. Retain the already-visible teal
+   “45” and orange “20” at their graph quantity positions.
 2. Reveal persistent teal quantity lines for the 45 willing buyers and demand's
    horizontal 0–45 span, and orange lines for the 20 sellers and supply's 0–20 span.
 3. Keep those quantity lines, then move the first 20 buyers and sellers
@@ -564,16 +572,18 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.g · Predict the high-price result
 
-1. Return both sides to the outer rim and hide numerical counts,
-   checks, Xs, and quantity read guides before moving the common price to $6.
+1. Return both sides to the outer rim and hide plaza checks, Xs, trades, and
+   yellow gap marks before moving the common price to $6. Keep graph quantity
+   guides and attached numbers visible throughout: verticals drop from the
+   price/curve intersections to the Q axes, ending at teal “30” and orange “80.”
    Keep “At $6, who is left out?” as the single title prompt; omit the repeated
-   bottom “Who would buy? Who would sell? Who actually trades?” Hold with
-   those answers still hidden.
+   bottom “Who would buy? Who would sell? Who actually trades?” Hold before
+   revealing the plaza response and actual matching.
 
 ## 1.h · Count the excess and recall undercutting
 
-1. Reveal teal “30” and orange “80” at their graph quantity positions, 30 buyer
-   checks, 80 seller checks, and 30 central pairs. Keep the teal/orange plaza
+1. Retain teal “30” and orange “80” at their graph quantity positions. Reveal
+   30 buyer checks, 80 seller checks, and 30 central pairs. Keep the teal/orange plaza
    quantity lines and graph baselines visible. Fifty checked sellers remain on
    the inner arc: mark that arc and supply's 30–80 graph gap in yellow, with
    adjacent “Excess 50” readouts.

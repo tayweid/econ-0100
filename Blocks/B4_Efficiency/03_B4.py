@@ -1740,10 +1740,12 @@ class B4(ThreeDScene):
         DOLLAR_HEIGHT = 0.035
         price = ValueTracker(3)
         show_counts = ValueTracker(1)
+        # Given a price, its graph quantities remain visible before plaza matching.
+        show_graph_counts = ValueTracker(1)
         show_trades = ValueTracker(1)
         show_buyers = ValueTracker(1)
         show_sellers = ValueTracker(1)
-        self.add(price, show_counts, show_trades, show_buyers, show_sellers)
+        self.add(price, show_counts, show_graph_counts, show_trades, show_buyers, show_sellers)
 
         # B3's camera: buyers occupy the upper half, sellers the lower half.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
@@ -1847,7 +1849,7 @@ class B4(ThreeDScene):
         for ax, side_ticks in [(demand_axes, demand_ticks), (supply_axes, supply_ticks)]:
             for q in [0, 20, 40, 60, 80, 100]:
                 tick = fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10)
-                tick.quantity, tick.price, tick.visibility = q, price, show_counts
+                tick.quantity, tick.price, tick.visibility = q, price, show_graph_counts
                 tick.values, tick.side = (BUYER_MB, 'buyer') if ax is demand_axes else (SELLER_MC, 'seller')
                 tick.add_updater(lambda m: m.set_opacity(1 - m.visibility.get_value() * float(abs(
                     m.quantity - (np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
@@ -1880,10 +1882,10 @@ class B4(ThreeDScene):
             line.add_updater(lambda m: set_dashed_endpoints(m, m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
             graph_prices.add(line)
         demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
-        demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
+        demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_graph_counts
         demand_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()), 0), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()), m.price.get_value())).set_opacity(m.visibility.get_value()))
         supply_guide = Line(supply_axes.c2p(20, 0), supply_axes.c2p(20, 3), color=SUPPLY, stroke_width=2)
-        supply_guide.axes, supply_guide.price, supply_guide.values, supply_guide.visibility = supply_axes, price, SELLER_MC, show_counts
+        supply_guide.axes, supply_guide.price, supply_guide.values, supply_guide.visibility = supply_axes, price, SELLER_MC, show_graph_counts
         supply_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), 0), m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())).set_opacity(m.visibility.get_value()))
         # Each bare count sits at its quantity-axis position, in its curve's color.
         counts = VGroup()
@@ -1891,7 +1893,7 @@ class B4(ThreeDScene):
                                          (supply_axes, SELLER_MC, 'seller', SUPPLY)]:
             number = fixed(Integer(0, color=color)).scale(0.50)
             number.axes, number.price, number.values = ax, price, values
-            number.side, number.visibility = side, show_counts
+            number.side, number.visibility = side, show_graph_counts
             number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
                 m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else
                 np.count_nonzero(m.values <= m.price.get_value() + 1e-7)))
@@ -2021,7 +2023,7 @@ class B4(ThreeDScene):
                                        graph_shortage, graph_excess, graph_gap_number))
         graph_quantities.price, graph_quantities.mb, graph_quantities.mc = price, BUYER_MB, SELLER_MC
         graph_quantities.demand, graph_quantities.supply = demand_axes, supply_axes
-        graph_quantities.counts, graph_quantities.trades = show_counts, show_trades
+        graph_quantities.counts, graph_quantities.trades = show_graph_counts, show_trades
 
         def update_graph_quantities(m):
             qd = int(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()))
