@@ -3,7 +3,8 @@
 B3-based animation implementation · 2026-09-22.
 
 Latest direction: interrupt the recap with Exercise B3 Q2 **before** resolving
-equilibrium. Establish the people and willingness counts at an off-equilibrium
+equilibrium. The entire review before Q2, including the bumper, must finish
+**under ten minutes; target eight minutes**. Establish the people and willingness counts at an off-equilibrium
 price, let the class reason about incentives, then show one deliberation and
 one compressed common-price adjustment in each direction. Never reveal $4 as
 the answer before that exercise. The full lesson now runs as one animation.
@@ -51,8 +52,9 @@ then showing that the market selects that allocation.
 Confirmed in the September 22 storyboard interview:
 
 - The newly written source is [B3's conversation outline](../B3_Equilibrium/00_Outline.md).
-- Give the opening 5–10 minutes, excluding Exercise Q2, to teach all seven stages
-  of that outline in their simplest form. This is B4's complete explanation of
+- Keep the review before Exercise Q2 under ten minutes, targeting eight minutes
+  including animation and discussion. Teach the seven stages of that outline in
+  their simplest form, with equilibrium adjustment and algebra after Q2. This is B4's complete explanation of
   the equilibrium ideas that did not land clearly in class; it must stand on
   its own without returning to a separate B3 animation.
 - Retain the small exchange, bidding, and two-trade stages, then build buyers,
@@ -121,7 +123,8 @@ The prototype is superseded; it is not an alternative design to preserve.
 
 - Use the existing 2:1 graphite stage, 2160 × 1080, 15 fps, CMU serif teaching
   text, azure question titles, gold definition terms, and existing style tokens.
-  Demand/CS is teal; supply/PS is orange; payment is green; total surplus is
+  Demand/CS is teal; supply/PS is orange; price guides and selected price/quantity
+  readouts are red. Payment/expenditure **areas** are green; total surplus is
   `TOTAL`; DWL is grey. The small exchange retains B3's orange cost and PS outline.
 - Reserve one bottom band for the current question, definition, or two-option
   comparison. Remove its previous content before replacing it. Do not stack a
@@ -132,8 +135,10 @@ The prototype is superseded; it is not an alternative design to preserve.
   Those without trades stay at their waiting positions. Mark every person but
   label only selected people.
   Individual comparisons enlarge the relevant bars into a head-on view while
-  hiding the other people; their allocation stays unchanged. Full-width head-on rows carry the individual
-  demand/supply comparisons and the later quantity sweep.
+  hiding the other people; their allocation stays unchanged. Full-width head-on
+  rows carry the individual demand/supply comparisons. For the later quantity
+  argument, keep the B3 plaza and merged graph fixed: select participants and
+  fill their gain strips without rearranging the scene.
 - Decision close-ups use plain text, without bottom boxes or card backgrounds.
   Keep participant names beneath their spheres and MB/MC labels beside their
   bars. In the two-seller comparison, place each payment/gain label beneath its
@@ -228,27 +233,35 @@ of model. Exercise B3/B4 cards explicitly switch to their separate pasty market.
 
 ## The seven-stage opening — teaching and pacing contract
 
-These are the seven stages from B3's outline, taught here as one short sequence.
-Each stage contributes one claim. Simplification means fewer examples and
-stops within each stage, not skipping the link between individual choices,
-quantities, and equilibrium. These timings include animation, explanation, and
-short responses from the room; they are not timed waits in the scene.
+The pre-exercise review has a **hard ceiling of ten minutes**, with an eight-minute
+working budget including the bumper, animation, explanation, and brief responses.
+These are rehearsal allocations, not automatic waits. The viewer's internal play
+steps are not invitations to explain every movement. The authored animation
+before Q2 totals about **79 seconds**, leaving the rest of the eight-minute
+budget for explanation and brief responses.
 
-| B3 stage | B4 beats | The claim to leave visible | Speaking + motion budget |
-|---|---|---|---|
-| 1. Exchange | `1.a` | A price between cost and value makes both sides gain. | 30–45 s |
-| 2. Bidding | `1.b`, `1.b.settled` | A buyer left out can offer more; the seller gains from switching. | 40–60 s |
-| 3. Two trades | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | A better alternative gives someone a reason to switch; competition brings these prices together. | 45–60 s |
-| 4. Buyers | `1.c.buyers` | At a common price, count the buyers whose MB reaches it: Qd. | 35–50 s |
-| 5. Sellers | `1.c.sellers` | At that same price, count the sellers whose MC is covered: Qs. | 35–50 s |
-| 6. Equilibrium | `1.c`–`1.i`, then `1.i.stability` | Unequal counts leave willing people without trades; their incentives move price. At $4 the counts match and the pressure disappears. | 150–220 s |
-| 7. Graph and algebra | `1.i.graph`, `1.i.algebra` | The crossing and Qd=Qs express the same market condition. | 45–75 s |
+| Before Exercise Q2 | B4 beats | Budget |
+|---|---|---|
+| Bumper and one exchange | `0.a`, `1.a` | 1:00 |
+| One bidding incentive | `1.b`, `1.b.settled` | 1:15 |
+| Two sellers and switching | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | 1:15 |
+| Buyers at two prices | `1.c.buyers`, `1.c.buyers.low` | 1:00 |
+| Sellers at two prices | `1.c.sellers`, `1.c.sellers.high` | 1:00 |
+| Both sides at $3; willingness versus trades | `1.d`, `1.e` | 1:30 |
+| Transition to the exercise | `1.j` | 0:30 |
+| Flex for brief responses/transitions | — | 0:30 |
+| **Total before students begin Q2** | | **8:00** |
 
-The working allocation totals **6 minutes 20 seconds to 9 minutes 20 seconds**,
-within Taylor's 5–10 minute request. Keep the equilibrium explanation spacious
-and the earlier examples brief. Exercise Q2 interrupts stage 6 after the
-shortage count, before the adjustment to equilibrium, and has its own classroom
-time. The bumper is outside this recap budget.
+Show Amanda-Grace's explicit switching decision once, then compress the remaining
+small-market bids into one smooth 1.8-second settlement of prices and partners.
+Gary has no second deliberation. No repeated deliberation for each increment. Keep
+CS/PS as familiar labels. If discussion runs long, shorten the exchange/bidding
+commentary before cutting the willingness-versus-trades distinction.
+
+After Q2, stages 6 and 7 finish the recap: one full-market buyer deliberation,
+one seller deliberation, compressed adjustment to equilibrium, then the crossing
+and algebra. Those explanations and the exercise's working time are outside the
+pre-exercise eight-minute budget. Do not reveal the full market's $4 answer early.
 
 ## 1.a · Recall one exchange
 
@@ -298,12 +311,14 @@ time. The bumper is outside this recap budget.
 2. Retain Amanda-Grace's solid $6.25 deal with Molly. Show her two alternatives:
    “Pay $6.25; gain $0.75” below Molly and “Pay $4.25; gain $2.75” below Andrew,
    as plain text. Title: “Stay or switch?” Hold.
-3. On advance, return to the same plaza and let Amanda-Grace take Andrew's $4.25 offer, then let Gary outbid
-   at $4.50. Keep Molly at $6.25 with no buyer. Continue the recorded seed-54
-   events without per-event pauses: Amanda-Grace $4.75, Gary $5, Molly cuts to
-   $6; Amanda-Grace $5.25, Molly $5.75; Gary $5.50, Molly $5.50; Amanda-Grace
-   takes Molly's open $5.50 offer. Show each changed price; do not invent or
-   duplicate a seller cut. This is the same trace as B3's outline.
+3. On advance, return to the same plaza and let Amanda-Grace take Andrew's
+   $4.25 offer. Then both asks and the actual partners settle in one continuous
+   1.8-second move. No Gary deliberation and no per-bid replay. Caption:
+   “The same incentives bring both prices together.”
+4. The compressed transition uses a verified seed-34 simulation from asks
+   ($6.25, $4.25), with Gary unmatched and Amanda-Grace at Andrew. Its final
+   state has Gary at Andrew, Amanda-Grace at Molly, both asks $5.50. Internal
+   bids determine the endpoint; they are not separate teaching beats.
 
 ## 1.b.equal_prices · Park on two trades
 
@@ -475,9 +490,8 @@ time. The bumper is outside this recap budget.
 
 ## 1.i.algebra · Make the equality explicit
 
-1. Temporarily fade the crowd and slide the same merged graph to the left,
-   opening B3's established right-hand math area. Carry copies of the displayed
-   equations there, retaining their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
+1. Keep the merged graph fixed at right and fade the crowd. Use the vacated
+   left half for the arithmetic. Show the two equations with their subscripts: (P=12-Q_d/5) and (P=2+Q_s/20).
 2. Show (Q_d=Q_s=Q) before setting their right-hand sides equal. Then reveal
    (12-Q/5=2+Q/20), (10=Q/4), and (Q^*=40) in that order, with no extra
    arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
@@ -504,7 +518,8 @@ time. The bumper is outside this recap budget.
 3. Move this pair's payment from $4 to $5 while both people and the traded lot
    remain fixed. CS shrinks and PS grows by the same amount. Keep the outer
    MB–MC gain bracket stationary and label the total gain $5,000.
-4. Hold “The price divides the gain.” This is a fixed-trade accounting
+4. Hold “The price divides the gain.” Hide the market graph during this one-lot
+   calculation so no ghost graph sits behind the equation. This is a fixed-trade accounting
    comparison, not a new common market price or a renegotiation prediction.
    Restore the $4 payment and return the bars to their places on advance.
 
@@ -564,67 +579,57 @@ time. The bumper is outside this recap budget.
 
 ## 4.a · Consider the next trade
 
-1. Move from the compact plaza to a full-width head-on comparison. Park the
-   overlaid graph off screen, preserving its state. Rearrange the participants into
-   ranked buyer/seller bar pairs along a common quantity axis; use a shared
-   dollar baseline so the gap between each MB and MC is directly comparable.
-   Keep all labels except the selected pair's hidden. Do not change values or
-   allocations as the geometry moves.
-2. Keep the first 20 selected on both sides. Enlarge the next two bars, rank 21:
-   MB $7.80 and MC $3.05. Leave their circles empty and connection dashed.
-3. Show a potential gain outline between these heights. Ask “Should we add this
-   trade?” Hold before adding it.
+1. Keep the B3 plaza, camera, and merged graph in place. The first 20 trading
+   partners remain beside each other. Highlight buyer and seller 21 in their
+   actual locations; do not enlarge or rearrange them.
+2. Mark their MB $7.80 and MC $3.05 on the same graph, with labels beside those
+   points and a purple segment spanning the potential gain. Circles stay empty.
+3. Ask “Trade 21: should we add this lot?” Hold before adding it.
 
 ## 4.b · Add positive gains
 
-1. Select the rank-21 pair; solidify its connection. Reveal its gain of $4,750
-   and move Q from 20 to 21. The prior twenty trades stay selected.
-2. Continue in one short sweep through Q=39. At each integer boundary, select
-   the next pair and add only its gain strip. The strips get smaller.
-3. Park with pair 39's MB $4.20 and MC $3.95 enlarged and its gain $250. Hold
-   “Another trade helps while MB > MC.” No running dollar tally is needed.
+1. Add pair 21 to the allocation and its exact gain strip to the graph. Show
+   $(7.80 − 3.05) × 1,000 = $4,750 in the current bottom caption.
+2. In one short sweep, increase the quantity to 39. Newly trading buyers join
+   their sellers; circles and filled gain strips follow the selected quantity.
+3. Highlight pair 39 in place, with MB $4.20 and MC $3.95 beside the graph
+   points. Hold “Trade 39 adds $250. Another trade helps while MB > MC.”
 
 ## 4.c · Inspect the boundary
 
-1. Return pair 39 to its row and enlarge only pair 40: MB $4 and MC $4. Its
-   potential gain has zero height. Ask “What does this trade add?” Hold before
-   the answer.
+1. Move only the selection to pair 40. Put “MB = MC = $4” beside the crossing.
+   Keep the camera, axes, bars, and previous 39 trades fixed.
+2. Ask “Trade 40: what does this lot add?” Hold before the answer.
 
 ## 4.d · Account for indifference
 
-1. Reveal “$0.” Circle rank 40 on each side using the existing convention that
-   indifferent people are willing to trade. Move Q from 39 to 40 without
-   increasing the total-surplus region.
-2. Hold “The last trade adds zero.” Keep a small caption “39 or 40: same total
-   gain” for this exact finite market. This is the endpoint, not a numerical bug.
+1. Select pair 40 using the inclusive willingness convention. Quantity reaches
+   40, but no additional gain area appears.
+2. Hold “Trade 40 adds $0. 39 or 40: the same total gain.” This exact finite
+   market has an indifferent final pair; do not imply a unique optimum.
 
 ## 4.e · Test a trade beyond the boundary
 
-1. Keep the 40 chosen trades intact. Enlarge rank 41: MB $3.80, MC $4.05.
-   Its connection stays dashed and its people stay uncircled.
-2. Label the buyer's acceptable prices P≤$3.80 and the seller's P≥$4.05 beside
-   the enlarged bars. Their values leave no mutually acceptable price.
-3. Ask “Would this trade help?” Hold. On advance, reveal “−$250” and “MC > MB.”
-   Do not paint negative private gains as realized CS/PS or execute a voluntary
-   trade that neither common price can support.
+1. Select pair 41 for inspection, retaining 40 actual trades. Label MB $3.80
+   and MC $4.05 beside their graph points. Both people remain untraded.
+2. Ask “Trade 41: would this lot help?” Hold. On advance, reveal that MC > MB
+   and this trade would lose $250. Do not execute a voluntary trade unsupported
+   by any mutually acceptable price.
 
 ## 4.f · Read the planner's complete rule
 
-1. Return the enlarged pair to the full-width head-on comparison; the graph
-   remains parked off screen. Begin with 40 chosen pairs; outline the
-   positive gains through pair 39 and the zero-height boundary at pair 40.
-2. Sweep a quantity marker back to 30. Remove circles and gain fills from
-   pairs 31–40 as they leave the allocation, leaving the forgone positive gains
-   from pairs 31–39 as empty outlines. Return to 40, restoring the circles
-   and gain fills as each pair rejoins; pair 40 still adds no gain.
-   Price is still absent: this is the notes' quantity-controlled planner.
-3. Show “Take the gains; stop when additional cost exceeds benefit.” Hold on
-   the maximum, with the previously demonstrated zero-gain boundary retained.
+1. Clear the temporary point labels and selection marks. Reduce quantity to
+   30 once, leaving the missing positive gains as unfilled purple outlines.
+   The departing buyers return to their waiting places.
+2. Restore 40 trades and their gain fills in one sweep. Pair 40 adds no area.
+   Camera, plaza, and graph remain fixed throughout; price remains absent.
+3. Hold “Take the gains; stop when additional cost exceeds benefit.”
 
 ## 5.a · Return control to buyers and sellers
 
-1. Return everyone to their waiting stations on the plaza and restore the saved
-   overlaid graph beside them. Preserve every participant's rank and value. Store the
+1. Release the planner's chosen people to their waiting stations. Keep the
+   camera and overlaid graph exactly where they are. Preserve every rank and
+   value. Store the
    planner's selected prefixes as faint outlines. Remove the planner selection
    circles, quantity control, and hypothetical comparison marks.
 2. Restore the market price of $4. Title: “Does the market choose these trades?”
@@ -638,7 +643,7 @@ time. The bumper is outside this recap budget.
    with the saved planner outlines.
 2. Recall the boundary with two threshold captions on the plaza: buyer 40 is
    indifferent, buyer 41 will not pay $4; seller 40 is indifferent, seller 41
-   will not sell at $4. The enlarged comparison has already established why.
+   will not sell at $4. The point comparison has already established why.
 3. Hold “The same people; the same gains.” Fade the comparison outlines on advance.
 
 ## 5.c · Close the argument on the simulation
@@ -668,7 +673,11 @@ time. The bumper is outside this recap budget.
 
 ## 6.a · The same market's welfare benchmark
 
-1. Reconstruct B3's 3D plaza beside the merged market graph at $4, 40 trades.
+1. Retain B3's 3D plaza and the same merged graph dimensions at $4, 40 trades.
+   Use one straight equation line per curve; the filled per-lot rectangles keep
+   the exact discrete surplus arithmetic. Curve names sit beside their curves;
+   price labels sit at their y-axis levels. Policy bounds use the red price-guide
+   color; a binding bound replaces the duplicate actual-price label.
 2. Shade one rectangle per traded lot: teal MB minus price and orange price
    minus MC. These are the exact people from the recap, not smooth triangles.
 3. Hold on CS $156,000, PS $39,000, total surplus $195,000. State the policy
@@ -684,7 +693,8 @@ time. The bumper is outside this recap budget.
 
 ## 6.c · Predict a binding ceiling
 
-1. Hide counts, willingness checks, trade circles, and welfare fills before
+1. Hide complete count and welfare readouts (labels as well as numbers),
+   willingness checks, trade circles, and welfare fills before
    lowering the ceiling from $5 to $3.
 2. Actual price stays $4 until the ceiling crosses it, then follows it to $3.
 3. Ask how much actually trades. Hold before the answer appears.
@@ -726,7 +736,8 @@ time. The bumper is outside this recap budget.
 
 ## 6.f · Predict a binding floor
 
-1. Hide counts, checks, circles, and welfare fills before raising the floor.
+1. Hide complete count and welfare readouts, checks, circles, and welfare fills
+   before raising the floor.
 2. Actual price stays $4 until the floor reaches it, then follows it to $6.
 3. Ask how much actually trades. Hold with answers hidden.
 
@@ -763,9 +774,9 @@ time. The bumper is outside this recap budget.
 ## Review and implementation checks
 
 - There are **53 literal named holds** in the combined animation. The opening seven
-  stages contain 22: the bumper, Exercise Q2, and 20 teaching holds. Target
-  5–10 minutes of recap excluding the exercise, around 7–8 minutes in rehearsal.
-  Keep the equilibrium explanation; shorten spoken bidding repetition first.
+  stages contain 22: the bumper, Exercise Q2, and 20 teaching holds. Budget
+  **eight minutes before Q2, always under ten**, including the bumper. Keep the
+  post-exercise equilibrium explanation; cut bidding repetition first.
 - Exercise Q2 comes after the shortage is counted, before any $4 equilibrium
   answer appears in the full market. The pasty exercise remains a separate model.
 - The exact quarter-dollar counts, inclusive willingness, and 39/40 welfare tie
@@ -782,8 +793,9 @@ time. The bumper is outside this recap budget.
   unrelated checkpoint captures; suspected failures are checked with an isolated
   direct run before changing correct scene geometry.
 - The recap, welfare, and control views have been reviewed. Direct native
-  captures verify the welfare close-up labels, payment line, one enlarged pair
-  at a time, and complete restoration of the ranked row at `4.f`.
+  captures verify the welfare comparison labels and payment line. The quantity
+  proof (`4.a`–`4.f`) uses a fixed camera/graph throughout, with exact selected
+  counts and gains checked at each hold. No separate ranked-row layout remains.
 - Only these animation files and this storyboard belong to the update. Notes,
   exercises, shared assets, and B3 files remain outside the animator's edits.
 
