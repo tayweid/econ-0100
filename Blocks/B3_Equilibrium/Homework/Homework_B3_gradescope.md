@@ -6,50 +6,14 @@ Instructor-facing. Following the Exercise build-sheet format: paste the contents
 
 Source: Homework_B3.md. Each handout blank becomes a selection.
 
-Answer check: Setting 100 − Q/2 = 20 + Q/2 gives Q* = 80 and P* = 60. Consumer surplus is ½ × 80 × (100 − 60) = 1600; producer surplus is ½ × 80 × (60 − 20) = 1600. At 50 galleons, Q_d = 100 and Q_s = 60: a shortage of 40, and the price rises. At 70 galleons, Q_d = 60 and Q_s = 100: an excess of 40, and the price falls.
+Answer check: At 50 galleons, Q_d = 100 and Q_s = 60: a shortage of 40, and the price rises. At 70 galleons, Q_d = 60 and Q_s = 100: an excess of 40, and the price falls. Setting 100 − Q/2 = 20 + Q/2 gives Q* = 80 and P* = 60. Consumer surplus is ½ × 80 × (100 − 60) = 1600; producer surplus is ½ × 80 × (60 − 20) = 1600.
 
 ---
 
-## Question 1 — title: `Equilibrium` · 2 pts
+## Question 1 — title: `A Price Below Equilibrium` · 2 pts
 
 ```
-Butter beer: demand $$P_d = 100 - \frac{1}{2} Q_d$$ and supply $$P = 20 + \frac{1}{2} Q$$, in galleons and bottles.
-
-a) Calculate equilibrium price.
-
-( ) $$40$$ galleons
-( ) $$50$$ galleons
-(x) $$60$$ galleons
-( ) $$80$$ galleons
-
-b) Find equilibrium quantity.
-
-( ) $$40$$ bottles
-( ) $$60$$ bottles
-(x) $$80$$ bottles
-( ) $$160$$ bottles
-
-c) Calculate consumer surplus.
-
-( ) $$800$$ galleons
-(x) $$1600$$ galleons
-( ) $$3200$$ galleons
-( ) $$4800$$ galleons
-
-d) Calculate producer surplus.
-
-( ) $$800$$ galleons
-(x) $$1600$$ galleons
-( ) $$3200$$ galleons
-( ) $$4800$$ galleons
-```
-
----
-
-## Question 2 — title: `A Price Below Equilibrium` · 2 pts
-
-```
-Butter beer again. Suppose the price is 50 galleons.
+Butter beer: demand $$P_d = 100 - \frac{1}{2} Q_d$$ and supply $$P = 20 + \frac{1}{2} Q$$, in galleons and bottles. Suppose the price is 50 galleons.
 
 a) What is the quantity demanded?
 
@@ -82,7 +46,7 @@ d) Which way will the price move?
 
 ---
 
-## Question 3 — title: `A Price Above Equilibrium` · 2 pts
+## Question 2 — title: `A Price Above Equilibrium` · 2 pts
 
 ```
 Suppose instead the price is 70 galleons.
@@ -115,3 +79,39 @@ d) Which way will the price move?
 ( ) It stays at $$70$$ galleons
 ( ) It cannot be determined
 ```
+
+## Question 3 — title: `Equilibrium` · 2 pts
+
+```
+Butter beer again, with the same demand and supply curves.
+
+a) Calculate equilibrium price.
+
+( ) $$40$$ galleons
+( ) $$50$$ galleons
+(x) $$60$$ galleons
+( ) $$80$$ galleons
+
+b) Find equilibrium quantity.
+
+( ) $$40$$ bottles
+( ) $$60$$ bottles
+(x) $$80$$ bottles
+( ) $$160$$ bottles
+
+c) Calculate consumer surplus.
+
+( ) $$800$$ galleons
+(x) $$1600$$ galleons
+( ) $$3200$$ galleons
+( ) $$4800$$ galleons
+
+d) Calculate producer surplus.
+
+( ) $$800$$ galleons
+(x) $$1600$$ galleons
+( ) $$3200$$ galleons
+( ) $$4800$$ galleons
+```
+
+---

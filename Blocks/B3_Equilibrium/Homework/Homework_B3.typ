@@ -32,19 +32,7 @@ P = 20 + \frac{1}{2} Q
 
 Prices are in galleons and quantity is in bottles.
 
-== Q1 | Equilibrium
-
-a) Calculate equilibrium price: \_\_\_\_\_\_\_\_\_\_
-
-b) Find equilibrium quantity: \_\_\_\_\_\_\_\_\_\_
-
-c) Calculate consumer surplus: \_\_\_\_\_\_\_\_\_\_
-
-d) Calculate producer surplus: \_\_\_\_\_\_\_\_\_\_
-
-#pagebreak()
-
-== Q2 | A Price Below Equilibrium
+== Q1 | A Price Below Equilibrium
 
 Butter beer again. Suppose the price is $50$ galleons.
 
@@ -56,7 +44,9 @@ c) Is this a shortage or an excess, and how large? \_\_\_\_\_\_\_\_\_\_
 
 d) Which way will the price move? \_\_\_\_\_\_\_\_\_\_
 
-== Q3 | A Price Above Equilibrium
+#pagebreak()
+
+== Q2 | A Price Above Equilibrium
 
 Suppose instead the price is $70$ galleons.
 
@@ -67,3 +57,14 @@ b) What is the quantity supplied? \_\_\_\_\_\_\_\_\_\_
 c) Is this a shortage or an excess, and how large? \_\_\_\_\_\_\_\_\_\_
 
 d) Which way will the price move? \_\_\_\_\_\_\_\_\_\_
+
+== Q3 | Equilibrium
+
+a) Calculate equilibrium price: \_\_\_\_\_\_\_\_\_\_
+
+b) Find equilibrium quantity: \_\_\_\_\_\_\_\_\_\_
+
+c) Calculate consumer surplus: \_\_\_\_\_\_\_\_\_\_
+
+d) Calculate producer surplus: \_\_\_\_\_\_\_\_\_\_
+
