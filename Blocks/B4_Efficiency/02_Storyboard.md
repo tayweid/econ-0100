@@ -971,7 +971,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    CS, PS, DWL, and the graph with shaded regions. State
    **$(Q_d = 14;\ Q_s = 6)$** inline with the maximum legal price sentence.
    Put **Plot demand, supply, and the ceiling; shade CS, PS, and DWL.** on
-   its own unnumbered setup line before a). Questions run from a) through d).
+   its own unnumbered setup line before a), with a blank line above it.
+   Questions run from a) through d).
 2. Use the approved muted rounded panel, gold serif exercise heading, white
    concise body, and centered equations. Show no answers. Hold
    `6.exercise_ceiling`, then uncover the same blocked-trade close-up to
@@ -1045,7 +1046,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    producer surplus, deadweight loss, and a floor of 6. State
    **$(Q_d = 6;\ Q_s = 14)$** inline with the minimum legal price sentence.
    Put **Plot demand, supply, and the floor; shade CS, PS, and DWL.** on
-   its own unnumbered setup line before a).
+   its own unnumbered setup line before a), with a blank line above it.
 2. Use the same exercise-card styling, without extra repeated questions or
    answers. Show Q2 after `5.e` as the final scene. Hold
    `6.exercise_floor` and leave the card visible.

@@ -2837,6 +2837,8 @@ class B4(ThreeDScene):
             Tex('c) What is producer surplus?', color=INK).scale(0.88),
             Tex('d) What is deadweight loss?', color=INK).scale(0.88))
             .arrange(DOWN, buff=0.25, aligned_edge=LEFT).move_to(ORIGIN))
+        VGroup(*card_text[4:]).shift(DOWN * 0.4)
+        card_text.move_to(ORIGIN)
         card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
             corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
         card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
@@ -3008,6 +3010,8 @@ class B4(ThreeDScene):
             Tex('c) What is deadweight loss?', color=INK).scale(0.88),
             Tex('d) Would a floor of 6 galleons change the market?', color=INK).scale(0.88))
             .arrange(DOWN, buff=0.29, aligned_edge=LEFT).move_to(ORIGIN))
+        VGroup(*card_text[4:]).shift(DOWN * 0.4)
+        card_text.move_to(ORIGIN)
         card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
             corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
         card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
