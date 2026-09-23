@@ -379,107 +379,6 @@ class B4(ThreeDScene):
                   FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
         self.remove(zero, zero_word)
 
-        # Amanda-Grace offers $4.25.
-        bidder = 'challenger'
-        mc_x = bid_mc_x[bidder]
-        x0 = min(bid_mb_x[bidder], mc_x) - BID_WIDTH / 2
-        x1 = max(bid_mb_x[bidder], mc_x) + BID_WIDTH / 2
-        height = BID_BASE + 4.25 * BID_DOLLAR_HEIGHT
-        challenge = DashedLine([x0, bid_y - 0.045 * BID_SCALE, height],
-                              [x1, bid_y - 0.045 * BID_SCALE, height],
-                              dash_length=0.05 * BID_SCALE,
-                              color=GUIDE, stroke_width=3 * BID_SCALE)
-        challenge_shadow = DashedLine([x0, bid_y, 0.04 * BID_SCALE],
-                                     [x1, bid_y, 0.04 * BID_SCALE],
-                                     dash_length=0.05 * BID_SCALE,
-                                     color=GUIDE, stroke_width=2 * BID_SCALE).set_opacity(0.3)
-        offer_label = Tex(rf'\${4.25:.2f}', color=GUIDE).scale(0.62 * BID_SCALE)
-        offer_label.set_fill(border_width=0.5 * BID_SCALE)
-        offer_label.face_mat = np.eye(3)
-        offer_label.add_updater(face_camera)
-        offer_label.update()
-        offer_label.move_to([(x0 + x1) / 2, bid_y - 0.15 * BID_SCALE,
-                             height + 0.25 * BID_SCALE])
-        self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label),
-                  run_time=0.45)
-        # Molly compares the existing price with the proposed price above.
-        seller_gain = fixed(Tex(r'Molly receives $\$0.25$ more.', color=SUPPLY).scale(0.7443)
-            .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(seller_gain))
-        self.pause('1.b')
-        self.play(FadeOut(seller_gain),
-                  Transform(head, fixed(title('Who gets the spinach?'))), run_time=0.3)
-        # Keep the old solid price and the new dashed price visible until
-        # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
-        self.play(bars['seller'].animate.set_x(mc_x),
-                  run_time=0.75)
-        new_line = Line([x0, bid_y - 0.045 * BID_SCALE, height],
-                        [x1, bid_y - 0.045 * BID_SCALE, height],
-                        color=GUIDE, stroke_width=3 * BID_SCALE)
-        new_shadow = Line([x0, bid_y, 0.04 * BID_SCALE], [x1, bid_y, 0.04 * BID_SCALE],
-                          color=GUIDE, stroke_width=2 * BID_SCALE).set_opacity(0.3)
-        # Keep every dash and the new price number anchored. Only the gaps
-        # appear as the former deal fades; there is no dashed-to-line morph.
-        price_gaps = VGroup(*[
-            Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=3 * BID_SCALE)
-            for a, b in zip(challenge, challenge[1:])])
-        shadow_gaps = VGroup(*[
-            Line(a.get_end(), b.get_start(), color=GUIDE,
-                 stroke_width=2 * BID_SCALE).set_opacity(0.3)
-            for a, b in zip(challenge_shadow, challenge_shadow[1:])])
-        self.play(FadeOut(accepted_line), FadeOut(accepted_shadow), FadeOut(deal_number),
-                  FadeIn(price_gaps), FadeIn(shadow_gaps), run_time=0.45)
-        self.remove(challenge, challenge_shadow, price_gaps, shadow_gaps)
-        self.add(new_line, new_shadow)
-        accepted_line, accepted_shadow, deal_number = new_line, new_shadow, offer_label
-
-        # Gary offers $4.50.
-        bidder = 'buyer'
-        mc_x = bid_mc_x[bidder]
-        x0 = min(bid_mb_x[bidder], mc_x) - BID_WIDTH / 2
-        x1 = max(bid_mb_x[bidder], mc_x) + BID_WIDTH / 2
-        height = BID_BASE + 4.5 * BID_DOLLAR_HEIGHT
-        challenge = DashedLine([x0, bid_y - 0.045 * BID_SCALE, height],
-                              [x1, bid_y - 0.045 * BID_SCALE, height],
-                              dash_length=0.05 * BID_SCALE,
-                              color=GUIDE, stroke_width=3 * BID_SCALE)
-        challenge_shadow = DashedLine([x0, bid_y, 0.04 * BID_SCALE],
-                                     [x1, bid_y, 0.04 * BID_SCALE],
-                                     dash_length=0.05 * BID_SCALE,
-                                     color=GUIDE, stroke_width=2 * BID_SCALE).set_opacity(0.3)
-        offer_label = Tex(rf'\${4.5:.2f}', color=GUIDE).scale(0.62 * BID_SCALE)
-        offer_label.set_fill(border_width=0.5 * BID_SCALE)
-        offer_label.face_mat = np.eye(3)
-        offer_label.add_updater(face_camera)
-        offer_label.update()
-        offer_label.move_to([(x0 + x1) / 2, bid_y - 0.15 * BID_SCALE,
-                             height + 0.25 * BID_SCALE])
-        self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label),
-                  run_time=0.45)
-        # Keep the old solid price and the new dashed price visible until
-        # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
-        self.play(bars['seller'].animate.set_x(mc_x),
-                  run_time=0.75)
-        new_line = Line([x0, bid_y - 0.045 * BID_SCALE, height],
-                        [x1, bid_y - 0.045 * BID_SCALE, height],
-                        color=GUIDE, stroke_width=3 * BID_SCALE)
-        new_shadow = Line([x0, bid_y, 0.04 * BID_SCALE], [x1, bid_y, 0.04 * BID_SCALE],
-                          color=GUIDE, stroke_width=2 * BID_SCALE).set_opacity(0.3)
-        # Keep every dash and the new price number anchored. Only the gaps
-        # appear as the former deal fades; there is no dashed-to-line morph.
-        price_gaps = VGroup(*[
-            Line(a.get_end(), b.get_start(), color=GUIDE, stroke_width=3 * BID_SCALE)
-            for a, b in zip(challenge, challenge[1:])])
-        shadow_gaps = VGroup(*[
-            Line(a.get_end(), b.get_start(), color=GUIDE,
-                 stroke_width=2 * BID_SCALE).set_opacity(0.3)
-            for a, b in zip(challenge_shadow, challenge_shadow[1:])])
-        self.play(FadeOut(accepted_line), FadeOut(accepted_shadow), FadeOut(deal_number),
-                  FadeIn(price_gaps), FadeIn(shadow_gaps), run_time=0.45)
-        self.remove(challenge, challenge_shadow, price_gaps, shadow_gaps)
-        self.add(new_line, new_shadow)
-        accepted_line, accepted_shadow, deal_number = new_line, new_shadow, offer_label
-
         # Amanda-Grace offers $4.75.
         bidder = 'challenger'
         mc_x = bid_mc_x[bidder]
@@ -502,11 +401,23 @@ class B4(ThreeDScene):
         offer_label.move_to([(x0 + x1) / 2, bid_y - 0.15 * BID_SCALE,
                              height + 0.25 * BID_SCALE])
         self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label),
-                  run_time=0.25)
+                  run_time=0.45)
+        # Molly compares the existing price with the proposed price above.
+        gain_x = (accepted_line.get_end()[0] + challenge.get_start()[0]) / 2
+        seller_gain_line = Line(
+            [gain_x, bid_y - 0.045 * BID_SCALE, accepted_line.get_end()[2]],
+            [gain_x, bid_y - 0.045 * BID_SCALE, height],
+            color=FOCUS, stroke_width=4 * BID_SCALE).set_flat_stroke(False)
+        seller_gain = fixed(Tex(r'Molly receives $\$0.75$ more.', color=DEFINITION).scale(DEFINITION_SCALE)
+            .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(ShowCreation(seller_gain_line), FadeIn(seller_gain))
+        self.pause('1.b')
+        self.play(FadeOut(seller_gain_line), FadeOut(seller_gain),
+                  Transform(head, fixed(title('Who gets the spinach?'))), run_time=0.3)
         # Keep the old solid price and the new dashed price visible until
         # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
         self.play(bars['seller'].animate.set_x(mc_x),
-                  run_time=0.45)
+                  run_time=0.75)
         new_line = Line([x0, bid_y - 0.045 * BID_SCALE, height],
                         [x1, bid_y - 0.045 * BID_SCALE, height],
                         color=GUIDE, stroke_width=3 * BID_SCALE)

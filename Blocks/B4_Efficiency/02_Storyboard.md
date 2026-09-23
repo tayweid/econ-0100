@@ -386,13 +386,17 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    left, and bring Amanda-Grace with her MB $7 bar in from the right to form
    B3's three-person head-on layout. Keep this transition brisk and visible:
    no cleared scene, reconstructed setup, skipped movement, or extra hold.
-2. Show her dashed $4.25 proposal and the question “Would Molly switch?” Hold
-   before acceptance. Keep only the plain caption “Molly receives $0.25 more”
-   below the comparison; the existing and proposed prices remain on the bars.
-3. On advance, move Molly's MC comparison to Amanda-Grace's side, solidify $4.25,
-   and release Gary's old connection. Carry forward B3's accepted-line grammar.
-   Show Gary's $4.50 response, then compress the remaining quarter-dollar bids
-   into one uninterrupted sequence with no extra teaching stops.
+2. Show her dashed $4.75 proposal and the question “Would Molly switch?” Hold
+   before acceptance. Put “Molly receives $0.75 more.” in yellow at the bottom.
+   Add a yellow vertical line in world space spanning exactly the $4–$4.75
+   price heights, horizontally centered in the gap between the two red price
+   lines. Keep the existing and proposed prices on their bars.
+3. On advance, fade the yellow line and caption before moving Molly's MC
+   comparison to Amanda-Grace's side, solidifying $4.75, and releasing Gary's
+   old connection. Carry forward B3's accepted-line grammar. Show Gary's $5
+   response, then compress the remaining alternating quarter-dollar bids
+   through Amanda-Grace's $6.25 into one uninterrupted sequence with no extra
+   teaching stops.
 
 ## 1.b.settled · Explain why the bidding stops
 
