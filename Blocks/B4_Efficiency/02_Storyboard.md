@@ -458,9 +458,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 **green**
    checks, dim excluded people/bars, and highlight the marginal buyer (MB=$6).
    Put the price readout just left of the guide and a teal “30” below the row
-   at Q=30, with grey **thousand lb** immediately beneath that number. Caption:
-   “The marginal buyer is indifferent at $6.” Keep all row narration gold at
-   the same bottom baseline. Hold “MB ≥ P”; equality is willing.
+   at Q=30, with grey **thousand lb** immediately beneath that number. Hold
+   “Buy if MB ≥ P.” in the gold footer at scale 0.7443 and bottom margin 0.05.
+   Explain marginal indifference aloud; equality is willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
@@ -468,8 +468,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    The dashed guide and its price readout descend together; the teal quantity
    number and grey **thousand lb** below it track horizontally to Q=45. Green
    checks show the actual willingness count reaching 45.
-2. Hold “At $3, 45 buyers are willing. We have not counted trades” in the gold
-   footer at scale 0.7443 and bottom margin 0.05. No trading circles or Qx appear.
+2. Retain “Buy if MB ≥ P.” in the gold footer at scale 0.7443 and bottom margin
+   0.05. Explain aloud that willingness is not a trade count. No trading circles
+   or Qx appear.
 
 ## 1.c.sellers · Build quantity supplied the same way
 
@@ -482,15 +483,16 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 3. At $3, end the dashed price guide at Qs=20. Keep its price readout just left
    of the guide and an orange “20” below the row at Q=20, with grey **thousand lb**
    immediately beneath the number. Show 20 **green** checks, dim unwilling
-   sellers, and hold “MC ≤ P.” Counts show willingness, not completed sales.
+   sellers, and hold “Sell if MC ≤ P.” in the gold footer at the standard size
+   and margin. Counts show willingness, not completed sales.
 
 ## 1.c.sellers.high · A higher price brings more sellers
 
 1. Raise price from $3 to $6 without moving the camera, easing in and out.
    The price readout follows the guide upward; the orange quantity number and
    grey **thousand lb** below it move together to Q=80. Green checks identify
-   80 willing sellers. Hold at Qs=80 with the gold willing-seller narration at
-   the standard footer size and margin.
+   80 willing sellers. Hold at Qs=80 with the same gold “Sell if MC ≤ P.” footer
+   at the standard size and margin.
 2. On advance, clear that caption and ease back to $3 and 20 willing sellers,
    with the price, quantity number, and units tracking their positions, before bringing both market sides
    together. Do not stop at or label $4 as equilibrium during the sweep.

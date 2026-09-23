@@ -1636,14 +1636,11 @@ class B4(ThreeDScene):
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
-        rule = fixed(Tex(r'$MB\geq P$: willing to buy. The marginal buyer is indifferent at $\$6$.', color=DEFINITION))
+        rule = fixed(Tex(r'Buy if $MB\geq P$.', color=DEFINITION))
         rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
         self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=smooth)
-        low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=DEFINITION))
-        low.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(ReplacementTransform(rule, low))
         self.pause('1.c.buyers.low')
 
         # ========== 5. Sellers ==========
@@ -1743,16 +1740,13 @@ class B4(ThreeDScene):
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
-        rule = fixed(Tex(r'$MC\leq P$: willing to sell. At $\$3$, 20 sellers are willing.', color=DEFINITION))
+        rule = fixed(Tex(r'Sell if $MC\leq P$.', color=DEFINITION))
         rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(one_lot, rule))
         self.pause('1.c.sellers')
         self.play(price.animate.set_value(6), run_time=2.0, rate_func=smooth)
-        high = fixed(Tex(r'At $\$6$, 80 sellers are willing. A higher price brings more sellers.', color=DEFINITION))
-        high.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(ReplacementTransform(rule, high))
         self.pause('1.c.sellers.high')
-        self.play(FadeOut(high), price.animate.set_value(3), run_time=1.3, rate_func=smooth)
+        self.play(FadeOut(rule), price.animate.set_value(3), run_time=1.3, rate_func=smooth)
 
         # ========== 6. Equilibrium ==========
         # Advance directly into the next stage on the same navigation rail.
