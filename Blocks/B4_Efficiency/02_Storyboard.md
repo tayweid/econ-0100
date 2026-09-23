@@ -7,7 +7,8 @@ floor → binding ceiling → permit a blocked trade → all beneficial trades �
 force one harmful trade → undo it and state the conditional welfare result**.
 This explicitly supersedes the earlier planner-first draft, the ceiling-first
 notes, and the animator note's frozen-order instruction. Keep the entire opening
-through `1.i.algebra` unchanged. The latest visual direction supersedes the
+through `1.i.algebra` in its existing order, with the latest decision-close-up
+and moving ground-segment refinements below. The latest visual direction supersedes the
 back-half plaza-reuse requirement: after the algebra, use **one large graph**
 as the overview. Selected MB/MC bars expand directly from that graph into the
 preferred two-person comparison, without restoring the plaza or totem. Keep
@@ -69,7 +70,7 @@ missing lot on the graph, then expand those bars into a clear two-person figure.
 Legal and mutually beneficial price intervals make the blocking restriction
 visible. Return to the same graph overview; do not restore the crowd plaza.
 
-## Opening staging — unchanged through the algebra
+## Opening staging — same sequence through the algebra
 
 Taylor's live review rejected the initial flat prototype. The implementation
 now uses B3's actual `ThreeDScene`, sphere/shadow people, upright `Rectangle3D`
@@ -139,14 +140,16 @@ Keep the market's price-derived graph quantities visible at both
 prediction and revealed states: vertical guides drop from each price/curve
 intersection to the Q axis, with bare teal demand and orange supply numbers
 attached to their quantity positions. These guides/numbers follow price and
-are independent of the plaza reveal. Keep the teal/orange plaza quantity lines
-visible once willingness is revealed. Draw the central matched run and remaining
-waiting arc separately; never join them with a diagonal across the plaza. Graph
-baselines run from 0 to each side's actual Q.
-Mark the unmatched willing arc on the longer side in yellow and the corresponding
-min(Qd,Qs)–max(Qd,Qs) graph span in yellow. Attach a yellow “Shortage 25” or
-“Excess 50” readout beside each span; the existing units are thousands of pounds.
-Update these lines and counts with price, fading the yellow span/readout when
+are independent of the plaza reveal. Once willingness is revealed, show a
+short teal/orange ground segment attached to each willing person's position.
+Every segment travels with its person between rim, inner arc, and center; do
+not connect players into a continuous span or draw a diagonal across the plaza.
+Graph baselines remain unchanged, running from 0 to each side's actual Q.
+Mark each unmatched willing person with a short yellow ground segment that
+also moves with them; retain the corresponding min(Qd,Qs)–max(Qd,Qs) graph span
+in yellow. Keep the nearby yellow “Shortage 25” or “Excess 50” readouts; units
+remain thousands of pounds. Update the segments and counts with price, fading
+the yellow segments, graph span, and readout when
 the gap reaches zero. Hide these marks with the plaza/graphs during example
 close-ups and restore them on return. Prediction holds keep plaza willingness
 marks, trades, and yellow gaps hidden; graph quantity guides and numbers remain
@@ -185,9 +188,19 @@ From `5.a`, its active price/quantity guides stay hidden.
   used later in this storyboard identify internal participants, not displayed
   text. In the two-seller comparison, place each payment/gain label beneath its
   seller. In the full-market bidding examples, place each choice beside its red
-  current/proposed price line and point to that line with a short arrow. These
+  current/proposed price line and point to it with a short arrow. Keep both
+  alternatives visible, with arrow paths clear of the bars. These
   are world-space, camera-facing labels, using B3's `face_camera` convention;
   remove detached footer choices. Emphasize acceptance by coloring the offer text.
+  In the full-market buyer/seller deliberations, put a yellow world-space ring
+  around the deciding person's orb and include the incumbent trading partner.
+  Keep the actual red price floating at its dollar height over the existing
+  pair; add no ground match connector or ground price. The counterparty's bar
+  and MB/MC label sit with that pair. A dashed proposed price spans the deciding
+  actor and counterparty. Acceptance moves the counterparty's bar/label and
+  solid price to the new pair as the incumbent steps aside. Perform this switch
+  only in the close-up, then
+  return to the untouched full crowd for one smooth common-price change to $4.
 - Full-width demand/supply rows retain their common local zero and dollar
   scale. On the plaza, keep short individual bars and show the common price
   on the totem and dashed graph guides. Central adjacency means actual trade;
@@ -466,18 +479,19 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Willing people step to the inner arcs and receive green checks. Unwilling
    people stay at the rim with small red Xs. Retain the already-visible teal
    “45” and orange “20” at their graph quantity positions.
-2. Reveal persistent teal quantity lines for the 45 willing buyers and demand's
-   horizontal 0–45 span, and orange lines for the 20 sellers and supply's 0–20 span.
-3. Keep those quantity lines, then move the first 20 buyers and sellers
+2. Reveal short teal ground segments under the 45 willing buyers and orange
+   segments under the 20 willing sellers. Keep demand's horizontal 0–45 and
+   supply's 0–20 graph baselines unchanged.
+3. Let each ground segment follow its person as the first 20 buyers and sellers move
    to matching x stations along the dashed diameter. Buyers stop just above it
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
    Center the occupied stations on the plaza. The matching and next caption
    communicate the 20 trades; add no separate Qx counter.
 4. Hold “20 pairs trade. 25 willing buyers are still waiting.” The checked
    unmatched buyers, including Amanda-Grace and Gary, remain on the inner arc.
-   Mark their waiting arc and demand's 20–45 graph gap in yellow, with adjacent
-   “Shortage 25” readouts. Keep central matched runs separate from waiting arcs;
-   the spatial difference distinguishes willingness from actual exchange.
+   Give each unmatched willing buyer a short yellow ground segment following
+   that person, and keep demand's 20–45 graph gap yellow with nearby “Shortage 25”
+   readouts. The marks stay local to people rather than connecting their positions.
 
 ## 1.j · Exercise B3 Q2 — before resolving equilibrium
 
@@ -497,29 +511,33 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.f · Recall the incentive to raise price
 
-1. Highlight Amanda-Grace in the original 3D plaza, then bring her and served
-   seller 20 (MC $3) into B3's head-on view. Title: “What would this buyer do?”
-   Display MB/MC without names or individual role labels beneath the spheres.
-   Clear the fixed graphs during that comparison. Place “Wait at $3: gain $0”
-   beside the current red $3 line and
-   “Offer $3.25: gain $3.75/lb” beside the proposed dashed red $3.25 line. Use
-   world-space, camera-facing text with a short arrow from each choice to its
-   price line; remove detached footer choices. Show that the served seller
-   receives more if the bid is accepted. A dashed connector identifies the
-   proposed switch, not an extra trade.
-2. Ask “Which way does price move?” Hold with the answer still withheld.
-3. On advance, accept the proposed price in the close-up: fade the waiting
-   choice and its arrow, color the offer green, then clear the remaining callout
-   as the camera returns to B3's
-   plaza camera. Amanda-Grace joins seller 20; displaced buyer 20 returns to
-   the willing inner arc. Then clear the individual proposal, restore the ranked
-   snapshot, and show “Other unserved buyers have the same incentive.” Follow
-   with “Shortage → price rises.”
-   Raise the common price to $4 in one continuous play, moving the totem's red
-   tick and readout upward. Intermediate quarter-dollar steps are not extra
-   pauses. Keep counts and marks synchronized; do not narrate every threshold
-   crossing or stop at each tick.
-4. Keep 40/40/40 visible as the next question enters; no navigation-only stop.
+1. Highlight the deciding buyer (internally buyer 25) and seller 20 (MC $3),
+   then bring them into B3's head-on view. Title: “What would this buyer do?”
+   Put a yellow world-space circular ring around the deciding buyer's orb.
+   Arrange a compact three-person figure: deciding buyer left, seller center,
+   incumbent buyer 20 right. Include the incumbent's **MB $8** bar and label.
+   Seller 20 already trades with that buyer. Put the seller's MC bar and label
+   with this right-hand pair, and keep the solid red **$3** price floating at
+   dollar height over them.
+   Add no ground match connector or ground price. Display no names or individual
+   role labels.
+2. Clear the fixed graphs during inspection. Keep MB/MC labels beside the bars.
+   Use two world-space camera-facing choices: “Wait at $3: gain $0” with a
+   short arrow to the current solid price, and “Offer $3.25: gain $3.75/lb” with
+   a short arrow to the proposed dashed price spanning buyer and seller. Keep
+   both arrows visible and route them clear of the three bars. Hold before
+   acceptance at the existing `1.f` stop.
+3. On advance, accept in the close-up: move the seller's MC bar/label to the
+   deciding buyer's new pair and solidify their floating **$3.25** price at its
+   dollar height. Let the incumbent buyer step aside with their MB bar/label.
+   Fade the waiting choice and its arrow, clear the proposal arrow as its price
+   is accepted, and color the offer green.
+   Clear the close-up callouts and return to the untouched full-crowd snapshot.
+   Do not replay the switch on the plaza or animate a rollback there.
+4. Show “Other unserved buyers have the same incentive,” followed by
+   “Shortage → price rises.” Raise the common price to **$4** in one smooth
+   play, with the totem, counts, willingness marks, and per-person ground segments
+   synchronized. Finish at 40/40/40; no extra teaching or navigation stop.
 
 ## 1.g · Predict the high-price result
 
@@ -534,26 +552,30 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.h · Count the excess and recall undercutting
 
 1. Retain teal “30” and orange “80” at their graph quantity positions. Reveal
-   30 buyer checks, 80 seller checks, and 30 central pairs. Keep the teal/orange plaza
-   quantity lines and graph baselines visible. Fifty checked sellers remain on
-   the inner arc: mark that arc and supply's 30–80 graph gap in yellow, with
-   adjacent “Excess 50” readouts.
-2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
-   Show the same B3 head-on inspection view, titled “What would this seller do?”
-   Display only “MC $4” and “MB $6” beside the bars, without names or individual
-   role labels beneath the spheres. The actual plaza returns before Andrew
-   replaces seller 30 beside Gary.
-   Keep Gary in the same central slot; seller 30 returns to the willing inner arc.
-   Place “Keep $6: gain $0” beside the current red $6 line and
-   “Ask $5.75: gain $1.75/lb” beside the proposed dashed red $5.75 line. Use
-   world-space, camera-facing choice labels and short arrows to their respective
-   price lines; remove detached footer choices. Gary would also gain by paying
-   less. Ask “Which way does price move?” Hold.
-3. On advance, fade the keep-price choice and its arrow, color the accepted
-   offer green, and clear the remaining callout as the camera returns to the
-   plaza. Briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
-   common price to $4 in one play, lowering the totem's red tick and readout
-   while retaining the counts throughout.
+   30 buyer checks, 80 seller checks, and 30 central pairs. Short teal/orange
+   ground segments move with each willing person. Fifty unserved sellers keep
+   local yellow segments; supply's 30–80 graph gap and “Excess 50” remain yellow.
+2. Inspect the deciding seller (internally seller 40) with buyer 30 in the
+   familiar head-on view. Title: “What would this seller do?” Ring the deciding
+   seller's orb in yellow. Mirror the compact figure: incumbent seller 30 left,
+   buyer center, deciding seller right. Include the incumbent's **MC $3.50**
+   bar and label. Buyer 30 already trades with that seller. Move the buyer's MB
+   bar/label to this left-hand pair and keep the solid red **$6** price floating
+   at dollar height over them. Add no ground match connector or ground price.
+   Show MB/MC labels without names or individual role labels beneath the spheres.
+3. Use two world-space choices: “Keep $6: gain $0” with a short arrow to the
+   current solid price, and “Ask $5.75: gain $1.75/lb” with a short arrow to
+   the proposed dashed price spanning seller and buyer. Keep both arrows
+   visible and clear of all three bars. Hold the existing `1.h` decision stop.
+   On advance, move the buyer's MB bar/label to the new pair, solidify the
+   floating **$5.75** price at dollar height, and let the incumbent seller step
+   aside with their MC bar/label. Fade the keep-price choice and its arrow,
+   clear the proposal arrow as its price is accepted, and color the offer green.
+4. Clear the close-up and return to the untouched full crowd, without a second
+   plaza switch or rollback. Show “Other unserved sellers have the same
+   incentive,” followed by “Excess → price falls.” Move the common price to
+   **$4** in one smooth play, retaining synchronized counts and moving ground
+   segments. No new hold is introduced.
 
 ## 1.i · State the two parts of equilibrium together
 
@@ -561,8 +583,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    above and sellers below. Keep green checks and the totem at $4. Show “40” at
    the quantity position on each separate graph; matching communicates 40 trades.
    Unwilling people remain at the rim with red Xs; no willing
-   person remains unmatched on the inner arcs. Teal/orange quantity lines
-   remain visible; the yellow gap marks and readouts fade at zero.
+   person remains unmatched on the inner arcs. Teal/orange per-person ground
+   segments and graph baselines remain visible; the yellow gap marks and readouts fade at zero.
 2. Fade in the title “Equilibrium” and one line at the standard bottom definition
    position: “Equilibrium: no willing buyer or seller is left without a trade.
    Q_s = Q_d.” Color only “Equilibrium” gold; body and formula remain white.
@@ -582,14 +604,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 2. On advance, fade the proposed labels and lines as price moves to $4.25:
    Qd=38, Qs=45, Qx=38. Fade in the existing excess caption. Show seven willing sellers
    without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
-   willing but unserved. Keep the quantity lines and mark the waiting sellers'
-   arc and supply's 38–45 graph span in yellow, labeled “Excess 7.” Caption:
+   willing but unserved. Keep the local quantity segments and mark each waiting
+   seller's ground segment and supply's 38–45 graph span yellow, with “Excess 7.” Caption:
    “Seven willing sellers have no buyer. They can undercut.” Restore $4 and
    fade the yellow gap marks/readouts at zero.
 3. Test $3.75 in the same short sequence: Qd=41, Qs=35, Qx=35. Show six willing
    buyers without circles. Buyers 36–40 lose trades; buyer 41 is newly willing.
-   Keep the quantity lines and mark the waiting buyers' arc and demand's 35–41
-   graph span in yellow, labeled “Shortage 6.” Caption: “Six willing buyers have
+   Keep the local quantity segments and mark each waiting buyer's ground segment
+   and demand's 35–41 graph span yellow, with “Shortage 6.” Caption: “Six willing buyers have
    no seller. They can offer more.” Restore $4 and the 40 trades, fading the
    yellow gap marks/readouts at zero.
 4. Park at `1.i.stable` on “Above $4: excess. Below $4: shortage.” before the
@@ -840,7 +862,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   eight-minute pre-Q2 budget. Section 8 has 18 holds, for **40 total**, including
   `3.c.select` and `4.c.select` before the selected graph bars expand.
 - The graph overview and graph-derived two-person comparisons supersede the
-  old back-half crowd/plaza staging. Recap behavior is unchanged.
+  old back-half crowd/plaza staging. Recap episode order and holds are unchanged;
+  the September 23 close-up and per-person ground-segment refinements apply.
 - The welfare display has inside-area CS/PS labels, unified purple total surplus,
   grey DWL, and red negative gain. Policy beats have one price guide and one
   actual-quantity tick/drop; both stay hidden after `5.a`. No aggregate dollar
@@ -853,7 +876,9 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   or extra planner-sorting episode is introduced.
 - The revised 40-hold scene passed its end-of-pass construction and exact
   allocation/arithmetic checks. Captured selection, close-up, and return frames
-  were inspected. All 22 opening holds and their code remain unchanged.
+  were inspected. All 22 opening holds remain in the same order. The latest
+  front-half pass checks the decision figures, original crowd membership, and
+  fixed-length ground segments through both plaza returns.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 
