@@ -2245,11 +2245,13 @@ class B4(ThreeDScene):
 
         # ---- 1.i · Counts and incentives are two views of the same condition.
         eq_head = fixed(title(r'Why does $\$4$ hold?'))
-        equilibrium = fixed(VGroup(
-            fixed(Tex(r'Equilibrium: $Q_d=Q_s=40$', color=DEFINITION)),
-            fixed(Tex('No willing buyer or seller is left without a trade.', color=INK)),
-        )).scale(0.72).arrange(DOWN, buff=0.13).move_to([0, -3.49, 0])
-        self.play(ReplacementTransform(head, eq_head), ReplacementTransform(everyone, equilibrium))
+        equilibrium = fixed(Tex(
+            r'Equilibrium: no willing buyer or seller is left without a trade. $Q_s=Q_d$.',
+            color=INK, tex_to_color_map={'Equilibrium': DEFINITION}))
+        equilibrium.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        # A plain fade avoids aligning and morphing unrelated paragraphs of glyphs.
+        self.play(FadeOut(head), FadeOut(everyone), FadeIn(eq_head), FadeIn(equilibrium), run_time=0.4)
+        head = eq_head
         self.pause('1.i')
 
         # ---- 1.i.stability · Test a deviation; count the exact whole lots.

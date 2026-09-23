@@ -579,8 +579,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    the quantity position on each separate graph; matching communicates 40 trades.
    Unwilling people remain at the rim with red Xs; no willing
    person remains unmatched on the inner arcs.
-2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
-   “No willing buyer or seller is left without a trade.”
+2. Fade in the incoming title and one line at the standard bottom definition
+   position: “Equilibrium: no willing buyer or seller is left without a trade.
+   Q_s = Q_d.” Color only “Equilibrium” gold; body and formula remain white.
+   Omit “=40” from this definition; the graph's quantity numbers remain.
+   Use simple fades for the title and definition, without glyph transforms.
 3. Point to both parts on this same frame: the matching counts,
    the absence of willing people left without trades, and the dim people whose
    MB/MC keeps them out at $4. Hold before testing the pressure at nearby prices.
