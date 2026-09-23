@@ -490,17 +490,19 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.j · Exercise B3 Q2 — before resolving equilibrium
 
-1. After the $3 shortage has been counted at `1.e`, replace the market with the
-   existing Exercise B3 Q2 card. Preserve the problem's pasty equations:
-   (P=12-Q_d/2), (P=2+Q_s/2), price 5 galleons; quantities are pasties.
-2. Use the sheet's exact four prompts: “What is the quantity demanded?”, “What
-   is the quantity supplied?”, “Is this a shortage or an excess, and how large?”,
-   and “Which way will the price move?” No answers appear before this pause.
-3. Below the four prompts ask “What would buyers and sellers want to do?”
-   This discussion cue supplements the existing sheet; it does not edit it.
+1. After the $3 shortage has been counted at `1.e`, replace the market with an
+   Exercise B3 Q2 card following [the style guide, §3](../_Style_Guide.md) and
+   B2/B3: muted rounded panel, width 13, padding 0.65, gold serif heading
+   “Exercise B3 | Q2,” and white body text indented 0.35. Center the equations.
+2. Keep the displayed content concise and legible: pumpkin pasties at 5 galleons,
+   with (P=12-Q_d/2) and (P=2+Q_s/2). Retain all four question meanings:
+   quantity demanded, quantity supplied, shortage/excess and its amount, and
+   the direction of price movement. Quantities are pasties. Show no answers.
+3. Omit the extra incentive-question footer and oversized azure heading. Keep
+   the existing `1.j` teaching hold and episode order; no exercise-file edits.
 4. On advance restore the spinach market at $3, still 45/20/20. The next beat
-   enacts the incentives students just discussed. The pasty problem never
-   substitutes its data into the spinach simulation.
+   enacts the price incentives. The pasty problem never substitutes its data
+   into the spinach simulation.
 
 ## 1.f · Recall the incentive to raise price
 

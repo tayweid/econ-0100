@@ -1963,18 +1963,27 @@ class B4(ThreeDScene):
         self.pause('1.e')
 
         # ---- 1.j · The class tackles incentives BEFORE equilibrium resolves.
+        # B2/B3 exercise reference: one rounded panel, gold heading, indented serif body.
         cover = fixed(Rectangle(width=16, height=8, stroke_width=0, fill_color=BG, fill_opacity=1))
-        exercise_head = fixed(title('Exercise B3 Q2: a price away from equilibrium'))
-        equations = fixed(Tex(r'$P=12-Q_d/2 \qquad P=2+Q_s/2$', color=INK)).scale(1.0).move_to([0, 2.18, 0])
-        exercise_units = fixed(Tex('Pumpkin pasties. Price: 5 galleons.', color=CAPTION)).scale(0.8).move_to([0, 1.44, 0])
-        prompts = VGroup(
-            fixed(Tex('a) What is the quantity demanded?')),
-            fixed(Tex('b) What is the quantity supplied?')),
-            fixed(Tex('c) Is this a shortage or an excess, and how large?')),
-            fixed(Tex('d) Which way will the price move?')),
-        ).scale(0.82).arrange(DOWN, aligned_edge=LEFT, buff=0.40).move_to([0, -0.32, 0])
-        incentive_question = fixed(Tex('What would buyers and sellers want to do?', color=DEFINITION)).scale(0.85).move_to([0, -2.65, 0])
-        exercise = fixed(VGroup(cover, exercise_head, equations, exercise_units, prompts, incentive_question))
+        card_text = fixed(VGroup(
+            Tex('Exercise B3 $|$ Q2', color=DEFINITION).scale(1.2),
+            Tex(r'$P=12-\frac{Q_d}{2}\qquad\qquad P=2+\frac{Q_s}{2}$', color=INK).scale(0.95),
+            Tex('Pumpkin pasties at a price of 5 galleons.', color=INK).scale(0.95),
+            Tex('Find quantity demanded and quantity supplied.', color=INK).scale(0.95),
+            Tex('Shortage or excess? How much?', color=INK).scale(0.95),
+            Tex('Which way will price move?', color=INK).scale(0.95))
+            .arrange(DOWN, buff=0.35, aligned_edge=LEFT).move_to(ORIGIN))
+        card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
+            corner_radius=0.25, color=MUTED, stroke_width=2,
+            fill_color=BG, fill_opacity=1).move_to(card_text))
+        card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
+        card_text[1].set_x(card_panel.get_x())
+        for paragraph in card_text[2:]:
+            paragraph.shift(RIGHT * 0.35)
+        card_panel.set_z_index(50)
+        for glyph in card_text.get_family():
+            glyph.set_z_index(51)
+        exercise = fixed(VGroup(cover, card_panel, card_text))
         self.play(FadeIn(exercise))
         self.pause('1.j')
         self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(shortage))
