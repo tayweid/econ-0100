@@ -997,9 +997,11 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    on the overview. Caption: **For these trades, MC exceeds MB.** Hold `5.d`.
 2. Outline lot **50**, the largest negative TS among these ten, in yellow.
    Label it **Negative TS** in red and hold `5.d.negative_ts`.
-3. Bring that same red bar forward as the graph fades. In the close-up, label
-   its upper endpoint **MC $4.50** and lower endpoint **MB $2**. A red vertical
-   line beside the full gap is labeled **Negative TS**. Hold `5.d.detail`.
+3. Bring that same red bar forward as the graph fades. Show separate **MB $2**
+   (teal) and **MC $4.50** (orange) bars on the same zero baseline and dollar
+   scale. Colored dashed guides connect their tops to the red vertical gap,
+   labeled **Negative TS**. Show **Quantity: 1,000 lb** below the comparison.
+   There is no price, CS, or PS in this close-up. Hold `5.d.detail`.
 4. Return the bar to its exact lot-50 position as the overview comes back.
    Internally, the hypothetical allocation has 50 trades and total surplus
    $181,250. Keep aggregate totals off screen.

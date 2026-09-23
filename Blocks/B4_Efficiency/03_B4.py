@@ -2891,33 +2891,56 @@ class B4(ThreeDScene):
         self.play(ShowCreation(negative_highlight), FadeIn(negative_label), run_time=0.6)
         self.pause('5.d.negative_ts')
 
-        # Follow that same negative-surplus bar into a legible close-up.
+        # Expand the same negative TS beside full MB/MC bars on a common zero.
         negative_zoom_home = largest_negative.copy().clear_updaters()
         negative_zoom = negative_zoom_home.copy()
-        negative_zoom_target = fixed(Rectangle(width=1.2, height=3,
-            stroke_width=0, fill_color=GUIDE, fill_opacity=0.65).move_to([0, -0.1, 0]))
+        negative_rank = negative_ranks[largest_negative_index]
+        negative_mb, negative_mc = BUYER_MB[negative_rank], SELLER_MC[negative_rank]
+        negative_base, negative_scale = -2.0, 0.8
+        negative_mb_top = negative_base + negative_mb * negative_scale
+        negative_mc_top = negative_base + negative_mc * negative_scale
+        negative_detail_bars = fixed(VGroup(
+            Polygon([-1.8, negative_base, 0], [-0.7, negative_base, 0],
+                [-0.7, negative_mb_top, 0], [-1.8, negative_mb_top, 0],
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0.65),
+            Polygon([-0.3, negative_base, 0], [0.8, negative_base, 0],
+                [0.8, negative_mc_top, 0], [-0.3, negative_mc_top, 0],
+                stroke_width=0, fill_color=SUPPLY, fill_opacity=0.65)))
+        negative_zoom_target = fixed(Rectangle(width=0.07,
+            height=(negative_mc - negative_mb) * negative_scale,
+            stroke_width=0, fill_color=GUIDE, fill_opacity=1)
+            .move_to([1.5, (negative_mb_top + negative_mc_top) / 2, 0]))
+        negative_detail_base = fixed(Line([-2, negative_base, 0], [1, negative_base, 0],
+            color=MUTED, stroke_width=1.5))
         negative_zoom_labels = fixed(VGroup(
-            Tex(r'MC $\$4.50$', color=SUPPLY).scale(0.72)
-                .next_to(negative_zoom_target, UP, buff=0.22),
-            Tex(r'MB $\$2$', color=DEMAND).scale(0.72)
-                .next_to(negative_zoom_target, DOWN, buff=0.22),
+            Tex(rf'MB $\${negative_mb:g}$', color=DEMAND).scale(0.72)
+                .next_to(negative_detail_bars[0], UP, buff=0.22),
+            Tex(rf'MC $\${negative_mc:.2f}$', color=SUPPLY).scale(0.72)
+                .next_to(negative_detail_bars[1], UP, buff=0.22),
+            Tex('0', color=CAPTION).scale(0.44)
+                .next_to(negative_detail_base, LEFT, buff=0.12),
             Tex('Quantity: 1,000 lb', color=CAPTION).scale(0.52)
                 .move_to([0, -2.8, 0])))
-        negative_zoom_line = fixed(Line([1.1, -1.6, 0], [1.1, 1.4, 0],
-            color=GUIDE, stroke_width=4))
+        negative_detail_guides = fixed(VGroup(
+            DashedLine([-0.7, negative_mb_top, 0], [1.5, negative_mb_top, 0],
+                color=DEMAND, stroke_width=1.5),
+            DashedLine([0.8, negative_mc_top, 0], [1.5, negative_mc_top, 0],
+                color=SUPPLY, stroke_width=1.5)))
         negative_zoom_text = fixed(Tex('Negative TS', color=GUIDE).scale(0.72)
-            .next_to(negative_zoom_line, RIGHT, buff=0.25))
+            .next_to(negative_zoom_target, RIGHT, buff=0.25))
         self.add(negative_zoom)
         self.play(FadeOut(graph), FadeOut(total_label), FadeOut(negative_lots),
                   FadeOut(negative_highlight), FadeOut(negative_label),
                   Transform(negative_zoom, negative_zoom_target), run_time=1.6, rate_func=smooth)
-        self.play(FadeIn(negative_zoom_labels), ShowCreation(negative_zoom_line),
+        self.play(FadeIn(negative_detail_bars), FadeIn(negative_detail_base),
+                  FadeIn(negative_zoom_labels), FadeIn(negative_detail_guides),
                   FadeIn(negative_zoom_text), run_time=0.6)
         self.pause('5.d.detail')
 
         # Land in the same lot before removing the ten hypothetical trades.
         negative_lots.remove(largest_negative)
-        self.play(FadeOut(negative_zoom_labels), FadeOut(negative_zoom_line),
+        self.play(FadeOut(negative_detail_bars), FadeOut(negative_detail_base),
+                  FadeOut(negative_zoom_labels), FadeOut(negative_detail_guides),
                   FadeOut(negative_zoom_text), Transform(negative_zoom, negative_zoom_home),
                   FadeIn(graph), FadeIn(total_label), FadeIn(negative_lots),
                   run_time=1.6, rate_func=smooth)
