@@ -1839,8 +1839,6 @@ class B4(ThreeDScene):
         self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(quantity_comparison))
 
         # ---- 1.f · Keep the low-price context while this buyer considers an alternative.
-        buyer_question = fixed(Tex('What would this buyer do?', color=DEFINITION).scale(DEFINITION_SCALE)
-                               .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
         buyer_offer_intro = fixed(Tex(r"A buyer who's left out offers a seller more than $\$3$.",
@@ -1872,7 +1870,7 @@ class B4(ThreeDScene):
         crowd_marks.suspend_updating()
         graphs.suspend_updating()
         self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(graphs),
-                  FadeOut(ag_focus), FadeOut(bid), FadeOut(buyer_offer_intro),
+                  FadeOut(ag_focus), FadeOut(bid),
                   Transform(buy_person, buy_targets[0]),
                   Transform(buy_counterparty, buy_targets[1]),
                   Transform(buy_incumbent, buy_targets[2]),
@@ -1913,7 +1911,7 @@ class B4(ThreeDScene):
             arrow.rotate(90 * DEGREES, RIGHT, about_point=ORIGIN).shift(DOWN * 0.07)
         self.play(Create(buy_ring), Create(buy_zero), Create(buy_price),
                   Create(buy_proposal), FadeIn(buy_values), FadeIn(stay_text), FadeIn(offer_text),
-                  Create(wait_arrow), Create(offer_arrow), FadeIn(buyer_question))
+                  Create(wait_arrow), Create(offer_arrow))
         self.pause('1.f')
         self.play(buy_price.animate.put_start_and_end_on(
                       np.array([-2.15, -0.045, 0.75 + 3.25 * 0.48]), np.array([-0.45, -0.045, 0.75 + 3.25 * 0.48])),
@@ -1922,7 +1920,7 @@ class B4(ThreeDScene):
                   buy_incumbent.animate.shift(RIGHT * 0.65),
                   buy_incumbent_bar.animate.shift(RIGHT * 0.65),
                   buy_zero[2].animate.shift(RIGHT * 0.65), buy_values[2].animate.shift(RIGHT * 0.65),
-                  FadeOut(buyer_question), FadeOut(buy_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
+                  FadeOut(buyer_offer_intro), FadeOut(buy_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
                   FadeOut(offer_arrow), offer_text.animate.set_color(GOV), run_time=0.9, rate_func=smooth)
         self.pause('1.f.accepted')
         adjustment_head = fixed(title('Price adjustment'))

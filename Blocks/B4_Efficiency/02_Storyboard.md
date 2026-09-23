@@ -195,8 +195,10 @@ From `5.a`, its active price/quantity guides stay hidden.
   with the same gold “Who trades?” footer; keep it during matching, then fade
   it as the excess narration appears. The decision close-ups at `1.f` and `1.h` retain
   context titles: “A low price: $3” or “A high price: $6.”
-  Put each question in yellow at the same bottom margin/scale, replacing any
-  narration there. Remove the question on acceptance. Before the common price
+  At `1.f`, keep the gold higher-offer caption continuously from the plaza setup
+  through the decision close-up; do not replace it with a question. At `1.h`,
+  put the question in yellow at the same bottom margin/scale. Remove the
+  decision footer on acceptance. Before the common price
   changes, replace the fixed-price context title with “Price adjustment.”
 - During the recap, keep the market at left and its graph at right.
   Keep the same 59 buyers and 100 sellers on their ranked curved arcs.
@@ -611,7 +613,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    at scale 0.7443 and margin 0.05. Pause at `1.f.offer` before zooming, replacing
    the 1.5-second timed wait. Keep the grey
    “One person = 1,000 lb” beneath the plaza throughout the highlight and offer
-   setup. Fade it, the ring, link, and footer with the plaza-to-close-up transition, not beforehand;
+   setup. Fade the units, ring, and link with the plaza-to-close-up transition,
+   not beforehand. Keep the gold offer footer continuously visible through the zoom;
    retain the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
@@ -625,11 +628,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Use two world-space camera-facing choices: “Wait at $3: gain $0” with a
    short arrow to the current solid price, and “Offer $3.25: gain $3.75/lb” with
    a short arrow to the proposed dashed price spanning buyer and seller. Keep
-   both arrows visible and route them clear of the three bars. After the plaza
-   setup caption has faded with the transition, show the yellow question
-   “What would this buyer do?” at the existing `1.f` decision hold. Keep one
-   footer at a time, at scale 0.7443 and bottom margin 0.05.
-3. On advance, remove the yellow question and accept in the close-up: move
+   both arrows visible and route them clear of the three bars. Retain
+   “A buyer who's left out offers a seller more than $3.” in gold at the existing
+   `1.f` decision hold, at scale 0.7443 and bottom margin 0.05; add no question.
+3. On advance, fade the gold offer footer and accept in the close-up: move
    the seller's MC bar/label to the
    deciding buyer's new pair and solidify their floating **$3.25** price at its
    dollar height. Let the incumbent buyer step aside with their MB bar/label.
