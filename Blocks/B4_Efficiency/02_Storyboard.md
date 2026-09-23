@@ -650,17 +650,20 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 2.b · Separate the size of the gain from its division
 
-1. Enlarge the two bars for ranked pair 20: buyer MB $8, seller MC $3. Hide the
-   other people while keeping their allocation fixed. Caption “One 1,000-lb lot.”
-2. Show (CS=MB-P), (PS=P-MC), and then ((MB-P)+(P-MC)=MB-MC), with matching
-   colored terms. Cancel only the payment terms; show the total gap of $5/lb.
-3. Move this pair's payment from $4 to $5 while both people and the traded lot
-   remain fixed. CS shrinks and PS grows by the same amount. Keep the outer
-   MB–MC gain bracket stationary and label the total gain $5,000.
-4. Hold “The price divides the gain.” Hide the market graph during this one-lot
-   calculation so no ghost graph sits behind the equation. This is a fixed-trade accounting
-   comparison, not a new common market price or a renegotiation prediction.
-   Restore the $4 payment and return the bars to their places on advance.
+1. Title: “What is total surplus?” Enlarge the same two bars for ranked pair 20
+   (buyer MB $8, seller MC $3), hiding the other people, plaza floor/rim, and market graph while
+   keeping the allocation fixed. Clear player and MB/MC labels, component
+   formulas, the cancellation equation, violet gap, $5,000 calculation, and
+   extra unit/caption text.
+2. Put world-space, camera-facing “CS” and “PS” directly in their respective
+   colored regions. Show just “Total surplus = PS + CS,” with PS orange,
+   CS teal, and words/equality white. Use simple fades.
+3. Briefly move this pair's payment from $4 to $5 while the people and traded
+   lot remain fixed. CS shrinks as PS grows by the same amount. Keep the simple
+   formula and region labels visible at the existing `2.b` hold; add no new stop.
+4. On advance, restore the $4 payment and return the same bars to their places.
+   This illustrates division of a fixed trade's gain; it does not change the
+   common market price or episode order.
 
 ## 2.c · Give the planner the two choices
 

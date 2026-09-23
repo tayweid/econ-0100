@@ -2700,17 +2700,17 @@ class B4(ThreeDScene):
                   ps_strips.animate.set_fill(opacity=0.55), run_time=0.7)
         self.pause('2.a')
 
-        # ---- 2.b · Move only this pair's payment, holding the trade fixed.
+        # ---- 2.b · Total surplus is PS plus CS; keep this one trade fixed.
         self.play(FadeOut(bottom), *[mob.animate.set_opacity(0) for body in bodies.values() for mob in body],
                   *[bar.animate.set_opacity(0) for bar in bars.values()],
                   *[ring.animate.set_stroke(opacity=0).set_fill(opacity=0) for ring in rings.values()], FadeOut(crowd_words),
                   market_checks.animate.set_opacity(0),
                   FadeOut(graph), FadeOut(cs_strips), FadeOut(ps_strips), FadeOut(price_line), FadeOut(price_read),
-                  FadeOut(q_guide), run_time=0.45)
+                  FadeOut(q_guide), FadeOut(floor), FadeOut(rim), run_time=0.45)
         self.play(FadeOut(head), run_time=0.2)
         self.remove(*[mob for key in bodies if key not in [('B', 20), ('S', 20)]
                       for mob in [bodies[key], bars[key], rings[key]]])
-        head = fixed(title('What does the price change?'))
+        head = fixed(title('What is total surplus?'))
         self.play(FadeIn(head))
         self.play(self.camera.frame.animate.reorient(0, 90, center=[0, 0, 3.4], height=10.2), run_time=1.1)
         BASE, HEIGHT = 0.75, 0.55
@@ -2726,14 +2726,6 @@ class B4(ThreeDScene):
                   bodies['S', 20].animate.scale(0.23 * bodies['S', 20].orb_unit_width / bodies['S', 20][1].get_width()).move_to([-2, 0, 0.32]).set_opacity(1),
                   rings['B', 20].animate.scale(0.58 / rings['B', 20].get_width()).move_to([-6, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0),
                   rings['S', 20].animate.scale(0.58 / rings['S', 20].get_width()).move_to([-2, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0), run_time=1.2)
-        mb_word = Tex(r'Buyer 20: MB \$8', color=DEMAND).scale(0.62 * self.camera.frame.get_scale())
-        mb_word.move_to([-4.61, -0.1, BASE + 8 * HEIGHT + 0.4])
-        mc_word = Tex(r'Seller 20: MC \$3', color=SUPPLY).scale(0.62 * self.camera.frame.get_scale())
-        mc_word.move_to([-3.39, -0.1, BASE + 3 * HEIGHT + 0.4])
-        for label in [mb_word, mc_word]:
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.update()
         cs_fill = Polygon([-5.16, -0.025, BASE + 4 * HEIGHT], [-4.06, -0.025, BASE + 4 * HEIGHT],
                           [-4.06, -0.025, BASE + 8 * HEIGHT], [-5.16, -0.025, BASE + 8 * HEIGHT],
                           stroke_width=0, fill_color=DEMAND, fill_opacity=0.55)
@@ -2759,33 +2751,32 @@ class B4(ThreeDScene):
         payment_number.add_updater(face_camera)
         payment_number.add_updater(lambda m: m.move_to([-2.4, -0.1, BASE + m.tracker.get_value() * HEIGHT]))
         payment_number.update()
-        fixed_gap = Line([-5.6, -0.045, BASE + 3 * HEIGHT], [-5.6, -0.045, BASE + 8 * HEIGHT],
-                         color=TOTAL, stroke_width=5)
-        gain_label = fixed(Tex(r'\$5/lb\quad $\times$ 1,000 lb = \$5,000', color=TOTAL)).scale(0.65)
-        gain_label.move_to([-4.0, -2.95, 0])
-        formulas = VGroup(fixed(Tex(r'$CS=MB-P$', color=DEMAND)), fixed(Tex(r'$PS=P-MC$', color=SUPPLY)))
-        fixed(formulas)
-        formulas.arrange(RIGHT, buff=0.5).scale(0.65).move_to([-4, 2.65, 0])
-        cancellation = fixed(Tex(r'$(MB-P)+(P-MC)=MB-MC$', color=INK)).scale(0.74)
-        cancellation.move_to([3.75, 0.7, 0])
-        pair_units = fixed(Tex('One 1,000-lb lot', color=CAPTION)).scale(0.65).move_to([3.75, -0.05, 0])
-        self.play(FadeIn(mb_word), FadeIn(mc_word),
-                  FadeIn(cs_fill), FadeIn(ps_fill), FadeIn(pair_price), FadeIn(payment_number),
-                  FadeIn(formulas), FadeIn(fixed_gap), FadeIn(gain_label))
-        self.play(FadeIn(cancellation), FadeIn(pair_units))
-        self.play(payment.animate.set_value(5), run_time=1.8)
-        bottom = fixed(Tex('The price divides the gain.', color=INK)).scale(BOTTOM_SCALE)
-        bottom.set_x(0).to_edge(DOWN, buff=0.05)
-        self.play(FadeIn(bottom))
+        # Name the familiar regions directly; introduce only their sum.
+        cs_label = Tex('CS', color=INK).scale(0.58 * self.camera.frame.get_scale())
+        ps_label = Tex('PS', color=INK).scale(0.58 * self.camera.frame.get_scale())
+        total_definition = Tex(r'Total surplus $= PS + CS$', color=INK,
+                               tex_to_color_map={'PS': SUPPLY, 'CS': DEMAND})
+        total_definition.scale(0.90 * self.camera.frame.get_scale())
+        for label in [cs_label, ps_label, total_definition]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+        cs_label.add_updater(lambda m: m.move_to([-4.61, -0.07, BASE + (8 + payment.get_value()) * HEIGHT / 2]))
+        ps_label.add_updater(lambda m: m.move_to([-3.39, -0.07, BASE + (3 + payment.get_value()) * HEIGHT / 2]))
+        cs_label.update()
+        ps_label.update()
+        total_definition.move_to([3.75, -0.07, 3.6])
+        self.play(FadeIn(cs_fill), FadeIn(ps_fill), FadeIn(pair_price), FadeIn(payment_number),
+                  FadeIn(cs_label), FadeIn(ps_label), FadeIn(total_definition))
+        self.play(payment.animate.set_value(5), run_time=1.8, rate_func=smooth)
         self.pause('2.b')
-        self.play(payment.animate.set_value(4), run_time=0.8)
-        for mob in [cs_fill, ps_fill, pair_price, payment_number]:
+        self.play(payment.animate.set_value(4), run_time=0.8, rate_func=smooth)
+        for mob in [cs_fill, ps_fill, pair_price, payment_number, cs_label, ps_label]:
             mob.clear_updaters()
-        self.play(*[FadeOut(m) for m in [mb_word, mc_word, cs_fill, ps_fill,
-                                       pair_price, payment_number, fixed_gap, gain_label, formulas,
-                                       cancellation, pair_units, bottom]], run_time=0.45)
+        self.play(*[FadeOut(m) for m in [cs_fill, ps_fill, pair_price, payment_number,
+                                       cs_label, ps_label, total_definition]], run_time=0.45)
         self.play(Restore(mb_bar), Restore(mc_bar), Restore(bodies['B', 20]), Restore(bodies['S', 20]),
-                  Restore(rings['B', 20]), Restore(rings['S', 20]),
+                  Restore(rings['B', 20]), Restore(rings['S', 20]), FadeIn(floor), FadeIn(rim),
                   self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.0)
 
         # ---- 2.c · The planner controls participants and quantity, not price.
