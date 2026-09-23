@@ -75,12 +75,6 @@ class B4Welfare(ThreeDScene):
                 home_positions[side, i + 1] = np.array([x, y, 0])
                 crowd.add(body, bar, ring)
                 market_checks.add(check)
-        row_prices = VGroup()
-        for y in [2.0, -1.7]:
-            row_prices.add(Line([ROW_LEFT - 0.06, y, BAR_BASE + PRICE * DOLLAR_HEIGHT],
-                                [ROW_LEFT + ROW_WIDTH + 0.06, y, BAR_BASE + PRICE * DOLLAR_HEIGHT],
-                                color=GUIDE, stroke_width=1.3))
-
         ax = axes((0, 100, 20), (0, 13, 2), x_length=5.8, y_length=4.8)
         ax.shift(np.array([1.15, -2.15, 0]) - ax.c2p(0, 0))
         p_label = fixed(Tex('P', color=INK)).scale(0.65).next_to(ax.c2p(0, 13), LEFT, buff=0.18)
@@ -128,7 +122,7 @@ class B4Welfare(ThreeDScene):
         fixed(market_checks)
         for mob in [graph, cs_strips, ps_strips, gain_strips, price_line, q_guide]:
             fixed(mob)
-        self.add(head, crowd, row_prices, crowd_words, market_checks, graph, cs_strips, ps_strips,
+        self.add(head, crowd, crowd_words, market_checks, graph, cs_strips, ps_strips,
                  price_line, price_read, q_guide, counts)
 
         # ---- 2.a · CS and PS are familiar; ask what could improve.
@@ -140,7 +134,7 @@ class B4Welfare(ThreeDScene):
         self.play(FadeOut(bottom), *[mob.animate.set_opacity(0) for body in bodies.values() for mob in body],
                   *[bar.animate.set_opacity(0) for bar in bars.values()],
                   *[ring.animate.set_stroke(opacity=0).set_fill(opacity=0) for ring in rings.values()], FadeOut(crowd_words),
-                  market_checks.animate.set_opacity(0), FadeOut(row_prices),
+                  market_checks.animate.set_opacity(0),
                   graph.animate.set_opacity(0.2), cs_strips.animate.set_opacity(0.1),
                   ps_strips.animate.set_opacity(0.1), FadeOut(price_line), FadeOut(price_read),
                   FadeOut(q_guide), FadeOut(counts), run_time=0.45)
@@ -583,7 +577,7 @@ class B4Welfare(ThreeDScene):
         head = fixed(title('Does the market choose these trades?'))
         bottom = fixed(Tex(r'At \$4, who is willing?', color=DEFINITION)).scale(BOTTOM_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=0.05)
-        self.play(FadeIn(head), FadeIn(bottom), FadeIn(planner_outlines), FadeIn(row_prices), FadeIn(price_line), FadeIn(price_read))
+        self.play(FadeIn(head), FadeIn(bottom), FadeIn(planner_outlines), FadeIn(price_line), FadeIn(price_read))
         self.pause('5.a')
 
         # ---- 5.b · The price selects exactly the planner's prefixes.

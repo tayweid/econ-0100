@@ -46,7 +46,6 @@ class B4Buyers(ThreeDScene):
         buyer_people, buyer_bars, buyer_checks, buyer_circles = Group(), Group(), VGroup(), VGroup()
         seller_people, seller_bars, seller_checks, seller_circles = Group(), Group(), VGroup(), VGroup()
         buyer_positions, seller_positions = [], []
-        buyer_prices, seller_prices = VGroup(), VGroup()
         for n, value in enumerate(BUYER_MB):
             x, y = ROW_LEFT + n * ROW_WIDTH / (len(BUYER_MB) - 1), BUYER_Y
             buyer_positions.append(np.array([x, y, 0.045]))
@@ -87,16 +86,11 @@ class B4Buyers(ThreeDScene):
             seller_bars.add(bar)
             seller_checks.add(check)
             seller_circles.add(circle)
-        for y, row_prices in [(BUYER_Y, buyer_prices), (SELLER_Y, seller_prices)]:
-            line = Line([ROW_LEFT - 0.06, y, BAR_BASE + 3*DOLLAR_HEIGHT], [ROW_LEFT + ROW_WIDTH + 0.06, y, BAR_BASE + 3*DOLLAR_HEIGHT], color=GUIDE, stroke_width=1.3)
-            line.price, line.base, line.dollar_height = price, BAR_BASE, DOLLAR_HEIGHT
-            line.add_updater(lambda m: m.set_z(m.base + m.dollar_height * m.price.get_value()))
-            row_prices.add(line)
         buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
         seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
         units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
-        buyers = Group(buyer_bars, buyer_people, buyer_prices, buyer_circles)
-        sellers = Group(seller_bars, seller_people, seller_prices, seller_circles)
+        buyers = Group(buyer_bars, buyer_people, buyer_circles)
+        sellers = Group(seller_bars, seller_people, seller_circles)
         crowd = Group(floor, rim, buyers, sellers)
         crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_label, seller_label, units))
 
@@ -189,9 +183,9 @@ class B4Buyers(ThreeDScene):
         demand_graph = fixed(VGroup(demand_axes, demand_ticks, demand_fit, demand_word))
         self.play(ReplacementTransform(full_bars, buyer_bars), ReplacementTransform(full_people, buyer_people),
                   ReplacementTransform(projected_profile, demand_steps), FadeIn(demand_graph), FadeIn(buyer_label), self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.7)
-        self.play(FadeIn(buyer_prices), FadeIn(graph_prices[0]), FadeIn(price_readout), run_time=0.6)
+        self.play(FadeIn(graph_prices[0]), FadeIn(price_readout), run_time=0.6)
         self.add(buyer_checks, demand_guide, fixed(VGroup(*list(counts)[:2])), graph_units)
-        rule = fixed(Tex(r'$MB\geq P$: willing to buy. Touching the line counts.', color=INK)).scale(0.79).move_to([0, -3.40, 0])
+        rule = fixed(Tex(r'$MB\geq P$: willing to buy. Equality counts.', color=INK)).scale(0.79).move_to([0, -3.40, 0])
         gary = fixed(Tex(r'Gary: MB $\$6$. The next buyer offers at most $\$5.80$.', color=CAPTION)).scale(0.70).move_to([-1.6, -2.45, 0])
         gary_focus = Circle(radius=0.075, color=FOCUS, stroke_width=2).move_to(buyer_positions[29])
         self.play(ReplacementTransform(one_lot, rule), FadeIn(gary), Create(gary_focus))

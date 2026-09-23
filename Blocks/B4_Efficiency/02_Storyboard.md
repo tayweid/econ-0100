@@ -121,7 +121,8 @@ The prototype is superseded; it is not an alternative design to preserve.
   hiding the other people; their allocation stays unchanged. A full-width head-on row is reserved
   for the quantity sweep; it is not squeezed beside two small graphs.
 - Read each line left to right with no row breaks. Both have the same local
-  zero and dollar scale; each has one price segment driven by the same price.
+  zero and dollar scale. Show the common price in the readout and dashed graph
+  guides; do not draw a price line through either row of people on the plaza.
   Buyers and sellers have different horizontal spacing because the two lines
   contain different numbers of people; quantity is counted from people.
 - Build the demand graph from its buyers and the supply graph from its sellers
@@ -299,9 +300,9 @@ time. The bumper is outside this recap budget.
 2. Lift a copy of the sorted profile onto the demand graph at upper right;
    retain the people and their bars. Label the fitted line (P=12-Q_d/5).
    Title: “How many would buy at this price?”
-3. Place the price at $6 and reveal 30 checks, with Gary exactly on the line.
+3. Place the price at $6 and reveal 30 checks, with Gary's MB of $6 equal to the displayed price.
    Show Qd=30 and “MB ≥ P.” Only Gary and the nearest excluded buyer need tags:
-   $6 and MB $5.80. Hold; touching the line counts as willing.
+   $6 and MB $5.80. Hold; MB = P counts as willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
@@ -390,7 +391,7 @@ time. The bumper is outside this recap budget.
 ## 1.i · State the two parts of equilibrium together
 
 1. Park on 40 checks and circles on each side and Qd=Qs=Qx=40. Keep unwilling
-   people visible and dim, with their bars on the wrong side of the price.
+   people visible and dim, with MB below $4 or MC above $4.
 2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
    “No willing buyer or seller is left without a trade.”
 3. Point to both parts on this same frame: the matching counts,
@@ -423,7 +424,7 @@ time. The bumper is outside this recap budget.
 
 ## 1.i.graph · Recognize the same condition at the crossing
 
-1. Retain the settled crowd and $4 line. Slide the two stacked graphs onto the
+1. Retain the settled crowd and dashed $4 graph guide. Slide the two stacked graphs onto the
    same axes. Their continuous lines cross at Q=40, P=$4, matching the crowd's
    counts exactly at this price.
 2. Title: “Why does the crossing give equilibrium?” Highlight Qd=Qs=40 below
@@ -467,7 +468,7 @@ time. The bumper is outside this recap budget.
 
 ## 2.c · Give the planner the two choices
 
-1. Remove the market-price line, checks, Qd/Qs readouts, and all CS/PS division
+1. Remove the graph's market-price guide, checks, Qd/Qs readouts, and all CS/PS division
    lines. Retain each person's MB/MC and the 40 trading circles.
 2. Title: “Which trades should happen?” Show only two short prompts beside the
    model: “Who trades?” and “How many trades?”
