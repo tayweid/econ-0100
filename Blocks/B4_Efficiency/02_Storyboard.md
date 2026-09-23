@@ -131,6 +131,11 @@ The prototype is superseded; it is not an alternative design to preserve.
   Individual comparisons enlarge the relevant bars into a head-on view while
   hiding the other people; their allocation stays unchanged. A full-width head-on row is reserved
   for the quantity sweep; it is not squeezed beside two small graphs.
+- Decision close-ups use plain text, without bottom boxes or card backgrounds.
+  Keep participant names beneath their spheres and MB/MC labels beside their
+  bars. In the two-seller comparison, place each payment/gain label beneath its
+  seller. In the full-market bidding examples, use one compact line of choices
+  below the people and emphasize the accepted offer by coloring its text.
 - Read each line left to right with no row breaks. Both have the same local
   zero and dollar scale. Show the common price in the readout and dashed graph
   guides; do not draw a price line through either row of people on the plaza.
@@ -259,7 +264,8 @@ time. The bumper is outside this recap budget.
 1. Remove the accounting labels; retain Gary's solid $4 deal. Admit Amanda-Grace
    with MB $7 using B3's existing three-person head-on layout.
 2. Show her dashed $4.25 proposal and the question “Would Molly switch?” Hold
-   before acceptance.
+   before acceptance. Keep only the plain caption “Molly receives $0.25 more”
+   below the comparison; the existing and proposed prices remain on the bars.
 3. On advance, move Molly's MC comparison to Amanda-Grace's side, solidify $4.25,
    and release Gary's old connection. Carry forward B3's accepted-line grammar.
    Show Gary's $4.50 response, then compress the remaining quarter-dollar bids
@@ -287,7 +293,8 @@ time. The bumper is outside this recap budget.
    Amanda-Grace, Molly, and Andrew
    during the decision. Gary remains the unserved buyer in the underlying market.
 2. Retain Amanda-Grace's solid $6.25 deal with Molly. Show her two alternatives:
-   “Molly: $6.25; gain $0.75” / “Andrew: $4.25; gain $2.75.” Title: “Stay or switch?” Hold.
+   “Pay $6.25; gain $0.75” below Molly and “Pay $4.25; gain $2.75” below Andrew,
+   as plain text. Title: “Stay or switch?” Hold.
 3. On advance, return to the same plaza and let Amanda-Grace take Andrew's $4.25 offer, then let Gary outbid
    at $4.50. Keep Molly at $6.25 with no buyer. Continue the recorded seed-54
    events without per-event pauses: Amanda-Grace $4.75, Gary $5, Molly cuts to
@@ -381,7 +388,9 @@ time. The bumper is outside this recap budget.
    seller 20 (MC $3) into B3's head-on view. Clear the fixed graphs during that
    comparison. Replace the bottom text with two concise options:
    “Wait: no trade” / “Offer $3.25: gain $3.75/lb.” Draw the proposed bid dashed.
-   Show that the served seller receives more if the bid is accepted. The two options stay in the bottom band; a dashed connector identifies the proposed switch, not an extra trade.
+   Show that the served seller receives more if the bid is accepted. The two
+   unboxed options share a compact bottom line, separated from participant
+   names; a dashed connector identifies the proposed switch, not an extra trade.
 2. Ask “Which way does price move?” Hold with the answer still withheld.
 3. On advance, accept the proposed price in the close-up and return to B3's
    plaza camera. Amanda-Grace joins seller 20; displaced buyer 20 returns to

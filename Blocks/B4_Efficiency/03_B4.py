@@ -496,19 +496,13 @@ class B4(ThreeDScene):
                              height + 0.25 * BID_SCALE])
         self.play(FadeIn(challenge), FadeIn(challenge_shadow), FadeIn(offer_label),
                   run_time=0.45)
-        stay_box = fixed(RoundedRectangle(width=5.5, height=1.0, corner_radius=0.12,
-            color=MUTED, fill_color=BG, fill_opacity=1, stroke_width=1.5).move_to([-3.05, -2.85, 0]))
-        offer_box = fixed(stay_box.copy().move_to([3.05, -2.85, 0]))
-        stay_text = fixed(VGroup(Tex('Stay out', color=INK), Tex(r'Gain $\$0$', color=DEMAND))
-            .arrange(DOWN, buff=0.10).scale(0.68).move_to(stay_box))
-        offer_text = fixed(VGroup(Tex(r'Offer $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
-            .arrange(DOWN, buff=0.10).scale(0.68).move_to(offer_box))
-        seller_gain = fixed(Tex(r'Molly receives $\$0.25$ more.', color=SUPPLY).scale(0.7)
-            .move_to([0, -3.62, 0]))
-        self.play(FadeIn(stay_box), FadeIn(offer_box), FadeIn(stay_text), FadeIn(offer_text), FadeIn(seller_gain))
+        # Molly compares the existing price with the proposed price above.
+        seller_gain = fixed(Tex(r'Molly receives $\$0.25$ more.', color=SUPPLY).scale(0.7443)
+            .set_x(0).to_edge(DOWN, buff=0.18))
+        self.play(FadeIn(seller_gain))
         self.pause('1.b')
-        self.play(FadeOut(stay_box), FadeOut(offer_box), FadeOut(stay_text), FadeOut(offer_text),
-                  FadeOut(seller_gain), Transform(head, fixed(title('Who gets the spinach?'))), run_time=0.3)
+        self.play(FadeOut(seller_gain),
+                  Transform(head, fixed(title('Who gets the spinach?'))), run_time=0.3)
         # Keep the old solid price and the new dashed price visible until
         # Molly's unchanged MC-$2 bar reaches the newly preferred buyer.
         self.play(bars['seller'].animate.set_x(mc_x),
@@ -1346,11 +1340,8 @@ class B4(ThreeDScene):
                                               resolution=(2, 2), opacity=0.65).set_color(color)
                             bar.rotate(90 * DEGREES, RIGHT).move_to([bar_x, 0, 0.75 + value * 0.55 / 2])
                             close_bars[who] = bar
-                            name = Tex(who, color=INK).scale(0.65)
-                            name.face_mat = np.eye(3)
-                            name.add_updater(face_camera)
-                            name.update()
-                            name.move_to(np.array([body_x, -0.55, 0.13]) + offset)
+                            name = fixed(Tex(who, color=INK).scale(0.62))
+                            name.move_to([screen_point(self.camera.frame, [body_x, 0, 0.32])[0], -2.30, 0])
                             close_names[who] = name
                             value_label = Tex(rf'{term} $\${value}$', color=color).scale(0.62)
                             value_label.face_mat = np.eye(3)
@@ -1368,16 +1359,16 @@ class B4(ThreeDScene):
                             [2.61, -0.045, 0.75 + 4.25 * 0.55], color=GUIDE, stroke_width=3, dash_length=0.05)
                         mb_read_across = DashedLine([-2.61, -0.045, 0.75 + 7 * 0.55],
                             [2.61, -0.045, 0.75 + 7 * 0.55], color=DEMAND, stroke_width=1.5).set_opacity(0.6)
-                        stay_box = fixed(RoundedRectangle(width=5.5, height=1.0, corner_radius=0.12,
-                            color=MUTED, fill_color=BG, fill_opacity=1, stroke_width=1.5).move_to([-3.05, -2.85, 0]))
-                        switch_box = fixed(stay_box.copy().move_to([3.05, -2.85, 0]))
-                        stay_words = fixed(VGroup(Tex(r'Molly: $\$6.25$', color=INK), Tex(r'Gain $\$0.75$', color=DEMAND))
-                            .arrange(DOWN, buff=0.10).scale(0.68).move_to(stay_box))
-                        switch_words = fixed(VGroup(Tex(r'Andrew: $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
-                            .arrange(DOWN, buff=0.10).scale(0.68).move_to(switch_box))
+                        # Plain choice labels sit beneath their corresponding sellers.
+                        stay_words = fixed(VGroup(Tex(r'Pay $\$6.25$', color=INK), Tex(r'Gain $\$0.75$', color=DEMAND))
+                            .arrange(DOWN, buff=0.12).scale(0.62)
+                            .move_to([screen_point(self.camera.frame, close_people['Molly'].get_center())[0], -3.12, 0]))
+                        switch_words = fixed(VGroup(Tex(r'Pay $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
+                            .arrange(DOWN, buff=0.12).scale(0.62)
+                            .move_to([screen_point(self.camera.frame, close_people['Andrew'].get_center())[0], -3.12, 0]))
                         close_objects = [close_floor, close_rim, close_head, *close_people.values(), *close_bars.values(),
                             *close_names.values(), *close_values.values(), stay_price_line, stay_shadow,
-                            switch_price_line, mb_read_across, stay_box, switch_box, stay_words, switch_words]
+                            switch_price_line, mb_read_across, stay_words, switch_words]
                         self.play(*[FadeIn(m) for m in close_objects], run_time=0.7)
                         self.remove(stay_price_line)
                         self.add(stay_price_line)
@@ -2164,15 +2155,14 @@ class B4(ThreeDScene):
         head = ag_head
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_positions[24])
         ag_name = fixed(Tex('Amanda-Grace', color=INK)).scale(0.56).move_to(screen_point(self.camera.frame, buyer_positions[24]) + DOWN * 0.28)
-        stay_box = fixed(Rectangle(width=6.35, height=0.73, color=MUTED).move_to([-3.72, -3.53, 0]))
-        bid_box = fixed(Rectangle(width=6.35, height=0.73, color=MUTED).move_to([3.32, -3.53, 0]))
-        stay_text = fixed(Tex(r'Wait at $\$3$: no trade; gain $\$0$', color=INK)).scale(0.62).move_to(stay_box)
-        bid_text = fixed(Tex(r'Offer $\$3.25$: gain $\$3.75$/lb', color=INK)).scale(0.62).move_to(bid_box)
+        stay_text = fixed(Tex(r'Wait: gain $\$0$', color=CAPTION)).scale(0.65)
+        bid_text = fixed(Tex(r'Offer $\$3.25$: gain $\$3.75$/lb', color=INK)).scale(0.65)
+        VGroup(stay_text, bid_text).arrange(RIGHT, buff=0.85).move_to([0, -3.40, 0])
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
         seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(0.52).move_to([-3.1, -2.91, 0])
-        self.play(Create(ag_focus), FadeIn(ag_name), Create(bid), FadeIn(stay_box), FadeIn(bid_box), FadeIn(stay_text), FadeIn(bid_text), FadeOut(units), FadeIn(seller_gain))
+        self.play(Create(ag_focus), FadeIn(ag_name), Create(bid), FadeIn(stay_text), FadeIn(bid_text), FadeOut(units), FadeIn(seller_gain))
 
-        self.play(FadeOut(ag_focus), FadeOut(bid), ag_name.animate.move_to([-2.9, -2.45, 0]))
+        self.play(FadeOut(ag_focus), FadeOut(bid), ag_name.animate.move_to([-1.61, -2.30, 0]), seller_gain.animate.move_to([0, -2.85, 0]))
 
         # B3 2.a.i: the same head-on camera, close bars, and material people.
         buy_person = buyer_people[24].copy().clear_updaters()
@@ -2201,11 +2191,12 @@ class B4(ThreeDScene):
         buy_price = Line([-1.16, -0.045, 0.75 + 3 * 0.55], [1.16, -0.045, 0.75 + 3 * 0.55], color=GUIDE, stroke_width=3)
         buy_proposal = DashedLine([-1.16, -0.055, 0.75 + 3.25 * 0.55], [1.16, -0.055, 0.75 + 3.25 * 0.55], color=GUIDE, stroke_width=3)
         buy_values = fixed(VGroup(
-            Tex(r'MB $\$7$', color=DEMAND).scale(0.75).move_to([-2.80, 1.7, 0]),
-            Tex(r'MC $\$3$', color=SUPPLY).scale(0.75).move_to([2.80, 0.3, 0])))
+            Tex(r'MB $\$7$', color=DEMAND).scale(0.62).move_to(screen_point(self.camera.frame, [-1.16, 0, 0.75 + 7 * 0.55]) + LEFT * 0.20 + DOWN * 0.10, aligned_edge=RIGHT),
+            Tex(r'MC $\$3$', color=SUPPLY).scale(0.62).move_to(screen_point(self.camera.frame, [1.16, 0, 0.75 + 3 * 0.55]) + RIGHT * 0.20, aligned_edge=LEFT),
+            Tex('Seller', color=INK).scale(0.56).move_to([1.61, -2.30, 0])))
         self.play(Create(buy_zero), Create(buy_price), Create(buy_proposal), FadeIn(buy_values))
         self.pause('1.f')
-        self.play(buy_price.animate.set_z(0.75 + 3.25 * 0.55), FadeOut(buy_proposal), bid_box.animate.set_color(GREEN), run_time=0.7)
+        self.play(buy_price.animate.set_z(0.75 + 3.25 * 0.55), FadeOut(buy_proposal), bid_text.animate.set_color(GREEN), run_time=0.7)
         self.play(FadeOut(buy_detail), FadeOut(buy_zero), FadeOut(buy_price), FadeOut(buy_values),
                   self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.3)
         # Return to the exact B3 plaza before compressing everyone's adjustment.
@@ -2215,6 +2206,7 @@ class B4(ThreeDScene):
         self.add(crowd, crowd_hud, graphs)
         self.remove(units)
         ag_name.move_to(screen_point(self.camera.frame, buyer_positions[24]) + DOWN * 0.28)
+        seller_gain.move_to([-3.1, -2.91, 0])
         self.add(ag_focus, bid)
         # One illustrative switch is not an additional sale. Qx remains 20.
         for n in [19, 24]:
@@ -2223,7 +2215,7 @@ class B4(ThreeDScene):
             buyer_circles[n].suspend_updating()
         ag_pair = seller_positions[19] + LEFT * 0.019
         accepted_bid = Line(ag_pair, seller_circles[19].get_center(), color=GREEN, stroke_width=2)
-        self.play(ReplacementTransform(bid, accepted_bid), bid_box.animate.set_color(GREEN),
+        self.play(ReplacementTransform(bid, accepted_bid), bid_text.animate.set_color(GREEN),
                   ag_name.animate.move_to(screen_point(self.camera.frame, ag_pair) + DOWN * 0.28),
                   ag_focus.animate.set_width(0.044).move_to(ag_pair),
                   buyer_people[19].animate.set_width(buyer_people[19].home_width).move_to(buyer_people[19].home),
@@ -2233,7 +2225,7 @@ class B4(ThreeDScene):
                   buyer_bars[24].animate.set_width(0.030, stretch=True).move_to([ag_pair[0], ag_pair[1], buyer_bars[24].home[2]]),
                   buyer_circles[24].animate.set_width(0.036).move_to(ag_pair).set_stroke(opacity=1), run_time=0.8)
         everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
-        self.play(FadeOut(stay_box), FadeOut(bid_box), FadeOut(stay_text), FadeOut(bid_text),
+        self.play(FadeOut(stay_text), FadeOut(bid_text),
                   FadeOut(accepted_bid), FadeOut(ag_focus), FadeOut(ag_name), FadeOut(seller_gain), FadeIn(everyone))
         # Resume sorted common-price snapshots after the individual illustration.
         self.play(buyer_people[24].animate.set_width(buyer_people[24].home_width).move_to(buyer_people[24].home),
@@ -2269,11 +2261,11 @@ class B4(ThreeDScene):
         excess = fixed(Tex(r'Excess: 50,000 lb. Andrew is willing, but has no buyer.', color=INK)).scale(0.65).move_to([0, -2.91, 0])
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_positions[39])
-        stay_text = fixed(Tex(r'Keep $\$6$: no buyer; gain $\$0$', color=INK)).scale(0.62).move_to(stay_box)
-        cut_text = fixed(Tex(r'Ask $\$5.75$: gain $\$1.75$/lb', color=INK)).scale(0.62).move_to(bid_box)
-        bid_box.set_color(MUTED)
+        stay_text = fixed(Tex(r'Keep $\$6$: gain $\$0$', color=CAPTION)).scale(0.65)
+        cut_text = fixed(Tex(r'Ask $\$5.75$: gain $\$1.75$/lb', color=INK)).scale(0.65)
+        VGroup(stay_text, cut_text).arrange(RIGHT, buff=0.85).move_to([0, -3.40, 0])
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
-        self.play(FadeIn(excess), Create(andrew_focus), Create(cut), FadeIn(stay_box), FadeIn(bid_box), FadeIn(stay_text), FadeIn(cut_text))
+        self.play(FadeIn(excess), Create(andrew_focus), Create(cut), FadeIn(stay_text), FadeIn(cut_text))
 
         andrew_head = fixed(title('What would Andrew do?'))
         self.play(FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low), ReplacementTransform(head, andrew_head))
@@ -2298,7 +2290,7 @@ class B4(ThreeDScene):
         crowd.suspend_updating()
         crowd_hud.suspend_updating()
         graphs.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(graphs),
+        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(graphs), FadeOut(excess),
                   Transform(sell_person, sell_targets[0]), Transform(sell_counterparty, sell_targets[1]),
                   Transform(sell_mb, sell_mb_target), Transform(sell_mc, sell_mc_target),
                   self.camera.frame.animate.reorient(0, 90, center=[0, 0, 2.05], height=7.2), run_time=1.8)
@@ -2306,13 +2298,13 @@ class B4(ThreeDScene):
         sell_price = Line([-1.16, -0.045, 0.75 + 6 * 0.55], [1.16, -0.045, 0.75 + 6 * 0.55], color=GUIDE, stroke_width=3)
         sell_proposal = DashedLine([-1.16, -0.055, 0.75 + 5.75 * 0.55], [1.16, -0.055, 0.75 + 5.75 * 0.55], color=GUIDE, stroke_width=3)
         sell_values = fixed(VGroup(
-            Tex(r'MB $\$6$', color=DEMAND).scale(0.75).move_to([-2.80, 1.7, 0]),
-            Tex(r'MC $\$4$', color=SUPPLY).scale(0.75).move_to([2.80, 0.3, 0]),
-            Tex('Gary', color=INK).scale(0.65).move_to([-2.5, -2.45, 0]),
-            Tex('Andrew', color=INK).scale(0.65).move_to([2.5, -2.45, 0])))
+            Tex(r'MB $\$6$', color=DEMAND).scale(0.62).move_to(screen_point(self.camera.frame, [-1.16, 0, 0.75 + 6 * 0.55]) + LEFT * 0.20 + DOWN * 0.10, aligned_edge=RIGHT),
+            Tex(r'MC $\$4$', color=SUPPLY).scale(0.62).move_to(screen_point(self.camera.frame, [1.16, 0, 0.75 + 4 * 0.55]) + RIGHT * 0.20, aligned_edge=LEFT),
+            Tex('Gary', color=INK).scale(0.56).move_to([-1.61, -2.30, 0]),
+            Tex('Andrew', color=INK).scale(0.56).move_to([1.61, -2.30, 0])))
         self.play(Create(sell_zero), Create(sell_price), Create(sell_proposal), FadeIn(sell_values))
         self.pause('1.h')
-        self.play(sell_price.animate.set_z(0.75 + 5.75 * 0.55), FadeOut(sell_proposal), bid_box.animate.set_color(GREEN), run_time=0.7)
+        self.play(sell_price.animate.set_z(0.75 + 5.75 * 0.55), FadeOut(sell_proposal), cut_text.animate.set_color(GREEN), run_time=0.7)
         self.play(FadeOut(sell_detail), FadeOut(sell_zero), FadeOut(sell_price), FadeOut(sell_values),
                   self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.3)
         # Return to the exact B3 plaza before compressing everyone's adjustment.
@@ -2329,7 +2321,7 @@ class B4(ThreeDScene):
             mob.suspend_updating()
         gary_pair = seller_positions[39] + LEFT * 0.019
         accepted_cut = Line(gary_pair, seller_circles[39].pair_home, color=GREEN, stroke_width=2)
-        self.play(ReplacementTransform(cut, accepted_cut), bid_box.animate.set_color(GREEN),
+        self.play(ReplacementTransform(cut, accepted_cut), cut_text.animate.set_color(GREEN),
                   andrew_focus.animate.set_width(0.044).move_to(seller_circles[39].pair_home),
                   buyer_people[29].animate.move_to([gary_pair[0], gary_pair[1], buyer_people[29].pair_home[2]]),
                   buyer_bars[29].animate.move_to([gary_pair[0], gary_pair[1], buyer_bars[29].home[2]]),
@@ -2341,7 +2333,7 @@ class B4(ThreeDScene):
                   seller_bars[39].animate.set_width(0.030, stretch=True).move_to(seller_bars[39].pair_home),
                   seller_circles[39].animate.set_width(0.036).move_to(seller_circles[39].pair_home).set_stroke(opacity=1), run_time=0.8)
         everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
-        self.play(FadeOut(andrew_focus), FadeOut(accepted_cut), FadeOut(stay_box), FadeOut(bid_box), FadeOut(stay_text), FadeOut(cut_text), FadeIn(everyone))
+        self.play(FadeOut(andrew_focus), FadeOut(accepted_cut), FadeOut(stay_text), FadeOut(cut_text), FadeIn(everyone))
         self.play(buyer_people[29].animate.move_to(buyer_people[29].pair_home),
                   buyer_bars[29].animate.move_to(buyer_bars[29].pair_home),
                   buyer_circles[29].animate.move_to(buyer_circles[29].pair_home),
