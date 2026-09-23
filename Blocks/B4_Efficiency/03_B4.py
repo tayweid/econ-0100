@@ -1546,11 +1546,12 @@ class B4(ThreeDScene):
             orb.price, orb.value, orb.visibility = price, value, show_willing
             orb.add_updater(lambda m: m.set_opacity(1 - 0.65 * m.visibility.get_value() * float(not (m.value + 1e-7 >= m.price.get_value()))))
             person = Group(shadow, orb)
-            check = fixed(VMobject(color=DEMAND, stroke_width=1.5).set_points_as_corners(
+            check = (VMobject(color=DEMAND, stroke_width=1.5).set_points_as_corners(
                 [[-0.025, 0, 0], [-0.005, -0.018, 0], [0.032, 0.032, 0]]))
             check.price, check.value, check.visibility = price, value, show_willing
-            check.anchor = screen_point(self.camera.frame, [x, 0, 0.43])
-            check.add_updater(lambda m: m.move_to(m.anchor).set_stroke(
+            check.anchor, check.face_mat = orb, np.eye(3)
+            check.add_updater(face_camera)
+            check.add_updater(lambda m: m.move_to(m.anchor.get_center() + OUT * 0.27).set_stroke(
                 opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
             full_bars.add(bar)
             full_people.add(person)
@@ -1648,11 +1649,12 @@ class B4(ThreeDScene):
             orb.price, orb.value, orb.visibility = price, value, show_willing
             orb.add_updater(lambda m: m.set_opacity(1 - 0.65 * m.visibility.get_value() * float(not (m.value <= m.price.get_value() + 1e-7))))
             person = Group(shadow, orb)
-            check = fixed(VMobject(color=SUPPLY, stroke_width=1.5).set_points_as_corners(
+            check = (VMobject(color=SUPPLY, stroke_width=1.5).set_points_as_corners(
                 [[-0.025, 0, 0], [-0.005, -0.018, 0], [0.032, 0.032, 0]]))
             check.price, check.value, check.visibility = price, value, show_willing
-            check.anchor = screen_point(self.camera.frame, [x, 0, 0.43])
-            check.add_updater(lambda m: m.move_to(m.anchor).set_stroke(
+            check.anchor, check.face_mat = orb, np.eye(3)
+            check.add_updater(face_camera)
+            check.add_updater(lambda m: m.move_to(m.anchor.get_center() + OUT * 0.27).set_stroke(
                 opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
             full_bars.add(bar)
             full_people.add(person)
@@ -1771,16 +1773,19 @@ class B4(ThreeDScene):
                 bar = Rectangle3D(width=0.055, height=value * DOLLAR_HEIGHT,
                                   resolution=(2, 2), opacity=0.65).set_color(color)
                 bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-                check = fixed(VMobject(color=GOV, stroke_width=1.6).set_points_as_corners(
+                check = (VMobject(color=GOV, stroke_width=1.6).set_points_as_corners(
                     [[-0.022, 0, 0], [-0.006, -0.017, 0], [0.025, 0.025, 0]]))
-                cross = fixed(VGroup(
+                cross = (VGroup(
                     Line([-0.019, -0.019, 0], [0.019, 0.019, 0], color=GUIDE, stroke_width=1.2),
                     Line([-0.019, 0.019, 0], [0.019, -0.019, 0], color=GUIDE, stroke_width=1.2))).set_color(GUIDE)
                 for mark, accepted in [(check, True), (cross, False)]:
                     mark.price, mark.value, mark.visibility, mark.side = price, value, visibility, side
-                    mark.anchor, mark.frame, mark.dollar_height, mark.accepted = bar, self.camera.frame, DOLLAR_HEIGHT, accepted
-                    mark.add_updater(lambda m: m.move_to(screen_point(m.frame,
-                        m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.085)))
+                    mark.anchor, mark.dollar_height, mark.accepted = bar, DOLLAR_HEIGHT, accepted
+                    mark.scale(self.camera.frame.get_scale())
+                    mark.face_mat = np.eye(3)
+                    mark.add_updater(face_camera)
+                    mark.add_updater(lambda m: m.move_to(
+                        m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.085))
                         .set_stroke(opacity=m.visibility.get_value() * (1 if m.accepted else 0.65) * float(
                             (m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7) == m.accepted))
                         .set_fill(opacity=0))
@@ -1824,7 +1829,7 @@ class B4(ThreeDScene):
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses))
+        crowd_marks = VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses)
 
         # Same Q and P scales; one straight equation line per graph.
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
@@ -1936,7 +1941,7 @@ class B4(ThreeDScene):
         show_sellers.set_value(0)
         head = fixed(title(r'At $\$3$, who can trade?'))
         question = fixed(Tex('How much would each side trade?', color=DEFINITION)).scale(0.82).move_to([0, -3.65, 0])
-        self.add(head, crowd, crowd_hud, graphs, question)
+        self.add(head, crowd, crowd_marks, graphs, question)
         self.pause('1.d')
 
         # ---- 1.e · Willingness first, matching second.
@@ -2024,9 +2029,9 @@ class B4(ThreeDScene):
         buy_mc_target = Rectangle3D(width=1.10, height=3 * 0.55, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
         buy_mc_target.rotate(90 * DEGREES, RIGHT).move_to([0.61, 0, 0.75 + 3 * 0.55 / 2])
         crowd.suspend_updating()
-        crowd_hud.suspend_updating()
+        crowd_marks.suspend_updating()
         graphs.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(graphs),
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(graphs),
                   Transform(buy_person, buy_targets[0]), Transform(buy_counterparty, buy_targets[1]),
                   Transform(buy_mb, buy_mb_target), Transform(buy_mc, buy_mc_target),
                   self.camera.frame.animate.reorient(0, 90, center=[0, 0, 2.05], height=7.2), run_time=1.8)
@@ -2051,9 +2056,9 @@ class B4(ThreeDScene):
                   self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.3)
         # Return to the exact B3 plaza before compressing everyone's adjustment.
         crowd.resume_updating()
-        crowd_hud.resume_updating()
+        crowd_marks.resume_updating()
         graphs.resume_updating()
-        self.add(crowd, crowd_hud, graphs)
+        self.add(crowd, crowd_marks, graphs)
         self.remove(units)
         ag_name.move_to(buyer_circles[24].get_center() + DOWN * 0.5)
         seller_gain.move_to([-3.3, -1.35, 0])
@@ -2138,9 +2143,9 @@ class B4(ThreeDScene):
         sell_mc_target = Rectangle3D(width=1.10, height=4 * 0.55, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
         sell_mc_target.rotate(90 * DEGREES, RIGHT).move_to([0.61, 0, 0.75 + 4 * 0.55 / 2])
         crowd.suspend_updating()
-        crowd_hud.suspend_updating()
+        crowd_marks.suspend_updating()
         graphs.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(graphs), FadeOut(excess),
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(graphs), FadeOut(excess),
                   Transform(sell_person, sell_targets[0]), Transform(sell_counterparty, sell_targets[1]),
                   Transform(sell_mb, sell_mb_target), Transform(sell_mc, sell_mc_target),
                   self.camera.frame.animate.reorient(0, 90, center=[0, 0, 2.05], height=7.2), run_time=1.8)
@@ -2166,9 +2171,9 @@ class B4(ThreeDScene):
                   self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.3)
         # Return to the exact B3 plaza before compressing everyone's adjustment.
         crowd.resume_updating()
-        crowd_hud.resume_updating()
+        crowd_marks.resume_updating()
         graphs.resume_updating()
-        self.add(crowd, crowd_hud, graphs)
+        self.add(crowd, crowd_marks, graphs)
         self.remove(units)
         self.remove(excess)
         self.add(andrew_focus, cut, tried_low)
@@ -2294,16 +2299,19 @@ class B4(ThreeDScene):
                 bar = Rectangle3D(width=0.055, height=value * DOLLAR_HEIGHT,
                                   resolution=(2, 2), opacity=0.65).set_color(color)
                 bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-                check = fixed(VMobject(color=GOV, stroke_width=1.6).set_points_as_corners(
+                check = (VMobject(color=GOV, stroke_width=1.6).set_points_as_corners(
                     [[-0.022, 0, 0], [-0.006, -0.017, 0], [0.025, 0.025, 0]]))
-                cross = fixed(VGroup(
+                cross = (VGroup(
                     Line([-0.019, -0.019, 0], [0.019, 0.019, 0], color=GUIDE, stroke_width=1.2),
                     Line([-0.019, 0.019, 0], [0.019, -0.019, 0], color=GUIDE, stroke_width=1.2))).set_color(GUIDE)
                 for mark, accepted in [(check, True), (cross, False)]:
                     mark.price, mark.value, mark.visibility, mark.side = price, value, visibility, side
-                    mark.anchor, mark.frame, mark.dollar_height, mark.accepted = bar, self.camera.frame, DOLLAR_HEIGHT, accepted
-                    mark.add_updater(lambda m: m.move_to(screen_point(m.frame,
-                        m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.085)))
+                    mark.anchor, mark.dollar_height, mark.accepted = bar, DOLLAR_HEIGHT, accepted
+                    mark.scale(self.camera.frame.get_scale())
+                    mark.face_mat = np.eye(3)
+                    mark.add_updater(face_camera)
+                    mark.add_updater(lambda m: m.move_to(
+                        m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.085))
                         .set_stroke(opacity=m.visibility.get_value() * (1 if m.accepted else 0.65) * float(
                             (m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7) == m.accepted))
                         .set_fill(opacity=0))
@@ -2347,7 +2355,7 @@ class B4(ThreeDScene):
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses))
+        crowd_marks = VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses)
 
         # Same Q and P scales; one straight equation line per graph.
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
@@ -2455,7 +2463,7 @@ class B4(ThreeDScene):
         # ---- 1.i.graph · Merge the two representations of the same market.
         price.set_value(4)
         head = fixed(title('Why does the crossing give equilibrium?'))
-        self.add(head, crowd, crowd_hud, graphs)
+        self.add(head, crowd, crowd_marks, graphs)
         merged_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=3.8).move_to([4.48, 0.45, 0])
         merged_demand = Line(merged_axes.c2p(0, 12), merged_axes.c2p(60, 0), color=DEMAND, stroke_width=3)
         merged_supply = Line(merged_axes.c2p(0, 2), merged_axes.c2p(100, 7), color=SUPPLY, stroke_width=3)
@@ -2491,7 +2499,7 @@ class B4(ThreeDScene):
         # ---- 1.i.algebra · Equality first, then solve. No exercise Q1 repeat.
         merged_graph = fixed(VGroup(merged_axes, merged_demand, merged_supply, merged_ticks, merged_labels, merged_price, merged_drop, merged_dot))
         crowd.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(same))
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(same))
         algebra_head = fixed(title('What equation expresses equilibrium?'))
         self.play(ReplacementTransform(head, algebra_head))
         equality = fixed(Tex(r'$Q_d=Q_s=Q$', color=DEFINITION)).scale(1.1).move_to([-3.75, 2.10, 0])
@@ -2575,10 +2583,13 @@ class B4(ThreeDScene):
                 bar.rotate(90 * DEGREES, RIGHT).move_to([x, pose_y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
                 ring = Circle(radius=0.018 if matched else ring_radii[side], color=GOV, stroke_width=ring_width).move_to([x, pose_y, 0.045])
                 ring.set_stroke(opacity=1 if i < EQUILIBRIUM_Q else 0).set_fill(opacity=0)
-                check = fixed(VMobject(color=color, stroke_width=check_width).set_points_as_corners(check_points))
+                check = (VMobject(color=color, stroke_width=check_width).set_points_as_corners(check_points))
                 check.anchor, check.value, check.dollar_height = bar, value, DOLLAR_HEIGHT
-                check.add_updater(lambda m: m.move_to(screen_point(self.camera.frame,
-                    m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_fill(opacity=0))
+                check.scale(self.camera.frame.get_scale())
+                check.face_mat = np.eye(3)
+                check.add_updater(face_camera)
+                check.add_updater(lambda m: m.move_to(
+                    m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10)).set_fill(opacity=0))
                 check.set_stroke(opacity=1 if i < EQUILIBRIUM_Q else 0).set_fill(opacity=0)
                 bodies[side, i + 1], bars[side, i + 1] = body, bar
                 rings[side, i + 1], checks[side, i + 1] = ring, check
@@ -2626,7 +2637,6 @@ class B4(ThreeDScene):
                                     ax.c2p(n, MB[n - 1]), ax.c2p(n - 1, MB[n - 1]),
                                     stroke_color=TOTAL, stroke_width=0.6,
                                     fill_color=TOTAL, fill_opacity=0))
-        fixed(market_checks)
         for mob in [graph, cs_strips, ps_strips, gain_strips, price_line, q_guide]:
             fixed(mob)
         self.add(head, crowd, crowd_words, market_checks, graph, cs_strips, ps_strips,
@@ -3206,10 +3216,13 @@ class B4(ThreeDScene):
             person = Group(shadow, orb)
             bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
             bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=DEMAND, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
+            check = (VMobject(color=DEMAND, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
             check.price, check.value, check.visibility = price, value, show_buyers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
+            check.anchor, check.dollar_height = bar, DOLLAR_HEIGHT
+            check.scale(self.camera.frame.get_scale())
+            check.face_mat = np.eye(3)
+            check.add_updater(face_camera)
+            check.add_updater(lambda m: m.move_to(m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10)).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
             circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
             circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
             circle.mb, circle.mc = BUYER_MB, SELLER_MC
@@ -3226,10 +3239,13 @@ class B4(ThreeDScene):
             person = Group(shadow, orb)
             bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
             bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
+            check = (VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
             check.price, check.value, check.visibility = price, value, show_sellers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
+            check.anchor, check.dollar_height = bar, DOLLAR_HEIGHT
+            check.scale(self.camera.frame.get_scale())
+            check.face_mat = np.eye(3)
+            check.add_updater(face_camera)
+            check.add_updater(lambda m: m.move_to(m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10)).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
             circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
             circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
             circle.mb, circle.mc = BUYER_MB, SELLER_MC
@@ -3265,7 +3281,7 @@ class B4(ThreeDScene):
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
         crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks))
+        crowd_marks = VGroup(buyer_checks, seller_checks)
 
 
         # Legal bounds and the actual price are different objects.
@@ -3393,7 +3409,7 @@ class B4(ThreeDScene):
         # ---- 6.a · Exact gains in the market just proved efficient.
         head = fixed(title('What changes when the price is controlled?'))
         caption = fixed(Tex('Each filled strip is the gain on one 1,000-lb trade.', color=INK).scale(0.74).move_to([0, -3.66, 0]))
-        self.add(head, crowd, crowd_hud, cs_cells, ps_cells, loss_cells, graph, actual_line,
+        self.add(head, crowd, crowd_marks, cs_cells, ps_cells, loss_cells, graph, actual_line,
                  trade_guide, counts, price_readout, totals, caption)
         self.pause('6.a')
 

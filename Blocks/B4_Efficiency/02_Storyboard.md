@@ -239,6 +239,11 @@ this layout review. Camera movement is available for deliberate example close-up
   actually trading. Keep marks distinguishable by shape; default to side-colored
   checks and green circles, as proposed in the B3 outline. A selected comparison
   uses a temporary outline/leader, not an extra trading circle.
+- All willingness checks and red Xs are genuine world-space marks anchored above
+  their own person/bar, using B3's `face_camera` convention. They follow their
+  participants and scale with camera zoom/rotation, rather than staying in a
+  fixed-screen overlay. Apply this to the full-width rows, curved plaza, welfare,
+  and controls; retain each scene's existing willingness logic, counts, and order.
 - In the uncontrolled and policy cases, (Q_x=\min(Q_d,Q_s)), with highest-MB
   buyers and lowest-MC sellers trading. This is an explicit rationing assumption
   under controls. During planner experiments, chosen (Q) replaces this rule;
