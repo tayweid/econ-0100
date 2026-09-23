@@ -2463,16 +2463,18 @@ class B4(ThreeDScene):
             ticks.add(tick)
         ticks.add(Tex('12', color=CAPTION).scale(0.48).next_to(ax.c2p(0, 12), LEFT, buff=0.15))
 
-        # The exact per-lot regions share edges, so the eye sees one area.
-        # No floating bars, separate numerical totals, leaders or gap brackets.
+        # Narrow gutters keep individual CS/PS lots visible in the overview.
+        # Their combined total-surplus region below still joins edge to edge.
+        SURPLUS_BAR_INSET = 0.07
         cs_area, ps_area, total_area, lost_area = VGroup(), VGroup(), VGroup(), VGroup()
         for n in range(39):
             benefit, cost = BUYER_MB[n], SELLER_MC[n]
-            cs_area.add(Polygon(ax.c2p(n, 4), ax.c2p(n + 1, 4),
-                ax.c2p(n + 1, benefit), ax.c2p(n, benefit),
+            left, right = n + SURPLUS_BAR_INSET, n + 1 - SURPLUS_BAR_INSET
+            cs_area.add(Polygon(ax.c2p(left, 4), ax.c2p(right, 4),
+                ax.c2p(right, benefit), ax.c2p(left, benefit),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0.43))
-            ps_area.add(Polygon(ax.c2p(n, cost), ax.c2p(n + 1, cost),
-                ax.c2p(n + 1, 4), ax.c2p(n, 4),
+            ps_area.add(Polygon(ax.c2p(left, cost), ax.c2p(right, cost),
+                ax.c2p(right, 4), ax.c2p(left, 4),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=0.43))
             for group, color, realized in [(total_area, TOTAL, True), (lost_area, MUTED, False)]:
                 cell = Polygon(ax.c2p(n, cost), ax.c2p(n + 1, cost),

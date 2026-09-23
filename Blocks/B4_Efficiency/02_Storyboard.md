@@ -820,8 +820,9 @@ argument. This supersedes any earlier forward-looking instruction to restore
 plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 - Keep demand and supply curves and a clear price/quantity scale. Exact
-  adjacent lot cells form a visually continuous filled area; do not display
-  narrow lot bars, except the selected-lot outlines. CS is teal and PS orange,
+  adjacent total-surplus lot cells form a visually continuous filled area;
+  the initial CS/PS bars retain narrow gaps to distinguish individual lots.
+  CS is teal and PS orange,
   with labels **inside** their colored regions.
   Do not attach dollar totals, arrows, or extra readout rows to those labels.
 - Combine CS and PS into **one purple total-surplus area**, labeled inside the
@@ -853,7 +854,10 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 ## 2.a · Show the market's benefits
 
 1. At price $4 and quantity 40, show the familiar teal CS and orange PS regions
-   on the large graph. Put only **CS** and **PS** inside their respective areas.
+   on the large graph. Keep each lot distinct with a 0.07-lot inset on both
+   sides of each CS/PS bar (a 0.14-lot gap between neighbors). Preserve exact
+   bar heights and economic quantities. Put only **CS** and **PS** inside their
+   respective areas. The later unified purple total-surplus fill stays continuous.
 2. Hold `2.a` on this simple callback to B1/B2. Do not show aggregate dollar
    totals, arrows, a separate table, or a detailed surplus construction.
 
