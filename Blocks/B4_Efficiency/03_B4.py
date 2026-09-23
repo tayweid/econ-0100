@@ -1854,6 +1854,10 @@ class B4(ThreeDScene):
         buy_mc = seller_bars[19].copy().clear_updaters()
         buy_incumbent_bar = buyer_bars[19].copy().clear_updaters()
         buy_detail = Group(buy_person, buy_counterparty, buy_incumbent, buy_mb, buy_mc, buy_incumbent_bar)
+        # Preserve each person's own plaza position and bar geometry for the return.
+        buy_plaza_sources = [buyer_people[24], seller_people[19], buyer_people[19],
+                             buyer_bars[24], seller_bars[19], buyer_bars[19]]
+        buy_plaza_homes = [mob.copy().clear_updaters() for mob in buy_detail]
         self.add(buy_detail)
         buy_targets = []
         for x, color in [(-2.6, DEMAND), (0, SUPPLY), (2.6, DEMAND)]:
@@ -1928,21 +1932,28 @@ class B4(ThreeDScene):
         self.pause('1.f.accepted')
         adjustment_head = fixed(title('Price adjustment'))
         self.remove(head)
-        self.play(FadeOut(buy_detail), FadeOut(buy_zero), FadeOut(buy_price), FadeOut(buy_values),
-                  FadeOut(offer_text), FadeOut(buy_ring), FadeIn(adjustment_head),
-                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
+        self.play(FadeOut(buy_zero), FadeOut(buy_price), FadeOut(buy_values),
+                  FadeOut(offer_text), FadeOut(buy_ring), FadeIn(adjustment_head), run_time=0.3)
         head = adjustment_head
-        # Return to the exact B3 plaza before compressing everyone's adjustment.
+        # Keep the flying cast visible as the plaza returns. Its original six
+        # objects stay hidden until the copies land, avoiding duplicate players.
+        for original in buy_plaza_sources:
+            original.set_opacity(0)
         crowd.resume_updating()
+        self.play(FadeIn(crowd, suspend_mobject_updating=False),
+                  *[Transform(actor, home) for actor, home in zip(buy_detail, buy_plaza_homes)],
+                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11),
+                  run_time=2.2, rate_func=smooth)
+        for original, home in zip(buy_plaza_sources, buy_plaza_homes):
+            original.become(home)
+        self.remove(buy_detail)
+        # Handoff at identical geometry; the original crowd keeps its trackers.
         crowd_marks.resume_updating()
         graphs.resume_updating()
-        self.add(crowd, crowd_marks, graphs)
-        self.remove(units)
         # The three-person close-up has shown the switch. Keep every original
         # crowd member in its ranked snapshot and compress the common response.
         everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(everyone), run_time=0.3)
-        self.add(units)
+        self.play(FadeIn(crowd_marks), FadeIn(graphs), FadeIn(everyone), run_time=0.3)
         self.pause('1.f.incentive')
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
         rising = fixed(Tex('Shortages lead to an increase in the price.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)

@@ -642,8 +642,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Fade the waiting choice and its arrow, clear the proposal arrow as its price
    is accepted, and color the offer green. Pause at `1.f.accepted` on the
    accepted trade before returning to the plaza.
-   Clear the close-up callouts and return to the untouched full-crowd snapshot.
-   Do not replay the switch on the plaza or animate a rollback there.
+   Fade the close-up annotations, then visibly fly all three actors and their
+   MB/MC bars to their exact saved plaza positions in one eased 2.2-second
+   camera-and-object move. Restore the background plaza during that same move;
+   do not fade away the cast and pop the plaza in afterward. Keep the six
+   corresponding originals hidden behind the returning copies until landing,
+   then hand off seamlessly. Restore graphs and willingness marks after landing.
+   Preserve the untouched ranked crowd snapshot; do not replay the switch or
+   animate an additional rollback on the plaza.
 4. Change the title to “Price adjustment.” Show “Other unserved buyers have
    the same incentive.” in gold and pause at `1.f.incentive`. On advance, raise
    the common price to **$4** in one smooth
@@ -1015,7 +1021,11 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   consistent across the plaza and graphs. This does not constitute a rendered
   review of every animation frame. The current 66-hold revision passed a focused
   construction check of staged visibility at `1.f.match`, `1.f.wait`, `1.f`,
-  and `1.f.accepted`; the rendered offer frame retains the gold footer.
+  and `1.f.accepted`; the rendered offer frame retains the gold footer. The
+  continuous return passed 33 animated frame checks: all six objects remain
+  visible, their originals stay hidden until landing, and the handoff preserves
+  geometry and trackers. The mid-flight and returned-plaza frames were inspected;
+  the subsequent price adjustment still moves the original actors correctly.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 
