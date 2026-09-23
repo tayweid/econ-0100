@@ -2813,8 +2813,8 @@ class B4(ThreeDScene):
         self.play(FadeIn(ceiling_detail), FadeIn(ceiling_reason), run_time=0.65)
         self.pause('4.c')
 
-        # ---- 5.a · Lift the restriction; the same $4 exchange becomes possible.
-        next_head = fixed(title('Allow the trade'))
+        # ---- 5.a · Compare surplus if the same $4 exchange occurs.
+        next_head = fixed(title('The surplus from this trade'))
         recovered = fixed(VGroup(Tex('Surplus gained', color=TOTAL).scale(0.62),
             Tex(r'$\$3{,}750$', color=TOTAL).scale(0.75)).arrange(DOWN, buff=0.12).move_to(ceiling_gain_label))
         self.play(FadeOut(head), FadeIn(next_head), FadeOut(ceiling_reason),
@@ -2831,11 +2831,11 @@ class B4(ThreeDScene):
         self.pause('5.a')
 
         # ---- 5.b · Return to all beneficial trades, without an isolated gap.
-        next_head = fixed(title('Allow all beneficial trades'))
+        next_head = fixed(title('Total surplus at equilibrium'))
         self.play(FadeOut(head), FadeIn(next_head),
                   FadeOut(ceiling_detail), FadeOut(recovered), run_time=0.35)
         head = next_head
-        # Complete the allocation off-screen; reveal one continuous purple region.
+        # Complete the allocation off-screen; reveal all purple surplus bars.
         for n in range(20, 40):
             allocation_flags[n].set_value(1)
         show_loss.set_value(0)
@@ -2858,7 +2858,7 @@ class B4(ThreeDScene):
         self.pause('5.c')
 
         # ---- 5.d · Keep the negative strip at its true scale. Cost exceeds benefit.
-        next_head = fixed(title('Force one trade too many'))
+        next_head = fixed(title('One additional trade'))
         negative_lot = fixed(Polygon(ax.c2p(40, 3.8), ax.c2p(41, 3.8), ax.c2p(41, 4.05), ax.c2p(40, 4.05),
             color=GUIDE, stroke_width=3, fill_color=GUIDE, fill_opacity=0.65))
         endpoint_dots = fixed(VGroup(Dot(ax.c2p(41, 3.8), radius=0.035, color=DEMAND),
@@ -2866,7 +2866,7 @@ class B4(ThreeDScene):
         negative_label = fixed(Tex(r'MC $>$ MB', color=INK,
             tex_to_color_map={'MC': SUPPLY, 'MB': DEMAND}).scale(0.60)
             .next_to(ax.c2p(41, 4.05), UP + RIGHT, buff=0.18))
-        negative_caption = fixed(Tex('The next unit costs more than it is worth.', color=INK)
+        negative_caption = fixed(Tex('For this unit, MC exceeds MB.', color=INK)
                                  .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(head), FadeIn(next_head), FadeOut(marginal), FadeOut(boundary), run_time=0.35)
         head = next_head
@@ -2938,9 +2938,5 @@ class B4(ThreeDScene):
         self.pause('6.exercise_ceiling')
         self.play(FadeOut(exercise), run_time=0.3)
 
-        # ---- 7.a · Efficiency is the sum, not a verdict on distribution.
-        closing_head = fixed(title('Efficiency and distribution'))
-        closing = fixed(Tex('The largest total gain does not settle how it should be shared.', color=INK)
-                        .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeOut(head), FadeIn(closing_head), FadeOut(theorem), FadeOut(conditions), FadeIn(closing), run_time=0.6)
+        # ---- 7.a · Return to the theorem and its stated conditions.
         self.pause('7.a')

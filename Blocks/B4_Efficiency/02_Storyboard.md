@@ -3,8 +3,10 @@
 B3-based animation implementation · 2026-09-22.
 
 Latest authorized order: **market benefits (CS/PS → total surplus) → binding
-floor → binding ceiling → permit a blocked trade → all beneficial trades →
-force one harmful trade → undo it and state the conditional welfare result**.
+floor → binding ceiling → surplus from a missing trade → equilibrium surplus →
+one additional trade → remove it and state the conditional welfare result**.
+Present these as descriptive surplus comparisons, without recommending policy
+changes or editorializing about what should be done.
 This explicitly supersedes the earlier planner-first draft, the ceiling-first
 notes, and the animator note's frozen-order instruction. Keep the entire opening
 through `1.i.algebra` in its existing order, adding `1.e.willing` before matching
@@ -37,7 +39,7 @@ while the screen omits aggregate dollar totals and the recap's crowd displays.
 | 8 | Market benefits | `2.a`, `2.b.parts`, `2.b.sum`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
-| 8 | Permit trades, reach the boundary, force/undo harmful trade | `5.a`–`5.e` |
+| 8 | Compare surplus, reach the boundary, add/remove one extra trade | `5.a`–`5.e` |
 | 8 | B4 exercises, floor then ceiling | `6.exercise_floor`, `6.exercise_ceiling` |
 | 8 | Scope and close | `7.a` |
 
@@ -66,8 +68,8 @@ latest directive above determines the animation order. Do not edit those files.
 
 CS/PS are familiar from B1/B2, so begin with their benefits in this market and
 sum them. Use the floor and ceiling to make lost mutually beneficial trades
-visible. Then permit one missing trade, allow the remaining beneficial trades,
-and demonstrate why forcing the next lot lowers total surplus. The graph's
+visible. Then compare surplus with one missing trade included, return to
+equilibrium, and demonstrate how an additional lot changes total surplus. The graph's
 realized and missing gain areas carry the argument; the final theorem names
 the result and its conditions.
 
@@ -950,13 +952,14 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    interval runs from **0 to 3**; the purple mutually beneficial interval beside
    it is **$3.25–$7**. Mark **$4** inside the beneficial interval.
 3. Hold `4.c` on the disjoint intervals and caption **Both gain at $4; that
-   price is illegal.** Keep this figure for the next permission step.
+   price is illegal.** Keep this figure for the next surplus comparison.
 
-## 5.a · Permit that missing trade
+## 5.a · The surplus from this trade
 
-1. Lift the ceiling while still in the selected two-person figure. Remove its
-   legal restriction and complete the trade at **$4**, showing the agreed price
-   inside the mutually beneficial interval.
+1. Title: **The surplus from this trade.** In the selected two-person figure,
+   compare what surplus would be if this exchange occurred at **$4**. Remove
+   the ceiling overlay for this hypothetical comparison and show the price
+   inside the mutually beneficial interval. Do not frame it as a policy recommendation.
 2. Change the close-up's lost-surplus bracket to **purple surplus gained
    ($3,750)**. Hold `5.a` on this completed trade in the two-person figure.
    Do not return to a held partial-allocation graph or isolated purple lot strip.
@@ -964,9 +967,9 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    Keep that aggregate total and any quantity-21 readout off screen. Remove the
    policy price/quantity guides before returning to the graph on the next advance.
 
-## 5.b · Allow the remaining beneficial trades
+## 5.b · Total surplus at equilibrium
 
-1. On advance from `5.a`, return the selected bars to the graph while filling
+1. Title: **Total surplus at equilibrium.** On advance from `5.a`, return the selected bars to the graph while filling
    all remaining positive-gain lots through 39 in one continuous transition;
    include indifferent lot 40 under the inclusive convention. Do not pause
    on the intermediate gap or isolated lot-25 strip, or add per-trade stops.
@@ -981,15 +984,15 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 2. Hold `5.c` on the zero gap. The exact crowd's 39 and 40 trades tie for maximum
    gains; do not claim that removing this lot would lower welfare.
 
-## 5.d · Force one trade beyond the boundary
+## 5.d · One additional trade
 
-1. Title: **Force one trade too many.** Add lot **41** as an explicitly forced
-   trade immediately past the ordinary 40 axis tick. Color its exact negative
+1. Title: **One additional trade.** Compare the allocation with lot **41**
+   included immediately past the ordinary 40 axis tick. Color its exact negative
    gain strip red; do not widen it, add a 41 counter, or restore active guides.
 2. Add small teal/orange dots at the MB/MC endpoints and one nearby **MC > MB**
    label. Internally MB is $3.80 and MC $4.05; display no individual loss dollars.
-3. Hold `5.d` on the unchanged graph with one bottom caption: **The next unit
-   costs more than it is worth.** No inset, extra diagram, or camera move.
+3. Hold `5.d` on the unchanged graph with one bottom caption: **For this unit,
+   MC exceeds MB.** No inset, extra diagram, or camera move.
 
 ## 5.e · Undo the harmful trade and name the result
 
@@ -1019,12 +1022,12 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    answers. Hold `6.exercise_ceiling`, then restore the spinach graph.
 3. The pasty model's continuous areas never replace the exact spinach lots.
 
-## 7.a · Close with the result and its scope
+## 7.a · Close with the conditional result
 
 1. Retain the $4, quantity-40 graph and purple total-surplus area.
-2. Briefly distinguish maximal gains from distribution and other policy aims,
-   keeping the competitive/no-externality conditions already stated.
-3. Hold `7.a` without a new policy, crowd scene, or repeated argument.
+2. Keep the First Welfare Theorem and its already stated conditions visible
+   after the exercise card clears. Remove the separate distribution commentary.
+3. Hold `7.a` without a new policy, prescription, or repeated argument.
 
 ## Implementation and review boundaries
 
