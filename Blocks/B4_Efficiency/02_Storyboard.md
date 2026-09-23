@@ -457,9 +457,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Show all 59 buyers in the approved full-width head-on row. Set the bars'
    base to **0.55**, retaining dollar-height 0.28, so they sit closer to the
-   people with green willingness checks clear between them. Show “One person =
-   1,000 lb. Bar height = dollars per pound” in a **gold** footer at scale
-   **0.7443**, bottom margin **0.05**. This announces the unit change.
+   people with green willingness checks clear between them. Show “Buy if MB ≥ P.”
+   from the initial reveal in a **gold** footer at scale **0.7443**, bottom
+   margin **0.05**, and retain it throughout the price changes. Omit the
+   introductory lot/bar-height caption and its transformation; the grey
+   quantity caption already supplies the units.
 2. Draw the straight equation line P=12−Qd/5 through the bar-top centers; no
    stepped outline. Put its equation above the row. Keep this camera throughout
    the demand comparison, without pulling back to a separate graph.

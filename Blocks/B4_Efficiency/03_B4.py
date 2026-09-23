@@ -1241,8 +1241,8 @@ class B4(ThreeDScene):
         show_willing = ValueTracker(0)
         self.add(price, show_willing)
         head = fixed(title('How many would buy at this price?'))
-        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=DEFINITION))
-        one_lot.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        rule = fixed(Tex(r'Buy if $MB\geq P$.', color=DEFINITION))
+        rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         full_bars, full_people, full_checks = Group(), Group(), VGroup()
         for n, value in enumerate(values):
             x = Q_ZERO + (n + 1) * Q_STEP
@@ -1316,13 +1316,11 @@ class B4(ThreeDScene):
         quantity_units.add_updater(lambda m: m.move_to(m.anchor.get_center() + IN * 0.32))
         quantity_readout = VGroup(quantity_number, quantity_units)
         self.add(head)
-        self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
+        self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(rule), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
-        rule = fixed(Tex(r'Buy if $MB\geq P$.', color=DEFINITION))
-        rule.scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
+        self.play(full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
         self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=smooth)
         self.pause('1.c.buyers.low')
