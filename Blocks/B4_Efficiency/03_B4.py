@@ -1342,8 +1342,12 @@ class B4(ThreeDScene):
                                               resolution=(2, 2), opacity=0.65).set_color(color)
                             bar.rotate(90 * DEGREES, RIGHT).move_to([bar_x, 0, 0.75 + value * 0.55 / 2])
                             close_bars[who] = bar
-                            name = fixed(Tex(who, color=INK).scale(0.62))
-                            name.move_to([screen_point(self.camera.frame, [body_x, 0, 0.32])[0], -2.30, 0])
+                            name = Tex(who, color=INK).scale(0.62 * self.camera.frame.get_scale())
+                            name.face_mat = np.eye(3)
+                            name.add_updater(face_camera)
+                            name.update()
+                            name.move_to(self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix()
+                                         @ (np.array([screen_point(self.camera.frame, [body_x, 0, 0.32])[0], -2.30, 0]) * self.camera.frame.get_scale()))
                             close_names[who] = name
                             value_label = Tex(rf'{term} $\${value}$', color=color).scale(0.62)
                             value_label.face_mat = np.eye(3)
@@ -1362,12 +1366,15 @@ class B4(ThreeDScene):
                         mb_read_across = DashedLine([-2.61, -0.045, 0.75 + 7 * 0.55],
                             [2.61, -0.045, 0.75 + 7 * 0.55], color=DEMAND, stroke_width=1.5).set_opacity(0.6)
                         # Plain choice labels sit beneath their corresponding sellers.
-                        stay_words = fixed(VGroup(Tex(r'Pay $\$6.25$', color=INK), Tex(r'Gain $\$0.75$', color=DEMAND))
-                            .arrange(DOWN, buff=0.12).scale(0.62)
-                            .move_to([screen_point(self.camera.frame, close_people['Molly'].get_center())[0], -3.12, 0]))
-                        switch_words = fixed(VGroup(Tex(r'Pay $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
-                            .arrange(DOWN, buff=0.12).scale(0.62)
-                            .move_to([screen_point(self.camera.frame, close_people['Andrew'].get_center())[0], -3.12, 0]))
+                        stay_words = VGroup(Tex(r'Pay $\$6.25$', color=INK), Tex(r'Gain $\$0.75$', color=DEMAND))
+                        switch_words = VGroup(Tex(r'Pay $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
+                        for words, who in [(stay_words, 'Molly'), (switch_words, 'Andrew')]:
+                            words.arrange(DOWN, buff=0.12).scale(0.62 * self.camera.frame.get_scale())
+                            words.face_mat = np.eye(3)
+                            words.add_updater(face_camera)
+                            words.update()
+                            words.move_to(self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix()
+                                          @ (np.array([screen_point(self.camera.frame, close_people[who].get_center())[0], -3.12, 0]) * self.camera.frame.get_scale()))
                         close_objects = [close_floor, close_rim, close_head, *close_people.values(), *close_bars.values(),
                             *close_names.values(), *close_values.values(), stay_price_line, stay_shadow,
                             switch_price_line, mb_read_across, stay_words, switch_words]
@@ -1531,13 +1538,21 @@ class B4(ThreeDScene):
         full_profile = Line([Q_ZERO, -0.045, ROW_BASE + 12 * ROW_DOLLAR_HEIGHT],
                             [Q_ZERO + 60 * Q_STEP, -0.045, ROW_BASE + 0 * ROW_DOLLAR_HEIGHT],
                             color=DEMAND, stroke_width=2.6)
-        equation = fixed(Tex(r'$P=12-Q_d/5$', color=DEMAND)).scale(0.67).move_to([4.7, 2.75, 0])
-        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-5.90, 2.75, 0])
-        price_number = fixed(DecimalNumber(6, num_decimal_places=2, color=GUIDE)).scale(0.57)
-        price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-4.78, 2.75, 0]))
-        price_units = fixed(Tex('/lb', color=CAPTION)).scale(0.45).move_to([-4.08, 2.75, 0])
-        price_readout = fixed(VGroup(price_word, price_number, price_units))
+        equation = Tex(r'$P=12-Q_d/5$', color=DEMAND).scale(0.67)
+        price_word = Tex(r'Price: \$', color=GUIDE).scale(0.57)
+        price_number = DecimalNumber(6, num_decimal_places=2, color=GUIDE).scale(0.57)
+        price_number.tracker = price
+        price_units = Tex('/lb', color=CAPTION).scale(0.45)
+        for label, xy in [(equation, [4.7, 2.75]), (price_word, [-5.90, 2.75]),
+                          (price_number, [-4.78, 2.75]), (price_units, [-4.08, 2.75])]:
+            label.scale(self.camera.frame.get_scale())
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([*xy, 0]) * self.camera.frame.get_scale())
+            label.add_updater(lambda m: m.move_to(m.anchor))
+            label.update()
+        price_readout = VGroup(price_word, price_number, price_units)
         price_guide = DashedLine([Q_ZERO, -0.045, ROW_BASE + 6 * ROW_DOLLAR_HEIGHT],
                                 [Q_ZERO + 30 * Q_STEP, -0.045, ROW_BASE + 6 * ROW_DOLLAR_HEIGHT],
                                 color=GUIDE, stroke_width=2.2)
@@ -1546,13 +1561,23 @@ class B4(ThreeDScene):
         price_guide.add_updater(lambda m: m.put_start_and_end_on(
             np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
             np.array([m.x0 + (60 - 5 * m.price.get_value()) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
-        quantity_word = fixed(Tex(r'$Q_d=$', color=DEMAND)).scale(0.70).move_to([-1.15, -2.60, 0])
-        quantity_number = fixed(Integer(30, color=DEMAND)).scale(0.70)
-        quantity_number.price, quantity_number.values = price, values
-        quantity_number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
-            m.values + 1e-7 >= m.price.get_value()))).move_to([-0.20, -2.60, 0]))
-        quantity_units = fixed(Tex('thousand lb', color=CAPTION)).scale(0.54).move_to([1.25, -2.60, 0])
-        quantity_readout = fixed(VGroup(quantity_word, quantity_number, quantity_units))
+        quantity_tracker = ValueTracker(30)
+        quantity_tracker.price, quantity_tracker.values = price, values
+        quantity_tracker.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()))))
+        self.add(quantity_tracker)
+        quantity_word = Tex(r'$Q_d=$', color=DEMAND).scale(0.70)
+        quantity_number = Integer(30, color=DEMAND).scale(0.70)
+        quantity_number.tracker = quantity_tracker
+        quantity_units = Tex('thousand lb', color=CAPTION).scale(0.54)
+        for label, x in [(quantity_word, -1.15), (quantity_number, -0.20), (quantity_units, 1.25)]:
+            label.scale(self.camera.frame.get_scale())
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([x, -2.60, 0]) * self.camera.frame.get_scale())
+            label.add_updater(lambda m: m.move_to(m.anchor))
+            label.update()
+        quantity_readout = VGroup(quantity_word, quantity_number, quantity_units)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
@@ -1615,13 +1640,21 @@ class B4(ThreeDScene):
         full_profile = Line([Q_ZERO, -0.045, ROW_BASE + 2 * ROW_DOLLAR_HEIGHT],
                             [Q_ZERO + 100 * Q_STEP, -0.045, ROW_BASE + 7 * ROW_DOLLAR_HEIGHT],
                             color=SUPPLY, stroke_width=2.6)
-        equation = fixed(Tex(r'$P=2+Q_s/20$', color=SUPPLY)).scale(0.67).move_to([4.7, 2.75, 0])
-        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-5.90, 2.75, 0])
-        price_number = fixed(DecimalNumber(3, num_decimal_places=2, color=GUIDE)).scale(0.57)
-        price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-4.78, 2.75, 0]))
-        price_units = fixed(Tex('/lb', color=CAPTION)).scale(0.45).move_to([-4.08, 2.75, 0])
-        price_readout = fixed(VGroup(price_word, price_number, price_units))
+        equation = Tex(r'$P=2+Q_s/20$', color=SUPPLY).scale(0.67)
+        price_word = Tex(r'Price: \$', color=GUIDE).scale(0.57)
+        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(0.57)
+        price_number.tracker = price
+        price_units = Tex('/lb', color=CAPTION).scale(0.45)
+        for label, xy in [(equation, [4.7, 2.75]), (price_word, [-5.90, 2.75]),
+                          (price_number, [-4.78, 2.75]), (price_units, [-4.08, 2.75])]:
+            label.scale(self.camera.frame.get_scale())
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([*xy, 0]) * self.camera.frame.get_scale())
+            label.add_updater(lambda m: m.move_to(m.anchor))
+            label.update()
+        price_readout = VGroup(price_word, price_number, price_units)
         price_guide = DashedLine([Q_ZERO, -0.045, ROW_BASE + 3 * ROW_DOLLAR_HEIGHT],
                                 [Q_ZERO + 20 * Q_STEP, -0.045, ROW_BASE + 3 * ROW_DOLLAR_HEIGHT],
                                 color=GUIDE, stroke_width=2.2)
@@ -1630,13 +1663,23 @@ class B4(ThreeDScene):
         price_guide.add_updater(lambda m: m.put_start_and_end_on(
             np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
             np.array([m.x0 + (20 * (m.price.get_value() - 2)) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
-        quantity_word = fixed(Tex(r'$Q_s=$', color=SUPPLY)).scale(0.70).move_to([-1.15, -2.60, 0])
-        quantity_number = fixed(Integer(20, color=SUPPLY)).scale(0.70)
-        quantity_number.price, quantity_number.values = price, values
-        quantity_number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
-            m.values <= m.price.get_value() + 1e-7))).move_to([-0.20, -2.60, 0]))
-        quantity_units = fixed(Tex('thousand lb', color=CAPTION)).scale(0.54).move_to([1.25, -2.60, 0])
-        quantity_readout = fixed(VGroup(quantity_word, quantity_number, quantity_units))
+        quantity_tracker = ValueTracker(20)
+        quantity_tracker.price, quantity_tracker.values = price, values
+        quantity_tracker.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values <= m.price.get_value() + 1e-7))))
+        self.add(quantity_tracker)
+        quantity_word = Tex(r'$Q_s=$', color=SUPPLY).scale(0.70)
+        quantity_number = Integer(20, color=SUPPLY).scale(0.70)
+        quantity_number.tracker = quantity_tracker
+        quantity_units = Tex('thousand lb', color=CAPTION).scale(0.54)
+        for label, x in [(quantity_word, -1.15), (quantity_number, -0.20), (quantity_units, 1.25)]:
+            label.scale(self.camera.frame.get_scale())
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+            label.anchor = self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix() @ (np.array([x, -2.60, 0]) * self.camera.frame.get_scale())
+            label.add_updater(lambda m: m.move_to(m.anchor))
+            label.update()
+        quantity_readout = VGroup(quantity_word, quantity_number, quantity_units)
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
@@ -1676,12 +1719,12 @@ class B4(ThreeDScene):
         show_sellers = ValueTracker(1)
         self.add(price, show_counts, show_trades, show_buyers, show_sellers)
 
-        # B3's plaza and camera; participation happens on two curved edges.
+        # B3's camera: buyers occupy the upper half, sellers the lower half.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
         self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
         BAR_BASE, DOLLAR_HEIGHT = 0.17, 0.035
         ARC_RADIUS, STEP_IN = 4.35, 0.82
-        PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.043
+        PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.40
         floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
                        opacity=0.14).set_color(MUTED)
         rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
@@ -1697,8 +1740,8 @@ class B4(ThreeDScene):
                  seller_circles, seller_positions, show_sellers)]:
             for n, value in enumerate(values):
                 angle = (-55 + 110 * n / (len(values) - 1)) * DEGREES
-                x = (-1 if side == 'B' else 1) * ARC_RADIUS * np.cos(angle)
-                y = ARC_RADIUS * np.sin(angle)
+                x = ARC_RADIUS * np.sin(angle)
+                y = (1 if side == 'B' else -1) * ARC_RADIUS * np.cos(angle)
                 positions.append(np.array([x, y, 0.045]))
                 shadow = Disk3D(radius=0.044, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
                 shadow.set_color(color).move_to([x, y, 0.025])
@@ -1726,16 +1769,16 @@ class B4(ThreeDScene):
                 for mob in [person, bar, circle]:
                     mob.rim = mob.get_center().copy()
                     mob.home = np.array([x * STEP_IN, y * STEP_IN, mob.rim[2]])
-                    mob.pair_home = np.array([PAIR_LEFT + n * PAIR_STEP + (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET), 0, mob.rim[2]])
+                    mob.pair_home = np.array([PAIR_LEFT + n * PAIR_STEP, (PAIR_OFFSET if side == 'B' else -PAIR_OFFSET), mob.rim[2]])
                     mob.home_width = mob.paired_width = mob.get_width()
                     mob.price, mob.rank, mob.visibility = price, n + 1, show_trades
                     mob.mb, mob.mc = BUYER_MB, SELLER_MC
                     mob.side, mob.value, mob.willingness = side, value, visibility
-                    mob.pair_step, mob.pair_offset = PAIR_STEP, (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET)
+                    mob.pair_step, mob.pair_offset = PAIR_STEP, (PAIR_OFFSET if side == 'B' else -PAIR_OFFSET)
                     mob.add_updater(lambda m: setattr(m, 'pair_home', np.array([
                         (m.rank - 1 - (min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()),
                                           np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)) - 1) / 2)
-                        * m.pair_step + m.pair_offset, 0, m.home[2]])))
+                        * m.pair_step, m.pair_offset, m.home[2]])))
                     mob.add_updater(lambda m: setattr(m, 'willing_fraction', m.willingness.get_value() * float(
                         m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7)))
                     mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(
@@ -1749,14 +1792,18 @@ class B4(ThreeDScene):
                 checks.add(check)
                 crosses.add(cross)
                 circles.add(circle)
-        buyer_label = fixed(Tex('Buyers', color=DEMAND)).scale(0.62).move_to([-6.0, 1.9, 0])
-        seller_label = fixed(Tex('Sellers', color=SUPPLY)).scale(0.62).move_to([-0.65, 1.9, 0])
-        units = fixed(Tex('One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0])
+        # B3 world text: labels belong to the plaza and face the moving camera.
+        buyer_label = Tex('Buyers', color=DEMAND).scale(0.82).move_to([0, 4.65, 0.45])
+        seller_label = Tex('Sellers', color=SUPPLY).scale(0.82).move_to([0, -5.25, 0.04])
+        units = Tex('One person = 1,000 lb', color=CAPTION).scale(0.65).move_to([0, -5.95, 0.04])
+        for label in [buyer_label, seller_label, units]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
-        crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses,
-                                 buyer_label, seller_label, units))
+        crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
+        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses))
 
         # Same Q and P scales; one straight equation line per graph.
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
@@ -1805,15 +1852,51 @@ class B4(ThreeDScene):
             word.visibility = number.visibility
             word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
             counts.add(word, number)
-        price_word = fixed(Tex(r'\$', color=GUIDE)).scale(1.05).move_to([-4.18, 2.30, 0])
-        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(1.05).move_to([-3.35, 2.30, 0])
-        price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-3.35, 2.30, 0]))
-        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.55).move_to([-2.25, 2.30, 0])
-        price_heading = fixed(Tex('Market price', color=CAPTION)).scale(0.48).move_to([-3.35, 2.94, 0])
-        price_readout = VGroup(price_heading, price_word, price_number, price_units)
+        # The posted price is a height on the totem at the right end of the divider.
+        TOTEM_X, TOTEM_BASE, TOTEM_DOLLAR_HEIGHT = 4.8, 0.035, 0.28
+        plaza_divider = DashedLine([-4.8, 0, TOTEM_BASE], [4.8, 0, TOTEM_BASE],
+                                  color=MUTED, stroke_width=2, dash_length=0.14)
+        plaza_divider.put_start_and_end_on(np.array([-4.8, 0, TOTEM_BASE]), np.array([4.8, 0, TOTEM_BASE]))
+        plaza_divider.set_stroke(opacity=0.8).set_flat_stroke(False)
+        price_post = Line([TOTEM_X, 0, TOTEM_BASE], [TOTEM_X, 0, TOTEM_BASE + 12 * TOTEM_DOLLAR_HEIGHT],
+                          color=CAPTION, stroke_width=3).set_flat_stroke(False)
+        post_foot = Disk3D(radius=0.10, resolution=(2, 24), shading=(0, 0, 0), opacity=0.5)
+        post_foot.set_color(MUTED).move_to([TOTEM_X, 0, TOTEM_BASE])
+        post_ticks, post_numbers = VGroup(), VGroup()
+        for level in range(0, 13, 2):
+            z = TOTEM_BASE + level * TOTEM_DOLLAR_HEIGHT
+            post_ticks.add(Line([TOTEM_X - 0.09, 0, z], [TOTEM_X + 0.09, 0, z],
+                                color=MUTED, stroke_width=1.5).set_flat_stroke(False))
+            if level in [0, 4, 8, 12]:
+                number = Tex(str(level), color=CAPTION).scale(0.50)
+                number.face_mat = np.eye(3)
+                number.add_updater(face_camera)
+                number.update()
+                number.move_to([TOTEM_X - 0.20, -0.025, z], aligned_edge=RIGHT)
+                post_numbers.add(number)
+        price_marker = Line([TOTEM_X - 0.16, -0.025, TOTEM_BASE + price.get_value() * TOTEM_DOLLAR_HEIGHT],
+                            [TOTEM_X + 0.16, -0.025, TOTEM_BASE + price.get_value() * TOTEM_DOLLAR_HEIGHT],
+                            color=GUIDE, stroke_width=5).set_flat_stroke(False)
+        price_marker.price, price_marker.base, price_marker.dollar_height = price, TOTEM_BASE, TOTEM_DOLLAR_HEIGHT
+        price_marker.add_updater(lambda m: m.set_z(m.base + m.price.get_value() * m.dollar_height))
+        price_heading = Tex(r'Price (\$/lb)', color=CAPTION).scale(0.63)
+        price_heading.move_to([TOTEM_X, 0, TOTEM_BASE + 12 * TOTEM_DOLLAR_HEIGHT + 0.45])
+        price_word = Tex(r'\$', color=GUIDE).scale(0.78)
+        price_number = DecimalNumber(price.get_value(), num_decimal_places=2, color=GUIDE).scale(0.78)
+        price_number.tracker = price
+        for label in [price_heading, price_word, price_number]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+        price_word.anchor = price_marker
+        price_word.add_updater(lambda m: m.move_to(m.anchor.get_end() + RIGHT * 0.15, aligned_edge=LEFT))
+        price_number.anchor = price_word
+        price_number.add_updater(lambda m: m.next_to(m.anchor, RIGHT, buff=0.06))
+        current_price = VGroup(price_word, price_number)
+        price_readout = VGroup(post_numbers, price_heading, current_price)
+        price_readout.update()
+        crowd.add(plaza_divider, post_foot, price_post, post_ticks, price_marker, price_readout)
         graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
-                        demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts, price_readout)
+                        demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts)
         fixed(graphs)
         # World and fixed overlay objects are added separately, as in B3.
 
@@ -1872,15 +1955,19 @@ class B4(ThreeDScene):
         self.play(ReplacementTransform(head, ag_head))
         head = ag_head
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
-        ag_name = fixed(Tex('Amanda-Grace', color=INK)).scale(0.56).move_to(screen_point(self.camera.frame, buyer_circles[24].get_center()) + DOWN * 0.28)
+        ag_name = Tex('Amanda-Grace', color=INK).scale(0.65)
+        ag_name.face_mat = np.eye(3)
+        ag_name.add_updater(face_camera)
+        ag_name.move_to(buyer_circles[24].get_center() + DOWN * 0.5)
+        ag_name.update()
         stay_text = fixed(Tex(r'Wait: gain $\$0$', color=CAPTION)).scale(0.65)
         bid_text = fixed(Tex(r'Offer $\$3.25$: gain $\$3.75$/lb', color=INK)).scale(0.65)
         VGroup(stay_text, bid_text).arrange(RIGHT, buff=0.85).move_to([0, -3.40, 0])
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
-        seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(0.52).move_to([-3.1, -2.91, 0])
+        seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(0.52).move_to([-3.3, -1.35, 0])
         self.play(Create(ag_focus), FadeIn(ag_name), Create(bid), FadeIn(stay_text), FadeIn(bid_text), FadeOut(units), FadeIn(seller_gain))
 
-        self.play(FadeOut(ag_focus), FadeOut(bid), ag_name.animate.move_to([-1.61, -2.30, 0]), seller_gain.animate.move_to([0, -2.85, 0]))
+        self.play(FadeOut(ag_focus), FadeOut(bid), ag_name.animate.move_to([-1.45, 0, -0.1]), seller_gain.animate.move_to([0, -2.85, 0]))
 
         # B3 2.a.i: the same head-on camera, close bars, and material people.
         buy_person = buyer_people[24].copy().clear_updaters()
@@ -1908,10 +1995,17 @@ class B4(ThreeDScene):
         buy_zero = Line([-1.31, -0.02, 0.75], [1.31, -0.02, 0.75], color=MUTED, stroke_width=1.5)
         buy_price = Line([-1.16, -0.045, 0.75 + 3 * 0.55], [1.16, -0.045, 0.75 + 3 * 0.55], color=GUIDE, stroke_width=3)
         buy_proposal = DashedLine([-1.16, -0.055, 0.75 + 3.25 * 0.55], [1.16, -0.055, 0.75 + 3.25 * 0.55], color=GUIDE, stroke_width=3)
-        buy_values = fixed(VGroup(
-            Tex(r'MB $\$7$', color=DEMAND).scale(0.62).move_to(screen_point(self.camera.frame, [-1.16, 0, 0.75 + 7 * 0.55]) + LEFT * 0.20 + DOWN * 0.10, aligned_edge=RIGHT),
-            Tex(r'MC $\$3$', color=SUPPLY).scale(0.62).move_to(screen_point(self.camera.frame, [1.16, 0, 0.75 + 3 * 0.55]) + RIGHT * 0.20, aligned_edge=LEFT),
-            Tex('Seller', color=INK).scale(0.56).move_to([1.61, -2.30, 0])))
+        buy_values = VGroup()
+        for text, color, at, edge in [
+                (r'MB $\$7$', DEMAND, [-1.34, 0, 0.75 + 7 * 0.55 - 0.09], RIGHT),
+                (r'MC $\$3$', SUPPLY, [1.34, 0, 0.75 + 3 * 0.55], LEFT),
+                ('Seller', INK, [1.45, 0, -0.1], ORIGIN)]:
+            label = Tex(text, color=color).scale(0.56)
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+            label.move_to(at, aligned_edge=edge)
+            buy_values.add(label)
         self.play(Create(buy_zero), Create(buy_price), Create(buy_proposal), FadeIn(buy_values))
         self.pause('1.f')
         self.play(buy_price.animate.set_z(0.75 + 3.25 * 0.55), FadeOut(buy_proposal), bid_text.animate.set_color(GREEN), run_time=0.7)
@@ -1923,8 +2017,8 @@ class B4(ThreeDScene):
         graphs.resume_updating()
         self.add(crowd, crowd_hud, graphs)
         self.remove(units)
-        ag_name.move_to(screen_point(self.camera.frame, buyer_circles[24].get_center()) + DOWN * 0.28)
-        seller_gain.move_to([-3.1, -2.91, 0])
+        ag_name.move_to(buyer_circles[24].get_center() + DOWN * 0.5)
+        seller_gain.move_to([-3.3, -1.35, 0])
         self.add(ag_focus, bid)
         # One illustrative switch is not an additional sale. Qx remains 20.
         for n in [19, 24]:
@@ -1934,7 +2028,7 @@ class B4(ThreeDScene):
         ag_pair = buyer_circles[19].pair_home.copy()
         accepted_bid = Line(ag_pair, seller_circles[19].get_center(), color=GREEN, stroke_width=2)
         self.play(ReplacementTransform(bid, accepted_bid), bid_text.animate.set_color(GREEN),
-                  ag_name.animate.move_to(screen_point(self.camera.frame, ag_pair) + DOWN * 0.28),
+                  ag_name.animate.move_to(ag_pair + DOWN * 0.5),
                   ag_focus.animate.set_width(0.044).move_to(ag_pair),
                   buyer_people[19].animate.set_width(buyer_people[19].home_width).move_to(buyer_people[19].home),
                   buyer_bars[19].animate.set_width(buyer_bars[19].home_width, stretch=True).move_to(buyer_bars[19].home),
@@ -1976,7 +2070,7 @@ class B4(ThreeDScene):
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
         self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
-        excess = fixed(Tex(r'Excess: 50,000 lb. Andrew is willing, but has no buyer.', color=INK)).scale(0.65).move_to([0, -2.91, 0])
+        excess = fixed(Tex(r'Excess: 50,000 lb. Andrew is willing, but has no buyer.', color=INK)).scale(0.65).move_to([-3.3, -1.35, 0])
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         stay_text = fixed(Tex(r'Keep $\$6$: gain $\$0$', color=CAPTION)).scale(0.65)
@@ -2015,11 +2109,18 @@ class B4(ThreeDScene):
         sell_zero = Line([-1.31, -0.02, 0.75], [1.31, -0.02, 0.75], color=MUTED, stroke_width=1.5)
         sell_price = Line([-1.16, -0.045, 0.75 + 6 * 0.55], [1.16, -0.045, 0.75 + 6 * 0.55], color=GUIDE, stroke_width=3)
         sell_proposal = DashedLine([-1.16, -0.055, 0.75 + 5.75 * 0.55], [1.16, -0.055, 0.75 + 5.75 * 0.55], color=GUIDE, stroke_width=3)
-        sell_values = fixed(VGroup(
-            Tex(r'MB $\$6$', color=DEMAND).scale(0.62).move_to(screen_point(self.camera.frame, [-1.16, 0, 0.75 + 6 * 0.55]) + LEFT * 0.20 + DOWN * 0.10, aligned_edge=RIGHT),
-            Tex(r'MC $\$4$', color=SUPPLY).scale(0.62).move_to(screen_point(self.camera.frame, [1.16, 0, 0.75 + 4 * 0.55]) + RIGHT * 0.20, aligned_edge=LEFT),
-            Tex('Gary', color=INK).scale(0.56).move_to([-1.61, -2.30, 0]),
-            Tex('Andrew', color=INK).scale(0.56).move_to([1.61, -2.30, 0])))
+        sell_values = VGroup()
+        for text, color, at, edge in [
+                (r'MB $\$6$', DEMAND, [-1.34, 0, 0.75 + 6 * 0.55 - 0.09], RIGHT),
+                (r'MC $\$4$', SUPPLY, [1.34, 0, 0.75 + 4 * 0.55], LEFT),
+                ('Gary', INK, [-1.45, 0, -0.1], ORIGIN),
+                ('Andrew', INK, [1.45, 0, -0.1], ORIGIN)]:
+            label = Tex(text, color=color).scale(0.56)
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
+            label.move_to(at, aligned_edge=edge)
+            sell_values.add(label)
         self.play(Create(sell_zero), Create(sell_price), Create(sell_proposal), FadeIn(sell_values))
         self.pause('1.h')
         self.play(sell_price.animate.set_z(0.75 + 5.75 * 0.55), FadeOut(sell_proposal), cut_text.animate.set_color(GREEN), run_time=0.7)
@@ -2124,12 +2225,12 @@ class B4(ThreeDScene):
         show_sellers = ValueTracker(1)
         self.add(price, show_counts, show_trades, show_buyers, show_sellers)
 
-        # B3's plaza and camera; participation happens on two curved edges.
+        # B3's camera: buyers occupy the upper half, sellers the lower half.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
         self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
         BAR_BASE, DOLLAR_HEIGHT = 0.17, 0.035
         ARC_RADIUS, STEP_IN = 4.35, 0.82
-        PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.043
+        PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.40
         floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
                        opacity=0.14).set_color(MUTED)
         rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
@@ -2145,8 +2246,8 @@ class B4(ThreeDScene):
                  seller_circles, seller_positions, show_sellers)]:
             for n, value in enumerate(values):
                 angle = (-55 + 110 * n / (len(values) - 1)) * DEGREES
-                x = (-1 if side == 'B' else 1) * ARC_RADIUS * np.cos(angle)
-                y = ARC_RADIUS * np.sin(angle)
+                x = ARC_RADIUS * np.sin(angle)
+                y = (1 if side == 'B' else -1) * ARC_RADIUS * np.cos(angle)
                 positions.append(np.array([x, y, 0.045]))
                 shadow = Disk3D(radius=0.044, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
                 shadow.set_color(color).move_to([x, y, 0.025])
@@ -2174,16 +2275,16 @@ class B4(ThreeDScene):
                 for mob in [person, bar, circle]:
                     mob.rim = mob.get_center().copy()
                     mob.home = np.array([x * STEP_IN, y * STEP_IN, mob.rim[2]])
-                    mob.pair_home = np.array([PAIR_LEFT + n * PAIR_STEP + (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET), 0, mob.rim[2]])
+                    mob.pair_home = np.array([PAIR_LEFT + n * PAIR_STEP, (PAIR_OFFSET if side == 'B' else -PAIR_OFFSET), mob.rim[2]])
                     mob.home_width = mob.paired_width = mob.get_width()
                     mob.price, mob.rank, mob.visibility = price, n + 1, show_trades
                     mob.mb, mob.mc = BUYER_MB, SELLER_MC
                     mob.side, mob.value, mob.willingness = side, value, visibility
-                    mob.pair_step, mob.pair_offset = PAIR_STEP, (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET)
+                    mob.pair_step, mob.pair_offset = PAIR_STEP, (PAIR_OFFSET if side == 'B' else -PAIR_OFFSET)
                     mob.add_updater(lambda m: setattr(m, 'pair_home', np.array([
                         (m.rank - 1 - (min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()),
                                           np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)) - 1) / 2)
-                        * m.pair_step + m.pair_offset, 0, m.home[2]])))
+                        * m.pair_step, m.pair_offset, m.home[2]])))
                     mob.add_updater(lambda m: setattr(m, 'willing_fraction', m.willingness.get_value() * float(
                         m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7)))
                     mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(
@@ -2197,14 +2298,18 @@ class B4(ThreeDScene):
                 checks.add(check)
                 crosses.add(cross)
                 circles.add(circle)
-        buyer_label = fixed(Tex('Buyers', color=DEMAND)).scale(0.62).move_to([-6.0, 1.9, 0])
-        seller_label = fixed(Tex('Sellers', color=SUPPLY)).scale(0.62).move_to([-0.65, 1.9, 0])
-        units = fixed(Tex('One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0])
+        # B3 world text: labels belong to the plaza and face the moving camera.
+        buyer_label = Tex('Buyers', color=DEMAND).scale(0.82).move_to([0, 4.65, 0.45])
+        seller_label = Tex('Sellers', color=SUPPLY).scale(0.82).move_to([0, -5.25, 0.04])
+        units = Tex('One person = 1,000 lb', color=CAPTION).scale(0.65).move_to([0, -5.95, 0.04])
+        for label in [buyer_label, seller_label, units]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
-        crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses,
-                                 buyer_label, seller_label, units))
+        crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label, units)
+        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses))
 
         # Same Q and P scales; one straight equation line per graph.
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
@@ -2253,15 +2358,51 @@ class B4(ThreeDScene):
             word.visibility = number.visibility
             word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
             counts.add(word, number)
-        price_word = fixed(Tex(r'\$', color=GUIDE)).scale(1.05).move_to([-4.18, 2.30, 0])
-        price_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(1.05).move_to([-3.35, 2.30, 0])
-        price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-3.35, 2.30, 0]))
-        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.55).move_to([-2.25, 2.30, 0])
-        price_heading = fixed(Tex('Market price', color=CAPTION)).scale(0.48).move_to([-3.35, 2.94, 0])
-        price_readout = VGroup(price_heading, price_word, price_number, price_units)
+        # The posted price is a height on the totem at the right end of the divider.
+        TOTEM_X, TOTEM_BASE, TOTEM_DOLLAR_HEIGHT = 4.8, 0.035, 0.28
+        plaza_divider = DashedLine([-4.8, 0, TOTEM_BASE], [4.8, 0, TOTEM_BASE],
+                                  color=MUTED, stroke_width=2, dash_length=0.14)
+        plaza_divider.put_start_and_end_on(np.array([-4.8, 0, TOTEM_BASE]), np.array([4.8, 0, TOTEM_BASE]))
+        plaza_divider.set_stroke(opacity=0.8).set_flat_stroke(False)
+        price_post = Line([TOTEM_X, 0, TOTEM_BASE], [TOTEM_X, 0, TOTEM_BASE + 12 * TOTEM_DOLLAR_HEIGHT],
+                          color=CAPTION, stroke_width=3).set_flat_stroke(False)
+        post_foot = Disk3D(radius=0.10, resolution=(2, 24), shading=(0, 0, 0), opacity=0.5)
+        post_foot.set_color(MUTED).move_to([TOTEM_X, 0, TOTEM_BASE])
+        post_ticks, post_numbers = VGroup(), VGroup()
+        for level in range(0, 13, 2):
+            z = TOTEM_BASE + level * TOTEM_DOLLAR_HEIGHT
+            post_ticks.add(Line([TOTEM_X - 0.09, 0, z], [TOTEM_X + 0.09, 0, z],
+                                color=MUTED, stroke_width=1.5).set_flat_stroke(False))
+            if level in [0, 4, 8, 12]:
+                number = Tex(str(level), color=CAPTION).scale(0.50)
+                number.face_mat = np.eye(3)
+                number.add_updater(face_camera)
+                number.update()
+                number.move_to([TOTEM_X - 0.20, -0.025, z], aligned_edge=RIGHT)
+                post_numbers.add(number)
+        price_marker = Line([TOTEM_X - 0.16, -0.025, TOTEM_BASE + price.get_value() * TOTEM_DOLLAR_HEIGHT],
+                            [TOTEM_X + 0.16, -0.025, TOTEM_BASE + price.get_value() * TOTEM_DOLLAR_HEIGHT],
+                            color=GUIDE, stroke_width=5).set_flat_stroke(False)
+        price_marker.price, price_marker.base, price_marker.dollar_height = price, TOTEM_BASE, TOTEM_DOLLAR_HEIGHT
+        price_marker.add_updater(lambda m: m.set_z(m.base + m.price.get_value() * m.dollar_height))
+        price_heading = Tex(r'Price (\$/lb)', color=CAPTION).scale(0.63)
+        price_heading.move_to([TOTEM_X, 0, TOTEM_BASE + 12 * TOTEM_DOLLAR_HEIGHT + 0.45])
+        price_word = Tex(r'\$', color=GUIDE).scale(0.78)
+        price_number = DecimalNumber(price.get_value(), num_decimal_places=2, color=GUIDE).scale(0.78)
+        price_number.tracker = price
+        for label in [price_heading, price_word, price_number]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+        price_word.anchor = price_marker
+        price_word.add_updater(lambda m: m.move_to(m.anchor.get_end() + RIGHT * 0.15, aligned_edge=LEFT))
+        price_number.anchor = price_word
+        price_number.add_updater(lambda m: m.next_to(m.anchor, RIGHT, buff=0.06))
+        current_price = VGroup(price_word, price_number)
+        price_readout = VGroup(post_numbers, price_heading, current_price)
+        price_readout.update()
+        crowd.add(plaza_divider, post_foot, price_post, post_ticks, price_marker, price_readout)
         graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
-                        demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts, price_readout)
+                        demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts)
         fixed(graphs)
         # World and fixed overlay objects are added separately, as in B3.
 
@@ -2293,7 +2434,7 @@ class B4(ThreeDScene):
         self.play(ReplacementTransform(demand_axes, merged_axes), Transform(supply_axes, merged_axes.copy()),
                   ReplacementTransform(demand_steps, merged_demand), ReplacementTransform(supply_steps, merged_supply),
                   FadeOut(ticks), FadeOut(demand_fit), FadeOut(supply_fit), FadeOut(demand_word), FadeOut(supply_word),
-                  FadeOut(graph_prices), FadeOut(demand_guide), FadeOut(supply_guide), FadeOut(graph_units), FadeOut(counts), FadeOut(price_readout),
+                  FadeOut(graph_prices), FadeOut(demand_guide), FadeOut(supply_guide), FadeOut(graph_units), FadeOut(counts),
                   run_time=2.0)
         self.remove(supply_axes)
         self.play(FadeIn(merged_ticks), FadeIn(merged_labels), Create(merged_price), Create(merged_drop), FadeIn(merged_dot))
@@ -2304,7 +2445,7 @@ class B4(ThreeDScene):
         # ---- 1.i.algebra · Equality first, then solve. No exercise Q1 repeat.
         merged_graph = fixed(VGroup(merged_axes, merged_demand, merged_supply, merged_ticks, merged_labels, merged_price, merged_drop, merged_dot))
         crowd.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(price_readout), FadeOut(same))
+        self.play(FadeOut(crowd), FadeOut(crowd_hud), FadeOut(same))
         algebra_head = fixed(title('What equation expresses equilibrium?'))
         self.play(ReplacementTransform(head, algebra_head))
         equality = fixed(Tex(r'$Q_d=Q_s=Q$', color=DEFINITION)).scale(1.1).move_to([-3.75, 2.10, 0])
@@ -2348,10 +2489,14 @@ class B4(ThreeDScene):
         bottom.scale(BOTTOM_SCALE).set_x(0).to_edge(DOWN, buff=0.05)
         units = fixed(Tex(r'One person: 1,000 lb\quad Bars: dollars/lb', color=CAPTION))
         units.scale(0.55).move_to([-3.3, -2.90, 0])
-        buyers_label = fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.65)
-        buyers_label.move_to([-3.3, 2.65, 0])
-        sellers_label = fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.65)
-        sellers_label.move_to([-3.3, -2.55, 0])
+        buyers_label = Tex('Buyers: highest MB first', color=DEMAND).scale(0.65 * self.camera.frame.get_scale())
+        buyers_label.move_to(self.camera.frame.from_fixed_frame_point([-3.3, 2.65, 0]))
+        sellers_label = Tex('Sellers: lowest MC first', color=SUPPLY).scale(0.65 * self.camera.frame.get_scale())
+        sellers_label.move_to(self.camera.frame.from_fixed_frame_point([-3.3, -2.55, 0]))
+        for label in [buyers_label, sellers_label]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
         bodies, bars, rings, checks = {}, {}, {}, {}
         floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
                        opacity=0.14).set_color(MUTED)
@@ -2436,7 +2581,6 @@ class B4(ThreeDScene):
                                     ax.c2p(n, MB[n - 1]), ax.c2p(n - 1, MB[n - 1]),
                                     stroke_color=TOTAL, stroke_width=0.6,
                                     fill_color=TOTAL, fill_opacity=0))
-        fixed(crowd_words)
         fixed(market_checks)
         for mob in [graph, cs_strips, ps_strips, gain_strips, price_line, q_guide]:
             fixed(mob)
@@ -2474,8 +2618,14 @@ class B4(ThreeDScene):
                   bodies['S', 20].animate.scale(0.23 * bodies['S', 20].orb_unit_width / bodies['S', 20][1].get_width()).move_to([-2, 0, 0.32]).set_opacity(1),
                   rings['B', 20].animate.scale(0.58 / rings['B', 20].get_width()).move_to([-6, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0),
                   rings['S', 20].animate.scale(0.58 / rings['S', 20].get_width()).move_to([-2, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0), run_time=1.2)
-        mb_word = fixed(Tex(r'Buyer 20: MB \$8', color=DEMAND)).scale(0.62).move_to(screen_point(self.camera.frame, [-4.61, -0.1, BASE + 8 * HEIGHT + 0.4]))
-        mc_word = fixed(Tex(r'Seller 20: MC \$3', color=SUPPLY)).scale(0.62).move_to(screen_point(self.camera.frame, [-3.39, -0.1, BASE + 3 * HEIGHT + 0.4]))
+        mb_word = Tex(r'Buyer 20: MB \$8', color=DEMAND).scale(0.62 * self.camera.frame.get_scale())
+        mb_word.move_to([-4.61, -0.1, BASE + 8 * HEIGHT + 0.4])
+        mc_word = Tex(r'Seller 20: MC \$3', color=SUPPLY).scale(0.62 * self.camera.frame.get_scale())
+        mc_word.move_to([-3.39, -0.1, BASE + 3 * HEIGHT + 0.4])
+        for label in [mb_word, mc_word]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
         cs_fill = Polygon([-5.16, -0.025, BASE + 4 * HEIGHT], [-4.06, -0.025, BASE + 4 * HEIGHT],
                           [-4.06, -0.025, BASE + 8 * HEIGHT], [-5.16, -0.025, BASE + 8 * HEIGHT],
                           stroke_width=0, fill_color=DEMAND, fill_opacity=0.55)
@@ -2496,9 +2646,11 @@ class B4(ThreeDScene):
         pair_price.add_updater(lambda m: m.put_start_and_end_on(
             np.array([-5.16, -0.045, BASE + payment.get_value() * HEIGHT]),
             np.array([-2.84, -0.045, BASE + payment.get_value() * HEIGHT])))
-        payment_number = fixed(DecimalNumber(4, num_decimal_places=2, color=GUIDE)).scale(0.62)
-        payment_number.add_updater(lambda m: m.set_value(payment.get_value()).move_to(
-            screen_point(self.camera.frame, [-2.4, -0.1, BASE + payment.get_value() * HEIGHT])))
+        payment_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.62 * self.camera.frame.get_scale())
+        payment_number.tracker, payment_number.face_mat = payment, np.eye(3)
+        payment_number.add_updater(face_camera)
+        payment_number.add_updater(lambda m: m.move_to([-2.4, -0.1, BASE + m.tracker.get_value() * HEIGHT]))
+        payment_number.update()
         fixed_gap = Line([-5.6, -0.045, BASE + 3 * HEIGHT], [-5.6, -0.045, BASE + 8 * HEIGHT],
                          color=TOTAL, stroke_width=5)
         gain_label = fixed(Tex(r'\$5/lb\quad $\times$ 1,000 lb = \$5,000', color=TOTAL)).scale(0.65)
@@ -2586,7 +2738,7 @@ class B4(ThreeDScene):
                   FadeOut(crowd_words), run_time=1.0)
         # Actual B3 people and bars move into this head-on comparison.
         focus_keys = [('B', 30), ('B', 10), ('S', 10)]
-        comparison_words = fixed(VGroup())
+        comparison_words = VGroup()
         focus_labels = []
         for key, x, value, color, text in [
                 (('B', 30), -6.0, 6, DEMAND, r'Gary: MB \$6'),
@@ -2598,8 +2750,11 @@ class B4(ThreeDScene):
             self.play(bodies[key].animate.scale(0.23 * bodies[key].orb_unit_width / bodies[key][1].get_width()).move_to([x, 0, 0.32]).set_opacity(1),
                       bars[key].animate.stretch_to_fit_width(1.1).stretch_to_fit_depth(value * 0.55)
                       .move_to([x, 0, 0.75 + value * 0.55 / 2]).set_opacity(0.65), run_time=0.45)
-            label = fixed(Tex(text, color=color).scale(0.53))
-            label.move_to(screen_point(self.camera.frame, [x, -0.1, 0.75 + value * 0.55 + 0.3]))
+            label = Tex(text, color=color).scale(0.53 * self.camera.frame.get_scale())
+            label.move_to([x, -0.1, 0.75 + value * 0.55 + 0.3])
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
             comparison_words.add(label)
             focus_labels.append(label)
         current_link = Line([-6, 0, 0.045], [-2.25, 0, 0.045], color=GOV, stroke_width=2)
@@ -2623,7 +2778,7 @@ class B4(ThreeDScene):
         current_link = Line([-6, 0, 0.045], [-2.25, 0, 0.045], color=GOV, stroke_width=2)
         self.play(Restore(bodies['B', 30]), Restore(bars['B', 30]), FadeOut(focus_labels[0]),
                   bodies['B', 10].animate.set_x(-6), bars['B', 10].animate.set_x(-6),
-                  focus_labels[1].animate.set_x(screen_point(self.camera.frame, [-6, 0, 0])[0]),
+                  focus_labels[1].animate.set_x(-6),
                   FadeIn(current_link), proposed_gain.animate.put_start_and_end_on(
                       np.array([-6.7, -0.045, 0.75 + 2.5 * 0.55]), np.array([-6.7, -0.045, 0.75 + 10 * 0.55])), run_time=1.0)
         self.remove(bodies['B', 30], bars['B', 30])
@@ -2658,7 +2813,7 @@ class B4(ThreeDScene):
             rings[key].set_width(0.036 if matched else 0.070).move_to([x, y, 0.045]).set_stroke(opacity=0).set_fill(opacity=0)
         head = fixed(title('Who should produce this lot?'))
         focus_keys = [('S', 40), ('S', 10), ('B', 10)]
-        comparison_words = fixed(VGroup())
+        comparison_words = VGroup()
         focus_labels = []
         for key, x, value, color, text in [
                 (('S', 40), -6.0, 4, SUPPLY, r'Andrew: MC \$4'),
@@ -2670,8 +2825,11 @@ class B4(ThreeDScene):
             self.play(bodies[key].animate.scale(0.23 * bodies[key].orb_unit_width / bodies[key][1].get_width()).move_to([x, 0, 0.32]).set_opacity(1),
                       bars[key].animate.stretch_to_fit_width(1.1).stretch_to_fit_depth(value * 0.55)
                       .move_to([x, 0, 0.75 + value * 0.55 / 2]).set_opacity(0.65), run_time=0.45)
-            label = fixed(Tex(text, color=color).scale(0.53))
-            label.move_to(screen_point(self.camera.frame, [x, -0.1, 0.75 + value * 0.55 + 0.3]))
+            label = Tex(text, color=color).scale(0.53 * self.camera.frame.get_scale())
+            label.move_to([x, -0.1, 0.75 + value * 0.55 + 0.3])
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
             comparison_words.add(label)
             focus_labels.append(label)
         current_link = Line([-6, 0, 0.045], [-2.25, 0, 0.045], color=GOV, stroke_width=2)
@@ -2694,7 +2852,7 @@ class B4(ThreeDScene):
         current_link = Line([-6, 0, 0.045], [-2.25, 0, 0.045], color=GOV, stroke_width=2)
         self.play(Restore(bodies['S', 40]), Restore(bars['S', 40]), FadeOut(focus_labels[0]),
                   bodies['S', 10].animate.set_x(-6), bars['S', 10].animate.set_x(-6),
-                  focus_labels[1].animate.set_x(screen_point(self.camera.frame, [-6, 0, 0])[0]),
+                  focus_labels[1].animate.set_x(-6),
                   FadeIn(current_link), seller_gain.animate.put_start_and_end_on(
                       np.array([-2.9, -0.045, 0.75 + 2.5 * 0.55]), np.array([-2.9, -0.045, 0.75 + 10 * 0.55])), run_time=1.0)
         self.remove(bodies['S', 40], bars['S', 40])
@@ -3050,13 +3208,19 @@ class B4(ThreeDScene):
                     mob.mb, mob.mc = BUYER_MB, SELLER_MC
                     mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
                     mob.add_updater(lambda m: m.set_width(m.home_width + m.pair_fraction * (m.paired_width - m.home_width), stretch=m.stretch_width).move_to(m.home + m.pair_fraction * (m.pair_home - m.home)))
-        buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
-        seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
+        buyer_label = Tex('Buyers: highest MB first', color=DEMAND).scale(0.56 * self.camera.frame.get_scale())
+        buyer_label.move_to(self.camera.frame.from_fixed_frame_point([-3.3, 2.65, 0]))
+        seller_label = Tex('Sellers: lowest MC first', color=SUPPLY).scale(0.56 * self.camera.frame.get_scale())
+        seller_label.move_to(self.camera.frame.from_fixed_frame_point([-3.3, -2.55, 0]))
+        for label in [buyer_label, seller_label]:
+            label.face_mat = np.eye(3)
+            label.add_updater(face_camera)
+            label.update()
         units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
-        crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_label, seller_label))
+        crowd = Group(floor, rim, buyers, sellers, buyer_label, seller_label)
+        crowd_hud = fixed(VGroup(buyer_checks, seller_checks))
 
 
         # Legal bounds and the actual price are different objects.

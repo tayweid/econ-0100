@@ -11,7 +11,9 @@ the answer before that exercise. The full lesson now runs as one animation.
 
 The live B4 notes now specify exact crowd welfare totals. Use those totals for
 any crowd implementation; the continuous exercise market remains separate.
-The lesson retains Taylor's confirmed planner → theorem → policy order.
+The animation currently runs planner → theorem → policy. Taylor is deciding
+between that order and the ceiling-first notes; keep the current episode order
+and beat IDs unchanged until he decides.
 Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 ## Runnable scenes
@@ -25,16 +27,20 @@ extra navigation-only pauses. Existing B3 geometry/model code is copied where
 indicated below; no shared assets changed.
 
 The curved-plaza prototype now covers the full-market recap and graph bridge
-(`1.d`–`1.i.algebra`). Buyers and sellers occupy opposite rim arcs; willingness
-moves them partway inward, and actual partners form the central line. Review
+(`1.d`–`1.i.algebra`). Buyers occupy the upper/back rim arc and sellers the
+lower/front arc. A muted dashed horizontal diameter divides their halves;
+actual partners meet across it, and a vertical price totem stands at its right
+end. Willingness moves people partway inward. Review
 this representative market layout before propagating it into welfare/controls,
 which still use their earlier crowd placement. Approved full-width demand/supply
 rows and small-market scenes remain as reviewed. Selected examples may use a
 B3-style close-up; the overview is steady while willingness and matching change.
 
-The numbered files below remain independently runnable development snapshots
-for reference. Their choreography was copied into `03_B4.py`; they are not
-imported or executed by the combined scene.
+The numbered files below are **stale development snapshots**, retained for
+reference. They predate the latest combined-scene staging and must not be used
+to review the current design. They are not imported or executed by `03_B4.py`.
+The teaching-stop column lists the current combined scene's corresponding
+stages; the snapshots may differ. No snapshot synchronization is included here.
 
 | File | Class | Teaching stops |
 |---|---|---|
@@ -42,7 +48,7 @@ imported or executed by the combined scene.
 | `03_02_Bidding.py` | `B4Bidding` | `1.b`, `1.b.settled` |
 | `03_03_TwoTrades.py` | `B4TwoTrades` | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` |
 | `03_04_Buyers.py` | `B4Buyers` | `1.c.buyers`, `1.c.buyers.low` |
-| `03_05_Sellers.py` | `B4Sellers` | `1.c.sellers` |
+| `03_05_Sellers.py` | `B4Sellers` | `1.c.sellers`, `1.c.sellers.high` |
 | `03_06_Equilibrium.py` | `B4Equilibrium` | `1.d`, `1.e`, **`1.j`**, `1.f`–`1.i.stable` |
 | `03_07_Graph.py` | `B4Graph` | `1.i.graph`, `1.i.algebra` |
 | `03_08_Welfare.py` | `B4Welfare` | `2.a`–`5.d` |
@@ -57,7 +63,8 @@ CS and PS are familiar from B1/B2. Price-control arithmetic and graphs build on
 B3. The central new work is showing why an allocation maximizes total gains,
 then showing that the market selects that allocation.
 
-Confirmed in the September 22 storyboard interview:
+Recorded in the September 22 storyboard interview (the order decision below
+is now pending):
 
 - The newly written source is [B3's conversation outline](../B3_Equilibrium/00_Outline.md).
 - Keep the review before Exercise Q2 under ten minutes, targeting eight minutes
@@ -68,17 +75,37 @@ Confirmed in the September 22 storyboard interview:
 - Retain the small exchange, bidding, and two-trade stages, then build buyers,
   sellers, equilibrium, and the graph/algebra bridge. Give the largest share of
   the time to explaining why the equilibrium price holds.
-- Let the social planner establish the best allocation before connecting it to
-  competitive equilibrium.
+- The earlier interview placed the social planner's best allocation before
+  competitive equilibrium. This remains the implemented order while Taylor
+  considers the alternative in the animator note.
 - Edit only animation files and `02_Storyboard.md`; lecture prose stays with
   Taylor/Fable. This pass implements the animation scenes and keeps this storyboard current.
 
 Read [B4's notes](01_Notes.md), especially Welfare Analysis, Efficiency, and Price
 Controls, alongside that outline. The older [welfare storyboard](B4_Welfare_Storyboard.typ)
 supplies the affordable-spinach motivation and blocked-bid example. The current
-interview puts the planner argument before the policy applications. The B3
-outline's ceiling-first class suggestion therefore does not fix this draft's
-whole teaching order.
+animation puts the planner argument before the policy applications; the restaged
+notes use ceiling-first. Neither this storyboard nor the animator should resolve
+that fork before Taylor decides.
+
+September 22 live-review confirmations and open points:
+
+- **Confirmed: no price line spanning the plaza rows.** Taylor called that line
+  confusing, then approved the short bars and separate price indicator. His
+  later direction places price on a vertical totem at the right rim. The dashed
+  ground diameter is the meeting line; dashed graph price guides still end at
+  their curves.
+- **Bottom boxes rejected; broader unboxed convention still open.** Taylor
+  said the bottom boxes were throwing him off and identified the decision
+  close-ups as the layout problem. The current implementation uses plain-text
+  choices. Explicit confirmation that every deliberation, including blocked
+  policy bids, should replace B3's boxed grammar has not been recorded. Keep
+  the existing implementation pending that decision.
+- **Order frozen.** Following Taylor's instruction about the
+  [animator note](00_Note_to_Animator_2026-09-22.md), only its enumerated
+  order-independent corrections are in scope for the next edits. The combined
+  animation has 53 named holds, including `1.c.sellers.high`; the full order
+  and existing section for that hold remain unchanged.
 
 The staged buyer/seller replacements below are animator proposals for making
 the notes' social-planner argument visible. Their mathematics is checked; their
@@ -132,11 +159,28 @@ The prototype is superseded; it is not an alternative design to preserve.
 ## Curved-plaza review convention
 
 For the full-market recap, short floating bars are value cues; the graphs retain
-the detailed scale. One prominent market price appears above the plaza. A green
-check means willing; a small red X means unwilling. Unwilling people stay at the
-rim, willing unmatched people stand on an inner arc, and partners stand beside
-each other in the center. Pair adjacency carries the trading meaning; the old
-circle objects remain invisible code anchors only.
+the detailed scale. Buyers occupy the upper/back arc (positive y), sellers the
+lower/front arc (negative y), each still ordered by value/cost. A muted dashed
+ground diameter at y=0 runs horizontally through the plaza and separates their
+halves. Matched partners share an x station on opposite sides of this line:
+buyer at y=+0.4, seller at y=−0.4. Center the occupied stations on the diameter.
+
+Plant a vertical price totem at the diameter's right rim endpoint, x=4.8, y=0.
+Its grey 0–12 number line carries a red moving price tick and an adjacent dollar
+readout. This replaces the large floating price above the plaza; the same price
+source drives the totem, graph guides, willingness, and counts. The ground
+divider represents the meeting place, not a horizontal price-height guide.
+
+Attach the plaza's buyer/seller labels, totem numbers, price heading, and current
+price readout to their actual positions in the 3D scene. Use B3's `face_camera`
+convention for genuine world-space, camera-facing text; these labels travel and
+scale with the plaza as the camera changes. Do not turn them into fixed-screen
+HUD overlays. Main lesson titles and graph text retain their existing conventions.
+
+A green check means willing; a small red X means unwilling. Unwilling people
+stay at the rim, willing unmatched people stand on an inner arc in their own
+half, and partners meet across the center line. Pair adjacency carries the
+trading meaning; the old circle objects remain invisible code anchors only.
 
 Briefly highlight each willing group's ground arc together with the same-colored
 horizontal 0–Q span on its graph. Clear these correspondence marks before matching.
@@ -393,10 +437,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.c · One price, many decisions
 
-1. Bring buyers and sellers onto opposite curved edges of B3's plaza, sorted
-   by value/cost. Demand remains above supply at right. Begin at $3.
-2. Post one large common price above the plaza. Keep one person = 1,000 lb;
-   the short plaza bars preserve relative values, while graphs carry full scales.
+1. Bring buyers onto the upper/back curved edge of B3's plaza and sellers onto
+   its lower/front edge, sorted by value/cost. Add the muted dashed horizontal
+   ground diameter between them. Demand remains above supply at right. Begin at $3.
+2. Show $3 on the vertical 0–12 price totem at the diameter's right rim endpoint:
+   a red tick with an adjacent dollar readout. Keep one person = 1,000 lb; the
+   short plaza bars preserve relative values, while graphs carry full scales.
 3. Keep graph price guides dashed and ending at their straight equation lines.
    This is the entrance to `1.d`, not an extra teaching pause.
 
@@ -412,8 +458,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 2. Briefly highlight the 45 willing buyers' ground arc with demand's horizontal
    0–45 span. Repeat for the 20 willing sellers and supply's 0–20 span.
 3. Clear the correspondence marks, then move the first 20 buyers and sellers
-   into adjacent central pairs, centering the occupied line on the plaza. Reveal
-   Qx=20 only as matching happens.
+   to matching x stations along the dashed diameter. Buyers stop just above it
+   at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
+   Center the occupied stations on the plaza. Reveal Qx=20 only as matching happens.
 4. Hold “20 pairs trade. 25 willing buyers are still waiting.” The checked
    unmatched buyers, including Amanda-Grace and Gary, remain on the inner arc.
    The spatial difference distinguishes willingness from actual exchange.
@@ -447,8 +494,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    the willing inner arc. Then clear the individual proposal, restore the ranked
    snapshot, and show “Other unserved buyers have the same incentive.” Follow
    with “Shortage → price rises.”
-   Raise the common price to $4 in one continuous play. A faint price ladder retains the starting and ending prices; intermediate quarter-dollar steps are not extra pauses. Keep counts and marks
-   synchronized; do not narrate every threshold crossing or stop at each tick.
+   Raise the common price to $4 in one continuous play, moving the totem's red
+   tick and readout upward. Intermediate quarter-dollar steps are not extra
+   pauses. Keep counts and marks synchronized; do not narrate every threshold
+   crossing or stop at each tick.
 4. Keep 40/40/40 visible as the next question enters; no navigation-only stop.
 
 ## 1.g · Predict the high-price result
@@ -468,12 +517,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Replace the bottom content with “Keep $6: no buyer” / “Ask $5.75: gain $1.75/lb.”
    Gary would also gain by paying less. Ask “Which way does price move?” Hold.
 3. On advance, briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
-   common price to $4 in one play, retaining the counts throughout.
+   common price to $4 in one play, lowering the totem's red tick and readout
+   while retaining the counts throughout.
 
 ## 1.i · State the two parts of equilibrium together
 
-1. Park on 40 adjacent central buyer–seller pairs, with green checks and
-   Qd=Qs=Qx=40. Unwilling people remain at the rim with red Xs; no willing
+1. Park on 40 buyer–seller pairs meeting across the dashed diameter, with buyers
+   above and sellers below. Keep green checks, the totem at $4, and Qd=Qs=Qx=40.
+   Unwilling people remain at the rim with red Xs; no willing
    person remains unmatched on the inner arcs.
 2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
    “No willing buyer or seller is left without a trade.”
@@ -507,8 +558,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.i.graph · Recognize the same condition at the crossing
 
-1. Retain the settled crowd and dashed $4 graph guide. Slide the two stacked graphs onto the
-   same axes. Their continuous lines cross at Q=40, P=$4, matching the crowd's
+1. Retain the settled crowd, horizontal meeting line, $4 price totem, and dashed
+   $4 graph guide. Slide the two stacked graphs onto the same axes. Their
+   continuous lines cross at Q=40, P=$4, matching the crowd's
    counts exactly at this price.
 2. Title: “Why does the crossing give equilibrium?” Highlight Qd=Qs=40 below
    the graph and their shared point. Keep the people visible so this is another
