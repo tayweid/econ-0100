@@ -2824,6 +2824,32 @@ class B4(ThreeDScene):
         self.play(FadeIn(ceiling_detail), FadeIn(ceiling_reason), run_time=0.65)
         self.pause('4.c')
 
+        # First control exercise follows both controls and their DWL examples.
+        cover = fixed(Rectangle(width=16, height=8, stroke_width=0, fill_color=BG, fill_opacity=1))
+        card_text = fixed(VGroup(
+            Tex('Exercise B4 $|$ Q2: A Price Floor', color=DEFINITION).scale(1.1),
+            Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
+            Tex('Pumpkin pasties: equilibrium is 10 pasties at 7 galleons.', color=INK).scale(0.82),
+            Tex('Minimum legal price: 9 galleons. Demand: 6; supply: 14.', color=INK).scale(0.82),
+            Tex('a) How many pasties are exchanged?', color=INK).scale(0.88),
+            Tex('b) What is producer surplus?', color=INK).scale(0.88),
+            Tex('c) What is deadweight loss?', color=INK).scale(0.88),
+            Tex('d) Would a floor of 6 galleons change the market?', color=INK).scale(0.88))
+            .arrange(DOWN, buff=0.29, aligned_edge=LEFT).move_to(ORIGIN))
+        card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
+            corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
+        card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
+        card_text[1].set_x(card_panel.get_x())
+        for paragraph in card_text[2:]:
+            paragraph.shift(RIGHT * 0.35)
+        card_panel.set_z_index(50)
+        for glyph in card_text.get_family():
+            glyph.set_z_index(51)
+        exercise = fixed(VGroup(cover, card_panel, card_text))
+        self.play(FadeIn(exercise), run_time=0.5)
+        self.pause('6.exercise_floor')
+        self.play(FadeOut(exercise), run_time=0.3)
+
         # ---- 5.a · Compare surplus if the same $4 exchange occurs.
         next_head = fixed(title('The surplus from this trade'))
         recovered = fixed(VGroup(Tex('Surplus gained', color=TOTAL).scale(0.62),
@@ -2968,32 +2994,8 @@ class B4(ThreeDScene):
         head = next_head
         self.pause('5.e')
 
-        # Exercises follow the completed argument. Reuse B3's reference-card style.
+        # Save the second price-control exercise for the final scene.
         cover = fixed(Rectangle(width=16, height=8, stroke_width=0, fill_color=BG, fill_opacity=1))
-        card_text = fixed(VGroup(
-            Tex('Exercise B4 $|$ Q2: A Price Floor', color=DEFINITION).scale(1.1),
-            Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
-            Tex('Pumpkin pasties: equilibrium is 10 pasties at 7 galleons.', color=INK).scale(0.82),
-            Tex('Minimum legal price: 9 galleons. Demand: 6; supply: 14.', color=INK).scale(0.82),
-            Tex('a) How many pasties are exchanged?', color=INK).scale(0.88),
-            Tex('b) What is producer surplus?', color=INK).scale(0.88),
-            Tex('c) What is deadweight loss?', color=INK).scale(0.88),
-            Tex('d) Would a floor of 6 galleons change the market?', color=INK).scale(0.88))
-            .arrange(DOWN, buff=0.29, aligned_edge=LEFT).move_to(ORIGIN))
-        card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
-            corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
-        card_text.align_to(card_panel, LEFT).shift(RIGHT * 0.65)
-        card_text[1].set_x(card_panel.get_x())
-        for paragraph in card_text[2:]:
-            paragraph.shift(RIGHT * 0.35)
-        card_panel.set_z_index(50)
-        for glyph in card_text.get_family():
-            glyph.set_z_index(51)
-        exercise = fixed(VGroup(cover, card_panel, card_text))
-        self.play(FadeIn(exercise), run_time=0.5)
-        self.pause('6.exercise_floor')
-        self.play(FadeOut(exercise), run_time=0.3)
-
         card_text = fixed(VGroup(
             Tex('Exercise B4 $|$ Q1: A Price Ceiling', color=DEFINITION).scale(1.1),
             Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
@@ -3017,7 +3019,3 @@ class B4(ThreeDScene):
         exercise = fixed(VGroup(cover, card_panel, card_text))
         self.play(FadeIn(exercise), run_time=0.5)
         self.pause('6.exercise_ceiling')
-        self.play(FadeOut(exercise), run_time=0.3)
-
-        # ---- 7.a · Return to the theorem and its stated conditions.
-        self.pause('7.a')

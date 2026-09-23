@@ -27,9 +27,9 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections have
-**52 named holds**; section 8 has **22 named holds**, including the first-lot
+**52 named holds**; section 8 has **21 named holds**, including the first-lot
 CS/PS and TS explanation and the two selected-lot holds before expansion,
-for **74 total** with the exercise placement below. Section 8 presents the welfare
+for **73 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
@@ -39,12 +39,14 @@ while the screen omits aggregate dollar totals and the recap's crowd displays.
 | 8 | Market benefits | `2.a`, `2.b.parts`, `2.b.sum`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
-| 8 | Compare surplus, reach the boundary, add/remove ten extra trades | `5.a`–`5.e` |
-| 8 | B4 exercises, floor then ceiling | `6.exercise_floor`, `6.exercise_ceiling` |
-| 8 | Scope and close | `7.a` |
+| 8 | First control exercise: floor | `6.exercise_floor` |
+| 8 | Compare surplus, reach the boundary, add/remove ten extra trades; state theorem | `5.a`–`5.e` |
+| 8 | Final scene: ceiling exercise | `6.exercise_ceiling` |
 
-The two B4 exercise holds follow the completed argument, floor before ceiling,
-using Taylor's delegated placement decision. Their content and IDs remain intact.
+The first B4 exercise (floor, Q2) follows `4.c`, immediately after both price
+controls and DWL examples. The second (ceiling, Q1) is the final scene after
+`5.e`. Exercise content and IDs remain intact. The redundant `7.a` theorem
+return is removed so the lesson ends on the second exercise.
 
 The pacing direction adds manual advances around teaching sentences,
 questions, acceptance results, and algebra stages. The buyer's existing match
@@ -860,7 +862,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   Highlight lot 50, the largest negative TS among those shown, then enlarge
   that same bar for a close-up before returning it to its exact graph position.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 74 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 73 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -961,6 +963,16 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 3. Hold `4.c` on the disjoint intervals and caption **Both gain at $4; that
    price is illegal.** Keep this figure for the next surplus comparison.
 
+## 6.exercise_floor · Exercise B4 Q2
+
+1. Place the floor exercise immediately after `4.c`, completing the price
+   controls and DWL section, and before the surplus comparison at `5.a`. Use the sheet's 9-galleon floor and original prompts: quantity
+   exchanged, producer surplus, deadweight loss, and a floor of 6.
+2. Use the approved muted rounded panel, gold serif exercise heading, white
+   concise body, and centered equations. Show no answers. Hold
+   `6.exercise_floor`, then uncover the same blocked-trade close-up to
+   continue at `5.a`.
+
 ## 5.a · The surplus from this trade
 
 1. Title: **The surplus from this trade.** In the selected two-person figure,
@@ -1022,34 +1034,19 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 3. Hold `5.e` on the graph and stated conditions. This does not establish unique
    partners, resolve distribution, or assert that every market satisfies them.
 
-## 6.exercise_floor · Exercise B4 Q2
-
-1. Place the floor exercise after the completed argument, before the ceiling
-   exercise. Use the sheet's 9-galleon floor and original prompts: quantity
-   exchanged, producer surplus, deadweight loss, and a floor of 6.
-2. Use the approved muted rounded panel, gold serif exercise heading, white
-   concise body, and centered equations. Show no answers. Hold
-   `6.exercise_floor`, then restore the same spinach graph.
-
 ## 6.exercise_ceiling · Exercise B4 Q1
 
 1. Use the original pasty equations and 5-galleon ceiling with its prompts:
    quantity exchanged, CS, PS, DWL, and the graph with shaded regions.
 2. Use the same exercise-card styling, without extra repeated questions or
-   answers. Hold `6.exercise_ceiling`, then restore the spinach graph.
+   answers. Show this after `5.e` as the final scene. Hold
+   `6.exercise_ceiling` and leave the card visible.
 3. The pasty model's continuous areas never replace the exact spinach lots.
-
-## 7.a · Close with the conditional result
-
-1. Retain the $4, quantity-40 graph and purple total-surplus area.
-2. Keep the First Welfare Theorem and its already stated conditions visible
-   after the exercise card clears. Remove the separate distribution commentary.
-3. Hold `7.a` without a new policy, prescription, or repeated argument.
 
 ## Implementation and review boundaries
 
 - Preserve all **52 opening holds** through `1.i.algebra`, including the new
-  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 22 holds, for **74 total**, including
+  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 21 holds, for **73 total**, including
   `2.b.parts`, `2.b.sum`, `5.d.negative_ts`, and `5.d.detail`, plus the existing
   `3.c.select` and `4.c.select`.
 - The graph overview and graph-derived two-person comparisons supersede the
