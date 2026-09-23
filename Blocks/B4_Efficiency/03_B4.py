@@ -1668,7 +1668,7 @@ class B4(ThreeDScene):
         BUYER_MB = np.array([12 - n / 5 for n in range(1, 60)])
         SELLER_MC = np.array([2 + n / 20 for n in range(1, 101)])
         EPS = 1e-7
-        DOLLAR_HEIGHT = 0.19
+        DOLLAR_HEIGHT = 0.035
         price = ValueTracker(3)
         show_counts = ValueTracker(1)
         show_trades = ValueTracker(1)
@@ -1676,85 +1676,89 @@ class B4(ThreeDScene):
         show_sellers = ValueTracker(1)
         self.add(price, show_counts, show_trades, show_buyers, show_sellers)
 
-        # B3's plaza, material objects and camera are retained literally.
-        # Equal rank uses the same x coordinate on both sides of the plaza.
+        # B3's plaza and camera; participation happens on two curved edges.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
         self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
-        BAR_BASE = 0.18
-        ROW_LEFT, ROW_WIDTH = -3.7, 7.4
-        RANK_STEP = ROW_WIDTH / (max(len(BUYER_MB), len(SELLER_MC)) - 1)
-        BUYER_Y, SELLER_Y = 2.0, -1.7
+        BAR_BASE, DOLLAR_HEIGHT = 0.17, 0.035
+        ARC_RADIUS, STEP_IN = 4.35, 0.82
+        PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.043
         floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
                        opacity=0.14).set_color(MUTED)
         rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
         rim.shift(OUT * 0.015).set_stroke(opacity=0.6)
         buyer_people, buyer_bars, buyer_checks, buyer_circles = Group(), Group(), VGroup(), VGroup()
         seller_people, seller_bars, seller_checks, seller_circles = Group(), Group(), VGroup(), VGroup()
+        buyer_crosses, seller_crosses = VGroup(), VGroup()
         buyer_positions, seller_positions = [], []
-        for n, value in enumerate(BUYER_MB):
-            x, y = ROW_LEFT + n * RANK_STEP, BUYER_Y
-            buyer_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=DEMAND, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=DEMAND, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_buyers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            buyer_people.add(person)
-            buyer_bars.add(bar)
-            buyer_checks.add(check)
-            buyer_circles.add(circle)
-        for n, value in enumerate(SELLER_MC):
-            x, y = ROW_LEFT + n * RANK_STEP, SELLER_Y
-            seller_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=SUPPLY, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_sellers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            seller_people.add(person)
-            seller_bars.add(bar)
-            seller_checks.add(check)
-            seller_circles.add(circle)
-        # Trading partners stand together at the seller's station.
-        # Unmatched people keep their place in the ranked waiting lines.
-        for people, bars, circles, side in [(buyer_people, buyer_bars, buyer_circles, -1),
-                                            (seller_people, seller_bars, seller_circles, 1)]:
-            for n, (person, bar, circle) in enumerate(zip(people, bars, circles)):
-                for mob, paired_width, stretch_width in [(person, 0.074 * (0.014 / 0.026), False),
-                                                          (bar, 0.030, True), (circle, 0.036, False)]:
-                    mob.home = mob.get_center().copy()
-                    paired_z = 0.025 + person.get_depth() * (paired_width / person.get_width()) / 2 if mob is person else mob.home[2]
-                    mob.pair_home = np.array([seller_positions[n][0] + side * 0.019, SELLER_Y, paired_z])
-                    mob.home_width, mob.paired_width, mob.stretch_width = mob.get_width(), paired_width, stretch_width
+        for side, values, color, people, bars, checks, crosses, circles, positions, visibility in [
+                ('B', BUYER_MB, DEMAND, buyer_people, buyer_bars, buyer_checks, buyer_crosses,
+                 buyer_circles, buyer_positions, show_buyers),
+                ('S', SELLER_MC, SUPPLY, seller_people, seller_bars, seller_checks, seller_crosses,
+                 seller_circles, seller_positions, show_sellers)]:
+            for n, value in enumerate(values):
+                angle = (-55 + 110 * n / (len(values) - 1)) * DEGREES
+                x = (-1 if side == 'B' else 1) * ARC_RADIUS * np.cos(angle)
+                y = ARC_RADIUS * np.sin(angle)
+                positions.append(np.array([x, y, 0.045]))
+                shadow = Disk3D(radius=0.044, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
+                shadow.set_color(color).move_to([x, y, 0.025])
+                orb = Sphere(radius=0.034, color=color, resolution=(12, 8)).move_to([x, y, 0.064])
+                person = Group(shadow, orb)
+                bar = Rectangle3D(width=0.055, height=value * DOLLAR_HEIGHT,
+                                  resolution=(2, 2), opacity=0.65).set_color(color)
+                bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
+                check = fixed(VMobject(color=GOV, stroke_width=1.6).set_points_as_corners(
+                    [[-0.022, 0, 0], [-0.006, -0.017, 0], [0.025, 0.025, 0]]))
+                cross = fixed(VGroup(
+                    Line([-0.019, -0.019, 0], [0.019, 0.019, 0], color=GUIDE, stroke_width=1.2),
+                    Line([-0.019, 0.019, 0], [0.019, -0.019, 0], color=GUIDE, stroke_width=1.2))).set_color(GUIDE)
+                for mark, accepted in [(check, True), (cross, False)]:
+                    mark.price, mark.value, mark.visibility, mark.side = price, value, visibility, side
+                    mark.anchor, mark.frame, mark.dollar_height, mark.accepted = bar, self.camera.frame, DOLLAR_HEIGHT, accepted
+                    mark.add_updater(lambda m: m.move_to(screen_point(m.frame,
+                        m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.085)))
+                        .set_stroke(opacity=m.visibility.get_value() * (1 if m.accepted else 0.65) * float(
+                            (m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7) == m.accepted))
+                        .set_fill(opacity=0))
+                # Invisible anchors retain the existing deliberation endpoints.
+                circle = Circle(radius=0.035, color=GOV, stroke_width=0).move_to([x, y, 0.045])
+                circle.set_stroke(opacity=0).set_fill(opacity=0)
+                for mob in [person, bar, circle]:
+                    mob.rim = mob.get_center().copy()
+                    mob.home = np.array([x * STEP_IN, y * STEP_IN, mob.rim[2]])
+                    mob.pair_home = np.array([PAIR_LEFT + n * PAIR_STEP + (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET), 0, mob.rim[2]])
+                    mob.home_width = mob.paired_width = mob.get_width()
                     mob.price, mob.rank, mob.visibility = price, n + 1, show_trades
                     mob.mb, mob.mc = BUYER_MB, SELLER_MC
-                    mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
-                    mob.add_updater(lambda m: m.set_width(m.home_width + m.pair_fraction * (m.paired_width - m.home_width), stretch=m.stretch_width).move_to(m.home + m.pair_fraction * (m.pair_home - m.home)))
-        buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
-        seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
-        units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
+                    mob.side, mob.value, mob.willingness = side, value, visibility
+                    mob.pair_step, mob.pair_offset = PAIR_STEP, (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET)
+                    mob.add_updater(lambda m: setattr(m, 'pair_home', np.array([
+                        (m.rank - 1 - (min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()),
+                                          np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)) - 1) / 2)
+                        * m.pair_step + m.pair_offset, 0, m.home[2]])))
+                    mob.add_updater(lambda m: setattr(m, 'willing_fraction', m.willingness.get_value() * float(
+                        m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7)))
+                    mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(
+                        m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()),
+                                      np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
+                    mob.add_updater(lambda m: m.move_to(
+                        (m.rim + m.willing_fraction * (m.home - m.rim)) * (1 - m.pair_fraction)
+                        + m.pair_home * m.pair_fraction))
+                people.add(person)
+                bars.add(bar)
+                checks.add(check)
+                crosses.add(cross)
+                circles.add(circle)
+        buyer_label = fixed(Tex('Buyers', color=DEMAND)).scale(0.62).move_to([-6.0, 1.9, 0])
+        seller_label = fixed(Tex('Sellers', color=SUPPLY)).scale(0.62).move_to([-0.65, 1.9, 0])
+        units = fixed(Tex('One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0])
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
         crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_label, seller_label, units))
+        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses,
+                                 buyer_label, seller_label, units))
 
-        # Same Q and P scales in both graphs. Exact staircases, faint fitted lines.
+        # Same Q and P scales; one straight equation line per graph.
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
         supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
         demand_axes.move_to([4.48, 1.75, 0])
@@ -1770,10 +1774,10 @@ class B4(ThreeDScene):
             demand_points.extend([demand_axes.c2p(n, value), demand_axes.c2p(n + 1, value)])
         for n, value in enumerate(SELLER_MC):
             supply_points.extend([supply_axes.c2p(n, value), supply_axes.c2p(n + 1, value)])
-        demand_steps = VMobject(color=DEMAND, stroke_width=2.4).set_points_as_corners(demand_points)
-        supply_steps = VMobject(color=SUPPLY, stroke_width=2.4).set_points_as_corners(supply_points)
-        demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0.30)
-        supply_fit = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY).set_opacity(0.30)
+        demand_steps = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND, stroke_width=2.4)
+        supply_steps = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY, stroke_width=2.4)
+        demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0)
+        supply_fit = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY).set_opacity(0)
         demand_word = fixed(Tex(r'Demand: $P=12-Q_d/5$', color=DEMAND)).scale(0.59).move_to([4.45, 2.85, 0])
         supply_word = fixed(Tex(r'Supply: $P=2+Q_s/20$', color=SUPPLY)).scale(0.59).move_to([4.45, 0.18, 0])
         graph_units = fixed(Tex(r'$Q$: thousands of pounds', color=CAPTION)).scale(0.48).move_to([4.5, -2.25, 0])
@@ -1782,7 +1786,7 @@ class B4(ThreeDScene):
             quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
             line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
             line.axes, line.price, line.values, line.side = ax, price, values, side
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())))
+            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
             graph_prices.add(line)
         demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
         demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
@@ -1796,15 +1800,18 @@ class B4(ThreeDScene):
             word = fixed(Tex(rf'${label}=$', color=DEMAND if side == 'buyer' else SUPPLY if side == 'seller' else GREEN)).scale(0.65).move_to([x, -2.85, 0])
             number = Integer(0, color=word.get_color()).scale(0.65).move_to([x + 0.77, -2.85, 0])
             number.price, number.values, number.mb, number.mc, number.side = price, values, BUYER_MB, SELLER_MC, side
-            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), show_counts
+            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), (show_trades if side == 'trade' else show_counts)
             number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
+            word.visibility = number.visibility
+            word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
             counts.add(word, number)
-        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-0.23, 2.89, 0])
-        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(0.57).move_to([0.78, 2.89, 0])
+        price_word = fixed(Tex(r'\$', color=GUIDE)).scale(1.05).move_to([-4.18, 2.30, 0])
+        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(1.05).move_to([-3.35, 2.30, 0])
         price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([0.78, 2.89, 0]))
-        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.42).move_to([1.37, 2.89, 0])
-        price_readout = VGroup(price_word, price_number, price_units)
+        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-3.35, 2.30, 0]))
+        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.55).move_to([-2.25, 2.30, 0])
+        price_heading = fixed(Tex('Market price', color=CAPTION)).scale(0.48).move_to([-3.35, 2.94, 0])
+        price_readout = VGroup(price_heading, price_word, price_number, price_units)
         graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
                         demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts, price_readout)
         fixed(graphs)
@@ -1820,13 +1827,27 @@ class B4(ThreeDScene):
         self.add(head, crowd, crowd_hud, graphs, question)
         self.pause('1.d')
 
-        # ---- 1.e · Willing people and actual trades are different counts.
+        # ---- 1.e · Willingness first, matching second.
         self.play(show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
-                  show_sellers.animate.set_value(1), show_trades.animate.set_value(1))
-        shortage = fixed(Tex(r'Shortage: 25,000 lb. A check means willing; a circle means trading.', color=INK)).scale(0.64).move_to([0, -3.65, 0])
-        self.play(ReplacementTransform(question, shortage))
-        unserved = VGroup(*[Circle(radius=0.035, color=FOCUS, stroke_width=1.2).move_to(buyer_positions[n]) for n in range(20, 45)])
-        self.play(Create(unserved))
+                  show_sellers.animate.set_value(1), run_time=0.8)
+        # Briefly connect each willing arc to its 0-to-Q span on the graph.
+        demand_span = fixed(Line(demand_axes.c2p(0, 0), demand_axes.c2p(45, 0), color=DEMAND, stroke_width=5))
+        supply_span = fixed(Line(supply_axes.c2p(0, 0), supply_axes.c2p(20, 0), color=SUPPLY, stroke_width=5))
+        buyer_bracket = VMobject(color=DEMAND, stroke_width=3).set_points_as_corners([
+            np.array([p[0] * STEP_IN * 0.95, p[1] * STEP_IN * 0.95, 0.04]) for p in buyer_positions[:45]])
+        seller_bracket = VMobject(color=SUPPLY, stroke_width=3).set_points_as_corners([
+            np.array([p[0] * STEP_IN * 0.95, p[1] * STEP_IN * 0.95, 0.04]) for p in seller_positions[:20]])
+        self.play(Create(buyer_bracket), Create(demand_span), run_time=0.6)
+        self.wait(0.3)
+        self.play(FadeOut(buyer_bracket), FadeOut(demand_span), run_time=0.2)
+        self.play(Create(seller_bracket), Create(supply_span), run_time=0.6)
+        self.wait(0.3)
+        self.play(FadeOut(seller_bracket), FadeOut(supply_span), run_time=0.2)
+        self.play(show_trades.animate.set_value(1), run_time=1.1)
+        shortage = fixed(Tex(r'20 pairs trade. 25 willing buyers are still waiting.', color=INK))
+        shortage.scale(0.76).move_to([0, -3.65, 0])
+        self.play(FadeOut(question), FadeIn(shortage))
+        unserved = VGroup()  # The checked buyers on the inner arc are the unserved group.
         self.pause('1.e')
 
         # ---- 1.j · The class tackles incentives BEFORE equilibrium resolves.
@@ -1850,8 +1871,8 @@ class B4(ThreeDScene):
         ag_head = fixed(title('What would Amanda-Grace do?'))
         self.play(ReplacementTransform(head, ag_head))
         head = ag_head
-        ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_positions[24])
-        ag_name = fixed(Tex('Amanda-Grace', color=INK)).scale(0.56).move_to(screen_point(self.camera.frame, buyer_positions[24]) + DOWN * 0.28)
+        ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
+        ag_name = fixed(Tex('Amanda-Grace', color=INK)).scale(0.56).move_to(screen_point(self.camera.frame, buyer_circles[24].get_center()) + DOWN * 0.28)
         stay_text = fixed(Tex(r'Wait: gain $\$0$', color=CAPTION)).scale(0.65)
         bid_text = fixed(Tex(r'Offer $\$3.25$: gain $\$3.75$/lb', color=INK)).scale(0.65)
         VGroup(stay_text, bid_text).arrange(RIGHT, buff=0.85).move_to([0, -3.40, 0])
@@ -1902,7 +1923,7 @@ class B4(ThreeDScene):
         graphs.resume_updating()
         self.add(crowd, crowd_hud, graphs)
         self.remove(units)
-        ag_name.move_to(screen_point(self.camera.frame, buyer_positions[24]) + DOWN * 0.28)
+        ag_name.move_to(screen_point(self.camera.frame, buyer_circles[24].get_center()) + DOWN * 0.28)
         seller_gain.move_to([-3.1, -2.91, 0])
         self.add(ag_focus, bid)
         # One illustrative switch is not an additional sale. Qx remains 20.
@@ -1910,7 +1931,7 @@ class B4(ThreeDScene):
             buyer_people[n].suspend_updating()
             buyer_bars[n].suspend_updating()
             buyer_circles[n].suspend_updating()
-        ag_pair = seller_positions[19] + LEFT * 0.019
+        ag_pair = buyer_circles[19].pair_home.copy()
         accepted_bid = Line(ag_pair, seller_circles[19].get_center(), color=GREEN, stroke_width=2)
         self.play(ReplacementTransform(bid, accepted_bid), bid_text.animate.set_color(GREEN),
                   ag_name.animate.move_to(screen_point(self.camera.frame, ag_pair) + DOWN * 0.28),
@@ -1919,8 +1940,8 @@ class B4(ThreeDScene):
                   buyer_bars[19].animate.set_width(buyer_bars[19].home_width, stretch=True).move_to(buyer_bars[19].home),
                   buyer_circles[19].animate.set_width(0.070).move_to(buyer_circles[19].home).set_stroke(opacity=0),
                   buyer_people[24].animate.set_width(buyer_people[24].paired_width).move_to([ag_pair[0], ag_pair[1], buyer_people[24].pair_home[2]]),
-                  buyer_bars[24].animate.set_width(0.030, stretch=True).move_to([ag_pair[0], ag_pair[1], buyer_bars[24].home[2]]),
-                  buyer_circles[24].animate.set_width(0.036).move_to(ag_pair).set_stroke(opacity=1), run_time=0.8)
+                  buyer_bars[24].animate.set_width(0.055, stretch=True).move_to([ag_pair[0], ag_pair[1], buyer_bars[24].home[2]]),
+                  buyer_circles[24].animate.set_width(0.036).move_to(ag_pair).set_stroke(opacity=0), run_time=0.8)
         everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
         self.play(FadeOut(stay_text), FadeOut(bid_text),
                   FadeOut(accepted_bid), FadeOut(ag_focus), FadeOut(ag_name), FadeOut(seller_gain), FadeIn(everyone))
@@ -1929,8 +1950,8 @@ class B4(ThreeDScene):
                   buyer_bars[24].animate.set_width(buyer_bars[24].home_width, stretch=True).move_to(buyer_bars[24].home),
                   buyer_circles[24].animate.set_width(0.070).move_to(buyer_circles[24].home).set_stroke(opacity=0),
                   buyer_people[19].animate.set_width(buyer_people[19].paired_width).move_to(buyer_people[19].pair_home),
-                  buyer_bars[19].animate.set_width(0.030, stretch=True).move_to(buyer_bars[19].pair_home),
-                  buyer_circles[19].animate.set_width(0.036).move_to(buyer_circles[19].pair_home).set_stroke(opacity=1), run_time=0.5)
+                  buyer_bars[19].animate.set_width(0.055, stretch=True).move_to(buyer_bars[19].pair_home),
+                  buyer_circles[19].animate.set_width(0.036).move_to(buyer_circles[19].pair_home).set_stroke(opacity=0), run_time=0.5)
         for n in [19, 24]:
             buyer_people[n].resume_updating()
             buyer_bars[n].resume_updating()
@@ -1957,7 +1978,7 @@ class B4(ThreeDScene):
         self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
         excess = fixed(Tex(r'Excess: 50,000 lb. Andrew is willing, but has no buyer.', color=INK)).scale(0.65).move_to([0, -2.91, 0])
         self.remove(units)
-        andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_positions[39])
+        andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         stay_text = fixed(Tex(r'Keep $\$6$: gain $\$0$', color=CAPTION)).scale(0.65)
         cut_text = fixed(Tex(r'Ask $\$5.75$: gain $\$1.75$/lb', color=INK)).scale(0.65)
         VGroup(stay_text, cut_text).arrange(RIGHT, buff=0.85).move_to([0, -3.40, 0])
@@ -2016,27 +2037,28 @@ class B4(ThreeDScene):
                     seller_people[29], seller_bars[29], seller_circles[29],
                     seller_people[39], seller_bars[39], seller_circles[39]]:
             mob.suspend_updating()
-        gary_pair = seller_positions[39] + LEFT * 0.019
-        accepted_cut = Line(gary_pair, seller_circles[39].pair_home, color=GREEN, stroke_width=2)
+        gary_pair = buyer_circles[29].pair_home.copy()
+        accepted_cut = Line(gary_pair, seller_circles[29].pair_home, color=GREEN, stroke_width=2)
         self.play(ReplacementTransform(cut, accepted_cut), cut_text.animate.set_color(GREEN),
-                  andrew_focus.animate.set_width(0.044).move_to(seller_circles[39].pair_home),
+                  andrew_focus.animate.set_width(0.044).move_to(seller_circles[29].pair_home),
                   buyer_people[29].animate.move_to([gary_pair[0], gary_pair[1], buyer_people[29].pair_home[2]]),
                   buyer_bars[29].animate.move_to([gary_pair[0], gary_pair[1], buyer_bars[29].home[2]]),
                   buyer_circles[29].animate.move_to(gary_pair),
                   seller_people[29].animate.set_width(seller_people[29].home_width).move_to(seller_people[29].home),
                   seller_bars[29].animate.set_width(seller_bars[29].home_width, stretch=True).move_to(seller_bars[29].home),
                   seller_circles[29].animate.set_width(0.070).move_to(seller_circles[29].home).set_stroke(opacity=0),
-                  seller_people[39].animate.set_width(seller_people[39].paired_width).move_to(seller_people[39].pair_home),
-                  seller_bars[39].animate.set_width(0.030, stretch=True).move_to(seller_bars[39].pair_home),
-                  seller_circles[39].animate.set_width(0.036).move_to(seller_circles[39].pair_home).set_stroke(opacity=1), run_time=0.8)
+                  seller_people[39].animate.set_width(seller_people[39].paired_width).move_to(seller_people[29].pair_home),
+                  seller_bars[39].animate.set_width(0.055, stretch=True).move_to(
+                      [seller_bars[29].pair_home[0], seller_bars[29].pair_home[1], seller_bars[39].home[2]]),
+                  seller_circles[39].animate.set_width(0.036).move_to(seller_circles[29].pair_home).set_stroke(opacity=0), run_time=0.8)
         everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
         self.play(FadeOut(andrew_focus), FadeOut(accepted_cut), FadeOut(stay_text), FadeOut(cut_text), FadeIn(everyone))
         self.play(buyer_people[29].animate.move_to(buyer_people[29].pair_home),
                   buyer_bars[29].animate.move_to(buyer_bars[29].pair_home),
                   buyer_circles[29].animate.move_to(buyer_circles[29].pair_home),
                   seller_people[29].animate.set_width(seller_people[29].paired_width).move_to(seller_people[29].pair_home),
-                  seller_bars[29].animate.set_width(0.030, stretch=True).move_to(seller_bars[29].pair_home),
-                  seller_circles[29].animate.set_width(0.036).move_to(seller_circles[29].pair_home).set_stroke(opacity=1),
+                  seller_bars[29].animate.set_width(0.055, stretch=True).move_to(seller_bars[29].pair_home),
+                  seller_circles[29].animate.set_width(0.036).move_to(seller_circles[29].pair_home).set_stroke(opacity=0),
                   seller_people[39].animate.set_width(seller_people[39].home_width).move_to(seller_people[39].home),
                   seller_bars[39].animate.set_width(seller_bars[39].home_width, stretch=True).move_to(seller_bars[39].home),
                   seller_circles[39].animate.set_width(0.070).move_to(seller_circles[39].home).set_stroke(opacity=0), run_time=0.5)
@@ -2094,7 +2116,7 @@ class B4(ThreeDScene):
         BUYER_MB = np.array([12 - n / 5 for n in range(1, 60)])
         SELLER_MC = np.array([2 + n / 20 for n in range(1, 101)])
         EPS = 1e-7
-        DOLLAR_HEIGHT = 0.19
+        DOLLAR_HEIGHT = 0.035
         price = ValueTracker(4)
         show_counts = ValueTracker(1)
         show_trades = ValueTracker(1)
@@ -2102,85 +2124,89 @@ class B4(ThreeDScene):
         show_sellers = ValueTracker(1)
         self.add(price, show_counts, show_trades, show_buyers, show_sellers)
 
-        # B3's plaza, material objects and camera are retained literally.
-        # Equal rank uses the same x coordinate on both sides of the plaza.
+        # B3's plaza and camera; participation happens on two curved edges.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
         self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
-        BAR_BASE = 0.18
-        ROW_LEFT, ROW_WIDTH = -3.7, 7.4
-        RANK_STEP = ROW_WIDTH / (max(len(BUYER_MB), len(SELLER_MC)) - 1)
-        BUYER_Y, SELLER_Y = 2.0, -1.7
+        BAR_BASE, DOLLAR_HEIGHT = 0.17, 0.035
+        ARC_RADIUS, STEP_IN = 4.35, 0.82
+        PAIR_LEFT, PAIR_STEP, PAIR_OFFSET = -3.35, 6.7 / 39, 0.043
         floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
                        opacity=0.14).set_color(MUTED)
         rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
         rim.shift(OUT * 0.015).set_stroke(opacity=0.6)
         buyer_people, buyer_bars, buyer_checks, buyer_circles = Group(), Group(), VGroup(), VGroup()
         seller_people, seller_bars, seller_checks, seller_circles = Group(), Group(), VGroup(), VGroup()
+        buyer_crosses, seller_crosses = VGroup(), VGroup()
         buyer_positions, seller_positions = [], []
-        for n, value in enumerate(BUYER_MB):
-            x, y = ROW_LEFT + n * RANK_STEP, BUYER_Y
-            buyer_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=DEMAND, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=DEMAND, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_buyers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            buyer_people.add(person)
-            buyer_bars.add(bar)
-            buyer_checks.add(check)
-            buyer_circles.add(circle)
-        for n, value in enumerate(SELLER_MC):
-            x, y = ROW_LEFT + n * RANK_STEP, SELLER_Y
-            seller_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=SUPPLY, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_sellers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            seller_people.add(person)
-            seller_bars.add(bar)
-            seller_checks.add(check)
-            seller_circles.add(circle)
-        # Trading partners stand together at the seller's station.
-        # Unmatched people keep their place in the ranked waiting lines.
-        for people, bars, circles, side in [(buyer_people, buyer_bars, buyer_circles, -1),
-                                            (seller_people, seller_bars, seller_circles, 1)]:
-            for n, (person, bar, circle) in enumerate(zip(people, bars, circles)):
-                for mob, paired_width, stretch_width in [(person, 0.074 * (0.014 / 0.026), False),
-                                                          (bar, 0.030, True), (circle, 0.036, False)]:
-                    mob.home = mob.get_center().copy()
-                    paired_z = 0.025 + person.get_depth() * (paired_width / person.get_width()) / 2 if mob is person else mob.home[2]
-                    mob.pair_home = np.array([seller_positions[n][0] + side * 0.019, SELLER_Y, paired_z])
-                    mob.home_width, mob.paired_width, mob.stretch_width = mob.get_width(), paired_width, stretch_width
+        for side, values, color, people, bars, checks, crosses, circles, positions, visibility in [
+                ('B', BUYER_MB, DEMAND, buyer_people, buyer_bars, buyer_checks, buyer_crosses,
+                 buyer_circles, buyer_positions, show_buyers),
+                ('S', SELLER_MC, SUPPLY, seller_people, seller_bars, seller_checks, seller_crosses,
+                 seller_circles, seller_positions, show_sellers)]:
+            for n, value in enumerate(values):
+                angle = (-55 + 110 * n / (len(values) - 1)) * DEGREES
+                x = (-1 if side == 'B' else 1) * ARC_RADIUS * np.cos(angle)
+                y = ARC_RADIUS * np.sin(angle)
+                positions.append(np.array([x, y, 0.045]))
+                shadow = Disk3D(radius=0.044, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
+                shadow.set_color(color).move_to([x, y, 0.025])
+                orb = Sphere(radius=0.034, color=color, resolution=(12, 8)).move_to([x, y, 0.064])
+                person = Group(shadow, orb)
+                bar = Rectangle3D(width=0.055, height=value * DOLLAR_HEIGHT,
+                                  resolution=(2, 2), opacity=0.65).set_color(color)
+                bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
+                check = fixed(VMobject(color=GOV, stroke_width=1.6).set_points_as_corners(
+                    [[-0.022, 0, 0], [-0.006, -0.017, 0], [0.025, 0.025, 0]]))
+                cross = fixed(VGroup(
+                    Line([-0.019, -0.019, 0], [0.019, 0.019, 0], color=GUIDE, stroke_width=1.2),
+                    Line([-0.019, 0.019, 0], [0.019, -0.019, 0], color=GUIDE, stroke_width=1.2))).set_color(GUIDE)
+                for mark, accepted in [(check, True), (cross, False)]:
+                    mark.price, mark.value, mark.visibility, mark.side = price, value, visibility, side
+                    mark.anchor, mark.frame, mark.dollar_height, mark.accepted = bar, self.camera.frame, DOLLAR_HEIGHT, accepted
+                    mark.add_updater(lambda m: m.move_to(screen_point(m.frame,
+                        m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.085)))
+                        .set_stroke(opacity=m.visibility.get_value() * (1 if m.accepted else 0.65) * float(
+                            (m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7) == m.accepted))
+                        .set_fill(opacity=0))
+                # Invisible anchors retain the existing deliberation endpoints.
+                circle = Circle(radius=0.035, color=GOV, stroke_width=0).move_to([x, y, 0.045])
+                circle.set_stroke(opacity=0).set_fill(opacity=0)
+                for mob in [person, bar, circle]:
+                    mob.rim = mob.get_center().copy()
+                    mob.home = np.array([x * STEP_IN, y * STEP_IN, mob.rim[2]])
+                    mob.pair_home = np.array([PAIR_LEFT + n * PAIR_STEP + (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET), 0, mob.rim[2]])
+                    mob.home_width = mob.paired_width = mob.get_width()
                     mob.price, mob.rank, mob.visibility = price, n + 1, show_trades
                     mob.mb, mob.mc = BUYER_MB, SELLER_MC
-                    mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
-                    mob.add_updater(lambda m: m.set_width(m.home_width + m.pair_fraction * (m.paired_width - m.home_width), stretch=m.stretch_width).move_to(m.home + m.pair_fraction * (m.pair_home - m.home)))
-        buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
-        seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
-        units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
+                    mob.side, mob.value, mob.willingness = side, value, visibility
+                    mob.pair_step, mob.pair_offset = PAIR_STEP, (-PAIR_OFFSET if side == 'B' else PAIR_OFFSET)
+                    mob.add_updater(lambda m: setattr(m, 'pair_home', np.array([
+                        (m.rank - 1 - (min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()),
+                                          np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)) - 1) / 2)
+                        * m.pair_step + m.pair_offset, 0, m.home[2]])))
+                    mob.add_updater(lambda m: setattr(m, 'willing_fraction', m.willingness.get_value() * float(
+                        m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7)))
+                    mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(
+                        m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()),
+                                      np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
+                    mob.add_updater(lambda m: m.move_to(
+                        (m.rim + m.willing_fraction * (m.home - m.rim)) * (1 - m.pair_fraction)
+                        + m.pair_home * m.pair_fraction))
+                people.add(person)
+                bars.add(bar)
+                checks.add(check)
+                crosses.add(cross)
+                circles.add(circle)
+        buyer_label = fixed(Tex('Buyers', color=DEMAND)).scale(0.62).move_to([-6.0, 1.9, 0])
+        seller_label = fixed(Tex('Sellers', color=SUPPLY)).scale(0.62).move_to([-0.65, 1.9, 0])
+        units = fixed(Tex('One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0])
         buyers = Group(buyer_bars, buyer_people, buyer_circles)
         sellers = Group(seller_bars, seller_people, seller_circles)
         crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_label, seller_label, units))
+        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_crosses, seller_crosses,
+                                 buyer_label, seller_label, units))
 
-        # Same Q and P scales in both graphs. Exact staircases, faint fitted lines.
+        # Same Q and P scales; one straight equation line per graph.
         demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
         supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
         demand_axes.move_to([4.48, 1.75, 0])
@@ -2196,10 +2222,10 @@ class B4(ThreeDScene):
             demand_points.extend([demand_axes.c2p(n, value), demand_axes.c2p(n + 1, value)])
         for n, value in enumerate(SELLER_MC):
             supply_points.extend([supply_axes.c2p(n, value), supply_axes.c2p(n + 1, value)])
-        demand_steps = VMobject(color=DEMAND, stroke_width=2.4).set_points_as_corners(demand_points)
-        supply_steps = VMobject(color=SUPPLY, stroke_width=2.4).set_points_as_corners(supply_points)
-        demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0.30)
-        supply_fit = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY).set_opacity(0.30)
+        demand_steps = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND, stroke_width=2.4)
+        supply_steps = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY, stroke_width=2.4)
+        demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0)
+        supply_fit = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY).set_opacity(0)
         demand_word = fixed(Tex(r'Demand: $P=12-Q_d/5$', color=DEMAND)).scale(0.59).move_to([4.45, 2.85, 0])
         supply_word = fixed(Tex(r'Supply: $P=2+Q_s/20$', color=SUPPLY)).scale(0.59).move_to([4.45, 0.18, 0])
         graph_units = fixed(Tex(r'$Q$: thousands of pounds', color=CAPTION)).scale(0.48).move_to([4.5, -2.25, 0])
@@ -2208,7 +2234,7 @@ class B4(ThreeDScene):
             quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
             line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
             line.axes, line.price, line.values, line.side = ax, price, values, side
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())))
+            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(max(0, min(100, 60 - 5 * m.price.get_value() if m.side == 'buyer' else 20 * (m.price.get_value() - 2))), m.price.get_value())))
             graph_prices.add(line)
         demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
         demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
@@ -2222,15 +2248,18 @@ class B4(ThreeDScene):
             word = fixed(Tex(rf'${label}=$', color=DEMAND if side == 'buyer' else SUPPLY if side == 'seller' else GREEN)).scale(0.65).move_to([x, -2.85, 0])
             number = Integer(0, color=word.get_color()).scale(0.65).move_to([x + 0.77, -2.85, 0])
             number.price, number.values, number.mb, number.mc, number.side = price, values, BUYER_MB, SELLER_MC, side
-            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), show_counts
+            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), (show_trades if side == 'trade' else show_counts)
             number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
+            word.visibility = number.visibility
+            word.add_updater(lambda m: m.set_opacity(m.visibility.get_value()))
             counts.add(word, number)
-        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-0.23, 2.89, 0])
-        price_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.57).move_to([0.78, 2.89, 0])
+        price_word = fixed(Tex(r'\$', color=GUIDE)).scale(1.05).move_to([-4.18, 2.30, 0])
+        price_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(1.05).move_to([-3.35, 2.30, 0])
         price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([0.78, 2.89, 0]))
-        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.42).move_to([1.37, 2.89, 0])
-        price_readout = VGroup(price_word, price_number, price_units)
+        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-3.35, 2.30, 0]))
+        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.55).move_to([-2.25, 2.30, 0])
+        price_heading = fixed(Tex('Market price', color=CAPTION)).scale(0.48).move_to([-3.35, 2.94, 0])
+        price_readout = VGroup(price_heading, price_word, price_number, price_units)
         graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
                         demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts, price_readout)
         fixed(graphs)

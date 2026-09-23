@@ -24,6 +24,14 @@ the next by clearing the completed stage and resetting its camera; there are no
 extra navigation-only pauses. Existing B3 geometry/model code is copied where
 indicated below; no shared assets changed.
 
+The curved-plaza prototype now covers the full-market recap and graph bridge
+(`1.d`–`1.i.algebra`). Buyers and sellers occupy opposite rim arcs; willingness
+moves them partway inward, and actual partners form the central line. Review
+this representative market layout before propagating it into welfare/controls,
+which still use their earlier crowd placement. Approved full-width demand/supply
+rows and small-market scenes remain as reviewed. Selected examples may use a
+B3-style close-up; the overview is steady while willingness and matching change.
+
 The numbered files below remain independently runnable development snapshots
 for reference. Their choreography was copied into `03_B4.py`; they are not
 imported or executed by the combined scene.
@@ -91,9 +99,11 @@ The prototype is superseded; it is not an alternative design to preserve.
   sellers visible. Andrew's arrival animates into this frame. Only then does
   the familiar head-on view show Amanda-Grace's alternatives; the recorded
   trade sequence and settled hold return to that same plaza.
-- Crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
+- All crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
   phi 48°, theta 0°, focal distance 50, center `[4, 0, 0.65]`, height 11.
-  Waiting buyers and sellers each occupy one uninterrupted line, at y=2 and
+  The recap now uses the curved-plaza convention below. The later welfare/control
+  stages retain this earlier placement pending review: buyers and sellers each
+  occupy one uninterrupted line, at y=2 and
   y=−1.7. Both use the same rank spacing, 7.4/99, beginning at x=−3.7.
   Waiting spheres have radius 0.026, bars width 0.058, and circles radius 0.035.
   Bars retain the common base 0.18 and dollar-height 0.19.
@@ -118,6 +128,20 @@ The prototype is superseded; it is not an alternative design to preserve.
 - `fixed`, `add_market_objects`, and the original text billboard adapter are
   reused from B3. They handle renderer/label behavior, not teaching choreography.
   No shared asset or engine code is changed.
+
+## Curved-plaza review convention
+
+For the full-market recap, short floating bars are value cues; the graphs retain
+the detailed scale. One prominent market price appears above the plaza. A green
+check means willing; a small red X means unwilling. Unwilling people stay at the
+rim, willing unmatched people stand on an inner arc, and partners stand beside
+each other in the center. Pair adjacency carries the trading meaning; the old
+circle objects remain invisible code anchors only.
+
+Briefly highlight each willing group's ground arc together with the same-colored
+horizontal 0–Q span on its graph. Clear these correspondence marks before matching.
+The older circle/row convention below continues only in the later stages awaiting
+this layout review. Camera movement is available for deliberate example close-ups.
 
 ## Shared stage and meaning
 
@@ -237,7 +261,7 @@ The pre-exercise review has a **hard ceiling of ten minutes**, with an eight-min
 working budget including the bumper, animation, explanation, and brief responses.
 These are rehearsal allocations, not automatic waits. The viewer's internal play
 steps are not invitations to explain every movement. The authored animation
-before Q2 totals about **79 seconds**, leaving the rest of the eight-minute
+before Q2 totals about **81 seconds**, leaving the rest of the eight-minute
 budget for explanation and brief responses.
 
 | Before Exercise Q2 | B4 beats | Budget |
@@ -369,28 +393,30 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.c · One price, many decisions
 
-1. Reconstruct the sorted buyer and seller rows together, with demand above
-   supply at right. This stage begins at $3, where the seller stage ends.
-2. Keep the unit convention visible: one person is 1,000 lb; price is dollars/lb.
-   No equilibrium answer, crossing, or starred pair is visible yet.
-3. Introduce the distinction between a willingness check and a trading circle.
-   This is a transition into `1.d`, not an additional teaching hold.
+1. Bring buyers and sellers onto opposite curved edges of B3's plaza, sorted
+   by value/cost. Demand remains above supply at right. Begin at $3.
+2. Post one large common price above the plaza. Keep one person = 1,000 lb;
+   the short plaza bars preserve relative values, while graphs carry full scales.
+3. Keep graph price guides dashed and ending at their straight equation lines.
+   This is the entrance to `1.d`, not an extra teaching pause.
 
 ## 1.d · Predict the low-price result
 
-1. Hide numerical counts, willingness checks, trading circles, and quantity
-   read guides before moving the common price to $3. Keep them hidden during
-   the prediction hold; retain bars and the price on both graphs.
-2. Ask “At $3, how much would each side trade?” Hold before revealing the counts.
+1. Keep everyone at the outer rim, with willingness marks and counts hidden.
+2. Ask how much each side would trade at $3. Hold before revealing willingness.
 
 ## 1.e · Count the shortage and the actual trades
 
-1. Reveal 45 buyer checks and 20 seller checks. Move the first 20 buyers beside
-   their sellers and circle both members of each actual trading pair.
-   Print Qd=45, Qs=20, Qx=20, with a quantity gap from 20 to 45.
-2. Show “Shortage: 25,000 pounds” beside that gap; point once to the 25 willing
-   buyers without circles. Amanda-Grace and Gary are among them.
-3. Hold. Keep the distinction between willingness and actual exchange visible.
+1. Willing people step to the inner arcs and receive green checks. Unwilling
+   people stay at the rim with small red Xs. Reveal Qd=45 and Qs=20.
+2. Briefly highlight the 45 willing buyers' ground arc with demand's horizontal
+   0–45 span. Repeat for the 20 willing sellers and supply's 0–20 span.
+3. Clear the correspondence marks, then move the first 20 buyers and sellers
+   into adjacent central pairs, centering the occupied line on the plaza. Reveal
+   Qx=20 only as matching happens.
+4. Hold “20 pairs trade. 25 willing buyers are still waiting.” The checked
+   unmatched buyers, including Amanda-Grace and Gary, remain on the inner arc.
+   The spatial difference distinguishes willingness from actual exchange.
 
 ## 1.j · Exercise B3 Q2 — before resolving equilibrium
 
@@ -418,7 +444,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 2. Ask “Which way does price move?” Hold with the answer still withheld.
 3. On advance, accept the proposed price in the close-up and return to B3's
    plaza camera. Amanda-Grace joins seller 20; displaced buyer 20 returns to
-   the waiting line. Then clear the individual proposal, restore the ranked
+   the willing inner arc. Then clear the individual proposal, restore the ranked
    snapshot, and show “Other unserved buyers have the same incentive.” Follow
    with “Shortage → price rises.”
    Raise the common price to $4 in one continuous play. A faint price ladder retains the starting and ending prices; intermediate quarter-dollar steps are not extra pauses. Keep counts and marks
@@ -427,18 +453,18 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.g · Predict the high-price result
 
-1. Return buyers to their waiting stations and hide numerical counts,
-   willingness checks, trading circles, and quantity
-   read guides before moving the common price to $6. Ask “At $6, who is left
+1. Return both sides to the outer rim and hide numerical counts,
+   checks, Xs, and quantity read guides before moving the common price to $6. Ask “At $6, who is left
    out?” Hold with those answers still hidden.
 
 ## 1.h · Count the excess and recall undercutting
 
-1. Reveal Qd=30, Qs=80, Qx=30: 30 buyer checks, 80 seller checks, 30 circles on
-   each side. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
+1. Reveal Qd=30, Qs=80, Qx=30: 30 buyer checks, 80 seller checks, and 30
+   central pairs. Fifty checked sellers remain on the inner arc. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
 2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
    Show the same B3 head-on inspection view, with Andrew's MC $4 and Gary's MB $6.
-   The actual plaza returns before Gary leaves seller 30 and joins Andrew.
+   The actual plaza returns before Andrew replaces seller 30 beside Gary.
+   Keep Gary in the same central slot; seller 30 returns to the willing inner arc.
    Replace the bottom content with “Keep $6: no buyer” / “Ask $5.75: gain $1.75/lb.”
    Gary would also gain by paying less. Ask “Which way does price move?” Hold.
 3. On advance, briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
@@ -446,9 +472,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.i · State the two parts of equilibrium together
 
-1. Park on 40 adjacent buyer–seller pairs, checks and circles on each side,
-   and Qd=Qs=Qx=40. Keep unwilling
-   people visible and dim, with MB below $4 or MC above $4.
+1. Park on 40 adjacent central buyer–seller pairs, with green checks and
+   Qd=Qs=Qx=40. Unwilling people remain at the rim with red Xs; no willing
+   person remains unmatched on the inner arcs.
 2. Replace the adjustment caption with “Equilibrium: Qd=Qs=40” and
    “No willing buyer or seller is left without a trade.”
 3. Point to both parts on this same frame: the matching counts,
