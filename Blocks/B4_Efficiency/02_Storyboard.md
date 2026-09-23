@@ -545,7 +545,13 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    “45” and orange “20” at their graph quantity positions.
 2. Reveal short teal ground segments under the 45 willing buyers and orange
    segments under the 20 willing sellers. Keep demand's horizontal 0–45 and
-   supply's 0–20 graph baselines unchanged. Hold here with all 45 checked buyers
+   supply's 0–20 graph baselines unchanged. Add a teal “45” centered just inside
+   the willing buyer arc's ground segments and an orange “20” beside the
+   willing seller arc, using the later plaza shortage readout's style. The
+   existing “One person = 1,000 lb” caption provides the units. Reveal these
+   counts before the existing pause, then fade both as matching starts so “45”
+   cannot label only the remaining 25 buyers. The later yellow “Shortage 25”
+   remains unchanged. Hold here with all 45 checked buyers
    and 20 checked sellers on their inner arcs, before any pairs move together.
    Keep the title “A low price: $3,” the gold bottom “Who trades?” question,
    and graph quantities visible; yellow shortage marks remain hidden.

@@ -1774,8 +1774,20 @@ class B4(ThreeDScene):
         # ---- 1.e.willing · Hold on willingness before revealing actual trades.
         self.play(show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
                   show_sellers.animate.set_value(1), run_time=0.8)
+        plaza_willing_counts = VGroup()
+        for quantity, segments, color, side in [
+                (45, buyer_quantity, DEMAND, 1), (20, seller_quantity, SUPPLY, -1)]:
+            number = Tex(str(quantity), color=color).scale(0.58)
+            number.face_mat = np.eye(3)
+            number.add_updater(face_camera)
+            number.update()
+            number.move_to(segments[(quantity - 1) // 2].get_center()
+                           + np.array([0, -side * 0.48, 0.12]))
+            plaza_willing_counts.add(number)
+        self.play(FadeIn(plaza_willing_counts), run_time=0.35)
         self.pause('1.e.willing')
         # ---- 1.e · Keep quantity lines through matching; yellow marks the unserved remainder.
+        self.play(FadeOut(plaza_willing_counts), run_time=0.25)
         self.play(show_trades.animate.set_value(1), run_time=1.1)
         quantity_comparison = fixed(VGroup(*[
             DashedLine(demand_axes.c2p(quantity, 0), supply_axes.c2p(quantity, 0),
