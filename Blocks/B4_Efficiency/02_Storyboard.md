@@ -215,8 +215,10 @@ this layout review. Camera movement is available for deliberate example close-up
 - Decision close-ups use plain text, without bottom boxes or card backgrounds.
   Keep participant names beneath their spheres and MB/MC labels beside their
   bars. In the two-seller comparison, place each payment/gain label beneath its
-  seller. In the full-market bidding examples, use one compact line of choices
-  below the people and emphasize the accepted offer by coloring its text.
+  seller. In the full-market bidding examples, place each choice beside its red
+  current/proposed price line and point to that line with a short arrow. These
+  are world-space, camera-facing labels, using B3's `face_camera` convention;
+  remove detached footer choices. Emphasize acceptance by coloring the offer text.
 - Read each line left to right with no row breaks. Both have the same local
   zero and dollar scale. Show the common price in the readout and dashed graph
   guides; do not draw a price line through either row of people on the plaza.
@@ -517,13 +519,16 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Highlight Amanda-Grace in the original 3D plaza, then bring her and served
    seller 20 (MC $3) into B3's head-on view. Clear the fixed graphs during that
-   comparison. Replace the bottom text with two concise options:
-   “Wait: no trade” / “Offer $3.25: gain $3.75/lb.” Draw the proposed bid dashed.
-   Show that the served seller receives more if the bid is accepted. The two
-   unboxed options share a compact bottom line, separated from participant
-   names; a dashed connector identifies the proposed switch, not an extra trade.
+   comparison. Place “Wait at $3: gain $0” beside the current red $3 line and
+   “Offer $3.25: gain $3.75/lb” beside the proposed dashed red $3.25 line. Use
+   world-space, camera-facing text with a short arrow from each choice to its
+   price line; remove detached footer choices. Show that the served seller
+   receives more if the bid is accepted. A dashed connector identifies the
+   proposed switch, not an extra trade.
 2. Ask “Which way does price move?” Hold with the answer still withheld.
-3. On advance, accept the proposed price in the close-up and return to B3's
+3. On advance, accept the proposed price in the close-up: fade the waiting
+   choice and its arrow, color the offer green, then clear the remaining callout
+   as the camera returns to B3's
    plaza camera. Amanda-Grace joins seller 20; displaced buyer 20 returns to
    the willing inner arc. Then clear the individual proposal, restore the ranked
    snapshot, and show “Other unserved buyers have the same incentive.” Follow
@@ -548,9 +553,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Show the same B3 head-on inspection view, with Andrew's MC $4 and Gary's MB $6.
    The actual plaza returns before Andrew replaces seller 30 beside Gary.
    Keep Gary in the same central slot; seller 30 returns to the willing inner arc.
-   Replace the bottom content with “Keep $6: no buyer” / “Ask $5.75: gain $1.75/lb.”
-   Gary would also gain by paying less. Ask “Which way does price move?” Hold.
-3. On advance, briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
+   Place “Keep $6: gain $0” beside the current red $6 line and
+   “Ask $5.75: gain $1.75/lb” beside the proposed dashed red $5.75 line. Use
+   world-space, camera-facing choice labels and short arrows to their respective
+   price lines; remove detached footer choices. Gary would also gain by paying
+   less. Ask “Which way does price move?” Hold.
+3. On advance, fade the keep-price choice and its arrow, color the accepted
+   offer green, and clear the remaining callout as the camera returns to the
+   plaza. Briefly accept the proposed switch, then clear it and show “Other unserved sellers have the same incentive.” Follow with “Excess → price falls.” Move the
    common price to $4 in one play, lowering the totem's red tick and readout
    while retaining the counts throughout.
 
