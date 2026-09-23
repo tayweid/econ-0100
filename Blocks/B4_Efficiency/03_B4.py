@@ -1767,10 +1767,11 @@ class B4(ThreeDScene):
         self.add(head, crowd, crowd_marks, graphs)
         self.pause('1.d')
 
-        # ---- 1.e · Willingness first, matching second.
+        # ---- 1.e.willing · Hold on willingness before revealing actual trades.
         self.play(show_counts.animate.set_value(1), show_buyers.animate.set_value(1),
                   show_sellers.animate.set_value(1), run_time=0.8)
-        # Keep quantity lines through matching; yellow marks the unserved remainder.
+        self.pause('1.e.willing')
+        # ---- 1.e · Keep quantity lines through matching; yellow marks the unserved remainder.
         self.play(show_trades.animate.set_value(1), run_time=1.1)
         quantity_comparison = fixed(VGroup(*[
             DashedLine(demand_axes.c2p(quantity, 0), supply_axes.c2p(quantity, 0),

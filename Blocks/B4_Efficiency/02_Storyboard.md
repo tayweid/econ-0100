@@ -7,7 +7,8 @@ floor → binding ceiling → permit a blocked trade → all beneficial trades �
 force one harmful trade → undo it and state the conditional welfare result**.
 This explicitly supersedes the earlier planner-first draft, the ceiling-first
 notes, and the animator note's frozen-order instruction. Keep the entire opening
-through `1.i.algebra` in its existing order, with the latest decision-close-up
+through `1.i.algebra` in its existing order, adding `1.e.willing` before matching,
+with the latest decision-close-up
 and moving ground-segment refinements below. The latest visual direction supersedes the
 back-half plaza-reuse requirement: after the algebra, use **one large graph**
 as the overview. Selected MB/MC bars expand directly from that graph into the
@@ -22,15 +23,15 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 ## Runnable animation and holds
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
-flat and sequential at 15 fps. The first seven code sections retain their
-**22 named holds**; section 8 now has **18 named holds**, including the two
-selected-lot holds before expansion, for **40 total** with the exercise placement below. Section 8 presents the welfare
+flat and sequential at 15 fps. The first seven code sections have
+**23 named holds**, including `1.e.willing`; section 8 has **18 named holds**,
+including the two selected-lot holds before expansion, for **41 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 | Code section | Content | Named holds |
 |---|---|---|
-| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (22 unchanged) |
+| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (23, including new `1.e.willing`) |
 | 8 | Market benefits | `2.a`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
@@ -352,7 +353,7 @@ budget for explanation and brief responses.
 | A second trade and common price | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | 1:15 |
 | Buyers at two prices | `1.c.buyers`, `1.c.buyers.low` | 1:00 |
 | Sellers at two prices | `1.c.sellers`, `1.c.sellers.high` | 1:00 |
-| Both sides at $3; willingness versus trades | `1.d`, `1.e` | 1:30 |
+| Both sides at $3; willingness versus trades | `1.d`, `1.e.willing`, `1.e` | 1:30 |
 | Transition to the exercise | `1.j` | 0:30 |
 | Flex for brief responses/transitions | — | 0:30 |
 | **Total before students begin Q2** | | **8:00** |
@@ -526,20 +527,26 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 2. Title: “At $3, who trades?” Hold before revealing willingness, without
    repeating the question at the bottom.
 
-## 1.e · Count the shortage and the actual trades
+## 1.e.willing · Pause on willingness before matching
 
 1. Willing people step to the inner arcs and receive green checks. Unwilling
    people stay at the rim with small red Xs. Retain the already-visible teal
    “45” and orange “20” at their graph quantity positions.
 2. Reveal short teal ground segments under the 45 willing buyers and orange
    segments under the 20 willing sellers. Keep demand's horizontal 0–45 and
-   supply's 0–20 graph baselines unchanged.
-3. Let each ground segment follow its person as the first 20 buyers and sellers move
+   supply's 0–20 graph baselines unchanged. Hold here with all 45 checked buyers
+   and 20 checked sellers on their inner arcs, before any pairs move together.
+   Keep the title “At $3, who trades?” and the graph quantities visible; yellow
+   shortage marks remain hidden.
+
+## 1.e · Count the shortage and the actual trades
+
+1. After the willingness hold, let each ground segment follow its person as the first 20 buyers and sellers move
    to matching x stations along the dashed diameter. Buyers stop just above it
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
    Center the occupied stations on the plaza. The matching communicates the
    20 trades; add no separate Qx counter.
-4. Keep the title “At $3, who trades?” Leave the bottom narration empty. Add
+2. Keep the title “At $3, who trades?” Leave the bottom narration empty. Add
    dashed vertical comparison guides between the stacked graphs: teal at
    quantity demanded 45 and orange at quantity supplied 20, aligned to those
    quantities on both horizontal axes. Hold with
@@ -759,7 +766,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   teal/orange endpoint dots and an adjacent “MC > MB” label. Never exaggerate
   its area or add individual gain/loss dollars.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 40 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 41 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -927,11 +934,12 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 ## Implementation and review boundaries
 
-- Preserve all **22 opening holds** through `1.i.algebra`, including the
-  eight-minute pre-Q2 budget. Section 8 has 18 holds, for **40 total**, including
+- Preserve all **23 opening holds** through `1.i.algebra`, including the new
+  `1.e.willing` pause and eight-minute pre-Q2 budget. Section 8 has 18 holds, for **41 total**, including
   `3.c.select` and `4.c.select` before the selected graph bars expand.
 - The graph overview and graph-derived two-person comparisons supersede the
-  old back-half crowd/plaza staging. Recap episode order and holds are unchanged;
+  old back-half crowd/plaza staging. Existing recap holds retain their order,
+  with `1.e.willing` inserted between `1.d` and `1.e`;
   the September 23 close-up and per-person ground-segment refinements apply.
 - The welfare display has inside-area CS/PS labels, unified purple total surplus,
   grey DWL, and red negative gain. Policy beats have one price guide and one
@@ -943,11 +951,12 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 - Preserve the 39/40 tie, ranked lot identities, and the distinction between
   willingness at a price and actual selected trades. No government purchases
   or extra planner-sorting episode is introduced.
-- The revised 40-hold scene passed its end-of-pass construction and exact
+- The earlier 40-hold scene passed its end-of-pass construction and exact
   allocation/arithmetic checks. Captured selection, close-up, and return frames
-  were inspected. All 22 opening holds remain in the same order. The latest
-  front-half pass checks the decision figures, original crowd membership, and
-  fixed-length ground segments through both plaza returns.
+  were inspected. Its 22 opening holds remain in the same relative order;
+  the added `1.e.willing` pause is not covered by that earlier validation.
+  Front-half review also covers the decision figures, original crowd membership,
+  and fixed-length ground segments through both plaza returns.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 
