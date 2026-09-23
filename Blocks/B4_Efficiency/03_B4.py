@@ -2906,9 +2906,11 @@ class B4(ThreeDScene):
             Polygon([-0.3, negative_base, 0], [0.8, negative_base, 0],
                 [0.8, negative_mc_top, 0], [-0.3, negative_mc_top, 0],
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=0.65)))
-        negative_zoom_target = fixed(Rectangle(width=0.07,
-            height=(negative_mc - negative_mb) * negative_scale,
-            stroke_width=0, fill_color=GUIDE, fill_opacity=1)
+        # Preserve the source corner order so both flights resize without flipping.
+        negative_zoom_target = (negative_zoom_home.copy()
+            .stretch_to_fit_width(0.07)
+            .stretch_to_fit_height((negative_mc - negative_mb) * negative_scale)
+            .set_fill(opacity=1)
             .move_to([1.5, (negative_mb_top + negative_mc_top) / 2, 0]))
         negative_detail_base = fixed(Line([-2, negative_base, 0], [1, negative_base, 0],
             color=MUTED, stroke_width=1.5))

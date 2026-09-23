@@ -1002,7 +1002,8 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    scale. Colored dashed guides connect their tops to the red vertical gap,
    labeled **Negative TS**. Show **Quantity: 1,000 lb** below the comparison.
    There is no price, CS, or PS in this close-up. Hold `5.d.detail`.
-4. Return the bar to its exact lot-50 position as the overview comes back.
+4. Keep the bar upright throughout both flights, preserving its corner order
+   while moving and resizing it. Return it to its exact lot-50 position as the overview comes back.
    Internally, the hypothetical allocation has 50 trades and total surplus
    $181,250. Keep aggregate totals off screen.
 
