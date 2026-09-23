@@ -82,8 +82,10 @@ The prototype is superseded; it is not an alternative design to preserve.
   camera centered at `[0, 0, 2.05]`, height 7.2, phi 90°.
 - Two trades first holds B3's `3.a` oblique plaza with both buyers and both
   sellers visible. Andrew's arrival animates into this frame. Only then does
-  the familiar head-on view show Amanda-Grace's alternatives; the recorded
-  trade sequence and settled hold return to that same plaza.
+  the camera fly continuously into the same actual people and bars for
+  Amanda-Grace's alternatives, without an empty transition or replacement cast.
+  The fly-back restores their saved plaza geometry and updaters before the
+  recorded trade sequence and settled hold.
 - All crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
   phi 48°, theta 0°, focal distance 50, center `[4, 0, -0.4]`, height 11.
   This lifts the full-market plaza about 0.55 screen units, leaving the bottom
@@ -196,7 +198,9 @@ From `5.a`, its active price/quantity guides stay hidden.
   rows carry the individual demand/supply comparisons. After the algebra,
   remove the crowd presentation and keep one large welfare graph fixed.
 - Decision close-ups use plain text, without bottom boxes or card backgrounds.
-  Keep participant names through the two-by-two scene only. After that scene,
+  Keep participant names through the two-by-two scene only. In that comparison,
+  attach names in world space above each orb in the gap below its bar, at positive
+  z to avoid floor clipping; put value labels above their own bars. After that scene,
   omit names from players, headings, and captions, and omit individual role
   labels beneath close-up spheres. Retain MB/MC labels beside the bars. Names
   used later in this storyboard identify internal participants, not displayed
@@ -405,15 +409,20 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.b.two_trades · Give the buyer another option
 
-1. From the four-person plaza, use B3's head-on comparison geometry to face
-   Amanda-Grace, Molly, and Andrew
-   during the decision. Gary remains the unserved buyer in the underlying market.
-2. Retain Amanda-Grace's solid $6.25 deal with Molly. Show her two alternatives:
-   “Pay $6.25; gain $0.75” below Molly and “Pay $4.25; gain $2.75” below Andrew,
-   as plain text. Title: “Stay or switch?” Hold.
-3. On advance, return to the same plaza and let Amanda-Grace take Andrew's
-   $4.25 offer. Then both asks and the actual partners settle in one continuous
-   1.8-second move. No Gary deliberation and no per-bid replay. Caption:
+1. Fly continuously from the four-person plaza into the **same actual actor,
+   body, and bar objects**, with Molly left, Amanda-Grace center, and Andrew
+   right. Do not fade to an empty frame or introduce a replacement cast. Gary
+   remains the unserved buyer in the underlying market.
+2. Attach each name in world space above its orb, in the gap before its bar
+   and at positive z so the floor does not clip it. Put each value label above
+   its own bar. Ring central Amanda-Grace in yellow. The solid **$6.25** price
+   line spans Molly to Amanda-Grace; the dashed **$4.25** line spans Amanda-Grace
+   to Andrew. Keep “Pay $6.25; gain $0.75” beneath Molly and “Pay $4.25; gain
+   $2.75” beneath Andrew as plain text. Title: “Stay or switch?” Hold.
+3. On advance, fly back to the saved actual plaza geometry and restore the
+   objects' updaters, then let Amanda-Grace take Andrew's $4.25 offer. Both asks
+   and actual partners settle in the existing continuous 1.8-second move.
+   No Gary deliberation, new pause, or per-bid replay. Caption:
    “The same incentives bring both prices together.”
 4. The compressed transition uses a verified seed-34 simulation from asks
    ($6.25, $4.25), with Gary unmatched and Amanda-Grace at Andrew. Its final

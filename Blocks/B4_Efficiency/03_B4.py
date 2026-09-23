@@ -1342,73 +1342,94 @@ class B4(ThreeDScene):
                     self.play(FadeIn(decision_question))
 
                     if chooser == 4:
-                        # Preserve the actual B3 plaza and return to it after this view.
-                        decision_stage = list(self.mobjects)
-                        self.play(*[FadeOut(m) for m in decision_stage], run_time=0.3)
-                        self.play(self.camera.frame.animate.reorient(0, 90,
-                            center=CLOSE_CENTER, height=7.2), run_time=2.2)
-                        close_floor = floor.copy().set_opacity(0.05)
-                        close_rim = rim.copy().set_stroke(opacity=0.2)
+                        # Fly with the actual plaza players; keep their identities and homes.
+                        close_people = {'Molly': crowd_bodies['S', 0],
+                                        'Amanda-Grace': chooser_body,
+                                        'Andrew': crowd_bodies['S', 4]}
+                        close_bars = {'Molly': crowd_bars['S', 0],
+                                      'Amanda-Grace': crowd_bars['B', chooser],
+                                      'Andrew': crowd_bars['S', 4]}
+                        close_homes = {who: (close_people[who].copy(), close_bars[who].copy())
+                                       for who in close_people}
+                        for bar in close_bars.values():
+                            bar.suspend_updating()
+                        self.remove(head, decision_question)
+                        keep_family = {id(m) for root in [floor, rim, *close_people.values(), *close_bars.values()]
+                                       for m in root.get_family()}
+                        decision_background = [m for m in self.mobjects
+                            if not any(id(child) in keep_family for child in m.get_family())]
                         close_head = fixed(title('Stay or switch?'))
-                        close_people, close_bars, close_names, close_values = {}, {}, {}, {}
-                        for who, body_x, bar_x, value, term, color, offset in [
-                            ('Amanda-Grace', -2.9, -2.06, 7, 'MB', DEMAND, LEFT * 0.75),
-                            ('Molly', 0.0, -0.84, 2, 'MC', SUPPLY, RIGHT * 0.75),
-                            ('Andrew', 2.9, 2.06, 4, 'MC', SUPPLY, RIGHT * 0.75),
+                        close_moves = []
+                        CLOSE_BASE = 0.90
+                        for who, x, value, color in [
+                            ('Molly', -2.9, 2, SUPPLY),
+                            ('Amanda-Grace', 0.0, 7, DEMAND),
+                            ('Andrew', 2.9, 4, SUPPLY),
                         ]:
-                            shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
-                                            opacity=0.28).set_color(color).move_to([body_x, 0, 0.025])
-                            orb = Sphere(radius=0.23, color=color, resolution=(16, 10))
-                            orb.move_to([body_x, 0, 0.32])
-                            close_people[who] = Group(shadow, orb)
-                            bar = Rectangle3D(width=1.10, height=value * 0.55,
-                                              resolution=(2, 2), opacity=0.65).set_color(color)
-                            bar.rotate(90 * DEGREES, RIGHT).move_to([bar_x, 0, 0.75 + value * 0.55 / 2])
-                            close_bars[who] = bar
-                            name = Tex(who, color=INK).scale(0.62 * self.camera.frame.get_scale())
-                            name.face_mat = np.eye(3)
+                            # Copy each original mesh, so the flight does not swap actors.
+                            person_target = close_people[who].copy().clear_updaters()
+                            person_target[0].set_width(0.56).move_to([x, 0, 0.025]).set_opacity(0.28)
+                            person_target[1].set_width(0.46).move_to([x, 0, 0.32]).set_opacity(1)
+                            bar_target = close_bars[who].copy().clear_updaters()
+                            bar_target.set_width(1.10).stretch_to_fit_depth(value * DOLLAR_HEIGHT)
+                            bar_target.move_to([x, 0, CLOSE_BASE + value * DOLLAR_HEIGHT / 2]).set_opacity(0.65)
+                            close_moves.extend([Transform(close_people[who], person_target),
+                                                Transform(close_bars[who], bar_target)])
+                        self.play(*[FadeOut(m) for m in decision_background], FadeIn(close_head),
+                                  *close_moves,
+                                  self.camera.frame.animate.reorient(0, 90, center=CLOSE_CENTER, height=7.2),
+                                  floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
+                                  run_time=2.2, rate_func=smooth)
+                        close_names, close_values = {}, {}
+                        for who, value, term, color in [
+                            ('Molly', 2, 'MC', SUPPLY),
+                            ('Amanda-Grace', 7, 'MB', DEMAND),
+                            ('Andrew', 4, 'MC', SUPPLY),
+                        ]:
+                            name = Tex(who, color=INK).scale(0.56)
+                            name.face_mat, name.anchor = np.eye(3), close_people[who][1]
                             name.add_updater(face_camera)
+                            # Positive height, above the orb: the floor cannot clip the name.
+                            name.add_updater(lambda m: m.move_to(m.anchor.get_center() + DOWN * 0.55 + OUT * 0.42))
                             name.update()
-                            name.move_to(self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix()
-                                         @ (np.array([screen_point(self.camera.frame, [body_x, 0, 0.32])[0], -2.30, 0]) * self.camera.frame.get_scale()))
                             close_names[who] = name
                             value_label = Tex(rf'{term} $\${value}$', color=color).scale(0.62)
-                            value_label.face_mat = np.eye(3)
+                            value_label.face_mat, value_label.anchor = np.eye(3), close_bars[who]
                             value_label.add_updater(face_camera)
+                            value_label.add_updater(lambda m: m.move_to(
+                                m.anchor.get_center() + OUT * (m.anchor.get_depth() / 2 + 0.30) + DOWN * 0.08))
                             value_label.update()
-                            value_label.move_to([bar_x, -0.08, 0.75 + value * 0.55 + 0.28])
-                            if who == 'Andrew':
-                                value_label.shift(OUT * 0.22)
                             close_values[who] = value_label
-                        stay_price_line = Line([-2.61, -0.045, 0.75 + 6.25 * 0.55],
-                                               [-0.29, -0.045, 0.75 + 6.25 * 0.55], color=GUIDE, stroke_width=3)
-                        stay_shadow = Line([-2.61, 0, 0.04], [-0.29, 0, 0.04],
-                                           color=GUIDE, stroke_width=2).set_opacity(0.3)
-                        switch_price_line = DashedLine([1.51, -0.045, 0.75 + 4.25 * 0.55],
-                            [2.61, -0.045, 0.75 + 4.25 * 0.55], color=GUIDE, stroke_width=3, dash_length=0.05)
-                        mb_read_across = DashedLine([-2.61, -0.045, 0.75 + 7 * 0.55],
-                            [2.61, -0.045, 0.75 + 7 * 0.55], color=DEMAND, stroke_width=1.5).set_opacity(0.6)
-                        # Plain choice labels sit beneath their corresponding sellers.
+                        stay_price_line = Line([-3.45, -0.045, CLOSE_BASE + 6.25 * DOLLAR_HEIGHT],
+                                               [0.55, -0.045, CLOSE_BASE + 6.25 * DOLLAR_HEIGHT], color=GUIDE, stroke_width=3).set_flat_stroke(False)
+                        switch_price_line = DashedLine([-0.55, -0.055, CLOSE_BASE + 4.25 * DOLLAR_HEIGHT],
+                            [3.45, -0.055, CLOSE_BASE + 4.25 * DOLLAR_HEIGHT], color=GUIDE, stroke_width=3, dash_length=0.05).set_flat_stroke(False)
+                        close_ring = Circle(radius=0.31, color=FOCUS, stroke_width=2.5)
+                        close_ring.rotate(90 * DEGREES, RIGHT).move_to([0, -0.04, 0.32]).set_flat_stroke(False)
+                        # Both choices sit below their seller, in the same world-space frame.
                         stay_words = VGroup(Tex(r'Pay $\$6.25$', color=INK), Tex(r'Gain $\$0.75$', color=DEMAND))
                         switch_words = VGroup(Tex(r'Pay $\$4.25$', color=INK), Tex(r'Gain $\$2.75$', color=DEMAND))
                         for words, who in [(stay_words, 'Molly'), (switch_words, 'Andrew')]:
-                            words.arrange(DOWN, buff=0.12).scale(0.62 * self.camera.frame.get_scale())
+                            words.arrange(DOWN, buff=0.12).scale(0.56)
                             words.face_mat = np.eye(3)
                             words.add_updater(face_camera)
                             words.update()
-                            words.move_to(self.camera.frame.get_center() + self.camera.frame.get_orientation().as_matrix()
-                                          @ (np.array([screen_point(self.camera.frame, close_people[who].get_center())[0], -3.12, 0]) * self.camera.frame.get_scale()))
-                        close_objects = [close_floor, close_rim, close_head, *close_people.values(), *close_bars.values(),
-                            *close_names.values(), *close_values.values(), stay_price_line, stay_shadow,
-                            switch_price_line, mb_read_across, stay_words, switch_words]
-                        self.play(*[FadeIn(m) for m in close_objects], run_time=0.7)
-                        self.remove(stay_price_line)
-                        self.add(stay_price_line)
+                            words.move_to([close_people[who].get_x(), -0.55, -0.85])
+                        close_annotations = [*close_names.values(), *close_values.values(),
+                            stay_price_line, switch_price_line, close_ring, stay_words, switch_words]
+                        self.play(*[FadeIn(m) for m in close_annotations], run_time=0.5)
                         self.pause('1.b.two_trades')
-                        self.play(*[FadeOut(m) for m in close_objects], run_time=0.3)
-                        self.play(self.camera.frame.animate.reorient(0, 48, center=[0, 0, 0.65], height=10.4),
-                                  *[FadeIn(m) for m in decision_stage], run_time=2.2)
-                    self.play(FadeOut(decision_question), run_time=0.2)
+                        self.play(*[FadeOut(m) for m in close_annotations], FadeOut(close_head), run_time=0.3)
+                        self.add(head)
+                        self.play(*[Transform(close_people[who], close_homes[who][0]) for who in close_people],
+                                  *[Transform(close_bars[who], close_homes[who][1]) for who in close_bars],
+                                  self.camera.frame.animate.reorient(0, 48, center=[0, 0, 0.65], height=10.4),
+                                  floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6),
+                                  *[FadeIn(m) for m in decision_background], run_time=2.2, rate_func=smooth)
+                        # Restore every home first; following can then resume without a snap.
+                        for bar in close_bars.values():
+                            bar.resume_updating()
+                    self.remove(decision_question)
                     seller_at = seller_spots[4]
                     destination = seller_at * (1 - 0.75 / np.linalg.norm(seller_at))
                     route = DashedLine([0, 0, 0.045], [*destination[:2], 0.045],
