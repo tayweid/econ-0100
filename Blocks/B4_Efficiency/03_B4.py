@@ -2831,11 +2831,11 @@ class B4(ThreeDScene):
             Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
             Tex('Pumpkin pasties: equilibrium is 10 pasties at 7 galleons.', color=INK).scale(0.82),
             Tex(r'Maximum legal price: 5 galleons $(Q_d = 14;\ Q_s = 6)$.', color=INK).scale(0.82),
+            Tex('Plot demand, supply, and the ceiling; shade CS, PS, and DWL.', color=INK).scale(0.82),
             Tex('a) How many pasties are exchanged?', color=INK).scale(0.88),
             Tex('b) What is consumer surplus?', color=INK).scale(0.88),
             Tex('c) What is producer surplus?', color=INK).scale(0.88),
-            Tex('d) What is deadweight loss?', color=INK).scale(0.88),
-            Tex('e) Plot demand, supply, and the ceiling; shade CS, PS, and DWL.', color=INK).scale(0.82))
+            Tex('d) What is deadweight loss?', color=INK).scale(0.88))
             .arrange(DOWN, buff=0.25, aligned_edge=LEFT).move_to(ORIGIN))
         card_panel = fixed(RoundedRectangle(width=13, height=card_text.get_height() + 1.2,
             corner_radius=0.25, color=MUTED, stroke_width=2, fill_color=BG, fill_opacity=1).move_to(card_text))
@@ -3002,6 +3002,7 @@ class B4(ThreeDScene):
             Tex(r'$P=12-Q_d/2\qquad\qquad P=2+Q_s/2$', color=INK).scale(0.95),
             Tex('Pumpkin pasties: equilibrium is 10 pasties at 7 galleons.', color=INK).scale(0.82),
             Tex(r'Minimum legal price: 9 galleons $(Q_d = 6;\ Q_s = 14)$.', color=INK).scale(0.82),
+            Tex('Plot demand, supply, and the floor; shade CS, PS, and DWL.', color=INK).scale(0.82),
             Tex('a) How many pasties are exchanged?', color=INK).scale(0.88),
             Tex('b) What is producer surplus?', color=INK).scale(0.88),
             Tex('c) What is deadweight loss?', color=INK).scale(0.88),
