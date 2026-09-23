@@ -213,8 +213,11 @@ this layout review. Camera movement is available for deliberate example close-up
   argument, keep the B3 plaza and merged graph fixed: select participants and
   fill their gain strips without rearranging the scene.
 - Decision close-ups use plain text, without bottom boxes or card backgrounds.
-  Keep participant names beneath their spheres and MB/MC labels beside their
-  bars. In the two-seller comparison, place each payment/gain label beneath its
+  Keep participant names through the two-by-two scene only. After that scene,
+  omit names from players, headings, and captions, and omit individual role
+  labels beneath close-up spheres. Retain MB/MC labels beside the bars. Names
+  used later in this storyboard identify internal participants, not displayed
+  text. In the two-seller comparison, place each payment/gain label beneath its
   seller. In the full-market bidding examples, place each choice beside its red
   current/proposed price line and point to that line with a short arrow. These
   are world-space, camera-facing labels, using B3's `face_camera` convention;
@@ -436,9 +439,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    stepped outline. Put its equation above the row. Keep this camera throughout
    the demand comparison, without pulling back to a separate graph.
 3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 checks,
-   dim excluded people/bars, and highlight Gary, whose MB=$6. Put the price
-   readout just left of the guide and a teal “30” below the row at Q=30;
-   quantities are thousands of pounds. Hold “MB ≥ P”; equality is willing.
+   dim excluded people/bars, and highlight the marginal buyer (MB=$6). Put the
+   price readout just left of the guide and a teal “30” below the row at Q=30;
+   quantities are thousands of pounds. Caption: “The marginal buyer is
+   indifferent at $6.” Hold “MB ≥ P”; equality is willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
@@ -518,8 +522,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.f · Recall the incentive to raise price
 
 1. Highlight Amanda-Grace in the original 3D plaza, then bring her and served
-   seller 20 (MC $3) into B3's head-on view. Clear the fixed graphs during that
-   comparison. Place “Wait at $3: gain $0” beside the current red $3 line and
+   seller 20 (MC $3) into B3's head-on view. Title: “What would this buyer do?”
+   Display MB/MC without names or individual role labels beneath the spheres.
+   Clear the fixed graphs during that comparison. Place “Wait at $3: gain $0”
+   beside the current red $3 line and
    “Offer $3.25: gain $3.75/lb” beside the proposed dashed red $3.25 line. Use
    world-space, camera-facing text with a short arrow from each choice to its
    price line; remove detached footer choices. Show that the served seller
@@ -550,8 +556,10 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Reveal teal “30” and orange “80” at their graph quantity positions, 30 buyer
    checks, 80 seller checks, and 30 central pairs. Fifty checked sellers remain on the inner arc. Mark the quantity gap 30–80; show “Excess: 50,000 pounds.”
 2. Highlight Andrew among the unserved sellers and Gary among the served buyers.
-   Show the same B3 head-on inspection view, with Andrew's MC $4 and Gary's MB $6.
-   The actual plaza returns before Andrew replaces seller 30 beside Gary.
+   Show the same B3 head-on inspection view, titled “What would this seller do?”
+   Display only “MC $4” and “MB $6” beside the bars, without names or individual
+   role labels beneath the spheres. The actual plaza returns before Andrew
+   replaces seller 30 beside Gary.
    Keep Gary in the same central slot; seller 30 returns to the willing inner arc.
    Place “Keep $6: gain $0” beside the current red $6 line and
    “Ask $5.75: gain $1.75/lb” beside the proposed dashed red $5.75 line. Use
@@ -666,8 +674,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    select buyers 1–20 except buyer 10, with Gary (buyer 30) in that slot; select
    sellers 1–20. Gary joins seller 10; unselected buyers return to their waiting
    stations. Mark “20 trades” and retain all unselected people.
-2. Show Gary's MB $6 beside unserved buyer 10's MB $10. Keep their potential
-   counterpart, seller 10 (MC $2.50), fixed. Use an empty outline for buyer 10's
+2. Show “MB $6” beside unserved buyer 10's “MB $10”; display no player names.
+   Keep their potential counterpart, seller 10 (MC $2.50), fixed. Use an empty outline for buyer 10's
    proposed connection; the other 19 trades stay unchanged.
 3. Ask “Who should get this lot?” Hold before revealing the replacement.
 
@@ -684,8 +692,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Retain the efficient first 20 buyers. For a separate, explicitly hypothetical
    allocation, replace selected seller 10 with Andrew (seller 40). Buyer 10
    joins Andrew at his station. Keep Q=20.
-2. Fix buyer 10 (MB $10). Compare Andrew's MC $4 with unselected seller 10's
-   MC $2.50. Ask “Who should produce this lot?” Hold before switching.
+2. Fix buyer 10 (MB $10). Compare “MC $4” with unselected seller 10's “MC $2.50”;
+   display no player names. Ask “Who should produce this lot?” Hold before switching.
 
 ## 3.d · Keep the benefit and reduce the cost
 
@@ -831,7 +839,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Reveal teal “45” and orange “20” at their quantity positions on the graph.
    The first 20 people on each side trade; matching conveys the trade count.
-2. Recall Amanda-Grace's proposed $3.25 bid and mark it “Not allowed.” The
+2. Recall the unserved buyer's proposed $3.25 bid and mark it “Not allowed.” The
    ceiling prevents the earlier rise play; it does not remove her incentive.
 3. Hold on the shortage and the blocked bid.
 
@@ -874,7 +882,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 1. Reveal teal “30” and orange “80” at their quantity positions on the graph.
    Thirty pairs trade; the caption states that 50 willing sellers have no buyer.
-2. Recall Andrew's proposed $5.75 offer and mark it “Below the floor.”
+2. Recall the unserved seller's proposed $5.75 offer and mark it “Below the floor.”
 3. Circle only the first 30 on each side. There are no government purchases;
    80 willing sellers do not mean 80 sales or 80 units of realized PS.
 

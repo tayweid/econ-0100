@@ -1605,7 +1605,7 @@ class B4(ThreeDScene):
         self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
         self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
                   show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
-        rule = fixed(Tex(r'$MB\geq P$: willing to buy. Gary is indifferent at $\$6$.', color=INK))
+        rule = fixed(Tex(r'$MB\geq P$: willing to buy. The marginal buyer is indifferent at $\$6$.', color=INK))
         rule.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
@@ -2003,20 +2003,15 @@ class B4(ThreeDScene):
         self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(shortage))
 
         # ---- 1.f · Amanda-Grace compares waiting with an actual alternative.
-        ag_head = fixed(title('What would Amanda-Grace do?'))
+        ag_head = fixed(title('What would this buyer do?'))
         self.play(ReplacementTransform(head, ag_head))
         head = ag_head
         ag_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_circles[24].get_center())
-        ag_name = Tex('Amanda-Grace', color=INK).scale(0.65)
-        ag_name.face_mat = np.eye(3)
-        ag_name.add_updater(face_camera)
-        ag_name.move_to(buyer_circles[24].get_center() + DOWN * 0.5)
-        ag_name.update()
         bid = DashedLine(buyer_circles[24].get_center(), seller_circles[19].get_center(), color=GUIDE, stroke_width=2)
         seller_gain = fixed(Tex(r'Seller receives $\$0.25$ more per lb', color=SUPPLY)).scale(0.52).move_to([-3.3, -1.35, 0])
-        self.play(Create(ag_focus), FadeIn(ag_name), Create(bid), FadeOut(units), FadeIn(seller_gain))
+        self.play(Create(ag_focus), Create(bid), FadeOut(units), FadeIn(seller_gain))
 
-        self.play(FadeOut(ag_focus), FadeOut(bid), FadeOut(seller_gain), ag_name.animate.move_to([-1.45, 0, -0.1]))
+        self.play(FadeOut(ag_focus), FadeOut(bid), FadeOut(seller_gain))
 
         # B3 2.a.i: the same head-on camera, close bars, and material people.
         buy_person = buyer_people[24].copy().clear_updaters()
@@ -2047,8 +2042,7 @@ class B4(ThreeDScene):
         buy_values = VGroup()
         for text, color, at, edge in [
                 (r'MB $\$7$', DEMAND, [-1.34, 0, 0.75 + 7 * 0.55 - 0.09], RIGHT),
-                (r'MC $\$3$', SUPPLY, [1.34, 0, 0.75 + 3 * 0.55], LEFT),
-                ('Seller', INK, [1.45, 0, -0.1], ORIGIN)]:
+                (r'MC $\$3$', SUPPLY, [1.34, 0, 0.75 + 3 * 0.55], LEFT)]:
             label = Tex(text, color=color).scale(0.56)
             label.face_mat = np.eye(3)
             label.add_updater(face_camera)
@@ -2084,7 +2078,6 @@ class B4(ThreeDScene):
         graphs.resume_updating()
         self.add(crowd, crowd_marks, graphs)
         self.remove(units)
-        ag_name.move_to(buyer_circles[24].get_center() + DOWN * 0.5)
         seller_gain.move_to([-3.3, -1.35, 0])
         self.add(ag_focus, bid, seller_gain)
         # One illustrative switch is not an additional sale. Qx remains 20.
@@ -2095,7 +2088,6 @@ class B4(ThreeDScene):
         ag_pair = buyer_circles[19].pair_home.copy()
         accepted_bid = Line(ag_pair, seller_circles[19].get_center(), color=GREEN, stroke_width=2)
         self.play(ReplacementTransform(bid, accepted_bid),
-                  ag_name.animate.move_to(ag_pair + DOWN * 0.5),
                   ag_focus.animate.set_width(0.044).move_to(ag_pair),
                   buyer_people[19].animate.set_width(buyer_people[19].home_width).move_to(buyer_people[19].home),
                   buyer_bars[19].animate.set_width(buyer_bars[19].home_width, stretch=True).move_to(buyer_bars[19].home),
@@ -2104,7 +2096,7 @@ class B4(ThreeDScene):
                   buyer_bars[24].animate.set_width(0.055, stretch=True).move_to([ag_pair[0], ag_pair[1], buyer_bars[24].home[2]]),
                   buyer_circles[24].animate.set_width(0.036).move_to(ag_pair).set_stroke(opacity=0), run_time=0.8)
         everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
-        self.play(FadeOut(accepted_bid), FadeOut(ag_focus), FadeOut(ag_name), FadeOut(seller_gain), FadeIn(everyone))
+        self.play(FadeOut(accepted_bid), FadeOut(ag_focus), FadeOut(seller_gain), FadeIn(everyone))
         # Resume sorted common-price snapshots after the individual illustration.
         self.play(buyer_people[24].animate.set_width(buyer_people[24].home_width).move_to(buyer_people[24].home),
                   buyer_bars[24].animate.set_width(buyer_bars[24].home_width, stretch=True).move_to(buyer_bars[24].home),
@@ -2136,13 +2128,13 @@ class B4(ThreeDScene):
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
         self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
-        excess = fixed(Tex(r'Excess: 50,000 lb. Andrew is willing, but has no buyer.', color=INK)).scale(0.65).move_to([-3.3, -1.35, 0])
+        excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(0.65).move_to([-3.3, -1.35, 0])
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
         self.play(FadeIn(excess), Create(andrew_focus), Create(cut))
 
-        andrew_head = fixed(title('What would Andrew do?'))
+        andrew_head = fixed(title('What would this seller do?'))
         self.play(FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low), ReplacementTransform(head, andrew_head))
         head = andrew_head
 
@@ -2175,9 +2167,7 @@ class B4(ThreeDScene):
         sell_values = VGroup()
         for text, color, at, edge in [
                 (r'MB $\$6$', DEMAND, [-1.34, 0, 0.75 + 6 * 0.55 - 0.09], RIGHT),
-                (r'MC $\$4$', SUPPLY, [1.34, 0, 0.75 + 4 * 0.55], LEFT),
-                ('Gary', INK, [-1.45, 0, -0.1], ORIGIN),
-                ('Andrew', INK, [1.45, 0, -0.1], ORIGIN)]:
+                (r'MC $\$4$', SUPPLY, [1.34, 0, 0.75 + 4 * 0.55], LEFT)]:
             label = Tex(text, color=color).scale(0.56)
             label.face_mat = np.eye(3)
             label.add_updater(face_camera)
@@ -2857,7 +2847,7 @@ class B4(ThreeDScene):
         comparison_words = VGroup()
         focus_labels = []
         for key, x, value, color, text in [
-                (('B', 30), -6.0, 6, DEMAND, r'Gary: MB \$6'),
+                (('B', 30), -6.0, 6, DEMAND, r'MB \$6'),
                 (('B', 10), -4.2, 10, DEMAND, r'Buyer 10: MB \$10'),
                 (('S', 10), -2.25, 2.5, SUPPLY, r'Seller 10: MC \$2.50')]:
             rings[key].set_stroke(opacity=0).set_fill(opacity=0)
@@ -2932,7 +2922,7 @@ class B4(ThreeDScene):
         comparison_words = VGroup()
         focus_labels = []
         for key, x, value, color, text in [
-                (('S', 40), -6.0, 4, SUPPLY, r'Andrew: MC \$4'),
+                (('S', 40), -6.0, 4, SUPPLY, r'MC \$4'),
                 (('S', 10), -4.2, 2.5, SUPPLY, r'Seller 10: MC \$2.50'),
                 (('B', 10), -2.25, 10, DEMAND, r'Buyer 10: MB \$10')]:
             rings[key].set_stroke(opacity=0).set_fill(opacity=0)
@@ -3507,7 +3497,7 @@ class B4(ThreeDScene):
         blocked_at = (buyer_circles[24].get_center() + seller_circles[19].get_center()) / 2
         blocked = VGroup(Line(blocked_at + [-0.13, -0.13, 0], blocked_at + [0.13, 0.13, 0], color=GUIDE, stroke_width=4),
                          Line(blocked_at + [-0.13, 0.13, 0], blocked_at + [0.13, -0.13, 0], color=GUIDE, stroke_width=4))
-        blocked_caption = fixed(Tex(r'Amanda-Grace wants to offer $\$3.25$. The $\$3$ ceiling forbids it.', color=INK).scale(0.70).move_to([0, -3.66, 0]))
+        blocked_caption = fixed(Tex(r'The buyer wants to offer $\$3.25$. The $\$3$ ceiling forbids it.', color=INK).scale(0.70).move_to([0, -3.66, 0]))
         rationing = fixed(Tex('Assume the highest-MB buyers and lowest-MC sellers trade.', color=CAPTION).scale(0.52).move_to([-3.50, -2.87, 0]))
         self.play(Create(ag_ring), Create(illegal_bid), Create(blocked), FadeIn(rationing), FadeOut(prediction), FadeIn(blocked_caption))
         self.pause('6.c.blocked')
@@ -3586,7 +3576,7 @@ class B4(ThreeDScene):
         blocked_at = (seller_circles[39].get_center() + buyer_circles[29].get_center()) / 2
         blocked_cut = VGroup(Line(blocked_at + [-0.13, -0.13, 0], blocked_at + [0.13, 0.13, 0], color=GUIDE, stroke_width=4),
                              Line(blocked_at + [-0.13, 0.13, 0], blocked_at + [0.13, -0.13, 0], color=GUIDE, stroke_width=4))
-        cut_caption = fixed(Tex(r'Andrew wants to ask $\$5.75$. The $\$6$ floor forbids it.', color=INK).scale(0.73).move_to([0, -3.66, 0]))
+        cut_caption = fixed(Tex(r'The seller wants to ask $\$5.75$. The $\$6$ floor forbids it.', color=INK).scale(0.73).move_to([0, -3.66, 0]))
         no_purchases = fixed(Tex('No government purchases. Highest MB and lowest MC trade.', color=CAPTION).scale(0.52).move_to([-3.50, -2.87, 0]))
         self.play(Create(andrew_ring), Create(illegal_cut), Create(blocked_cut), FadeIn(no_purchases), FadeOut(floor_question), FadeIn(cut_caption))
         self.pause('6.g')
