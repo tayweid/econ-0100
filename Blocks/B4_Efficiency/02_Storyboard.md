@@ -612,7 +612,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    Unwilling people remain at the rim with red Xs; no willing
    person remains unmatched on the inner arcs. Teal/orange quantity lines
    remain visible; the yellow gap marks and readouts fade at zero.
-2. Fade in the incoming title and one line at the standard bottom definition
+2. Fade in the title “Equilibrium” and one line at the standard bottom definition
    position: “Equilibrium: no willing buyer or seller is left without a trade.
    Q_s = Q_d.” Color only “Equilibrium” gold; body and formula remain white.
    Omit “=40” from this definition; the graph's quantity numbers remain.
@@ -624,8 +624,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.i.stability · Test why the price holds
 
 1. Keep $4 and the 40 trades as the faint reference. Show a dashed proposed
-   $4.25 line without its count answers. Ask “Would a higher price hold?” Hold.
-2. On advance, test $4.25: Qd=38, Qs=45, Qx=38. Show seven willing sellers
+   $4.25 line on each graph, with a red “$4.25” label just left of each line.
+   Temporarily hide each nearby $4 axis tick so the labels do not overlap.
+   Omit the repeated bottom price-hold question. Hold without proposed-price
+   count answers.
+2. On advance, fade the proposed labels and lines as price moves to $4.25:
+   Qd=38, Qs=45, Qx=38. Fade in the existing excess caption. Show seven willing sellers
    without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
    willing but unserved. Keep the quantity lines and mark the waiting sellers'
    arc and supply's 38–45 graph span in yellow, labeled “Excess 7.” Caption:
@@ -641,7 +645,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    graph transition. Use staircase count guides for these tests: the exact
    whole-lot counts differ from smooth-curve intersections at quarter dollars.
    Keep the cause visible as willing people left out, not just the marginal
-   pair refusing an unaffordable price.
+   pair refusing an unaffordable price. Use plain fades for all caption changes
+   in this beat—excess, shortage, and stable conclusion—with no paragraph morphs.
+   Keep their existing wording and the teaching holds unchanged.
 
 ## 1.i.stable · Keep the conclusion visible
 

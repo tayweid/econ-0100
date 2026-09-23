@@ -2331,7 +2331,7 @@ class B4(ThreeDScene):
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=linear)
 
         # ---- 1.i · Counts and incentives are two views of the same condition.
-        eq_head = fixed(title(r'Why does $\$4$ hold?'))
+        eq_head = fixed(title('Equilibrium'))
         equilibrium = fixed(Tex(
             r'Equilibrium: no willing buyer or seller is left without a trade. $Q_s=Q_d$.',
             color=INK, tex_to_color_map={'Equilibrium': DEFINITION}))
@@ -2344,21 +2344,26 @@ class B4(ThreeDScene):
         # ---- 1.i.stability · Test a deviation; count the exact whole lots.
         proposed = VGroup(*[DashedLine(ax.c2p(0, 4.25), ax.c2p(q, 4.25), color=GUIDE, stroke_width=2) for ax, q in [(demand_axes, 38), (supply_axes, 45)]])
         fixed(proposed)
-        test_question = fixed(Tex(r'Would $\$4.25$ hold?', color=DEFINITION)).scale(0.85).move_to([0, -3.55, 0])
-        self.play(FadeOut(equilibrium), FadeIn(proposed), FadeIn(test_question))
+        proposed_prices = fixed(VGroup(*[
+            Tex(r'\$4.25', color=GUIDE).scale(0.48).next_to(line.get_start(), LEFT, buff=0.12)
+            for line in proposed]))
+        # The attached price labels replace nearby $4 ticks during the comparison.
+        four_dollar_ticks = fixed(VGroup(demand_ticks[6], supply_ticks[6]))
+        self.play(FadeOut(equilibrium), FadeOut(four_dollar_ticks), FadeIn(proposed), FadeIn(proposed_prices))
         self.pause('1.i.stability')
-        self.play(FadeOut(proposed), price.animate.set_value(4.25), run_time=1.0)
+        self.play(FadeOut(proposed), FadeOut(proposed_prices), FadeIn(four_dollar_ticks),
+                  price.animate.set_value(4.25), run_time=1.0)
         excess_test = fixed(Tex('Seven willing sellers have no buyer. They can undercut.', color=INK)).scale(0.78).move_to([0, -3.55, 0])
-        self.play(ReplacementTransform(test_question, excess_test))
+        self.play(FadeIn(excess_test), run_time=0.3)
         self.wait(0.8)
         self.play(price.animate.set_value(4), run_time=1.0)
         self.play(price.animate.set_value(3.75), run_time=1.0)
         shortage_test = fixed(Tex('Six willing buyers have no seller. They can offer more.', color=INK)).scale(0.78).move_to([0, -3.55, 0])
-        self.play(ReplacementTransform(excess_test, shortage_test))
+        self.play(FadeOut(excess_test), FadeIn(shortage_test), run_time=0.3)
         self.wait(0.8)
         self.play(price.animate.set_value(4), run_time=1.0)
         stable = fixed(Tex(r'Above $\$4$: excess. Below $\$4$: shortage.', color=INK)).scale(0.83).move_to([0, -3.55, 0])
-        self.play(ReplacementTransform(shortage_test, stable))
+        self.play(FadeOut(shortage_test), FadeIn(stable), run_time=0.3)
         self.pause('1.i.stable')
 
         # ========== 7. Graph ==========
