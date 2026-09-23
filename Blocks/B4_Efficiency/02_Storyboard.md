@@ -266,7 +266,11 @@ From `5.a`, its active price/quantity guides stay hidden.
   Horizontal graph price guides are dashed, from the price axis to the curve,
   with no extension past the intersection. Separate graphs stop at their own
   willingness quantity; overlaid graphs stop at the first curve encountered.
-  Reference prices and proposed policy prices follow the same convention.
+  Policy-price guides follow the same endpoint convention. During common-price
+  adjustments, show only the current price guides: no ghost $3/$6 starting
+  guides or advance $4.25 overlay. A single price tracker drives the totem,
+  both graphs, and willingness/count updates. Individual deciding-player
+  offer lines remain dashed proposals until accepted; this rule does not remove them.
   When a dashed guide changes length, keep dash lengths and gaps fixed, with
   the pattern anchored at the price axis or the guide's starting endpoint.
   Reveal or clip dashes at the moving endpoint instead of stretching the pattern.
@@ -564,7 +568,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    the same incentive,” followed by “Shortage → price rises.” Raise the common
    price to **$4** in one smooth
    play, with the totem, counts, willingness marks, and per-person ground segments
-   synchronized. Finish at 40/40/40; no extra teaching or navigation stop.
+   synchronized. Show only current-price guides, with no ghost $3 guide.
+   Finish at 40/40/40; no extra teaching or navigation stop.
 
 ## 1.g · Predict the high-price result
 
@@ -606,7 +611,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    plaza switch or rollback. Change the title to “Price adjustment.” Show
    “Other unserved sellers have the same incentive,” followed by “Excess → price falls.” Move the common price to
    **$4** in one smooth play, retaining synchronized counts and moving ground
-   segments. No new hold is introduced.
+   segments. Show only current-price guides, with no ghost $6 guide. No new
+   hold is introduced.
 
 ## 1.i · State the two parts of equilibrium together
 
@@ -627,12 +633,12 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.i.stability · Test why the price holds
 
-1. Keep $4 and the 40 trades as the faint reference. Show a dashed proposed
-   $4.25 line on each graph, with a red “$4.25” label just left of each line.
-   Temporarily hide each nearby $4 axis tick so the labels do not overlap.
-   Omit the repeated bottom price-hold question. Hold without proposed-price
-   count answers.
-2. On advance, fade the proposed labels and lines as price moves to $4.25:
+1. Hold the actual price at **$4 everywhere**, with 40 trades. Show the yellow
+   bottom prompt exactly: “What happens to this system if we raise the price a
+   little?” Use scale 0.7443 and bottom margin 0.05. Show no proposed $4.25
+   overlay or numeric label before the move.
+2. On advance, fade the prompt and animate the single shared price tracker to
+   **$4.25**, keeping the totem, both graph guides, and counts synchronized.
    Qd=38, Qs=45, Qx=38. Fade in the existing excess caption. Show seven willing sellers
    without circles. Sellers 39–40 lose trades; sellers 41–45 become newly
    willing but unserved. Keep the local quantity segments and mark each waiting

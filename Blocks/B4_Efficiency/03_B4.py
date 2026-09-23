@@ -2206,9 +2206,6 @@ class B4(ThreeDScene):
         everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
-        tried_low = VGroup(*[DashedLine(ax.c2p(0, 3), ax.c2p(q, 3), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax, q in [(demand_axes, 45), (supply_axes, 20)]])
-        fixed(tried_low)
-        self.add(tried_low)
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
         rising = fixed(Tex(r'Shortage $\longrightarrow$ price rises. The counts meet.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(ReplacementTransform(everyone, rising))
@@ -2234,7 +2231,7 @@ class B4(ThreeDScene):
         head = fixed(title(r'A high price: $\$6$'))
         seller_question = fixed(Tex('What would this seller do?', color=DEFINITION).scale(DEFINITION_SCALE)
                                 .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(head), FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low))
+        self.play(FadeIn(head), FadeOut(andrew_focus), FadeOut(cut))
 
         # Three people, their own values, and two visible trading alternatives.
         sell_incumbent = seller_people[29].copy().clear_updaters()
@@ -2324,13 +2321,9 @@ class B4(ThreeDScene):
         self.add(crowd, crowd_marks, graphs)
         self.remove(units)
         self.remove(excess)
-        self.add(tried_low)
         everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
         self.add(units)
-        tried_high = VGroup(*[DashedLine(ax.c2p(0, 6), ax.c2p(q, 6), color=GUIDE, stroke_width=1).set_opacity(0.25) for ax, q in [(demand_axes, 30), (supply_axes, 80)]])
-        fixed(tried_high)
-        self.add(tried_high)
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
 
         # ---- 1.i · Counts and incentives are two views of the same condition.
@@ -2345,28 +2338,26 @@ class B4(ThreeDScene):
         self.pause('1.i')
 
         # ---- 1.i.stability · Test a deviation; count the exact whole lots.
-        proposed = VGroup(*[DashedLine(ax.c2p(0, 4.25), ax.c2p(q, 4.25), color=GUIDE, stroke_width=2) for ax, q in [(demand_axes, 38), (supply_axes, 45)]])
-        fixed(proposed)
-        proposed_prices = fixed(VGroup(*[
-            Tex(r'\$4.25', color=GUIDE).scale(0.48).next_to(line.get_start(), LEFT, buff=0.12)
-            for line in proposed]))
-        # The attached price labels replace nearby $4 ticks during the comparison.
-        four_dollar_ticks = fixed(VGroup(demand_ticks[6], supply_ticks[6]))
-        self.play(FadeOut(equilibrium), FadeOut(four_dollar_ticks), FadeIn(proposed), FadeIn(proposed_prices))
+        # Ask at the current $4 price, then move the shared tracker everywhere.
+        stability_question = fixed(Tex(
+            'What happens to this system if we raise the price a little?', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.remove(equilibrium)
+        self.play(FadeIn(stability_question), run_time=0.3)
         self.pause('1.i.stability')
-        self.play(FadeOut(proposed), FadeOut(proposed_prices), FadeIn(four_dollar_ticks),
-                  price.animate.set_value(4.25), run_time=1.0)
+        self.play(FadeOut(stability_question), price.animate.set_value(4.25),
+                  run_time=1.0, rate_func=smooth)
         excess_test = fixed(Tex('Seven willing sellers have no buyer. They can undercut.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(excess_test), run_time=0.3)
         self.wait(0.8)
-        self.play(price.animate.set_value(4), run_time=1.0)
-        self.play(price.animate.set_value(3.75), run_time=1.0)
+        self.play(FadeOut(excess_test), price.animate.set_value(4), run_time=1.0, rate_func=smooth)
+        self.play(price.animate.set_value(3.75), run_time=1.0, rate_func=smooth)
         shortage_test = fixed(Tex('Six willing buyers have no seller. They can offer more.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeOut(excess_test), FadeIn(shortage_test), run_time=0.3)
+        self.play(FadeIn(shortage_test), run_time=0.3)
         self.wait(0.8)
-        self.play(price.animate.set_value(4), run_time=1.0)
+        self.play(FadeOut(shortage_test), price.animate.set_value(4), run_time=1.0, rate_func=smooth)
         stable = fixed(Tex(r'Above $\$4$: excess. Below $\$4$: shortage.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeOut(shortage_test), FadeIn(stable), run_time=0.3)
+        self.play(FadeIn(stable), run_time=0.3)
         self.pause('1.i.stable')
 
         # ========== 7. Graph ==========
