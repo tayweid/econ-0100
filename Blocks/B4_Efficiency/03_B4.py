@@ -2653,8 +2653,8 @@ class B4(ThreeDScene):
         self.pause('1.i.algebra')
 
         # ========== 8. Welfare ==========
-        # The plaza has established equilibrium. From here, one stationary graph
-        # carries the argument: completed gains purple, missed gains grey.
+        # The plaza has established equilibrium. The welfare argument starts on
+        # the graph; selected lost trades expand into the two-person comparison.
         self.clear()
         self.camera.frame.clear_updaters()
         self.set_camera_orientation(phi=0, theta=0, gamma=0)
@@ -2769,6 +2769,34 @@ class B4(ThreeDScene):
         self.add(graph, total_label)
         self.pause('2.b')
 
+        # Policy ranges are intervals on the price axis, not a single allowed price.
+        floor_legal = fixed(VGroup(
+            Line(ax.c2p(0, 6), ax.c2p(0, 12.5), color=GOV, stroke_width=6),
+            Dot(ax.c2p(0, 6), radius=0.045, color=GOV),
+            VMobject(color=GOV, stroke_width=3).set_points_as_corners([
+                ax.c2p(0, 12.5) + LEFT * 0.075 + DOWN * 0.12,
+                ax.c2p(0, 12.5), ax.c2p(0, 12.5) + RIGHT * 0.075 + DOWN * 0.12]),
+            Tex('Legal prices', color=GOV).scale(0.48).next_to(ax.c2p(0, 9), LEFT, buff=0.30)))
+        ceiling_legal = fixed(VGroup(
+            Line(ax.c2p(0, 0), ax.c2p(0, 3), color=GOV, stroke_width=6),
+            Dot(ax.c2p(0, 3), radius=0.045, color=GOV),
+            Tex('Legal prices', color=GOV).scale(0.48).next_to(ax.c2p(0, 1.4), LEFT, buff=0.30)))
+        equilibrium_reference = fixed(VGroup(
+            Dot(ax.c2p(40, 4), radius=0.052, color=CAPTION),
+            Tex(r'$P^*=4$', color=CAPTION).scale(0.48).next_to(ax.c2p(40, 4), UP + RIGHT, buff=0.13),
+            Line(ax.c2p(40, 0), ax.c2p(40, 4), color=MUTED, stroke_width=1.3)))
+        lost_trade_span = fixed(VMobject(color=FOCUS, stroke_width=2.3))
+        lost_trade_span.axes, lost_trade_span.state = ax, market_state
+        lost_trade_span.add_updater(lambda m: m.set_points_as_corners([
+            m.axes.c2p(min(m.state.qd, m.state.qs), 0) + UP * 0.48,
+            m.axes.c2p(min(m.state.qd, m.state.qs), 0) + UP * 0.40,
+            m.axes.c2p(40, 0) + UP * 0.40, m.axes.c2p(40, 0) + UP * 0.48]))
+        lost_trade_label = fixed(Tex('Lost trades', color=FOCUS).scale(0.43))
+        lost_trade_label.axes, lost_trade_label.state = ax, market_state
+        lost_trade_label.add_updater(lambda m: m.move_to(
+            m.axes.c2p((min(m.state.qd, m.state.qs) + 40) / 2, 0) + UP * 0.66))
+        lost_trade_reference = fixed(VGroup(equilibrium_reference, lost_trade_span, lost_trade_label))
+
         # ---- 3.a · A higher legal price removes beneficial trades.
         next_head = fixed(title('A price floor'))
         self.play(FadeOut(head), FadeIn(next_head), FadeOut(total_definition), run_time=0.35)
@@ -2776,27 +2804,113 @@ class B4(ThreeDScene):
         self.play(show_price.animate.set_value(1), run_time=0.3)
         self.play(price.animate.set_value(6),
             *[allocation_flags[n].animate.set_value(0) for n in range(30, 40)], run_time=1.8, rate_func=smooth)
+        self.play(FadeIn(floor_legal), run_time=0.4)
         self.pause('3.a')
 
         # ---- 3.b · Grey is the surplus the missing trades could have created.
         loss_definition = fixed(Tex('Deadweight loss: gains from trade that are lost.', color=INK)
                                 .scale(0.78).move_to([0, -3.57, 0]))
-        self.play(show_loss.animate.set_value(1), FadeIn(fixed(dwl_label)), FadeIn(loss_definition), run_time=0.7)
+        self.play(show_loss.animate.set_value(1), FadeIn(fixed(dwl_label)), FadeIn(loss_definition),
+                  FadeIn(lost_trade_reference), run_time=0.7)
         self.pause('3.b')
 
-        # ---- 3.c · One lost lot, on the same graph; no second scene or arrows.
-        floor_lot = fixed(Polygon(ax.c2p(34, 3.75), ax.c2p(35, 3.75), ax.c2p(35, 5), ax.c2p(34, 5),
-            color=TOTAL, stroke_width=3, fill_color=MUTED, fill_opacity=0.7))
-        floor_mb = fixed(Tex(r'MB $\$5$', color=DEMAND).scale(0.53).next_to(ax.c2p(35, 5), UP, buff=0.16))
-        floor_mc = fixed(Tex(r'MC $\$3.75$', color=SUPPLY).scale(0.53).next_to(ax.c2p(35, 3.75), DOWN, buff=0.16))
-        floor_caption = fixed(Tex(r'This buyer values the unit at $\$5$, below the $\$6$ floor.', color=INK)
-                              .scale(0.75).move_to([0, -3.57, 0]))
-        self.play(FadeOut(dwl_label), FadeOut(loss_definition), FadeIn(floor_lot),
-                  FadeIn(floor_mb), FadeIn(floor_mc), FadeIn(floor_caption), run_time=0.6)
+        # ---- 3.c · Select a pair inside the lost-equilibrium range, then enlarge it.
+        floor_buyer_bar = fixed(Polygon(ax.c2p(34.04, 0), ax.c2p(34.47, 0),
+            ax.c2p(34.47, 5), ax.c2p(34.04, 5),
+            stroke_width=0, fill_color=DEMAND, fill_opacity=0.75))
+        floor_seller_bar = fixed(Polygon(ax.c2p(34.53, 0), ax.c2p(34.96, 0),
+            ax.c2p(34.96, 3.75), ax.c2p(34.53, 3.75),
+            stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))
+        floor_source = fixed(VGroup(floor_buyer_bar, floor_seller_bar))
+        selected_caption = fixed(Tex('One of the trades lost from equilibrium.', color=INK)
+                                 .scale(0.77).move_to([0, -3.57, 0]))
+        self.play(FadeOut(dwl_label), FadeOut(loss_definition),
+                  FadeIn(floor_source), FadeIn(selected_caption), run_time=0.6)
+        self.pause('3.c.select')
+
+        # These rectangles are the chosen MB and MC bars from the graph, not new people.
+        DETAIL_BASE, DETAIL_SCALE = -2.05, 0.56
+        floor_bar_targets = fixed(VGroup(
+            Polygon([-1.16, DETAIL_BASE, 0], [-0.06, DETAIL_BASE, 0],
+                    [-0.06, DETAIL_BASE + 5 * DETAIL_SCALE, 0], [-1.16, DETAIL_BASE + 5 * DETAIL_SCALE, 0],
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=0.55),
+            Polygon([0.06, DETAIL_BASE, 0], [1.16, DETAIL_BASE, 0],
+                    [1.16, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0], [0.06, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0],
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=0.55)))
+        graph.suspend_updating()
+        lost_trade_reference.suspend_updating()
+        self.play(FadeOut(graph), FadeOut(total_label), FadeOut(floor_legal),
+                  FadeOut(lost_trade_reference), FadeOut(selected_caption),
+                  Transform(floor_buyer_bar, floor_bar_targets[0]),
+                  Transform(floor_seller_bar, floor_bar_targets[1]), run_time=1.3, rate_func=smooth)
+        floor_people = Group()
+        for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
+            shadow = Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=color, fill_opacity=0.28)
+            shadow.move_to([x, DETAIL_BASE - 0.60, 0])
+            person = Sphere(radius=0.18, color=color, resolution=(12, 8)).move_to([x, DETAIL_BASE - 0.35, 0])
+            floor_people.add(shadow, person)
+        fixed(floor_people)
+        floor_axis = fixed(VGroup(
+            Line([-3.05, DETAIL_BASE, 0], [-3.05, DETAIL_BASE + 8 * DETAIL_SCALE, 0], color=MUTED, stroke_width=1.5),
+            Line([-1.31, DETAIL_BASE, 0], [1.31, DETAIL_BASE, 0], color=MUTED, stroke_width=1.5),
+            Tex(r'Price (\$/lb)', color=CAPTION).scale(0.49).move_to([-3.05, DETAIL_BASE + 8 * DETAIL_SCALE + 0.27, 0]),
+            Tex('0', color=CAPTION).scale(0.44).next_to([-3.05, DETAIL_BASE, 0], LEFT, buff=0.16)))
+        floor_labels = fixed(VGroup(
+            Tex(r'MB $\$5$', color=DEMAND).scale(0.62).next_to([-1.16, DETAIL_BASE + 5 * DETAIL_SCALE, 0], LEFT, buff=0.17),
+            Tex(r'MC $\$3.75$', color=SUPPLY).scale(0.62).next_to([1.16, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0], RIGHT, buff=0.17)))
+        floor_limit = fixed(Line([-3.05, DETAIL_BASE + 6 * DETAIL_SCALE, 0],
+            [1.16, DETAIL_BASE + 6 * DETAIL_SCALE, 0], color=GUIDE, stroke_width=2.5))
+        floor_limit_label = fixed(Tex(r'Floor $\$6$', color=GUIDE).scale(0.57)
+            .next_to([-3.05, DETAIL_BASE + 6 * DETAIL_SCALE, 0], LEFT, buff=0.16))
+        floor_legal_detail = fixed(VGroup(
+            Line([-3.05, DETAIL_BASE + 6 * DETAIL_SCALE, 0],
+                 [-3.05, DETAIL_BASE + 8 * DETAIL_SCALE, 0], color=GOV, stroke_width=6),
+            Dot([-3.05, DETAIL_BASE + 6 * DETAIL_SCALE, 0], radius=0.045, color=GOV),
+            Tex('Legal prices', color=GOV).scale(0.56)
+                .next_to([-3.05, DETAIL_BASE + 7.0 * DETAIL_SCALE, 0], LEFT, buff=0.38)))
+        floor_mutual = fixed(VGroup(
+            Line([-2.89, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0], [-2.89, DETAIL_BASE + 5 * DETAIL_SCALE, 0],
+                 color=TOTAL, stroke_width=4),
+            Circle(radius=0.038, color=TOTAL, stroke_width=2, fill_color=BG, fill_opacity=1)
+                .move_to([-2.89, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0]),
+            Circle(radius=0.038, color=TOTAL, stroke_width=2, fill_color=BG, fill_opacity=1)
+                .move_to([-2.89, DETAIL_BASE + 5 * DETAIL_SCALE, 0]),
+            Tex('Both gain', color=TOTAL).scale(0.56)
+                .next_to([-3.05, DETAIL_BASE + 4.375 * DETAIL_SCALE, 0], LEFT, buff=1.1)))
+        floor_proposal = fixed(VMobject(color=GUIDE, stroke_width=1.8))
+        set_dashed_endpoints(floor_proposal, [-3.05, DETAIL_BASE + 4 * DETAIL_SCALE, 0],
+                             [1.16, DETAIL_BASE + 4 * DETAIL_SCALE, 0])
+        floor_proposal_label = fixed(Tex(r'\$4', color=GUIDE).scale(0.53)
+            .next_to([-3.05, DETAIL_BASE + 4 * DETAIL_SCALE, 0], LEFT, buff=0.16))
+        floor_gain_bracket = fixed(VMobject(color=MUTED, stroke_width=2.5).set_points_as_corners([
+            [2.99, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0], [3.10, DETAIL_BASE + 3.75 * DETAIL_SCALE, 0],
+            [3.10, DETAIL_BASE + 5 * DETAIL_SCALE, 0], [2.99, DETAIL_BASE + 5 * DETAIL_SCALE, 0]]))
+        floor_gain_label = fixed(VGroup(Tex('Lost surplus', color=INK).scale(0.62),
+            Tex(r'$\$1{,}250$', color=INK).scale(0.75)).arrange(DOWN, buff=0.12)
+            .move_to([3.40, DETAIL_BASE + 4.375 * DETAIL_SCALE, 0], aligned_edge=LEFT))
+        floor_reason = fixed(Tex(r'Both gain at $\$4$; that price is illegal.', color=INK)
+                               .scale(0.78).move_to([0, -3.57, 0]))
+        floor_detail = Group(floor_axis, floor_labels, floor_limit, floor_limit_label,
+            floor_legal_detail, floor_mutual, floor_proposal, floor_proposal_label,
+            floor_gain_bracket, floor_gain_label, floor_people)
+        fixed(floor_detail)
+        floor_legal_detail.add(VMobject(color=GOV, stroke_width=3).set_points_as_corners([
+            [-3.13, DETAIL_BASE + 8 * DETAIL_SCALE - 0.13, 0], [-3.05, DETAIL_BASE + 8 * DETAIL_SCALE, 0],
+            [-2.97, DETAIL_BASE + 8 * DETAIL_SCALE - 0.13, 0]]))
+        fixed(floor_legal_detail)
+        self.play(FadeIn(floor_detail), FadeIn(floor_reason), run_time=0.65)
         self.pause('3.c')
 
+        self.play(FadeOut(floor_detail), FadeOut(floor_reason), run_time=0.35)
+        self.play(Transform(floor_buyer_bar, fixed(Polygon(ax.c2p(34.04, 0), ax.c2p(34.47, 0),
+            ax.c2p(34.47, 5), ax.c2p(34.04, 5), stroke_width=0, fill_color=DEMAND, fill_opacity=0.75))),
+            Transform(floor_seller_bar, fixed(Polygon(ax.c2p(34.53, 0), ax.c2p(34.96, 0),
+            ax.c2p(34.96, 3.75), ax.c2p(34.53, 3.75), stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))),
+            FadeIn(graph), FadeIn(total_label), FadeIn(floor_legal), run_time=1.0, rate_func=smooth)
+        graph.resume_updating()
+        self.play(FadeOut(floor_source), FadeOut(floor_legal), run_time=0.3)
+
         # ---- 4.a · Remove the floor, then set a lower legal maximum.
-        self.play(FadeOut(floor_lot), FadeOut(floor_mb), FadeOut(floor_mc), FadeOut(floor_caption), run_time=0.3)
         self.play(price.animate.set_value(4), show_loss.animate.set_value(0),
             *[allocation_flags[n].animate.set_value(1) for n in range(30, 40)], run_time=1.1, rate_func=smooth)
         next_head = fixed(title('A price ceiling'))
@@ -2804,28 +2918,123 @@ class B4(ThreeDScene):
         head = next_head
         self.play(price.animate.set_value(3),
             *[allocation_flags[n].animate.set_value(0) for n in range(20, 40)], run_time=1.8, rate_func=smooth)
+        self.play(FadeIn(ceiling_legal), run_time=0.4)
         self.pause('4.a')
-        self.play(show_loss.animate.set_value(1), FadeIn(dwl_label), run_time=0.7)
+        lost_trade_reference.resume_updating()
+        self.play(show_loss.animate.set_value(1), FadeIn(dwl_label), FadeIn(lost_trade_reference), run_time=0.7)
         self.pause('4.b')
 
-        # ---- 4.c · The seller's cost makes this beneficial trade unavailable.
-        ceiling_lot = fixed(Polygon(ax.c2p(24, 3.25), ax.c2p(25, 3.25), ax.c2p(25, 7), ax.c2p(24, 7),
-            color=TOTAL, stroke_width=3, fill_color=MUTED, fill_opacity=0.7))
-        ceiling_mb = fixed(Tex(r'MB $\$7$', color=DEMAND).scale(0.53).next_to(ax.c2p(25, 7), UP, buff=0.16))
-        ceiling_mc = fixed(Tex(r'MC $\$3.25$', color=SUPPLY).scale(0.53).next_to(ax.c2p(25, 3.25), DOWN, buff=0.16))
-        ceiling_caption = fixed(Tex(r"The seller's cost exceeds the $\$3$ ceiling.", color=INK)
-                                .scale(0.75).move_to([0, -3.57, 0]))
-        self.play(FadeOut(dwl_label), FadeIn(ceiling_lot), FadeIn(ceiling_mb), FadeIn(ceiling_mc), FadeIn(ceiling_caption), run_time=0.6)
+        # ---- 4.c · Select a pair inside the lost-equilibrium range, then enlarge it.
+        ceiling_buyer_bar = fixed(Polygon(ax.c2p(24.04, 0), ax.c2p(24.47, 0),
+            ax.c2p(24.47, 7), ax.c2p(24.04, 7),
+            stroke_width=0, fill_color=DEMAND, fill_opacity=0.75))
+        ceiling_seller_bar = fixed(Polygon(ax.c2p(24.53, 0), ax.c2p(24.96, 0),
+            ax.c2p(24.96, 3.25), ax.c2p(24.53, 3.25),
+            stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))
+        ceiling_source = fixed(VGroup(ceiling_buyer_bar, ceiling_seller_bar))
+        selected_caption = fixed(Tex('One of the trades lost from equilibrium.', color=INK)
+                                 .scale(0.77).move_to([0, -3.57, 0]))
+        self.play(FadeOut(dwl_label),
+                  FadeIn(ceiling_source), FadeIn(selected_caption), run_time=0.6)
+        self.pause('4.c.select')
+
+        # These rectangles are the chosen MB and MC bars from the graph, not new people.
+        DETAIL_BASE, DETAIL_SCALE = -2.05, 0.56
+        ceiling_bar_targets = fixed(VGroup(
+            Polygon([-1.16, DETAIL_BASE, 0], [-0.06, DETAIL_BASE, 0],
+                    [-0.06, DETAIL_BASE + 7 * DETAIL_SCALE, 0], [-1.16, DETAIL_BASE + 7 * DETAIL_SCALE, 0],
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=0.55),
+            Polygon([0.06, DETAIL_BASE, 0], [1.16, DETAIL_BASE, 0],
+                    [1.16, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0], [0.06, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0],
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=0.55)))
+        graph.suspend_updating()
+        lost_trade_reference.suspend_updating()
+        self.play(FadeOut(graph), FadeOut(total_label), FadeOut(ceiling_legal),
+                  FadeOut(lost_trade_reference), FadeOut(selected_caption),
+                  Transform(ceiling_buyer_bar, ceiling_bar_targets[0]),
+                  Transform(ceiling_seller_bar, ceiling_bar_targets[1]), run_time=1.3, rate_func=smooth)
+        ceiling_people = Group()
+        for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
+            shadow = Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=color, fill_opacity=0.28)
+            shadow.move_to([x, DETAIL_BASE - 0.60, 0])
+            person = Sphere(radius=0.18, color=color, resolution=(12, 8)).move_to([x, DETAIL_BASE - 0.35, 0])
+            ceiling_people.add(shadow, person)
+        fixed(ceiling_people)
+        ceiling_axis = fixed(VGroup(
+            Line([-3.05, DETAIL_BASE, 0], [-3.05, DETAIL_BASE + 8 * DETAIL_SCALE, 0], color=MUTED, stroke_width=1.5),
+            Line([-1.31, DETAIL_BASE, 0], [1.31, DETAIL_BASE, 0], color=MUTED, stroke_width=1.5),
+            Tex(r'Price (\$/lb)', color=CAPTION).scale(0.49).move_to([-3.05, DETAIL_BASE + 8 * DETAIL_SCALE + 0.27, 0]),
+            Tex('0', color=CAPTION).scale(0.44).next_to([-3.05, DETAIL_BASE, 0], LEFT, buff=0.16)))
+        ceiling_labels = fixed(VGroup(
+            Tex(r'MB $\$7$', color=DEMAND).scale(0.62).next_to([-1.16, DETAIL_BASE + 7 * DETAIL_SCALE, 0], LEFT, buff=0.17),
+            Tex(r'MC $\$3.25$', color=SUPPLY).scale(0.62).next_to([1.16, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0], RIGHT, buff=0.17)))
+        ceiling_limit = fixed(Line([-3.05, DETAIL_BASE + 3 * DETAIL_SCALE, 0],
+            [1.16, DETAIL_BASE + 3 * DETAIL_SCALE, 0], color=GUIDE, stroke_width=2.5))
+        ceiling_limit_label = fixed(Tex(r'Ceiling $\$3$', color=GUIDE).scale(0.57)
+            .next_to([-3.05, DETAIL_BASE + 3 * DETAIL_SCALE, 0], LEFT, buff=0.16))
+        ceiling_legal_detail = fixed(VGroup(
+            Line([-3.05, DETAIL_BASE + 0 * DETAIL_SCALE, 0],
+                 [-3.05, DETAIL_BASE + 3 * DETAIL_SCALE, 0], color=GOV, stroke_width=6),
+            Dot([-3.05, DETAIL_BASE + 3 * DETAIL_SCALE, 0], radius=0.045, color=GOV),
+            Tex('Legal prices', color=GOV).scale(0.56)
+                .next_to([-3.05, DETAIL_BASE + 1.5 * DETAIL_SCALE, 0], LEFT, buff=0.38)))
+        ceiling_mutual = fixed(VGroup(
+            Line([-2.89, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0], [-2.89, DETAIL_BASE + 7 * DETAIL_SCALE, 0],
+                 color=TOTAL, stroke_width=4),
+            Circle(radius=0.038, color=TOTAL, stroke_width=2, fill_color=BG, fill_opacity=1)
+                .move_to([-2.89, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0]),
+            Circle(radius=0.038, color=TOTAL, stroke_width=2, fill_color=BG, fill_opacity=1)
+                .move_to([-2.89, DETAIL_BASE + 7 * DETAIL_SCALE, 0]),
+            Tex('Both gain', color=TOTAL).scale(0.56)
+                .next_to([-3.05, DETAIL_BASE + 5.125 * DETAIL_SCALE, 0], LEFT, buff=1.1)))
+        ceiling_proposal = fixed(VMobject(color=GUIDE, stroke_width=1.8))
+        set_dashed_endpoints(ceiling_proposal, [-3.05, DETAIL_BASE + 4 * DETAIL_SCALE, 0],
+                             [1.16, DETAIL_BASE + 4 * DETAIL_SCALE, 0])
+        ceiling_proposal_label = fixed(Tex(r'\$4', color=GUIDE).scale(0.53)
+            .next_to([-3.05, DETAIL_BASE + 4 * DETAIL_SCALE, 0], LEFT, buff=0.16))
+        ceiling_gain_bracket = fixed(VMobject(color=MUTED, stroke_width=2.5).set_points_as_corners([
+            [2.99, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0], [3.10, DETAIL_BASE + 3.25 * DETAIL_SCALE, 0],
+            [3.10, DETAIL_BASE + 7 * DETAIL_SCALE, 0], [2.99, DETAIL_BASE + 7 * DETAIL_SCALE, 0]]))
+        ceiling_gain_label = fixed(VGroup(Tex('Lost surplus', color=INK).scale(0.62),
+            Tex(r'$\$3{,}750$', color=INK).scale(0.75)).arrange(DOWN, buff=0.12)
+            .move_to([3.40, DETAIL_BASE + 5.125 * DETAIL_SCALE, 0], aligned_edge=LEFT))
+        ceiling_reason = fixed(Tex(r'Both gain at $\$4$; that price is illegal.', color=INK)
+                               .scale(0.78).move_to([0, -3.57, 0]))
+        ceiling_detail = Group(ceiling_axis, ceiling_labels, ceiling_limit, ceiling_limit_label,
+            ceiling_legal_detail, ceiling_mutual, ceiling_proposal, ceiling_proposal_label,
+            ceiling_gain_bracket, ceiling_gain_label, ceiling_people)
+        fixed(ceiling_detail)
+        self.play(FadeIn(ceiling_detail), FadeIn(ceiling_reason), run_time=0.65)
         self.pause('4.c')
 
-        # ---- 5.a · Remove the restriction and fill exactly lot 25.
+        # ---- 5.a · Lift the restriction; the same $4 exchange becomes possible.
         next_head = fixed(title('Allow the trade'))
-        self.play(FadeOut(head), FadeIn(next_head), FadeOut(ceiling_caption),
-                  FadeOut(ceiling_mb), FadeOut(ceiling_mc), show_price.animate.set_value(0), run_time=0.45)
+        recovered = fixed(VGroup(Tex('Surplus gained', color=TOTAL).scale(0.62),
+            Tex(r'$\$3{,}750$', color=TOTAL).scale(0.75)).arrange(DOWN, buff=0.12).move_to(ceiling_gain_label))
+        self.play(FadeOut(head), FadeIn(next_head), FadeOut(ceiling_reason),
+                  FadeOut(ceiling_limit), FadeOut(ceiling_limit_label), FadeOut(ceiling_legal_detail),
+                  FadeOut(ceiling_gain_label), FadeIn(recovered), run_time=0.6)
         head = next_head
+        ceiling_detail.remove(ceiling_limit, ceiling_limit_label, ceiling_legal_detail, ceiling_gain_label)
         price.set_value(4)
-        self.play(allocation_flags[24].animate.set_value(1), ceiling_lot.animate.set_fill(TOTAL, opacity=0.65),
-                  run_time=1.1, rate_func=smooth)
+        show_price.set_value(0)
+        self.play(allocation_flags[24].animate.set_value(1),
+                  Group(*ceiling_people[:2]).animate.shift(RIGHT * 1.05),
+                  Group(*ceiling_people[2:]).animate.shift(LEFT * 1.05),
+                  ceiling_gain_bracket.animate.set_color(TOTAL), run_time=0.9, rate_func=smooth)
+        self.play(FadeOut(ceiling_detail), FadeOut(recovered), run_time=0.35)
+        # Refresh the recovered lot and hidden guides before the graph reappears.
+        graph.resume_updating()
+        graph.suspend_updating()
+        self.play(Transform(ceiling_buyer_bar, fixed(Polygon(ax.c2p(24.04, 0), ax.c2p(24.47, 0),
+            ax.c2p(24.47, 7), ax.c2p(24.04, 7), stroke_width=0, fill_color=DEMAND, fill_opacity=0.75))),
+            Transform(ceiling_seller_bar, fixed(Polygon(ax.c2p(24.53, 0), ax.c2p(24.96, 0),
+            ax.c2p(24.96, 3.25), ax.c2p(24.53, 3.25), stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75))),
+            FadeIn(graph), FadeIn(total_label), run_time=1.0, rate_func=smooth)
+        graph.resume_updating()
+        ceiling_lot = fixed(Polygon(ax.c2p(24, 3.25), ax.c2p(25, 3.25), ax.c2p(25, 7), ax.c2p(24, 7),
+            color=TOTAL, stroke_width=3, fill_color=TOTAL, fill_opacity=0.65))
+        self.play(FadeOut(ceiling_source), FadeIn(ceiling_lot), run_time=0.45)
         self.pause('5.a')
 
         # ---- 5.b · Fill the remaining gains in one movement.

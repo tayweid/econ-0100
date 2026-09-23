@@ -8,8 +8,10 @@ force one harmful trade → undo it and state the conditional welfare result**.
 This explicitly supersedes the earlier planner-first draft, the ceiling-first
 notes, and the animator note's frozen-order instruction. Keep the entire opening
 through `1.i.algebra` unchanged. The latest visual direction supersedes the
-back-half plaza-reuse requirement: after the algebra, use **one large graph**,
-with no plaza, totem, people, or camera moves. Keep the economic order above.
+back-half plaza-reuse requirement: after the algebra, use **one large graph**
+as the overview. Selected MB/MC bars expand directly from that graph into the
+preferred two-person comparison, without restoring the plaza or totem. Keep
+the economic order above.
 
 The review before Exercise B3 Q2 remains **under ten minutes, targeting eight**.
 The exercise interrupts the $3 recap before equilibrium is resolved. The later
@@ -20,8 +22,8 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections retain their
-**22 named holds**; the new continuous section 8 has **16 named holds**, for
-**38 total** with the exercise placement below. Section 8 presents the welfare
+**22 named holds**; section 8 now has **18 named holds**, including the two
+selected-lot holds before expansion, for **40 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
@@ -29,8 +31,8 @@ while the screen omits aggregate dollar totals and the recap's crowd displays.
 |---|---|---|
 | 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (22 unchanged) |
 | 8 | Market benefits | `2.a`, `2.b` |
-| 8 | Binding floor, lost gains, blocked pair | `3.a`, `3.b`, `3.c` |
-| 8 | Binding ceiling, lost gains, blocked pair | `4.a`, `4.b`, `4.c` |
+| 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
+| 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
 | 8 | Permit trades, reach the boundary, force/undo harmful trade | `5.a`–`5.e` |
 | 8 | B4 exercises, floor then ceiling | `6.exercise_floor`, `6.exercise_ceiling` |
 | 8 | Scope and close | `7.a` |
@@ -62,8 +64,10 @@ below apply through the algebra. The welfare sequence instead uses a single
 large graph: teal CS and orange PS labels inside their own areas, then a unified
 purple total-surplus region. Grey marks lost gains and red marks a harmful lot.
 Use attached labels and simple fades, without arrows, dashboards, aggregate
-dollar totals, or repeated questions. Inspect selected lots directly on the
-stationary graph with exact strip outlines and nearby endpoint labels; no insets.
+dollar totals, or repeated questions. First select the two MB/MC bars for a
+missing lot on the graph, then expand those bars into a clear two-person figure.
+Legal and mutually beneficial price intervals make the blocking restriction
+visible. Return to the same graph overview; do not restore the crowd plaza.
 
 ## Opening staging — unchanged through the algebra
 
@@ -246,8 +250,8 @@ From `5.a`, its active price/quantity guides stay hidden.
 - The scene files use flat, sequential `construct()` choreography, visible
   constants, simple loops for repeated objects, and literal `self.pause('id')`
   boundaries. No per-beat helper framework. Section 8 uses one stable large
-  graph with selected lots highlighted in place; no inset, plaza restoration,
-  or camera move.
+  graph overview with selected MB/MC bars expanding into a two-person figure;
+  no plaza restoration or unrelated inset diagram.
   Use simple text fades, never paragraph or glyph morphs.
 
 ## Numerical reference — checked, not an on-screen table
@@ -649,13 +653,22 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   keep both active guides hidden; the ordinary 40 axis tick remains visible.
   Omit willingness counters, yellow shortage/excess spans, dashboard totals,
   and all aggregate dollar amounts from the welfare visuals.
-- Keep the graph completely stationary. Outline selected lots directly inside
-  the grey loss region and label their MB/MC endpoints nearby. For the forced
-  negative lot, use its exact red strip with small teal/orange endpoint dots
-  and one adjacent “MC > MB” label. Never exaggerate its area. No inset, plaza,
-  totem, character close-up, arrows, or individual gain/loss dollars are added.
-- Exact discrete values, allocations, and welfare arithmetic remain internal;
-  the numerical reference above is not on-screen content. Maintain all 38 holds
+- Keep the overview graph stable, with **P*=4** at the crossing and a drop to the ordinary
+  **40** quantity tick as equilibrium references. Identify lost trades from actual Q to Q*=40, not the entire
+  shortage/excess range. Select two MB/MC bars inside that lost-trade range
+  before expanding those same bars into a two-person close-up. Give the two
+  people teal/orange materials without names; do not restore a crowd or plaza.
+- In the policy close-up, put the red floor/ceiling beside a vertical price
+  axis. Show the legal price interval in green: floor 6 upward with continuation,
+  or ceiling 0–3. Put the mutually beneficial interval MC–MB in purple beside
+  the axis and mark the mutually acceptable **$4**. The disjoint intervals show
+  that the restriction blocks a still-beneficial trade. Caption: **Both gain
+  at $4; that price is illegal.**
+- The forced negative lot remains an exact red strip on the overview with small
+  teal/orange endpoint dots and an adjacent “MC > MB” label. Never exaggerate
+  its area or add individual gain/loss dollars.
+- Aggregate welfare arithmetic and allocations remain internal. The selected
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 40 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -686,23 +699,36 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 1. Keep the first 30 lots' realized gains purple. Show the missing positive-gain
    lots 31–39 in grey; lot 40 has zero gain.
-2. Label the lost-gain area **DWL** nearby and hold `3.b`. The visible comparison
-   is realized versus forgone gain, without CS/PS or dollar-total readout rows.
+2. Retain the **P*=4** marker and drop to quantity **40**. Mark **Q=30 to Q=40** on the
+   quantity axis, labeled **Lost trades**. This is not the
+   entire excess-supply range; positive missing gains are lots 31–39 and 40 is zero.
+3. Label the grey area **DWL** nearby and hold `3.b`, without dollar-total rows.
+
+## 3.c.select · Select a trade lost from equilibrium
+
+1. Select lot **35** within the graph's marked 30–40 lost-trade range. Highlight
+   its **two** MB/MC bars, with heights **$5** and **$3.75**.
+   Add the numerical MB/MC labels in the close-up.
+2. Hold `3.c.select` so the class can locate this specific missing trade before
+   the bars expand. Keep the equilibrium reference and lost-trade range readable.
 
 ## 3.c · Inspect one beneficial lot blocked by the floor
 
-1. Outline lot **35** directly inside the graph's grey lost-gain area. Attach
-   **MB $5** and **MC $3.75** to its benefit/cost endpoints.
-2. Keep the graph stationary and show one short bottom caption explaining that
-   the **$6 floor** is above this buyer's value, blocking a beneficial trade.
-3. Hold `3.c` on this exact lot. No inset, individual gain calculation, or
-   additional diagram appears; its grey gain remains unrealized.
+1. Expand those same two graph bars into the preferred two-person comparison,
+   with teal/orange people and no names. Keep MB/MC labels beside the bars;
+   no crowd plaza or totem returns.
+2. Show the red **$6 floor** on the vertical price axis. Its green legal interval
+   runs from 6 upward with continuation. Beside it, show the purple mutually
+   beneficial interval **$3.75–$5** and the mutually acceptable **$4** marker.
+3. Hold `3.c` with the two intervals visibly disjoint and one caption:
+   **Both gain at $4; that price is illegal.** The proposed trade stays unrealized.
+   Return to the same graph overview before the ceiling transition.
 
 ## 4.a · Replace the floor with a binding ceiling
 
 1. Remove the floor and move to a **$3 ceiling**, passing through the $4 market
-   without adding a hold. Keep the graph fixed and clear lot 35's selection
-   outline, endpoint labels, and caption.
+   without adding a hold. Restore the graph overview and clear the floor's
+   selected-bar figure, legal interval, labels, and caption.
 2. End the single red price guide at the short-side supply curve and put the
    actual-quantity tick/drop at **20**. Retain purple gains for those lots.
 3. Hold `4.a`. Do not add shortage labels, brackets, or a separate demand count.
@@ -711,28 +737,42 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 1. Keep the first 20 lots' realized gains purple and show missing positive gains
    from lots 21–39 in grey. The zero-gain fortieth lot adds no area.
-2. Hold `4.b` with **DWL** attached to the grey region. Use the area to explain
-   the loss, without aggregate dollar calculations or detached readouts.
+2. Retain the **P*=4** marker and drop to quantity **40**. Mark **Q=20 to Q=40** on the
+   quantity axis, labeled **Lost trades**. This differs from
+   the whole shortage range; positive missing gains are lots 21–39 and 40 is zero.
+3. Hold `4.b` with **DWL** attached to the grey region and no dollar-total rows.
+
+## 4.c.select · Select a trade lost from equilibrium
+
+1. Select lot **25** inside the graph's marked 20–40 lost-trade range. Highlight
+   its **two** MB/MC bars, with heights **$7** and **$3.25**.
+   Add the numerical MB/MC labels in the close-up.
+2. Hold `4.c.select` before expanding those bars, keeping the equilibrium
+   reference and the subset of missing trades clear.
 
 ## 4.c · Inspect one beneficial lot blocked by the ceiling
 
-1. Outline lot **25** directly inside the grey lost-gain region. Attach
-   **MB $7** and **MC $3.25** to its endpoints, using the same in-place grammar.
-2. Show one short bottom caption explaining that the **$3 ceiling** lies below
-   this seller's cost, blocking a beneficial trade. Keep its potential gain grey.
-3. Hold `4.c` with the graph completely stationary; no inset or gain calculation.
+1. Expand the selected graph bars into the same two-person figure, with
+   teal/orange materials and MB/MC labels, without names or a restored plaza.
+2. Show the red **$3 ceiling** on the vertical price axis. Its green legal
+   interval runs from **0 to 3**; the purple mutually beneficial interval beside
+   it is **$3.25–$7**. Mark **$4** inside the beneficial interval.
+3. Hold `4.c` on the disjoint intervals and caption **Both gain at $4; that
+   price is illegal.** Keep this figure for the next permission step.
 
 ## 5.a · Permit that missing trade
 
-1. Lift the ceiling and remove the policy price and quantity guides. Turn the
-   selected lot 25's exact gain strip **purple**, retaining the first 20 filled
-   lots and the remaining grey gains.
-2. Hold `5.a` on this permitted addition. Internally it is lots 1–20 plus 25,
-   but show no quantity-21 tick/drop: that would suggest a contiguous prefix
-   that has not traded. Add no individual gain or aggregate dollar total.
-3. Clear the selection labels/caption with a fade before continuing. Keep the
-   graph fixed and both active guides hidden from this point onward; the
-   ordinary 40 axis tick remains visible without an added active guide.
+1. Lift the ceiling while still in the selected two-person figure. Remove its
+   legal restriction and complete the trade at **$4**, showing the agreed price
+   inside the mutually beneficial interval.
+2. Return the selected bars to the graph and fill lot 25's exact gain strip
+   **purple**, retaining the first 20 filled lots and the remaining grey gains.
+   Remove policy price/quantity guides before this partial-allocation overview.
+3. Hold `5.a` on the new purple strip. Internally this is lots 1–20 plus 25,
+   but show no quantity-21 tick/drop, which would imply the wrong ranked prefix.
+   The close-up briefly changes its lost-surplus bracket to purple surplus
+   gained ($3,750); the graph has no individual or aggregate dollar totals. Active guides stay
+   hidden thereafter; the ordinary 40 axis tick remains visible.
 
 ## 5.b · Allow the remaining beneficial trades
 
@@ -798,9 +838,10 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 ## Implementation and review boundaries
 
 - Preserve all **22 opening holds** through `1.i.algebra`, including the
-  eight-minute pre-Q2 budget. Section 8 retains 16 holds, for **38 total**.
-- The new graph-only visual direction supersedes the back-half requirement to
-  reuse the plaza and its text/quantity/gap displays. Recap behavior is unchanged.
+  eight-minute pre-Q2 budget. Section 8 has 18 holds, for **40 total**, including
+  `3.c.select` and `4.c.select` before the selected graph bars expand.
+- The graph overview and graph-derived two-person comparisons supersede the
+  old back-half crowd/plaza staging. Recap behavior is unchanged.
 - The welfare display has inside-area CS/PS labels, unified purple total surplus,
   grey DWL, and red negative gain. Policy beats have one price guide and one
   actual-quantity tick/drop; both stay hidden after `5.a`. No aggregate dollar
@@ -811,18 +852,18 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 - Preserve the 39/40 tie, ranked lot identities, and the distinction between
   willingness at a price and actual selected trades. No government purchases
   or extra planner-sorting episode is introduced.
-- End-of-pass check completed: all 38 holds executed with animations skipped,
-  exact allocation/surplus values passed, and representative graph frames were
-  inspected. This checks construction and held layouts, not a full timed
-  playback of every transition.
+- The revised 40-hold scene passed its end-of-pass construction and exact
+  allocation/arithmetic checks. Captured selection, close-up, and return frames
+  were inspected. All 22 opening holds and their code remain unchanged.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 
 ## Notes reconciliation for Taylor/Fable
 
 - Keep the accepted floor-first economic order; only its presentation changes
-  to a stable graph with selected lots outlined directly after the
-  equilibrium/algebra recap.
+  to a graph overview and selected MB/MC bars expanding into two-person
+  comparisons after the equilibrium/algebra recap. Legal and mutually
+  beneficial price intervals explain why the controls block gains.
 - CS/PS are familiar callbacks, then become one purple measure of total gain.
   Blocked positive-gain lots and the forced negative-gain lot carry the theorem
   argument without a separate planner episode or payment-cancellation proof.
