@@ -2653,517 +2653,217 @@ class B4(ThreeDScene):
         self.pause('1.i.algebra')
 
         # ========== 8. Welfare ==========
-        # Continue with the actual front-half plaza, people, bars and merged axes.
+        # The plaza has established equilibrium. From here, one stationary graph
+        # carries the argument: completed gains purple, missed gains grey.
         self.clear()
         self.camera.frame.clear_updaters()
-        self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to(PLAZA_CENTER).set_height(11)
-        crowd.resume_updating()
-        crowd_marks.resume_updating()
-        crowd.remove(units)
-        ax = merged_axes
-        price.set_value(4)
-        LOT = 1000
-
-        # The market normally matches the short side. Later, flags record the
-        # specific trades we permit: pairs 1--20 plus pair 25 is NOT prefix 21.
-        manual_allocation = ValueTracker(0)
+        self.set_camera_orientation(phi=0, theta=0, gamma=0)
+        self.camera.frame.move_to(ORIGIN).set_height(8)
+        price = ValueTracker(4)
         allocation_flags = Group(*[ValueTracker(float(n <= 40)) for n in range(1, 60)])
         market_state = ValueTracker(0)
-        market_state.price, market_state.mb, market_state.mc = price, BUYER_MB, SELLER_MC
-        market_state.manual, market_state.flags = manual_allocation, allocation_flags
+        market_state.price, market_state.flags = price, allocation_flags
+        market_state.mb, market_state.mc = BUYER_MB, SELLER_MC
 
-        def update_allocation(m):
+        # Track actual lots internally; do not turn the graph into a dashboard.
+        def update_welfare(m):
             p = m.price.get_value()
+            m.weights = np.array([flag.get_value() for flag in m.flags])
+            m.count = float(m.weights.sum())
             m.qd = int(np.count_nonzero(m.mb + 1e-7 >= p))
             m.qs = int(np.count_nonzero(m.mc <= p + 1e-7))
-            automatic = (np.arange(len(m.mb)) < min(m.qd, m.qs)).astype(float)
-            selected = np.array([flag.get_value() for flag in m.flags])
-            m.weights = (1 - m.manual.get_value()) * automatic + m.manual.get_value() * selected
-            m.count = float(m.weights.sum())
-            m.slots = np.cumsum(m.weights) - m.weights / 2 - m.count / 2
             costs = m.mc[:len(m.mb)]
+            gains = m.mb - costs
             m.cs = float(np.dot(m.weights, m.mb - p) * 1000)
             m.ps = float(np.dot(m.weights, p - costs) * 1000)
-            m.ts = float(np.dot(m.weights, m.mb - costs) * 1000)
-            missing_gains = (1 - m.weights) * np.maximum(m.mb - costs, 0)
-            m.loss = float(missing_gains.sum() * 1000)
-            m.loss_rank = (float(np.dot(missing_gains, np.arange(1, len(m.mb) + 1))
-                                 / missing_gains.sum()) if m.loss > 1e-7 else 40)
+            m.ts = float(np.dot(m.weights, gains) * 1000)
+            missing = (1 - m.weights) * np.maximum(gains, 0)
+            m.loss = float(missing.sum() * 1000)
+            m.loss_rank = float(np.dot(missing, np.arange(1, len(m.mb) + 1)) / missing.sum()) if m.loss > 1e-7 else 40
 
-        market_state.add_updater(update_allocation)
+        market_state.add_updater(update_welfare)
         market_state.update()
-        self.add(price, manual_allocation, allocation_flags, market_state,
-                 show_counts, show_trades, show_buyers, show_sellers)
-        for mobs in [buyer_people, buyer_bars, buyer_circles, seller_people, seller_bars, seller_circles]:
-            for mob in mobs:
-                mob.clear_updaters()
-                mob.state = market_state
-                mob.add_updater(lambda m: setattr(m, 'willing_fraction', float(
-                    m.value + 1e-7 >= m.price.get_value() if m.side == 'B' else m.value <= m.price.get_value() + 1e-7)))
-                mob.add_updater(lambda m: setattr(m, 'pair_fraction',
-                    m.state.weights[m.rank - 1] if m.rank <= len(m.state.weights) else 0))
-                mob.add_updater(lambda m: setattr(m, 'pair_home', np.array([
-                    (m.state.slots[m.rank - 1] if m.rank <= len(m.state.slots) else 0) * m.pair_step,
-                    m.pair_offset, m.home[2]])))
-                mob.add_updater(lambda m: m.move_to(
-                    (m.rim + m.willing_fraction * (m.home - m.rim)) * (1 - m.pair_fraction)
-                    + m.pair_home * m.pair_fraction))
+        show_total, show_loss, show_price = ValueTracker(0), ValueTracker(0), ValueTracker(1)
+        self.add(price, allocation_flags, market_state, show_total, show_loss, show_price)
+        ax = style_axes([0, 60, 20], [0, 12.5, 2], x_length=10, y_length=4.5)
+        ax.shift(np.array([-5.2, -2.35, 0]) - ax.c2p(0, 0))
+        demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
+        supply = Line(ax.c2p(0, 2), ax.c2p(60, 5), color=SUPPLY, stroke_width=3)
+        curve_labels = VGroup(
+            Tex('D / MB', color=DEMAND).scale(0.62).next_to(ax.c2p(13, 9.4), UP, buff=0.16),
+            Tex('S / MC', color=SUPPLY).scale(0.62).next_to(ax.c2p(55, 4.75), UP, buff=0.16))
+        axis_labels = VGroup(
+            Tex(r'Price (\$/lb)', color=CAPTION).scale(0.52).next_to(ax.c2p(0, 12.5), UP, buff=0.17),
+            Tex('Quantity (thousand lb)', color=CAPTION).scale(0.52).next_to(ax.c2p(30, 0), DOWN, buff=0.48))
+        ticks = VGroup()
+        for q in [0, 20, 40, 60]:
+            tick = Tex(str(q), color=CAPTION).scale(0.48).next_to(ax.c2p(q, 0), DOWN, buff=0.12)
+            tick.state, tick.quantity, tick.visibility = market_state, q, show_price
+            tick.add_updater(lambda m: m.set_opacity(float(m.visibility.get_value() < 0.01
+                or abs(m.quantity - min(m.state.qd, m.state.qs)) > 3)))
+            ticks.add(tick)
+        ticks.add(Tex('12', color=CAPTION).scale(0.48).next_to(ax.c2p(0, 12), LEFT, buff=0.15))
 
-        # Keep the same colored quantity paths and yellow waiting-group bracket.
-        gap_count.clear_updaters()
-        gap_count.price, gap_count.mb, gap_count.mc = price, BUYER_MB, SELLER_MC
-        gap_count.add_updater(lambda m: m.set_value(abs(
-            np.count_nonzero(m.mb + 1e-7 >= m.price.get_value())
-            - np.count_nonzero(m.mc <= m.price.get_value() + 1e-7))))
-        plaza_quantities.price, plaza_quantities.mb, plaza_quantities.mc = price, BUYER_MB, SELLER_MC
-        plaza_quantities.buyers, plaza_quantities.sellers = buyer_circles, seller_circles
-        plaza_quantities.counts, plaza_quantities.trades = show_counts, show_trades
-        plaza_quantities[5].tracker = gap_count
-        plaza_quantities.resume_updating()
-        crowd.add(plaza_quantities)
-        self.add(gap_count)
-
-        # Exact 1,000-lb rectangles, not continuous triangles: the market's
-        # surplus is $195,000. The straight curves remain the equation guides.
-        show_surplus, show_loss = ValueTracker(0), ValueTracker(0)
-        surplus_cells, loss_cells = VGroup(), VGroup()
-        for n, (benefit, cost) in enumerate(zip(BUYER_MB, SELLER_MC)):
-            for kind, color in [('cs', DEMAND), ('ps', SUPPLY)]:
-                cell = VMobject(stroke_width=0, fill_color=color)
-                cell.axes, cell.state, cell.rank = ax, market_state, n
-                cell.benefit, cell.cost, cell.kind, cell.visibility = benefit, cost, kind, show_surplus
-                cell.add_updater(lambda m: m.set_points_as_corners([
-                    m.axes.c2p(m.rank, m.state.price.get_value() if m.kind == 'cs' else m.cost),
-                    m.axes.c2p(m.rank + 1, m.state.price.get_value() if m.kind == 'cs' else m.cost),
-                    m.axes.c2p(m.rank + 1, m.benefit if m.kind == 'cs' else m.state.price.get_value()),
-                    m.axes.c2p(m.rank, m.benefit if m.kind == 'cs' else m.state.price.get_value()),
-                    m.axes.c2p(m.rank, m.state.price.get_value() if m.kind == 'cs' else m.cost)])
-                    .set_fill(opacity=0.58 * m.visibility.get_value() * m.state.weights[m.rank]
-                        * float(m.benefit >= m.state.price.get_value() if m.kind == 'cs' else m.cost <= m.state.price.get_value())))
-                surplus_cells.add(cell)
-            if benefit > cost + 1e-7:
+        # The exact per-lot regions share edges, so the eye sees one area.
+        # No floating bars, separate numerical totals, leaders or gap brackets.
+        cs_area, ps_area, total_area, lost_area = VGroup(), VGroup(), VGroup(), VGroup()
+        for n in range(39):
+            benefit, cost = BUYER_MB[n], SELLER_MC[n]
+            cs_area.add(Polygon(ax.c2p(n, 4), ax.c2p(n + 1, 4),
+                ax.c2p(n + 1, benefit), ax.c2p(n, benefit),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0.43))
+            ps_area.add(Polygon(ax.c2p(n, cost), ax.c2p(n + 1, cost),
+                ax.c2p(n + 1, 4), ax.c2p(n, 4),
+                stroke_width=0, fill_color=SUPPLY, fill_opacity=0.43))
+            for group, color, realized in [(total_area, TOTAL, True), (lost_area, MUTED, False)]:
                 cell = Polygon(ax.c2p(n, cost), ax.c2p(n + 1, cost),
-                               ax.c2p(n + 1, benefit), ax.c2p(n, benefit),
-                               stroke_width=0, fill_color=MUTED, fill_opacity=0)
-                cell.state, cell.rank, cell.visibility = market_state, n, show_loss
-                cell.add_updater(lambda m: m.set_fill(opacity=0.65 * m.visibility.get_value() * (1 - m.state.weights[m.rank])))
-                loss_cells.add(cell)
-        negative_cell = Polygon(ax.c2p(40, 3.8), ax.c2p(41, 3.8), ax.c2p(41, 4.05), ax.c2p(40, 4.05),
-                                stroke_width=0, fill_color=GUIDE, fill_opacity=0)
-        negative_cell.state = market_state
-        negative_cell.add_updater(lambda m: m.set_fill(opacity=0.9 * m.state.weights[40]))
-        demand_lot_bars.set_fill(opacity=0.16)
-        supply_lot_bars.set_fill(opacity=0.16)
-        for tick in demand_ticks:
-            tick.clear_updaters()
-        # Dynamic counts replace ordinary ticks when close to them.
-        for tick, q in zip(demand_ticks[:6], [0, 20, 40, 60, 80, 100]):
-            tick.state, tick.quantity = market_state, q
-            tick.add_updater(lambda m: m.set_opacity(float(min(abs(m.quantity - m.state.qd), abs(m.quantity - m.state.qs)) >= 6)))
-        for tick, level in zip(demand_ticks[6:], [4, 8, 12]):
-            tick.state, tick.level = market_state, level
-            tick.set_color(CAPTION)
-            tick.add_updater(lambda m: m.set_opacity(float(abs(m.level - m.state.price.get_value()) > 0.7)))
-        demand_ticks.resume_updating()
-        graph_guides, graph_counts, graph_spans = VGroup(), VGroup(), VGroup()
-        for color, side, offset in [(DEMAND, 'qd', 0.025), (SUPPLY, 'qs', -0.025)]:
-            guide = Line(ORIGIN, UP, color=color, stroke_width=1.7)
-            guide.axes, guide.state, guide.side = ax, market_state, side
-            guide.add_updater(lambda m: m.set_points_as_corners([
-                m.axes.c2p(getattr(m.state, m.side), 0),
-                m.axes.c2p(getattr(m.state, m.side), m.state.price.get_value())]))
-            graph_guides.add(guide)
-            count = Integer(40, color=color).scale(0.48)
-            count.axes, count.state, count.side = ax, market_state, side
-            count.add_updater(lambda m: m.set_value(getattr(m.state, m.side))
-                .next_to(m.axes.c2p(m.get_value(), 0), DOWN, buff=0.11)
-                .set_color(INK if m.state.qd == m.state.qs else (DEMAND if m.side == 'qd' else SUPPLY))
-                .set_opacity(float(m.side == 'qd' or m.state.qd != m.state.qs)))
-            graph_counts.add(count)
-            span = Line(ORIGIN, RIGHT, color=color, stroke_width=3)
-            span.axes, span.state, span.side, span.offset = ax, market_state, side, offset
-            span.add_updater(lambda m: m.set_points_as_corners([
-                m.axes.c2p(0, 0) + UP * m.offset,
-                m.axes.c2p(getattr(m.state, m.side), 0) + UP * m.offset]))
-            graph_spans.add(span)
-        graph_price = VMobject(color=GUIDE, stroke_width=2.4)
-        graph_price.axes, graph_price.state = ax, market_state
-        graph_price.add_updater(lambda m: set_dashed_endpoints(m,
-            m.axes.c2p(0, m.state.price.get_value()),
-            m.axes.c2p(max(0, min(100, max(60 - 5 * m.state.price.get_value(),
-                20 * (m.state.price.get_value() - 2)))), m.state.price.get_value())))
-        graph_price_value = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.48)
-        graph_price_value.axes, graph_price_value.price = ax, price
-        graph_price_value.add_updater(lambda m: m.set_value(m.price.get_value())
-            .next_to(m.axes.c2p(0, m.price.get_value()), LEFT, buff=0.13))
-        graph_gap = VMobject(color=FOCUS, stroke_width=3)
-        graph_gap.axes, graph_gap.state = ax, market_state
-        graph_gap.add_updater(lambda m: m.set_points_as_corners([
-            m.axes.c2p(min(m.state.qd, m.state.qs), 0) + DOWN * 0.41,
-            m.axes.c2p(min(m.state.qd, m.state.qs), 0) + DOWN * 0.47,
-            m.axes.c2p(max(m.state.qd, m.state.qs), 0) + DOWN * 0.47,
-            m.axes.c2p(max(m.state.qd, m.state.qs), 0) + DOWN * 0.41])
-            .set_stroke(opacity=float(m.state.qd != m.state.qs)))
-        graph_gap_number = Integer(0, color=FOCUS).scale(0.43)
-        graph_gap_number.axes, graph_gap_number.state = ax, market_state
-        graph_gap_number.add_updater(lambda m: m.set_value(abs(m.state.qd - m.state.qs))
-            .move_to(m.axes.c2p((m.state.qd + m.state.qs) / 2, 0) + DOWN * 0.64)
-            .set_opacity(float(m.state.qd != m.state.qs)))
-        merged_labels[1].next_to(ax.c2p(50, 0), DOWN, buff=0.94)
-        merged_labels.resume_updating()
-
-        # Values stay with their shaded areas. The only bottom readout is the sum.
-        component_values = VGroup()
-        for label, color, field, at, target in [
-                ('CS', DEMAND, 'cs', [2.75, 2.00, 0], ax.c2p(12, 7)),
-                ('PS', SUPPLY, 'ps', [5.75, 2.00, 0], ax.c2p(23, 3.55))]:
-            name = Tex(label, color=color).scale(0.65)
-            number = Integer(0, color=color).scale(0.55)
-            number.state, number.field = market_state, field
-            number.add_updater(lambda m: m.set_value(round(getattr(m.state, m.field))))
-            dollar = Tex(r'\$', color=color).scale(0.55)
-            read = VGroup(name, dollar, number).arrange(RIGHT, buff=0.08).move_to(at)
-            read.anchor = np.array(at)
-            read.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(m.anchor))
-            leader = Line(np.array(at) + DOWN * 0.23, target, color=color, stroke_width=1.2)
-            component_values.add(leader, read)
-        total_equation = Tex(r'Total surplus $=$ PS $+$ CS', color=INK,
-                             tex_to_color_map={'PS': SUPPLY, 'CS': DEMAND}).scale(0.66).move_to([4.48, -2.43, 0])
-        total_number = Integer(195000, color=INK).scale(0.76)
-        total_number.state = market_state
-        total_number.add_updater(lambda m: m.set_value(round(m.state.ts)))
-        total_dollar = Tex(r'\$', color=INK).scale(0.76)
-        total_readout = VGroup(total_dollar, total_number).arrange(RIGHT, buff=0.07).move_to([4.48, -2.94, 0])
-        total_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.07).move_to([4.48, -2.94, 0]))
-        loss_name = Tex('DWL', color=CAPTION).scale(0.57)
-        loss_dollar = Tex(r'\$', color=CAPTION).scale(0.57)
-        loss_number = Integer(0, color=CAPTION).scale(0.57)
-        loss_number.state = market_state
-        loss_number.add_updater(lambda m: m.set_value(round(m.state.loss)))
-        loss_readout = VGroup(loss_name, loss_dollar, loss_number).arrange(RIGHT, buff=0.07)
-        loss_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.07).move_to([4.65, 1.95, 0]))
-        loss_leader = Line([4.4, 1.68, 0], ax.c2p(35, 4.35), color=CAPTION, stroke_width=1.3)
-        loss_leader.state, loss_leader.axes = market_state, ax
-        loss_leader.add_updater(lambda m: m.set_points_as_corners([[4.4, 1.68, 0],
-            m.axes.c2p(m.state.loss_rank - 0.5, (14 - 0.15 * m.state.loss_rank) / 2)]))
-        loss_annotation = fixed(VGroup(loss_leader, loss_readout))
-        welfare_graph = fixed(VGroup(ax, demand_lot_bars, supply_lot_bars,
-            surplus_cells, loss_cells, negative_cell, merged_demand, merged_supply,
-            demand_ticks, merged_labels, graph_spans, graph_guides, graph_price,
-            graph_price_value, graph_counts, graph_gap, graph_gap_number))
-        welfare_graph.resume_updating()
-        self.add(show_surplus, show_loss)
+                    ax.c2p(n + 1, benefit), ax.c2p(n, benefit),
+                    stroke_width=0, fill_color=color, fill_opacity=0)
+                cell.state, cell.rank, cell.realized = market_state, n, realized
+                cell.visibility = show_total if realized else show_loss
+                cell.add_updater(lambda m: m.set_fill(opacity=0.43 * m.visibility.get_value()
+                    * (m.state.weights[m.rank] if m.realized else 1 - m.state.weights[m.rank])))
+                group.add(cell)
+        cs_label = Tex('CS', color=DEMAND).scale(0.9).move_to(ax.c2p(12, 7))
+        ps_label = Tex('PS', color=SUPPLY).scale(0.72).move_to(ax.c2p(11, 3.22))
+        total_label = Tex('Total surplus', color=TOTAL).scale(0.72).move_to(ax.c2p(12, 7.2))
+        dwl_label = Tex('DWL', color=CAPTION).scale(0.53)
+        dwl_label.axes, dwl_label.state = ax, market_state
+        dwl_label.add_updater(lambda m: m.move_to(m.axes.c2p(m.state.loss_rank - 0.5,
+            (14 - 0.15 * m.state.loss_rank) / 2)))
+        price_guide = VMobject(color=GUIDE, stroke_width=2.3)
+        price_guide.axes, price_guide.price, price_guide.visibility = ax, price, show_price
+        price_guide.add_updater(lambda m: set_dashed_endpoints(m,
+            m.axes.c2p(0, m.price.get_value()),
+            m.axes.c2p(max(0, min(60 - 5 * m.price.get_value(), 20 * (m.price.get_value() - 2))), m.price.get_value()))
+            .set_stroke(opacity=m.visibility.get_value()))
+        price_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.58)
+        price_number.axes, price_number.price, price_number.visibility = ax, price, show_price
+        price_number.add_updater(lambda m: m.set_value(m.price.get_value())
+            .next_to(m.axes.c2p(0, m.price.get_value()), LEFT, buff=0.17).set_opacity(m.visibility.get_value()))
+        quantity_drop = VMobject(color=MUTED, stroke_width=1.3)
+        quantity_drop.axes, quantity_drop.state, quantity_drop.visibility = ax, market_state, show_price
+        quantity_drop.add_updater(lambda m: m.set_points_as_corners([
+            m.axes.c2p(min(m.state.qd, m.state.qs), 0),
+            m.axes.c2p(min(m.state.qd, m.state.qs), m.state.price.get_value())])
+            .set_stroke(opacity=0.65 * m.visibility.get_value()))
+        quantity_number = Integer(40, color=GUIDE).scale(0.52)
+        quantity_number.axes, quantity_number.state, quantity_number.visibility = ax, market_state, show_price
+        quantity_number.add_updater(lambda m: m.set_value(min(m.state.qd, m.state.qs))
+            .next_to(m.axes.c2p(m.get_value(), 0), DOWN, buff=0.12).set_opacity(m.visibility.get_value()))
+        graph = fixed(VGroup(ax, cs_area, ps_area, total_area, lost_area,
+            demand, supply, curve_labels, axis_labels, ticks,
+            price_guide, price_number, quantity_drop, quantity_number))
         head = fixed(title('The gains from trade'))
-        self.add(head, crowd, crowd_marks, welfare_graph)
-        self.play(show_surplus.animate.set_value(1), FadeIn(fixed(component_values)), run_time=1)
-        welfare_graph.add(component_values)
-        self.add(welfare_graph)
+        self.add(head, graph)
+        self.play(FadeIn(fixed(cs_label)), FadeIn(fixed(ps_label)), run_time=0.6)
         self.pause('2.a')
-        self.play(FadeIn(fixed(total_equation)), FadeIn(fixed(total_readout)), run_time=0.7)
-        welfare_graph.add(total_equation, total_readout)
-        self.add(welfare_graph)
+
+        # ---- 2.b · Join the two familiar benefits into one purple region.
+        total_definition = fixed(Tex(r'Total surplus $=$ PS $+$ CS', color=TOTAL,
+            tex_to_color_map={'PS': SUPPLY, 'CS': DEMAND}).scale(0.85).move_to([0, -3.57, 0]))
+        self.play(FadeOut(cs_label), FadeOut(ps_label), FadeOut(cs_area), FadeOut(ps_area),
+                  show_total.animate.set_value(1), show_price.animate.set_value(0),
+                  FadeIn(fixed(total_label)), FadeIn(total_definition), run_time=0.9, rate_func=smooth)
+        graph.remove(cs_area, ps_area)
+        self.add(graph, total_label)
         self.pause('2.b')
 
-        # ---- 3.a · Raise the legal minimum; keep the people, axes and bars.
-        next_head = fixed(title('A higher price: a price floor'))
-        self.play(FadeOut(head), FadeIn(next_head), FadeOut(component_values), run_time=0.35)
+        # ---- 3.a · A higher legal price removes beneficial trades.
+        next_head = fixed(title('A price floor'))
+        self.play(FadeOut(head), FadeIn(next_head), FadeOut(total_definition), run_time=0.35)
         head = next_head
-        welfare_graph.remove(component_values)
-        self.add(welfare_graph)
-        price_heading.set_opacity(0)
-        floor_word = Tex(r'Price floor (\$/lb)', color=GUIDE).scale(0.63)
-        floor_word.face_mat = np.eye(3)
-        floor_word.add_updater(face_camera)
-        floor_word.update()
-        floor_word.move_to(price_heading)
-        crowd.add(floor_word)
-        assumption = fixed(Tex('Highest-benefit buyers and lowest-cost sellers trade.', color=CAPTION)
-                           .scale(0.60).move_to([0, -3.62, 0]))
-        manual_allocation.set_value(1)
-        self.play(FadeIn(assumption), price.animate.set_value(6),
-                  *[allocation_flags[n].animate.set_value(0) for n in range(30, 40)],
-                  run_time=2, rate_func=smooth)
+        self.play(show_price.animate.set_value(1), run_time=0.3)
+        self.play(price.animate.set_value(6),
+            *[allocation_flags[n].animate.set_value(0) for n in range(30, 40)], run_time=1.8, rate_func=smooth)
         self.pause('3.a')
-        next_head = fixed(title('Deadweight loss'))
-        definition = fixed(Tex('Total surplus lost when beneficial trades do not happen.', color=INK)
-                           .scale(0.70).move_to([0, -3.62, 0]))
-        self.play(FadeOut(head), FadeIn(next_head), FadeOut(assumption), FadeIn(definition),
-                  show_loss.animate.set_value(1), FadeIn(loss_annotation), run_time=0.7)
-        head = next_head
-        welfare_graph.add(loss_annotation)
-        self.add(welfare_graph)
+
+        # ---- 3.b · Grey is the surplus the missing trades could have created.
+        loss_definition = fixed(Tex('Deadweight loss: gains from trade that are lost.', color=INK)
+                                .scale(0.78).move_to([0, -3.57, 0]))
+        self.play(show_loss.animate.set_value(1), FadeIn(fixed(dwl_label)), FadeIn(loss_definition), run_time=0.7)
         self.pause('3.b')
-        self.play(FadeOut(definition), run_time=0.25)
 
-        # At the $6 floor, this buyer (MB $5) and seller (MC $3.75) cannot trade.
-        floor_buyer = buyer_people[34].copy().clear_updaters()
-        floor_seller = seller_people[34].copy().clear_updaters()
-        floor_mb = buyer_bars[34].copy().clear_updaters()
-        floor_mc = seller_bars[34].copy().clear_updaters()
-        floor_detail = Group(floor_buyer, floor_seller, floor_mb, floor_mc)
-        self.add(floor_detail)
-        floor_targets = []
-        for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
-            shadow = Disk3D(radius=0.28, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
-            shadow.set_color(color).move_to([x, 0, 0.025])
-            orb = Sphere(radius=0.23, color=color, resolution=(12, 8)).move_to([x, 0, 0.32])
-            floor_targets.append(Group(shadow, orb))
-        floor_mb_target = Rectangle3D(width=1.10, height=5 * 0.55, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-        floor_mb_target.rotate(90 * DEGREES, RIGHT).move_to([-0.61, 0, 0.75 + 5 * 0.55 / 2])
-        floor_mc_target = Rectangle3D(width=1.10, height=3.75 * 0.55, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-        floor_mc_target.rotate(90 * DEGREES, RIGHT).move_to([0.61, 0, 0.75 + 3.75 * 0.55 / 2])
-        crowd.suspend_updating()
-        crowd_marks.suspend_updating()
-        welfare_graph.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(welfare_graph),
-                  Transform(floor_buyer, floor_targets[0]), Transform(floor_seller, floor_targets[1]),
-                  Transform(floor_mb, floor_mb_target), Transform(floor_mc, floor_mc_target),
-                  self.camera.frame.animate.reorient(0, 90, center=[0, 0, 2.6], height=8.4), run_time=1.5)
-        floor_zero = Line([-1.31, -0.02, 0.75], [1.31, -0.02, 0.75], color=MUTED, stroke_width=1.5).set_flat_stroke(False)
-        floor_limit = Line([-1.16, -0.045, 0.75 + 6 * 0.55], [1.16, -0.045, 0.75 + 6 * 0.55], color=GUIDE, stroke_width=3).set_flat_stroke(False)
-        floor_labels = VGroup()
-        for text, color, at, edge in [
-                (r'MB $\$5$', DEMAND, [-1.34, -0.07, 0.75 + 5 * 0.55], RIGHT),
-                (r'MC $\$3.75$', SUPPLY, [1.34, -0.07, 0.75 + 3.75 * 0.55], LEFT),
-                (r'Floor $\$6$', GUIDE, [-1.34, -0.07, 0.75 + 6 * 0.55], RIGHT)]:
-            label = Tex(text, color=color).scale(0.56)
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.update()
-            label.move_to(at, aligned_edge=edge)
-            floor_labels.add(label)
-        floor_gap = VMobject(color=MUTED, stroke_width=3).set_points_as_corners([
-            [2.99, -0.07, 0.75 + 3.75 * 0.55], [3.10, -0.07, 0.75 + 3.75 * 0.55],
-            [3.10, -0.07, 0.75 + 5 * 0.55], [2.99, -0.07, 0.75 + 5 * 0.55]])
-        floor_gap.set_flat_stroke(False)
-        floor_loss = VGroup(Tex('Lost surplus', color=INK).scale(0.60),
-                           Tex(r'$\$1{,}250$', color=INK).scale(0.72)).arrange(DOWN, buff=0.10)
-        floor_loss.face_mat = np.eye(3)
-        floor_loss.add_updater(face_camera)
-        floor_loss.update()
-        floor_loss.move_to([3.36, -0.07, 0.75 + (5 + 3.75) * 0.55 / 2], aligned_edge=LEFT)
-        self.play(Create(floor_zero), Create(floor_limit), FadeIn(floor_labels),
-                  Create(floor_gap), FadeIn(floor_loss), run_time=0.7)
+        # ---- 3.c · One lost lot, on the same graph; no second scene or arrows.
+        floor_lot = fixed(Polygon(ax.c2p(34, 3.75), ax.c2p(35, 3.75), ax.c2p(35, 5), ax.c2p(34, 5),
+            color=TOTAL, stroke_width=3, fill_color=MUTED, fill_opacity=0.7))
+        floor_mb = fixed(Tex(r'MB $\$5$', color=DEMAND).scale(0.53).next_to(ax.c2p(35, 5), UP, buff=0.16))
+        floor_mc = fixed(Tex(r'MC $\$3.75$', color=SUPPLY).scale(0.53).next_to(ax.c2p(35, 3.75), DOWN, buff=0.16))
+        floor_caption = fixed(Tex(r'This buyer values the unit at $\$5$, below the $\$6$ floor.', color=INK)
+                              .scale(0.75).move_to([0, -3.57, 0]))
+        self.play(FadeOut(dwl_label), FadeOut(loss_definition), FadeIn(floor_lot),
+                  FadeIn(floor_mb), FadeIn(floor_mc), FadeIn(floor_caption), run_time=0.6)
         self.pause('3.c')
-        self.play(FadeOut(floor_detail), FadeOut(floor_zero), FadeOut(floor_limit),
-                  FadeOut(floor_labels), FadeOut(floor_gap), FadeOut(floor_loss),
-                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
-        crowd.resume_updating()
-        crowd_marks.resume_updating()
-        welfare_graph.resume_updating()
-        self.add(crowd, crowd_marks, welfare_graph)
 
-        # ---- 4.a · Remove the floor before imposing the lower legal maximum.
-        crowd.remove(floor_word)
-        self.remove(floor_word)
-        price_heading.set_opacity(1)
-        self.play(price.animate.set_value(4),
-                  *[allocation_flags[n].animate.set_value(1) for n in range(30, 40)],
-                  show_loss.animate.set_value(0), run_time=1.4, rate_func=smooth)
-        self.play(FadeOut(loss_annotation), run_time=0.25)
-        welfare_graph.remove(loss_annotation)
-        self.add(welfare_graph)
-        next_head = fixed(title('A lower price: a price ceiling'))
+        # ---- 4.a · Remove the floor, then set a lower legal maximum.
+        self.play(FadeOut(floor_lot), FadeOut(floor_mb), FadeOut(floor_mc), FadeOut(floor_caption), run_time=0.3)
+        self.play(price.animate.set_value(4), show_loss.animate.set_value(0),
+            *[allocation_flags[n].animate.set_value(1) for n in range(30, 40)], run_time=1.1, rate_func=smooth)
+        next_head = fixed(title('A price ceiling'))
         self.play(FadeOut(head), FadeIn(next_head), run_time=0.35)
         head = next_head
-        price_heading.set_opacity(0)
-        ceiling_word = Tex(r'Price ceiling (\$/lb)', color=GUIDE).scale(0.63)
-        ceiling_word.face_mat = np.eye(3)
-        ceiling_word.add_updater(face_camera)
-        ceiling_word.update()
-        ceiling_word.move_to(price_heading)
-        crowd.add(ceiling_word)
         self.play(price.animate.set_value(3),
-                  *[allocation_flags[n].animate.set_value(0) for n in range(20, 40)],
-                  run_time=2, rate_func=smooth)
+            *[allocation_flags[n].animate.set_value(0) for n in range(20, 40)], run_time=1.8, rate_func=smooth)
         self.pause('4.a')
-        self.play(show_loss.animate.set_value(1), FadeIn(loss_annotation), run_time=0.7)
-        welfare_graph.add(loss_annotation)
-        self.add(welfare_graph)
+        self.play(show_loss.animate.set_value(1), FadeIn(dwl_label), run_time=0.7)
         self.pause('4.b')
 
-        # At the $3 ceiling, the buyer (MB $7) cannot cover this seller's MC $3.25.
-        ceiling_buyer = buyer_people[24].copy().clear_updaters()
-        ceiling_seller = seller_people[24].copy().clear_updaters()
-        ceiling_mb = buyer_bars[24].copy().clear_updaters()
-        ceiling_mc = seller_bars[24].copy().clear_updaters()
-        ceiling_detail = Group(ceiling_buyer, ceiling_seller, ceiling_mb, ceiling_mc)
-        self.add(ceiling_detail)
-        ceiling_targets = []
-        for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
-            shadow = Disk3D(radius=0.28, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
-            shadow.set_color(color).move_to([x, 0, 0.025])
-            orb = Sphere(radius=0.23, color=color, resolution=(12, 8)).move_to([x, 0, 0.32])
-            ceiling_targets.append(Group(shadow, orb))
-        ceiling_mb_target = Rectangle3D(width=1.10, height=7 * 0.55, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-        ceiling_mb_target.rotate(90 * DEGREES, RIGHT).move_to([-0.61, 0, 0.75 + 7 * 0.55 / 2])
-        ceiling_mc_target = Rectangle3D(width=1.10, height=3.25 * 0.55, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-        ceiling_mc_target.rotate(90 * DEGREES, RIGHT).move_to([0.61, 0, 0.75 + 3.25 * 0.55 / 2])
-        crowd.suspend_updating()
-        crowd_marks.suspend_updating()
-        welfare_graph.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(welfare_graph),
-                  Transform(ceiling_buyer, ceiling_targets[0]), Transform(ceiling_seller, ceiling_targets[1]),
-                  Transform(ceiling_mb, ceiling_mb_target), Transform(ceiling_mc, ceiling_mc_target),
-                  self.camera.frame.animate.reorient(0, 90, center=[0, 0, 2.6], height=8.4), run_time=1.5)
-        ceiling_zero = Line([-1.31, -0.02, 0.75], [1.31, -0.02, 0.75], color=MUTED, stroke_width=1.5).set_flat_stroke(False)
-        ceiling_limit = Line([-1.16, -0.045, 0.75 + 3 * 0.55], [1.16, -0.045, 0.75 + 3 * 0.55], color=GUIDE, stroke_width=3).set_flat_stroke(False)
-        ceiling_labels = VGroup()
-        for text, color, at, edge in [
-                (r'MB $\$7$', DEMAND, [-1.34, -0.07, 0.75 + 7 * 0.55], RIGHT),
-                (r'MC $\$3.25$', SUPPLY, [1.34, -0.07, 0.75 + 3.25 * 0.55], LEFT),
-                (r'Ceiling $\$3$', GUIDE, [-1.34, -0.07, 0.75 + 3 * 0.55], RIGHT)]:
-            label = Tex(text, color=color).scale(0.56)
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.update()
-            label.move_to(at, aligned_edge=edge)
-            ceiling_labels.add(label)
-        ceiling_gap = VMobject(color=MUTED, stroke_width=3).set_points_as_corners([
-            [2.99, -0.07, 0.75 + 3.25 * 0.55], [3.10, -0.07, 0.75 + 3.25 * 0.55],
-            [3.10, -0.07, 0.75 + 7 * 0.55], [2.99, -0.07, 0.75 + 7 * 0.55]])
-        ceiling_gap.set_flat_stroke(False)
-        ceiling_loss = VGroup(Tex('Lost surplus', color=INK).scale(0.60),
-                             Tex(r'$\$3{,}750$', color=INK).scale(0.72)).arrange(DOWN, buff=0.10)
-        ceiling_loss.face_mat = np.eye(3)
-        ceiling_loss.add_updater(face_camera)
-        ceiling_loss.update()
-        ceiling_loss.move_to([3.36, -0.07, 0.75 + (7 + 3.25) * 0.55 / 2], aligned_edge=LEFT)
-        self.play(Create(ceiling_zero), Create(ceiling_limit), FadeIn(ceiling_labels),
-                  Create(ceiling_gap), FadeIn(ceiling_loss), run_time=0.7)
+        # ---- 4.c · The seller's cost makes this beneficial trade unavailable.
+        ceiling_lot = fixed(Polygon(ax.c2p(24, 3.25), ax.c2p(25, 3.25), ax.c2p(25, 7), ax.c2p(24, 7),
+            color=TOTAL, stroke_width=3, fill_color=MUTED, fill_opacity=0.7))
+        ceiling_mb = fixed(Tex(r'MB $\$7$', color=DEMAND).scale(0.53).next_to(ax.c2p(25, 7), UP, buff=0.16))
+        ceiling_mc = fixed(Tex(r'MC $\$3.25$', color=SUPPLY).scale(0.53).next_to(ax.c2p(25, 3.25), DOWN, buff=0.16))
+        ceiling_caption = fixed(Tex(r"The seller's cost exceeds the $\$3$ ceiling.", color=INK)
+                                .scale(0.75).move_to([0, -3.57, 0]))
+        self.play(FadeOut(dwl_label), FadeIn(ceiling_lot), FadeIn(ceiling_mb), FadeIn(ceiling_mc), FadeIn(ceiling_caption), run_time=0.6)
         self.pause('4.c')
 
-        # ---- 5.a · Lift the ceiling, then permit this particular missing trade.
-        # Keep pairs 1--20; pair 25 adds $3,750, giving total surplus $151,250.
-        crowd.remove(ceiling_word)
-        self.remove(ceiling_word)
-        price_heading.set_opacity(1)
-        next_head = fixed(title('Allow the beneficial trade'))
-        self.play(FadeOut(head), FadeIn(next_head), FadeOut(ceiling_labels[2]),
-                  FadeOut(ceiling_limit), run_time=0.4)
+        # ---- 5.a · Remove the restriction and fill exactly lot 25.
+        next_head = fixed(title('Allow the trade'))
+        self.play(FadeOut(head), FadeIn(next_head), FadeOut(ceiling_caption),
+                  FadeOut(ceiling_mb), FadeOut(ceiling_mc), show_price.animate.set_value(0), run_time=0.45)
         head = next_head
-        trade_line = Line([-1.16, -0.045, 0.75 + 4 * 0.55], [1.16, -0.045, 0.75 + 4 * 0.55],
-                          color=GUIDE, stroke_width=3).set_flat_stroke(False)
-        trade_price = Tex(r'Price $\$4$', color=GUIDE).scale(0.56)
-        trade_price.face_mat = np.eye(3)
-        trade_price.add_updater(face_camera)
-        trade_price.update()
-        trade_price.move_to([-1.34, -0.07, 0.75 + 4 * 0.55], aligned_edge=RIGHT)
-        recovered_cs = Polygon([-1.16, -0.04, 0.75 + 4 * 0.55], [-0.06, -0.04, 0.75 + 4 * 0.55],
-                               [-0.06, -0.04, 0.75 + 7 * 0.55], [-1.16, -0.04, 0.75 + 7 * 0.55],
-                               stroke_width=0, fill_color=DEMAND, fill_opacity=0.75)
-        recovered_ps = Polygon([0.06, -0.04, 0.75 + 3.25 * 0.55], [1.16, -0.04, 0.75 + 3.25 * 0.55],
-                               [1.16, -0.04, 0.75 + 4 * 0.55], [0.06, -0.04, 0.75 + 4 * 0.55],
-                               stroke_width=0, fill_color=SUPPLY, fill_opacity=0.75)
-        recovered = VGroup(Tex('Surplus gained', color=INK).scale(0.60),
-                           Tex(r'$\$3{,}750$', color=INK).scale(0.72)).arrange(DOWN, buff=0.10)
-        recovered.face_mat = np.eye(3)
-        recovered.add_updater(face_camera)
-        recovered.update()
-        recovered.move_to(ceiling_loss)
-        self.play(price.animate.set_value(4), Create(trade_line), FadeIn(trade_price), run_time=0.8, rate_func=smooth)
-        self.play(allocation_flags[24].animate.set_value(1),
-                  ceiling_buyer.animate.shift(RIGHT * 0.40), ceiling_seller.animate.shift(LEFT * 0.40),
-                  FadeIn(recovered_cs), FadeIn(recovered_ps), FadeOut(ceiling_loss),
-                  FadeIn(recovered), ceiling_gap.animate.set_color(GOV), run_time=1.2, rate_func=smooth)
-        self.play(FadeOut(trade_line), FadeOut(trade_price), FadeOut(recovered),
-                  FadeOut(recovered_cs), FadeOut(recovered_ps), run_time=0.3)
-
-        self.play(FadeOut(ceiling_detail), FadeOut(ceiling_zero),
-                  FadeOut(ceiling_labels[0]), FadeOut(ceiling_labels[1]), FadeOut(ceiling_gap),
-                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
-        crowd.resume_updating()
-        crowd_marks.resume_updating()
-        welfare_graph.resume_updating()
-        self.add(crowd, crowd_marks, welfare_graph)
-
-        # The overview makes the 21 actual pairs and $151,250 total reviewable.
+        price.set_value(4)
+        self.play(allocation_flags[24].animate.set_value(1), ceiling_lot.animate.set_fill(TOTAL, opacity=0.65),
+                  run_time=1.1, rate_func=smooth)
         self.pause('5.a')
 
-        # ---- 5.b · All remaining positive-gain pairs trade in one movement.
-        self.play(FadeOut(loss_annotation), run_time=0.25)
-        welfare_graph.remove(loss_annotation)
-        self.add(welfare_graph)
-        next_head = fixed(title('All beneficial trades'))
+        # ---- 5.b · Fill the remaining gains in one movement.
+        self.play(FadeOut(ceiling_lot), run_time=0.3)
+        next_head = fixed(title('Allow all beneficial trades'))
         self.play(FadeOut(head), FadeIn(next_head), run_time=0.35)
         head = next_head
         self.play(*[allocation_flags[n].animate.set_value(1) for n in range(20, 40) if n != 24],
-                  run_time=2.2, rate_func=smooth)
-        self.play(show_loss.animate.set_value(0), run_time=0.3)
+                  run_time=1.8, rate_func=smooth)
+        self.play(show_loss.animate.set_value(0), run_time=0.2)
         self.pause('5.b')
 
-        # ---- 5.c · The indifferent pair adds zero; 39 and 40 tie for the maximum.
-        marginal_rings = VGroup(*[Circle(radius=0.095, color=FOCUS, stroke_width=2)
-            .move_to(mob.get_center() + OUT * 0.01) for mob in [buyer_circles[39], seller_circles[39]]])
-        marginal_graph = fixed(Circle(radius=0.09, color=FOCUS, stroke_width=2).move_to(ax.c2p(40, 4)))
-        marginal_caption = fixed(Tex(r'At the margin, MB $=$ MC: this pair adds $\$0$.', color=INK)
-                                 .scale(0.72).move_to([0, -3.62, 0]))
-        self.play(Create(marginal_rings), Create(marginal_graph), FadeIn(marginal_caption), run_time=0.7)
+        # ---- 5.c · The crossing is the zero-gain boundary.
+        marginal = fixed(Dot(ax.c2p(40, 4), radius=0.075, color=FOCUS))
+        boundary = fixed(Tex('At the boundary, benefit equals cost.', color=INK).scale(0.78).move_to([0, -3.57, 0]))
+        self.play(FadeIn(marginal), FadeIn(boundary), run_time=0.5)
         self.pause('5.c')
-        self.play(FadeOut(marginal_rings), FadeOut(marginal_graph), FadeOut(marginal_caption), run_time=0.3)
+
+        # ---- 5.d · Keep the negative strip at its true scale. Cost exceeds benefit.
         next_head = fixed(title('Force one trade too many'))
-        self.play(FadeOut(head), FadeIn(next_head), run_time=0.35)
+        negative_lot = fixed(Polygon(ax.c2p(40, 3.8), ax.c2p(41, 3.8), ax.c2p(41, 4.05), ax.c2p(40, 4.05),
+            color=GUIDE, stroke_width=3, fill_color=GUIDE, fill_opacity=0.65))
+        endpoint_dots = fixed(VGroup(Dot(ax.c2p(41, 3.8), radius=0.035, color=DEMAND),
+                                    Dot(ax.c2p(41, 4.05), radius=0.035, color=SUPPLY)))
+        negative_label = fixed(Tex(r'MC $>$ MB', color=INK,
+            tex_to_color_map={'MC': SUPPLY, 'MB': DEMAND}).scale(0.60)
+            .next_to(ax.c2p(41, 4.05), UP + RIGHT, buff=0.18))
+        negative_caption = fixed(Tex('The next unit costs more than it is worth.', color=INK)
+                                 .scale(0.78).move_to([0, -3.57, 0]))
+        self.play(FadeOut(head), FadeIn(next_head), FadeOut(marginal), FadeOut(boundary), run_time=0.35)
         head = next_head
-        self.play(allocation_flags[40].animate.set_value(1), run_time=1.2, rate_func=smooth)
-
-        # The caller executes pair 41 before entry and removes it after the return.
-        # This comparison isolates the $250 loss: MC $4.05 exceeds MB $3.80.
-        forced_buyer = buyer_people[40].copy().clear_updaters()
-        forced_seller = seller_people[40].copy().clear_updaters()
-        forced_mb = buyer_bars[40].copy().clear_updaters()
-        forced_mc = seller_bars[40].copy().clear_updaters()
-        forced_detail = Group(forced_buyer, forced_seller, forced_mb, forced_mc)
-        self.add(forced_detail)
-        forced_targets = []
-        for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
-            shadow = Disk3D(radius=0.28, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
-            shadow.set_color(color).move_to([x, 0, 0.025])
-            orb = Sphere(radius=0.23, color=color, resolution=(12, 8)).move_to([x, 0, 0.32])
-            forced_targets.append(Group(shadow, orb))
-        forced_mb_target = Rectangle3D(width=1.10, height=3.8 * 0.55, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-        forced_mb_target.rotate(90 * DEGREES, RIGHT).move_to([-0.61, 0, 0.75 + 3.8 * 0.55 / 2])
-        forced_mc_target = Rectangle3D(width=1.10, height=4.05 * 0.55, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-        forced_mc_target.rotate(90 * DEGREES, RIGHT).move_to([0.61, 0, 0.75 + 4.05 * 0.55 / 2])
-        crowd.suspend_updating()
-        crowd_marks.suspend_updating()
-        welfare_graph.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(welfare_graph),
-                  Transform(forced_buyer, forced_targets[0]), Transform(forced_seller, forced_targets[1]),
-                  Transform(forced_mb, forced_mb_target), Transform(forced_mc, forced_mc_target),
-                  self.camera.frame.animate.reorient(0, 90, center=[0, 0, 2.6], height=8.4), run_time=1.5)
-        forced_zero = Line([-1.31, -0.02, 0.75], [1.31, -0.02, 0.75], color=MUTED, stroke_width=1.5).set_flat_stroke(False)
-        forced_labels = VGroup()
-        for text, color, at, edge in [
-                (r'MB $\$3.80$', DEMAND, [-1.34, -0.07, 0.75 + 3.8 * 0.55], RIGHT),
-                (r'MC $\$4.05$', SUPPLY, [1.34, -0.07, 0.75 + 4.05 * 0.55], LEFT)]:
-            label = Tex(text, color=color).scale(0.56)
-            label.face_mat = np.eye(3)
-            label.add_updater(face_camera)
-            label.update()
-            label.move_to(at, aligned_edge=edge)
-            forced_labels.add(label)
-        forced_gap = VMobject(color=GUIDE, stroke_width=4).set_points_as_corners([
-            [2.99, -0.07, 0.75 + 3.8 * 0.55], [3.10, -0.07, 0.75 + 3.8 * 0.55],
-            [3.10, -0.07, 0.75 + 4.05 * 0.55], [2.99, -0.07, 0.75 + 4.05 * 0.55]])
-        forced_gap.set_flat_stroke(False)
-        forced_loss = Tex(r'Loss: $\$250$', color=INK).scale(0.65)
-        forced_loss.face_mat = np.eye(3)
-        forced_loss.add_updater(face_camera)
-        forced_loss.update()
-        forced_loss.move_to([3.36, -0.07, 0.75 + (3.8 + 4.05) * 0.55 / 2], aligned_edge=LEFT)
-        self.play(Create(forced_zero), FadeIn(forced_labels), Create(forced_gap), FadeIn(forced_loss), run_time=0.7)
+        self.play(allocation_flags[40].animate.set_value(1), FadeIn(negative_lot),
+                  FadeIn(endpoint_dots), FadeIn(negative_label), FadeIn(negative_caption), run_time=0.8)
         self.pause('5.d')
-        self.play(FadeOut(forced_detail), FadeOut(forced_zero), FadeOut(forced_labels),
-                  FadeOut(forced_gap), FadeOut(forced_loss),
-                  self.camera.frame.animate.reorient(0, 48, center=PLAZA_CENTER, height=11), run_time=1.3)
-        crowd.resume_updating()
-        crowd_marks.resume_updating()
-        welfare_graph.resume_updating()
-        self.add(crowd, crowd_marks, welfare_graph)
 
-        # ---- 5.e · Undo the harmful trade; state the welfare result with scope.
-        self.play(allocation_flags[40].animate.set_value(0), run_time=1.2, rate_func=smooth)
+        # ---- 5.e · Undo that loss. The graph itself is the welfare argument.
+        self.play(allocation_flags[40].animate.set_value(0), FadeOut(negative_lot), FadeOut(endpoint_dots),
+                  FadeOut(negative_label), FadeOut(negative_caption), run_time=0.6)
         next_head = fixed(title('The First Welfare Theorem'))
         theorem = fixed(Tex('Competitive equilibrium maximizes total surplus.', color=DEFINITION)
                         .scale(0.83).move_to([0, -3.40, 0]))

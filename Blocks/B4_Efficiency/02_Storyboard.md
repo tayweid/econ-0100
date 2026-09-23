@@ -7,7 +7,9 @@ floor → binding ceiling → permit a blocked trade → all beneficial trades �
 force one harmful trade → undo it and state the conditional welfare result**.
 This explicitly supersedes the earlier planner-first draft, the ceiling-first
 notes, and the animator note's frozen-order instruction. Keep the entire opening
-through `1.i.algebra` unchanged.
+through `1.i.algebra` unchanged. The latest visual direction supersedes the
+back-half plaza-reuse requirement: after the algebra, use **one large graph**,
+with no plaza, totem, people, or camera moves. Keep the economic order above.
 
 The review before Exercise B3 Q2 remains **under ten minutes, targeting eight**.
 The exercise interrupts the $3 recap before equilibrium is resolved. The later
@@ -19,8 +21,9 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections retain their
 **22 named holds**; the new continuous section 8 has **16 named holds**, for
-**38 total** with the exercise placement below. The back half reuses the same
-curved plaza and merged graph from the opening, including their actual objects.
+**38 total** with the exercise placement below. Section 8 presents the welfare
+argument on one large, stable graph. Discrete lot economics stay the same,
+while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 | Code section | Content | Named holds |
 |---|---|---|
@@ -50,17 +53,19 @@ latest directive above determines the animation order. Do not edit those files.
 CS/PS are familiar from B1/B2, so begin with their benefits in this market and
 sum them. Use the floor and ceiling to make lost mutually beneficial trades
 visible. Then permit one missing trade, allow the remaining beneficial trades,
-and demonstrate why forcing the next pair lowers total surplus. The simulation
-carries the argument; the final theorem names the result and its conditions.
+and demonstrate why forcing the next lot lowers total surplus. The graph's
+realized and missing gain areas carry the argument; the final theorem names
+the result and its conditions.
 
-Keep the approved opening and visual decisions: B3's camera/framing, buyers and
-sellers on opposite arcs, short bars, actual partners meeting at the center,
-world-space text/marks, and the independent merged graph with its lot bars.
-The graph has its own price axis; the totem remains a separate plaza indicator.
-Use attached labels, plain choice text, and simple fades throughout the back
-half. Do not restore old bottom boxes, straight crowd rows, or detached counters.
+Keep the approved opening intact. Its 3D plaza and recap graph conventions
+below apply through the algebra. The welfare sequence instead uses a single
+large graph: teal CS and orange PS labels inside their own areas, then a unified
+purple total-surplus region. Grey marks lost gains and red marks a harmful lot.
+Use attached labels and simple fades, without arrows, dashboards, aggregate
+dollar totals, or repeated questions. Inspect selected lots directly on the
+stationary graph with exact strip outlines and nearby endpoint labels; no insets.
 
-## Reuse B3's finished staging
+## Opening staging — unchanged through the algebra
 
 Taylor's live review rejected the initial flat prototype. The implementation
 now uses B3's actual `ThreeDScene`, sphere/shadow people, upright `Rectangle3D`
@@ -79,10 +84,8 @@ The prototype is superseded; it is not an alternative design to preserve.
   This lifts the full-market plaza about 0.55 screen units, leaving the bottom
   caption strip clear. Use the same framing for all returns from close-ups.
   The merged graph has a fixed right-side origin independent of totem projection.
-  The entire back half reuses the recap's same curved plaza, short bars,
-  world-space checks/Xs, central partners, totem, and quantity lines. Do not
-  reconstruct the older straight-row welfare/control staging. Restore these
-  same objects after the algebra and retain them through the closing argument.
+  These plaza conventions apply to the recap only. Do not restore the plaza,
+  people, or totem after the algebra; the back half uses one large graph.
 - Buyer/seller price comparisons remain in Taylor's approved full-width front
   view: phi 90°, center `[0, 0, 1.9]`, height 8. Keep every person in one row.
   The straight equation line passes through bar-top centers, with rank n at
@@ -98,17 +101,13 @@ The prototype is superseded; it is not an alternative design to preserve.
   head-on view. The graphs temporarily clear for that comparison, then return
   with the original plaza camera. One illustrated switch precedes the common
   price adjustment; this is not a replay of every person's decision.
-- Selected blocked-trade close-ups enlarge the actual pair using B3's
-  head-on comparison grammar, then return those same participants to the
-  curved plaza. Keep choice/gain labels attached to their bars or price lines.
-  Hide the remaining plaza and graph during inspection; restore them on return.
 - `fixed`, `add_market_objects`, and the original text billboard adapter are
   reused from B3. They handle renderer/label behavior, not teaching choreography.
   No shared asset or engine code is changed.
 
-## Curved-plaza review convention
+## Curved-plaza convention — recap only
 
-Throughout the full-market recap and back half, short floating bars are value cues; the graphs retain
+Throughout the full-market recap, short floating bars are value cues; the graphs retain
 the detailed scale. Buyers occupy the upper/back arc (positive y), sellers the
 lower/front arc (negative y), each still ordered by value/cost. A muted dashed
 ground diameter at y=0 runs horizontally through the plaza and separates their
@@ -148,11 +147,12 @@ the gap reaches zero. Hide these marks with the plaza/graphs during example
 close-ups and restore them on return. Prediction holds keep plaza willingness
 marks, trades, and yellow gaps hidden; graph quantity guides and numbers remain
 visible. Reveal yellow shortage/excess marks only with matching.
-Apply this same convention to the floor, ceiling, and welfare argument. Camera
-movement is available for deliberate example close-ups; the overview remains
-stable during price changes and the sequence of added trades.
+These willingness, matching, and yellow-gap displays stop with the recap.
+The welfare graph uses a single actual-quantity marker during the policy beats,
+without shortage/excess labels, gap brackets, or a second willingness display.
+From `5.a`, its active price/quantity guides stay hidden.
 
-## Shared stage and meaning
+## Visual conventions and economic meaning
 
 - Use the existing 2:1 graphite stage, 2160 × 1080, 15 fps, CMU serif teaching
   text, azure question titles, gold definition terms, and existing style tokens.
@@ -165,16 +165,15 @@ stable during price changes and the sequence of added trades.
   definition, caption, and deliberation card there simultaneously. Use one
   question per beat rather than repeating a title question at the bottom;
   numerical/explanatory captions may use the clear bottom strip.
-- Keep the market at left and its graph at right during market-wide beats.
+- During the recap, keep the market at left and its graph at right.
   Keep the same 59 buyers and 100 sellers on their ranked curved arcs.
   Actual partners meet across the central diameter; willing unmatched people
   stay on the inner arcs and unwilling people at the rim. Mark every person,
   but label only selected people.
   Individual comparisons enlarge the relevant bars into a head-on view while
   hiding the other people; their allocation stays unchanged. Full-width head-on
-  rows carry the individual demand/supply comparisons. For the later quantity
-  argument, keep the B3 plaza and merged graph fixed: select participants and
-  fill their gain strips without rearranging the scene.
+  rows carry the individual demand/supply comparisons. After the algebra,
+  remove the crowd presentation and keep one large welfare graph fixed.
 - Decision close-ups use plain text, without bottom boxes or card backgrounds.
   Keep participant names through the two-by-two scene only. After that scene,
   omit names from players, headings, and captions, and omit individual role
@@ -198,11 +197,12 @@ stable during price changes and the sequence of added trades.
   right-side origin `[1.90, -0.90, 0]`. Do not morph or resize axes or curves.
   Keep the graph's own vertical axis, price ticks 4/8/12 (4 in red), and
   “Price ($/lb)” heading; remove only the duplicate second plot's axes/ticks.
-  The plaza retains its own totem and $4 readout. Keep the complete graph and
-  its bars unchanged through the algebra and later welfare transition.
+  The plaza retains its own totem and $4 readout through this recap bridge.
+  Keep the graph stable during the algebra; the next section establishes the
+  large graph used for the entire welfare argument.
 - Quantity readouts are bare numbers at their corresponding horizontal graph
   positions: teal for demand and orange for supply. Apply this to the full-width
-  rows, separate recap graphs, and merged welfare/control graph. Keep the number
+  rows and recap graphs. Keep the number
   below its row or quantity axis, moving with its guide; omit detached `Qd =`
   and `Qs =` labels and the separate `Qx` counter. When quantities coincide on
   the merged graph, show one number. Actual matching or the current caption
@@ -213,14 +213,15 @@ stable during price changes and the sequence of added trades.
 - All willingness checks and red Xs are genuine world-space marks anchored above
   their own person/bar, using B3's `face_camera` convention. They follow their
   participants and scale with camera zoom/rotation, rather than staying in a
-  fixed-screen overlay. Apply this to the full-width rows, curved plaza, welfare,
-  and controls; retain each scene's existing willingness logic, counts, and order.
+  fixed-screen overlay. Apply this to the opening's full-width rows and curved
+  plaza; no willingness marks appear in the graph-only welfare sequence.
 - In the uncontrolled and policy cases, (Q_x=\min(Q_d,Q_s)), with highest-MB
   buyers and lowest-MC sellers trading. This is an explicit rationing assumption
   under controls. After removing the ceiling, distinguish a permitted trade
   from completion of all willing matches. In the forced-pair experiment, mark
-  the extra trade as forced: willingness checks still describe the posted
-  price, and the resulting 41 trades are not a market-clearing outcome.
+  the extra lot as forced. The resulting 41 trades are not a market-clearing
+  outcome. Policy quantity markers denote actual selected trades; the later
+  additions are shown directly in the realized-gain area without counters.
 - Distinguish actual allocations from proposals. Dashed trade connections and
   unfilled gain outlines are hypothetical; solid connections and filled gain
   regions belong to the current allocation. Reset each experiment rather than
@@ -244,8 +245,9 @@ stable during price changes and the sequence of added trades.
   guides use exact whole-lot boundaries; policy totals sum the crowd's rectangles.
 - The scene files use flat, sequential `construct()` choreography, visible
   constants, simple loops for repeated objects, and literal `self.pause('id')`
-  boundaries. No per-beat helper framework. After `1.i.algebra`, section 8
-  continues with the same market objects; no reset to an older scene layout.
+  boundaries. No per-beat helper framework. Section 8 uses one stable large
+  graph with selected lots highlighted in place; no inset, plaza restoration,
+  or camera move.
   Use simple text fades, never paragraph or glyph morphs.
 
 ## Numerical reference — checked, not an on-screen table
@@ -628,149 +630,146 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    completed. Hold on the solved frame. The welfare stage restores the same
    actual crowd and merged-graph objects at $4; it does not replay the algebra.
 
+## Back-half graph convention
+
+After `1.i.algebra`, establish one large graph for the rest of the economic
+argument. This supersedes any earlier forward-looking instruction to restore
+plaza objects at the welfare transition. Keep all earlier behavior unchanged.
+
+- Keep demand and supply curves and a clear price/quantity scale. Exact
+  adjacent lot cells form a visually continuous filled area; do not display
+  narrow lot bars, except the selected-lot outlines. CS is teal and PS orange,
+  with labels **inside** their colored regions.
+  Do not attach dollar totals, arrows, or extra readout rows to those labels.
+- Combine CS and PS into **one purple total-surplus area**, labeled inside the
+  area. Keep realized gains purple, forgone positive gains grey, and a forced
+  negative-gain lot red. Do not continue displaying CS/PS splits after combining.
+- During the floor/ceiling beats, use **one price guide**, stopping at the
+  short-side curve, and **one actual quantity tick/drop**. From `5.a` onward,
+  keep both active guides hidden; the ordinary 40 axis tick remains visible.
+  Omit willingness counters, yellow shortage/excess spans, dashboard totals,
+  and all aggregate dollar amounts from the welfare visuals.
+- Keep the graph completely stationary. Outline selected lots directly inside
+  the grey loss region and label their MB/MC endpoints nearby. For the forced
+  negative lot, use its exact red strip with small teal/orange endpoint dots
+  and one adjacent “MC > MB” label. Never exaggerate its area. No inset, plaza,
+  totem, character close-up, arrows, or individual gain/loss dollars are added.
+- Exact discrete values, allocations, and welfare arithmetic remain internal;
+  the numerical reference above is not on-screen content. Maintain all 38 holds
+  and the accepted economic order. Use simple text fades and one concise prompt.
+
 ## 2.a · Show the market's benefits
 
-1. After the algebra, fade its text and restore the same curved plaza, totem,
-   partners, and independent merged graph at $4 and 40 trades. Reuse these
-   objects; do not clear and rebuild the earlier welfare layout.
-2. Show CS directly in teal benefit-minus-price regions and PS in orange
-   price-minus-cost regions, retaining the graph's narrow lot bars and curves.
-   Label the familiar benefits close to their regions: **CS $156,000** and
-   **PS $39,000**. Keep the market-wide frame stable.
-3. Hold `2.a` on the benefits generated by the actual participants. This is a
-   callback to B1/B2, not a new surplus construction or a planner problem.
+1. At price $4 and quantity 40, show the familiar teal CS and orange PS regions
+   on the large graph. Put only **CS** and **PS** inside their respective areas.
+2. Hold `2.a` on this simple callback to B1/B2. Do not show aggregate dollar
+   totals, arrows, a separate table, or a detailed surplus construction.
 
 ## 2.b · Sum the gains
 
-1. Keep the same allocation and regions. Show **Total surplus = PS + CS**,
-   with PS orange, CS teal, and the words/equality white, then **$195,000**.
-2. Use simple fades and attached region labels; omit extra component formulas,
-   cancellation arithmetic, named players, and a separate pair-20 payment story.
-3. Hold `2.b` with the full market's total gain visible. This benchmark remains
-   the comparison for each policy and for the final harmful-trade experiment.
+1. Unite the realized CS/PS fills into a single **purple total-surplus region**
+   between benefit and cost for the traded lots. Place **Total surplus** inside.
+2. Show only the simple bottom definition **Total surplus = PS + CS**, without
+   expanding either component. Hold `2.b` on the unified purple area, then fade
+   the definition before the floor. No payment demonstration, numerical total,
+   or detached legend is needed.
 
 ## 3.a · Impose a binding price floor first
 
-1. Move the posted price from $4 to a binding floor of **$6**, with the same
-   totem, graph, and participant objects. Identify the legal minimum beside its
-   red price guide. Do not introduce government purchases.
-2. Show teal **30** and orange **80** at the graph quantities; only 30 pairs
-   meet in the center. Keep the persistent teal/orange quantity lines on the
-   plaza and graph. Fifty willing sellers wait on the inner arc.
-3. Mark that waiting arc and the graph gap 30–80 in yellow with attached
-   **Excess 50** labels. Hold `3.a`; the quantity labels are thousands of pounds.
+1. Move to a binding floor of **$6** on the same graph. Identify the floor beside
+   its red price guide, which ends at the demand curve at **30**.
+2. Move the single actual-quantity tick/drop to 30 and retain purple gains only
+   on those traded lots. Hold `3.a`. Do not show excess-supply brackets or the
+   separate willingness quantity 80; no government purchases occur.
 
 ## 3.b · See the floor's lost gains
 
-1. Keep the same 30 actual trades and their filled surplus rectangles. Expose
-   the forgone positive gains of pairs 31–39 in grey; pair 40 has zero gain.
-2. Show **TS $183,750** and **DWL $11,250** beside the relevant gain/loss regions.
-   CS is $87,000 and PS $96,750 if needed in the existing benefits display;
-   avoid a detached row of redundant totals.
-3. Hold `3.b` on the missing trades. The loss is the benefit that those trades
-   could add above their costs, not the yellow count of all excess sellers.
+1. Keep the first 30 lots' realized gains purple. Show the missing positive-gain
+   lots 31–39 in grey; lot 40 has zero gain.
+2. Label the lost-gain area **DWL** nearby and hold `3.b`. The visible comparison
+   is realized versus forgone gain, without CS/PS or dollar-total readout rows.
 
-## 3.c · Inspect one beneficial trade blocked by the floor
+## 3.c · Inspect one beneficial lot blocked by the floor
 
-1. Select ranked pair **35**: buyer MB **$5**, seller MC **$3.75**. Bring these
-   actual participants into a B3-style head-on close-up, hiding the rest of the
-   plaza and graph during inspection. Keep world-space labels beside the bars.
-2. The buyer cannot pay the legal $6 minimum. Show the potential gain between
-   MB and MC: **$1.25/lb × 1,000 lb = $1,250**. A price between $3.75 and $5
-   could benefit both, but it lies below the floor.
-3. Attach the blocked-price indication to the proposed price/region; no detached
-   question paragraph. Hold `3.c`, then return the same untraded pair to the
-   waiting arcs. No surplus is realized by this blocked proposal.
+1. Outline lot **35** directly inside the graph's grey lost-gain area. Attach
+   **MB $5** and **MC $3.75** to its benefit/cost endpoints.
+2. Keep the graph stationary and show one short bottom caption explaining that
+   the **$6 floor** is above this buyer's value, blocking a beneficial trade.
+3. Hold `3.c` on this exact lot. No inset, individual gain calculation, or
+   additional diagram appears; its grey gain remains unrealized.
 
 ## 4.a · Replace the floor with a binding ceiling
 
-1. Remove the floor and replace it with a **$3 ceiling**. Pass through the
-   existing $4 market without adding a teaching hold, then show the ceiling's
-   legal maximum beside its red price guide.
-2. The same graph shows teal **45** and orange **20**. Twenty pairs trade;
-   25 willing buyers remain on the inner arc. Keep the colored quantity lines,
-   marking the waiting buyers and graph gap 20–45 in yellow: **Shortage 25**.
-3. Hold `4.a`. Preserve the established price, matching, and graph vocabulary.
+1. Remove the floor and move to a **$3 ceiling**, passing through the $4 market
+   without adding a hold. Keep the graph fixed and clear lot 35's selection
+   outline, endpoint labels, and caption.
+2. End the single red price guide at the short-side supply curve and put the
+   actual-quantity tick/drop at **20**. Retain purple gains for those lots.
+3. Hold `4.a`. Do not add shortage labels, brackets, or a separate demand count.
 
 ## 4.b · See the ceiling's lost gains
 
-1. Keep the 20 traded lots filled and expose missing positive gains from pairs
-   21–39 in grey. Pair 40 again contributes zero.
-2. Show **TS $147,500** and **DWL $47,500** next to the regions. The underlying
-   components are CS $138,000 and PS $9,500; this is the same exact crowd.
-3. Hold `4.b` on the missing mutually beneficial trades, with the curved plaza
-   and merged graph stable. A lower price does not establish that buyers as a
-   group gain when the set of trades also changes.
+1. Keep the first 20 lots' realized gains purple and show missing positive gains
+   from lots 21–39 in grey. The zero-gain fortieth lot adds no area.
+2. Hold `4.b` with **DWL** attached to the grey region. Use the area to explain
+   the loss, without aggregate dollar calculations or detached readouts.
 
-## 4.c · Inspect one beneficial trade blocked by the ceiling
+## 4.c · Inspect one beneficial lot blocked by the ceiling
 
-1. Inspect ranked pair **25**: buyer MB **$7**, seller MC **$3.25**. Enlarge
-   those same bars in the familiar head-on view. Hide the rest of the scene;
-   use MB/MC labels without names and keep labels attached.
-2. The seller will not supply at the legal $3 maximum. The pair could create
-   **$3.75/lb × 1,000 lb = $3,750** of gain at a mutually acceptable price,
-   including $4, but the ceiling prevents it.
-3. Hold `4.c` with the blocked pair and its potential gain visible. Keep this
-   close-up for the next step, when the ceiling is lifted and the pair trades.
+1. Outline lot **25** directly inside the grey lost-gain region. Attach
+   **MB $7** and **MC $3.25** to its endpoints, using the same in-place grammar.
+2. Show one short bottom caption explaining that the **$3 ceiling** lies below
+   this seller's cost, blocking a beneficial trade. Keep its potential gain grey.
+3. Hold `4.c` with the graph completely stationary; no inset or gain calculation.
 
 ## 5.a · Permit that missing trade
 
-1. Lift the ceiling and post **$4** while still in pair 25's close-up. Visibly
-   accept the proposed trade there, then return the same participants to the
-   plaza's center line. The other already-realized trades stay selected. This
-   is the first permitted addition, not yet the full matching.
-2. Fill that pair's formerly missing gain. Its **$3,750** raises total surplus
-   from $147,500 to **$151,250**; there are now 21 actual trades, specifically
-   pairs 1–20 plus pair 25, rather than the first 21 ranked pairs.
-3. Hold `5.a` in the restored overview with 21 central pairs and TS $151,250.
-   Price-derived graph quantities reflect willingness at $4; central matching
-   shows which trades have actually occurred so far.
+1. Lift the ceiling and remove the policy price and quantity guides. Turn the
+   selected lot 25's exact gain strip **purple**, retaining the first 20 filled
+   lots and the remaining grey gains.
+2. Hold `5.a` on this permitted addition. Internally it is lots 1–20 plus 25,
+   but show no quantity-21 tick/drop: that would suggest a contiguous prefix
+   that has not traded. Add no individual gain or aggregate dollar total.
+3. Clear the selection labels/caption with a fade before continuing. Keep the
+   graph fixed and both active guides hidden from this point onward; the
+   ordinary 40 axis tick remains visible without an added active guide.
 
 ## 5.b · Allow the remaining beneficial trades
 
-1. In one smooth sequence, admit the remaining positive-gain pairs through
-   pair 39 and include indifferent pair 40 under the inclusive convention.
-   Do not replay every exchange or create extra teaching stops.
-2. Fill each added lot's gain and shrink the missing-gain region. Finish at
-   **40 pairs**, price **$4**, and **TS $195,000**. The willingness quantities
-   coincide at 40; no willing participant is left unmatched.
-3. Hold `5.b` on the same stable plaza and graph. The highest-value buyers and
-   lowest-cost sellers participate; the actual partner identities need not be
-   unique for the aggregate gains to be maximal.
+1. In one smooth fill, turn the remaining positive-gain lots through 39 purple
+   and include indifferent lot 40 under the inclusive convention. Keep the
+   graph fixed and omit per-trade teaching stops.
+2. Finish with the full purple total-surplus region through the ordinary
+   **40** axis tick. Keep price/quantity guides hidden. Hold `5.b`; no
+   positive-gain strip remains grey.
 
 ## 5.c · Inspect the zero-gain boundary
 
-1. Identify pair **40**, with MB **$4** and MC **$4**, in the existing model.
-   Keep the quantity and total unchanged.
-2. Show that this pair contributes **$0**. Hold `5.c`: 39 and 40 trades have
-   the same maximum total surplus; the inclusive willingness convention uses 40.
-3. Do not claim that every change in quantity or pairing must lower welfare.
+1. Highlight lot **40** directly at the curves' boundary, where MB and MC are
+   both **$4**. Mark the coincident endpoints on the same stationary graph.
+2. Hold `5.c` on the zero gap. The exact crowd's 39 and 40 trades tie for maximum
+   gains; do not claim that removing this lot would lower welfare.
 
 ## 5.d · Force one trade beyond the boundary
 
-1. Title: “Force one trade too many.” Force pair **41** to trade: buyer MB
-   **$3.80**, seller MC **$4.05**. Clearly identify this as forced, preserving
-   the posted-price willingness marks and quantities. In the overview, show
-   41 central pairs and total surplus falling from $195,000 to **$194,750**.
-2. Bring that same pair into the selected head-on close-up. Show cost exceeding
-   benefit by **$0.25/lb**, with a red loss bracket and attached **Loss $250**
-   label. Hide the rest of the plaza and graph during this inspection.
-3. Hold `5.d` in the forced pair's close-up. Return to the overview on advance,
-   before undoing the harmful trade. This shows why simply increasing trade
-   cannot improve welfare indefinitely.
+1. Title: **Force one trade too many.** Add lot **41** as an explicitly forced
+   trade immediately past the ordinary 40 axis tick. Color its exact negative
+   gain strip red; do not widen it, add a 41 counter, or restore active guides.
+2. Add small teal/orange dots at the MB/MC endpoints and one nearby **MC > MB**
+   label. Internally MB is $3.80 and MC $4.05; display no individual loss dollars.
+3. Hold `5.d` on the unchanged graph with one bottom caption: **The next unit
+   costs more than it is worth.** No inset, extra diagram, or camera move.
 
 ## 5.e · Undo the harmful trade and name the result
 
-1. Remove forced pair 41 and its negative realized gain. Restore the original
-   40-pair market and **TS $195,000**, with no remaining positive-gain trade
-   left out and no negative-gain trade included.
-2. Name the **First Welfare Theorem** using the course's conditional statement:
+1. Remove forced lot 41 and its red strip, then clear its endpoint dots/label.
+   Retain the full purple maximum-gain area and ordinary 40 axis tick; active
+   price/quantity guides remain hidden.
+2. Name the **First Welfare Theorem** with a concise conditional statement:
    competitive markets with no externalities maximize welfare when all relevant
-   benefits and opportunity costs are counted. Keep the conditions beside the
-   model, with one concise conclusion and simple text fades.
-3. Hold `5.e`. The demonstrated result is maximal total gains in this specified
-   competitive market; it does not select unique partners, resolve distribution,
-   or establish that every market satisfies the stated conditions.
+   benefits and opportunity costs are counted.
+3. Hold `5.e` on the graph and stated conditions. This does not establish unique
+   partners, resolve distribution, or assert that every market satisfies them.
 
 ## 6.exercise_floor · Exercise B4 Q2
 
@@ -779,56 +778,55 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    exchanged, producer surplus, deadweight loss, and a floor of 6.
 2. Use the approved muted rounded panel, gold serif exercise heading, white
    concise body, and centered equations. Show no answers. Hold
-   `6.exercise_floor`, then restore the same spinach scene.
+   `6.exercise_floor`, then restore the same spinach graph.
 
 ## 6.exercise_ceiling · Exercise B4 Q1
 
 1. Use the original pasty equations and 5-galleon ceiling with its prompts:
    quantity exchanged, CS, PS, DWL, and the graph with shaded regions.
 2. Use the same exercise-card styling, without extra repeated questions or
-   answers. Hold `6.exercise_ceiling`, then restore the spinach scene.
-3. The pasty model's continuous areas never replace the exact spinach crowd's
-   welfare totals.
+   answers. Hold `6.exercise_ceiling`, then restore the spinach graph.
+3. The pasty model's continuous areas never replace the exact spinach lots.
 
 ## 7.a · Close with the result and its scope
 
-1. Retain the $4, 40-pair market with total surplus $195,000.
+1. Retain the $4, quantity-40 graph and purple total-surplus area.
 2. Briefly distinguish maximal gains from distribution and other policy aims,
-   while retaining the competitive/no-externality conditions already stated.
-3. Hold `7.a` without introducing another policy or replaying the argument.
+   keeping the competitive/no-externality conditions already stated.
+3. Hold `7.a` without a new policy, crowd scene, or repeated argument.
 
 ## Implementation and review boundaries
 
-- Preserve all **22 opening holds** and the entire sequence through
-  `1.i.algebra`, including the eight-minute pre-Q2 budget. The reordered section
-  8 adds the 16 listed holds for a total of **38**.
-- Keep the exact $3/$4/$6 willingness counts 45/20, 40/40, and 30/80; actual
-  trade counts are 20/40/30 in the settled policy/market states. During permitted
-  additions and the forced trade, distinguish the selected allocation from
-  willingness at the posted price.
-- Use the same crowd, short bars, checks/Xs, central matching, price totem,
-  independent merged graph/lot bars, and persistent quantity/gap marks throughout
-  the back half. World text follows the camera. Labels sit beside the things
-  they describe, and text changes use fades.
-- Preserve the 39/40 maximum-surplus tie and the exact blocked-pair gains.
-  No government purchases, unique-matching claim, or extra planner-sorting
-  episode is included in this sequence.
-- Tests and renders for this rebuild are deferred at Taylor's request. Earlier
-  validation of the superseded back half is not validation of this new order.
+- Preserve all **22 opening holds** through `1.i.algebra`, including the
+  eight-minute pre-Q2 budget. Section 8 retains 16 holds, for **38 total**.
+- The new graph-only visual direction supersedes the back-half requirement to
+  reuse the plaza and its text/quantity/gap displays. Recap behavior is unchanged.
+- The welfare display has inside-area CS/PS labels, unified purple total surplus,
+  grey DWL, and red negative gain. Policy beats have one price guide and one
+  actual-quantity tick/drop; both stay hidden after `5.a`. No aggregate dollar
+  totals or shortage/excess dashboard appears.
+- Keep exact arithmetic internally: equilibrium TS $195,000; floor TS $183,750
+  and DWL $11,250; ceiling TS $147,500 and DWL $47,500; permitting lot 25 gives
+  TS $151,250; forcing lot 41 gives TS $194,750. These are not displayed totals.
+- Preserve the 39/40 tie, ranked lot identities, and the distinction between
+  willingness at a price and actual selected trades. No government purchases
+  or extra planner-sorting episode is introduced.
+- End-of-pass check completed: all 38 holds executed with animations skipped,
+  exact allocation/surplus values passed, and representative graph frames were
+  inspected. This checks construction and held layouts, not a full timed
+  playback of every transition.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 
 ## Notes reconciliation for Taylor/Fable
 
-- Taylor's latest explicit order above supersedes both the earlier planner-first
-  animation and ceiling-first notes for this build. Author-owned notes remain
-  untouched; this storyboard records the animation decision.
-- CS/PS stay familiar callbacks. The first theorem argument now runs through
-  blocked mutually beneficial trades and the harmful extra trade, rather than
-  a separate planner-first allocation exercise or payment-cancellation proof.
-- Exact policy arithmetic is unchanged: floor TS $183,750 / DWL $11,250;
-  ceiling TS $147,500 / DWL $47,500. Lost gains concern unrealized beneficial
-  lots, not all unmatched people.
-- The theorem concerns maximal total gains under its stated conditions. A
-  zero-gain boundary trade and alternative partner pairings can leave gains
-  unchanged; efficiency alone does not settle every policy question.
+- Keep the accepted floor-first economic order; only its presentation changes
+  to a stable graph with selected lots outlined directly after the
+  equilibrium/algebra recap.
+- CS/PS are familiar callbacks, then become one purple measure of total gain.
+  Blocked positive-gain lots and the forced negative-gain lot carry the theorem
+  argument without a separate planner episode or payment-cancellation proof.
+- The exact discrete totals remain unchanged in the model. Lost gains concern
+  unrealized beneficial lots; maximum gains can have a zero-gain final lot.
+- Author-owned notes remain untouched. Efficiency is conditional and does not
+  by itself settle distribution or every policy question.
