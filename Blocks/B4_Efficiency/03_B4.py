@@ -1988,15 +1988,12 @@ class B4(ThreeDScene):
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
         self.play(show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
-        excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.remove(units)
+        seller_offer_intro = fixed(Tex(r"A seller who's left out offers a buyer less than $\$6$.", color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
-        self.play(FadeOut(high_trade_question), FadeIn(excess), Create(andrew_focus), Create(cut))
+        self.play(FadeOut(high_trade_question), FadeIn(seller_offer_intro), Create(andrew_focus), Create(cut))
         self.pause('1.h.offer')
 
-        seller_question = fixed(Tex('What would this seller do?', color=DEFINITION).scale(DEFINITION_SCALE)
-                                .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(andrew_focus), FadeOut(cut))
 
         # Three people, their own values, and two visible trading alternatives.
@@ -2022,7 +2019,7 @@ class B4(ThreeDScene):
         crowd.suspend_updating()
         crowd_marks.suspend_updating()
         graphs.suspend_updating()
-        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(graphs), FadeOut(excess),
+        self.play(FadeOut(crowd), FadeOut(crowd_marks), FadeOut(graphs),
                   Transform(sell_incumbent, sell_targets[0]),
                   Transform(sell_person, sell_targets[1]),
                   Transform(sell_counterparty, sell_targets[2]),
@@ -2049,21 +2046,23 @@ class B4(ThreeDScene):
             sell_values.add(label)
         stay_text = Tex(r'Keep $\$6$: gain $\$0$', color=CAPTION).scale(0.60)
         offer_text = Tex(r'Ask $\$5.75$\\Gain $\$1.75$/lb', color=INK).scale(0.62)
-        for label, at, edge in [(stay_text, [-3.05, -0.07, 4.7], RIGHT),
+        for label, at, edge in [(stay_text, [-3.05, -0.07, 3.65], RIGHT),
                                 (offer_text, [3.05, -0.07, 3.65], LEFT)]:
             label.face_mat = np.eye(3)
             label.add_updater(face_camera)
             label.update()
             label.move_to(at, aligned_edge=edge)
-        wait_arrow = Arrow([-2.85, 4.7, 0], [-2.15, 0.75 + 6 * 0.55, 0],
+        wait_arrow = Arrow([-2.85, 3.65, 0], [-2.15, 0.75 + 6 * 0.55, 0],
                            buff=0, color=GUIDE, thickness=1.4, tip_width_ratio=4)
         offer_arrow = Arrow([2.85, 3.65, 0], [2.15, 0.75 + 5.75 * 0.55, 0],
                             buff=0, color=GUIDE, thickness=1.4, tip_width_ratio=4)
         for arrow in [wait_arrow, offer_arrow]:
             arrow.rotate(90 * DEGREES, RIGHT, about_point=ORIGIN).shift(DOWN * 0.07)
-        self.play(Create(sell_ring), Create(sell_zero), Create(sell_price),
-                  Create(sell_proposal), FadeIn(sell_values), FadeIn(stay_text), FadeIn(offer_text),
-                  Create(wait_arrow), Create(offer_arrow), FadeIn(seller_question))
+        self.play(Create(sell_ring), Create(sell_zero), Create(sell_price), FadeIn(sell_values))
+        self.pause('1.h.match')
+        self.play(FadeIn(stay_text), Create(wait_arrow))
+        self.pause('1.h.wait')
+        self.play(Create(sell_proposal), FadeIn(offer_text), Create(offer_arrow))
         self.pause('1.h')
         self.play(sell_price.animate.put_start_and_end_on(
                       np.array([0.45, -0.045, 0.75 + 5.75 * 0.55]), np.array([2.15, -0.045, 0.75 + 5.75 * 0.55])),
@@ -2072,7 +2071,7 @@ class B4(ThreeDScene):
                   sell_incumbent.animate.shift(LEFT * 0.65),
                   sell_incumbent_bar.animate.shift(LEFT * 0.65),
                   sell_zero[0].animate.shift(LEFT * 0.65), sell_values[0].animate.shift(LEFT * 0.65),
-                  FadeOut(seller_question), FadeOut(sell_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
+                  FadeOut(seller_offer_intro), FadeOut(sell_proposal), FadeOut(stay_text), FadeOut(wait_arrow),
                   FadeOut(offer_arrow), offer_text.animate.set_color(GOV), run_time=0.9, rate_func=smooth)
         self.pause('1.h.accepted')
         adjustment_head = fixed(title('Price adjustment'))
@@ -2086,11 +2085,8 @@ class B4(ThreeDScene):
         crowd_marks.resume_updating()
         graphs.resume_updating()
         self.add(crowd, crowd_marks, graphs)
-        self.remove(units)
-        self.remove(excess)
         everyone = fixed(Tex('Other unserved sellers have the same incentive.', color=DEFINITION)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(everyone), run_time=0.3)
-        self.add(units)
         self.pause('1.h.incentive')
         self.play(price.animate.set_value(4), run_time=3.0, rate_func=smooth)
 

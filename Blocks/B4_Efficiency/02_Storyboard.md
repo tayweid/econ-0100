@@ -25,14 +25,14 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** for the canonical complete lesson. The code stays
 flat and sequential at 15 fps. The first seven code sections have
-**49 named holds**; section 8 has **18 named holds**, including the two
-selected-lot holds before expansion, for **67 total** with the exercise placement below. Section 8 presents the welfare
+**51 named holds**; section 8 has **18 named holds**, including the two
+selected-lot holds before expansion, for **69 total** with the exercise placement below. Section 8 presents the welfare
 argument on one large, stable graph. Discrete lot economics stay the same,
 while the screen omits aggregate dollar totals and the recap's crowd displays.
 
 | Code section | Content | Named holds |
 |---|---|---|
-| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (49) |
+| 1–7 | Existing exchange, bidding, two trades, demand, supply, equilibrium, graph/algebra | `0.a` through `1.i.algebra` (51) |
 | 8 | Market benefits | `2.a`, `2.b` |
 | 8 | Binding floor, lost gains, select/inspect blocked pair | `3.a`, `3.b`, `3.c.select`, `3.c` |
 | 8 | Binding ceiling, lost gains, select/inspect blocked pair | `4.a`, `4.b`, `4.c.select`, `4.c` |
@@ -45,9 +45,9 @@ using Taylor's delegated placement decision. Their content and IDs remain intact
 
 The pacing direction adds manual advances around teaching sentences,
 questions, acceptance results, and algebra stages. The buyer's existing match
-and waiting option remain separate at `1.f.match` and `1.f.wait`. The latest
-pause, `1.e.exchanged`, identifies the 20 actual exchanges; all earlier 66 IDs
-retain their relative order. These pauses supersede compressed pacing and earlier
+and waiting option remain separate at `1.f.match` and `1.f.wait`. The seller
+now mirrors them at `1.h.match` and `1.h.wait`; all earlier 67 IDs retain their
+relative order. `1.e.exchanged` identifies the 20 actual exchanges. These pauses supersede compressed pacing and earlier
 no-extra-hold directions for the affected beats; ordinary names, ticks, and
 moving prices still animate continuously. The economic sequence is unchanged.
 
@@ -688,9 +688,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    ground segments move with each willing person. Fifty unserved sellers keep
    local yellow segments; supply's 30–80 graph gap and “Excess 50” remain yellow.
    Keep the title “A high price: $6.” Fade the “Who trades?” question as the
-   existing excess narration appears in gold at the standard bottom footer position,
-   clear of the plaza; the quantity-gap labels stay attached. Highlight the
-   unserved seller and proposed cut, then pause at `1.h.offer` before zooming.
+   gold caption “A seller who's left out offers a buyer less than $6.” appears
+   at the standard bottom position (scale 0.7443, margin 0.05). Keep it through
+   the zoom and decision steps. Keep the grey plaza units until the zoom;
+   quantity-gap labels stay attached. Highlight the unserved seller and proposed
+   cut, then pause at `1.h.offer` before zooming.
 2. Inspect the deciding seller (internally seller 40) with buyer 30 in the
    familiar head-on view, retaining the existing “A high price: $6” context title
    without recreating it.
@@ -700,13 +702,14 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    bar/label to this left-hand pair and keep the solid red **$6** price floating
    at dollar height over them. Add no ground match connector or ground price.
    Show MB/MC labels without names or individual role labels beneath the spheres.
-3. Use two world-space choices: “Keep $6: gain $0” with a short arrow to the
-   current solid price, and “Ask $5.75: gain $1.75/lb” with a short arrow to
-   the proposed dashed price spanning seller and buyer. Keep both arrows
-   visible and clear of all three bars. Replace the excess narration with the
-   yellow footer “What would this seller do?” at the existing `1.h` decision
-   stop, using scale 0.7443 and bottom margin 0.05. On advance, remove that
-   question, move the buyer's MB bar/label to the new pair, and solidify the
+   Pause on this existing match at `1.h.match`.
+3. Reveal “Keep $6: gain $0” on the left at world height 3.65, below the title
+   and level with the right offer callout. Its short arrow points up to the
+   current solid price. Pause at `1.h.wait`. Then reveal “Ask $5.75: gain
+   $1.75/lb” with a short arrow to the proposed dashed price spanning seller
+   and buyer. Keep both arrows clear of the bars. Retain the gold seller-offer
+   caption at the existing `1.h` decision stop. On advance, fade that caption,
+   move the buyer's MB bar/label to the new pair, and solidify the
    floating **$5.75** price at dollar height, and let the incumbent seller step
    aside with their MC bar/label. Fade the keep-price choice and its arrow,
    clear the proposal arrow as its price is accepted, and color the offer green.
@@ -841,7 +844,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   teal/orange endpoint dots and an adjacent “MC > MB” label. Never exaggerate
   its area or add individual gain/loss dollars.
 - Aggregate welfare arithmetic and allocations remain internal. The selected
-  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 67 holds
+  pair retains the preferred figure's lost-surplus bracket ($1,250 or $3,750). Maintain all 69 holds
   and the accepted economic order. Use simple text fades and one concise prompt.
 
 ## 2.a · Show the market's benefits
@@ -1009,12 +1012,12 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 ## Implementation and review boundaries
 
-- Preserve all **49 opening holds** through `1.i.algebra`, including the new
-  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 18 holds, for **67 total**, including
+- Preserve all **51 opening holds** through `1.i.algebra`, including the new
+  manual teaching pauses and eight-minute pre-Q2 budget. Section 8 has 18 holds, for **69 total**, including
   `3.c.select` and `4.c.select` before the selected graph bars expand.
 - The graph overview and graph-derived two-person comparisons supersede the
-  old back-half crowd/plaza staging. All earlier 66 hold IDs retain their relative
-  order, with `1.e.exchanged` added immediately after `1.e`;
+  old back-half crowd/plaza staging. All earlier 67 hold IDs retain their relative
+  order, with `1.h.match` and `1.h.wait` added before `1.h`;
   the September 23 close-up and per-person ground-segment refinements apply.
 - The welfare display has inside-area CS/PS labels, unified purple total surplus,
   grey DWL, and red negative gain. Policy beats have one price guide and one
@@ -1038,10 +1041,14 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
   visible, their originals stay hidden until landing, and the handoff preserves
   geometry and trackers. The mid-flight and returned-plaza frames were inspected;
   the subsequent price adjustment still moves the original actors correctly.
-  The latest 67-hold revision passed a focused construction check through the
+  The earlier 67-hold revision passed a focused construction check through the
   exercise: the new labels show 20 actual exchanges, the graph label fits the
   0–20 interval, and both labels clear on advance. The rendered hold was inspected;
   the previous 66 pause IDs retain their order.
+- The 69-hold seller revision passed a focused construction check of the offer,
+  match, wait, decision, and acceptance stages. The rendered decision was
+  inspected: the left callout clears the title, both choice labels share a
+  height, and the gold seller-offer footer persists until acceptance.
 - Only the canonical animation and this storyboard belong to the update. Notes,
   exercises, shared assets, B3 files, and stale snapshots remain unchanged.
 
