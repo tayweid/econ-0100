@@ -6,18 +6,26 @@ Latest direction: interrupt the recap with Exercise B3 Q2 **before** resolving
 equilibrium. Establish the people and willingness counts at an off-equilibrium
 price, let the class reason about incentives, then show one deliberation and
 one compressed common-price adjustment in each direction. Never reveal $4 as
-the answer before that exercise. The seven stages remain independently runnable.
+the answer before that exercise. The full lesson now runs as one animation.
 
 The live B4 notes now specify exact crowd welfare totals. Use those totals for
 any crowd implementation; the continuous exercise market remains separate.
-The standalone later scenes retain Taylor’s confirmed planner → theorem → policy order; their order can change without rebuilding the recap.
+The lesson retains Taylor's confirmed planner → theorem → policy order.
 Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 ## Runnable scenes
 
-Each file is independent. Run its header command with `maniml` from this folder.
-All use 15 fps and flat, sequential `construct()` choreography. Existing B3
-geometry/model code is copied where indicated below; no shared assets changed.
+Run **`maniml 03_B4.py B4`** from this folder to review the complete lesson in
+one viewer. This is the primary animation file for subsequent edits. All nine
+stages and all 52 named teaching stops share one forward/back navigation rail.
+The code remains a flat, sequential `construct()` at 15 fps. Each section joins
+the next by clearing the completed stage and resetting its camera; there are no
+extra navigation-only pauses. Existing B3 geometry/model code is copied where
+indicated below; no shared assets changed.
+
+The numbered files below remain independently runnable development snapshots
+for reference. Their choreography was copied into `03_B4.py`; they are not
+imported or executed by the combined scene.
 
 | File | Class | Teaching stops |
 |---|---|---|
@@ -31,8 +39,7 @@ geometry/model code is copied where indicated below; no shared assets changed.
 | `03_08_Welfare.py` | `B4Welfare` | `2.a`–`5.d` |
 | `03_09_Controls.py` | `B4Controls` | `6.a`–`7.a`, including both B4 exercises |
 
-`03_Code.py` remains the older notebook export. The numbered scene files above
-are this build's entry points.
+`03_Code.py` remains the older notebook export.
 
 ## Direction and sources
 
@@ -162,7 +169,7 @@ The prototype is superseded; it is not an alternative design to preserve.
   faint fitted references; policy totals use the exact crowd's rectangles.
 - The scene files use flat, sequential `construct()` choreography, visible
   constants, simple loops for repeated objects, and literal `self.pause('id')`
-  boundaries. No per-beat helper framework. Each independent scene reconstructs
+  boundaries. No per-beat helper framework. Each stage reconstructs
   its opening state without replaying earlier teaching stops.
 
 ## Numerical reference — checked, not an on-screen table
@@ -301,7 +308,7 @@ time. The bumper is outside this recap budget.
 
 ## 1.c.buyers · Build quantity demanded from the people
 
-1. Reconstruct all 59 buyers as a sorted 3D head-on row. This independent scene does not replay the small-market story. Caption “One person = 1,000 pounds”; keep bar heights in
+1. Reconstruct all 59 buyers as a sorted 3D head-on row. This stage follows the small-market story without replaying it. Caption “One person = 1,000 pounds”; keep bar heights in
    dollars per pound. This explicitly changes the unit from the one-pound trades.
 2. Lift a copy of the sorted profile onto the demand graph at upper right;
    retain the people and their bars. Label the fitted line (P=12-Q_d/5).
@@ -332,7 +339,7 @@ time. The bumper is outside this recap budget.
 ## 1.c · One price, many decisions
 
 1. Reconstruct the sorted buyer and seller rows together, with demand above
-   supply at right. The independent scene begins at $3, as the seller scene ends.
+   supply at right. This stage begins at $3, where the seller stage ends.
 2. Keep the unit convention visible: one person is 1,000 lb; price is dollars/lb.
    No equilibrium answer, crossing, or starred pair is visible yet.
 3. Introduce the distinction between a willingness check and a trading circle.
@@ -437,7 +444,7 @@ time. The bumper is outside this recap budget.
 
 1. End the two deviation tests back at $4 and 40 trades.
 2. Hold “Above $4: excess. Below $4: shortage.” This is the stable endpoint
-   from which the independent graph scene begins.
+   from which the graph stage begins.
 
 ## 1.i.graph · Recognize the same condition at the crossing
 
@@ -458,7 +465,7 @@ time. The bumper is outside this recap budget.
    arithmetic pauses. Substitute into supply to show (P^*=2+40/20=4).
 3. Carry the starred pair to the crossing. Hold “Same price; equal quantities.”
    This is a short explanation of what the algebra means; leave Exercise Q1
-   completed. This independent file ends on the solved frame. The welfare file reconstructs
+   completed. Hold on the solved frame. The welfare stage reconstructs
    the same unchanged crowd and merged graph at $4; it does not replay the algebra.
 
 ## 2.a · Ask whether the market's answer is good
@@ -737,7 +744,7 @@ time. The bumper is outside this recap budget.
 
 ## Review and implementation checks
 
-- There are **52 literal named holds** across the nine files. The opening seven
+- There are **52 literal named holds** in the combined animation. The opening seven
   scenes contain 21: the bumper, Exercise Q2, and 19 teaching holds. Target
   5–10 minutes of recap excluding the exercise, around 7–8 minutes in rehearsal.
   Keep the equilibrium explanation; shorten spoken bidding repetition first.
