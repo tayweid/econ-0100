@@ -17,7 +17,7 @@ Lecture notes, exercise files, and the older Typst storyboard are author-owned.
 
 Run **`maniml 03_B4.py B4`** from this folder to review the complete lesson in
 one viewer. This is the primary animation file for subsequent edits. All nine
-stages and all 52 named teaching stops share one forward/back navigation rail.
+stages and all 53 named teaching stops share one forward/back navigation rail.
 The code remains a flat, sequential `construct()` at 15 fps. Each section joins
 the next by clearing the completed stage and resetting its camera; there are no
 extra navigation-only pauses. Existing B3 geometry/model code is copied where
@@ -98,10 +98,13 @@ The prototype is superseded; it is not an alternative design to preserve.
   Actual trading partners stand beside one another at the seller's station,
   at x offsets −0.019/+0.019. Paired spheres have radius 0.014, bars width
   0.030, and circles radius 0.018, leaving space between neighboring pairs.
-- Buyer/seller introductions face the actual 3D rows. A projected copy of their
-  bar tops moves into the graph using B3's `screen_point` technique, while the
-  camera pulls back to the existing plaza view. The rows do not merely appear
-  beside unrelated curves.
+- Buyer/seller price comparisons remain in Taylor's approved full-width front
+  view: phi 90°, center `[0, 0, 1.9]`, height 8. Keep every person in one row.
+  The straight equation line passes through bar-top centers, with rank n at
+  Q=n thousand pounds. Both rows use base 0.75 and dollar-height 0.28. The
+  price guide ends at the equation line; checks and counts show exact willing
+  people. Bring the plaza and separate market graphs back only when both sides
+  enter the equilibrium argument.
 - Crowd deliberations enlarge the actual selected people/bars into B3's
   head-on view. The graphs temporarily clear for that comparison, then return
   with the original plaza camera. One illustrated switch precedes the common
@@ -129,8 +132,8 @@ The prototype is superseded; it is not an alternative design to preserve.
   Those without trades stay at their waiting positions. Mark every person but
   label only selected people.
   Individual comparisons enlarge the relevant bars into a head-on view while
-  hiding the other people; their allocation stays unchanged. A full-width head-on row is reserved
-  for the quantity sweep; it is not squeezed beside two small graphs.
+  hiding the other people; their allocation stays unchanged. Full-width head-on rows carry the individual
+  demand/supply comparisons and the later quantity sweep.
 - Decision close-ups use plain text, without bottom boxes or card backgrounds.
   Keep participant names beneath their spheres and MB/MC labels beside their
   bars. In the two-seller comparison, place each payment/gain label beneath its
@@ -315,33 +318,39 @@ time. The bumper is outside this recap budget.
 
 ## 1.c.buyers · Build quantity demanded from the people
 
-1. Reconstruct all 59 buyers as a sorted 3D head-on row. This stage follows the small-market story without replaying it. Caption “One person = 1,000 pounds”; keep bar heights in
-   dollars per pound. This explicitly changes the unit from the one-pound trades.
-2. Lift a copy of the sorted profile onto the demand graph at upper right;
-   retain the people and their bars. Label the fitted line (P=12-Q_d/5).
-   Title: “How many would buy at this price?”
-3. Place the price at $6 and reveal 30 checks, with Gary's MB of $6 equal to the displayed price.
-   Show Qd=30 and “MB ≥ P.” Only Gary and the nearest excluded buyer need tags:
-   $6 and MB $5.80. Hold; MB = P counts as willing.
+1. Show all 59 buyers in the approved full-width head-on row. Keep the caption
+   “One person = 1,000 lb. Bar height = dollars per pound.” This changes the
+   unit from the preceding one-pound trades.
+2. Draw the straight equation line P=12−Qd/5 through the bar-top centers; no
+   stepped outline. Put its equation above the row. Keep this camera throughout
+   the demand comparison, without pulling back to a separate graph.
+3. At $6, end the dashed price guide at Qd=30 on that line. Show 30 checks,
+   dim excluded people/bars, and highlight Gary, whose MB=$6. Read Qd in
+   thousands of pounds beneath the row. Hold “MB ≥ P”; equality is willing.
 
 ## 1.c.buyers.low · Willingness is not a trade count
 
-1. Lower the price from $6 to $3 in one play, revealing 45 checks and Qd=45.
-2. Park on “At $3, 45 buyers are willing. We have not counted trades.”
-   No trading circles or Qx appear; sellers have not entered this comparison.
-3. Gary's preceding caption gives his MB $6 and the next buyer's $5.80 offer;
-   individual tags are kept sparse rather than printed over every person.
+1. Lower price from $6 to $3 in this same view. The dashed guide follows the
+   equation; the actual willingness marks and quantity readout reach 45.
+2. Hold “At $3, 45 buyers are willing. We have not counted trades.”
+   Do not show trading circles or Qx.
 
 ## 1.c.sellers · Build quantity supplied the same way
 
-1. Keep demand parked at $3 and Qd=45 on the upper graph. Reveal all 100 sellers
-   as their own sorted head-on row; retain the 1,000-lb-lot convention.
-2. Lift a copy of their profile to the supply graph directly below demand,
-   with the same quantity scale. Label the fitted line (P=2+Q_s/20).
-   Title: “How many would sell at this price?”
-3. At the same $3, reveal 20 checks and Qs=20. Show “MC ≤ P.” Tag the boundary
-   seller at $3 and the next seller at MC $3.05. Hold. Supply counts willingness;
-   it is not a tally of completed sales. Keep circles and Qx absent until `1.c`.
+1. Replace the buyers with all 100 sellers in their own full-width head-on row.
+   Use the same camera, dollar-height, and 1,000-lb-lot convention.
+2. Draw P=2+Qs/20 as a straight line through the cost-bar centers and display
+   its equation. Keep the whole supply comparison in this view.
+3. At $3, end the dashed price guide at Qs=20. Show 20 checks, dim unwilling
+   sellers, and hold “MC ≤ P.” Counts show willingness, not completed sales.
+
+## 1.c.sellers.high · A higher price brings more sellers
+
+1. Raise price from $3 to $6 without moving the camera. The line/guide and
+   exact checks identify 80 willing sellers. Hold at Qs=80.
+2. On advance, clear that caption and return to $3 and 20 willing sellers
+   before bringing both market sides together. Do not stop at or label $4 as
+   equilibrium during the sweep.
 
 ## 1.c · One price, many decisions
 
@@ -753,8 +762,8 @@ time. The bumper is outside this recap budget.
 
 ## Review and implementation checks
 
-- There are **52 literal named holds** in the combined animation. The opening seven
-  scenes contain 21: the bumper, Exercise Q2, and 19 teaching holds. Target
+- There are **53 literal named holds** in the combined animation. The opening seven
+  stages contain 22: the bumper, Exercise Q2, and 20 teaching holds. Target
   5–10 minutes of recap excluding the exercise, around 7–8 minutes in rehearsal.
   Keep the equilibrium explanation; shorten spoken bidding repetition first.
 - Exercise Q2 comes after the shortage is counted, before any $4 equilibrium

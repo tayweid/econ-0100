@@ -1557,404 +1557,173 @@ class B4(ThreeDScene):
         self.pause('1.b.equal_prices')
 
         # ========== 4. Buyers ==========
-        # Advance directly into the next stage on the same navigation rail.
         self.clear()
         self.camera.frame.clear_updaters()
-        self.set_camera_orientation(phi=0, theta=0, gamma=0)
-        self.camera.frame.move_to(ORIGIN).set_height(8)
-
-        self.camera.fps = 15
-        self.camera.frame.set_height(8)
-
-
-        # One person is one 1,000-lb lot. Bar height is dollars per pound.
-        BUYER_MB = np.array([12 - n / 5 for n in range(1, 60)])
-        SELLER_MC = np.array([2 + n / 20 for n in range(1, 101)])
-        EPS = 1e-7
-        DOLLAR_HEIGHT = 0.19
-        price = ValueTracker(6)
-        show_counts = ValueTracker(1)
-        show_trades = ValueTracker(1)
-        show_buyers = ValueTracker(1)
-        show_sellers = ValueTracker(1)
-        self.add(price, show_counts, show_trades, show_buyers, show_sellers)
-
-        # B3's plaza, material objects and camera are retained literally.
-        # Equal rank uses the same x coordinate on both sides of the plaza.
-        self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
-        BAR_BASE = 0.18
-        ROW_LEFT, ROW_WIDTH = -3.7, 7.4
-        RANK_STEP = ROW_WIDTH / (max(len(BUYER_MB), len(SELLER_MC)) - 1)
-        BUYER_Y, SELLER_Y = 2.0, -1.7
-        floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
-                       opacity=0.14).set_color(MUTED)
-        rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
-        rim.shift(OUT * 0.015).set_stroke(opacity=0.6)
-        buyer_people, buyer_bars, buyer_checks, buyer_circles = Group(), Group(), VGroup(), VGroup()
-        seller_people, seller_bars, seller_checks, seller_circles = Group(), Group(), VGroup(), VGroup()
-        buyer_positions, seller_positions = [], []
-        for n, value in enumerate(BUYER_MB):
-            x, y = ROW_LEFT + n * RANK_STEP, BUYER_Y
-            buyer_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=DEMAND, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=DEMAND, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_buyers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            buyer_people.add(person)
-            buyer_bars.add(bar)
-            buyer_checks.add(check)
-            buyer_circles.add(circle)
-        for n, value in enumerate(SELLER_MC):
-            x, y = ROW_LEFT + n * RANK_STEP, SELLER_Y
-            seller_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=SUPPLY, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_sellers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            seller_people.add(person)
-            seller_bars.add(bar)
-            seller_checks.add(check)
-            seller_circles.add(circle)
-        # Trading partners stand together at the seller's station.
-        # Unmatched people keep their place in the ranked waiting lines.
-        for people, bars, circles, side in [(buyer_people, buyer_bars, buyer_circles, -1),
-                                            (seller_people, seller_bars, seller_circles, 1)]:
-            for n, (person, bar, circle) in enumerate(zip(people, bars, circles)):
-                for mob, paired_width, stretch_width in [(person, 0.074 * (0.014 / 0.026), False),
-                                                          (bar, 0.030, True), (circle, 0.036, False)]:
-                    mob.home = mob.get_center().copy()
-                    paired_z = 0.025 + person.get_depth() * (paired_width / person.get_width()) / 2 if mob is person else mob.home[2]
-                    mob.pair_home = np.array([seller_positions[n][0] + side * 0.019, SELLER_Y, paired_z])
-                    mob.home_width, mob.paired_width, mob.stretch_width = mob.get_width(), paired_width, stretch_width
-                    mob.price, mob.rank, mob.visibility = price, n + 1, show_trades
-                    mob.mb, mob.mc = BUYER_MB, SELLER_MC
-                    mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
-                    mob.add_updater(lambda m: m.set_width(m.home_width + m.pair_fraction * (m.paired_width - m.home_width), stretch=m.stretch_width).move_to(m.home + m.pair_fraction * (m.pair_home - m.home)))
-        buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
-        seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
-        units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
-        buyers = Group(buyer_bars, buyer_people, buyer_circles)
-        sellers = Group(seller_bars, seller_people, seller_circles)
-        crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_label, seller_label, units))
-
-        # Same Q and P scales in both graphs. Exact staircases, faint fitted lines.
-        demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        demand_axes.move_to([4.48, 1.75, 0])
-        supply_axes.move_to([4.48, -0.89, 0])
-        ticks = VGroup()
-        for ax in [demand_axes, supply_axes]:
-            for q in [0, 20, 40, 60, 80, 100]:
-                ticks.add(fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10))
-            for p in [4, 8, 12]:
-                ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
-        demand_points, supply_points = [], []
-        for n, value in enumerate(BUYER_MB):
-            demand_points.extend([demand_axes.c2p(n, value), demand_axes.c2p(n + 1, value)])
-        for n, value in enumerate(SELLER_MC):
-            supply_points.extend([supply_axes.c2p(n, value), supply_axes.c2p(n + 1, value)])
-        demand_steps = VMobject(color=DEMAND, stroke_width=2.4).set_points_as_corners(demand_points)
-        supply_steps = VMobject(color=SUPPLY, stroke_width=2.4).set_points_as_corners(supply_points)
-        demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0.30)
-        supply_fit = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY).set_opacity(0.30)
-        demand_word = fixed(Tex(r'Demand: $P=12-Q_d/5$', color=DEMAND)).scale(0.59).move_to([4.45, 2.85, 0])
-        supply_word = fixed(Tex(r'Supply: $P=2+Q_s/20$', color=SUPPLY)).scale(0.59).move_to([4.45, 0.18, 0])
-        graph_units = fixed(Tex(r'$Q$: thousands of pounds', color=CAPTION)).scale(0.48).move_to([4.5, -2.25, 0])
-        graph_prices = VGroup()
-        for ax, values, side in [(demand_axes, BUYER_MB, 'buyer'), (supply_axes, SELLER_MC, 'seller')]:
-            quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
-            line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
-            line.axes, line.price, line.values, line.side = ax, price, values, side
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())))
-            graph_prices.add(line)
-        demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
-        demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
-        demand_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()), 0), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()), m.price.get_value())).set_opacity(m.visibility.get_value()))
-        supply_guide = Line(supply_axes.c2p(20, 0), supply_axes.c2p(20, 3), color=SUPPLY, stroke_width=2)
-        supply_guide.axes, supply_guide.price, supply_guide.values, supply_guide.visibility = supply_axes, price, SELLER_MC, show_counts
-        supply_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), 0), m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())).set_opacity(m.visibility.get_value()))
-        # Readouts are computed from exactly the same predicates as the marks.
-        counts = VGroup()
-        for label, x, values, side in [('Q_d', 2.30, BUYER_MB, 'buyer'), ('Q_s', 4.10, SELLER_MC, 'seller'), ('Q_x', 5.90, BUYER_MB, 'trade')]:
-            word = fixed(Tex(rf'${label}=$', color=DEMAND if side == 'buyer' else SUPPLY if side == 'seller' else GREEN)).scale(0.65).move_to([x, -2.85, 0])
-            number = Integer(0, color=word.get_color()).scale(0.65).move_to([x + 0.77, -2.85, 0])
-            number.price, number.values, number.mb, number.mc, number.side = price, values, BUYER_MB, SELLER_MC, side
-            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), show_counts
-            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
-            counts.add(word, number)
-        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-0.23, 2.89, 0])
-        price_number = DecimalNumber(6, num_decimal_places=2, color=GUIDE).scale(0.57).move_to([0.78, 2.89, 0])
-        price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([0.78, 2.89, 0]))
-        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.42).move_to([1.37, 2.89, 0])
-        price_readout = VGroup(price_word, price_number, price_units)
-        graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
-                        demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts, price_readout)
-        fixed(graphs)
-        # World and fixed overlay objects are added separately, as in B3.
-
-        # ---- 1.c.buyers · Every bar is one buyer, ranked by willingness to pay.
-        price.set_value(6)
-        show_trades.set_value(0)
-        head = fixed(title('How many would buy at this price?'))
-        one_lot = fixed(Tex(r'One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION)).scale(0.77).move_to([0, -3.40, 0])
-        self.set_camera_orientation(phi=90 * DEGREES, theta=0, focal_distance=50)
+        self.set_camera_orientation(phi=90 * DEGREES, theta=0, gamma=0, focal_distance=50)
         self.camera.frame.move_to([0, 0, 1.9]).set_height(8)
-        full_bars, full_people = Group(), Group()
-        full_points = []
-        for n, value in enumerate(BUYER_MB):
-            x = -6.80 + (n + 0.5) * 13.6 / 59
-            bar = Rectangle3D(width=0.17, height=value * 0.28, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, 0, 0.75 + value * 0.28 / 2])
-            full_bars.add(bar)
-            shadow = Disk3D(radius=0.07, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, 0, 0.025])
+        self.camera.fps = 15
+
+        # Keep the approved full-width row throughout this price comparison.
+        # Rank n is Q=n thousand pounds, so the equation passes through each bar top.
+        values = np.array([12 - n / 5 for n in range(1, 60)])
+        ROW_WIDTH, ROW_COUNT = 13.6, 59
+        Q_STEP = ROW_WIDTH / ROW_COUNT
+        Q_ZERO = -ROW_WIDTH / 2 - Q_STEP / 2
+        ROW_BASE, ROW_DOLLAR_HEIGHT = 0.75, 0.28
+        price = ValueTracker(6)
+        show_willing = ValueTracker(0)
+        self.add(price, show_willing)
+        head = fixed(title('How many would buy at this price?'))
+        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION))
+        one_lot.scale(0.77).move_to([0, -3.40, 0])
+        full_bars, full_people, full_checks = Group(), Group(), VGroup()
+        for n, value in enumerate(values):
+            x = Q_ZERO + (n + 1) * Q_STEP
+            bar = Rectangle3D(width=0.17, height=value * ROW_DOLLAR_HEIGHT,
+                              resolution=(2, 2), opacity=0.65).set_color(DEMAND)
+            bar.rotate(90 * DEGREES, RIGHT).move_to([x, 0, ROW_BASE + value * ROW_DOLLAR_HEIGHT / 2])
+            bar.price, bar.value, bar.visibility = price, value, show_willing
+            bar.add_updater(lambda m: m.set_opacity(0.65 - 0.47 * m.visibility.get_value() * float(not (m.value + 1e-7 >= m.price.get_value()))))
+            shadow = Disk3D(radius=0.07, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
+            shadow.set_color(DEMAND).move_to([x, 0, 0.025])
             orb = Sphere(radius=0.065, color=DEMAND, resolution=(12, 8)).move_to([x, 0, 0.16])
-            full_people.add(Group(shadow, orb))
-            full_points.extend([[x - 0.085, 0, 0.75 + value * 0.28], [x + 0.085, 0, 0.75 + value * 0.28]])
-        full_profile = VMobject(color=DEMAND, stroke_width=2.6).set_points_as_corners(full_points)
+            orb.price, orb.value, orb.visibility = price, value, show_willing
+            orb.add_updater(lambda m: m.set_opacity(1 - 0.65 * m.visibility.get_value() * float(not (m.value + 1e-7 >= m.price.get_value()))))
+            person = Group(shadow, orb)
+            check = fixed(VMobject(color=DEMAND, stroke_width=1.5).set_points_as_corners(
+                [[-0.025, 0, 0], [-0.005, -0.018, 0], [0.032, 0.032, 0]]))
+            check.price, check.value, check.visibility = price, value, show_willing
+            check.anchor = screen_point(self.camera.frame, [x, 0, 0.43])
+            check.add_updater(lambda m: m.move_to(m.anchor).set_stroke(
+                opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
+            full_bars.add(bar)
+            full_people.add(person)
+            full_checks.add(check)
+        # This is the equation line, not a staircase around the individual bars.
+        full_profile = Line([Q_ZERO, -0.045, ROW_BASE + 12 * ROW_DOLLAR_HEIGHT],
+                            [Q_ZERO + 60 * Q_STEP, -0.045, ROW_BASE + 0 * ROW_DOLLAR_HEIGHT],
+                            color=DEMAND, stroke_width=2.6)
+        equation = fixed(Tex(r'$P=12-Q_d/5$', color=DEMAND)).scale(0.67).move_to([4.7, 2.75, 0])
+        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-5.90, 2.75, 0])
+        price_number = fixed(DecimalNumber(6, num_decimal_places=2, color=GUIDE)).scale(0.57)
+        price_number.price = price
+        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-4.78, 2.75, 0]))
+        price_units = fixed(Tex('/lb', color=CAPTION)).scale(0.45).move_to([-4.08, 2.75, 0])
+        price_readout = fixed(VGroup(price_word, price_number, price_units))
+        price_guide = DashedLine([Q_ZERO, -0.045, ROW_BASE + 6 * ROW_DOLLAR_HEIGHT],
+                                [Q_ZERO + 30 * Q_STEP, -0.045, ROW_BASE + 6 * ROW_DOLLAR_HEIGHT],
+                                color=GUIDE, stroke_width=2.2)
+        price_guide.price, price_guide.x0, price_guide.dx = price, Q_ZERO, Q_STEP
+        price_guide.base, price_guide.dollar_height = ROW_BASE, ROW_DOLLAR_HEIGHT
+        price_guide.add_updater(lambda m: m.put_start_and_end_on(
+            np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
+            np.array([m.x0 + (60 - 5 * m.price.get_value()) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
+        quantity_word = fixed(Tex(r'$Q_d=$', color=DEMAND)).scale(0.70).move_to([-1.15, -2.60, 0])
+        quantity_number = fixed(Integer(30, color=DEMAND)).scale(0.70)
+        quantity_number.price, quantity_number.values = price, values
+        quantity_number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
+            m.values + 1e-7 >= m.price.get_value()))).move_to([-0.20, -2.60, 0]))
+        quantity_units = fixed(Tex('thousand lb', color=CAPTION)).scale(0.54).move_to([1.25, -2.60, 0])
+        quantity_readout = fixed(VGroup(quantity_word, quantity_number, quantity_units))
         self.add(head)
         self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
-        self.play(Create(full_profile), run_time=0.8)
-        # B3's screen_point copy connects the actual world bars to the graph.
-        projected_profile = fixed(VMobject(color=DEMAND, stroke_width=2.6).set_points_as_corners(
-            [screen_point(self.camera.frame, point) for point in full_points]))
-        self.remove(full_profile)
-        self.add(projected_profile)
-        self.add(floor, rim)
-        # The same profile becomes demand while people settle into one plaza line.
-        demand_ticks = VGroup(*list(ticks)[:9])
-        demand_graph = fixed(VGroup(demand_axes, demand_ticks, demand_fit, demand_word))
-        self.play(ReplacementTransform(full_bars, buyer_bars), ReplacementTransform(full_people, buyer_people),
-                  ReplacementTransform(projected_profile, demand_steps), FadeIn(demand_graph), FadeIn(buyer_label), self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.7)
-        self.play(FadeIn(graph_prices[0]), FadeIn(price_readout), run_time=0.6)
-        self.add(buyer_checks, demand_guide, fixed(VGroup(*list(counts)[:2])), graph_units)
-        rule = fixed(Tex(r'$MB\geq P$: willing to buy. Equality counts.', color=INK)).scale(0.79).move_to([0, -3.40, 0])
-        gary = fixed(Tex(r'Gary: MB $\$6$. The next buyer offers at most $\$5.80$.', color=CAPTION)).scale(0.70).move_to([-1.6, -2.45, 0])
-        gary_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(buyer_positions[29])
-        self.play(ReplacementTransform(one_lot, rule), FadeIn(gary), Create(gary_focus))
+        self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
+        self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
+                  show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
+        rule = fixed(Tex(r'$MB\geq P$: willing to buy. Gary is indifferent at $\$6$.', color=INK))
+        rule.scale(0.72).move_to([0, -3.40, 0])
+        self.play(ReplacementTransform(one_lot, rule), full_people[29][1].animate.set_color(FOCUS))
         self.pause('1.c.buyers')
-        self.play(FadeOut(gary), FadeOut(gary_focus), price.animate.set_value(3), run_time=2.0, rate_func=linear)
-        low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=INK)).scale(0.78).move_to([0, -3.40, 0])
+        self.play(full_people[29][1].animate.set_color(DEMAND), price.animate.set_value(3), run_time=2.0, rate_func=linear)
+        low = fixed(Tex(r'At $\$3$, 45 buyers are willing. We have not counted trades.', color=INK))
+        low.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(rule, low))
         self.pause('1.c.buyers.low')
 
         # ========== 5. Sellers ==========
-        # Advance directly into the next stage on the same navigation rail.
         self.clear()
         self.camera.frame.clear_updaters()
-        self.set_camera_orientation(phi=0, theta=0, gamma=0)
-        self.camera.frame.move_to(ORIGIN).set_height(8)
-
-        self.camera.fps = 15
-        self.camera.frame.set_height(8)
-
-
-        # One person is one 1,000-lb lot. Bar height is dollars per pound.
-        BUYER_MB = np.array([12 - n / 5 for n in range(1, 60)])
-        SELLER_MC = np.array([2 + n / 20 for n in range(1, 101)])
-        EPS = 1e-7
-        DOLLAR_HEIGHT = 0.19
-        price = ValueTracker(3)
-        show_counts = ValueTracker(1)
-        show_trades = ValueTracker(1)
-        show_buyers = ValueTracker(1)
-        show_sellers = ValueTracker(1)
-        self.add(price, show_counts, show_trades, show_buyers, show_sellers)
-
-        # B3's plaza, material objects and camera are retained literally.
-        # Equal rank uses the same x coordinate on both sides of the plaza.
-        self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
-        self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
-        BAR_BASE = 0.18
-        ROW_LEFT, ROW_WIDTH = -3.7, 7.4
-        RANK_STEP = ROW_WIDTH / (max(len(BUYER_MB), len(SELLER_MC)) - 1)
-        BUYER_Y, SELLER_Y = 2.0, -1.7
-        floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
-                       opacity=0.14).set_color(MUTED)
-        rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
-        rim.shift(OUT * 0.015).set_stroke(opacity=0.6)
-        buyer_people, buyer_bars, buyer_checks, buyer_circles = Group(), Group(), VGroup(), VGroup()
-        seller_people, seller_bars, seller_checks, seller_circles = Group(), Group(), VGroup(), VGroup()
-        buyer_positions, seller_positions = [], []
-        for n, value in enumerate(BUYER_MB):
-            x, y = ROW_LEFT + n * RANK_STEP, BUYER_Y
-            buyer_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=DEMAND, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=DEMAND, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_buyers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            buyer_people.add(person)
-            buyer_bars.add(bar)
-            buyer_checks.add(check)
-            buyer_circles.add(circle)
-        for n, value in enumerate(SELLER_MC):
-            x, y = ROW_LEFT + n * RANK_STEP, SELLER_Y
-            seller_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.026, color=SUPPLY, resolution=(12, 8)).move_to([x, y, 0.055])
-            person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
-            check.price, check.value, check.visibility = price, value, show_sellers
-            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
-            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
-            circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
-            circle.mb, circle.mc = BUYER_MB, SELLER_MC
-            circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
-            seller_people.add(person)
-            seller_bars.add(bar)
-            seller_checks.add(check)
-            seller_circles.add(circle)
-        # Trading partners stand together at the seller's station.
-        # Unmatched people keep their place in the ranked waiting lines.
-        for people, bars, circles, side in [(buyer_people, buyer_bars, buyer_circles, -1),
-                                            (seller_people, seller_bars, seller_circles, 1)]:
-            for n, (person, bar, circle) in enumerate(zip(people, bars, circles)):
-                for mob, paired_width, stretch_width in [(person, 0.074 * (0.014 / 0.026), False),
-                                                          (bar, 0.030, True), (circle, 0.036, False)]:
-                    mob.home = mob.get_center().copy()
-                    paired_z = 0.025 + person.get_depth() * (paired_width / person.get_width()) / 2 if mob is person else mob.home[2]
-                    mob.pair_home = np.array([seller_positions[n][0] + side * 0.019, SELLER_Y, paired_z])
-                    mob.home_width, mob.paired_width, mob.stretch_width = mob.get_width(), paired_width, stretch_width
-                    mob.price, mob.rank, mob.visibility = price, n + 1, show_trades
-                    mob.mb, mob.mc = BUYER_MB, SELLER_MC
-                    mob.add_updater(lambda m: setattr(m, 'pair_fraction', m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))))
-                    mob.add_updater(lambda m: m.set_width(m.home_width + m.pair_fraction * (m.paired_width - m.home_width), stretch=m.stretch_width).move_to(m.home + m.pair_fraction * (m.pair_home - m.home)))
-        buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
-        seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
-        units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
-        buyers = Group(buyer_bars, buyer_people, buyer_circles)
-        sellers = Group(seller_bars, seller_people, seller_circles)
-        crowd = Group(floor, rim, buyers, sellers)
-        crowd_hud = fixed(VGroup(buyer_checks, seller_checks, buyer_label, seller_label, units))
-
-        # Same Q and P scales in both graphs. Exact staircases, faint fitted lines.
-        demand_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        supply_axes = style_axes([0, 100, 20], [0, 13, 2], x_length=5.15, y_length=1.55)
-        demand_axes.move_to([4.48, 1.75, 0])
-        supply_axes.move_to([4.48, -0.89, 0])
-        ticks = VGroup()
-        for ax in [demand_axes, supply_axes]:
-            for q in [0, 20, 40, 60, 80, 100]:
-                ticks.add(fixed(Tex(str(q), color=CAPTION)).scale(0.38).next_to(ax.c2p(q, 0), DOWN, buff=0.10))
-            for p in [4, 8, 12]:
-                ticks.add(fixed(Tex(str(p), color=CAPTION)).scale(0.35).next_to(ax.c2p(0, p), LEFT, buff=0.10))
-        demand_points, supply_points = [], []
-        for n, value in enumerate(BUYER_MB):
-            demand_points.extend([demand_axes.c2p(n, value), demand_axes.c2p(n + 1, value)])
-        for n, value in enumerate(SELLER_MC):
-            supply_points.extend([supply_axes.c2p(n, value), supply_axes.c2p(n + 1, value)])
-        demand_steps = VMobject(color=DEMAND, stroke_width=2.4).set_points_as_corners(demand_points)
-        supply_steps = VMobject(color=SUPPLY, stroke_width=2.4).set_points_as_corners(supply_points)
-        demand_fit = Line(demand_axes.c2p(0, 12), demand_axes.c2p(60, 0), color=DEMAND).set_opacity(0.30)
-        supply_fit = Line(supply_axes.c2p(0, 2), supply_axes.c2p(100, 7), color=SUPPLY).set_opacity(0.30)
-        demand_word = fixed(Tex(r'Demand: $P=12-Q_d/5$', color=DEMAND)).scale(0.59).move_to([4.45, 2.85, 0])
-        supply_word = fixed(Tex(r'Supply: $P=2+Q_s/20$', color=SUPPLY)).scale(0.59).move_to([4.45, 0.18, 0])
-        graph_units = fixed(Tex(r'$Q$: thousands of pounds', color=CAPTION)).scale(0.48).move_to([4.5, -2.25, 0])
-        graph_prices = VGroup()
-        for ax, values, side in [(demand_axes, BUYER_MB, 'buyer'), (supply_axes, SELLER_MC, 'seller')]:
-            quantity = np.count_nonzero(values + EPS >= price.get_value()) if side == 'buyer' else np.count_nonzero(values <= price.get_value() + EPS)
-            line = DashedLine(ax.c2p(0, price.get_value()), ax.c2p(quantity, price.get_value()), color=GUIDE, stroke_width=2.3)
-            line.axes, line.price, line.values, line.side = ax, price, values, side
-            line.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(0, m.price.get_value()), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())))
-            graph_prices.add(line)
-        demand_guide = Line(demand_axes.c2p(45, 0), demand_axes.c2p(45, 3), color=DEMAND, stroke_width=2)
-        demand_guide.axes, demand_guide.price, demand_guide.values, demand_guide.visibility = demand_axes, price, BUYER_MB, show_counts
-        demand_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()), 0), m.axes.c2p(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()), m.price.get_value())).set_opacity(m.visibility.get_value()))
-        supply_guide = Line(supply_axes.c2p(20, 0), supply_axes.c2p(20, 3), color=SUPPLY, stroke_width=2)
-        supply_guide.axes, supply_guide.price, supply_guide.values, supply_guide.visibility = supply_axes, price, SELLER_MC, show_counts
-        supply_guide.add_updater(lambda m: m.put_start_and_end_on(m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), 0), m.axes.c2p(np.count_nonzero(m.values <= m.price.get_value() + 1e-7), m.price.get_value())).set_opacity(m.visibility.get_value()))
-        # Readouts are computed from exactly the same predicates as the marks.
-        counts = VGroup()
-        for label, x, values, side in [('Q_d', 2.30, BUYER_MB, 'buyer'), ('Q_s', 4.10, SELLER_MC, 'seller'), ('Q_x', 5.90, BUYER_MB, 'trade')]:
-            word = fixed(Tex(rf'${label}=$', color=DEMAND if side == 'buyer' else SUPPLY if side == 'seller' else GREEN)).scale(0.65).move_to([x, -2.85, 0])
-            number = Integer(0, color=word.get_color()).scale(0.65).move_to([x + 0.77, -2.85, 0])
-            number.price, number.values, number.mb, number.mc, number.side = price, values, BUYER_MB, SELLER_MC, side
-            number.anchor, number.visibility = np.array([x + 0.77, -2.85, 0]), show_counts
-            number.add_updater(lambda m: m.set_value(int(np.count_nonzero(m.values + 1e-7 >= m.price.get_value()) if m.side == 'buyer' else np.count_nonzero(m.values <= m.price.get_value() + 1e-7) if m.side == 'seller' else min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).move_to(m.anchor).set_opacity(m.visibility.get_value()))
-            counts.add(word, number)
-        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-0.23, 2.89, 0])
-        price_number = DecimalNumber(3, num_decimal_places=2, color=GUIDE).scale(0.57).move_to([0.78, 2.89, 0])
-        price_number.price = price
-        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([0.78, 2.89, 0]))
-        price_units = fixed(Tex(r'/lb', color=CAPTION)).scale(0.42).move_to([1.37, 2.89, 0])
-        price_readout = VGroup(price_word, price_number, price_units)
-        graphs = VGroup(demand_axes, supply_axes, ticks, demand_fit, supply_fit, demand_steps, supply_steps,
-                        demand_word, supply_word, graph_prices, demand_guide, supply_guide, graph_units, counts, price_readout)
-        fixed(graphs)
-        # World and fixed overlay objects are added separately, as in B3.
-
-        # ---- 1.c.sellers · Willingness to sell, before any allocation of trades.
-        show_trades.set_value(0)
-        head = fixed(title('How many would sell at this price?'))
-        demand_ticks = VGroup(*list(ticks)[:9])
-        demand_graph = fixed(VGroup(demand_axes, demand_ticks, demand_fit, demand_steps, demand_word, graph_prices[0], demand_guide))
-        self.add(head, demand_graph, price_readout)
-        self.set_camera_orientation(phi=90 * DEGREES, theta=0, focal_distance=50)
+        self.set_camera_orientation(phi=90 * DEGREES, theta=0, gamma=0, focal_distance=50)
         self.camera.frame.move_to([0, 0, 1.9]).set_height(8)
-        full_bars, full_people = Group(), Group()
-        full_points = []
-        for n, value in enumerate(SELLER_MC):
-            x = -6.90 + (n + 0.5) * 13.8 / 100
-            bar = Rectangle3D(width=0.105, height=value * 0.24, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
-            bar.rotate(90 * DEGREES, RIGHT).move_to([x, 0, 0.75 + value * 0.24 / 2])
-            full_bars.add(bar)
-            shadow = Disk3D(radius=0.07, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, 0, 0.025])
+        self.camera.fps = 15
+
+        # Keep the approved full-width row throughout this price comparison.
+        # Rank n is Q=n thousand pounds, so the equation passes through each bar top.
+        values = np.array([2 + n / 20 for n in range(1, 101)])
+        ROW_WIDTH, ROW_COUNT = 13.8, 100
+        Q_STEP = ROW_WIDTH / ROW_COUNT
+        Q_ZERO = -ROW_WIDTH / 2 - Q_STEP / 2
+        ROW_BASE, ROW_DOLLAR_HEIGHT = 0.75, 0.28
+        price = ValueTracker(3)
+        show_willing = ValueTracker(0)
+        self.add(price, show_willing)
+        head = fixed(title('How many would sell at this price?'))
+        one_lot = fixed(Tex('One person = 1,000 lb. Bar height = dollars per pound.', color=CAPTION))
+        one_lot.scale(0.77).move_to([0, -3.40, 0])
+        full_bars, full_people, full_checks = Group(), Group(), VGroup()
+        for n, value in enumerate(values):
+            x = Q_ZERO + (n + 1) * Q_STEP
+            bar = Rectangle3D(width=0.105, height=value * ROW_DOLLAR_HEIGHT,
+                              resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
+            bar.rotate(90 * DEGREES, RIGHT).move_to([x, 0, ROW_BASE + value * ROW_DOLLAR_HEIGHT / 2])
+            bar.price, bar.value, bar.visibility = price, value, show_willing
+            bar.add_updater(lambda m: m.set_opacity(0.65 - 0.47 * m.visibility.get_value() * float(not (m.value <= m.price.get_value() + 1e-7))))
+            shadow = Disk3D(radius=0.07, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28)
+            shadow.set_color(SUPPLY).move_to([x, 0, 0.025])
             orb = Sphere(radius=0.065, color=SUPPLY, resolution=(12, 8)).move_to([x, 0, 0.16])
-            full_people.add(Group(shadow, orb))
-            full_points.extend([[x - 0.0525, 0, 0.75 + value * 0.24], [x + 0.0525, 0, 0.75 + value * 0.24]])
-        full_profile = VMobject(color=SUPPLY, stroke_width=2.6).set_points_as_corners(full_points)
-        one_lot = fixed(Tex(r'One person = 1,000 lb. Lowest cost first.', color=CAPTION)).scale(0.8).move_to([0, -3.45, 0])
-        self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot))
-        self.play(Create(full_profile), run_time=0.8)
-        # B3's screen_point copy connects the actual world bars to the graph.
-        projected_profile = fixed(VMobject(color=SUPPLY, stroke_width=2.6).set_points_as_corners(
-            [screen_point(self.camera.frame, point) for point in full_points]))
-        self.remove(full_profile)
-        self.add(projected_profile)
-        self.add(floor, rim)
-        supply_ticks = VGroup(*list(ticks)[9:])
-        supply_graph = fixed(VGroup(supply_axes, supply_ticks, supply_fit, supply_word))
-        self.play(ReplacementTransform(full_bars, seller_bars), ReplacementTransform(full_people, seller_people),
-                  ReplacementTransform(projected_profile, supply_steps), FadeIn(supply_graph), FadeIn(seller_label), self.camera.frame.animate.reorient(0, 48, center=[4, 0, 0.65], height=11), run_time=1.7)
-        self.play(FadeIn(graph_prices[1]))
-        self.add(seller_checks, supply_guide, fixed(VGroup(*list(counts)[:4])), graph_units)
-        rule = fixed(Tex(r'$MC\leq P$: willing to sell. At $\$3$, 20 sellers are willing.', color=INK)).scale(0.78).move_to([0, -3.45, 0])
+            orb.price, orb.value, orb.visibility = price, value, show_willing
+            orb.add_updater(lambda m: m.set_opacity(1 - 0.65 * m.visibility.get_value() * float(not (m.value <= m.price.get_value() + 1e-7))))
+            person = Group(shadow, orb)
+            check = fixed(VMobject(color=SUPPLY, stroke_width=1.5).set_points_as_corners(
+                [[-0.025, 0, 0], [-0.005, -0.018, 0], [0.032, 0.032, 0]]))
+            check.price, check.value, check.visibility = price, value, show_willing
+            check.anchor = screen_point(self.camera.frame, [x, 0, 0.43])
+            check.add_updater(lambda m: m.move_to(m.anchor).set_stroke(
+                opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
+            full_bars.add(bar)
+            full_people.add(person)
+            full_checks.add(check)
+        # This is the equation line, not a staircase around the individual bars.
+        full_profile = Line([Q_ZERO, -0.045, ROW_BASE + 2 * ROW_DOLLAR_HEIGHT],
+                            [Q_ZERO + 100 * Q_STEP, -0.045, ROW_BASE + 7 * ROW_DOLLAR_HEIGHT],
+                            color=SUPPLY, stroke_width=2.6)
+        equation = fixed(Tex(r'$P=2+Q_s/20$', color=SUPPLY)).scale(0.67).move_to([4.7, 2.75, 0])
+        price_word = fixed(Tex(r'Price: \$', color=GUIDE)).scale(0.57).move_to([-5.90, 2.75, 0])
+        price_number = fixed(DecimalNumber(3, num_decimal_places=2, color=GUIDE)).scale(0.57)
+        price_number.price = price
+        price_number.add_updater(lambda m: m.set_value(m.price.get_value()).move_to([-4.78, 2.75, 0]))
+        price_units = fixed(Tex('/lb', color=CAPTION)).scale(0.45).move_to([-4.08, 2.75, 0])
+        price_readout = fixed(VGroup(price_word, price_number, price_units))
+        price_guide = DashedLine([Q_ZERO, -0.045, ROW_BASE + 3 * ROW_DOLLAR_HEIGHT],
+                                [Q_ZERO + 20 * Q_STEP, -0.045, ROW_BASE + 3 * ROW_DOLLAR_HEIGHT],
+                                color=GUIDE, stroke_width=2.2)
+        price_guide.price, price_guide.x0, price_guide.dx = price, Q_ZERO, Q_STEP
+        price_guide.base, price_guide.dollar_height = ROW_BASE, ROW_DOLLAR_HEIGHT
+        price_guide.add_updater(lambda m: m.put_start_and_end_on(
+            np.array([m.x0, -0.045, m.base + m.price.get_value() * m.dollar_height]),
+            np.array([m.x0 + (20 * (m.price.get_value() - 2)) * m.dx, -0.045, m.base + m.price.get_value() * m.dollar_height])))
+        quantity_word = fixed(Tex(r'$Q_s=$', color=SUPPLY)).scale(0.70).move_to([-1.15, -2.60, 0])
+        quantity_number = fixed(Integer(20, color=SUPPLY)).scale(0.70)
+        quantity_number.price, quantity_number.values = price, values
+        quantity_number.add_updater(lambda m: m.set_value(int(np.count_nonzero(
+            m.values <= m.price.get_value() + 1e-7))).move_to([-0.20, -2.60, 0]))
+        quantity_units = fixed(Tex('thousand lb', color=CAPTION)).scale(0.54).move_to([1.25, -2.60, 0])
+        quantity_readout = fixed(VGroup(quantity_word, quantity_number, quantity_units))
+        self.add(head)
+        self.play(FadeIn(full_bars), FadeIn(full_people), FadeIn(one_lot), run_time=1.0)
+        self.play(Create(full_profile), FadeIn(equation), run_time=0.8)
+        self.play(Create(price_guide), FadeIn(price_readout), FadeIn(quantity_readout),
+                  show_willing.animate.set_value(1), FadeIn(full_checks), run_time=0.7)
+        rule = fixed(Tex(r'$MC\leq P$: willing to sell. At $\$3$, 20 sellers are willing.', color=INK))
+        rule.scale(0.72).move_to([0, -3.40, 0])
         self.play(ReplacementTransform(one_lot, rule))
-        boundary = fixed(Tex(r'The next seller needs $\$3.05$/lb.', color=CAPTION)).scale(0.68).move_to([-3.8, 1.2, 0])
-        self.play(FadeIn(boundary))
         self.pause('1.c.sellers')
+        self.play(price.animate.set_value(6), run_time=2.0, rate_func=linear)
+        high = fixed(Tex(r'At $\$6$, 80 sellers are willing. A higher price brings more sellers.', color=INK))
+        high.scale(0.72).move_to([0, -3.40, 0])
+        self.play(ReplacementTransform(rule, high))
+        self.pause('1.c.sellers.high')
+        self.play(FadeOut(high), price.animate.set_value(3), run_time=1.3, rate_func=linear)
 
         # ========== 6. Equilibrium ==========
         # Advance directly into the next stage on the same navigation rail.
