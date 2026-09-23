@@ -183,8 +183,9 @@ From `5.a`, its active price/quantity guides stay hidden.
   vertical stack and anchor the whole group at the bottom so lines do not overlap.
   Keep model values, price/choice labels, and quantity-gap labels attached to
   their visual features. Use one question per beat, without repeating the title.
-  In `1.d`–`1.e`, use the title “At $3, who trades?” without a second question
-  at the bottom. At `1.g` and during the excess reveal, use “At $6, who trades?”
+  In `1.d`, `1.e.willing`, and `1.e`, use the title “A low price: $3” and retain
+  the gold bottom question “Who trades?” at scale 0.7443 and margin 0.05. Fade
+  the question when the `1.j` exercise enters. At `1.g` and during the excess reveal, use “At $6, who trades?”
   without a second question. The decision close-ups at `1.f` and `1.h` use
   context titles: “A low price: $3” or “A high price: $6.”
   Put each question in yellow at the same bottom margin/scale, replacing any
@@ -524,8 +525,9 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 1. Keep everyone at the outer rim, withholding plaza willingness marks and
    trades. Keep vertical graph guides from the $3 curve intersections to the
    Q axes, with teal “45” and orange “20” attached there. Hide yellow gap marks.
-2. Title: “At $3, who trades?” Hold before revealing willingness, without
-   repeating the question at the bottom.
+2. Title: “A low price: $3.” Show “Who trades?” in gold at the bottom, scale
+   0.7443 and margin 0.05. Hold before revealing willingness; retain this title
+   and question through `1.e.willing` and `1.e`.
 
 ## 1.e.willing · Pause on willingness before matching
 
@@ -536,8 +538,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    segments under the 20 willing sellers. Keep demand's horizontal 0–45 and
    supply's 0–20 graph baselines unchanged. Hold here with all 45 checked buyers
    and 20 checked sellers on their inner arcs, before any pairs move together.
-   Keep the title “At $3, who trades?” and the graph quantities visible; yellow
-   shortage marks remain hidden.
+   Keep the title “A low price: $3,” the gold bottom “Who trades?” question,
+   and graph quantities visible; yellow shortage marks remain hidden.
 
 ## 1.e · Count the shortage and the actual trades
 
@@ -546,7 +548,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    at y=+0.4 and sellers just below it at y=−0.4, forming 20 adjacent pairs.
    Center the occupied stations on the plaza. The matching communicates the
    20 trades; add no separate Qx counter.
-2. Keep the title “At $3, who trades?” Leave the bottom narration empty. Add
+2. Keep the title “A low price: $3” and gold bottom question “Who trades?” Add
    dashed vertical comparison guides between the stacked graphs: teal at
    quantity demanded 45 and orange at quantity supplied 20, aligned to those
    quantities on both horizontal axes. Hold with
@@ -557,7 +559,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.j · Exercise B3 Q2 — before resolving equilibrium
 
-1. After the $3 shortage has been counted at `1.e`, replace the market with an
+1. After the $3 shortage has been counted at `1.e`, fade the bottom “Who trades?”
+   question and replace the market with an
    Exercise B3 Q2 card following [the style guide, §3](../_Style_Guide.md) and
    B2/B3: muted rounded panel, width 13, padding 0.65, gold serif heading
    “Exercise B3 | Q2,” and white body text indented 0.35. Center the equations.
@@ -574,7 +577,7 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 ## 1.f · Recall the incentive to raise price
 
 1. Highlight the deciding buyer (internally buyer 25) and seller 20 (MC $3),
-   then bring them into B3's head-on view. Change to the context title “A low price: $3.”
+   then bring them into B3's head-on view. Retain the context title “A low price: $3.”
    Put a yellow world-space circular ring around the deciding buyer's orb.
    Arrange a compact three-person figure: deciding buyer left, seller center,
    incumbent buyer 20 right. Include the incumbent's **MB $8** bar and label.
