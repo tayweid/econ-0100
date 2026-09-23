@@ -180,7 +180,9 @@ From `5.a`, its active price/quantity guides stay hidden.
   Keep model values, price/choice labels, and quantity-gap labels attached to
   their visual features. Use one question per beat, without repeating the title.
   In `1.d`–`1.e`, use the title “At $3, who trades?” without a second question
-  at the bottom. In `1.f`–`1.h`, titles give context: “A low price: $3” or “A high price: $6.”
+  at the bottom. At `1.g` and during the excess reveal, use “At $6, who trades?”
+  without a second question. The decision close-ups at `1.f` and `1.h` use
+  context titles: “A low price: $3” or “A high price: $6.”
   Put each question in yellow at the same bottom margin/scale, replacing any
   narration there. Remove the question on acceptance. Before the common price
   changes, replace the fixed-price context title with “Price adjustment.”
@@ -570,9 +572,8 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    yellow gap marks before moving the common price to $6. Keep graph quantity
    guides and attached numbers visible throughout: verticals drop from the
    price/curve intersections to the Q axes, ending at teal “30” and orange “80.”
-   Title: “A high price: $6.” Put “Who is left out?” in yellow at the standard
-   bottom footer position. Hold before revealing the plaza response and actual
-   matching; do not show another footer or repeat the question in the title.
+   Title: “At $6, who trades?” Hold before revealing the plaza response and
+   actual matching, without repeating the question at the bottom.
 
 ## 1.h · Count the excess and recall undercutting
 
@@ -580,11 +581,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
    30 buyer checks, 80 seller checks, and 30 central pairs. Short teal/orange
    ground segments move with each willing person. Fifty unserved sellers keep
    local yellow segments; supply's 30–80 graph gap and “Excess 50” remain yellow.
-   Keep the title “A high price: $6.” Replace “Who is left out?” with the
+   Keep the title “At $6, who trades?” Show the
    existing excess narration at the standard bottom footer position, clear
    of the plaza; the quantity-gap labels stay attached.
 2. Inspect the deciding seller (internally seller 40) with buyer 30 in the
-   familiar head-on view, retaining “A high price: $6” as the context title.
+   familiar head-on view, changing to “A high price: $6” as the context title.
    Ring the deciding seller's orb in yellow. Mirror the compact figure: incumbent seller 30 left,
    buyer center, deciding seller right. Include the incumbent's **MC $3.50**
    bar and label. Buyer 30 already trades with that seller. Move the buyer's MB

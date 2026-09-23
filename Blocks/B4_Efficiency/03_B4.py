@@ -2216,25 +2216,25 @@ class B4(ThreeDScene):
         # ---- 1.g · Predict the other direction before revealing its counts.
         self.play(FadeOut(rising), show_counts.animate.set_value(0), show_trades.animate.set_value(0), show_buyers.animate.set_value(0), show_sellers.animate.set_value(0))
         self.play(price.animate.set_value(6), run_time=1.0)
-        high_head = fixed(title(r'A high price: $\$6$'))
-        high_question = fixed(Tex('Who is left out?', color=DEFINITION).scale(DEFINITION_SCALE)
-                              .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        high_head = fixed(title(r'At $\$6$, who trades?'))
         self.remove(head)
-        self.play(FadeIn(high_head), FadeIn(high_question))
+        self.play(FadeIn(high_head))
         head = high_head
         self.pause('1.g')
 
         # ---- 1.h · Andrew can attract a buyer by asking less.
-        self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
+        self.play(show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
         excess = fixed(Tex(r'Excess: 50,000 lb. This seller is willing, but has no buyer.', color=INK)).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.remove(units)
         andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_circles[39].get_center())
         cut = DashedLine(seller_circles[39].get_center(), buyer_circles[29].get_center(), color=GUIDE, stroke_width=2)
         self.play(FadeIn(excess), Create(andrew_focus), Create(cut))
 
+        self.remove(head)
+        head = fixed(title(r'A high price: $\$6$'))
         seller_question = fixed(Tex('What would this seller do?', color=DEFINITION).scale(DEFINITION_SCALE)
                                 .set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low))
+        self.play(FadeIn(head), FadeOut(andrew_focus), FadeOut(cut), FadeOut(tried_low))
 
         # Three people, their own values, and two visible trading alternatives.
         sell_incumbent = seller_people[29].copy().clear_updaters()
