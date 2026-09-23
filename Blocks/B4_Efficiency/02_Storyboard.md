@@ -969,7 +969,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
    section, and before the surplus comparison at `5.a`. Use the original
    pasty equations and 5-galleon ceiling with its prompts: quantity exchanged,
    CS, PS, DWL, and the graph with shaded regions. State
-   **$(Q_d = 14;\ Q_s = 6)$** below the maximum legal price.
+   **$(Q_d = 14;\ Q_s = 6)$** inline with the maximum legal price sentence.
 2. Use the approved muted rounded panel, gold serif exercise heading, white
    concise body, and centered equations. Show no answers. Hold
    `6.exercise_ceiling`, then uncover the same blocked-trade close-up to
@@ -1041,7 +1041,7 @@ plaza objects at the welfare transition. Keep all earlier behavior unchanged.
 
 1. Use the sheet's 9-galleon floor and original prompts: quantity exchanged,
    producer surplus, deadweight loss, and a floor of 6. State
-   **$(Q_d = 6;\ Q_s = 14)$** below the minimum legal price.
+   **$(Q_d = 6;\ Q_s = 14)$** inline with the minimum legal price sentence.
 2. Use the same exercise-card styling, without extra repeated questions or
    answers. Show Q2 after `5.e` as the final scene. Hold
    `6.exercise_floor` and leave the card visible.
