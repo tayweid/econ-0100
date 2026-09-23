@@ -1812,6 +1812,20 @@ class B4(ThreeDScene):
         unserved = VGroup()  # The checked buyers on the inner arc are the unserved group.
         self.pause('1.e')
 
+        # ---- 1.e.exchanged · Label the 20 actual trades in both views.
+        plaza_exchanged = Tex('20 exchanged', color=FOCUS).scale(0.58)
+        plaza_exchanged.face_mat = np.eye(3)
+        plaza_exchanged.add_updater(face_camera)
+        plaza_exchanged.update()
+        plaza_exchanged.move_to((seller_quantity[9].get_center()
+                                 + seller_quantity[10].get_center()) / 2
+                                + np.array([0, -0.60, 0.12]))
+        graph_exchanged = fixed(Tex(r'20\\exchanged', color=FOCUS).scale(0.38))
+        graph_exchanged.move_to(demand_axes.c2p(10, 0) + UP * 0.40)
+        graph_exchanged.add_background_rectangle(color=BG, opacity=1, buff=0.045)
+        self.play(FadeIn(plaza_exchanged), FadeIn(graph_exchanged), run_time=0.4)
+        self.pause('1.e.exchanged')
+
         # ---- 1.j · The class tackles incentives BEFORE equilibrium resolves.
         # B2/B3 exercise reference: one rounded panel, gold heading, indented serif body.
         cover = fixed(Rectangle(width=16, height=8, stroke_width=0, fill_color=BG, fill_opacity=1))
@@ -1834,7 +1848,8 @@ class B4(ThreeDScene):
         for glyph in card_text.get_family():
             glyph.set_z_index(51)
         exercise = fixed(VGroup(cover, card_panel, card_text))
-        self.play(FadeIn(exercise), FadeOut(trade_question))
+        self.play(FadeIn(exercise), FadeOut(trade_question),
+                  FadeOut(plaza_exchanged), FadeOut(graph_exchanged))
         self.pause('1.j')
         self.play(FadeOut(exercise), FadeOut(unserved), FadeOut(quantity_comparison))
 
