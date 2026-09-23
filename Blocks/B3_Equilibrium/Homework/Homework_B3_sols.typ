@@ -30,11 +30,11 @@ The supply curve for butter beer can be represented by the following equation:
 P = 20 + \frac{1}{2} Q
 `)
 
-Prices are in galleons and quantity is in bottles.
+Prices are in galleons and quantity is in bottles. Use the space on the second page to graph the market.
 
 == Q1 | A Price Below Equilibrium
 
-Butter beer again. Suppose the price is $50$ galleons.
+Suppose the price is $50$ galleons.
 
 a) What is the quantity demanded? \_\_\_\_\_\_\_\_\_\_
 
