@@ -381,8 +381,11 @@ pre-exercise eight-minute budget. Do not reveal the full market's $4 answer earl
 
 ## 1.b · Recall why a deal changes
 
-1. Remove the accounting labels; retain Gary's solid $4 deal. Admit Amanda-Grace
-   with MB $7 using B3's existing three-person head-on layout.
+1. Continue directly from `1.a` with the same Gary/Molly bodies, bars, and solid
+   accepted $4 line. Fade the accounting decorations, visibly slide that pair
+   left, and bring Amanda-Grace with her MB $7 bar in from the right to form
+   B3's three-person head-on layout. Keep this transition brisk and visible:
+   no cleared scene, reconstructed setup, skipped movement, or extra hold.
 2. Show her dashed $4.25 proposal and the question “Would Molly switch?” Hold
    before acceptance. Keep only the plain caption “Molly receives $0.25 more”
    below the comparison; the existing and proposed prices remain on the bars.

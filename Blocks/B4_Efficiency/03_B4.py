@@ -278,132 +278,14 @@ class B4(ThreeDScene):
         self.pause('1.a')
 
         # ========== 2. Bidding ==========
-        # Advance directly into the next stage on the same navigation rail.
-        self.clear()
-        self.camera.frame.clear_updaters()
-        self.set_camera_orientation(phi=0, theta=0, gamma=0)
-        self.camera.frame.move_to(ORIGIN).set_height(8)
-
-        self.camera.fps = 15
-        MB, MC, OFFER = 6, 2, 4
+        # Continue from the actual exchange; B3's build-up must stay visible.
         BID_STEP = 0.25
-        CROWD_MB = [6, 8, 4, 3, 7, 5, 4, 3, 2, 2]
-        CROWD_MC = [2, 4, 3, 5, 4, 2, 6, 3, 5, 6]
-        GROWTH_SEED = 6
-        DOLLAR_HEIGHT, BAR_BASE = 0.55, 0.75
-        BAR_WIDTH, CLOSE_WIDTH, CLOSE_GAP = 0.16, 1.10, 0.12
-        WORLD_CENTER = np.array([0.0, 0.0, 1.8])
-        CLOSE_CENTER = np.array([0.0, 0.0, 2.05])
-
-        # Animate.py's world-text billboard: preserve 3D placement and scale.
-        # Rebuild from flat glyphs, not cumulative float32 rotations, so camera
-        # moves and backward seeks keep the letters planar and readable.
-        def face_camera(m):
-            if isinstance(m, DecimalNumber) and abs(m.get_value() - m.tracker.get_value()) > 1e-6:
-                m.set_value(m.tracker.get_value())
-                m.face_mat = np.eye(3)
-                if hasattr(m, 'face_base'):
-                    del m.face_base
-            cur = self.camera.frame.get_orientation().as_matrix()
-            if np.allclose(cur, m.face_mat, atol=1e-6):
-                return
-            if not hasattr(m, 'face_base'):
-                m.face_base = [sub.get_points().astype(float).copy() for sub in m.get_family()]
-            center = m.get_center().astype(float)
-            for sub, base in zip(m.get_family(), m.face_base):
-                if len(base):
-                    sub.set_points(base @ cur.T)
-                    sub.use_triangulated_fill = True
-            m.move_to(center)
-            m.face_mat = cur
-
-        # Reconstruct B3's exact parked view without replaying its teaching stops.
-        opening_skip = self.skip_animations
-        self.skip_animations = True
-        self.set_camera_orientation(phi=58 * DEGREES, theta=0,
-                                    focal_distance=50)
-        self.camera.frame.move_to(WORLD_CENTER)
-
-        # ---- 2.a · The first two people; no market price has been established.
-        head = fixed(title('Would they exchange?'))
-        floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
-                       opacity=0.14).set_color(MUTED)
-        rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
-        rim.shift(OUT * 0.015).set_stroke(opacity=0.6)
-        self.play(FadeIn(head), FadeIn(floor), FadeIn(rim))
-
-        bodies, bars, names, marginal_labels = {}, {}, {}, {}
-        for key, x, value, color, name, term in [
-            ('buyer', -1.65, MB, DEMAND, 'Gary', 'MB'),
-            ('seller', 1.65, MC, SUPPLY, 'Molly', 'MC'),
-        ]:
-            shadow = Disk3D(radius=0.28, resolution=(2, 24), shading=(0, 0, 0),
-                            opacity=0.28).set_color(color).move_to([x, 0, 0.025])
-            orb = Sphere(radius=0.23, color=color, resolution=(16, 10))
-            orb.move_to([x, 0, 0.32])
-            body = Group(shadow, orb)
-            bar = Rectangle3D(width=BAR_WIDTH, height=value * DOLLAR_HEIGHT,
-                              resolution=(2, 2), opacity=0.65).set_color(color)
-            bar.rotate(90 * DEGREES, RIGHT).move_to(
-                [x, 0, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            name_label = Tex(name, color=INK).scale(0.65)
-            name_label.face_mat = np.eye(3)
-            name_label.add_updater(face_camera)
-            name_label.anchor = body
-            name_label.offset = LEFT * 0.75 if key == 'buyer' else RIGHT * 0.75
-            name_label.add_updater(lambda m: m.move_to(
-                np.array([m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.55, 0.13])
-                + m.offset))
-            name_label.update()
-            value_label = Tex(rf'{term} $\${value:g}$', color=color).scale(0.62)
-            value_label.face_mat = np.eye(3)
-            value_label.add_updater(face_camera)
-            value_label.anchor = bar
-            value_label.value = value
-            value_label.add_updater(lambda m: m.move_to(
-                [m.anchor.get_center()[0], m.anchor.get_center()[1] - 0.08,
-                 BAR_BASE + m.value * DOLLAR_HEIGHT + 0.28]))
-            value_label.update()
-            bodies[key], bars[key] = body, bar
-            names[key], marginal_labels[key] = name_label, value_label
-            self.play(FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
-
-        # ---- 2.a.i · Same bars, now between the people and viewed from the side.
-        self.play(
-            self.camera.frame.animate.reorient(0, 90, center=CLOSE_CENTER, height=7.2),
-            bodies['buyer'].animate.set_x(-1.45),
-            bodies['seller'].animate.set_x(1.45),
-            bars['buyer'].animate.stretch_to_fit_width(CLOSE_WIDTH).set_x(
-                -(CLOSE_WIDTH + CLOSE_GAP) / 2),
-            bars['seller'].animate.stretch_to_fit_width(CLOSE_WIDTH).set_x(
-                (CLOSE_WIDTH + CLOSE_GAP) / 2),
-            floor.animate.set_opacity(0.05), rim.animate.set_stroke(opacity=0.2),
-            run_time=2.2)
-        left_edge = -CLOSE_WIDTH - CLOSE_GAP / 2
-        right_edge = CLOSE_WIDTH + CLOSE_GAP / 2
-        price_z = BAR_BASE + OFFER * DOLLAR_HEIGHT
-        zero = Line([left_edge - 0.15, -0.02, BAR_BASE],
-                    [right_edge + 0.15, -0.02, BAR_BASE], color=MUTED, stroke_width=1.5)
-        price_line = DashedLine([left_edge, -0.045, price_z],
-                               [right_edge, -0.045, price_z], color=GUIDE, stroke_width=3)
-        price_shadow = DashedLine([left_edge, 0, 0.04], [right_edge, 0, 0.04],
-                                 color=GUIDE, stroke_width=2).set_opacity(0.3)
-        price_word = Tex(rf'Price $\${OFFER:g}$', color=GUIDE).scale(0.62)
-        price_word.face_mat = np.eye(3)
-        price_word.add_updater(face_camera)
-        price_word.update()
-        price_word.move_to([0, -0.10, price_z + 0.28])
-        zero_word = Tex('0', color=CAPTION).scale(0.62)
-        zero_word.face_mat = np.eye(3)
-        zero_word.add_updater(face_camera)
-        zero_word.update()
-        zero_word.move_to([0, -0.10, BAR_BASE - 0.25])
-        self.add(zero, zero_word)
-        accepted_line = Line([left_edge, -0.045, price_z],
-                             [right_edge, -0.045, price_z], color=GUIDE, stroke_width=3)
-        accepted_shadow = Line([left_edge, 0, 0.04], [right_edge, 0, 0.04],
-                               color=GUIDE, stroke_width=2).set_opacity(0.3)
-        self.add(accepted_line, accepted_shadow)
+        self.play(*[FadeOut(m) for m in [
+            expenditure, buyer_cs, revenue, seller_cost, seller_ps,
+            expenditure_label, cs_label, revenue_label, cost_label, ps_label,
+            zero, zero_word, price_word, window, window_line, low_endpoint,
+            high_endpoint, window_labels, chosen_price, claim, endpoint_note, unit,
+        ]], run_time=0.6)
 
         # Keep the first pair's camera and plaza framing. Slide Gary and Molly
         # left together, then admit Amanda-Grace on the right of the center.
@@ -496,7 +378,6 @@ class B4(ThreeDScene):
         self.play(FadeIn(head), FadeIn(deal_number),
                   FadeIn(body), FadeIn(bar), FadeIn(name_label), FadeIn(value_label))
         self.remove(zero, zero_word)
-        self.skip_animations = opening_skip
 
         # Amanda-Grace offers $4.25.
         bidder = 'challenger'
