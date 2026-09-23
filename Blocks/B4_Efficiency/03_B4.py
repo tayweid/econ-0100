@@ -1910,8 +1910,11 @@ class B4(ThreeDScene):
         for arrow in [wait_arrow, offer_arrow]:
             arrow.rotate(90 * DEGREES, RIGHT, about_point=ORIGIN).shift(DOWN * 0.07)
         self.play(Create(buy_ring), Create(buy_zero), Create(buy_price),
-                  Create(buy_proposal), FadeIn(buy_values), FadeIn(stay_text), FadeIn(offer_text),
-                  Create(wait_arrow), Create(offer_arrow))
+                  FadeIn(buy_values))
+        self.pause('1.f.match')
+        self.play(FadeIn(stay_text), Create(wait_arrow))
+        self.pause('1.f.wait')
+        self.play(Create(buy_proposal), FadeIn(offer_text), Create(offer_arrow))
         self.pause('1.f')
         self.play(buy_price.animate.put_start_and_end_on(
                       np.array([-2.15, -0.045, 0.75 + 3.25 * 0.48]), np.array([-0.45, -0.045, 0.75 + 3.25 * 0.48])),
