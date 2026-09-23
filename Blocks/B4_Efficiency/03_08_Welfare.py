@@ -25,6 +25,10 @@ class B4Welfare(ThreeDScene):
         LOT = 1000
         BOTTOM_SCALE = 0.7443
         PRICE, EQUILIBRIUM_Q = 4, 40
+        BAR_BASE, DOLLAR_HEIGHT = 0.18, 0.19
+        ROW_LEFT, ROW_WIDTH = -3.7, 7.4
+        body_radii = {'B': 0.042, 'S': 0.026}
+        ring_radii = {'B': 0.056, 'S': 0.035}
 
         # Independent opening: the same $4 market, already on merged axes.
         head = fixed(title('Could we do better?'))
@@ -45,31 +49,37 @@ class B4Welfare(ThreeDScene):
         crowd_words = VGroup(buyers_label, sellers_label, units)
         market_checks = VGroup()
         home_positions = {}
-        for side, values, color, top, row_gap in [('B', MB, DEMAND, 3.2, 0.9),
-                                                 ('S', MC, SUPPLY, 0.15, 0.7)]:
+        for side, values, color, y, shadow_radius, body_z, bar_width, ring_width, check_width, check_points in [
+                ('B', MB, DEMAND, 2.0, 0.055, 0.075, 0.095, 1.2, 1.4,
+                 [[-0.022, 0, 0], [-0.004, -0.02, 0], [0.03, 0.03, 0]]),
+                ('S', MC, SUPPLY, -1.7, 0.037, 0.055, 0.058, 1.0, 1.1,
+                 [[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]])]:
             for i, value in enumerate(values):
-                x = -3.6 + (i % 20) * 0.38
-                y = top - (i // 20) * row_gap
-                shadow = Disk3D(radius=0.13, resolution=(2, 16), shading=(0, 0, 0),
+                x = ROW_LEFT + i * ROW_WIDTH / (len(values) - 1)
+                shadow = Disk3D(radius=shadow_radius, resolution=(2, 16), shading=(0, 0, 0),
                                 opacity=0.28).set_color(color).move_to([x, y, 0.025])
-                orb = Sphere(radius=0.10, color=color, resolution=(12, 8)).move_to([x, y, 0.16])
+                orb = Sphere(radius=body_radii[side], color=color, resolution=(12, 8)).move_to([x, y, body_z])
                 body = Group(shadow, orb)
-                bar = Rectangle3D(width=0.09, height=value * 0.05,
+                bar = Rectangle3D(width=bar_width, height=value * DOLLAR_HEIGHT,
                                   resolution=(2, 2), opacity=0.65).set_color(color)
-                bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, 0.38 + value * 0.05 / 2])
-                ring = Circle(radius=0.16, color=GOV, stroke_width=1.6).move_to([x, y, 0.045])
+                bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
+                ring = Circle(radius=ring_radii[side], color=GOV, stroke_width=ring_width).move_to([x, y, 0.045])
                 ring.set_stroke(opacity=1 if i < EQUILIBRIUM_Q else 0).set_fill(opacity=0)
-                check = fixed(Tex(r'$\checkmark$', color=color).scale(0.28))
-                check.anchor = bar
-                check.offset = UP * 0.12
+                check = fixed(VMobject(color=color, stroke_width=check_width).set_points_as_corners(check_points))
+                check.anchor, check.value, check.dollar_height = bar, value, DOLLAR_HEIGHT
                 check.add_updater(lambda m: m.move_to(screen_point(self.camera.frame,
-                    m.anchor.get_corner(OUT)) + m.offset))
-                check.set_opacity(1 if i < EQUILIBRIUM_Q else 0)
+                    m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_fill(opacity=0))
+                check.set_stroke(opacity=1 if i < EQUILIBRIUM_Q else 0).set_fill(opacity=0)
                 bodies[side, i + 1], bars[side, i + 1] = body, bar
                 rings[side, i + 1], checks[side, i + 1] = ring, check
                 home_positions[side, i + 1] = np.array([x, y, 0])
                 crowd.add(body, bar, ring)
                 market_checks.add(check)
+        row_prices = VGroup()
+        for y in [2.0, -1.7]:
+            row_prices.add(Line([ROW_LEFT - 0.06, y, BAR_BASE + PRICE * DOLLAR_HEIGHT],
+                                [ROW_LEFT + ROW_WIDTH + 0.06, y, BAR_BASE + PRICE * DOLLAR_HEIGHT],
+                                color=GUIDE, stroke_width=1.3))
 
         ax = axes((0, 100, 20), (0, 13, 2), x_length=5.8, y_length=4.8)
         ax.shift(np.array([1.15, -2.15, 0]) - ax.c2p(0, 0))
@@ -118,7 +128,7 @@ class B4Welfare(ThreeDScene):
         fixed(market_checks)
         for mob in [graph, cs_strips, ps_strips, gain_strips, price_line, q_guide]:
             fixed(mob)
-        self.add(head, crowd, crowd_words, market_checks, graph, cs_strips, ps_strips,
+        self.add(head, crowd, row_prices, crowd_words, market_checks, graph, cs_strips, ps_strips,
                  price_line, price_read, q_guide, counts)
 
         # ---- 2.a · CS and PS are familiar; ask what could improve.
@@ -130,7 +140,7 @@ class B4Welfare(ThreeDScene):
         self.play(FadeOut(bottom), *[mob.animate.set_opacity(0) for body in bodies.values() for mob in body],
                   *[bar.animate.set_opacity(0) for bar in bars.values()],
                   *[ring.animate.set_stroke(opacity=0).set_fill(opacity=0) for ring in rings.values()], FadeOut(crowd_words),
-                  market_checks.animate.set_opacity(0),
+                  market_checks.animate.set_opacity(0), FadeOut(row_prices),
                   graph.animate.set_opacity(0.2), cs_strips.animate.set_opacity(0.1),
                   ps_strips.animate.set_opacity(0.1), FadeOut(price_line), FadeOut(price_read),
                   FadeOut(q_guide), FadeOut(counts), run_time=0.45)
@@ -147,10 +157,10 @@ class B4Welfare(ThreeDScene):
                   .move_to([-4.61, 0, BASE + 4 * HEIGHT]).set_opacity(0.13),
                   mc_bar.animate.stretch_to_fit_width(1.1).stretch_to_fit_depth(3 * HEIGHT)
                   .move_to([-3.39, 0, BASE + 1.5 * HEIGHT]).set_opacity(0.13),
-                  bodies['B', 20].animate.scale(2.3).move_to([-6, 0, 0.32]).set_opacity(1),
-                  bodies['S', 20].animate.scale(2.3).move_to([-2, 0, 0.32]).set_opacity(1),
-                  rings['B', 20].animate.scale(0.29 / 0.16).move_to([-6, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0),
-                  rings['S', 20].animate.scale(0.29 / 0.16).move_to([-2, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0), run_time=1.2)
+                  bodies['B', 20].animate.scale(0.23 / body_radii['B']).move_to([-6, 0, 0.32]).set_opacity(1),
+                  bodies['S', 20].animate.scale(0.23 / body_radii['S']).move_to([-2, 0, 0.32]).set_opacity(1),
+                  rings['B', 20].animate.scale(0.29 / ring_radii['B']).move_to([-6, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0),
+                  rings['S', 20].animate.scale(0.29 / ring_radii['S']).move_to([-2, 0, 0.045]).set_stroke(opacity=1).set_fill(opacity=0), run_time=1.2)
         mb_word = fixed(Tex(r'Buyer 20: MB \$8', color=DEMAND)).scale(0.62).move_to(screen_point(self.camera.frame, [-4.61, -0.1, BASE + 8 * HEIGHT + 0.4]))
         mc_word = fixed(Tex(r'Seller 20: MC \$3', color=SUPPLY)).scale(0.62).move_to([-1, -0.85, 0])
         cs_fill = Polygon([-5.16, -0.025, BASE + 4 * HEIGHT], [-4.06, -0.025, BASE + 4 * HEIGHT],
@@ -255,7 +265,7 @@ class B4Welfare(ThreeDScene):
             rings[key].set_stroke(opacity=0).set_fill(opacity=0)
             bodies[key].save_state()
             bars[key].save_state()
-            self.play(bodies[key].animate.scale(2.3).move_to([x, 0, 0.32]).set_opacity(1),
+            self.play(bodies[key].animate.scale(0.23 / body_radii[key[0]]).move_to([x, 0, 0.32]).set_opacity(1),
                       bars[key].animate.stretch_to_fit_width(1.1).stretch_to_fit_depth(value * 0.55)
                       .move_to([x, 0, 0.75 + value * 0.55 / 2]).set_opacity(0.65), run_time=0.45)
             label = fixed(Tex(text, color=color).scale(0.53))
@@ -309,7 +319,7 @@ class B4Welfare(ThreeDScene):
             rings[key].set_stroke(opacity=0).set_fill(opacity=0)
             bodies[key].save_state()
             bars[key].save_state()
-            self.play(bodies[key].animate.scale(2.3).move_to([x, 0, 0.32]).set_opacity(1),
+            self.play(bodies[key].animate.scale(0.23 / body_radii[key[0]]).move_to([x, 0, 0.32]).set_opacity(1),
                       bars[key].animate.stretch_to_fit_width(1.1).stretch_to_fit_depth(value * 0.55)
                       .move_to([x, 0, 0.75 + value * 0.55 / 2]).set_opacity(0.65), run_time=0.45)
             label = fixed(Tex(text, color=color).scale(0.53))
@@ -383,10 +393,10 @@ class B4Welfare(ThreeDScene):
             bars[key].save_state()
             rings[key].save_state()
             row_targets[key] = [x, 0, 0.75 + value * 0.35 / 2]
-            row_moves.extend([body.animate.scale(0.25).move_to([x, 0, 0.42]),
+            row_moves.extend([body.animate.scale(0.025 / body_radii[side]).move_to([x, 0, 0.42]),
                               bars[key].animate.stretch_to_fit_width(0.045).stretch_to_fit_depth(value * 0.35)
                               .move_to(row_targets[key]),
-                              rings[key].animate.scale(0.25).move_to([x, 0, 0.32])])
+                              rings[key].animate.scale(0.04 / ring_radii[side]).move_to([x, 0, 0.32])])
         self.play(*row_moves, run_time=1.4)
         for n in range(1, 40):
             x = -6.6 + (n - 1) * 0.13
@@ -563,7 +573,7 @@ class B4Welfare(ThreeDScene):
                   floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=1.4)
         self.play(FadeIn(crowd_words), run_time=0.3)
         zero_dot = fixed(Dot(ax.c2p(40, 4), color=TOTAL, radius=0.065))
-        planner_outlines = VGroup(*[Circle(radius=0.105, color=TOTAL, stroke_width=1.2)
+        planner_outlines = VGroup(*[Circle(radius=0.8 * ring_radii[side], color=TOTAL, stroke_width=0.8)
                                    .move_to(home_positions[side, n] + OUT * 0.045).set_stroke(opacity=0.45)
                                    for side in ['B', 'S'] for n in range(1, 41)])
         for ring in rings.values():
@@ -573,7 +583,7 @@ class B4Welfare(ThreeDScene):
         head = fixed(title('Does the market choose these trades?'))
         bottom = fixed(Tex(r'At \$4, who is willing?', color=DEFINITION)).scale(BOTTOM_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=0.05)
-        self.play(FadeIn(head), FadeIn(bottom), FadeIn(planner_outlines), FadeIn(price_line), FadeIn(price_read))
+        self.play(FadeIn(head), FadeIn(bottom), FadeIn(planner_outlines), FadeIn(row_prices), FadeIn(price_line), FadeIn(price_read))
         self.pause('5.a')
 
         # ---- 5.b · The price selects exactly the planner's prefixes.

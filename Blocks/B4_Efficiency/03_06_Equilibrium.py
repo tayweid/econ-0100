@@ -24,7 +24,7 @@ class B4Equilibrium(ThreeDScene):
         BUYER_MB = np.array([12 - n / 5 for n in range(1, 60)])
         SELLER_MC = np.array([2 + n / 20 for n in range(1, 101)])
         EPS = 1e-7
-        DOLLAR_HEIGHT = 0.035
+        DOLLAR_HEIGHT = 0.19
         price = ValueTracker(3)
         show_counts = ValueTracker(1)
         show_trades = ValueTracker(1)
@@ -33,11 +33,12 @@ class B4Equilibrium(ThreeDScene):
         self.add(price, show_counts, show_trades, show_buyers, show_sellers)
 
         # B3's plaza, material objects and camera are retained literally.
-        # Only crowd density changes: 59 buyers / 100 sellers replace 10 / 10.
+        # One uninterrupted ranked line per side; the bars carry the values.
         self.set_camera_orientation(phi=48 * DEGREES, theta=0, focal_distance=50)
         self.camera.frame.move_to([4, 0, 0.65]).set_height(11)
-        BAR_BASE = 0.38
-        DOLLAR_HEIGHT = 0.05
+        BAR_BASE = 0.18
+        ROW_LEFT, ROW_WIDTH = -3.7, 7.4
+        BUYER_Y, SELLER_Y = 2.0, -1.7
         floor = Disk3D(radius=4.8, resolution=(2, 64), shading=(0, 0, 0),
                        opacity=0.14).set_color(MUTED)
         rim = Circle(radius=4.8, color=MUTED, stroke_width=1.2)
@@ -47,18 +48,18 @@ class B4Equilibrium(ThreeDScene):
         buyer_positions, seller_positions = [], []
         buyer_prices, seller_prices = VGroup(), VGroup()
         for n, value in enumerate(BUYER_MB):
-            x, y = -3.6 + (n % 20) * 0.38, 3.2 - (n // 20) * 0.9
+            x, y = ROW_LEFT + n * ROW_WIDTH / (len(BUYER_MB) - 1), BUYER_Y
             buyer_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.13, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.10, color=DEMAND, resolution=(12, 8)).move_to([x, y, 0.16])
+            shadow = Disk3D(radius=0.055, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(DEMAND).move_to([x, y, 0.025])
+            orb = Sphere(radius=0.042, color=DEMAND, resolution=(12, 8)).move_to([x, y, 0.075])
             person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.09, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
+            bar = Rectangle3D(width=0.095, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(DEMAND)
             bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=DEMAND, stroke_width=2.0).set_points_as_corners([[-0.035, 0, 0], [-0.005, -0.03, 0], [0.05, 0.045, 0]]))
+            check = fixed(VMobject(color=DEMAND, stroke_width=1.4).set_points_as_corners([[-0.022, 0, 0], [-0.004, -0.02, 0], [0.03, 0.03, 0]]))
             check.price, check.value, check.visibility = price, value, show_buyers
-            check.anchor, check.frame = bar, self.camera.frame
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * 0.05 / 2 + 0.13))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
-            circle = Circle(radius=0.16, color=GREEN, stroke_width=2).move_to([x, y, 0.045])
+            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
+            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value + 1e-7 >= m.price.get_value())).set_fill(opacity=0))
+            circle = Circle(radius=0.056, color=GREEN, stroke_width=1.2).move_to([x, y, 0.045])
             circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
             circle.mb, circle.mc = BUYER_MB, SELLER_MC
             circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
@@ -67,18 +68,18 @@ class B4Equilibrium(ThreeDScene):
             buyer_checks.add(check)
             buyer_circles.add(circle)
         for n, value in enumerate(SELLER_MC):
-            x, y = -3.6 + (n % 20) * 0.38, 0.15 - (n // 20) * 0.70
+            x, y = ROW_LEFT + n * ROW_WIDTH / (len(SELLER_MC) - 1), SELLER_Y
             seller_positions.append(np.array([x, y, 0.045]))
-            shadow = Disk3D(radius=0.13, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, y, 0.025])
-            orb = Sphere(radius=0.10, color=SUPPLY, resolution=(12, 8)).move_to([x, y, 0.16])
+            shadow = Disk3D(radius=0.037, resolution=(2, 16), shading=(0, 0, 0), opacity=0.28).set_color(SUPPLY).move_to([x, y, 0.025])
+            orb = Sphere(radius=0.026, color=SUPPLY, resolution=(12, 8)).move_to([x, y, 0.055])
             person = Group(shadow, orb)
-            bar = Rectangle3D(width=0.09, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
+            bar = Rectangle3D(width=0.058, height=value * DOLLAR_HEIGHT, resolution=(2, 2), opacity=0.65).set_color(SUPPLY)
             bar.rotate(90 * DEGREES, RIGHT).move_to([x, y, BAR_BASE + value * DOLLAR_HEIGHT / 2])
-            check = fixed(VMobject(color=SUPPLY, stroke_width=2.0).set_points_as_corners([[-0.035, 0, 0], [-0.005, -0.03, 0], [0.05, 0.045, 0]]))
+            check = fixed(VMobject(color=SUPPLY, stroke_width=1.1).set_points_as_corners([[-0.015, 0, 0], [-0.003, -0.013, 0], [0.02, 0.02, 0]]))
             check.price, check.value, check.visibility = price, value, show_sellers
-            check.anchor, check.frame = bar, self.camera.frame
-            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * 0.05 / 2 + 0.13))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
-            circle = Circle(radius=0.16, color=GREEN, stroke_width=2).move_to([x, y, 0.045])
+            check.anchor, check.frame, check.dollar_height = bar, self.camera.frame, DOLLAR_HEIGHT
+            check.add_updater(lambda m: m.move_to(screen_point(m.frame, m.anchor.get_center() + OUT * (m.value * m.dollar_height / 2 + 0.10))).set_stroke(opacity=m.visibility.get_value() * float(m.value <= m.price.get_value() + 1e-7)).set_fill(opacity=0))
+            circle = Circle(radius=0.035, color=GREEN, stroke_width=1.0).move_to([x, y, 0.045])
             circle.price, circle.rank, circle.visibility = price, n + 1, show_trades
             circle.mb, circle.mc = BUYER_MB, SELLER_MC
             circle.add_updater(lambda m: m.set_stroke(opacity=m.visibility.get_value() * float(m.rank <= min(np.count_nonzero(m.mb + 1e-7 >= m.price.get_value()), np.count_nonzero(m.mc <= m.price.get_value() + 1e-7)))).set_fill(opacity=0))
@@ -86,16 +87,11 @@ class B4Equilibrium(ThreeDScene):
             seller_bars.add(bar)
             seller_checks.add(check)
             seller_circles.add(circle)
-        for row in range(3):
-            line = Line([-3.78, 3.2-row*0.9, BAR_BASE + 3*DOLLAR_HEIGHT], [3.80, 3.2-row*0.9, BAR_BASE + 3*DOLLAR_HEIGHT], color=GUIDE, stroke_width=1.3)
-            line.price = price
-            line.add_updater(lambda m: m.set_z(0.38 + 0.05 * m.price.get_value()))
-            buyer_prices.add(line)
-        for row in range(5):
-            line = Line([-3.78, 0.15-row*0.7, BAR_BASE + 3*DOLLAR_HEIGHT], [3.80, 0.15-row*0.7, BAR_BASE + 3*DOLLAR_HEIGHT], color=GUIDE, stroke_width=1.3)
-            line.price = price
-            line.add_updater(lambda m: m.set_z(0.38 + 0.05 * m.price.get_value()))
-            seller_prices.add(line)
+        for y, row_prices in [(BUYER_Y, buyer_prices), (SELLER_Y, seller_prices)]:
+            line = Line([ROW_LEFT - 0.06, y, BAR_BASE + 3*DOLLAR_HEIGHT], [ROW_LEFT + ROW_WIDTH + 0.06, y, BAR_BASE + 3*DOLLAR_HEIGHT], color=GUIDE, stroke_width=1.3)
+            line.price, line.base, line.dollar_height = price, BAR_BASE, DOLLAR_HEIGHT
+            line.add_updater(lambda m: m.set_z(m.base + m.dollar_height * m.price.get_value()))
+            row_prices.add(line)
         buyer_label = fixed(fixed(Tex('Buyers: highest MB first', color=DEMAND)).scale(0.56).move_to([-3.3, 2.65, 0]))
         seller_label = fixed(fixed(Tex('Sellers: lowest MC first', color=SUPPLY)).scale(0.56).move_to([-3.3, -2.55, 0]))
         units = fixed(fixed(Tex(r'One person = 1,000 lb', color=CAPTION)).scale(0.50).move_to([-3.3, -2.90, 0]))
@@ -175,7 +171,7 @@ class B4Equilibrium(ThreeDScene):
                   show_sellers.animate.set_value(1), show_trades.animate.set_value(1))
         shortage = fixed(Tex(r'Shortage: 25,000 lb. A check means willing; a circle means trading.', color=INK)).scale(0.64).move_to([0, -3.65, 0])
         self.play(ReplacementTransform(question, shortage))
-        unserved = VGroup(*[Circle(radius=0.19, color=FOCUS, stroke_width=2).move_to(buyer_positions[n]) for n in range(20, 45)])
+        unserved = VGroup(*[Circle(radius=0.056, color=FOCUS, stroke_width=1.5).move_to(buyer_positions[n]) for n in range(20, 45)])
         self.play(Create(unserved))
         self.pause('1.e')
 
@@ -200,8 +196,8 @@ class B4Equilibrium(ThreeDScene):
         ag_head = fixed(title('What would Amanda-Grace do?'))
         self.play(ReplacementTransform(head, ag_head))
         head = ag_head
-        ag_focus = Circle(radius=0.22, color=FOCUS, stroke_width=3).move_to(buyer_positions[24])
-        ag_name = fixed(Tex('Amanda-Grace', color=INK)).scale(0.56).move_to([-4.55, 0.40, 0])
+        ag_focus = Circle(radius=0.075, color=FOCUS, stroke_width=2).move_to(buyer_positions[24])
+        ag_name = fixed(Tex('Amanda-Grace', color=INK)).scale(0.56).move_to(screen_point(self.camera.frame, buyer_positions[24]) + DOWN * 0.28)
         stay_box = fixed(Rectangle(width=6.35, height=0.73, color=MUTED).move_to([-3.72, -3.53, 0]))
         bid_box = fixed(Rectangle(width=6.35, height=0.73, color=MUTED).move_to([3.32, -3.53, 0]))
         stay_text = fixed(Tex(r'Wait at $\$3$: no trade; gain $\$0$', color=INK)).scale(0.62).move_to(stay_box)
@@ -257,11 +253,11 @@ class B4Equilibrium(ThreeDScene):
         buyer_circles[24].suspend_updating()
         ag_start_body = buyer_people[24].get_center().copy()
         ag_start_bar = buyer_bars[24].get_center().copy()
-        ag_move = seller_positions[0] - buyer_positions[24] + LEFT * 0.34
-        accepted_bid = Line(seller_positions[0] + LEFT * 0.34, seller_positions[0], color=GREEN, stroke_width=2)
+        ag_move = seller_positions[0] - buyer_positions[24] + UP * 0.40
+        accepted_bid = Line(seller_positions[0] + UP * 0.40, seller_positions[0], color=GREEN, stroke_width=2)
         self.play(ReplacementTransform(bid, accepted_bid), bid_box.animate.set_color(GREEN),
                   buyer_people[24].animate.shift(ag_move), buyer_bars[24].animate.shift(ag_move),
-                  buyer_circles[19].animate.set_stroke(opacity=0), buyer_circles[24].animate.move_to(seller_positions[0] + LEFT * 0.34).set_stroke(opacity=1), run_time=0.8)
+                  buyer_circles[19].animate.set_stroke(opacity=0), buyer_circles[24].animate.move_to(seller_positions[0] + UP * 0.40).set_stroke(opacity=1), run_time=0.8)
         everyone = fixed(Tex('Other unserved buyers have the same incentive.', color=INK)).scale(0.79).move_to([0, -3.55, 0])
         self.play(FadeOut(stay_box), FadeOut(bid_box), FadeOut(stay_text), FadeOut(bid_text),
                   FadeOut(accepted_bid), FadeOut(ag_focus), FadeOut(ag_name), FadeOut(seller_gain), FadeIn(everyone))
@@ -292,7 +288,7 @@ class B4Equilibrium(ThreeDScene):
         self.play(FadeOut(high_question), show_counts.animate.set_value(1), show_trades.animate.set_value(1), show_buyers.animate.set_value(1), show_sellers.animate.set_value(1))
         excess = fixed(Tex(r'Excess: 50,000 lb. Andrew is willing, but has no buyer.', color=INK)).scale(0.65).move_to([0, -2.91, 0])
         self.remove(units)
-        andrew_focus = Circle(radius=0.22, color=FOCUS, stroke_width=3).move_to(seller_positions[39])
+        andrew_focus = Circle(radius=0.05, color=FOCUS, stroke_width=2).move_to(seller_positions[39])
         stay_text = fixed(Tex(r'Keep $\$6$: no buyer; gain $\$0$', color=INK)).scale(0.62).move_to(stay_box)
         cut_text = fixed(Tex(r'Ask $\$5.75$: gain $\$1.75$/lb', color=INK)).scale(0.62).move_to(bid_box)
         bid_box.set_color(MUTED)
@@ -349,8 +345,8 @@ class B4Equilibrium(ThreeDScene):
         seller_circles[39].suspend_updating()
         gary_start_body = buyer_people[29].get_center().copy()
         gary_start_bar = buyer_bars[29].get_center().copy()
-        gary_move = seller_positions[39] - buyer_positions[29] + LEFT * 0.34
-        accepted_cut = Line(seller_positions[39] + LEFT * 0.34, seller_positions[39], color=GREEN, stroke_width=2)
+        gary_move = seller_positions[39] - buyer_positions[29] + UP * 0.40
+        accepted_cut = Line(seller_positions[39] + UP * 0.40, seller_positions[39], color=GREEN, stroke_width=2)
         self.play(ReplacementTransform(cut, accepted_cut), bid_box.animate.set_color(GREEN),
                   buyer_people[29].animate.shift(gary_move), buyer_bars[29].animate.shift(gary_move),
                   seller_circles[29].animate.set_stroke(opacity=0), seller_circles[39].animate.set_stroke(opacity=1), run_time=0.8)

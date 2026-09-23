@@ -216,6 +216,9 @@ class B4TwoTrades(ThreeDScene):
                     first_pair_mid[0] - (PAIR_WIDTH + PAIR_GAP) / 2 + 0.65,
                     first_pair_mid[1] - 0.12, price_height + 0.25]),
             floor.animate.set_opacity(0.14), rim.animate.set_stroke(opacity=0.6), run_time=2.2)
+        # Start this independent reminder in B3's actual oblique plaza.
+        # Andrew's arrival must be visible before the head-on decision view.
+        self.skip_animations = opening_skip
         # Install following only after the authored transition has completed;
         # otherwise these updaters snap the bars to their bodies mid-resize.
         for bar in crowd_bars.values():
@@ -329,20 +332,20 @@ class B4TwoTrades(ThreeDScene):
                         reveal.extend([FadeOut(price_tags[0]), FadeOut(price_tags[4])])
                     self.play(*reveal, run_time=0.5)
             if side == 'S' and i == 4:
-                self.play(FadeOut(entry_caption), run_time=0.2)
-                entry_caption = None
                 entry_names = {}
                 for key, word, offset in [
                     (('B', 0), 'Gary', DOWN * 0.55),
-                    (('B', 4), 'Amanda-Grace', DOWN * 0.55),
-                    (('S', 0), 'Molly', DOWN * 0.55 + RIGHT * 0.6),
+                    (('B', 4), 'Amanda-Grace', DOWN * 0.35),
+                    (('S', 0), 'Molly', DOWN * 0.30 + LEFT * 0.85),
                     (('S', 4), 'Andrew', DOWN * 0.55 + RIGHT * 0.6),
                 ]:
                     label = Tex(word, color=INK).scale(0.60)
                     label.face_mat = np.eye(3)
                     label.add_updater(face_camera)
                     label.anchor, label.offset = crowd_bodies[key], offset
-                    label.inward = key == ('B', 4)
+                    # At entry Amanda-Grace stands to Molly's right. Keep her
+                    # name beneath her own orb, with Molly's name left/below.
+                    label.inward = False
                     label.add_updater(lambda m: m.move_to(
                         np.array([*m.anchor.get_center()[:2], 0.13]) + m.offset
                         + (LEFT * PLAZA_NAME_INSET * np.clip(m.anchor.get_x(), -1, 1) if m.inward else ORIGIN)))
@@ -358,9 +361,11 @@ class B4TwoTrades(ThreeDScene):
                 self.remove(posted_caption)
                 self.play(FadeIn(price_tags[4]), FadeIn(ask_world),
                           FadeIn(posted_marks[4]), FadeIn(ask_caption), run_time=0.7)
-
-                self.skip_animations = opening_skip
-                self.play(FadeOut(ask_world), FadeOut(ask_caption), run_time=0.3)
+                # Establish all four actual people in the approved B3 frame.
+                # The close-up below is only Amanda-Grace's deliberation.
+                self.pause('1.b.two_trades.plaza')
+                self.play(FadeOut(entry_caption), FadeOut(ask_world), FadeOut(ask_caption), run_time=0.3)
+                entry_caption = None
 
                 # Both buyers revisit the lookout; neither seller changes station.
                 for chooser, offer, displaced in [(4, 4.25, None), (0, 4.5, 4)]:
@@ -382,6 +387,12 @@ class B4TwoTrades(ThreeDScene):
                               FadeIn(buyer_focus),
                               FadeIn(buyer_ring, shift=-np.append(crowd_bodies['B', chooser].get_center()[:2], 0)),
                               hub.animate.set_stroke(opacity=1), run_time=0.65)
+                    if chooser == 4:
+                        # Once that first partnership separates, restore B3's
+                        # established offsets for the later paired positions.
+                        entry_names['B', 4].offset = DOWN * 0.55
+                        entry_names['B', 4].inward = True
+                        entry_names['S', 0].offset = DOWN * 0.55 + RIGHT * 0.6
                     value = CROWD_MB[chooser]
                     mb_guide = fixed(DashedLine(side_axes['S'].c2p(0, value),
                         side_axes['S'].c2p(10, value), color=DEMAND, stroke_width=2))

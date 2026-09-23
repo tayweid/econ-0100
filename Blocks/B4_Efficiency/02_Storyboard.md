@@ -23,7 +23,7 @@ geometry/model code is copied where indicated below; no shared assets changed.
 |---|---|---|
 | `03_01_Exchange.py` | `B4Exchange` | `0.a`, `1.a` |
 | `03_02_Bidding.py` | `B4Bidding` | `1.b`, `1.b.settled` |
-| `03_03_TwoTrades.py` | `B4TwoTrades` | `1.b.two_trades`, `1.b.equal_prices` |
+| `03_03_TwoTrades.py` | `B4TwoTrades` | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` |
 | `03_04_Buyers.py` | `B4Buyers` | `1.c.buyers`, `1.c.buyers.low` |
 | `03_05_Sellers.py` | `B4Sellers` | `1.c.sellers` |
 | `03_06_Equilibrium.py` | `B4Equilibrium` | `1.d`, `1.e`, **`1.j`**, `1.f`–`1.i.stable` |
@@ -78,12 +78,17 @@ The prototype is superseded; it is not an alternative design to preserve.
 - Exchange and bidding copy B3 `2.a`–`2.c`, including the plaza-to-head-on
   move, bar width 1.10, gap 0.12, dollar height 0.55, base 0.75, and the
   camera centered at `[0, 0, 2.05]`, height 7.2, phi 90°.
-- Two trades copies B3's `3.a` plaza and uses the familiar head-on view for
-  Amanda-Grace's alternatives. It returns to the plaza for the recorded trace.
+- Two trades first holds B3's `3.a` oblique plaza with both buyers and both
+  sellers visible. Andrew's arrival animates into this frame. Only then does
+  the familiar head-on view show Amanda-Grace's alternatives; the recorded
+  trade sequence and settled hold return to that same plaza.
 - Crowd scenes reuse B3's radius-4.8 floor and rim, and its plaza-left camera:
   phi 48°, theta 0°, focal distance 50, center `[4, 0, 0.65]`, height 11.
-  More participants require smaller people/bars and folded sorted rows inside
-  that same floor. No new camera orbit or replacement illustration is added.
+  Each side occupies one uninterrupted line across that same floor. Buyer
+  spheres have radius 0.042 and seller spheres 0.026. Bars use a common base
+  0.18 and dollar-height 0.19, with widths 0.095/0.058 for buyers/sellers.
+  The buyer line is at y=2 and seller line at y=−1.7, each spanning x=−3.7…3.7.
+  Checks and trading circles shrink to fit individual people without overlap.
 - Buyer/seller introductions face the actual 3D rows. A projected copy of their
   bar tops moves into the graph using B3's `screen_point` technique, while the
   camera pulls back to the existing plaza view. The rows do not merely appear
@@ -110,15 +115,15 @@ The prototype is superseded; it is not an alternative design to preserve.
   comparison. Remove its previous content before replacing it. Do not stack a
   definition, caption, and deliberation card there simultaneously.
 - Keep the market at left and its graph at right during market-wide beats.
-  Use the B3 sorted buyer/seller rows, with buyers above sellers. Keep each side
-  in compact rows of at most 20; mark every person but label only selected people.
+  Keep all 59 buyers in one sorted line and all 100 sellers in another, with
+  buyers above sellers. Mark every person but label only selected people.
   Individual comparisons enlarge the relevant bars into a head-on view while
   hiding the other people; their allocation stays unchanged. A full-width head-on row is reserved
   for the quantity sweep; it is not squeezed beside two small graphs.
-- Read each compact row left to right, then continue on the next row. Preserve
-  rank order across folds. Every row has the same local zero and dollar scale;
-  repeat a local price segment at the appropriate height in each row, all driven
-  by the same price. These are copies of one common price, not separate asks.
+- Read each line left to right with no row breaks. Both have the same local
+  zero and dollar scale; each has one price segment driven by the same price.
+  Buyers and sellers have different horizontal spacing because the two lines
+  contain different numbers of people; quantity is counted from people.
 - Build the demand graph from its buyers and the supply graph from its sellers
   during the recap; stack them when both sides share the stage. At
   `1.i.graph`, slide those same axes into a single overlaid graph while retaining
@@ -211,7 +216,7 @@ short responses from the room; they are not timed waits in the scene.
 |---|---|---|---|
 | 1. Exchange | `1.a` | A price between cost and value makes both sides gain. | 30–45 s |
 | 2. Bidding | `1.b`, `1.b.settled` | A buyer left out can offer more; the seller gains from switching. | 40–60 s |
-| 3. Two trades | `1.b.two_trades`, `1.b.equal_prices` | A better alternative gives someone a reason to switch; competition brings these prices together. | 45–60 s |
+| 3. Two trades | `1.b.two_trades.plaza`, `1.b.two_trades`, `1.b.equal_prices` | A better alternative gives someone a reason to switch; competition brings these prices together. | 45–60 s |
 | 4. Buyers | `1.c.buyers` | At a common price, count the buyers whose MB reaches it: Qd. | 35–50 s |
 | 5. Sellers | `1.c.sellers` | At that same price, count the sellers whose MC is covered: Qs. | 35–50 s |
 | 6. Equilibrium | `1.c`–`1.i`, then `1.i.stability` | Unequal counts leave willing people without trades; their incentives move price. At $4 the counts match and the pressure disappears. | 150–220 s |
@@ -255,10 +260,17 @@ time. The bumper is outside this recap budget.
 3. Do not claim Molly cannot ask more, or use this one-seller case as the full
    competitive-equilibrium argument. The whole-market claim comes in stage 6.
 
+## 1.b.two_trades.plaza · Establish the two-by-two market
+
+1. Begin in B3's actual oblique plaza: phi 48°, center `[0, 0, 0.65]`, height
+   10.4. Preserve the floor, people, bars, and side graphs from B3's `3.a`.
+2. Animate Andrew's arrival and hold with all four people visible, Molly's
+   $6.25 ask and Andrew's $4.25 ask. The plaza entrance is not skipped.
+
 ## 1.b.two_trades · Give the buyer another option
 
-1. Admit Andrew with MC $4 and an entry ask of $4.25 in B3's original plaza.
-   Use B3's head-on comparison geometry to face Amanda-Grace, Molly, and Andrew
+1. From the four-person plaza, use B3's head-on comparison geometry to face
+   Amanda-Grace, Molly, and Andrew
    during the decision. Gary remains the unserved buyer in the underlying market.
 2. Retain Amanda-Grace's solid $6.25 deal with Molly. Show her two alternatives:
    “Molly: $6.25; gain $0.75” / “Andrew: $4.25; gain $2.75.” Title: “Stay or switch?” Hold.
@@ -508,7 +520,7 @@ time. The bumper is outside this recap budget.
 ## 4.a · Consider the next trade
 
 1. Move from the compact plaza to a full-width head-on comparison. Park the
-   overlaid graph off screen, preserving its state. Unfold the participants into
+   overlaid graph off screen, preserving its state. Rearrange the participants into
    ranked buyer/seller bar pairs along a common quantity axis; use a shared
    dollar baseline so the gap between each MB and MC is directly comparable.
    Keep all labels except the selected pair's hidden. Do not change values or
@@ -566,7 +578,7 @@ time. The bumper is outside this recap budget.
 
 ## 5.a · Return control to buyers and sellers
 
-1. Fold the rows back into the compact plaza and restore the saved overlaid
+1. Return both single lines to the plaza and restore the saved overlaid
    graph beside them. Preserve every participant's rank and value. Store the
    planner's selected prefixes as faint outlines. Remove the planner selection
    circles, quantity control, and hypothetical comparison marks.
@@ -704,8 +716,8 @@ time. The bumper is outside this recap budget.
 
 ## Review and implementation checks
 
-- There are **51 literal named holds** across the nine files. The opening seven
-  scenes contain 20: the bumper, Exercise Q2, and 18 teaching holds. Target
+- There are **52 literal named holds** across the nine files. The opening seven
+  scenes contain 21: the bumper, Exercise Q2, and 19 teaching holds. Target
   5–10 minutes of recap excluding the exercise, around 7–8 minutes in rehearsal.
   Keep the equilibrium explanation; shorten spoken bidding repetition first.
 - Exercise Q2 comes after the shortage is counted, before any $4 equilibrium
