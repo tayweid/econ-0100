@@ -5,6 +5,10 @@ lines, open the affected `part-*.html` page (double-click it), refresh, and run
 `scripts/check-course` before committing. There
 is no build step.
 
+To edit through forms instead, double-click `Edit Course.app` in
+`../tayweid.github.io/course-assets/`: it shows the course outline, a form per block with a
+live preview of the page, and runs the checker on save.
+
 The format, the renderer, and the checker are shared with every course site and live in
 `tayweid.github.io/course-assets`; the format is documented in
 [COURSE_CONTENT.md](https://github.com/tayweid/tayweid.github.io/blob/main/course-assets/COURSE_CONTENT.md)

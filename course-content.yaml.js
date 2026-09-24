@@ -64,8 +64,7 @@ parts:
     tagline: better choices can benefit everyone
     links: [{label: Skillsheet, file: Blocks/A_Skillsheet.pdf}]
     introduction: >-
-      Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. To show this, we’ll build the models that show the invisible forces that make civilization possible.    homework_defaults:
-      due: Sunday, September 4
+      Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. To show this, we’ll build the models that show the invisible forces that make civilization possible.
     sections:
       - block: A0
         folder: A0_Welcome
