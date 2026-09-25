@@ -57,6 +57,7 @@ course:
   checkpoint: Checkpoint
   reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
   materials: Blocks               # conventional PDFs live under Blocks/<folder>/
+  solutions: after_due            # a pushed ..._sols.pdf appears the day after its recitation or homework date
 
 parts:
   A:

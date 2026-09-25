@@ -27,13 +27,14 @@
         .team-card.now { border-color: var(--link); }
         .team-card h3 { margin: 0; font-size: 22px; line-height: 1.25; color: var(--white); }
         .team-card h3 .id { color: #8a8a8a; margin-right: 8px; }
-        .team-dates { margin: 4px 0 0; }
-        .team-dates .meta { margin: 0 14px 0 0; }
-        .team-dates .meta b { color: var(--fg); font-weight: 600; }
-        .team-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--mid); }
-        .team-step .path-where { display: block; margin: 0 0 6px; }
+        .team-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 16px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--mid); }
+        .team-step { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+        .team-step .path-name { font-size: 18px; }
+        .team-step .path-where { white-space: nowrap; }
+        .team-step > div { display: flex; flex-direction: column; gap: 6px; }
         .team-step .path-links { gap: 6px; }
         .team-step .practice-link { margin: 0; }
+        .team-card h3 .meta { font-size: 12px; vertical-align: 3px; }
         .practice-link.sols { color: #fff; background: var(--mark-red); }
         .practice-link.sols:hover { background: var(--link); }
         .team-none { font-family: var(--font-body); font-size: 14px; font-style: italic; color: #8a8a8a; }
@@ -49,14 +50,13 @@
         .team-status { font-style: italic; }
         .team-weeks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
         :focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
-        @media (max-width: 768px) { .team-steps { grid-template-columns: 1fr; } }
+        @media (max-width: 700px) { .team-steps { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 <div class="wrapper">
-<div class="left_div"><nav aria-label="Course"><ul><span>MICRO</span><span>ECON</span><hr class="nav-hr"><div id="nav"></div></ul></nav></div>
 <main class="content">
-    <div class="description team-gate" id="gate">
+    <section class="description team-gate" id="gate">
         <h1 class="title title-tight">Teaching Team</h1>
         <i class="subtitle-text">Enter the password to see the practice and solution files.</i>
         <form id="gate-form">
@@ -64,19 +64,19 @@
             <button type="submit">Open</button>
         </form>
         <p class="team-error" id="gate-error" role="alert"></p>
-    </div>
-    <div id="page" hidden>
+    </section>
+    <section id="page" hidden>
         <div class="description">
             <h1 class="title title-tight">Teaching Team</h1>
-            <i class="subtitle-text">Every posted Exercise, Vignette, and Homework, with its solutions.</i>
-            <p class="block-description">The list is read from the course schedule and the files on the site each time this page opens, so a new file shows up here as soon as it is posted. Solutions are the red links.</p>
+            <i class="subtitle-text">Course material for the teaching team.</i>
+            <p class="block-description">Not everything is posted here yet. New material will be available here once it’s written. Solutions are posted to the course page after their due date.</p>
             <p class="team-key"><span class="meta"><i></i>Recitation or homework due this week</span></p>
             <p class="team-status" id="status">Checking which files are posted…</p>
         </div>
-        <div id="out"></div>
-    </div>
+        <section id="out"></section>
+    </section>
 </main>
-<div class="right_div"></div>
+<div class="right_div"><nav aria-label="On this page" id="contents" hidden><ul><span>Contents</span><hr class="nav-hr-right"></ul></nav></div>
 </div>
 
 <script>
@@ -104,12 +104,13 @@
 
     // Same sources as the Part pages: the content beside this page, then the YAML reader and the
     // schema from course-assets (the sibling checkout when opened from disk, else the published copy).
+    var assetsBase = 'https://tayweid.github.io/course-assets/';
     function loadScripts() {
         var published = 'https://tayweid.github.io/course-assets/';
         var base = location.protocol === 'file:' ? '../tayweid.github.io/course-assets/' : published;
         var files = [['', 'course-content.yaml.js'], [null, 'js-yaml.min.js'], [null, 'course-schema.js']];
         (function load(i) {
-            if (i >= files.length) { render(); return; }
+            if (i >= files.length) { assetsBase = base; render(); return; }
             var s = document.createElement('script');
             s.src = (files[i][0] === null ? base : files[i][0]) + files[i][1];
             s.onload = function () { load(i + 1); };
@@ -143,7 +144,7 @@
     function shortDate(s) {
         if (!s) return '—';
         var p = String(s).split('-'), d = new Date(+p[0], p[1] - 1, +p[2]);
-        return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).replace(',', '');
     }
     function weekBounds() {
         var t = new Date(); t.setHours(0, 0, 0, 0);
@@ -188,15 +189,27 @@
         })(n);
         await Promise.all(jobs);
 
-        var wk = weekBounds(), out = document.getElementById('out'), nav = document.getElementById('nav');
-        function navLink(text, href) { var li = el('li'), a = el('a', null, text); a.href = href; li.append(a); nav.append(li); }
-        function chips(kindLabel, handout, sols) {
-            var step = el('div', 'team-step'), links = el('div', 'path-links');
-            step.append(el('span', 'path-where', kindLabel));
-            if (handout) links.append(link('Handout', handout));
+        var wk = weekBounds(), out = document.getElementById('out');
+        var contents = document.querySelector('#contents ul');
+        // The Contents list, marked up as course-page.js marks it up, so course.js's scroll spy
+        // drives it; like the Part pages' own, course.css hides it on narrow screens.
+        function navLink(text, href) {
+            var first = !contents.querySelector('li');
+            var li = el('li', first ? 'nav-item-no-margin' : null), a = el('a', 'nav-link-right' + (first ? ' active' : ''), text);
+            a.href = href; li.append(a); contents.append(li);
+        }
+        // One practice step, as on the Part pages: name and where, the chips, then the date under them.
+        function step(name, where, dateLine, handout, sols, label) {
+            var row = el('div', 'team-step'), left = el('div'), links = el('div', 'path-links');
+            var title = el('p', 'path-name', name + ' ');
+            if (where) title.append(el('span', 'path-where', where));
+            left.append(title);
+            if (handout) links.append(link(label, handout));
             if (sols) links.append(link('Solutions', sols, true));
             if (!handout && !sols) links.append(el('span', 'team-none', 'Not posted yet'));
-            step.append(links); return step;
+            left.append(links);
+            if (dateLine) left.append(el('p', 'path-due', dateLine));
+            row.append(left); return row;
         }
         Object.keys(parts).forEach(function (pid) {
             var part = parts[pid], cards = [];
@@ -205,13 +218,17 @@
                 var dates = b.dates || {};
                 var now = inWeek(dates.recitation, wk) || inWeek(dates.homework, wk);
                 var card = el('div', 'team-card' + (now ? ' now' : ''));
-                var h3 = el('h3'); h3.append(el('span', 'id', b.block), document.createTextNode(b.title || '')); card.append(h3);
-                var ds = el('p', 'team-dates');
-                var r = el('span', 'meta', 'Recitation '); r.append(el('b', null, shortDate(dates.recitation)));
-                var h = el('span', 'meta', 'Homework due '); h.append(el('b', null, shortDate(dates.homework)));
-                ds.append(r, h); if (now) ds.append(el('span', 'meta', 'This week')); card.append(ds);
+                var h3 = el('h3'); h3.append(el('span', 'id', b.block), document.createTextNode(b.title || ''));
+                if (now) h3.append(el('span', 'meta', 'This week'));
+                card.append(h3);
+                var list = [
+                    { date: dates.class, i: 0, node: step('Exercise ' + b.block, 'in class', dates.class ? shortDate(dates.class) : null, b._files.Exercise, b._files.Exercise_sols, 'Exercise') },
+                    { date: dates.recitation, i: 1, node: step('Vignette ' + b.block, 'recitation', dates.recitation ? shortDate(dates.recitation) : null, b._files.Vignette, b._files.Vignette_sols, 'Vignette') },
+                    { date: dates.homework, i: 2, node: step('Homework ' + b.block, 'home', dates.homework ? 'Due ' + shortDate(dates.homework) : null, b._files.Homework, b._files.Homework_sols, 'Homework') }
+                ];
+                if (list.every(function (x) { return x.date; })) list.sort(function (x, y) { return x.date.localeCompare(y.date) || x.i - y.i; });
                 var steps = el('div', 'team-steps');
-                ['Exercise', 'Vignette', 'Homework'].forEach(function (kind) { steps.append(chips(kind, b._files[kind], b._files[kind + '_sols'])); });
+                list.forEach(function (x) { steps.append(x.node); });
                 card.append(steps); cards.push(card);
             });
             if (!cards.length) return;
@@ -229,11 +246,15 @@
             weeks.forEach(function (w, n) {
                 if (!w || !(w.handout || w.sols)) return;
                 var card = el('div', 'team-card');
-                card.append(chips('Week ' + n, w.handout, w.sols)); box.append(card);
+                card.append(step('Week ' + n, 'recitation', null, w.handout, w.sols, 'Recitation')); box.append(card);
             });
             sec.append(box); out.append(sec); navLink('Recitation', '#recitation');
         }
         document.getElementById('status').hidden = true;
+        document.getElementById('contents').hidden = false;
+        var enhance = document.createElement('script');
+        enhance.src = assetsBase + 'course.js';
+        document.head.appendChild(enhance);
         if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
     }
 })();
