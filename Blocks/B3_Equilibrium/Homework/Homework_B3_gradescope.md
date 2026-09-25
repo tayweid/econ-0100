@@ -1,117 +1,146 @@
-# Gradescope build sheet — Homework B3
+# Homework B3 | Gradescope
 
-Instructor-facing. Following the Exercise build-sheet format: paste the contents of each fenced block into a separate question's content box, without the backticks. `(x)` identifies the correct multiple-choice option; math uses `$$...$$`.
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work on paper, taken from the Homework file (the .typ handout).
 
-**Assignment settings:** Online Assignment · name: `Homework B3` · suggested points: 2 each for Q1, Q2, and Q3. Homework is completion-graded; the key is for the feedback on right and wrong answers the Skillsheet promises. No concept check: Part A's homework had none.
+- Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
-Source: Homework_B3.md. Each handout blank becomes a selection.
+- Each `### QN.M` under it is a sub-question. Put its title in the sub-question’s title field and paste its block into the **Problem** box.
 
-Answer check: At 50 galleons, Q_d = 100 and Q_s = 60: a shortage of 40, and the price rises. At 70 galleons, Q_d = 60 and Q_s = 100: an excess of 40, and the price falls. Setting 100 − Q/2 = 20 + Q/2 gives Q* = 80 and P* = 60. Consumer surplus is ½ × 80 × (100 − 60) = 1600; producer surplus is ½ × 80 × (60 − 20) = 1600.
+- Ignore points. Each sub-question is worth 1 point by default on Gradescope.
 
----
+Gradescope parses the code directly. Every input field must sit on its own line with no text before or after it, and a question can hold several fields:
 
-## Question 1 — title: `A Price Below Equilibrium` · 2 pts
+- Text is Markdown, and LaTeX goes between `$$`. Images can be inserted with **Insert Image** or as a Markdown link `![alt](url)` to a file on the course site.
+- Multiple choice: consecutive `( )` lines become a multiple-choice field, with `(x)` marking the correct answer. A blank line between choices starts a new group.
+- Select all: consecutive `[ ]` lines become a select-all field, with `[x]` marking each correct answer. Students must mark every correct answer to get the point.
+- Short answer: `[____](answer)` gives a one-line text box, autograded against the answer in parentheses. For numbers, `[____](=2+-0)` accepts any equivalent of 2 and `[____](=2+-0.2)` accepts anything from 1.8 to 2.2. Leave the parentheses empty to grade by hand.
+- Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
+- File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
+
+## Q1: `A Price Below Equilibrium`
 
 ```
-Butter beer: demand $$P_d = 100 - \frac{1}{2} Q_d$$ and supply $$P = 20 + \frac{1}{2} Q$$, in galleons and bottles. Suppose the price is 50 galleons.
+Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Work through the questions on paper first, plotting each curve and computing each number, then enter your answers here as selections. You are welcomed and encouraged to work in groups so long as your work is your own.
 
-a) What is the quantity demanded?
+See Q1 | A Price Below Equilibrium on the Homework B3 handout (the PDF on the course page). Enter your answers here.
+```
 
+### Q1.1: `a) What is the quantity demanded?`
+
+```
 ( ) $$60$$ bottles
 ( ) $$80$$ bottles
 (x) $$100$$ bottles
 ( ) $$120$$ bottles
+```
 
-b) What is the quantity supplied?
+### Q1.2: `b) What is the quantity supplied?`
 
+```
 ( ) $$40$$ bottles
 (x) $$60$$ bottles
 ( ) $$80$$ bottles
 ( ) $$100$$ bottles
+```
 
-c) Is this a shortage or an excess, and how large?
+### Q1.3: `c) Is this a shortage or an excess, and how large?`
 
+```
 (x) A shortage of $$40$$ bottles
 ( ) An excess of $$40$$ bottles
 ( ) A shortage of $$20$$ bottles
 ( ) Neither: the market clears
+```
 
-d) Which way will the price move?
+### Q1.4: `d) Which way will the price move?`
 
+```
 (x) Up, toward $$60$$ galleons
 ( ) Down, toward $$40$$ galleons
 ( ) It stays at $$50$$ galleons
 ( ) It cannot be determined
 ```
 
----
-
-## Question 2 — title: `A Price Above Equilibrium` · 2 pts
+## Q2: `A Price Above Equilibrium`
 
 ```
-Suppose instead the price is 70 galleons.
+See Q2 | A Price Above Equilibrium on the Homework B3 handout (the PDF on the course page). Enter your answers here.
+```
 
-a) What is the quantity demanded?
+### Q2.1: `a) What is the quantity demanded?`
 
+```
 ( ) $$40$$ bottles
 (x) $$60$$ bottles
 ( ) $$80$$ bottles
 ( ) $$100$$ bottles
+```
 
-b) What is the quantity supplied?
+### Q2.2: `b) What is the quantity supplied?`
 
+```
 ( ) $$60$$ bottles
 ( ) $$80$$ bottles
 (x) $$100$$ bottles
 ( ) $$140$$ bottles
+```
 
-c) Is this a shortage or an excess, and how large?
+### Q2.3: `c) Is this a shortage or an excess, and how large?`
 
+```
 ( ) A shortage of $$40$$ bottles
 (x) An excess of $$40$$ bottles
 ( ) An excess of $$20$$ bottles
 ( ) Neither: the market clears
+```
 
-d) Which way will the price move?
+### Q2.4: `d) Which way will the price move?`
 
+```
 ( ) Up, toward $$80$$ galleons
 (x) Down, toward $$60$$ galleons
 ( ) It stays at $$70$$ galleons
 ( ) It cannot be determined
 ```
 
-## Question 3 — title: `Equilibrium` · 2 pts
+## Q3: `Equilibrium`
 
 ```
-Butter beer again, with the same demand and supply curves.
+See Q3 | Equilibrium on the Homework B3 handout (the PDF on the course page). Enter your answers here.
+```
 
-a) Calculate equilibrium price.
+### Q3.1: `a) Calculate equilibrium price`
 
+```
 ( ) $$40$$ galleons
 ( ) $$50$$ galleons
 (x) $$60$$ galleons
 ( ) $$80$$ galleons
+```
 
-b) Find equilibrium quantity.
+### Q3.2: `b) Find equilibrium quantity`
 
+```
 ( ) $$40$$ bottles
 ( ) $$60$$ bottles
 (x) $$80$$ bottles
 ( ) $$160$$ bottles
+```
 
-c) Calculate consumer surplus.
+### Q3.3: `c) Calculate consumer surplus`
 
-( ) $$800$$ galleons
-(x) $$1600$$ galleons
-( ) $$3200$$ galleons
-( ) $$4800$$ galleons
-
-d) Calculate producer surplus.
-
+```
 ( ) $$800$$ galleons
 (x) $$1600$$ galleons
 ( ) $$3200$$ galleons
 ( ) $$4800$$ galleons
 ```
 
----
+### Q3.4: `d) Calculate producer surplus`
+
+```
+( ) $$800$$ galleons
+(x) $$1600$$ galleons
+( ) $$3200$$ galleons
+( ) $$4800$$ galleons
+```

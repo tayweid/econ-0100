@@ -1,113 +1,201 @@
-# Gradescope build sheet — Homework B4
+# Homework B4 | Gradescope
 
-Instructor-facing. Following the Exercise build-sheet format: paste the contents of each fenced block into a separate question's content box, without the backticks. `(x)` identifies the correct multiple-choice option; math uses `$$...$$`.
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work on paper, taken from the Homework file (the .typ handout).
 
-**Assignment settings:** Online Assignment · name: `Homework B4` · suggested points: 2 each for Q1, Q2, and Q3. Homework is completion-graded; the key is for the feedback on right and wrong answers the Skillsheet promises. No concept check: Part A's homework had none.
+- Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
-Source: Homework_B4.md. Each handout blank becomes a selection; the ΔCS and ΔPS blanks are combined into one selection per control.
+- Each `### QN.M` under it is a sub-question. Put its title in the sub-question’s title field and paste its block into the **Problem** box.
 
-Answer check: Q* = 80 and P* = 60, so total surplus is ½ × 80 × (100 − 20) = 3200. Ceiling at 50: Q_s = 60, Q_d = 100, shortage; buyers value the 60th bottle at 70, so CS = ½ × 60 × 30 + 60 × 20 = 2100 (+500), PS = ½ × 60 × 30 = 900 (−700), DWL = ½ × 20 × 20 = 200. Floor at 70: Q_d = 60, Q_s = 100, excess; the 60th bottle costs 50, so CS = ½ × 60 × 30 = 900 (−700), PS = ½ × 60 × 30 + 60 × 20 = 2100 (+500), DWL = 200.
+- Ignore points. Each sub-question is worth 1 point by default on Gradescope.
 
----
+Gradescope parses the code directly. Every input field must sit on its own line with no text before or after it, and a question can hold several fields:
 
-## Question 1 — title: `Total Surplus` · 2 pts
+- Text is Markdown, and LaTeX goes between `$$`. Images can be inserted with **Insert Image** or as a Markdown link `![alt](url)` to a file on the course site.
+- Multiple choice: consecutive `( )` lines become a multiple-choice field, with `(x)` marking the correct answer. A blank line between choices starts a new group.
+- Select all: consecutive `[ ]` lines become a select-all field, with `[x]` marking each correct answer. Students must mark every correct answer to get the point.
+- Short answer: `[____](answer)` gives a one-line text box, autograded against the answer in parentheses. For numbers, `[____](=2+-0)` accepts any equivalent of 2 and `[____](=2+-0.2)` accepts anything from 1.8 to 2.2. Leave the parentheses empty to grade by hand.
+- Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
+- File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
+
+## Q1: `Total Surplus`
 
 ```
-Butter beer: demand $$P_d = 100 - \frac{1}{2} Q_d$$ and supply $$P = 20 + \frac{1}{2} Q$$, in galleons and bottles.
+Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Work through the questions on paper first, plotting each curve and computing each number, then enter your answers here as selections. You are welcomed and encouraged to work in groups so long as your work is your own.
 
-a) What is the market equilibrium price and quantity?
+See Q1 | Total Surplus on the Homework B4 handout (the PDF on the course page). Enter your answers here.
+```
 
-( ) $$P^* = 50$$, $$Q^* = 100$$
-(x) $$P^* = 60$$, $$Q^* = 80$$
-( ) $$P^* = 70$$, $$Q^* = 60$$
-( ) $$P^* = 80$$, $$Q^* = 40$$
+### Q1.1: `What is the market equilibrium price (P*)?`
 
-b) What is total surplus?
+```
+( ) $$50$$ galleons
+(x) $$60$$ galleons
+( ) $$70$$ galleons
+( ) $$80$$ galleons
+```
 
+### Q1.2: `What is the market equilibrium quantity (Q*)?`
+
+```
+( ) $$40$$ bottles
+( ) $$60$$ bottles
+(x) $$80$$ bottles
+( ) $$100$$ bottles
+```
+
+### Q1.3: `What is total surplus (TS)?`
+
+```
 ( ) $$1600$$ galleons
 (x) $$3200$$ galleons
 ( ) $$4800$$ galleons
 ( ) $$6400$$ galleons
 ```
 
----
-
-## Question 2 — title: `Price Ceiling` · 2 pts
+## Q2: `Price Ceiling`
 
 ```
-The Ministry of Magic decided to institute a price ceiling of 50 galleons to allow many more to afford the treat.
+See Q2 | Price Ceiling on the Homework B4 handout (the PDF on the course page). Enter your answers here.
+```
 
-a) What are quantity supplied and quantity demanded at the ceiling?
+### Q2.1: `What is quantity supplied at the ceiling?`
 
-(x) $$Q_s = 60$$, $$Q_d = 100$$
-( ) $$Q_s = 100$$, $$Q_d = 60$$
-( ) $$Q_s = 80$$, $$Q_d = 80$$
-( ) $$Q_s = 60$$, $$Q_d = 80$$
+```
+(x) $$60$$ bottles
+( ) $$80$$ bottles
+( ) $$100$$ bottles
+```
 
-b) Excess, market clearing, or shortage?
+### Q2.2: `What is quantity demanded at the ceiling?`
 
+```
+( ) $$60$$ bottles
+( ) $$80$$ bottles
+(x) $$100$$ bottles
+```
+
+### Q2.3: `Excess, market clearing, or shortage?`
+
+```
 (x) Shortage
 ( ) Excess
 ( ) Market clearing
+```
 
-c) What is consumer surplus, and how did it change from equilibrium?
+### Q2.4: `What is consumer surplus?`
 
-( ) $$1600$$, unchanged
-( ) $$900$$, down by $$700$$
-(x) $$2100$$, up by $$500$$
-( ) $$2500$$, up by $$900$$
+```
+( ) $$1600$$
+( ) $$900$$
+(x) $$2100$$
+( ) $$2500$$
+```
 
-d) What is producer surplus, and how did it change from equilibrium?
+### Q2.5: `How much did CS change?`
 
-( ) $$1600$$, unchanged
-(x) $$900$$, down by $$700$$
-( ) $$2100$$, up by $$500$$
-( ) $$1200$$, down by $$400$$
+```
+( ) Unchanged
+( ) Down by $$700$$
+(x) Up by $$500$$
+( ) Up by $$900$$
+```
 
-e) What is deadweight loss?
+### Q2.6: `What is producer surplus?`
 
+```
+( ) $$1600$$
+(x) $$900$$
+( ) $$2100$$
+( ) $$1200$$
+```
+
+### Q2.7: `How much did PS change?`
+
+```
+( ) Unchanged
+(x) Down by $$700$$
+( ) Up by $$500$$
+( ) Down by $$400$$
+```
+
+### Q2.8: `What is deadweight loss?`
+
+```
 ( ) $$0$$
 ( ) $$100$$
 (x) $$200$$
 ( ) $$600$$
 ```
 
----
-
-## Question 3 — title: `Price Floor` · 2 pts
+## Q3: `Price Floor`
 
 ```
-The Ministry of Magic decided that the market price wasn't sufficiently high enough for sellers, and decided to institute a price floor of 70 galleons.
+See Q3 | Price Floor on the Homework B4 handout (the PDF on the course page). Enter your answers here.
+```
 
-a) What are quantity supplied and quantity demanded at the floor?
+### Q3.1: `What is quantity supplied at the floor?`
 
-( ) $$Q_s = 60$$, $$Q_d = 100$$
-(x) $$Q_s = 100$$, $$Q_d = 60$$
-( ) $$Q_s = 80$$, $$Q_d = 80$$
-( ) $$Q_s = 100$$, $$Q_d = 80$$
+```
+( ) $$60$$ bottles
+( ) $$80$$ bottles
+(x) $$100$$ bottles
+```
 
-b) Excess, market clearing, or shortage?
+### Q3.2: `What is quantity demanded at the floor?`
 
+```
+(x) $$60$$ bottles
+( ) $$80$$ bottles
+( ) $$100$$ bottles
+```
+
+### Q3.3: `Excess, market clearing, or shortage?`
+
+```
 ( ) Shortage
 (x) Excess
 ( ) Market clearing
+```
 
-c) What is consumer surplus, and how did it change from equilibrium?
+### Q3.4: `What is consumer surplus?`
 
-( ) $$1600$$, unchanged
-(x) $$900$$, down by $$700$$
-( ) $$2100$$, up by $$500$$
-( ) $$1200$$, down by $$400$$
+```
+( ) $$1600$$
+(x) $$900$$
+( ) $$2100$$
+( ) $$1200$$
+```
 
-d) What is producer surplus, and how did it change from equilibrium?
+### Q3.5: `How much did CS change?`
 
-( ) $$1600$$, unchanged
-( ) $$900$$, down by $$700$$
-(x) $$2100$$, up by $$500$$
-( ) $$2500$$, up by $$900$$
+```
+( ) Unchanged
+(x) Down by $$700$$
+( ) Up by $$500$$
+( ) Down by $$400$$
+```
 
-e) What is deadweight loss?
+### Q3.6: `What is producer surplus?`
 
+```
+( ) $$1600$$
+( ) $$900$$
+(x) $$2100$$
+( ) $$2500$$
+```
+
+### Q3.7: `How much did PS change?`
+
+```
+( ) Unchanged
+( ) Down by $$700$$
+(x) Up by $$500$$
+( ) Up by $$900$$
+```
+
+### Q3.8: `What is deadweight loss?`
+
+```
 ( ) $$0$$
 ( ) $$100$$
 (x) $$200$$

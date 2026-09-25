@@ -68,11 +68,11 @@ Excess, Market Clearing, or Shortage: \_\_\_\_\_\_\_\_\_\_
 
 CS: \_\_\_\_\_\_\_\_\_\_
 
-$\Delta$ CS: \_\_\_\_\_\_\_\_\_\_
+How much did CS change? \_\_\_\_\_\_\_\_\_\_
 
 PS: \_\_\_\_\_\_\_\_\_\_
 
-$\Delta$ PS: \_\_\_\_\_\_\_\_\_\_
+How much did PS change? \_\_\_\_\_\_\_\_\_\_
 
 DWL: \_\_\_\_\_\_\_\_\_\_
 
@@ -129,11 +129,11 @@ Excess, Market Clearing, or Shortage: \_\_\_\_\_\_\_\_\_\_
 
 CS: \_\_\_\_\_\_\_\_\_\_
 
-$\Delta$ CS: \_\_\_\_\_\_\_\_\_\_
+How much did CS change? \_\_\_\_\_\_\_\_\_\_
 
 PS: \_\_\_\_\_\_\_\_\_\_
 
-$\Delta$ PS: \_\_\_\_\_\_\_\_\_\_
+How much did PS change? \_\_\_\_\_\_\_\_\_\_
 
 DWL: \_\_\_\_\_\_\_\_\_\_
 
