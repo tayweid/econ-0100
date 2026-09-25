@@ -73,7 +73,6 @@ parts:
           - name: Syllabus Quiz
             where: home
             date: '2026-08-30'
-            due: Sunday, August 30
             links: [{label: Syllabus, file: Syllabus/Syllabus.pdf}]
         title: What is microeconomics?
         description: >-
@@ -193,7 +192,6 @@ parts:
           description: "*Demand practice problems*"
           files: B1
         homework:
-          due: Sunday, September 20
           file: B1
         dates:
           class: '2026-09-14'
@@ -216,7 +214,6 @@ parts:
           description: "*Supply practice problems*"
           files: B2
         homework:
-          due: Sunday, September 20
           file: B2
         dates:
           class: '2026-09-16'
@@ -240,7 +237,6 @@ parts:
           description: "*Markets practice problems*"
           files: B3
         homework:
-          due: Sunday, September 27
           file: B3
         extras:
           - name: Simulating a Market
@@ -267,7 +263,6 @@ parts:
         vignette:
           description: "*Efficiency practice problems*"
         homework:
-          due: Sunday, September 27
           file: B4
         dates:
           class: '2026-09-23'
@@ -350,8 +345,6 @@ parts:
           description: "*Taxes practice problems*"
           files: C2
           solutions: false
-        homework:
-          due: Sunday, October 11
         dates:
           class: '2026-10-07'
           recitation: '2026-10-09'
@@ -373,7 +366,6 @@ parts:
           video: xKK5JBPXGsg
           description: "*Externalities practice problems*"
         homework:
-          due: Sunday, October 11
           practice: hwc
         extras:
           - name: Planet Money
@@ -401,8 +393,6 @@ parts:
           video: prohFxS0E1I
         vignette:
           description: "*Corrective taxes practice problems*"
-        homework:
-          due: Sunday, October 18
         dates:
           class: '2026-10-12'
           recitation: '2026-10-16'
@@ -437,8 +427,6 @@ parts:
         vignette:
           description: "*Non-excludable goods practice problems*"
           files: D1
-        homework:
-          due: Sunday, October 25
         dates:
           class: '2026-10-19'
           recitation: '2026-10-23'
@@ -459,8 +447,6 @@ parts:
         vignette:
           description: "*Game theory practice problems*"
           files: D2
-        homework:
-          due: Sunday, October 25
         dates:
           class: '2026-10-21'
           recitation: '2026-10-23'
@@ -480,8 +466,6 @@ parts:
         vignette:
           description: "*Game theory practice problems*"
           files: D3
-        homework:
-          due: Sunday, November 1
         dates:
           class: '2026-10-26'
           recitation: '2026-10-30'
@@ -503,8 +487,6 @@ parts:
         vignette:
           description: "*Voting systems practice problems*"
           files: D4
-        homework:
-          due: Sunday, November 1
         dates:
           class: '2026-10-28'
           recitation: '2026-10-30'
@@ -539,8 +521,6 @@ parts:
         vignette:
           description: "*Production costs practice problems*"
           files: E1
-        homework:
-          due: Sunday, November 8
         dates:
           class: '2026-11-02'
           recitation: '2026-11-06'
@@ -560,8 +540,6 @@ parts:
         vignette:
           description: "*Competitive firms practice problems*"
           files: E2
-        homework:
-          due: Sunday, November 8
         dates:
           class: '2026-11-04'
           recitation: '2026-11-06'
@@ -580,8 +558,6 @@ parts:
           topic: Monopoly
         vignette:
           description: "*Monopoly practice problems*"
-        homework:
-          due: Sunday, November 15
         dates:
           class: '2026-11-09'
           recitation: '2026-11-13'
@@ -603,8 +579,6 @@ parts:
           topic: Monopolistic competition and oligopoly
         vignette:
           description: "*Market structures practice problems*"
-        homework:
-          due: Sunday, November 15
         dates:
           class: '2026-11-11'
           recitation: '2026-11-13'
@@ -643,8 +617,6 @@ parts:
           video: n3LpswjCp6w
           description: "*Factor markets practice problems with video walkthrough*"
           files: F1
-        homework:
-          due: Sunday, December 6
         dates:
           class: '2026-11-30'
           recitation: '2026-12-04'
@@ -665,8 +637,6 @@ parts:
           description: "*Consumer choice practice problems with video walkthrough*"
           files: F2
           solution_file: Vignettes/Vignette_F2_sols_new.pdf
-        homework:
-          due: Sunday, December 6
         dates:
           class: '2026-12-02'
           recitation: '2026-12-04'
