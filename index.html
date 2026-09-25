@@ -1,14 +1,69 @@
 <!doctype html>
+<!-- ECON 0100, the current part: whichever part the schedule in the YAML says is under way today
+     (CourseSchema.currentPart), so econ-0100.tayweid.io needs no path. Rendered in the browser from course-content.yaml.js by the shared renderer in tayweid.github.io/course-assets. Edit the YAML, not this file; see COURSE_CONTENT.md. -->
 <html lang="en">
 <head>
+    <!-- Graphite ground before external CSS loads, including local-file navigation. -->
+    <meta name="color-scheme" content="dark">
+    <style>html { color-scheme: dark; background: #212121; }</style>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="0; url=part-a.html">
-    <link rel="canonical" href="part-a.html">
     <title>ECON 0100 | Microeconomics</title>
+    <link rel="stylesheet" href="https://tayweid.github.io/course-assets/course.css">
     <link rel="icon" href="https://tayweid.github.io/course-assets/icon.svg">
+    <script>if (window.self !== window.top) { document.documentElement.classList.add('embedded'); var fitEmbed = function () { var w = window.innerWidth; document.documentElement.style.zoom = w < 1240 ? w / 1240 : ""; }; window.addEventListener("resize", fitEmbed); fitEmbed(); }</script>
+    <script>
+    // The shared course code lives in tayweid.github.io/course-assets. Opened from disk, this
+    // page prefers the sibling checkout (../tayweid.github.io/course-assets/) so an unpushed
+    // change to the renderer or the stylesheet can be previewed against this site, and falls
+    // back to the published copy when the sibling is missing. Served, it uses the published copy.
+    (function () {
+        var published = 'https://tayweid.github.io/course-assets/';
+        var sibling = '../tayweid.github.io/course-assets/';
+        var base = location.protocol === 'file:' ? sibling : published;
+        if (base === sibling) {
+            // Replace the published stylesheet: loading both lets obsolete rules
+            // leak into a local preview (especially the mobile toolbar).
+            var css = document.querySelector('link[rel="stylesheet"]');
+            css.onerror = function () { css.onerror = null; css.href = published + 'course.css'; };
+            css.href = sibling + 'course.css';
+        }
+        // In order: the content (beside this page), then the reader, the format, the renderer.
+        var files = [['', 'course-content.yaml.js'], [null, 'js-yaml.min.js'], [null, 'course-schema.js'], [null, 'course-page.js']];
+        function load(index) {
+            if (index >= files.length) return;
+            var from = files[index][0] === null ? base : files[index][0];
+            var script = document.createElement('script');
+            script.src = from + files[index][1];
+            script.onload = function () { load(index + 1); };
+            script.onerror = function () {
+                if (files[index][0] !== null || base === published) { load(index + 1); return; }
+                base = published;
+                load(index);
+            };
+            window.COURSE_ASSETS_BASE = base;
+            document.head.appendChild(script);
+        }
+        load(0);
+    })();
+    </script>
 </head>
 <body>
-    <p><a href="part-a.html">Continue to ECON 0100</a></p>
+<div class="wrapper">
+<div class="left_div" data-course-left-nav></div>
+<main class="content" data-course-part="current" aria-busy="true">
+    <div class="description" data-course-description>
+        <h1 class="title title-tight">ECON 0100</h1>
+        <i class="subtitle-text" data-course-loading>Loading course content…</i>
+        <p data-course-error role="alert" hidden></p>
+        <noscript>
+            <style>[data-course-loading] { display: none; }</style>
+            <p>This page needs JavaScript to show its course content.</p>
+        </noscript>
+    </div>
+    <div data-course-output></div>
+</main>
+<div class="right_div" data-course-right-nav></div>
+</div>
 </body>
 </html>
