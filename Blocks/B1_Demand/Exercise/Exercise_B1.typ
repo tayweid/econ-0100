@@ -1,5 +1,5 @@
 // ECON 0100 handout. This file is the source; export the PDF from Plass.
-#set page(paper: "us-letter", margin: 1in, numbering: "1", number-align: center)
+#set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #show heading.where(level: 1): set text(size: 23.750pt)

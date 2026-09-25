@@ -423,6 +423,7 @@ available space.
 
 ## 8. Storyboard and code conventions
 
+- **Notes format (2026-09-25).** The notes for A0–A3 and C0–F3 are now Plass `.typ` files (`01_Notes.typ`), converted from Markdown with Plass's own reader and writer so they carry the handout page setup (half-inch sides, heading toward half pages). The Part B notes (`B0`–`B6`, plus `A1/01_Notes_new.md` and `B3/01_Notes_Original.md`) stay Markdown until Plass converts them without loss: a paragraph that opens with a `~~cut~~` becomes a raw `#strike[` island, `<!-- ED: … -->` comments become code blocks, math inside an italic stage direction loses its backslashes and underscores, and links lose their URLs. Where this guide says `01_Notes.md`, read the episode's notes file in whichever format it has.
 - **The notes are the instructions.** Read the current `01_Notes.md` (or the episode's existing notes filename), including its quoted beat directions and editorial cuts. Taylor uses Markdown **quote blocks** for animation directions; ordinary emphasized terms in prose are not stage directions. Preserve that format. Older templates describe linked beats; retain existing links where present, but do not insert them, convert quote blocks, or rewrite notes merely to conform to an older template. The notes belong to the author, who may be editing them while animation work proceeds.
 - Storyboard = Markdown beat sheet: one heading per stable dotted ID followed by its concrete, ordered actions, for example `## 3.f · Read marginal cost`. Preserve the teaching order from the notes, not lexical ID order. Keep exact on-screen wording, math, positioning, reveal order, and final visible state explicit enough to implement without a second interpretation. Brief shared layout conventions can sit at the top, as in B2; do not bury the beat actions in metadata or a large table.
 - Production-only intro beats use `0.a`, `0.b`, and so on in storyboard and code. They do not appear in `01_Notes.md`. Student-facing beats begin at `1.*`; storyboard and code share the exact dotted ID and follow the notes' order. Where notes already contain beat links, preserve the matching IDs without requiring IDs to be added to quote-block directions.
@@ -615,12 +616,20 @@ folders; the Practice Bank archives keep whatever form they were in.
   `typst` blocks as literal text instead of running them, so page margins and
   page breaks cannot be set from Markdown. The Markdown handouts were
   converted and removed on 2026-09-17. One source per handout, never both.
-- **Page setup lives in the file's preamble**: US letter, **1-inch margins**,
-  12.5pt New Computer Modern, level-one heading at 23.75pt and level-two at
-  14.375pt, and nothing else. Plass shows any other `#` code as a grey block.
-  Copy the preamble from any current handout when starting a new one. The
-  1.25in margin Plass used for Markdown left a 6in line, and the longer
-  titles ("ECON 0100 | Homework A2 | Advantages") wrapped; 1in clears them.
+- **Page setup lives in the file's preamble**: US letter, **1-inch top and
+  bottom margins and half-inch left and right margins**, 12.5pt New Computer
+  Modern, level-one heading at 23.75pt and level-two at 14.375pt, and
+  nothing else. Plass shows any other `#` code as a grey block. Copy the
+  preamble from any current handout when starting a new one. The 1.25in
+  margin Plass used for Markdown left a 6in line, and the longer titles
+  ("ECON 0100 | Homework A2 | Advantages") wrapped; 1in cleared them, and
+  since 2026-09-25 the half-inch sides give a 7.5in line with more room to
+  write and graph (Taylor wants the same for notes, heading toward half
+  pages). Write the margin with all four sides named in inches,
+  `margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in)`: that is
+  the form Plass reads and writes, and it turns the Typst shorthand
+  `(x: 0.5in, y: 1in)` into a 1.25in margin on save. A full-width graph on
+  a handout page is `width: 85%`, about its size under the old margins.
   Keep the heading size; do not shorten topic words to make a title fit.
 - **Title**: a level-one heading, course first, no semester, topic last:
   `= ECON 0100 | Homework B2 | Supply`. Same form for Exercise and Vignette.

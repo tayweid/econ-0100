@@ -2,7 +2,7 @@
 // export it in Plass. Answers and working sit in red solution blocks; everything
 // else is what students see. The graphs are embedded SVGs drawn by the Typst in the
 // note at the end of this file; scripts/render-sols-figures re-renders them.
-#set page(paper: "us-letter", margin: 1in, numbering: "1", number-align: center)
+#set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #show heading.where(level: 1): set text(size: 23.750pt)
@@ -12,11 +12,16 @@
 #show math.equation.where(block: true): set block(above: 21.490pt, below: 23.702pt)
 #import "@preview/mitex:0.2.5": mi, mitex
 
-= ECON 0100 | Vignette B2 | Supply | Solutions
+= ECON 0100 | Vignette B2 | Supply
 
-_Due in Recitation._
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
 
-_Solution guide for the teaching team. Answers and working are in the red blocks; everything else is what students see. Q1 is the consumer surplus practice Vignette B1 did not reach._
+  = Solutions
+
+]
+
+_Answers and work are shown in the red blocks._
 
 == Q1 | Consumer Surplus
 
@@ -30,42 +35,54 @@ Prices are in galleons and quantity is in pasties.
 
 a) Plot and find the consumer surplus at a price of $10$ galleons. \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $4$ galleons.
+
+  *Plot.* Vertical intercept, $Q_d = 0$: $P_d = 12$. Horizontal intercept, $P_d = 0$: $0 = 12 - \frac{1}{2} Q_d \rightarrow Q_d = 24$.
+
+  Price to quantity, then the triangle below demand and above the price:
+
+  #mitex(`
+  10 = 12 - \tfrac{1}{2} Q_d \rightarrow \tfrac{1}{2} Q_d = 2 \rightarrow Q_d = 4
+  `)
+
+  #mitex(`
+  \text{CS} = h \cdot b \cdot \tfrac{1}{2} = (12 - 10) \cdot 4 \cdot \tfrac{1}{2} = 4
+  `)
+]
+
 b) Plot and find the consumer surplus at a price of $5$ galleons. \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $49$ galleons.
+
+  The same steps at the lower price:
+
+  #mitex(`
+  5 = 12 - \tfrac{1}{2} Q_d \rightarrow \tfrac{1}{2} Q_d = 7 \rightarrow Q_d = 14
+  `)
+
+  #mitex(`
+  \text{CS}' = h \cdot b \cdot \tfrac{1}{2} = (12 - 5) \cdot 14 \cdot \tfrac{1}{2} = 49
+  `)
+]
 
 c) How much did consumer surplus change from (a) to (b)? \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  *a)* $4$ galleons. *b)* $49$ galleons. *c)* Up by $45$ galleons.
+  Up by $45$ galleons.
 
   #grid(
     columns: (1fr, 1fr),
     gutter: 1em,
     [
-      *Plot.* Vertical intercept, $Q_d = 0$: $P_d = 12$. Horizontal intercept, $P_d = 0$: $0 = 12 - \frac{1}{2} Q_d \rightarrow Q_d = 24$.
-
-      *a)* Price to quantity, then the triangle below demand and above the price:
-
-      #mitex(`
-      10 = 12 - \tfrac{1}{2} Q_d \rightarrow \tfrac{1}{2} Q_d = 2 \rightarrow Q_d = 4
-      `)
-
-      #mitex(`
-      \text{CS} = h \cdot b \cdot \tfrac{1}{2} = (12 - 10) \cdot 4 \cdot \tfrac{1}{2} = 4
-      `)
-
-      *b)* The same steps at the lower price:
-
-      #mitex(`
-      5 = 12 - \tfrac{1}{2} Q_d \rightarrow \tfrac{1}{2} Q_d = 7 \rightarrow Q_d = 14
-      `)
-
-      #mitex(`
-      \text{CS}' = h \cdot b \cdot \tfrac{1}{2} = (12 - 5) \cdot 14 \cdot \tfrac{1}{2} = 49
-      `)
-
-      *c)* The change is the new area minus the old, the strip between the two price lines:
+      The change is the new area minus the old, the strip between the two price lines:
 
       #mitex(`
       \Delta \text{CS} = \text{CS}' - \text{CS} = 49 - 4 = 45
@@ -89,26 +106,44 @@ Plot the supply curve below.
 
 a) Find and plot the quantity supplied at a price of $10$ galleons. \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $16$ pasties.
+
+  *Plot.* Vertical intercept, $Q_s = 0$: $P = 2$. Below $2$ galleons quantity supplied is zero, so the curve starts there and rises by $1$ galleon for every $2$ pasties.
+
+  $10 = 2 + \frac{1}{2} Q_s \rightarrow 8 = \frac{1}{2} Q_s \rightarrow Q_s = 16$
+]
+
 b) Find and plot the quantity supplied at a price of $5$ galleons. \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $6$ pasties.
+
+  $5 = 2 + \frac{1}{2} Q_s \rightarrow 3 = \frac{1}{2} Q_s \rightarrow Q_s = 6$
+]
+
 c) How much did quantity supplied change from (a) to (b)? \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Down by $10$ pasties.
+
+  $\Delta Q_s = 6 - 16 = -10$: quantity supplied fell by $10$ pasties as the price fell, the law of supply.
+]
 
 d) What is marginal cost at $8$ pasties? \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  *a)* $16$ pasties. *b)* $6$ pasties. *c)* Down by $10$ pasties. *d)* $6$ galleons.
+  $6$ galleons.
 
-  *Plot.* Vertical intercept, $Q_s = 0$: $P = 2$. Below $2$ galleons quantity supplied is zero, so the curve starts there and rises by $1$ galleon for every $2$ pasties.
-
-  *a)* $10 = 2 + \frac{1}{2} Q_s \rightarrow 8 = \frac{1}{2} Q_s \rightarrow Q_s = 16$
-
-  *b)* $5 = 2 + \frac{1}{2} Q_s \rightarrow 3 = \frac{1}{2} Q_s \rightarrow Q_s = 6$
-
-  *c)* $\Delta Q_s = 6 - 16 = -10$: quantity supplied fell by $10$ pasties as the price fell, the law of supply.
-
-  *d)* Quantity to price. The height of the supply curve at $8$ pasties is the marginal cost of the eighth pasty: $P = 2 + \frac{1}{2} \cdot 8 = 6$ galleons.
+  Quantity to price. The height of the supply curve at $8$ pasties is the marginal cost of the eighth pasty: $P = 2 + \frac{1}{2} \cdot 8 = 6$ galleons.
 ]
 
 == Q3 | Producer Surplus
@@ -117,30 +152,42 @@ Plot and calculate the producer surplus at both $5$ galleons and $10$ galleons.
 
 a) PS at $5$ galleons: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $9$ galleons.
+
+  Producer surplus is the triangle above supply and below the price, out to the quantity sold from Q2. Its height is the price minus the $2$-galleon intercept and its base is the quantity.
+
+  #mitex(`
+  P = 5: \quad \text{PS} = h \cdot b \cdot \tfrac{1}{2} = (5 - 2) \cdot 6 \cdot \tfrac{1}{2} = 9
+  `)
+]
+
 b) PS at $10$ galleons: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $64$ galleons.
+
+  #mitex(`
+  P = 10: \quad \text{PS}' = h \cdot b \cdot \tfrac{1}{2} = (10 - 2) \cdot 16 \cdot \tfrac{1}{2} = 64
+  `)
+]
 
 c) How much did producer surplus change from (a) to (b)? \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  *a)* $9$ galleons. *b)* $64$ galleons. *c)* Up by $55$ galleons.
+  Up by $55$ galleons.
 
   #grid(
     columns: (1fr, 1fr),
     gutter: 1em,
     [
-      Producer surplus is the triangle above supply and below the price, out to the quantity sold from Q2. Its height is the price minus the $2$-galleon intercept and its base is the quantity.
-
-      #mitex(`
-      P = 5: \quad \text{PS} = h \cdot b \cdot \tfrac{1}{2} = (5 - 2) \cdot 6 \cdot \tfrac{1}{2} = 9
-      `)
-
-      #mitex(`
-      P = 10: \quad \text{PS}' = h \cdot b \cdot \tfrac{1}{2} = (10 - 2) \cdot 16 \cdot \tfrac{1}{2} = 64
-      `)
-
-      *c)* $\Delta \text{PS} = \text{PS}' - \text{PS} = 64 - 9 = 55$: producer surplus rose by $55$ galleons as the price rose from $5$ to $10$. Revenue at $10$ galleons is the rectangle $10 \cdot 16 = 160$; the $64$ above the curve is surplus and the $96$ below it covers marginal costs.
+      $\Delta \text{PS} = \text{PS}' - \text{PS} = 64 - 9 = 55$: producer surplus rose by $55$ galleons as the price rose from $5$ to $10$. Revenue at $10$ galleons is the rectangle $10 \cdot 16 = 160$; the $64$ above the curve is surplus and the $96$ below it covers marginal costs.
     ],
     [
       #image("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjA0IDE0NCIgd2lkdGg9IjIwNHB0IiBoZWlnaHQ9IjE0NHB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpoNT0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNIDAgMHYgMTQ0aCAyMDR2IC0xNDRaICIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIgMikiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTE0KSIgZD0iTSAwIDBoIDE1OCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTE0KSIgZD0iTSAwIDB2IC05OCIvPjxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDE4NyAxMTUuMTQ3KSI+PHVzZSB4bGluazpocmVmPSIjZ0RBQzczQjhCODNBQzNEQjFBMTBBQzU5Q0MwMDZBODc5IiB4PSIwIiB5PSIwIiBmaWxsPSIjMDAwMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48L2c+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMjIgOC4xNDcpIj48dXNlIHhsaW5rOmhyZWY9IiNnQzAxNUNFQjUzQTY0OTk0MkE2MUEyRDU4MTE4MjExRUQiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMC44IiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY2LjM2MzYzNjM2NCAxMTIpIiBkPSJNIDAgMHYgNCIvPjxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDYxLjM2MzYzNjM2NCAxMjMuNDY0KSI+PHVzZSB4bGluazpocmVmPSIjZ0ZBRkIyMjg3QkE3OTlGODMxNkNDNjdEN0I5MThDMTQ4IiB4PSIwIiB5PSIwIiBmaWxsPSIjMDAwMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48L2c+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwMDAwIiBzdHJva2Utd2lkdGg9IjAuOCIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZS1taXRlcmxpbWl0PSI0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzMuNjM2MzYzNjM2IDExMikiIGQ9Ik0gMCAwdiA0Ii8+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMTI4LjYzNjM2MzYzNiAxMjMuNDY0KSI+PHVzZSB4bGluazpocmVmPSIjZzQ3ODg3MTA3OTYxMDlFMEVCMzVDNUUyQTlCNDU4NDg0IiB4PSIwIiB5PSIwIiBmaWxsPSIjMDAwMDAwIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48dXNlIHhsaW5rOmhyZWY9IiNnRkFGQjIyODdCQTc5OUY4MzE2Q0M2N0Q3QjkxOEMxNDgiIHg9IjQiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMC44IiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI0IDEwMC40NjE1Mzg0NjIpIiBkPSJNIDAgMGggNCIvPjxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDggMTAwLjkyNTUzODQ2MikiPjx1c2UgeGxpbms6aHJlZj0iI2cyMDlBQzExMkE0QUEyMTI1QTA4QUQyMUYwMTg1M0EwMyIgeD0iMCIgeT0iMCIgZmlsbD0iIzAwMDAwMCIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQgODAuMTUzODQ2MTU0KSIgZD0iTSAwIDBoIDQiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSA4IDgwLjYxNzg0NjE1NCkiPjx1c2UgeGxpbms6aHJlZj0iI2dDRjZFMTYwNjQ0MzhEREE4NDMxNDYxM0EyQTFCMDcyOCIgeD0iMCIgeT0iMCIgZmlsbD0iIzAwMDAwMCIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjQgNDYuMzA3NjkyMzA4KSIgZD0iTSAwIDBoIDQiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSA4IDQ2Ljc3MTY5MjMwOCkiPjx1c2UgeGxpbms6aHJlZj0iI2c0Nzg4NzEwNzk2MTA5RTBFQjM1QzVFMkE5QjQ1ODQ4NCIgeD0iMCIgeT0iMCIgZmlsbD0iIzAwMDAwMCIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHVzZSB4bGluazpocmVmPSIjZ0E2Q0QzNzJDQUQ0QjEyREMxNEExRDUzQzg2OTM2OUQiIHg9IjQiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48cGF0aCBmaWxsPSIjYjMyNjFlMzgiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTSAwIDBtIDI2IDEwMC40NjE1Mzg0NjJ2IC01NC4xNTM4NDYxNTRoIDEwNy42MzYzNjM2MzZaICIvPjxwYXRoIGZpbGw9IiNiMzI2MWUzOCIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNIDAgMG0gMjYgMTAwLjQ2MTUzODQ2MnYgLTIwLjMwNzY5MjMwOGggNDAuMzYzNjM2MzY0WiAiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI2IDEwMC40NjE1Mzg0NjIpIiBkPSJNIDAgMGwgMTM0LjU0NTQ1NDU0NSAtNjcuNjkyMzA3NjkyIi8+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMTQ0LjM2MzYzNjM2NCA0MC4wMDI0NjE1MzgpIj48dXNlIHhsaW5rOmhyZWY9IiNnRkU5NkY0OUU1RjRFNzc4NThGNUIzOTU0QUM3MUQxQkYiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNhYWFhYWEiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjQiIHN0cm9rZS1kYXNob2Zmc2V0PSIwIiBzdHJva2UtZGFzaGFycmF5PSIxLjIgMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgNDYuMzA3NjkyMzA4KSIgZD0iTSAwIDBoIDEwNy42MzYzNjM2MzYiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNhYWFhYWEiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLW1pdGVybGltaXQ9IjQiIHN0cm9rZS1kYXNob2Zmc2V0PSIwIiBzdHJva2UtZGFzaGFycmF5PSIxLjIgMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgODAuMTUzODQ2MTU0KSIgZD0iTSAwIDBoIDQwLjM2MzYzNjM2NCIvPjxwYXRoIGZpbGw9IiNiMzI2MWUiIGZpbGwtcnVsZT0ibm9uemVybyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMxLjEzNjM2MzYzNiA0My44MDc2OTIzMDgpIiBkPSJNIDAgMG0gMCAyLjVjIDAgLTEuMzc5NDYgMS4xMjA1NCAtMi41IDIuNSAtMi41YyAxLjM3OTQ2IDAgMi41IDEuMTIwNTQgMi41IDIuNWMgMCAxLjM3OTQ2IC0xLjEyMDU0IDIuNSAtMi41IDIuNWMgLTEuMzc5NDYgMCAtMi41IC0xLjEyMDU0IC0yLjUgLTIuNSIvPjxwYXRoIGZpbGw9IiNiMzI2MWUiIGZpbGwtcnVsZT0ibm9uemVybyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjMuODYzNjM2MzY0IDc3LjY1Mzg0NjE1NCkiIGQ9Ik0gMCAwbSAwIDIuNWMgMCAtMS4zNzk0NiAxLjEyMDU0IC0yLjUgMi41IC0yLjVjIDEuMzc5NDYgMCAyLjUgMS4xMjA1NCAyLjUgMi41YyAwIDEuMzc5NDYgLTEuMTIwNTQgMi41IC0yLjUgMi41YyAtMS4zNzk0NiAwIC0yLjUgLTEuMTIwNTQgLTIuNSAtMi41Ii8+PGcgdHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMzAuMDM2MzYzNjM2IDg4LjMyNTUzODQ2MikiPjx1c2UgeGxpbms6aHJlZj0iI2c1RDI3OUIzMzRFMTIxOUMwOTdBRUFCMzEyMDY4NjNCMCIgeD0iMCIgeT0iMCIgZmlsbD0iI2IzMjYxZSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PHVzZSB4bGluazpocmVmPSIjZzEwMEFGMThGRjRCMDZCNUYyRjY5RDhFMUQyQjk1MTUzIiB4PSI1LjQ0OCIgeT0iMCIgZmlsbD0iI2IzMjYxZSIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjxnIHRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDQ2LjE4MTgxODE4MiA1Ny4xODcwNzY5MjMpIj48dXNlIHhsaW5rOmhyZWY9IiNnNTMzNzU1MjI4MDNEMUVDNEUxQkFFNTk4MDY2M0Y0RTkiIHg9IjAiIHk9IjAiIGZpbGw9IiNiMzI2MWUiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSA1Mi44NDU4MTgxODIgNTcuMTg3MDc2OTIzKSI+PHVzZSB4bGluazpocmVmPSIjZzVEMjc5QjMzNEUxMjE5QzA5N0FFQUIzMTIwNjg2M0IwIiB4PSIwIiB5PSIwIiBmaWxsPSIjYjMyNjFlIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48dXNlIHhsaW5rOmhyZWY9IiNnMTAwQUYxOEZGNEIwNkI1RjJGNjlEOEUxRDJCOTUxNTMiIHg9IjUuNDQ4IiB5PSIwIiBmaWxsPSIjYjMyNjFlIiBmaWxsLXJ1bGU9Im5vbnplcm8iLz48L2c+PC9nPjxkZWZzPjxzeW1ib2wgaWQ9ImdEQUM3M0I4QjgzQUMzREIxQTEwQUM1OUNDMDA2QTg3OSIgb3ZlcmZsb3c9InZpc2libGUiPjxwYXRoIGQ9Ik0gMCAwbSAyLjc1NCAtMC4yMTZjIDAuMjYxIDAgMC41NCAwLjA0NSAwLjgzNyAwLjEyNmMgLTAuMDI3IC0wLjM0MiAtMC4wMzYgLTAuNTU4IC0wLjAzNiAtMC42MzljIDAgLTAuNjc1IDAuMjYxIC0xLjAxNyAwLjc3NCAtMS4wMTdjIDAuNTQ5IDAgMC45NzIgMC40NDEgMS4xNzkgMC44NDZjIDAuMjI1IDAuNDY4IDAuMzQyIDAuNzc0IDAuMzQyIDAuOTE4YyAwIDAuMDgxIC0wLjA0NSAwLjEyNiAtMC4xMzUgMC4xMjZjIC0wLjA2MyAwIC0wLjEwOCAtMC4wMzYgLTAuMTM1IC0wLjExN2MgLTAuMTM1IC0wLjQxNCAtMC41MDQgLTAuODM3IC0xLjAwOCAtMC44MzdjIC0wLjQ1OSAwIC0wLjUyMiAwLjM2OSAtMC41OTQgMC44NjRjIDAuNzU2IDAuMjk3IDEuMzk1IDAuODEgMS45MDggMS41NDhjIDAuNTEzIDAuNzM4IDAuNzc0IDEuNTAzIDAuNzc0IDIuMzA0YyAwIDAuNzExIC0wLjIwNyAxLjI4NyAtMC42MyAxLjc0NmMgLTAuNDIzIDAuNDU5IC0wLjk4MSAwLjY5MyAtMS42NzQgMC42OTNjIC0wLjQ3NyAwIC0wLjk1NCAtMC4xMTcgLTEuNDMxIC0wLjM2YyAtMC45NzIgLTAuNDc3IC0xLjY4MyAtMS4yMzMgLTIuMTQyIC0yLjI1YyAtMC4yMjUgLTAuNTEzIC0wLjM0MiAtMS4wMTcgLTAuMzQyIC0xLjUzYyAwIC0xLjQxMyAwLjkxOCAtMi40MjEgMi4zMTMgLTIuNDIxWiBtIDMuMDUxIDQuNDFjIDAgLTAuNTQ5IC0wLjEzNSAtMS4xNzkgLTAuNDA1IC0xLjkwOGMgLTAuMzE1IC0wLjgzNyAtMC44MDEgLTEuNDU4IC0xLjQ3NiAtMS44NTRjIC0wLjAzNiAwLjE5OCAtMC4wOSAwLjM3OCAtMC4xNjIgMC41NGMgLTAuMTE3IDAuMjcgLTAuMzMzIDAuNDA1IC0wLjY0OCAwLjQwNWMgLTAuNDk1IDAgLTAuOTQ1IC0wLjQ1IC0wLjk0NSAtMC45NDVjIDAgLTAuMDgxIDAuMDA5IC0wLjE2MiAwLjAyNyAtMC4yMjVjIC0wLjYwMyAwLjI3OSAtMC45IDAuODQ2IC0wLjkgMS43MWMgMCAwLjM3OCAwLjA3MiAwLjgzNyAwLjIyNSAxLjM3N2MgMC4zMTUgMS4xNDMgMC44ODIgMS45NTMgMS43MDEgMi40M2MgMC4zODcgMC4yMTYgMC43NDcgMC4zMjQgMS4wOCAwLjMyNGMgMC45OSAwIDEuNTAzIC0wLjgxOSAxLjUwMyAtMS44NTRaIG0gLTIuNjkxIC0zLjA4N2MgMC4zMzMgMCAwLjUwNCAtMC4yNDMgMC41MDQgLTAuNzJjIDAgLTAuMDgxIC0wLjAyNyAtMC4xMjYgLTAuMDgxIC0wLjE0NGMgLTAuMjUyIC0wLjEwOCAtMC40OTUgLTAuMTYyIC0wLjcyOSAtMC4xNjJjIC0wLjI1MiAwIC0wLjM3OCAwLjExNyAtMC4zNzggMC4zNTFjIDAgMC4zNDIgMC4zNDIgMC42NzUgMC42ODQgMC42NzVaICIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImdDMDE1Q0VCNTNBNjQ5OTQyQTYxQTJENTgxMTgyMTFFRCIgb3ZlcmZsb3c9InZpc2libGUiPjxwYXRoIGQ9Ik0gMCAwbSA0Ljk5NSA2LjE0N2ggLTIuODhjIC0wLjIwNyAwIC0wLjMwNiAtMC4wMDkgLTAuMzA2IC0wLjIwN2MgMCAtMC4wOTkgMC4wOTkgLTAuMTQ0IDAuMjk3IC0wLjE0NGMgMC4xOCAwIDAuNTQgMC4wMjcgMC41NCAtMC4xMTdjIDAgLTAuMDE4IC0wLjAwOSAtMC4wNzIgLTAuMDM2IC0wLjE2MmwgLTEuMTg4IC00Ljc3OWMgLTAuMDU0IC0wLjE5OCAtMC4xNDQgLTAuMzE1IC0wLjI3IC0wLjM2YyAtMC4wNjMgLTAuMDE4IC0wLjIyNSAtMC4wMjcgLTAuNTA0IC0wLjAyN2MgLTAuMTk4IDAgLTAuMjg4IC0wLjAxOCAtMC4yODggLTAuMjA3YyAwIC0wLjA5OSAwLjA1NCAtMC4xNDQgMC4xNzEgLTAuMTQ0bCAxLjEyNSAwLjAyN2wgMC41NzYgLTAuMDA5YyAwLjA5OSAwIDAuNDU5IC0wLjAxOCAwLjU3NiAtMC4wMThjIDAuMTQ0IDAgMC4yMTYgMC4wNzIgMC4yMTYgMC4yMTZjIDAgMC4wOSAtMC4wOTkgMC4xMzUgLTAuMjg4IDAuMTM1YyAtMC4zNiAwIC0wLjU0IDAuMDM2IC0wLjU0IDAuMTE3YyAwIDAgMC4wMDkgMC4wMjcgMC4wMjcgMC4xNDRsIDAuNTQgMi4xOTZoIDEuNDg1YyAwLjU4NSAwIDEuMTQzIDAuMTggMS42NjUgMC41MzFjIDAuNTg1IDAuMzg3IDAuODczIDAuODY0IDAuODczIDEuNDMxYyAwIDAuODkxIC0wLjg0NiAxLjM3NyAtMS43OTEgMS4zNzdaIG0gLTAuMjc5IC0wLjM1MWMgMC43ODMgMCAxLjE3IC0wLjI3IDEuMTcgLTAuODFjIDAgLTAuNTA0IC0wLjI1MiAtMS4xNzkgLTAuNTEzIC0xLjQxM2MgLTAuMzQyIC0wLjMwNiAtMC43OTIgLTAuNDU5IC0xLjM1IC0wLjQ1OWggLTEuMjA2bCAwLjU5NCAyLjM3NmMgMC4wNzIgMC4zMDYgMC4wNzIgMC4zMDYgMC40NSAwLjMwNlogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZ0ZBRkIyMjg3QkE3OTlGODMxNkNDNjdEN0I5MThDMTQ4IiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDIuNDQgNS4xMmMgMC4zNDQgMCAwLjU2IC0wLjA5NiAwLjcyIC0wLjMxMmMgLTAuMDMyIDAuMDA4IC0wLjA2NCAwLjAwOCAtMC4wNjQgMC4wMDhjIC0wLjA5NiAwIC0wLjM3NiAtMC4wNCAtMC4zNzYgLTAuMzY4YyAwIC0wLjIzMiAwLjE2IC0wLjM2OCAwLjM3NiAtMC4zNjhjIDAuMDE2IDAgMC4zNiAwLjAwOCAwLjM2IDAuMzc2YyAwIDAuNTc2IC0wLjQ0OCAwLjg3MiAtMS4wMzIgMC44NzJjIC0xLjEyOCAwIC0yLjA5NiAtMS4yMDggLTIuMDk2IC0yLjhjIDAgLTIuNTEyIDEuMjY0IC0yLjcwNCAxLjY2NCAtMi43MDRjIDEuMDI0IDAgMS42NjQgMC44NDggMS42NjQgMS44MDhjIDAgMC45OTIgLTAuNjY0IDEuNzg0IC0xLjYwOCAxLjc4NGMgLTAuNDQgMCAtMC43NjggLTAuMjY0IC0wLjk5MiAtMC43OTJ2IDAuMDY0YyAwIDIuMjE4OTU3MDMxIDAuOTk5OTM4OTY1IDIuNDMyIDEuMzg0IDIuNDMyWiBtIC0xLjM2OCAtMy4zNTJjIDAgMC43MDQgMC4yOCAxLjQ2NCAwLjk3NiAxLjQ2NGMgMC44ODggMCAwLjg4OCAtMS4wNDggMC44ODggLTEuNjg4YyAwIC0wLjQzMiAwIC0xLjQ5NiAtMC45MzYgLTEuNDk2YyAtMC42MDggMCAtMC45MjggMC42NCAtMC45MjggMS43MlogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZzQ3ODg3MTA3OTYxMDlFMEVCMzVDNUUyQTlCNDU4NDg0IiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDMuMzUyIDB2IDAuMjQ4YyAtMC45NTYxMjUgMC4wMDQwNzAzMTMgLTEgMC4wMzkyNTc4MTMgLTEgMC4zOTJ2IDQuNTUyYyAwIDAuMDk2IC0wLjAyNCAwLjEzNiAtMC4xMTIgMC4xMzZoIC0wLjA3MmMgLTAuMjQgLTAuMjE2IC0wLjU4NCAtMC41MTIgLTEuNDU2IC0wLjUxMnYgLTAuMjQ4YyAwLjY0OCAwIDAuOTY2ODA4MzUgMC4xNTUxMDY0NDUgMS4wNDggMC4yMTZ2IC00LjE0NGMgMCAtMC4zMzY3NjU2MjUgLTAuMDE5OTQ1MzEzIC0wLjM4NzkyOTY4OCAtMSAtMC4zOTJ2IC0wLjI0OGMgMC4xNzYgMCAwLjk2OCAwLjAyNCAxLjE3NiAwLjAyNGMgMC40OTYgMCAxLjEyOCAtMC4wMjQgMS40MTYgLTAuMDI0WiAiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJnMjA5QUMxMTJBNEFBMjEyNUEwOEFEMjFGMDE4NTNBMDMiIG92ZXJmbG93PSJ2aXNpYmxlIj48cGF0aCBkPSJNIDAgMG0gMy4zNjggMGMgMC4wMjQgMC4xNTIgMC4yMjQgMS4zOTIgMC4yMjQgMS4zOTJoIC0wLjJjIDAgMCAtMC4xMDQgLTAuNjY0IC0wLjE4NCAtMC43MmMgLTAuMDMyNzY5Mjg3IC0wLjAyMjkzODQ3NyAtMC4xNjggLTAuMDU2IC0wLjc2OCAtMC4wNTZoIC0xLjQyNGwgMC40ODggMC40NzJjIDEuMzA4OTY3NTI5IDEuMjY2MDUwNTM3IDIuMDg4IDEuNjg4MDc4MTI1IDIuMDg4IDIuNjg4YyAwIDAuOTQ0IC0wLjc1MTkyNzI0NiAxLjU1MiAtMS42OTYgMS41NTJjIC0wLjkwNCAwIC0xLjQ5NiAtMC43MTIgLTEuNDk2IC0xLjQ1NmMgMCAtMC4zNDQgMC4yNCAtMC40NCAwLjQyNCAtMC40NGMgMC4yMDggMCAwLjQxNiAwLjE1MiAwLjQxNiAwLjQyNGMgMCAwLjI0OCAtMC4xOTIgMC40MTYgLTAuNDA4IDAuNDE2YyAtMC4wNCAwIC0wLjA4IDAgLTAuMTIgLTAuMDA4YyAwLjI3MiAwLjcyOCAwLjg0IDAuODE2IDEuMDk2IDAuODE2YyAwLjkyIDAgMS4wNTYgLTEuMDEyNzk4MDk2IDEuMDU2IC0xLjMwNGMgMCAtMC42OTgyMzI0MjIgLTAuNDYyNTgzOTg0IC0xLjM0NzkwMDM5MSAtMS4wMDAwMDAxMjIgLTEuOTQzOTk5ODc4bCAtMS40IC0xLjU2YyAtMC4wNjAzNjQxMzYgLTAuMDY3MjYyOTM5IC0wLjA2NCAtMC4wOTYgLTAuMDY0IC0wLjI3MlogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZ0NGNkUxNjA2NDQzOEREQTg0MzE0NjEzQTJBMUIwNzI4IiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDEuMDU2IDIuOTUydiAxLjU2YyAwLjIxNiAtMC4wNzIgMC40NDggLTAuMTA0IDAuNjcyIC0wLjEwNGMgMS4wNDggMCAxLjU1MiAwLjc2IDEuNTUyIDAuODMyYyAwIDAuMDQgLTAuMDE2IDAuMDg4IC0wLjA4IDAuMDg4YyAtMC4wNzIgMCAtMC40OCAtMC4yNTYgLTEuMTUyIC0wLjI1NmMgLTAuNjcyIDAgLTEuMDQgMC4yNDggLTEuMTc2IDAuMjQ4YyAtMC4wNDggMCAtMC4wNjQgLTAuMDMyIC0wLjA2NCAtMC4xMDR2IC0yLjUyYyAwIC0wLjEwNCAwLjAzMiAtMC4xNDQgMC4wODggLTAuMTQ0YyAwLjA1NiAwIDAuMDg4IDAuMDA4IDAuMTI4IDAuMDcyYyAwLjA1NiAwLjA4OCAwLjM2IDAuNTYgMS4wNDggMC41NmMgMC4yNCAwIDAuNDggLTAuMTYgMC42MTYgLTAuNDI0YyAwLjE1MiAtMC4yOTYgMC4xOTIgLTAuNTUyIDAuMTkyIC0xLjA5NmMgMCAtMC42NDggLTAuMDggLTEuMDMyIC0wLjM2OCAtMS4zMmMgLTAuMTkyIC0wLjE3NiAtMC4zNjggLTAuMjk2IC0wLjY3MiAtMC4yOTZjIC0wLjg3MiAwIC0xLjE3NiAwLjg0IC0xLjE4NCAwLjg5NmMgMC4wNCAtMC4wMTYgMC4wOTUwMTU2MjUgLTAuMDE2IDAuMTI4IC0wLjAxNmMgMC4yMDggMCAwLjQwOCAwLjEyIDAuNDA4IDAuMzkyYyAwIDAuMjMyIC0wLjE3NiAwLjM5MiAtMC4zOTIgMC4zOTJjIC0wLjE5MiAwIC0wLjQgLTAuMTA0IC0wLjQgLTAuNDRjIDAgLTAuNTUyIDAuNDMyIC0xLjQ0OCAxLjQ3MiAtMS40NDhjIDAuOTkyIDAgMS43MiAwLjg1NiAxLjcyIDEuNzg0YyAwIDAuOTUyIC0wLjY3MiAxLjc1MiAtMS41MDQgMS43NTJjIC0wLjQ3MiAwIC0wLjggLTAuMTc2IC0xLjAzMiAtMC40MDhaICIvPjwvc3ltYm9sPjxzeW1ib2wgaWQ9ImdBNkNEMzcyQ0FENEIxMkRDMTRBMUQ1M0M4NjkzNjlEIiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDAuOTc2IDIuNTkyYyAwIDEuMjg4IDAuMDE2IDIuNTYgMS4wMjQgMi41NmMgMS4wMDggMCAxLjAxNiAtMS4yNzIgMS4wMTYgLTIuNTZjIDAgLTEuMjg4IC0wLjAwOCAtMi41ODQgLTEuMDE2IC0yLjU4NGMgLTEuMDA4IDAgLTEuMDI0IDEuMjk2IC0xLjAyNCAyLjU4NFogbSAtMC42NjQgMGMgMCAtMS4xOTIgMC4yNDggLTIuNzY4IDEuNjg4IC0yLjc2OGMgMS40NCAwIDEuNjg4IDEuNTc2IDEuNjg4IDIuNzY4YyAwIDEuMTkyIC0wLjI0OCAyLjczNiAtMS42ODggMi43MzZjIC0xLjQ0IDAgLTEuNjg4IC0xLjU0NCAtMS42ODggLTIuNzM2WiAiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJnRkU5NkY0OUU1RjRFNzc4NThGNUIzOTU0QUM3MUQxQkYiIG92ZXJmbG93PSJ2aXNpYmxlIj48cGF0aCBkPSJNIDAgMG0gMS4wNjQgMS4yNTZjIDAgMC4xOTIgMC4wMjQgMC4zNTIgMC4wNjQgMC40OGMgMCAwLjA4IC0wLjA0IDAuMTIgLTAuMTI4IDAuMTJjIC0wLjA0IDAgLTAuMDcyIC0wLjAxNiAtMC4wODggLTAuMDMyYyAtMC4wNCAtMC4wNCAtMC40OTYgLTEuNzYgLTAuNDk2IC0xLjg4OGMgMCAtMC4wNzIgMC4wNCAtMC4xMTIgMC4xMiAtMC4xMTJjIDAuMDQgMCAwLjA5NiAwLjA0IDAuMTY4IDAuMTI4bCAwLjM2IDAuNDI0YyAwLjI4IC0wLjM2OCAwLjcyOCAtMC41NTIgMS4zMzYgLTAuNTUyYyAwLjUyOCAwIDAuOTkyIDAuMjE2IDEuNDA4IDAuNjRjIDAuNDE2IDAuNDI0IDAuNjI0IDAuODk2IDAuNjI0IDEuNDI0YyAwIDAuMzc2IC0wLjEyOCAwLjY5NiAtMC4zOTIgMC45NTJjIC0wLjEyIDAuMTA0IC0wLjI4IDAuMTkyIC0wLjQ4IDAuMjY0YyAtMC4xODQgMC4wNCAtMC4zNiAwLjA4OCAtMC41MzYgMC4xMzZsIC0wLjUyOCAwLjE0NGMgLTAuMjY0IDAuMDcyIC0wLjQ2NCAwLjM2OCAtMC40NjQgMC42ODhjIDAgMC4zNDQgMC4xMzYgMC42NCAwLjQxNiAwLjg5NmMgMC4yOCAwLjI1NiAwLjU5MiAwLjM4NCAwLjkzNiAwLjM4NGMgMC43MzYgMCAxLjEwNCAtMC40IDEuMTA0IC0xLjE5MmMgMCAtMC4xNDQgLTAuMDMyIC0wLjMwNCAtMC4wMzIgLTAuNDR2IC0wLjAyNGMgMC4wMjQgLTAuMDU2IDAuMDY0IC0wLjA4OCAwLjEyOCAtMC4wODhjIDAuMDcyIDAgMC4xMiAwLjA2NCAwLjE1MiAwLjE4NGwgMC40MjQgMS43MzZjIDAgMC4wNzIgLTAuMDQgMC4xMTIgLTAuMTIgMC4xMTJjIC0wLjA0IDAgLTAuMDk2IC0wLjA0IC0wLjE2OCAtMC4xMjhsIC0wLjM0NCAtMC40MTZjIC0wLjIyNCAwLjM2IC0wLjYgMC41NDQgLTEuMTM2IDAuNTQ0YyAtMC41MDQgMCAtMC45NiAtMC4xOTIgLTEuMzYgLTAuNTY4YyAtMC40MTYgLTAuMzg0IC0wLjYyNCAtMC44MjQgLTAuNjI0IC0xLjMyOGMgMCAtMC41NzYgMC4zNzYgLTEuMDMyIDAuODQ4IC0xLjE2bCAwLjg0IC0wLjIxNmMgMC40MzIgLTAuMTIgMC43MDQgLTAuMjcyIDAuNzA0IC0wLjgwOGMgMCAtMC4zNjggLTAuMTQ0IC0wLjY5NiAtMC40MjQgLTAuOTg0YyAtMC4yOCAtMC4yODggLTAuNiAtMC40NCAtMC45NiAtMC40NGMgLTAuNzg0IDAgLTEuMzUyIDAuMzQ0IC0xLjM1MiAxLjEyWiAiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJnNUQyNzlCMzM0RTEyMTlDMDk3QUVBQjMxMjA2ODYzQjAiIG92ZXJmbG93PSJ2aXNpYmxlIj48cGF0aCBkPSJNIDAgMG0gMy4yMDggMi41MjhjIDAuOTYgMCAxLjc4NCAwLjY3MTcxMDkzOCAxLjc4NCAxLjQzMmMgMCAwLjk0NCAtMC45NzYgMS41MDQgLTEuODY0IDEuNTA0aCAtMS40aCAtMS40NTZ2IC0wLjI0OGggMC4yNzJjIDAuNDcyIDAgMC41NiAtMC4wODggMC41NiAtMC4zMTJ2IC00LjI5NmMgMCAtMC4zMzYgLTAuMTA0IC0wLjM2IC0wLjcyIC0wLjM2aCAtMC4xMTJ2IC0wLjI0OGMgMC4yNzIgMCAwLjc3NiAwLjAyNCAxLjI0IDAuMDI0YyAwLjQ2NCAwIDEuMDA4IC0wLjAyNCAxLjMyIC0wLjAyNHYgMC4yNDhoIC0wLjI4YyAtMC42MTYgMCAtMC43MzYgMC4wNTYgLTAuNzM2IDAuMzQ0diAxLjkzNmggMC42OTZaIG0gLTAuMzEyIDAuMjA4aCAtMS4wOHYgMi4yYyAwIDAuMjU2IDAuMDk2IDAuMjggMC4zNTIgMC4yOGggMC43MjhjIDEuMjcyIDAgMS4yNzIgLTAuODQ4IDEuMjcyIC0xLjI0YyAwIC0wLjM3NiAwIC0xLjI0IC0xLjI3MiAtMS4yNFogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZzEwMEFGMThGRjRCMDZCNUYyRjY5RDhFMUQyQjk1MTUzIiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDAuNDQ4IDEuNjY0diAtMC44NDhjIDAgLTAuODk2IDAgLTAuOTI4IDAuMDA4IC0wLjk0NGMgMC4wMTYgLTAuMDMyIDAuMDMyIC0wLjA0OCAwLjA4IC0wLjA0OGMgMC4wMzIgMCAwLjA0OCAwLjAwOCAwLjA2NCAwLjAyNGMgMC4wMDggMC4wMDggMC4wOCAwLjEyIDAuMTc2IDAuMjY0bCAwLjE2OCAwLjI3MmMgMC4zNDQgLTAuMzQ0IDAuODI0IC0wLjU2IDEuNDcyIC0wLjU2YyAwLjkwNzE4MDkwOCAwIDEuNTc2IDAuNzY0Mzc1NjEgMS41NzYgMS42NjRjIDAgMC43ODQgLTAuNTEyIDEuNDMyIC0xLjEyOCAxLjZjIC0wLjAyNzgyODEyNSAwLjAwNzU4NTkzOCAtMS4xMjggMC4yNzIgLTEuMTc2IDAuMjg4YyAtMC4zODY3NjUwMTUgMC4xMjg5MjE2MzEgLTAuNzI4IDAuNTA0IC0wLjcyOCAxYyAwIDAuNjA4IDAuNTIgMS4wNCAxLjA2NCAxLjA0YyAwLjk2NTU0MDAzOSAwIDEuNDQgLTAuNzIgMS41NTIgLTEuNjcyYyAwLjAwODQ2NDM1NSAtMC4wNzE5NDY3NzcgMC4wMjQgLTAuMDk2IDAuMDk2IC0wLjA5NmMgMC4wNTYgMCAwLjA4OCAwLjAxNiAwLjEwNCAwLjA0OHYgMS44MjRjIDAgMC4xMTIgLTAuMDU2IDAuMTI4IC0wLjA5NiAwLjEyOGMgLTAuMDMyIDAgLTAuMDUwNDIxODc1IC0wLjAxMzg5ODQzOCAtMC4wNjQgLTAuMDMyYyAtMC4wMjQgLTAuMDMyIC0wLjMxMiAtMC41MTIgLTAuMzI4IC0wLjUyOGggLTAuMDA4YyAtMC4yNzIgMC4yNTYgLTAuNTUyIDAuNTUyIC0xLjMxMiAwLjU1MmMgLTAuOTA2MjEwOTM4IDAgLTEuNTIgLTAuNzkyIC0xLjUyIC0xLjUxMmMgMCAtMC45MzI2MTYyMTEgMC42MjIwMjUzOTEgLTEuMzY1OTE2OTkyIDEuMDU2IC0xLjUwNGMgMC4xNDQgLTAuMDU2IDEuMTY4IC0wLjI4IDEuMjg4IC0wLjMzNmMgMC4zNTQ4MzAzMjIgLTAuMTMzMDYxNTIzIDAuNjggLTAuNTI3MzU1MTAzIDAuNjggLTEuMDcyMDAwMTIyYyAwIC0wLjUwNDkxMzA4NiAtMC4zMjUyOTA1MjcgLTEuMTM2IC0xLjA2NCAtMS4xMzZjIC0wLjk3NiAwIC0xLjY4OCAwLjUzNiAtMS43NTIgMS40OTZsIC0wLjAwOCAwLjE0NGMgLTAuMDA0NDMwNzg2IDAuMDc5NzUzOTA2IC0wLjA0IDAuMDk2IC0wLjEwNCAwLjA5NmMgLTAuMDg4IDAgLTAuMDk2IC0wLjA1NiAtMC4wOTYgLTAuMTUyWiAiLz48L3N5bWJvbD48c3ltYm9sIGlkPSJnNTMzNzU1MjI4MDNEMUVDNEUxQkFFNTk4MDY2M0Y0RTkiIG92ZXJmbG93PSJ2aXNpYmxlIj48cGF0aCBkPSJNIDAgMG0gNi4wNzIgMGMgMC4xMzYgMCAwLjIwOCAwLjAzMiAwLjIwOCAwLjEwNGwgLTIuNzIgNS40NjRjIC0wLjA1NiAwLjEwNCAtMC4xMjggMC4xNiAtMC4yMzIgMC4xNmMgLTAuMTA0IDAgLTAuMTc2IC0wLjA1NiAtMC4yMzIgLTAuMTZsIC0yLjY4IC01LjM2OGMgLTAuMDI0IC0wLjA1NiAtMC4wNCAtMC4wODggLTAuMDQgLTAuMTA0YyAwIC0wLjA2NCAwLjA3MiAtMC4wOTYgMC4yMDggLTAuMDk2WiBtIC0zIDQuODMybCAyLjA4IC00LjE2OGggLTQuMTZaICIvPjwvc3ltYm9sPjwvZGVmcz48L3N2Zz4=", width: 100%)
@@ -149,9 +196,9 @@ c) How much did producer surplus change from (a) to (b)? \_\_\_\_\_\_\_\_\_\_
 ]
 
 // plass:comment
-// | // Figure source. Each #image above is one page of this Typst, in order, rendered by
-// | // scripts/render-sols-figures with the helpers in Blocks/_Assets/sols.typ. Plass shows
-// | // this note in the editor and leaves it out of the PDF.
+// | // GRAPH CODE: keep this note. It draws the graphs above; delete it and they can't be redrawn.
+// | // Each #image above is one page of this code, in order. To change a graph, edit it here and
+// | // run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
 // | #import "/Blocks/_Assets/sols.typ": *
 // | #set page(width: auto, height: auto, margin: 2pt)
 // | #set text(font: "New Computer Modern", size: 10pt)

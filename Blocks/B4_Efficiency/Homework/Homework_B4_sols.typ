@@ -2,7 +2,7 @@
 // export it in Plass. Answers and working sit in red solution blocks; everything
 // else is what students see. The graphs are embedded SVGs drawn by the Typst in the
 // note at the end of this file; scripts/render-sols-figures re-renders them.
-#set page(paper: "us-letter", margin: 1in, numbering: "1", number-align: center)
+#set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #show heading.where(level: 1): set text(size: 23.750pt)
@@ -12,9 +12,16 @@
 #show math.equation.where(block: true): set block(above: 21.490pt, below: 23.702pt)
 #import "@preview/mitex:0.2.5": mi, mitex
 
-= ECON 0100 | Homework B4 | Efficiency | Solutions
+= ECON 0100 | Homework B4 | Efficiency
 
-_Solution guide for the teaching team. Answers and working are in the red blocks; everything else is what students see. Students answer on paper and submit selections on Gradescope, where the homework is completion-graded. The price-control working follows the archived butterbeer ceiling guide: letter the regions between the curves once, then read consumer surplus, producer surplus, and deadweight loss before and after the control off the same graph._
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  = Solutions
+
+]
+
+_Answers and work are shown in the red blocks._
 
 == Butterbeer
 
@@ -38,16 +45,30 @@ What is the market equilibrium price, quantity, and total surplus? Use a graph a
 
 P\*: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $60$ galleons.
+
+  From Homework B3, $100 - \frac{1}{2} Q = 20 + \frac{1}{2} Q \rightarrow Q^* = 80$ and $P^* = 60$.
+]
+
 Q\*: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $80$ bottles.
+]
 
 TS: \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  $P^* = 60$ galleons. $Q^* = 80$ bottles. $\text{TS} = 3200$ galleons.
+  $3200$ galleons.
 
-  From Homework B3, $100 - \frac{1}{2} Q = 20 + \frac{1}{2} Q \rightarrow Q^* = 80$ and $P^* = 60$. Total surplus is the whole triangle between demand and supply out to $Q^*$, with height the gap between the two intercepts:
+  Total surplus is the whole triangle between demand and supply out to $Q^*$, with height the gap between the two intercepts:
 
   #mitex(`
   \text{TS} = h \cdot b \cdot \tfrac{1}{2} = (100 - 20) \cdot 80 \cdot \tfrac{1}{2} = 3200 \quad (= \text{CS} + \text{PS} = 1600 + 1600)
@@ -62,24 +83,70 @@ The Ministry of Magic decided to institute a price ceiling of $50$ galleons to a
 
 Quantity Supplied: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $60$ bottles.
+]
+
 Quantity Demanded: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $100$ bottles.
+]
 
 Excess, Market Clearing, or Shortage: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Shortage.
+]
+
 CS: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $2100$ galleons.
+]
 
 How much did CS change? \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Up by $500$ galleons.
+]
+
 PS: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $900$ galleons.
+]
+
 How much did PS change? \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Down by $700$ galleons.
+]
 
 DWL: \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  $Q_s = 60$ bottles. $Q_d = 100$ bottles. Shortage. $\text{CS} = 2100$, up by $500$. $\text{PS} = 900$, down by $700$. $\text{DWL} = 200$.
+  $200$ galleons.
+]
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
 
   #grid(
     columns: (1fr, 1fr),
@@ -123,24 +190,70 @@ The Ministry of Magic decided that the market price wasn't sufficiently high eno
 
 Quantity Supplied: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $100$ bottles.
+]
+
 Quantity Demanded: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $60$ bottles.
+]
 
 Excess, Market Clearing, or Shortage: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Excess.
+]
+
 CS: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $900$ galleons.
+]
 
 How much did CS change? \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Down by $700$ galleons.
+]
+
 PS: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $2100$ galleons.
+]
+
 How much did PS change? \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  Up by $500$ galleons.
+]
 
 DWL: \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  $Q_s = 100$ bottles. $Q_d = 60$ bottles. Excess. $\text{CS} = 900$, down by $700$. $\text{PS} = 2100$, up by $500$. $\text{DWL} = 200$.
+  $200$ galleons.
+]
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
 
   #grid(
     columns: (1fr, 1fr),
@@ -167,9 +280,9 @@ DWL: \_\_\_\_\_\_\_\_\_\_
 ]
 
 // plass:comment
-// | // Figure source. Each #image above is one page of this Typst, in order, rendered by
-// | // scripts/render-sols-figures with the helpers in Blocks/_Assets/sols.typ. Plass shows
-// | // this note in the editor and leaves it out of the PDF.
+// | // GRAPH CODE: keep this note. It draws the graphs above; delete it and they can't be redrawn.
+// | // Each #image above is one page of this code, in order. To change a graph, edit it here and
+// | // run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
 // | #import "/Blocks/_Assets/sols.typ": *
 // | #set page(width: auto, height: auto, margin: 2pt)
 // | #set text(font: "New Computer Modern", size: 10pt)

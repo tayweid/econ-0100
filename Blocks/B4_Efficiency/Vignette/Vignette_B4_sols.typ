@@ -2,7 +2,7 @@
 // export it in Plass. Answers and working sit in red solution blocks; everything
 // else is what students see. The graphs are embedded SVGs drawn by the Typst in the
 // note at the end of this file; scripts/render-sols-figures re-renders them.
-#set page(paper: "us-letter", margin: 1in, numbering: "1", number-align: center)
+#set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #show heading.where(level: 1): set text(size: 23.750pt)
@@ -12,11 +12,16 @@
 #show math.equation.where(block: true): set block(above: 21.490pt, below: 23.702pt)
 #import "@preview/mitex:0.2.5": mi, mitex
 
-= ECON 0100 | Vignette B4 | Efficiency | Solutions
+= ECON 0100 | Vignette B4 | Efficiency
 
-_Due in Recitation. Vignettes are a certificate of the work done together in Recitation._
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
 
-_Solution guide for the teaching team. Answers and working are in the red blocks; everything else is what students see. The working follows the handwritten guides to the Fall 2022 butterbeer price ceiling and price floor vignettes, the source of both questions: label the regions A to F, compare CS and PS before and after, and name the transfer and the DWL._
+  = Solutions
+
+]
+
+_Answers and work are shown in the red blocks._
 
 The supply and demand curves for pumpkin pasties are giving in _*Vignette B3*_.
 
@@ -26,18 +31,48 @@ The Ministry of Magic decided to institute a price ceiling of #mi(`7`) galleons 
 
 CS: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $45$ galleons.
+]
+
 PS: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $25$ galleons.
+]
 
 DWL: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $2$ galleons.
+]
+
 Shortage/Excess: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  A shortage of $4$ pasties.
+]
 
 Direction incentives push prices: \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  *CS* $45$ galleons. *PS* $25$ galleons. *DWL* $2$ galleons. A *shortage* of $4$ pasties. Incentives push prices *up*.
+  Up.
+
+  Buyers who can't get pasties would offer a little more to jump the line, and sellers would accept, but with the legal price held at $7$ they can't, so the shortage persists despite the incentives to raise the price.
+]
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
 
   #grid(
     columns: (1fr, 1fr),
@@ -74,8 +109,6 @@ Direction incentives push prices: \_\_\_\_\_\_\_\_\_\_
   ))
 
   The price ceiling lowered the price, created a shortage, and generated DWL. It also transferred welfare $D = 10$ from PS to CS. Consumers gain $D$ but lose $C$, so CS rises by $10 - 1 = 9$; producers lose $D$ and $E$, so PS falls by $10 + 1 = 11$.
-
-  *Direction.* Up. Buyers who can't get pasties would offer a little more to jump the line, and sellers would accept, but with the legal price held at $7$ they can't, so the shortage persists despite the incentives to raise the price.
 ]
 
 #pagebreak()
@@ -86,18 +119,48 @@ The Ministry of Magic decided that the market price wasn’t sufficiently high e
 
 CS: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $9$ galleons.
+]
+
 PS: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $45$ galleons.
+]
 
 DWL: \_\_\_\_\_\_\_\_\_\_
 
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  $18$ galleons.
+]
+
 Shortage/Excess: \_\_\_\_\_\_\_\_\_\_
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
+
+  An excess of $12$ pasties.
+]
 
 Direction incentives push prices: \_\_\_\_\_\_\_\_\_\_
 
 #block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
   #set text(fill: rgb("#c00000"))
 
-  *CS* $9$ galleons. *PS* $45$ galleons. *DWL* $18$ galleons. An *excess* of $12$ pasties. Incentives push prices *down*.
+  Down.
+
+  Sellers left holding unsold pasties would cut their price a little to find a buyer, and buyers would accept, but with the legal price held at $11$ they can't, so the excess persists despite the incentives to lower the price.
+]
+
+#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[
+  #set text(fill: rgb("#c00000"))
 
   #grid(
     columns: (1fr, 1fr),
@@ -134,14 +197,12 @@ Direction incentives push prices: \_\_\_\_\_\_\_\_\_\_
   ))
 
   This policy raised the price, created excess, transferred $B = 18$ from consumers to producers, and eliminated $C$ and $E$ from total surplus. CS falls by $18 + 9 = 27$; PS rises by $18 - 9 = 9$.
-
-  *Direction.* Down. Sellers left holding unsold pasties would cut their price a little to find a buyer, and buyers would accept, but with the legal price held at $11$ they can't, so the excess persists despite the incentives to lower the price.
 ]
 
 // plass:comment
-// | // Figure source. Each #image above is one page of this Typst, in order, rendered by
-// | // scripts/render-sols-figures with the helpers in Blocks/_Assets/sols.typ. Plass shows
-// | // this note in the editor and leaves it out of the PDF.
+// | // GRAPH CODE: keep this note. It draws the graphs above; delete it and they can't be redrawn.
+// | // Each #image above is one page of this code, in order. To change a graph, edit it here and
+// | // run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
 // | #import "/Blocks/_Assets/sols.typ": *
 // | #set page(width: auto, height: auto, margin: 2pt)
 // | #set text(font: "New Computer Modern", size: 10pt)

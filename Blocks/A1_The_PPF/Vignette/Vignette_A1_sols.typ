@@ -2,7 +2,7 @@
 // export it in Plass. Answers and working sit in red solution blocks; everything
 // else is what students see. The graphs are embedded SVGs drawn by the Typst in the
 // note at the end of this file; scripts/render-sols-figures re-renders them.
-#set page(paper: "us-letter", margin: 1in, numbering: "1", number-align: center)
+#set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #show heading.where(level: 1): set text(size: 23.750pt)
@@ -84,9 +84,9 @@ Opportunity cost of baking after the invitation: \_\_\_\_\_\_\_\_\_\_
 ]
 
 // plass:comment
-// | // Figure source. Each #image above is one page of this Typst, in order, rendered by
-// | // scripts/render-sols-figures with the helpers in Blocks/_Assets/sols.typ. Plass shows
-// | // this note in the editor and leaves it out of the PDF.
+// | // GRAPH CODE: keep this note. It draws the graphs above; delete it and they can't be redrawn.
+// | // Each #image above is one page of this code, in order. To change a graph, edit it here and
+// | // run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
 // | #import "/Blocks/_Assets/sols.typ": *
 // | #set page(width: auto, height: auto, margin: 2pt)
 // | #set text(font: "New Computer Modern", size: 10pt)

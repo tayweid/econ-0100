@@ -1,5 +1,5 @@
 // Exported from Plass
-#set page(paper: "us-letter", margin: 1.25in, numbering: "1", number-align: center)
+#set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set list(spacing: 13.340pt)
 #set enum(spacing: 13.340pt)
