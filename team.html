@@ -1,0 +1,242 @@
+<!doctype html>
+<!-- ECON 0100, the teaching team page (team.html): every posted handout and solutions file, found in the
+     browser from course-content.yaml.js and the conventional file names. Not linked from the
+     course pages. The password only keeps students from wandering in; it is not security,
+     since everything in this repository is published. Edit the YAML, not this file. -->
+<html lang="en">
+<head>
+    <meta name="color-scheme" content="dark">
+    <style>html { color-scheme: dark; background: #212121; }</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>ECON 0100 | Teaching Team</title>
+    <link rel="stylesheet" href="https://tayweid.github.io/course-assets/course.css">
+    <script>
+    // Same stylesheet as the Part pages: the sibling checkout when opened from disk, else the published copy.
+    (function () {
+        if (location.protocol !== 'file:') return;
+        var css = document.querySelector('link[rel="stylesheet"]');
+        css.onerror = function () { css.onerror = null; css.href = 'https://tayweid.github.io/course-assets/course.css'; };
+        css.href = '../tayweid.github.io/course-assets/course.css';
+    })();
+    </script>
+    <style>
+        /* Page-specific pieces, built from course.css's Graphite tokens. */
+        .team-card { padding: 14px 18px 16px; border: 1px solid var(--mid); border-radius: 15px; background: var(--bg); }
+        .team-card.now { border-color: var(--link); }
+        .team-card h3 { margin: 0; font-size: 22px; line-height: 1.25; color: var(--white); }
+        .team-card h3 .id { color: #8a8a8a; margin-right: 8px; }
+        .team-dates { margin: 4px 0 0; }
+        .team-dates .meta { margin: 0 14px 0 0; }
+        .team-dates .meta b { color: var(--fg); font-weight: 600; }
+        .team-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--mid); }
+        .team-step .path-where { display: block; margin: 0 0 6px; }
+        .team-step .path-links { gap: 6px; }
+        .team-step .practice-link { margin: 0; }
+        .practice-link.sols { color: #fff; background: var(--mark-red); }
+        .practice-link.sols:hover { background: var(--link); }
+        .team-none { font-family: var(--font-body); font-size: 14px; font-style: italic; color: #8a8a8a; }
+        .team-part { margin-top: 36px; }
+        .team-part .cards { gap: 10px; margin-top: 12px; }
+        .team-key .meta { margin: 0; }
+        .team-key i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border: 1px solid var(--link); border-radius: 3px; }
+        .team-gate form { display: flex; gap: 8px; max-width: 420px; margin-top: 18px; }
+        .team-gate input { flex: 1; min-width: 0; padding: 6px 10px; font: 18px var(--font-body); color: var(--white);
+                           background: var(--mid); border: 1px solid var(--rule); border-radius: 4px; }
+        .team-gate button { padding: 6px 14px; font: 18px var(--font-body); color: var(--white); background: var(--link); border: 0; border-radius: 4px; cursor: pointer; }
+        .team-error { min-height: 1.4em; margin: 8px 0 0; color: var(--mark-red); }
+        .team-status { font-style: italic; }
+        .team-weeks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+        :focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+        @media (max-width: 768px) { .team-steps { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+<div class="left_div"><nav aria-label="Course"><ul><span>MICRO</span><span>ECON</span><hr class="nav-hr"><div id="nav"></div></ul></nav></div>
+<main class="content">
+    <div class="description team-gate" id="gate">
+        <h1 class="title title-tight">Teaching Team</h1>
+        <i class="subtitle-text">Enter the password to see the practice and solution files.</i>
+        <form id="gate-form">
+            <input id="gate-password" type="password" autocomplete="current-password" aria-label="Password" autofocus>
+            <button type="submit">Open</button>
+        </form>
+        <p class="team-error" id="gate-error" role="alert"></p>
+    </div>
+    <div id="page" hidden>
+        <div class="description">
+            <h1 class="title title-tight">Teaching Team</h1>
+            <i class="subtitle-text">Every posted Exercise, Vignette, and Homework, with its solutions.</i>
+            <p class="block-description">The list is read from the course schedule and the files on the site each time this page opens, so a new file shows up here as soon as it is posted. Solutions are the red links.</p>
+            <p class="team-key"><span class="meta"><i></i>Recitation or homework due this week</span></p>
+            <p class="team-status" id="status">Checking which files are posted…</p>
+        </div>
+        <div id="out"></div>
+    </div>
+</main>
+<div class="right_div"></div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+    var PASSWORD = 'taylorsversion';
+    var KEY = 'econ0100-teaching-team';
+    var MAX_WEEK = 16;
+
+    function remembered() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+    function remember() { try { localStorage.setItem(KEY, '1'); } catch (e) { /* private window: ask again next time */ } }
+
+    function unlock() {
+        document.getElementById('gate').hidden = true;
+        document.getElementById('page').hidden = false;
+        loadScripts();
+    }
+    document.getElementById('gate-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var input = document.getElementById('gate-password');
+        if (input.value.trim().toLowerCase() === PASSWORD) { remember(); unlock(); }
+        else { document.getElementById('gate-error').textContent = 'That password is not right. Try again.'; input.select(); }
+    });
+    if (remembered()) unlock();
+
+    // Same sources as the Part pages: the content beside this page, then the YAML reader and the
+    // schema from course-assets (the sibling checkout when opened from disk, else the published copy).
+    function loadScripts() {
+        var published = 'https://tayweid.github.io/course-assets/';
+        var base = location.protocol === 'file:' ? '../tayweid.github.io/course-assets/' : published;
+        var files = [['', 'course-content.yaml.js'], [null, 'js-yaml.min.js'], [null, 'course-schema.js']];
+        (function load(i) {
+            if (i >= files.length) { render(); return; }
+            var s = document.createElement('script');
+            s.src = (files[i][0] === null ? base : files[i][0]) + files[i][1];
+            s.onload = function () { load(i + 1); };
+            s.onerror = function () {
+                if (files[i][0] === null && base !== published) { base = published; load(i); return; }
+                fail(files[i][1] + ' did not load.');
+            };
+            document.head.appendChild(s);
+        })(0);
+    }
+
+    function fail(message) { var st = document.getElementById('status'); st.textContent = 'This page could not load: ' + message; }
+
+    // A HEAD request when served; a <link> probe when opened from disk, where fetch is refused.
+    function exists(path) {
+        if (location.protocol === 'file:') {
+            return new Promise(function (resolve) {
+                var probe = document.createElement('link');
+                probe.rel = 'stylesheet';
+                probe.onload = function () { probe.remove(); resolve(true); };
+                probe.onerror = function () { probe.remove(); resolve(false); };
+                probe.href = path;
+                document.head.appendChild(probe);
+            });
+        }
+        return fetch(path, { method: 'HEAD', cache: 'no-store' }).then(function (r) { return r.ok; }, function () { return false; });
+    }
+
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function items(v) { return Array.isArray(v) ? v : (v ? [v] : []); }
+    function shortDate(s) {
+        if (!s) return '—';
+        var p = String(s).split('-'), d = new Date(+p[0], p[1] - 1, +p[2]);
+        return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+    function weekBounds() {
+        var t = new Date(); t.setHours(0, 0, 0, 0);
+        var mon = new Date(t); mon.setDate(t.getDate() - ((t.getDay() + 6) % 7));
+        var sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+        return [mon, sun];
+    }
+    function inWeek(s, wk) { if (!s) return false; var p = String(s).split('-'), d = new Date(+p[0], p[1] - 1, +p[2]); return d >= wk[0] && d <= wk[1]; }
+    function link(label, href, sol) { var a = el('a', 'practice-link' + (sol ? ' sols' : ''), label); a.href = href; a.target = '_blank'; a.rel = 'noopener'; return a; }
+
+    async function render() {
+        var course, schema = window.CourseSchema;
+        try {
+            if (!window.jsyaml || !schema || typeof window.COURSE_CONTENT_YAML !== 'string') throw new Error('the course content or its reader is missing.');
+            course = window.jsyaml.load(window.COURSE_CONTENT_YAML, { maxDepth: 100 });
+        } catch (e) { fail(e.message); return; }
+        var materials = (course.course && course.course.materials) || 'Blocks';
+        var path = function (folder, type, base, suffix) { return schema.conventionalPath(materials, folder, type, base, suffix); };
+
+        // Every candidate, probed at once.
+        var jobs = [];
+        var parts = course.parts || {};
+        Object.keys(parts).forEach(function (pid) {
+            items(parts[pid].sections).forEach(function (b) {
+                if (!b || !b.block || !b.folder) return;
+                var vbase = typeof (b.vignette || {}).files === 'string' ? b.vignette.files : b.block;
+                b._files = {};
+                [['Exercise', b.block], ['Vignette', vbase], ['Homework', b.block]].forEach(function (kb) {
+                    ['', 'sols'].forEach(function (suffix) {
+                        var p = path(b.folder, kb[0], kb[1], suffix);
+                        jobs.push(exists(p).then(function (ok) { if (ok) b._files[kb[0] + (suffix ? '_sols' : '')] = p; }));
+                    });
+                });
+            });
+        });
+        var weeks = [];
+        for (var n = 1; n <= MAX_WEEK; n++) (function (n) {
+            weeks[n] = {};
+            ['Week_' + n + '.pdf', 'Week_' + n + '_sols.pdf'].forEach(function (f, i) {
+                jobs.push(exists('Recitations/' + f).then(function (ok) { if (ok) weeks[n][i ? 'sols' : 'handout'] = 'Recitations/' + f; }));
+            });
+        })(n);
+        await Promise.all(jobs);
+
+        var wk = weekBounds(), out = document.getElementById('out'), nav = document.getElementById('nav');
+        function navLink(text, href) { var li = el('li'), a = el('a', null, text); a.href = href; li.append(a); nav.append(li); }
+        function chips(kindLabel, handout, sols) {
+            var step = el('div', 'team-step'), links = el('div', 'path-links');
+            step.append(el('span', 'path-where', kindLabel));
+            if (handout) links.append(link('Handout', handout));
+            if (sols) links.append(link('Solutions', sols, true));
+            if (!handout && !sols) links.append(el('span', 'team-none', 'Not posted yet'));
+            step.append(links); return step;
+        }
+        Object.keys(parts).forEach(function (pid) {
+            var part = parts[pid], cards = [];
+            items(part.sections).forEach(function (b) {
+                if (!b || !b.block || !b.folder || /0$/.test(b.block)) return;
+                var dates = b.dates || {};
+                var now = inWeek(dates.recitation, wk) || inWeek(dates.homework, wk);
+                var card = el('div', 'team-card' + (now ? ' now' : ''));
+                var h3 = el('h3'); h3.append(el('span', 'id', b.block), document.createTextNode(b.title || '')); card.append(h3);
+                var ds = el('p', 'team-dates');
+                var r = el('span', 'meta', 'Recitation '); r.append(el('b', null, shortDate(dates.recitation)));
+                var h = el('span', 'meta', 'Homework due '); h.append(el('b', null, shortDate(dates.homework)));
+                ds.append(r, h); if (now) ds.append(el('span', 'meta', 'This week')); card.append(ds);
+                var steps = el('div', 'team-steps');
+                ['Exercise', 'Vignette', 'Homework'].forEach(function (kind) { steps.append(chips(kind, b._files[kind], b._files[kind + '_sols'])); });
+                card.append(steps); cards.push(card);
+            });
+            if (!cards.length) return;
+            var sec = el('div', 'team-part'); sec.id = 'part-' + pid;
+            sec.append(el('h2', 'subtitle', 'Part ' + pid + ' · ' + (part.title || '')));
+            var list = el('div', 'cards'); cards.forEach(function (c) { list.append(c); });
+            sec.append(list); out.append(sec); navLink('Part ' + pid, '#part-' + pid);
+        });
+
+        var posted = weeks.filter(function (w) { return w && (w.handout || w.sols); });
+        if (posted.length) {
+            var sec = el('div', 'team-part'); sec.id = 'recitation';
+            sec.append(el('h2', 'subtitle', 'Recitation guides'));
+            var box = el('div', 'team-weeks');
+            weeks.forEach(function (w, n) {
+                if (!w || !(w.handout || w.sols)) return;
+                var card = el('div', 'team-card');
+                card.append(chips('Week ' + n, w.handout, w.sols)); box.append(card);
+            });
+            sec.append(box); out.append(sec); navLink('Recitation', '#recitation');
+        }
+        document.getElementById('status').hidden = true;
+        if (location.hash) { var t = document.getElementById(location.hash.slice(1)); if (t) t.scrollIntoView(); }
+    }
+})();
+</script>
+</body>
+</html>
