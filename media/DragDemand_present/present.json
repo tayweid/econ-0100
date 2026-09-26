@@ -1,0 +1,98 @@
+{
+ "format": 1,
+ "scene": "DragDemand",
+ "fps": 60,
+ "duration": 6.4999999999999805,
+ "resolution": [
+  2160,
+  1080
+ ],
+ "source": {
+  "file": "DragDemo.py",
+  "mtime": 1790388873.9750326,
+  "hash": "788e4bf2e884b497435a54b7198dd3c1"
+ },
+ "pause_anchored": true,
+ "checkpoints": [
+  {
+   "index": 0,
+   "time": 0.0,
+   "line": null,
+   "unit": -1,
+   "chip_unit": -1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 1,
+   "time": 1.0,
+   "line": 140,
+   "unit": 0,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 2,
+   "time": 1.9999999999999964,
+   "line": 141,
+   "unit": 1,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 3,
+   "time": 2.999999999999993,
+   "line": 142,
+   "unit": 2,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 4,
+   "time": 3.9999999999999893,
+   "line": 143,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 5,
+   "time": 3.9999999999999893,
+   "line": 144,
+   "unit": 4,
+   "chip_unit": 4,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 6,
+   "time": 5.499999999999984,
+   "line": 148,
+   "unit": 5,
+   "chip_unit": 5,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 7,
+   "time": 6.4999999999999805,
+   "line": 149,
+   "unit": 6,
+   "chip_unit": 6,
+   "name": null,
+   "stop": false,
+   "loop": false
+  }
+ ]
+}

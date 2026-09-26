@@ -4,21 +4,25 @@
 # Two scratch scenes for trying drag interaction in the live viewer. Not an
 # episode. Step to the end with RIGHT, then press on a dot and drag it.
 #
-# How it works, with nothing new in maniml: in development mode a left press
-# grabs the topmost mobject under the pointer and a drag moves it. While the
-# scene rests, the viewer still runs updaters every frame, so anything whose
-# updater reads the dragged dot's position follows it.
+# How it works: a left press grabs the mobject under the pointer and a drag
+# moves it. While the scene rests, the viewer still runs updaters every
+# frame, so anything whose updater reads the dragged dot's position follows.
 #
-# Three habits make that pleasant:
-#   - Every draggable dot is its own top-level mobject, added LAST. The hit
-#     test is a bounding box, topmost first; a dot inside a VGroup would drag
-#     the whole group, and a line added after the dots would be grabbed
-#     instead of the dot under it.
+# `set_draggable()` marks a mobject as a handle: it is grabbed before
+# anything else under the pointer (so it can sit inside a group or under a
+# line), it works in a presentation too (which then presents from the live
+# stage rather than the mp4), and the viewer names it in a chip on hover.
+# In development every other mobject is still grabbable, as before.
+#   along=  keeps the handle on a curve (a mobject) or a line (a direction)
+#   on_drag= is called after each move — set a ValueTracker there
+#
+# Two habits:
 #   - Followers reshape themselves in place (put_start_and_end_on,
-#     set_points_as_corners, move_to) rather than always_redraw, which builds
-#     a new mobject every frame.
+#     set_points_as_corners, move_to, set_value) rather than always_redraw,
+#     which builds a new mobject every frame.
 #   - A drag is never saved. Any arrow key restores the checkpoint, so the
-#     dots go home.
+#     handles go home. A beat that should start from a moved handle animates
+#     it there in source.
 
 from manim import *
 import numpy as np
@@ -37,7 +41,8 @@ class DragDots(Scene):
         colors = [BLUE, GREEN, PINK, ORANGE, PURPLE]
         links = [(0, 1), (1, 2), (2, 3), (3, 4), (1, 3), (0, 2)]
 
-        dots = [Dot(p, radius=0.16, color=c) for p, c in zip(spots, colors)]
+        dots = [Dot(p, radius=0.16, color=c).set_draggable()
+                for p, c in zip(spots, colors)]
 
         def follow(i, j):
             def update(line):
@@ -59,31 +64,38 @@ class DragDots(Scene):
         note = subtitle(head, 'the lines and the centroid follow')
 
         self.play(FadeIn(head), FadeIn(note), Create(lines), FadeIn(centroid))
-        # One FadeIn per dot, so each lands in the scene as its own
-        # top-level mobject, above the lines.
         self.play(*[FadeIn(d, scale=0.5) for d in dots])
+        self.pause()
+        self.play(dots[2].animate.shift(RIGHT * 2 + UP), run_time=1.5)
         self.wait()
 
 
 class DragDemand(Scene):
     """Drag the handle; demand shifts through it and the equilibrium follows.
 
-    Demand is P = a - Q with the intercept a read from the handle, so the
-    handle always sits on its curve. Supply is fixed at P = 2 + Q."""
+    The handle is the one draggable thing. It slides vertically at Q = 3
+    (along=UP), and on_drag writes the intercept a = Q + P into a
+    ValueTracker; everything else reads the tracker. Demand is P = a - Q,
+    supply P = 2 + Q."""
 
     def construct(self):
         Q_MAX, P_MAX = 10, 10
-        A_MIN, A_MAX = 3.0, 16.0
+        A_MIN, A_MAX = 4.0, 13.0          # keeps the handle on the chart
 
         ax = style_axes([0, Q_MAX], [0, P_MAX], x_length=7, y_length=5)
         ax.to_edge(DOWN, buff=0.9)
         p_cap = axis_caption(ax, 'Price')
 
-        handle = Dot(ax.c2p(3, 7), radius=0.16, color=DEMAND)
+        a = ValueTracker(10.0)
+        intercept = a.get_value
 
-        def intercept():
+        def set_intercept(handle):
             q, p = ax.p2c(handle.get_center())[:2]
-            return float(np.clip(q + p, A_MIN, A_MAX))
+            a.set_value(float(np.clip(q + p, A_MIN, A_MAX)))
+            handle.move_to(ax.c2p(3, intercept() - 3))   # clamp shows
+
+        handle = Dot(ax.c2p(3, 7), radius=0.16, color=DEMAND)
+        handle.set_draggable(along=UP, on_drag=set_intercept)
 
         def demand_ends(a):
             # P = a - Q clipped to the axes box
@@ -128,6 +140,10 @@ class DragDemand(Scene):
         self.play(FadeIn(head), FadeIn(note), Create(ax), FadeIn(p_cap))
         self.play(Create(supply), Create(demand))
         self.play(FadeIn(h_line), FadeIn(v_line), FadeIn(eq_dot), FadeIn(price))
-        # Last, so it is topmost for the hit test.
         self.play(FadeIn(handle, scale=0.5))
+        self.pause()
+        # A beat that starts from a shifted demand animates the tracker;
+        # the handle follows it like everything else.
+        handle.add_updater(lambda m: m.move_to(ax.c2p(3, intercept() - 3)))
+        self.play(a.animate.set_value(12), run_time=1.5)
         self.wait()
