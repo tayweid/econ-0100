@@ -35,7 +35,7 @@ _Markets will adapt to change in costs and preferences according to the responsi
 _How prices change._
 
 // plass:comment
-// | Beats for B5_Animation.py, scene B5. The market graph is the setting; selected people appear on the graph.
+// | Beats for B5_Animation.py, scene B5. Topic titles orient each section; questions serve as prompts. Gold bars measure shifts; side lists retain the scenarios.
 // | 0.a · Bumper: How prices change.
 // | These comments outline the screen action. The animation code holds the choreography.
 // /plass:comment
@@ -103,10 +103,10 @@ First, we’re going to show how prices and quantities, our coordination device,
 
 // plass:comment
 // | Beats
-// | 3.a · Change price; move along an unchanged demand curve.
-// | 3.b · Hold price fixed; the spinach study shifts demand out.
+// | 3.a · Introduce a at zero, then change price along the unchanged demand curve.
+// | 3.b · The spinach study raises a. Measure the shift in gold and begin the scenario list.
 // | 3.c · Read the same shift as greater willingness to pay.
-// | 3.d · Less preference shifts demand back in.
+// | 3.d · Less preference lowers a; retain each case in the list.
 // | 3.e · Higher income increases demand for a normal good.
 // | 3.f · Higher income decreases demand for an inferior good.
 // | 3.g · More expensive romaine increases demand for spinach.
@@ -149,8 +149,8 @@ Everyone is willing to buy more spinach at every price or alternatively everyone
 
 // plass:comment
 // | Beats
-// | 4.a · Change price; move along an unchanged supply curve.
-// | 4.b · Molly’s costs rise. Supply shifts up at the same price.
+// | 4.a · Introduce b at zero, then change price along the unchanged supply curve.
+// | 4.b · Molly’s costs raise b. Measure the shift in gold and begin the supply list.
 // | 4.c · Cheaper fertilizer lowers costs and increases supply.
 // | 4.d · More valuable carrots raise the opportunity cost of spinach.
 // | 4.e · More sellers increase market supply.
@@ -272,20 +272,20 @@ _*{++Show a vertical demand curve, then a horizontal one, each labeled.++}*_
 
 // plass:comment
 // | Beats
-// | 6.a · Add a demand-shift parameter to the familiar equation.
+// | 6.a · Revisit a and its gold shift measure beside the market.
 // | 6.b · Raise demand while keeping the original curve visible.
 // | 6.c · Lower demand, then restore the original curve.
-// | 6.d · Add supply and recover the equilibrium at 40 and $4.
+// | 6.d · Add supply at 40 and $4; begin the comparative-statics case list.
 // | 6.e · Raise demand at the old price and show the shortage of 25.
-// | 6.f · Raise price along the fixed curves until the shortage disappears.
+// | 6.f · Raise price along the fixed curves; record the new equilibrium.
 // | 6.g · Solve for equilibrium as a function of the demand shift.
 // | 6.h · Substitute the demand increase and recover 60 at $5.
 // | 6.i · Restore the original market before considering falling income.
 // | 6.j · Lower demand at the old price and show excess supply of 25.
-// | 6.k · Lower price to the new equilibrium at 20 and $3.
-// | 6.l · Begin a fresh market and introduce a supply-shift parameter.
+// | 6.k · Lower price; record 20 at $3 in the case list.
+// | 6.l · Restore the baseline and revisit b while keeping the case list.
 // | 6.m · Raise fertilizer costs at the old price and show the shortage.
-// | 6.n · Raise price to the new equilibrium at 35 and $5.
+// | 6.n · Raise price; record 35 at $5 with all three outcomes in view.
 // /plass:comment
 {++We just talked about shifters.++} #strike[You’ll remember, we talked shifters in Demand.] When forces that impact Buyers’ preferences for spinach change, so does the Demand curve.
 
@@ -321,10 +321,10 @@ What about with an increase in the cost of fertilizer, an input to producing spi
 
 // plass:comment
 // | Beats
-// | 7.a · Start from the original market with both proposed changes.
-// | 7.b · Increase demand and supply: quantity and price both rise.
-// | 7.c · Increase supply further: quantity rises and price is unchanged.
-// | 7.d · Increase supply further again: quantity rises and price falls.
+// | 7.a · Set up both changes beside a table of possible outcomes.
+// | 7.b · Increase demand and supply; record rising quantity and price.
+// | 7.c · Increase supply further; add rising quantity with unchanged price.
+// | 7.d · Increase supply again; add rising quantity with falling price.
 // /plass:comment
 Now what about when the price of romaine lettuce goes up while the price of spinach harvesting technology goes down at the same time?
 
