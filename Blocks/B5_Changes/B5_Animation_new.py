@@ -1149,6 +1149,7 @@ class B5(Scene):
             marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value() - 6) * 4, 0, 1)))
         self.add(gary_gain, graph_gain, new_top, gary_number, graph_new_top, graph_new_number,
                  gary_a_span, gary_a_anchor, gary_a_cap, gary_a_readout)
+        self.pause('7.e.predict')
         self.play(benefit.animate.set_value(11), run_time=1.8)
         self.pause('7.e')
 
@@ -1245,7 +1246,9 @@ class B5(Scene):
         bottom = Tex(r'A change in {{demand}} shifts the whole curve.',
                      tex_to_color_map={'demand': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom), FadeIn(demand_list_head), FadeIn(demand_scenarios[0]))
+        self.play(FadeIn(demand_list_head), FadeIn(demand_scenarios[0][0]))
+        self.pause('8.b.predict')
+        self.play(FadeIn(demand_scenarios[0][1]), FadeIn(bottom))
         self.play(shift.animate.set_value(5), run_time=2)
         self.pause('8.b')
 
@@ -1262,16 +1265,18 @@ class B5(Scene):
         question = Tex(r'\mbox{\textsf{Buyers become less interested in spinach.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(question))
-        self.play(demand_scenarios[0].animate.set_color(CAPTION), FadeIn(demand_scenarios[1]))
+        self.play(demand_scenarios[0].animate.set_color(CAPTION), FadeIn(demand_scenarios[1][0]))
         self.remove(bottom)
         bottom = Tex('Less demand: less is wanted at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom), shift.animate.set_value(-3), run_time=1.7)
+        self.pause('8.d.predict')
+        self.play(FadeIn(demand_scenarios[1][1]), FadeIn(bottom))
+        self.play(shift.animate.set_value(-3), run_time=1.7)
         self.pause('8.d')
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 8.e · Income rises: normal goods move out.
-        self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2]))
+        self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2][0]))
         self.remove(head, question, bottom)
         head = title('Shifters: Demand')
         question = Tex(r'\mbox{\textsf{Incomes rise; spinach is a normal good.}}', color=CAPTION).scale(0.55)
@@ -1279,13 +1284,15 @@ class B5(Scene):
         bottom = Tex(r'{{Normal goods}}: higher income increases demand.',
                      tex_to_color_map={'Normal goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(bottom))
+        self.play(FadeIn(head), FadeIn(question))
+        self.pause('8.e.predict')
+        self.play(FadeIn(demand_scenarios[2][1]), FadeIn(bottom))
         self.play(shift.animate.set_value(3), run_time=1.7)
         self.pause('8.e')
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 8.f · Reuse the schematic for noodles, explicitly naming the good.
-        self.play(demand_scenarios[2].animate.set_color(CAPTION), FadeIn(demand_scenarios[3]))
+        self.play(demand_scenarios[2].animate.set_color(CAPTION), FadeIn(demand_scenarios[3][0]))
         # The geometry illustrates direction only; these are not measured data.
         self.remove(bottom)
         self.remove(head, question)
@@ -1297,15 +1304,17 @@ class B5(Scene):
                      tex_to_color_map={'Inferior goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         schematic_mb = Tex('MB', color=CAPTION).scale(0.65).move_to(gary_units)
-        self.play(FadeIn(bottom), FadeOut(gary_units), FadeIn(schematic_mb),
+        self.play(FadeOut(gary_units), FadeIn(schematic_mb),
                   FadeOut(axes_words[1]), FadeOut(axes_words[3]))
+        self.pause('8.f.predict')
+        self.play(FadeIn(demand_scenarios[3][1]), FadeIn(bottom))
         self.play(shift.animate.set_value(-3), run_time=1.7)
         self.pause('8.f')
         self.play(shift.animate.set_value(0), run_time=1.2)
         self.play(FadeOut(schematic_mb), FadeIn(gary_units), FadeIn(axes_words[1]), FadeIn(axes_words[3]))
 
         # ---- 8.g · Return to spinach: romaine is a substitute.
-        self.play(demand_scenarios[3].animate.set_color(CAPTION), FadeIn(demand_scenarios[4]))
+        self.play(demand_scenarios[3].animate.set_color(CAPTION), FadeIn(demand_scenarios[4][0]))
         self.remove(bottom)
         self.remove(head, question)
         head = title('Shifters: Demand')
@@ -1315,7 +1324,8 @@ class B5(Scene):
         bottom = Tex(r'{{Substitutes}} can take each other\textquotesingle s place.',
                      tex_to_color_map={'Substitutes': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom))
+        self.pause('8.g.predict')
+        self.play(FadeIn(demand_scenarios[4][1]), FadeIn(bottom))
         self.play(shift.animate.set_value(3), run_time=1.7)
         self.pause('8.g')
         self.play(shift.animate.set_value(0), run_time=1.2)
@@ -1325,12 +1335,13 @@ class B5(Scene):
         question = Tex(r'\mbox{\textsf{The price of salad dressing rises.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(question))
-        self.play(demand_scenarios[4].animate.set_color(CAPTION), FadeIn(demand_scenarios[5]))
+        self.play(demand_scenarios[4].animate.set_color(CAPTION), FadeIn(demand_scenarios[5][0]))
         self.remove(bottom)
         bottom = Tex(r'{{Complements}} are used together.',
                      tex_to_color_map={'Complements': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom))
+        self.pause('8.h.predict')
+        self.play(FadeIn(demand_scenarios[5][1]), FadeIn(bottom))
         self.play(shift.animate.set_value(-3), run_time=1.7)
         self.pause('8.h')
         self.play(shift.animate.set_value(0), run_time=1.2)
@@ -1338,7 +1349,7 @@ class B5(Scene):
         # ---- 8.i · Add identical buyers: quantities scale, the intercept stays.
         # With 25% more identical demand schedules, Q is 1.25 times as large
         # at every price: P=12-0.20Q becomes P=12-0.16Q. This is still a shift.
-        self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
+        self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6][0]))
         self.remove(bottom, question, demand_equation)
         self.play(FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
         question = Tex(r'\mbox{\textsf{The number of identical buyers increases by 25\%.}}', color=CAPTION).scale(0.55)
@@ -1354,8 +1365,10 @@ class B5(Scene):
         c_readout.update()
         bottom = Tex('More buyers increase quantity demanded at each price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(question), FadeIn(demand_entry_equation), FadeIn(c_readout), FadeIn(bottom))
+        self.play(FadeIn(question), FadeIn(demand_entry_equation), FadeIn(c_readout))
         gary_unchanged = Tex('MB unchanged', color=CAPTION).scale(0.55).next_to(gary_name, DOWN, buff=0.3)
+        self.pause('8.i.predict')
+        self.play(FadeIn(demand_scenarios[6][1]), FadeIn(bottom))
         self.play(FadeIn(gary_unchanged), demand_slope.animate.set_value(0.16), run_time=1.7)
         self.pause('8.i')
         # No callbacks survive the cut into the supply construction.
@@ -1633,8 +1646,10 @@ class B5(Scene):
         bottom = Tex(r'A change in {{supply}} shifts the whole curve.',
                      tex_to_color_map={'supply': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(bottom), FadeIn(before_word))
-        self.play(FadeIn(supply_list_head), FadeIn(supply_scenarios[0]))
+        self.play(FadeIn(head), FadeIn(question), FadeIn(before_word))
+        self.play(FadeIn(supply_list_head), FadeIn(supply_scenarios[0][0]))
+        self.pause('9.b.predict')
+        self.play(FadeIn(supply_scenarios[0][1]), FadeIn(bottom))
         self.play(cost_shift.animate.set_value(1.25), run_time=1.7)
         self.pause('9.b')
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
@@ -1644,7 +1659,9 @@ class B5(Scene):
         question = Tex(r'\mbox{\textsf{Fertilizer becomes cheaper.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(question))
-        self.play(supply_scenarios[0].animate.set_color(CAPTION), FadeIn(supply_scenarios[1]))
+        self.play(supply_scenarios[0].animate.set_color(CAPTION), FadeIn(supply_scenarios[1][0]))
+        self.pause('9.c.predict')
+        self.play(FadeIn(supply_scenarios[1][1]))
         self.play(cost_shift.animate.set_value(-1), run_time=1.7)
         self.pause('9.c')
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
@@ -1654,19 +1671,23 @@ class B5(Scene):
         question = Tex(r'\mbox{\textsf{The price of carrots rises.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(question))
-        self.play(supply_scenarios[1].animate.set_color(CAPTION), FadeIn(supply_scenarios[2]))
+        self.play(supply_scenarios[1].animate.set_color(CAPTION), FadeIn(supply_scenarios[2][0]))
+        self.pause('9.d.predict')
+        self.play(FadeIn(supply_scenarios[2][1]))
         self.play(cost_shift.animate.set_value(1.25), run_time=1.7)
         self.pause('9.d')
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
 
         # ---- 9.e · Technology lowers cost and expands supply.
-        self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3]))
+        self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3][0]))
         self.remove(bottom, question)
         question = Tex(r'\mbox{\textsf{Better technology lowers the cost of growing spinach.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex('Lower costs increase supply at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(question), FadeIn(bottom))
+        self.play(FadeIn(question))
+        self.pause('9.e.predict')
+        self.play(FadeIn(supply_scenarios[3][1]), FadeIn(bottom))
         self.play(cost_shift.animate.set_value(-1), run_time=1.7)
         self.pause('9.e')
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
@@ -1674,7 +1695,7 @@ class B5(Scene):
         # ---- 9.f · Add identical sellers without changing individual costs.
         # Horizontal aggregation raises Q by 25% at every price above $2.
         # P=2+0.05Q becomes P=2+0.04Q; the cost intercept remains $2.
-        self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4]))
+        self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4][0]))
         self.remove(bottom, question, supply_equation)
         self.play(FadeOut(b_span), FadeOut(b_anchor), FadeOut(b_cap), FadeOut(b_label))
         question = Tex(r'\mbox{\textsf{The number of identical sellers increases by 25\%.}}', color=CAPTION).scale(0.55)
@@ -1690,8 +1711,10 @@ class B5(Scene):
         d_readout.update()
         bottom = Tex('More sellers increase quantity supplied at each price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(question), FadeIn(supply_entry_equation), FadeIn(d_readout), FadeIn(bottom))
+        self.play(FadeIn(question), FadeIn(supply_entry_equation), FadeIn(d_readout))
         molly_unchanged = Tex('MC unchanged', color=CAPTION).scale(0.55).next_to(molly_name, DOWN, buff=0.3)
+        self.pause('9.f.predict')
+        self.play(FadeIn(supply_scenarios[4][1]), FadeIn(bottom))
         self.play(FadeIn(molly_unchanged), supply_slope.animate.set_value(0.04), run_time=1.7)
         self.pause('9.f')
 
