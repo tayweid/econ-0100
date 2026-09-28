@@ -197,7 +197,7 @@ class B5(Scene):
             Tex(r'{{Elastic}}: a relatively large change in quantity.', tex_to_color_map={'Elastic': DEFINITION})
                 .scale(0.62).move_to([3.75, -3.4, 0]))
         self.play(FadeIn(hook_classes))
-        hook_recall = VGroup(hook_head, hook_panels, hook_old_choices, hook_numbers).copy()
+        hook_recall = VGroup(hook_panels, hook_old_choices, hook_numbers).copy()
         self.pause('2.g')
 
         # ---- 3.a · Put the slope question in the bottom prompt strip.
@@ -211,10 +211,14 @@ class B5(Scene):
         # ---- 3.b · Compare two price increases on two copies of the same curve.
         # The scales and curve are identical; only the selected interval differs.
         self.clear()
-        head = title('Responsiveness to Price: Elasticity')
-        question = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.55)
+        head = title('Elasticity')
+        question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        self.play(FadeIn(head), FadeIn(question))
+        elasticity_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
+        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind))
+        scenario_note = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.65)
+        scenario_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(scenario_note))
         elasticity_panels = VGroup()
         elasticity_prices = [ValueTracker(10), ValueTracker(1)]
         for panel_x, price_source in zip([-3.75, 3.75], elasticity_prices):
@@ -301,7 +305,7 @@ class B5(Scene):
         elasticity_def = Tex(r'\mbox{ {{Elasticity}} measures responsiveness in percentage terms.}',
                              tex_to_color_map={'Elasticity': DEFINITION}).scale(DEFINITION_SCALE)
         elasticity_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(elasticity_def))
+        self.play(FadeOut(scenario_note), FadeIn(elasticity_def))
         self.pause('3.d')
 
         # ---- 4.a · Measure the quantity change and the midpoint separately.
@@ -310,8 +314,9 @@ class B5(Scene):
         # is concatenated with the other: the denominator is visibly a midpoint.
         self.clear()
         head = title('Elasticity')
-        question = Tex(r"\textsf{Buyer's responsiveness to a change in price.}", color=CAPTION).scale(0.55)
+        question = Tex(r"\textsf{Responsiveness to change.}", color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        elasticity_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
         ea = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6, ticks=True,
                         axis_config={'tick_size': 0.05},
                         x_axis_config={'numbers_to_include': [20, 40],
@@ -391,8 +396,8 @@ class B5(Scene):
         midpoint_arrow = Arrow(midpoint_note.get_right(), q_mid_tick.get_top(),
                                color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
                                max_tip_length_to_length_ratio=0.12)
-        formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.85)
-        formula.move_to([3.95, 2.1, 0])
+        formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
+        formula.move_to([3.95, 1.9, 0])
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_result = MathTex(r'\bar Q=', '7.5', color=FOCUS).scale(0.8).move_to([2.15, 0.0, 0])
         q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', color=FOCUS).scale(0.8)
@@ -402,7 +407,7 @@ class B5(Scene):
         midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
                            tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
                   FadeIn(price_unit), FadeIn(ed_lab), FadeIn(equation), FadeIn(e_divider), FadeIn(endpoints))
         self.play(FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note), FadeIn(midpoint_arrow))
@@ -449,36 +454,36 @@ class B5(Scene):
         # a share of its midpoint. Raw pounds and dollars are never compared.
         self.play(FadeOut(q_change_label), FadeOut(q_average_label),
                   FadeOut(p_change_label), FadeOut(p_average_label))
-        q_ratio_track = Line([3.1, 0.85, 0], [6.1, 0.85, 0], color=MUTED, stroke_width=10)
-        p_ratio_track = Line([3.1, -0.45, 0], [6.1, -0.45, 0], color=MUTED, stroke_width=10)
-        q_ratio_bar = Line([3.1, 0.85, 0], [5.1, 0.85, 0], color=FOCUS, stroke_width=10)
+        q_ratio_track = Line([3.1, 0.35, 0], [6.1, 0.35, 0], color=MUTED, stroke_width=10)
+        p_ratio_track = Line([3.1, -0.95, 0], [6.1, -0.95, 0], color=MUTED, stroke_width=10)
+        q_ratio_bar = Line([3.1, 0.35, 0], [5.1, 0.35, 0], color=FOCUS, stroke_width=10)
         q_ratio_bar.source = midpoint_price
         q_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.1, 0.85, 0]), np.array([3.1 + 3 * 5 / (60 - 5 * line.source.get_value()), 0.85, 0])))
-        p_ratio_bar = Line([3.1, -0.45, 0], [3.1 + 3 / 10.5, -0.45, 0], color=FOCUS, stroke_width=10)
+            np.array([3.1, 0.35, 0]), np.array([3.1 + 3 * 5 / (60 - 5 * line.source.get_value()), 0.35, 0])))
+        p_ratio_bar = Line([3.1, -0.95, 0], [3.1 + 3 / 10.5, -0.95, 0], color=FOCUS, stroke_width=10)
         p_ratio_bar.source = midpoint_price
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.1, -0.45, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.45, 0])))
-        percent_basis = Tex(r'$100\%$', color=CAPTION).scale(0.7).move_to([6.65, 0.2, 0])
+            np.array([3.1, -0.95, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.95, 0])))
+        percent_basis = Tex(r'$100\%$', color=CAPTION).scale(0.7).move_to([6.65, -0.3, 0])
         q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=FOCUS).scale(0.75)
-        q_ratio_label.move_to([1.8, 0.85, 0])
+        q_ratio_label.move_to([1.8, 0.35, 0])
         p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=FOCUS).scale(0.75)
-        p_ratio_label.move_to([1.8, -0.45, 0])
+        p_ratio_label.move_to([1.8, -0.95, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
                   FadeIn(q_ratio_label), FadeIn(p_ratio_label), FadeIn(percent_basis))
         q_percent = VGroup(DecimalNumber(-100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
-        q_percent.move_to([4.6, 1.2, 0])
+        q_percent.move_to([4.6, 0.7, 0])
         q_percent[0].source = midpoint_price
         q_percent[0].add_updater(lambda number: number.set_value(-100 * 5 / (60 - 5 * number.source.get_value())))
-        q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 1.2, 0]))
+        q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 0.7, 0]))
         p_percent = VGroup(DecimalNumber(100 / 10.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
-        p_percent.move_to([4.6, -0.1, 0])
+        p_percent.move_to([4.6, -0.6, 0])
         p_percent[0].source = midpoint_price
         p_percent[0].add_updater(lambda number: number.set_value(100 / number.source.get_value()))
-        p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.1, 0]))
+        p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.6, 0]))
         self.play(FadeIn(q_percent), FadeIn(p_percent))
         self.pause('4.c')
 
@@ -503,8 +508,8 @@ class B5(Scene):
         # The normalized bar lengths, percentages, guides and final result all
         # follow midpoint_price, so they cannot drift apart during the motion.
         self.remove(q_ratio_label, p_ratio_label, midpoint_note, midpoint_arrow, elastic_word)
-        q_ratio_label = MathTex(r'\Delta Q/\bar Q', color=FOCUS).scale(0.8).move_to([1.7, 0.85, 0])
-        p_ratio_label = MathTex(r'\Delta P/\bar P', color=FOCUS).scale(0.8).move_to([1.7, -0.45, 0])
+        q_ratio_label = MathTex(r'\Delta Q/\bar Q', color=FOCUS).scale(0.8).move_to([1.7, 0.35, 0])
+        p_ratio_label = MathTex(r'\Delta P/\bar P', color=FOCUS).scale(0.8).move_to([1.7, -0.95, 0])
         self.play(FadeIn(q_ratio_label), FadeIn(p_ratio_label))
         self.play(midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
         inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
@@ -518,7 +523,7 @@ class B5(Scene):
         hook_epsilon = VGroup(
             MathTex(r'\epsilon=-0.6', color=FOCUS).scale(0.95).move_to([-3.85, -3.1, 0]),
             MathTex(r'\epsilon=-3', color=FOCUS).scale(0.95).move_to([3.85, -3.1, 0]))
-        self.play(FadeIn(hook_recall), FadeIn(hook_epsilon))
+        self.play(FadeIn(hook_recall), FadeIn(hook_epsilon), FadeIn(head), FadeIn(question), FadeIn(elasticity_kind))
         self.pause('4.f')
         self.play(FadeOut(hook_recall), FadeOut(hook_epsilon))
         self.clear()
@@ -579,9 +584,10 @@ class B5(Scene):
 
         # ---- 5.a · At one extreme, quantity does not respond at all.
         self.clear()
-        head = title('The extremes of elasticity')
-        question = Tex(r'\textsf{How far can responsiveness go?}', color=CAPTION).scale(0.55)
+        head = title('Elasticity')
+        question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        elasticity_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
         ea = style_axes([0, 2, 1], [0, 12, 2], x_length=3.6, y_length=3.6)
         ea.shift(np.array([-3.7, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(2, 12)) / 2)
         ep = VGroup(Tex(r'\textsf{\$/pack}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
@@ -598,7 +604,7 @@ class B5(Scene):
             line.ax.c2p(1, line.source.get_value()), color=GUIDE).set_style(**line.get_style())))
         zero_response = VGroup(Tex('Perfectly inelastic', color=DEFINITION), MathTex(r'\epsilon_D=0'))
         zero_response.arrange(DOWN, buff=0.2).scale(0.85).move_to([-3.7, -3.0, 0])
-        self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ep), FadeIn(eq), FadeIn(vertical_demand),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(ea), FadeIn(ep), FadeIn(eq), FadeIn(vertical_demand),
                   FadeIn(vertical_label), FadeIn(extreme_dot), FadeIn(extreme_h))
         self.play(extreme_price.animate.set_value(3), run_time=2, rate_func=smooth)
         extreme_note = Tex('Price changes; quantity stays fixed.', color=INK).scale(DEFINITION_SCALE)
@@ -662,9 +668,10 @@ class B5(Scene):
         # A rise from P=4 to P=5 moves Q_s from 40 to 60. The midpoint method
         # yields (20/50)/(1/4.5)=1.8; price and quantity move together.
         self.clear()
-        head = title('Price elasticity of supply')
-        question = Tex(r'\textsf{How responsive are sellers?}', color=CAPTION).scale(0.55)
+        head = title('Elasticity')
+        question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        elasticity_kind = Tex('Price Elasticity of Supply', color=SUPPLY).scale(0.7).move_to([3.95, 3.05, 0])
         sa = style_axes([0, 80, 20], [0, 9, 2], x_length=4.6, y_length=4.6, ticks=True,
                         axis_config={'tick_size': 0.05},
                         x_axis_config={'numbers_to_include': [20, 40, 60],
@@ -678,7 +685,7 @@ class B5(Scene):
         sq = Tex('Q').scale(0.8).next_to(sa.c2p(80, 0), DOWN, buff=0.35)
         su = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(sq, RIGHT, buff=0.18)
         supply_label = Tex('S').scale(0.8).next_to(sa.c2p(80, 6), RIGHT, buff=0.15)
-        supply_equation = MathTex(r'P=2+Q_s/20').scale(0.8).move_to(sa.c2p(39, 7.3))
+        supply_equation = MathTex(r'P=2+Q_s/20', color=SUPPLY).scale(0.8).move_to(sa.c2p(39, 7.3))
         supply_price = ValueTracker(4)
         supply_h = DashedLine(sa.c2p(0, 4), sa.c2p(40, 4), color=GUIDE).set_opacity(0.4)
         supply_h.ax, supply_h.source = sa, supply_price
@@ -710,7 +717,7 @@ class B5(Scene):
         supply_def = Tex(r'\mbox{ {{Elasticity of supply}} measures how quantity supplied responds to price.}',
                         tex_to_color_map={'Elasticity of supply': DEFINITION}).scale(DEFINITION_SCALE)
         supply_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(sa), FadeIn(supply), FadeIn(sp), FadeIn(sq), FadeIn(su),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(sa), FadeIn(supply), FadeIn(sp), FadeIn(sq), FadeIn(su),
                   FadeIn(supply_price_unit), FadeIn(supply_label), FadeIn(supply_equation), FadeIn(supply_h), FadeIn(supply_v),
                   FadeIn(supply_dot), FadeIn(supply_pn), FadeIn(supply_qn), FadeIn(supply_def))
         seller_bars = VGroup()
@@ -739,11 +746,11 @@ class B5(Scene):
         # ---- 6.c · Quantity's percentage response is positive and larger.
         divider_x = max(sq.get_right()[0], su.get_right()[0]) + 0.35
         supply_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
-        supply_formula = MathTex(r'\epsilon_S=\frac{\Delta Q_s/\bar Q_s}{\Delta P/\bar P}').scale(0.95)
+        supply_formula = MathTex(r'\epsilon_S=\dfrac{\quad\dfrac{\Delta Q_s}{\bar Q_s}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
         supply_substitution = MathTex(r'=\frac{(60-40)/50}{(5-4)/4.5}', color=FOCUS).scale(0.95)
         supply_result = MathTex(r'=\frac{40\%}{22.2\%}\approx1.8', color=FOCUS).scale(0.95)
         supply_work = VGroup(supply_formula, supply_substitution, supply_result)
-        supply_work.arrange(DOWN, buff=0.55, aligned_edge=LEFT).move_to([3.9, BODY_MID + 0.3, 0])
+        supply_work.arrange(DOWN, buff=0.4, aligned_edge=LEFT).move_to([3.9, BODY_MID + 0.15, 0])
         supply_elastic = Tex('Elastic supply', color=DEFINITION).scale(0.9).next_to(supply_work, DOWN, buff=0.25)
         self.play(FadeIn(supply_divider), FadeIn(supply_formula))
         self.play(FadeIn(supply_substitution))
