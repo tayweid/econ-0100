@@ -46,9 +46,9 @@ class B5(Scene):
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.25)
         axis_q = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.35)
         axes_words = VGroup(axis_p,
-            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(axis_p, LEFT, buff=0.12),
+            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(axis_p, RIGHT, buff=0.35),
             axis_q,
-            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(axis_q, DOWN, buff=0.08))
+            Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(axis_q, RIGHT, buff=0.18))
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
         supply = Line(ax.c2p(0, 2), ax.c2p(60, 5), color=SUPPLY, stroke_width=3)
         curve_words = VGroup(
@@ -102,8 +102,8 @@ class B5(Scene):
         hook_panels, hook_numbers = VGroup(), VGroup()
         hook_buyer_groups, hook_dots, hook_guides = [], [], []
         for panel_x, good, max_q, max_p, coefficient, unit, price_unit, equation_text in [
-                (-3.75, 'Spinach', 60, 12, 0.2, r'thousand lb', r'\$/lb', r'P=12-Q/5'),
-                (3.75, 'Chocolate', 120, 6, 0.05, r'thousand bars', r'\$/bar', r'P=6-Q/20')]:
+                (-3.75, 'Spinach', 60, 12, 0.2, r'1,000 lb', r'\$/lb', r'P=12-Q/5'),
+                (3.75, 'Chocolate', 120, 6, 0.05, r'1,000 bars', r'\$/bar', r'P=6-Q/20')]:
             hook_ax = style_axes([0, max_q, max_q / 6], [0, max_p, max_p / 6],
                                  x_length=3.4, y_length=3.4)
             hook_ax.shift(np.array([panel_x - 1.7, -2.1, 0]) - hook_ax.c2p(0, 0))
@@ -222,7 +222,7 @@ class B5(Scene):
             ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), UP, buff=0.16)
             price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(ep, LEFT, buff=0.12)
             eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.16)
-            eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(eq, RIGHT, buff=0.12)
+            eu = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.5).next_to(eq, RIGHT, buff=0.12)
             ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(55, 1), UR, buff=0.1)
             good_name = Tex('Spinach', color=INK).scale(0.9).move_to([panel_x, 2.25, 0])
             equation = MathTex(r'P=12-Q/5', color=TITLE).scale(0.8).next_to(good_name, DOWN, buff=0.16)
@@ -311,16 +311,22 @@ class B5(Scene):
         head = title('Elasticity')
         question = Tex(r"\textsf{Buyer's responsiveness to a change in price.}", color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        ea = style_axes([0, 60, 10], [0, 12, 2], x_length=4.3, y_length=4.3)
-        ea.shift(np.array([-3.9, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(60, 12)) / 2)
+        ea = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6, ticks=True,
+                        axis_config={'tick_size': 0.05},
+                        x_axis_config={'numbers_to_include': [20, 40],
+                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
+                        y_axis_config={'numbers_to_include': [4, 8, 12],
+                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
+        ea.shift(np.array([-5.4, -2.25, 0]) - ea.c2p(0, 0))
         ed = Line(ea.c2p(0, 12), ea.c2p(60, 0), color=DEMAND, stroke_width=4)
-        ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), UP, buff=0.16)
-        price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(ep, LEFT, buff=0.12)
+        ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 13), LEFT, buff=0.25)
+        price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(ep, RIGHT, buff=0.35)
         eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
-        eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(eq, DOWN, buff=0.08)
+        eu = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(eq, RIGHT, buff=0.18)
         ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
-        equation = MathTex(r'P=12-Q/5').scale(0.8).move_to(ea.c2p(36, 11))
-        e_divider = Line([0.2, -2.85, 0], [0.2, 2.55, 0], color=MUTED, stroke_width=1)
+        equation = MathTex(r'P=12-Q/5').scale(0.8).move_to(ea.c2p(39, 11))
+        divider_x = max(eq.get_right()[0], eu.get_right()[0]) + 0.35
+        e_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1)
         e_divider.set_opacity(0.5)
         midpoint_price = ValueTracker(10.5)
         endpoints = VGroup()
@@ -368,7 +374,7 @@ class B5(Scene):
         midpoint_note = Tex('Midpoint', color=DEFINITION).scale(0.6)
         midpoint_note.ax, midpoint_note.source = ea, midpoint_price
         midpoint_note.add_updater(lambda label: label.next_to(label.ax.c2p(
-            60 - 5 * label.source.get_value(), label.source.get_value()), UP, buff=0.55).shift(RIGHT * 0.35))
+            60 - 5 * label.source.get_value(), label.source.get_value()), UP, buff=0.42).shift(RIGHT * 0.35))
         midpoint_note.update()
         q_delta = Line(ea.c2p(5, 10), ea.c2p(10, 10), color=FOCUS, stroke_width=6)
         q_delta.ax, q_delta.source = ea, midpoint_price
@@ -650,12 +656,18 @@ class B5(Scene):
         head = title('Price elasticity of supply')
         question = Tex(r'\textsf{How responsive are sellers?}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        sa = style_axes([0, 80, 20], [0, 8, 2], x_length=4.3, y_length=4.3)
-        sa.shift(np.array([-3.9, BODY_MID, 0]) - (sa.c2p(0, 0) + sa.c2p(80, 8)) / 2)
+        sa = style_axes([0, 80, 20], [0, 9, 2], x_length=4.6, y_length=4.6, ticks=True,
+                        axis_config={'tick_size': 0.05},
+                        x_axis_config={'numbers_to_include': [20, 40, 60],
+                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
+                        y_axis_config={'numbers_to_include': [2, 4, 6, 8],
+                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
+        sa.shift(np.array([-5.4, -2.25, 0]) - sa.c2p(0, 0))
         supply = Line(sa.c2p(0, 2), sa.c2p(80, 6), color=SUPPLY, stroke_width=4)
-        sp = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(sa.c2p(0, 8), LEFT, buff=0.25)
+        sp = Tex('P').scale(0.8).next_to(sa.c2p(0, 9), LEFT, buff=0.25)
+        supply_price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(sp, RIGHT, buff=0.35)
         sq = Tex('Q').scale(0.8).next_to(sa.c2p(80, 0), DOWN, buff=0.35)
-        su = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(sq, DOWN, buff=0.12)
+        su = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(sq, RIGHT, buff=0.18)
         supply_label = Tex('S').scale(0.8).next_to(sa.c2p(80, 6), RIGHT, buff=0.15)
         supply_equation = MathTex(r'P=2+Q_s/20').scale(0.8).move_to(sa.c2p(39, 7.3))
         supply_price = ValueTracker(4)
@@ -676,7 +688,7 @@ class B5(Scene):
         supply_pn = DecimalNumber(4, num_decimal_places=1, color=GUIDE).scale(0.7)
         supply_pn.ax, supply_pn.source = sa, supply_price
         supply_pn.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
-            number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.25))
+            number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.6))
         supply_pn.update()
         supply_qn = VGroup(MathTex(r'Q_s=', color=GUIDE), DecimalNumber(40, num_decimal_places=0, color=GUIDE))
         supply_qn.arrange(RIGHT, buff=0.05).scale(0.7)
@@ -684,13 +696,13 @@ class B5(Scene):
         supply_qn[1].source = supply_price
         supply_qn[1].add_updater(lambda number: number.set_value(20 * (number.source.get_value() - 2)))
         supply_qn.add_updater(lambda group: group.arrange(RIGHT, buff=0.05).next_to(
-            group.ax.c2p(20 * (group.source.get_value() - 2), 0), DOWN, buff=0.3))
+            group.ax.c2p(20 * (group.source.get_value() - 2), 0), DOWN, buff=0.6))
         supply_qn.update()
         supply_def = Tex(r'\mbox{ {{Elasticity of supply}} measures how quantity supplied responds to price.}',
                         tex_to_color_map={'Elasticity of supply': DEFINITION}).scale(DEFINITION_SCALE)
         supply_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(head), FadeIn(question), FadeIn(sa), FadeIn(supply), FadeIn(sp), FadeIn(sq), FadeIn(su),
-                  FadeIn(supply_label), FadeIn(supply_equation), FadeIn(supply_h), FadeIn(supply_v),
+                  FadeIn(supply_price_unit), FadeIn(supply_label), FadeIn(supply_equation), FadeIn(supply_h), FadeIn(supply_v),
                   FadeIn(supply_dot), FadeIn(supply_pn), FadeIn(supply_qn), FadeIn(supply_def))
         seller_bars = VGroup()
         for rank in range(1, 81):
@@ -716,13 +728,14 @@ class B5(Scene):
         self.pause('6.b')
 
         # ---- 6.c · Quantity's percentage response is positive and larger.
-        supply_divider = Line([0.2, -2.85, 0], [0.2, 2.55, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
+        divider_x = max(sq.get_right()[0], su.get_right()[0]) + 0.35
+        supply_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         supply_formula = MathTex(r'\epsilon_S=\frac{\Delta Q_s/\bar Q_s}{\Delta P/\bar P}').scale(0.95)
         supply_substitution = MathTex(r'=\frac{(60-40)/50}{(5-4)/4.5}', color=FOCUS).scale(0.95)
         supply_result = MathTex(r'=\frac{40\%}{22.2\%}\approx1.8', color=FOCUS).scale(0.95)
         supply_work = VGroup(supply_formula, supply_substitution, supply_result)
         supply_work.arrange(DOWN, buff=0.55, aligned_edge=LEFT).move_to([3.9, BODY_MID + 0.3, 0])
-        supply_elastic = Tex('Elastic supply', color=DEFINITION).scale(0.9).move_to([3.9, -2.2, 0])
+        supply_elastic = Tex('Elastic supply', color=DEFINITION).scale(0.9).next_to(supply_work, DOWN, buff=0.25)
         self.play(FadeIn(supply_divider), FadeIn(supply_formula))
         self.play(FadeIn(supply_substitution))
         self.play(FadeIn(supply_result), FadeIn(supply_elastic))
@@ -750,9 +763,9 @@ class B5(Scene):
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 18), LEFT, buff=0.25)
         axis_q = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(90, 0), DOWN, buff=0.35)
         axes_words = VGroup(axis_p,
-            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(axis_p, LEFT, buff=0.12),
+            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(axis_p, RIGHT, buff=0.35),
             axis_q,
-            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(axis_q, DOWN, buff=0.08))
+            Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(axis_q, RIGHT, buff=0.18))
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
         supply = Line(ax.c2p(0, 2), ax.c2p(90, 6.5), color=SUPPLY, stroke_width=3).set_opacity(0.3)
         demand_word = Tex('D', color=INK).scale(0.8).next_to(ax.c2p(60, 0), UR, buff=0.18)
@@ -1023,9 +1036,9 @@ class B5(Scene):
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 9), LEFT, buff=0.25)
         axis_q = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(100, 0), DOWN, buff=0.35)
         axes_words = VGroup(axis_p,
-            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(axis_p, LEFT, buff=0.12),
+            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(axis_p, RIGHT, buff=0.35),
             axis_q,
-            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(axis_q, DOWN, buff=0.08))
+            Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(axis_q, RIGHT, buff=0.18))
         price = ValueTracker(4)
         cost_shift = ValueTracker(0)
         supply_slope = ValueTracker(0.05)
@@ -1207,11 +1220,11 @@ class B5(Scene):
         cs_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (cs_ax.c2p(0, 0) + cs_ax.c2p(90, 18)) / 2)
         cs_p_name = Tex('P', color=INK).scale(0.8).next_to(cs_ax.c2p(0, 18), LEFT, buff=0.18)
-        cs_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
-        cs_p_units.next_to(cs_p_name, LEFT, buff=0.12)
+        cs_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45)
+        cs_p_units.next_to(cs_p_name, RIGHT, buff=0.3)
         cs_q_name = Tex('Q', color=INK).scale(0.8).next_to(cs_ax.c2p(90, 0), DOWN, buff=0.2)
-        cs_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
-        cs_q_units.next_to(cs_q_name, DOWN, buff=0.08)
+        cs_q_units = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45)
+        cs_q_units.next_to(cs_q_name, RIGHT, buff=0.18)
         cs_divider_x = max(cs_q_name.get_right()[0], cs_q_units.get_right()[0]) + 0.35
         cs_divider = Line([cs_divider_x, BODY_BOTTOM, 0], [cs_divider_x, BODY_TOP, 0],
                           color=MUTED, stroke_width=1).set_opacity(0.5)
@@ -1473,11 +1486,11 @@ class B5(Scene):
         ss_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (ss_ax.c2p(0, 0) + ss_ax.c2p(90, 18)) / 2)
         ss_p_name = Tex('P', color=INK).scale(0.8).next_to(ss_ax.c2p(0, 18), LEFT, buff=0.18)
-        ss_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
-        ss_p_units.next_to(ss_p_name, LEFT, buff=0.12)
+        ss_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45)
+        ss_p_units.next_to(ss_p_name, RIGHT, buff=0.3)
         ss_q_name = Tex('Q', color=INK).scale(0.8).next_to(ss_ax.c2p(90, 0), DOWN, buff=0.2)
-        ss_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
-        ss_q_units.next_to(ss_q_name, DOWN, buff=0.08)
+        ss_q_units = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45)
+        ss_q_units.next_to(ss_q_name, RIGHT, buff=0.18)
         ss_divider_x = max(ss_q_name.get_right()[0], ss_q_units.get_right()[0]) + 0.35
         ss_divider = Line([ss_divider_x, BODY_BOTTOM, 0], [ss_divider_x, BODY_TOP, 0],
                           color=MUTED, stroke_width=1).set_opacity(0.5)
@@ -1637,11 +1650,11 @@ class B5(Scene):
         both_ax.shift(np.array([-1.2, BODY_MID + 0.18, 0])
                       - (both_ax.c2p(0, 0) + both_ax.c2p(90, 18)) / 2)
         both_p_name = Tex('P', color=INK).scale(0.8).next_to(both_ax.c2p(0, 18), LEFT, buff=0.18)
-        both_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
-        both_p_units.next_to(both_p_name, LEFT, buff=0.12)
+        both_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45)
+        both_p_units.next_to(both_p_name, RIGHT, buff=0.3)
         both_q_name = Tex('Q', color=INK).scale(0.8).next_to(both_ax.c2p(90, 0), DOWN, buff=0.2)
-        both_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
-        both_q_units.next_to(both_q_name, DOWN, buff=0.08)
+        both_q_units = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45)
+        both_q_units.next_to(both_q_name, RIGHT, buff=0.18)
         both_a, both_b = ValueTracker(0), ValueTracker(0)
         # Keep both changes measurable while the outcome record accumulates.
         both_a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
@@ -1813,7 +1826,7 @@ class B5(Scene):
             panel_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
             panel_p_units.next_to(panel_p, LEFT, buff=0.12)
             panel_q = Tex('Q', color=INK).scale(0.8).next_to(panel_ax.c2p(90, 0), DOWN, buff=0.2)
-            panel_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(panel_q, DOWN, buff=0.08)
+            panel_q_units = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.5).next_to(panel_q, DOWN, buff=0.08)
             panel_axes_words.add(panel_p, panel_p_units, panel_q, panel_q_units)
         panel_a = ValueTracker(0)
         elastic_d_before = Line(elastic_ax.c2p(0, 12), elastic_ax.c2p(60, 0), color=MUTED, stroke_width=2)
