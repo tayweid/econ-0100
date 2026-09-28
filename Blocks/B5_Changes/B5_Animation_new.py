@@ -140,7 +140,7 @@ class B5(Scene):
                 m.ax.c2p((m.intercept - m.source.get_value()) / m.coefficient, m.source.get_value()),
                 color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
             hook_name = Tex(good, color=INK).scale(0.9).move_to([panel_x, 2.25, 0])
-            hook_equation = MathTex(equation_text, color=TITLE).scale(0.8).next_to(hook_name, DOWN, buff=0.16)
+            hook_equation = MathTex(equation_text, color=DEMAND).scale(0.8).next_to(hook_name, DOWN, buff=0.16)
             hook_p = Tex('P', color=INK).scale(0.8).next_to(hook_ax.c2p(0, max_p), UP, buff=0.16)
             hook_price_unit = Tex(r'\textsf{' + price_unit + '}', color=CAPTION).scale(0.5).next_to(hook_p, LEFT, buff=0.12)
             hook_q = Tex('Q', color=INK).scale(0.8).next_to(hook_ax.c2p(max_q, 0), RIGHT, buff=0.16)
@@ -149,10 +149,10 @@ class B5(Scene):
             hook_pn.ax, hook_pn.source = hook_ax, hook_price
             hook_pn.add_updater(lambda m: m.set_value(m.source.get_value()).next_to(
                 m.ax.c2p(0, m.source.get_value()), LEFT, buff=0.2))
-            hook_qn = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65)
+            hook_qn = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.55)
             hook_qn.ax, hook_qn.source, hook_qn.intercept, hook_qn.coefficient = hook_ax, hook_price, max_p, coefficient
-            hook_qn.add_updater(lambda m: m.set_value((m.intercept - m.source.get_value()) / m.coefficient).next_to(
-                m.ax.c2p(m.get_value(), 0), DOWN, buff=0.2 + 0.3 * (m.source.get_value() - 4)))
+            hook_qn.add_updater(lambda m: m.set_value((m.intercept - m.source.get_value()) / m.coefficient).move_to(
+                m.ax.c2p(m.get_value(), 0) + DOWN * 0.31))
             hook_pn.update(); hook_qn.update()
             panel = VGroup(hook_ax, hook_curve, hook_bars, hook_h, hook_v, hook_dot,
                            hook_name, hook_p, hook_q, hook_unit, hook_price_unit, hook_equation, hook_pn, hook_qn)
@@ -227,7 +227,7 @@ class B5(Scene):
             eu = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.5).next_to(eq, RIGHT, buff=0.12)
             ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(55, 1), UR, buff=0.1)
             good_name = Tex('Spinach', color=INK).scale(0.9).move_to([panel_x, 2.25, 0])
-            equation = MathTex(r'P=12-Q/5', color=TITLE).scale(0.8).next_to(good_name, DOWN, buff=0.16)
+            equation = MathTex(r'P=12-Q/5', color=DEMAND).scale(0.8).next_to(good_name, DOWN, buff=0.16)
             eh = DashedLine(ea.c2p(0, price_source.get_value()),
                             ea.c2p(60 - 5 * price_source.get_value(), price_source.get_value()),
                             color=GUIDE, stroke_width=2).set_opacity(0.5)
@@ -253,11 +253,10 @@ class B5(Scene):
             p_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
                 number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.25))
             p_number.update()
-            q_number = DecimalNumber(60 - 5 * price_source.get_value(), num_decimal_places=0, color=GUIDE).scale(0.65)
-            q_number.ax, q_number.source, q_number.initial_price = ea, price_source, price_source.get_value()
-            q_number.add_updater(lambda number: number.set_value(60 - 5 * number.source.get_value()).next_to(
-                number.ax.c2p(60 - 5 * number.source.get_value(), 0), DOWN,
-                buff=0.2 + 0.3 * (number.source.get_value() - number.initial_price)))
+            q_number = DecimalNumber(60 - 5 * price_source.get_value(), num_decimal_places=0, color=GUIDE).scale(0.55)
+            q_number.ax, q_number.source = ea, price_source
+            q_number.add_updater(lambda number: number.set_value(60 - 5 * number.source.get_value()).move_to(
+                number.ax.c2p(60 - 5 * number.source.get_value(), 0) + DOWN * 0.31))
             q_number.update()
             panel = VGroup(ea, ed, ep, eq, eu, ed_lab, equation, eh, ev, point, p_number, q_number, price_unit, good_name)
             panel.ax = ea
@@ -326,7 +325,7 @@ class B5(Scene):
         eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
         eu = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(eq, RIGHT, buff=0.18)
         ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
-        equation = MathTex(r'P=12-Q/5').scale(0.8).move_to(ea.c2p(39, 11))
+        equation = MathTex(r'P=12-Q/5', color=DEMAND).scale(0.8).move_to(ea.c2p(39, 11))
         divider_x = max(eq.get_right()[0], eu.get_right()[0]) + 0.35
         e_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1)
         e_divider.set_opacity(0.5)
