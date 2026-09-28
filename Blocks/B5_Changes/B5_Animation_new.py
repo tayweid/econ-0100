@@ -1706,7 +1706,9 @@ class B5(Scene):
         # A shift is a change in the schedule. Price adjustment is a second,
         # separate motion on the schedules that now exist.
         self.clear()
-        head = title('Comparative statics')
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{From a shift to a new equilibrium.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         cs_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         cs_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (cs_ax.c2p(0, 0) + cs_ax.c2p(90, 18)) / 2)
@@ -1746,7 +1748,7 @@ class B5(Scene):
         cs_case_supply_result = Tex('Price rises; quantity falls', color=GUIDE).scale(0.5).move_to([6.2, -2.57, 0])
         cs_case_objects = [cs_case_heading, cs_case_up, cs_case_down, cs_case_supply,
                            cs_case_up_result, cs_case_down_result, cs_case_supply_result]
-        self.play(FadeIn(head), FadeIn(cs_ax), FadeIn(cs_p_name),
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_ax), FadeIn(cs_p_name),
                   FadeIn(cs_p_units), FadeIn(cs_q_name), FadeIn(cs_q_units),
                   FadeIn(cs_demand), FadeIn(cs_d_label), FadeIn(cs_divider),
                   FadeIn(cs_phase), FadeIn(cs_prompt), FadeIn(cs_case_heading),
@@ -1805,13 +1807,15 @@ class B5(Scene):
         # ---- 10.e · A positive demand shock arrives while the price stays $4.
         # The dots remain the two quantities at that price, never a moving
         # equilibrium. The gap shows excess demand or excess supply.
-        self.remove(head)
-        head = title('A change in demand')
+        self.remove(head, cs_subtitle)
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{Demand increases.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
         cs_phase = Tex('Demand rises; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('What happens when demand increases?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
         self.remove(cs_equilibrium)
         self.play(cs_a.animate.set_value(5), run_time=2)
         cs_shortage = Brace(Line(cs_ax.c2p(40, 4.3), cs_ax.c2p(65, 4.3)), direction=UP,
@@ -1836,13 +1840,15 @@ class B5(Scene):
         self.pause('10.f')
 
         # ---- 10.i · Reset explicitly, then reduce normal-good demand at $4.
-        self.remove(head)
-        head = title('A change in demand')
+        self.remove(head, cs_subtitle)
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{Income falls; spinach is a normal good.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
         cs_phase = Tex('Income falls: reset the market', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('What if income falls?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(cs_phase), FadeIn(cs_prompt),
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
                   cs_case_up.animate.set_color(CAPTION), cs_case_down.animate.set_color(INK),
                   cs_a.animate.set_value(0), cs_price.animate.set_value(4), run_time=1.6)
         self.pause('10.i')
@@ -1869,7 +1875,9 @@ class B5(Scene):
         self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in cs_case_objects])
 
         # ---- 10.l · Fertilizer starts on its own freshly restored market.
-        head = title('A change in supply')
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{Fertilizer becomes more expensive.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ss_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         ss_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (ss_ax.c2p(0, 0) + ss_ax.c2p(90, 18)) / 2)
@@ -1921,7 +1929,7 @@ class B5(Scene):
         ss_s_drop.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), m.price.get_value()),
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        self.play(FadeIn(head), FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
                   FadeIn(ss_q_units), FadeIn(ss_demand), FadeIn(ss_d_label), FadeIn(ss_supply), FadeIn(ss_s_label))
         self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot),
                   FadeIn(ss_d_drop), FadeIn(ss_s_drop), FadeIn(ss_divider),
@@ -1974,7 +1982,9 @@ class B5(Scene):
         # Each target is a different possible pair of shocks from the same
         # baseline. These moving intersections compare equilibria; they do not
         # assert that a real market's adjustment follows this transition path.
-        head = title('Both curves shift')
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{Demand and supply both increase.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         both_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         both_ax.shift(np.array([-1.2, BODY_MID + 0.18, 0])
                       - (both_ax.c2p(0, 0) + both_ax.c2p(90, 18)) / 2)
@@ -2045,7 +2055,7 @@ class B5(Scene):
         both_record_note = VGroup(Tex('Same starting market', color=CAPTION),
                                   Tex('Three possible outcomes', color=CAPTION))
         both_record_note.arrange(DOWN, buff=0.2).scale(0.7).move_to([5.35, -2.2, 0])
-        self.play(FadeIn(head), FadeIn(both_ax), FadeIn(both_p_name),
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(both_ax), FadeIn(both_p_name),
                   FadeIn(both_p_units), FadeIn(both_q_name), FadeIn(both_q_units),
                   FadeIn(both_d), FadeIn(both_s), FadeIn(both_d_label),
                   FadeIn(both_s_label), FadeIn(both_h), FadeIn(both_v),
@@ -2083,7 +2093,9 @@ class B5(Scene):
         # ========== 8. How much price, how much quantity? ==========
         # Both plots use exactly the same scale, range, demand curve, and
         # starting equilibrium. Only the supply response differs.
-        head = title('Elasticity and market changes')
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{The same demand increase meets different supply responses.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         question = Tex('How much changes in price, and how much in quantity?', color=DEFINITION).scale(DEFINITION_SCALE)
         question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         elastic_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.2, y_length=4.2)
@@ -2160,7 +2172,7 @@ class B5(Scene):
         inelastic_v.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(40 + m.source.get_value(), 4 + 0.8 * m.source.get_value()),
             m.ax.c2p(40 + m.source.get_value(), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        self.play(FadeIn(head), FadeIn(question), FadeIn(elastic_ax), FadeIn(inelastic_ax), FadeIn(panel_axes_words),
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(question), FadeIn(elastic_ax), FadeIn(inelastic_ax), FadeIn(panel_axes_words),
                   FadeIn(elastic_name), FadeIn(inelastic_name), FadeIn(elastic_d), FadeIn(inelastic_d),
                   FadeIn(elastic_s), FadeIn(inelastic_s), FadeIn(elastic_s_word), FadeIn(inelastic_s_word),
                   FadeIn(elastic_d_word), FadeIn(inelastic_d_word))
@@ -2194,11 +2206,13 @@ class B5(Scene):
         self.pause('12.c')
 
         # ---- 13.a · Close on the comparison; the market picture earns the cue.
-        self.remove(head, response_def)
-        head = title('Market changes')
+        self.remove(head, cs_subtitle, response_def)
+        head = title('Comparative Statics')
+        cs_subtitle = Tex(r'\textsf{How markets respond to change.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         question = Tex('How do markets respond to change?', color=DEFINITION).scale(DEFINITION_SCALE)
         question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question))
+        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(question))
         self.pause('13.a')
         self.remove(question)
         next_time = Tex('Next time: international trade.', color=CAPTION).scale(DEFINITION_SCALE)
