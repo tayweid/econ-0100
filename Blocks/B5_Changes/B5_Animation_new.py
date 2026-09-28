@@ -953,38 +953,80 @@ class B5(Scene):
             tick.ax.c2p((12 + tick.source.get_value()) / tick.slope.get_value(), 0) + DOWN * 0.06,
             tick.ax.c2p((12 + tick.source.get_value()) / tick.slope.get_value(), 0) + UP * 0.06))
         context_supply_intercept = Tex('2', color=CAPTION).scale(0.6).next_to(ax.c2p(0, 2), LEFT, buff=0.18).set_opacity(0.5)
-        selected_bar = Line(ax.c2p(30, 0), ax.c2p(30, 6), color=DEMAND, stroke_width=10)
-        selected_word = Tex(r"Gary's next unit", color=INK).scale(0.8).next_to(selected_bar.get_end(), UR, buff=0.2)
+        buyer_bars = VGroup()
+        for buyer_quantity in range(1, 60):
+            if buyer_quantity != 30:
+                buyer_bars.add(Line(ax.c2p(buyer_quantity, 0), ax.c2p(buyer_quantity, 12 - buyer_quantity / 5),
+                                    color=DEMAND, stroke_width=2, z_index=-1).set_opacity(0.2))
+        selected_bar = Polygon(ax.c2p(29.2, 0), ax.c2p(30.8, 0), ax.c2p(30.8, 6), ax.c2p(29.2, 6),
+                               stroke_width=0, fill_color=DEMAND, fill_opacity=1, z_index=2)
         self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(demand), FadeIn(supply),
                   FadeIn(demand_word), FadeIn(supply_word), FadeIn(demand_p_intercept),
                   FadeIn(demand_q_intercept), FadeIn(demand_q_intercept_tick), FadeIn(context_supply_intercept))
-        self.play(FadeIn(selected_bar), FadeIn(selected_word))
+        self.play(FadeIn(buyer_bars))
+        self.play(FadeIn(selected_bar))
         self.pause('7.b')
 
-        # ---- 7.c · Bring that one bar forward; raise willingness to pay only.
-        # The axes and supply stay still. The market-wide shift comes in 8.b.
+        # ---- 7.c · Raise Gary's MB in both views; outline only the added benefit.
+        # The original blue bar remains at 6. The hollow gold extension reaches
+        # the new MB; the rest of the market stays still until the market-wide shift.
         benefit = ValueTracker(6)
         gary_base = np.array([4.0, -1.8, 0])
-        gary_bar = Line(gary_base, gary_base + UP * 2.0, color=DEMAND, stroke_width=20)
-        gary_bar.base, gary_bar.benefit = gary_base, benefit
-        gary_bar.add_updater(lambda m: m.put_start_and_end_on(m.base, m.base + UP * m.benefit.get_value() / 3))
-        gary_name = Tex(r"Gary's next unit", color=INK).scale(0.8).next_to(gary_base, DOWN, buff=0.35)
-        gary_number = DecimalNumber(6, num_decimal_places=0, color=GUIDE).scale(0.9)
-        gary_number.bar, gary_number.benefit = gary_bar, benefit
-        gary_number.add_updater(lambda m: m.set_value(m.benefit.get_value()).next_to(m.bar.get_end(), RIGHT, buff=0.3))
+        gary_bar = Rectangle(width=0.2, height=2, stroke_width=0, fill_color=DEMAND, fill_opacity=1)
+        gary_bar.move_to(gary_base + UP)
+        gary_name = Tex('Gary', color=INK).scale(0.8).next_to(gary_base, DOWN, buff=0.35)
         gary_units = Tex(r'MB (\$/lb)', color=CAPTION).scale(0.7).move_to([4.4, 2.25, 0])
         old_top = DashedLine([3.4, 0.2, 0], [4.7, 0.2, 0], color=MUTED)
         old_six = Tex('6', color=CAPTION).scale(0.7).next_to(old_top, LEFT, buff=0.15)
+        graph_old_top = DashedLine(ax.c2p(25, 6), ax.c2p(35, 6), color=MUTED, stroke_width=2)
+        graph_old_six = Tex('6', color=CAPTION).scale(0.6).next_to(graph_old_top, LEFT, buff=0.15)
+        gary_gain = VMobject(stroke_color=FOCUS, stroke_width=2, fill_opacity=0)
+        gary_gain.base, gary_gain.source = gary_base, benefit
+        gary_gain.add_updater(lambda box: box.set_points_as_corners([
+            box.base + np.array([-0.1, 2, 0]), box.base + np.array([0.1, 2, 0]),
+            box.base + np.array([0.1, box.source.get_value() / 3, 0]),
+            box.base + np.array([-0.1, box.source.get_value() / 3, 0]),
+            box.base + np.array([-0.1, 2, 0])]))
+        graph_gain = VMobject(stroke_color=FOCUS, stroke_width=2, fill_opacity=0, z_index=3)
+        graph_gain.ax, graph_gain.source = ax, benefit
+        graph_gain.add_updater(lambda box: box.set_points_as_corners([
+            box.ax.c2p(29.2, 6), box.ax.c2p(30.8, 6),
+            box.ax.c2p(30.8, box.source.get_value()), box.ax.c2p(29.2, box.source.get_value()),
+            box.ax.c2p(29.2, 6)]))
+        new_top = DashedLine([3.4, 0.2, 0], [4.7, 0.2, 0], color=DEMAND)
+        new_top.base, new_top.source = gary_base, benefit
+        new_top.add_updater(lambda line: line.become(DashedLine(
+            [3.4, line.base[1] + line.source.get_value() / 3, 0],
+            [4.7, line.base[1] + line.source.get_value() / 3, 0],
+            color=DEMAND).set_style(**line.get_style())).set_opacity(np.clip(line.source.get_value() - 6, 0, 1)))
+        gary_number = DecimalNumber(6, num_decimal_places=0, color=DEMAND).scale(0.7)
+        gary_number.base, gary_number.source = gary_base, benefit
+        gary_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
+            np.array([3.4, number.base[1] + number.source.get_value() / 3, 0]), LEFT, buff=0.15)
+            .set_opacity(np.clip((number.source.get_value() - 6.8) / 0.4, 0, 1)))
+        graph_new_top = DashedLine(ax.c2p(25, 6), ax.c2p(35, 6), color=DEMAND, stroke_width=2, z_index=4)
+        graph_new_top.ax, graph_new_top.source = ax, benefit
+        graph_new_top.add_updater(lambda line: line.become(DashedLine(
+            line.ax.c2p(25, line.source.get_value()), line.ax.c2p(35, line.source.get_value()),
+            color=DEMAND, stroke_width=2, z_index=4).set_style(**line.get_style())).set_opacity(np.clip(line.source.get_value() - 6, 0, 1)))
+        graph_new_number = DecimalNumber(6, num_decimal_places=0, color=DEMAND).scale(0.6)
+        graph_new_number.ax, graph_new_number.source = ax, benefit
+        graph_new_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
+            number.ax.c2p(25, number.source.get_value()), LEFT, buff=0.15)
+            .set_opacity(np.clip((number.source.get_value() - 6.8) / 0.4, 0, 1)))
         bottom = Tex('New information raises willingness to pay.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(TransformFromCopy(selected_bar, gary_bar), FadeIn(gary_name), FadeIn(gary_number), FadeIn(gary_units))
-        self.play(FadeIn(old_top), FadeIn(old_six), FadeIn(bottom))
+        self.play(TransformFromCopy(selected_bar, gary_bar), FadeIn(gary_name), FadeIn(gary_units))
+        self.play(FadeIn(old_top), FadeIn(old_six), FadeIn(graph_old_top), FadeIn(graph_old_six), FadeIn(bottom))
+        self.add(gary_gain, graph_gain, new_top, gary_number, graph_new_top, graph_new_number)
         self.play(benefit.animate.set_value(11), run_time=2)
         self.pause('7.c')
-        gary_bar.clear_updaters()
-        gary_number.clear_updaters()
+        for mob in (gary_gain, graph_gain, new_top, gary_number, graph_new_top, graph_new_number):
+            mob.clear_updaters()
         self.play(FadeOut(gary_bar), FadeOut(gary_name), FadeOut(gary_number), FadeOut(gary_units),
-                  FadeOut(old_top), FadeOut(old_six), FadeOut(selected_bar), FadeOut(selected_word),
+                  FadeOut(old_top), FadeOut(old_six), FadeOut(selected_bar), FadeOut(buyer_bars),
+                  FadeOut(gary_gain), FadeOut(graph_gain), FadeOut(new_top), FadeOut(graph_new_top),
+                  FadeOut(graph_new_number), FadeOut(graph_old_top), FadeOut(graph_old_six),
                   FadeOut(supply), FadeOut(supply_word), FadeOut(context_supply_intercept), FadeOut(bottom))
 
         # ---- 8.a · Own price changes the selected point, never the curve.
