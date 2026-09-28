@@ -1352,7 +1352,7 @@ class B5(Scene):
         supply.ax, supply.shift_value, supply.slope = ax, cost_shift, supply_slope
         supply.add_updater(lambda m: m.put_start_and_end_on(m.ax.c2p(0, 2 + m.shift_value.get_value()),
             m.ax.c2p(100, 2 + m.shift_value.get_value() + 100 * m.slope.get_value())))
-        supply_p_intercept = DecimalNumber(2, num_decimal_places=2, color=DEFINITION).scale(0.6)
+        supply_p_intercept = DecimalNumber(2, num_decimal_places=2, color=CAPTION).scale(0.6)
         supply_p_intercept.ax, supply_p_intercept.source = ax, cost_shift
         supply_p_intercept.add_updater(lambda number: number.set_value(2 + number.source.get_value()).next_to(
             number.ax.c2p(0, 2 + number.source.get_value()), LEFT, buff=0.18))
@@ -1383,15 +1383,115 @@ class B5(Scene):
         q_number.slope = supply_slope
         q_number.add_updater(lambda m: m.set_value((m.price.get_value() - 2 - m.shift_value.get_value()) / m.slope.get_value())
             .next_to(m.ax.c2p(m.get_value(), 0), DOWN, buff=0.2))
-        q_prefix = Tex('$Q_s=$', color=GUIDE).scale(0.8)
-        q_prefix.number = q_number
-        q_prefix.add_updater(lambda m: m.next_to(m.number, LEFT, buff=0.08))
         bottom = Tex(r'A change in {{quantity supplied}} moves along the curve.',
                      tex_to_color_map={'quantity supplied': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(supply), FadeIn(supply_word), FadeIn(supply_p_intercept))
         self.play(FadeIn(p_line), FadeIn(point), FadeIn(p_number))
-        self.play(FadeIn(q_line), FadeIn(q_number), FadeIn(q_prefix), FadeIn(bottom))
+        self.play(FadeIn(q_line), FadeIn(q_number), FadeIn(bottom))
+        curve_equation = MathTex(r'P=2+Q/20', color=SUPPLY).scale(0.8).move_to([-3.6, 1.35, 0])
+        self.play(FadeIn(curve_equation))
+        self.play(price.animate.set_value(5), run_time=1.7)
+        self.pause('9.a')
+        self.play(price.animate.set_value(4), run_time=1.2)
+
+        # ---- 9.a1 · Select Molly among the cost bars before introducing b.
+        self.remove(question)
+        question = Tex(r'\mbox{\textsf{At a price of \$4, Molly is willing to supply her next unit.}}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(question))
+        p_number.clear_updaters().set_color(CAPTION)
+        original_price_guide = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4),
+                                         color=MUTED, stroke_width=2, z_index=8)
+        original_quantity_guide = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4),
+                                            color=MUTED, stroke_width=2, z_index=8)
+        original_point = Dot(ax.c2p(40, 4), color=MUTED, radius=0.065, z_index=11)
+        original_marks = VGroup(original_price_guide, original_quantity_guide, original_point)
+        original_q_number = Tex('40', color=CAPTION).scale(0.8).next_to(ax.c2p(40, 0), DOWN, buff=0.2)
+        original_q_number.source, original_q_number.slope = cost_shift, supply_slope
+        original_q_number.add_updater(lambda label: label.set_opacity(np.clip(
+            (abs((2 - label.source.get_value()) / label.slope.get_value() - 40) * 4.6 / 100 - 0.35) / 0.2, 0, 1)))
+        q_number.add_updater(lambda number: number.set_color(CAPTION if abs(number.get_value() - 40) < 0.001 else GUIDE))
+        self.add(original_marks, original_q_number)
+        seller_bars = VGroup()
+        for seller_quantity in range(1, 100):
+            if seller_quantity != 20:
+                seller_bar = Line(ax.c2p(seller_quantity, 0), ax.c2p(seller_quantity, 2 + seller_quantity / 20),
+                                  color=SUPPLY, stroke_width=2, z_index=-1).set_opacity(0.2)
+                seller_bar.ax, seller_bar.quantity, seller_bar.source = ax, seller_quantity, cost_shift
+                seller_bar.add_updater(lambda bar: bar.put_start_and_end_on(
+                    bar.ax.c2p(bar.quantity, 0), bar.ax.c2p(bar.quantity, 2 + bar.quantity / 20 + bar.source.get_value())))
+                seller_bars.add(seller_bar)
+        molly_selection = Polygon(ax.c2p(19.2, 0), ax.c2p(20.8, 0), ax.c2p(20.8, 3), ax.c2p(19.2, 3),
+                                  stroke_width=0, fill_color=SUPPLY, fill_opacity=1, z_index=2)
+        molly_selection.ax, molly_selection.source = ax, cost_shift
+        molly_selection.add_updater(lambda bar: bar.set_points_as_corners([
+            bar.ax.c2p(19.2, 0), bar.ax.c2p(20.8, 0),
+            bar.ax.c2p(20.8, min(3, 3 + bar.source.get_value())),
+            bar.ax.c2p(19.2, min(3, 3 + bar.source.get_value())), bar.ax.c2p(19.2, 0)]))
+        molly_base = np.array([0.15, -1.8, 0])
+        molly_bar = Rectangle(width=0.2, height=1.8, stroke_width=0, fill_color=SUPPLY, fill_opacity=1)
+        molly_bar.move_to(molly_base + UP * 0.9)
+        molly_bar.base, molly_bar.source = molly_base, cost_shift
+        molly_bar.add_updater(lambda bar: bar.set_points_as_corners([
+            bar.base + LEFT * 0.1, bar.base + RIGHT * 0.1,
+            bar.base + RIGHT * 0.1 + UP * 0.6 * min(3, 3 + bar.source.get_value()),
+            bar.base + LEFT * 0.1 + UP * 0.6 * min(3, 3 + bar.source.get_value()), bar.base + LEFT * 0.1]))
+        molly_name = Tex('Molly', color=INK).scale(0.8).next_to(molly_base, DOWN, buff=0.35)
+        molly_units = Tex(r'MC (\$/lb)', color=CAPTION).scale(0.65).move_to([0.15, 2.25, 0])
+        molly_old_top = DashedLine([-0.4, 0, 0], [0.7, 0, 0], color=MUTED)
+        molly_old_number = Tex('3', color=CAPTION).scale(0.7).next_to(molly_old_top, LEFT, buff=0.15)
+        molly_graph_old_top = DashedLine(ax.c2p(15, 3), ax.c2p(25, 3), color=MUTED, stroke_width=2, z_index=4)
+        molly_graph_old_number = Tex('3', color=CAPTION).scale(0.6).next_to(molly_graph_old_top, LEFT, buff=0.15)
+        molly_gain = VMobject(stroke_color=FOCUS, stroke_width=2, fill_opacity=0)
+        molly_gain.base, molly_gain.source = molly_base, cost_shift
+        molly_gain.add_updater(lambda box: box.set_points_as_corners([
+            box.base + LEFT * 0.1 + UP * 1.8, box.base + RIGHT * 0.1 + UP * 1.8,
+            box.base + RIGHT * 0.1 + UP * 0.6 * (3 + box.source.get_value()),
+            box.base + LEFT * 0.1 + UP * 0.6 * (3 + box.source.get_value()), box.base + LEFT * 0.1 + UP * 1.8]))
+        molly_graph_gain = VMobject(stroke_color=FOCUS, stroke_width=2, fill_opacity=0, z_index=3)
+        molly_graph_gain.ax, molly_graph_gain.source = ax, cost_shift
+        molly_graph_gain.add_updater(lambda box: box.set_points_as_corners([
+            box.ax.c2p(19.2, 3), box.ax.c2p(20.8, 3),
+            box.ax.c2p(20.8, 3 + box.source.get_value()), box.ax.c2p(19.2, 3 + box.source.get_value()), box.ax.c2p(19.2, 3)]))
+        molly_new_top = DashedLine([-0.4, 0, 0], [0.7, 0, 0], color=SUPPLY)
+        molly_new_top.base, molly_new_top.source = molly_base, cost_shift
+        molly_new_top.add_updater(lambda line: line.become(DashedLine(
+            line.base + LEFT * 0.55 + UP * 0.6 * (3 + line.source.get_value()),
+            line.base + RIGHT * 0.55 + UP * 0.6 * (3 + line.source.get_value()),
+            color=SUPPLY).set_style(**line.get_style())).set_opacity(np.clip(abs(line.source.get_value()) * 4, 0, 1)))
+        molly_number = DecimalNumber(3, num_decimal_places=2, color=SUPPLY).scale(0.7)
+        molly_number.base, molly_number.source = molly_base, cost_shift
+        molly_number.add_updater(lambda number: number.set_value(3 + number.source.get_value()).next_to(
+            number.base + LEFT * 0.55 + UP * 0.6 * (3 + number.source.get_value()), LEFT, buff=0.15)
+            .set_opacity(np.clip((abs(number.source.get_value()) - 0.4) * 4, 0, 1)))
+        molly_graph_new_top = DashedLine(ax.c2p(15, 3), ax.c2p(25, 3), color=SUPPLY, stroke_width=2, z_index=4)
+        molly_graph_new_top.ax, molly_graph_new_top.source = ax, cost_shift
+        molly_graph_new_top.add_updater(lambda line: line.become(DashedLine(
+            line.ax.c2p(15, 3 + line.source.get_value()), line.ax.c2p(25, 3 + line.source.get_value()),
+            color=SUPPLY, stroke_width=2, z_index=4).set_style(**line.get_style()))
+            .set_opacity(np.clip(abs(line.source.get_value()) * 4, 0, 1)))
+        molly_graph_number = DecimalNumber(3, num_decimal_places=2, color=SUPPLY).scale(0.6)
+        molly_graph_number.ax, molly_graph_number.source = ax, cost_shift
+        molly_graph_number.add_updater(lambda number: number.set_value(3 + number.source.get_value()).next_to(
+            number.ax.c2p(25, 3 + number.source.get_value()), RIGHT, buff=0.15)
+            .set_opacity(np.clip((abs(number.source.get_value()) - 0.4) * 4, 0, 1)))
+        molly_price = DashedLine([-0.4, 0.6, 0], [0.7, 0.6, 0], color=GUIDE)
+        molly_price_word = Tex('4', color=GUIDE).scale(0.7).next_to(molly_price, RIGHT, buff=0.15)
+        molly_check = MathTex(r'\checkmark', color=GREEN).scale(0.85).move_to([0.15, 1.4, 0])
+        molly_check.source = cost_shift
+        molly_check.add_updater(lambda mark: mark.set_opacity(1 if 3 + mark.source.get_value() < 4 else 0))
+        molly_cross = MathTex(r'\times', color=GUIDE).scale(0.85).move_to(molly_check)
+        molly_cross.source = cost_shift
+        molly_cross.add_updater(lambda mark: mark.set_opacity(1 if 3 + mark.source.get_value() > 4 else 0))
+        self.play(FadeIn(seller_bars), FadeIn(molly_selection))
+        self.play(TransformFromCopy(molly_selection, molly_bar), FadeIn(molly_name), FadeIn(molly_units))
+        self.play(FadeIn(molly_old_top), FadeIn(molly_old_number), FadeIn(molly_graph_old_top),
+                  FadeIn(molly_graph_old_number), FadeIn(molly_price), FadeIn(molly_price_word))
+        self.add(molly_gain, molly_graph_gain, molly_new_top, molly_number, molly_graph_new_top, molly_graph_number,
+                 molly_check, molly_cross)
+        self.pause('9.a1')
+
         # Positive b raises marginal cost, so it means a decrease in supply.
         supply_equation = MathTex(r'P=2+', 'b', r'+Q/20',
                                   tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'b': DEFINITION}).scale(0.85)
@@ -1405,20 +1505,23 @@ class B5(Scene):
         b_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
         b_span.ax, b_span.source = ax, cost_shift
         b_span.add_updater(lambda m: m.set_points_as_corners([
-            m.ax.c2p(0, 2) + LEFT * 0.85,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.85]))
-        b_anchor = Line(ax.c2p(0, 2) + LEFT * 1.0, ax.c2p(0, 2) + LEFT * 0.7,
-                        color=MUTED, stroke_width=2)
-        b_cap = Line(ax.c2p(0, 2) + LEFT * 1.0, ax.c2p(0, 2) + LEFT * 0.7,
+            m.ax.c2p(0, 2) + LEFT * 1.05,
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 1.05]))
+        b_anchor = Line(ax.c2p(0, 2) + LEFT * 1.2, ax.c2p(0, 2) + LEFT * 0.9,
+                        color=DEFINITION, stroke_width=2)
+        b_cap = Line(ax.c2p(0, 2) + LEFT * 1.2, ax.c2p(0, 2) + LEFT * 0.9,
                      color=DEFINITION, stroke_width=2)
         b_cap.ax, b_cap.source = ax, cost_shift
         b_cap.add_updater(lambda m: m.put_start_and_end_on(
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 1.0,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.7))
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 1.2,
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.9))
         b_label = MathTex('b', color=DEFINITION).scale(0.75)
         b_label.ax, b_label.source = ax, cost_shift
         b_label.add_updater(lambda m: m.next_to(
-            m.ax.c2p(0, 2 + m.source.get_value() / 2) + LEFT * 0.85, LEFT, buff=0.18))
+            m.ax.c2p(0, 2 + m.source.get_value() / 2) + LEFT * 1.05, LEFT, buff=0.18))
+        for marker in (b_span, b_anchor, b_cap, b_label):
+            marker.source = cost_shift
+            marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value()) * 4, 0, 1)))
         supply_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         supply_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([2.1, 0.73, 0], aligned_edge=LEFT)
         supply_scenarios = VGroup()
@@ -1431,22 +1534,21 @@ class B5(Scene):
             scenario = VGroup(Tex(label, color=INK).scale(0.7).move_to([2.1, y, 0], aligned_edge=LEFT),
                               MathTex(sign, color=DEFINITION).scale(0.7).move_to([5.85, y, 0]))
             supply_scenarios.add(scenario)
-        self.play(FadeIn(supply_divider), FadeIn(supply_equation), FadeIn(b_readout),
+        self.play(FadeOut(curve_equation), FadeIn(supply_divider), FadeIn(supply_equation), FadeIn(b_readout),
                   FadeIn(b_span), FadeIn(b_anchor), FadeIn(b_cap), FadeIn(b_label))
-
-        self.play(price.animate.set_value(5), run_time=1.7)
-        self.pause('9.a')
-        self.play(price.animate.set_value(4), run_time=1.2)
 
         # ---- 9.b · Molly's costs rise; at the same price fewer lots pay.
         # A named cost bar is an enlarged marginal unit, not a second market.
-        before_supply = supply.copy().clear_updaters().set_color(MUTED).set_opacity(0.55)
+        before_supply = supply.copy().clear_updaters().set_color(MUTED).set_opacity(0.55).set_z_index(-2)
         original_supply_intercept = Tex('2.00', color=CAPTION).scale(0.6).next_to(ax.c2p(0, 2), LEFT, buff=0.18)
         original_supply_intercept.source = cost_shift
         original_supply_intercept.add_updater(lambda label: label.set_opacity(
             np.clip((abs(label.source.get_value()) * 4.6 / 9 - 0.3) / 0.25, 0, 0.65)))
         self.add(original_supply_intercept)
         before_word = Tex('$S_0$', color=CAPTION).scale(0.7).next_to(ax.c2p(85, 6.25), UP, buff=0.15)
+        before_word.source, before_word.slope = cost_shift, supply_slope
+        before_word.add_updater(lambda label: label.set_opacity(np.clip(
+            (abs(label.source.get_value() + 85 * (label.slope.get_value() - 0.05)) * 4.6 / 9 - 0.2) / 0.2, 0, 1)))
         self.add(before_supply)
         self.remove(head, question, bottom)
         head = title('Shifters: Supply')
@@ -1455,19 +1557,7 @@ class B5(Scene):
         bottom = Tex(r'A change in {{supply}} shifts the whole curve.',
                      tex_to_color_map={'supply': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        molly_selection = Line(ax.c2p(20, 0), ax.c2p(20, 3), color=SUPPLY, stroke_width=10)
-        self.play(FadeIn(molly_selection))
-        molly_bar = Line([6.5, -1.6, 0], [6.5, 0.2, 0], color=SUPPLY, stroke_width=20)
-        molly_bar.shift_value = cost_shift
-        molly_bar.add_updater(lambda m: m.put_start_and_end_on(np.array([6.5, -1.6, 0]),
-            np.array([6.5, -1.6 + 0.6 * (3 + m.shift_value.get_value()), 0])))
-        molly_name = Tex(r"\shortstack{Molly's\\next unit}", color=INK).scale(0.72).move_to([6.5, -2.05, 0])
-        molly_price = DashedLine([6.0, 0.8, 0], [7.0, 0.8, 0], color=GUIDE)
-        molly_price_word = Tex(r'$P=4$', color=GUIDE).scale(0.7).next_to(molly_price, UP, buff=0.15)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(bottom), FadeIn(before_word),
-                  TransformFromCopy(molly_selection, molly_bar), FadeIn(molly_name),
-                  FadeIn(molly_price), FadeIn(molly_price_word))
-        self.play(FadeOut(molly_selection))
+        self.play(FadeIn(head), FadeIn(question), FadeIn(bottom), FadeIn(before_word))
         self.play(FadeIn(supply_list_head), FadeIn(supply_scenarios[0]))
         self.play(cost_shift.animate.set_value(1.25), run_time=1.7)
         self.pause('9.b')
@@ -1491,8 +1581,14 @@ class B5(Scene):
         self.play(supply_scenarios[1].animate.set_color(CAPTION), FadeIn(supply_scenarios[2]))
         self.play(cost_shift.animate.set_value(1.25), run_time=1.7)
         self.pause('9.d')
-        self.play(cost_shift.animate.set_value(0), FadeOut(molly_bar), FadeOut(molly_name),
-                  FadeOut(molly_price), FadeOut(molly_price_word), run_time=1.2)
+        self.play(cost_shift.animate.set_value(0), run_time=1.2)
+        molly_objects = (seller_bars, molly_selection, molly_bar, molly_name, molly_units,
+                         molly_old_top, molly_old_number, molly_graph_old_top, molly_graph_old_number,
+                         molly_gain, molly_graph_gain, molly_new_top, molly_number, molly_graph_new_top,
+                         molly_graph_number, molly_price, molly_price_word, molly_check, molly_cross)
+        for mob in molly_objects:
+            mob.clear_updaters()
+        self.play(*[FadeOut(mob) for mob in molly_objects])
 
         # ---- 9.e · Add identical sellers without changing individual costs.
         # Horizontal aggregation raises Q by 25% at every price above $2.
@@ -1877,7 +1973,7 @@ class B5(Scene):
             m.ax.c2p(0, 2) + LEFT * 0.8,
             m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8]))
         ss_b_anchor = Line(ss_ax.c2p(0, 2) + LEFT * 0.95,
-                               ss_ax.c2p(0, 2) + LEFT * 0.65, color=MUTED, stroke_width=2)
+                               ss_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         ss_b_cap = Line(ss_ax.c2p(0, 2) + LEFT * 0.95,
                             ss_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         ss_b_cap.ax, ss_b_cap.source = ss_ax, ss_b
@@ -1999,7 +2095,7 @@ class B5(Scene):
             m.ax.c2p(0, 2) + LEFT * 0.8,
             m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8]))
         both_b_anchor = Line(both_ax.c2p(0, 2) + LEFT * 0.95,
-                               both_ax.c2p(0, 2) + LEFT * 0.65, color=MUTED, stroke_width=2)
+                               both_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         both_b_cap = Line(both_ax.c2p(0, 2) + LEFT * 0.95,
                             both_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         both_b_cap.ax, both_b_cap.source = both_ax, both_b
