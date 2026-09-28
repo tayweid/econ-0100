@@ -39,8 +39,8 @@ class B5(Scene):
         # The same line equations and thousand-pound units survive the recap.
         # This is a continuous model; don't import B4's discrete welfare totals.
         head = title('Equilibrium')
-        question = Tex(r'\textsf{No one has a reason to change.}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{No one has a reason to change.}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ax = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-2.3, -2.25, 0]) - ax.c2p(0, 0))
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.25)
@@ -96,8 +96,8 @@ class B5(Scene):
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
         hook_head = title('Responsiveness to Price')
-        hook_question = Tex(r'\textsf{Which buyers are hit harder?}', color=CAPTION).scale(0.75)
-        hook_question.next_to(hook_head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        hook_question = Tex(r'\textsf{Which buyers are hit harder?}', color=CAPTION).scale(0.55)
+        hook_question.next_to(hook_head, DOWN, buff=0.08, aligned_edge=LEFT)
         hook_price = ValueTracker(4)
         hook_panels, hook_numbers = VGroup(), VGroup()
         hook_buyer_groups, hook_dots, hook_guides = [], [], []
@@ -210,8 +210,8 @@ class B5(Scene):
         # The scales and curve are identical; only the selected interval differs.
         self.clear()
         head = title('Responsiveness to Price: Elasticity')
-        question = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
         elasticity_panels = VGroup()
         elasticity_prices = [ValueTracker(10), ValueTracker(1)]
@@ -308,13 +308,14 @@ class B5(Scene):
         # The short gold change joins the two endpoint quantities. Neither bar
         # is concatenated with the other: the denominator is visibly a midpoint.
         self.clear()
-        head = title('Measuring elasticity')
-        question = Tex(r'\textsf{How responsive are buyers?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        head = title('Elasticity')
+        question = Tex(r"\textsf{Buyer's responsiveness to a change in price.}", color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ea = style_axes([0, 60, 10], [0, 12, 2], x_length=4.3, y_length=4.3)
         ea.shift(np.array([-3.9, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(60, 12)) / 2)
         ed = Line(ea.c2p(0, 12), ea.c2p(60, 0), color=DEMAND, stroke_width=4)
-        ep = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
+        ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), UP, buff=0.16)
+        price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(ep, LEFT, buff=0.12)
         eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
         eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(eq, DOWN, buff=0.08)
         ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
@@ -364,10 +365,10 @@ class B5(Scene):
         midpoint_dot.ax, midpoint_dot.source = ea, midpoint_price
         midpoint_dot.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
             60 - 5 * dot.source.get_value(), dot.source.get_value())))
-        midpoint_note = Tex('Midpoint', color=DEFINITION).scale(0.7)
+        midpoint_note = Tex('Midpoint', color=DEFINITION).scale(0.6)
         midpoint_note.ax, midpoint_note.source = ea, midpoint_price
         midpoint_note.add_updater(lambda label: label.next_to(label.ax.c2p(
-            60 - 5 * label.source.get_value(), label.source.get_value()), UP, buff=0.65))
+            60 - 5 * label.source.get_value(), label.source.get_value()), UP, buff=0.55).shift(RIGHT * 0.35))
         midpoint_note.update()
         q_delta = Line(ea.c2p(5, 10), ea.c2p(10, 10), color=FOCUS, stroke_width=6)
         q_delta.ax, q_delta.source = ea, midpoint_price
@@ -394,7 +395,7 @@ class B5(Scene):
                            tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
-                  FadeIn(ed_lab), FadeIn(equation), FadeIn(e_divider), FadeIn(endpoints))
+                  FadeIn(price_unit), FadeIn(ed_lab), FadeIn(equation), FadeIn(e_divider), FadeIn(endpoints))
         self.play(FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
@@ -564,8 +565,8 @@ class B5(Scene):
         # ---- 5.a · At one extreme, quantity does not respond at all.
         self.clear()
         head = title('The extremes of elasticity')
-        question = Tex(r'\textsf{How far can responsiveness go?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{How far can responsiveness go?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ea = style_axes([0, 2, 1], [0, 12, 2], x_length=3.6, y_length=3.6)
         ea.shift(np.array([-3.7, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(2, 12)) / 2)
         ep = VGroup(Tex(r'\textsf{\$/pack}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
@@ -647,8 +648,8 @@ class B5(Scene):
         # yields (20/50)/(1/4.5)=1.8; price and quantity move together.
         self.clear()
         head = title('Price elasticity of supply')
-        question = Tex(r'\textsf{How responsive are sellers?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{How responsive are sellers?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         sa = style_axes([0, 80, 20], [0, 8, 2], x_length=4.3, y_length=4.3)
         sa.shift(np.array([-3.9, BODY_MID, 0]) - (sa.c2p(0, 0) + sa.c2p(80, 8)) / 2)
         supply = Line(sa.c2p(0, 2), sa.c2p(80, 6), color=SUPPLY, stroke_width=4)
@@ -742,8 +743,8 @@ class B5(Scene):
         # Selecting Q=30 gives MB=$6 in the market ordering. His bar is a
         # representative marginal lot, not an individual demand schedule.
         head = title('A change in preferences')
-        question = Tex(r'\textsf{What if spinach is healthier than we thought?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What if spinach is healthier than we thought?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ax = style_axes([0, 90, 20], [0, 18, 4], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 18), LEFT, buff=0.25)
@@ -792,8 +793,8 @@ class B5(Scene):
         # ---- 8.a · Own price changes the selected point, never the curve.
         self.remove(head, question)
         head = title('Demand: movement and shift')
-        question = Tex(r'\textsf{Did demand change, or did the price change?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{Did demand change, or did the price change?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         price = ValueTracker(4)
         shift = ValueTracker(0)
         demand_slope = ValueTracker(0.2)
@@ -927,8 +928,8 @@ class B5(Scene):
         self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2]))
         self.remove(head, question, bottom)
         head = title('Demand shifters')
-        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'{{Normal goods}}: higher income increases demand.',
                      tex_to_color_map={'Normal goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -943,8 +944,8 @@ class B5(Scene):
         self.remove(bottom)
         self.remove(head, question)
         head = title('Demand shifters')
-        question = Tex(r'\textsf{What if the good is instant noodles?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What if the good is instant noodles?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
         bottom = Tex(r'{{Inferior goods}}: higher income decreases demand.',
                      tex_to_color_map={'Inferior goods': DEFINITION}).scale(DEFINITION_SCALE)
@@ -963,8 +964,8 @@ class B5(Scene):
         self.remove(bottom)
         self.remove(head, question)
         head = title('Demand shifters')
-        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
         bottom = Tex(r'{{Substitutes}} can take each other\textquotesingle s place.',
                      tex_to_color_map={'Substitutes': DEFINITION}).scale(DEFINITION_SCALE)
@@ -991,8 +992,8 @@ class B5(Scene):
         self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
         self.remove(bottom, question, demand_equation)
         self.play(FadeOut(a_readout), FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
-        question = Tex(r'\textsf{What if we add 25\% more identical buyers?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What if we add 25\% more identical buyers?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         demand_entry_equation = MathTex(r'P=12-cQ',
             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'c': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
         c_number = DecimalNumber(0.2, num_decimal_places=2, color=DEFINITION).scale(0.8)
@@ -1015,8 +1016,8 @@ class B5(Scene):
 
         # ---- 9.a · Price alone moves along an unchanged supply curve.
         head = title('Supply: movement and shift')
-        question = Tex(r'\textsf{Did supply change, or did the price change?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{Did supply change, or did the price change?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ax = style_axes([0, 100, 20], [0, 9, 2], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 9), LEFT, buff=0.25)
@@ -1121,8 +1122,8 @@ class B5(Scene):
         self.add(before_supply)
         self.remove(head, question, bottom)
         head = title('Supply shifters')
-        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'A change in {{supply}} shifts the whole curve.',
                      tex_to_color_map={'supply': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -1163,8 +1164,8 @@ class B5(Scene):
         self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3]))
         self.remove(bottom, question, supply_equation)
         self.play(FadeOut(b_readout), FadeOut(b_span), FadeOut(b_anchor), FadeOut(b_cap), FadeOut(b_label))
-        question = Tex(r'\textsf{What if we add 25\% more identical sellers?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What if we add 25\% more identical sellers?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         supply_entry_equation = MathTex(r'P=2+dQ',
             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'd': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
         d_number = DecimalNumber(0.05, num_decimal_places=2, color=DEFINITION).scale(0.8)
@@ -1184,8 +1185,8 @@ class B5(Scene):
         # ---- 9.f · Technology lowers cost and expands supply.
         self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4]))
         self.remove(bottom, question, supply_entry_equation, d_readout)
-        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex('Lower costs increase supply at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(question), FadeIn(supply_equation), FadeIn(b_readout), FadeIn(b_span),
