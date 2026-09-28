@@ -197,7 +197,6 @@ class B5(Scene):
             Tex(r'{{Elastic}}: a relatively large change in quantity.', tex_to_color_map={'Elastic': DEFINITION})
                 .scale(0.62).move_to([3.75, -3.4, 0]))
         self.play(FadeIn(hook_classes))
-        hook_recall = VGroup(hook_panels, hook_old_choices, hook_numbers).copy()
         self.pause('2.g')
 
         # ---- 3.a · Put the slope question in the bottom prompt strip.
@@ -365,11 +364,11 @@ class B5(Scene):
                           .next_to(number.ax.c2p(0, number.source.get_value() + number.sign / 2),
                                    LEFT, buff=0.25).shift(UP * number.sign * 0.1))
             pn.update()
-            qn = DecimalNumber(7.5 - 2.5 * sign, num_decimal_places=1, color=GUIDE).scale(0.7)
+            qn = DecimalNumber(7.5 - 2.5 * sign, num_decimal_places=1, color=GUIDE).scale(0.62)
             qn.ax, qn.source, qn.sign = ea, midpoint_price, sign
             qn.add_updater(lambda number: number.set_value(60 - 5 * (number.source.get_value() + number.sign / 2))
-                          .next_to(number.ax.c2p(60 - 5 * (number.source.get_value() + number.sign / 2), 0),
-                                   DOWN, buff=0.25).shift(LEFT * number.sign * 0.16))
+                          .move_to(number.ax.c2p(60 - 5 * (number.source.get_value() + number.sign / 2), 0)
+                                   + DOWN * 0.95 + LEFT * number.sign * 0.16))
             qn.update()
             endpoint.add(h, v, point, pn, qn)
             endpoints.add(endpoint)
@@ -509,57 +508,42 @@ class B5(Scene):
         self.play(FadeIn(epsilon_result), FadeIn(elastic_word), FadeIn(demand_sign_note))
         self.pause('4.d')
 
-        # ---- 4.e · Slide the SAME dollar-wide interval to the low-price example.
-        # Remove the first example's literal fractions before the values roll.
-        # The normalized bar lengths, percentages, guides and final result all
-        # follow midpoint_price, so they cannot drift apart during the motion.
-        self.remove(q_ratio_label, p_ratio_label, midpoint_note, midpoint_arrow, elastic_word)
-        q_ratio_label = MathTex(r'\Delta Q/\bar Q', color=FOCUS).scale(0.8).move_to([1.7, 0.35, 0])
-        p_ratio_label = MathTex(r'\Delta P/\bar P', color=FOCUS).scale(0.8).move_to([1.7, -0.95, 0])
-        self.play(FadeIn(q_ratio_label), FadeIn(p_ratio_label))
-        self.play(midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
-        inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
-        self.play(FadeIn(inelastic_word))
-        self.pause('4.e')
-
-        # ---- 4.f · Return to the two goods with their measured elasticities.
-        # Keep the measurement scene intact for the subsequent unit-elastic sweep.
-        measurement_scene = list(self.mobjects)
-        self.clear()
-        hook_epsilon = VGroup(
-            MathTex(r'\epsilon=-0.6', color=FOCUS).scale(0.95).move_to([-3.85, -3.1, 0]),
-            MathTex(r'\epsilon=-3', color=FOCUS).scale(0.95).move_to([3.85, -3.1, 0]))
-        self.play(FadeIn(hook_recall), FadeIn(hook_epsilon), FadeIn(head), FadeIn(question), FadeIn(elasticity_kind))
-        self.pause('4.f')
-        self.play(FadeOut(hook_recall), FadeOut(hook_epsilon))
-        self.clear()
-        self.add(*measurement_scene)
-
-        # ---- 4.g · Sweep the fixed line and stop exactly at unit elasticity.
-        # Its slope never changes. The interval remains symmetric about P-bar,
-        # so at P-bar=6 and Q-bar=30 the midpoint elasticity is exactly -1.
-        self.remove(inelastic_word, demand_sign_note)
-        responsiveness_def = Tex(r'\mbox{ {{Unit elastic}}: quantity and price change by equal percentages in magnitude.}',
-                                  tex_to_color_map={'Unit elastic': DEFINITION}).scale(DEFINITION_SCALE)
-        responsiveness_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(midpoint_price.animate.set_value(10.5), run_time=3, rate_func=smooth)
-        self.play(midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
-        unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
-        self.play(FadeIn(unit_word), FadeIn(responsiveness_def))
-        self.pause('4.g')
-
-        # ---- 4.h · Label the regions without giving demand a second palette.
-        # Both segments keep DEMAND. Neutral braces mark their spans; only the
-        # terminology uses definition gold. Keep the unit midpoint visible.
-        self.play(FadeOut(q_ratio_track), FadeOut(p_ratio_track), FadeOut(q_ratio_bar), FadeOut(p_ratio_bar),
-                  FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
-                  FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(unit_word),
-                  FadeOut(e_divider), FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
-                  FadeOut(q_mid_tick), FadeOut(p_mid_tick), FadeOut(endpoints))
+        # ---- 4.e · Lower the interval within the elastic region, then pause.
+        # The graph and live percentage bars stay in place throughout the sweep.
+        # Each brace covers a whole region, not just the interval being measured.
+        self.remove(q_ratio_label, p_ratio_label, midpoint_note, midpoint_arrow)
+        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=FOCUS).scale(0.8).move_to([1.7, 0.35, 0])
+        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=FOCUS).scale(0.8).move_to([1.7, -0.95, 0])
         upper_demand = Line(ea.c2p(0, 12), ea.c2p(30, 6), color=DEMAND, stroke_width=7)
         lower_demand = Line(ea.c2p(30, 6), ea.c2p(60, 0), color=DEMAND, stroke_width=7)
         upper_brace = Brace(upper_demand, direction=UR, color=MUTED, buff=0.15)
         lower_brace = Brace(lower_demand, direction=UR, color=MUTED, buff=0.15)
+        self.play(FadeIn(q_ratio_label), FadeIn(p_ratio_label))
+        self.play(midpoint_price.animate.set_value(8), run_time=2.5, rate_func=smooth)
+        self.play(FadeIn(upper_brace))
+        self.pause('4.e')
+
+        # ---- 4.f · Stop at the midpoint: the percentage changes are equal.
+        self.play(FadeOut(elastic_word), midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
+        unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
+        self.play(FadeIn(unit_word))
+        self.pause('4.f')
+
+        # ---- 4.g · Continue to low price; mark the entire inelastic region.
+        unit_marker = Dot(ea.c2p(30, 6), color=FOCUS, radius=0.055)
+        self.add(unit_marker)
+        self.play(FadeOut(unit_word), midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
+        inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
+        self.play(FadeIn(lower_brace), FadeIn(inelastic_word))
+        self.pause('4.g')
+
+        # ---- 4.h · Only after the sweep, collect the three region definitions.
+        self.play(FadeOut(q_ratio_track), FadeOut(p_ratio_track), FadeOut(q_ratio_bar), FadeOut(p_ratio_bar),
+                  FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
+                  FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(inelastic_word),
+                  FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
+                  FadeOut(q_mid_tick), FadeOut(p_mid_tick), FadeOut(endpoints), FadeOut(midpoint_dot),
+                  FadeOut(demand_sign_note))
         elastic_region = VGroup(Tex('Elastic', color=DEFINITION), MathTex(r'|\epsilon_D|>1'))
         elastic_region.arrange(RIGHT, buff=0.3).scale(0.9).move_to([3.6, 1.5, 0])
         unit_region = VGroup(Tex('Unit elastic', color=DEFINITION), MathTex(r'|\epsilon_D|=1'))
@@ -567,26 +551,36 @@ class B5(Scene):
         inelastic_region = VGroup(Tex('Inelastic', color=DEFINITION), MathTex(r'|\epsilon_D|<1'))
         inelastic_region.arrange(RIGHT, buff=0.3).scale(0.9).move_to([3.6, -1.5, 0])
         slope_note = MathTex(r'\text{Slope}=-1/5', color=CAPTION).scale(0.8).move_to([3.6, -2.55, 0])
-        self.remove(responsiveness_def)
-        self.play(FadeIn(upper_demand), FadeIn(upper_brace), FadeIn(elastic_region))
-        self.play(FadeIn(lower_demand), FadeIn(lower_brace), FadeIn(inelastic_region))
         unit_guides = VGroup(
             DashedLine(ea.c2p(0, 6), ea.c2p(30, 6), color=MUTED),
             DashedLine(ea.c2p(30, 0), ea.c2p(30, 6), color=MUTED))
         unit_coordinates = VGroup(
             Tex('6', color=GUIDE).scale(0.7).next_to(ea.c2p(0, 6), LEFT, buff=0.25),
             Tex('30', color=GUIDE).scale(0.7).next_to(ea.c2p(30, 0), DOWN, buff=0.25))
-        self.play(FadeIn(unit_region), FadeIn(slope_note), FadeIn(unit_guides), FadeIn(unit_coordinates))
-        self.bring_to_front(midpoint_dot)
-        hook_baseline_dot = Dot(ea.c2p(40, 4), color=GUIDE, radius=0.07, z_index=12)
-        hook_baseline_guides = VGroup(
-            DashedLine(ea.c2p(0, 4), ea.c2p(40, 4), color=GUIDE, stroke_width=2),
-            DashedLine(ea.c2p(40, 0), ea.c2p(40, 4), color=GUIDE, stroke_width=2))
-        hook_baseline_coordinates = VGroup(
-            Tex('4', color=GUIDE).scale(0.7).next_to(ea.c2p(0, 4), LEFT, buff=0.25),
-            Tex('40', color=GUIDE).scale(0.7).next_to(ea.c2p(40, 0), DOWN, buff=0.25))
-        self.play(FadeIn(hook_baseline_dot), FadeIn(hook_baseline_guides), FadeIn(hook_baseline_coordinates))
+        self.play(FadeIn(upper_demand), FadeIn(lower_demand), FadeIn(unit_guides), FadeIn(unit_coordinates))
+        self.bring_to_front(unit_marker)
+        self.play(FadeIn(elastic_region), FadeIn(unit_region), FadeIn(inelastic_region))
+        self.play(FadeIn(slope_note))
         self.pause('4.h')
+
+        # ---- 4.i · Answer the slope question using the two original intervals.
+        # These are copies of the same spinach curve: P=10 to 11 and P=1 to 2.
+        # Their midpoint elasticities differ even though their slopes match.
+        self.clear()
+        comparison_slopes = VGroup(
+            MathTex(r'\text{Slope}=-1/5', color=CAPTION).scale(0.65).move_to([-3.75, -2.8, 0]),
+            MathTex(r'\text{Slope}=-1/5', color=CAPTION).scale(0.65).move_to([3.75, -2.8, 0]))
+        comparison_elasticities = VGroup(
+            Tex(r'{{Elastic}}: $\epsilon_D=-7$', tex_to_color_map={'Elastic': DEFINITION})
+                .scale(0.8).move_to([-3.75, -3.3, 0]),
+            Tex(r'{{Inelastic}}: $\epsilon_D=-1/7$', tex_to_color_map={'Inelastic': DEFINITION})
+                .scale(0.8).move_to([3.75, -3.3, 0]))
+        slope_answer = Tex('Same slope, different elasticities.', color=FOCUS).scale(DEFINITION_SCALE)
+        slope_answer.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(elasticity_panels),
+                  FadeIn(initial_choices), FadeIn(movement_arrows), FadeIn(comparison_slopes))
+        self.play(FadeIn(comparison_elasticities), FadeIn(slope_answer))
+        self.pause('4.i')
 
         # ---- 5.a · At one extreme, quantity does not respond at all.
         self.clear()
