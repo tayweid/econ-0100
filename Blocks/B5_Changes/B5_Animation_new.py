@@ -374,10 +374,7 @@ class B5(Scene):
         midpoint_dot.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
             60 - 5 * dot.source.get_value(), dot.source.get_value())))
         midpoint_note = Tex('Midpoint', color=DEFINITION).scale(0.6)
-        midpoint_note.ax, midpoint_note.source = ea, midpoint_price
-        midpoint_note.add_updater(lambda label: label.next_to(label.ax.c2p(
-            60 - 5 * label.source.get_value(), label.source.get_value()), UP, buff=0.42).shift(RIGHT * 0.35))
-        midpoint_note.update()
+        midpoint_note.next_to(ea.c2p(0, 0), LEFT, buff=0.65).shift(UP * 0.45)
         q_delta = Line(ea.c2p(5, 10), ea.c2p(10, 10), color=FOCUS, stroke_width=6)
         q_delta.ax, q_delta.source = ea, midpoint_price
         q_delta.add_updater(lambda line: line.put_start_and_end_on(
@@ -392,6 +389,9 @@ class B5(Scene):
         q_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(60 - 5 * line.source.get_value(), -0.16),
             line.ax.c2p(60 - 5 * line.source.get_value(), 0.16)))
+        midpoint_arrow = Arrow(midpoint_note.get_right(), q_mid_tick.get_top(),
+                               color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
+                               max_tip_length_to_length_ratio=0.12)
         formula = MathTex(r'\epsilon_D', '=', r'\frac{\Delta Q/\bar Q}{\Delta P/\bar P}').scale(0.95)
         formula.move_to([3.95, 2.0, 0])
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
@@ -405,7 +405,7 @@ class B5(Scene):
         self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
                   FadeIn(price_unit), FadeIn(ed_lab), FadeIn(equation), FadeIn(e_divider), FadeIn(endpoints))
         self.play(FadeIn(formula), FadeIn(midpoint_def))
-        self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note))
+        self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note), FadeIn(midpoint_arrow))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
                   TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label))
         self.play(FadeIn(q_mid_formula))
@@ -495,7 +495,7 @@ class B5(Scene):
         # Remove the first example's literal fractions before the values roll.
         # The normalized bar lengths, percentages, guides and final result all
         # follow midpoint_price, so they cannot drift apart during the motion.
-        self.remove(q_ratio_label, p_ratio_label, midpoint_note, elastic_word)
+        self.remove(q_ratio_label, p_ratio_label, midpoint_note, midpoint_arrow, elastic_word)
         q_ratio_label = MathTex(r'\Delta Q/\bar Q', color=FOCUS).scale(0.8).move_to([1.7, 0.85, 0])
         p_ratio_label = MathTex(r'\Delta P/\bar P', color=FOCUS).scale(0.8).move_to([1.7, -0.45, 0])
         self.play(FadeIn(q_ratio_label), FadeIn(p_ratio_label))
