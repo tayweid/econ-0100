@@ -206,28 +206,26 @@ class B5(Scene):
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
 
-        # ---- 3.b · Compare two price cuts on two copies of the same curve.
+        # ---- 3.b · Compare two price increases on two copies of the same curve.
         # The scales and curve are identical; only the selected interval differs.
         self.clear()
-        head = title('Price elasticity of demand')
-        question = Tex(r'\textsf{Does the same price change mean the same response?}', color=CAPTION).scale(0.75)
+        head = title('Responsiveness to Price: Elasticity')
+        question = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.75)
         question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         self.play(FadeIn(head), FadeIn(question))
         elasticity_panels = VGroup()
-        elasticity_prices = [ValueTracker(11), ValueTracker(2)]
+        elasticity_prices = [ValueTracker(10), ValueTracker(1)]
         for panel_x, price_source in zip([-3.75, 3.75], elasticity_prices):
-            ea = style_axes([0, 60, 10], [0, 12, 2], x_length=3.9, y_length=3.9)
-            ea.shift(np.array([panel_x, BODY_MID + 0.15, 0])
-                     - (ea.c2p(0, 0) + ea.c2p(60, 12)) / 2)
+            ea = style_axes([0, 60, 10], [0, 12, 2], x_length=3.4, y_length=3.4)
+            ea.shift(np.array([panel_x - 1.7, -2.1, 0]) - ea.c2p(0, 0))
             ed = Line(ea.c2p(0, 12), ea.c2p(60, 0), color=DEMAND, stroke_width=4)
-            es = Line(ea.c2p(0, 2), ea.c2p(60, 5), color=SUPPLY, stroke_width=4)
-            ep = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
-            eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
-            eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
-            eu.next_to(eq, DOWN, buff=0.08)
-            ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
-            equation = MathTex(r'P=12-Q/5', color=INK).scale(0.8)
-            equation.move_to(ea.c2p(37, 11))
+            ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), UP, buff=0.16)
+            price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(ep, LEFT, buff=0.12)
+            eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.16)
+            eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(eq, RIGHT, buff=0.12)
+            ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(55, 1), UR, buff=0.1)
+            good_name = Tex('Spinach', color=INK).scale(0.9).move_to([panel_x, 2.25, 0])
+            equation = MathTex(r'P=12-Q/5', color=TITLE).scale(0.8).next_to(good_name, DOWN, buff=0.16)
             eh = DashedLine(ea.c2p(0, price_source.get_value()),
                             ea.c2p(60 - 5 * price_source.get_value(), price_source.get_value()),
                             color=GUIDE, stroke_width=2).set_opacity(0.5)
@@ -248,40 +246,54 @@ class B5(Scene):
             point.ax, point.source = ea, price_source
             point.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
                 60 - 5 * dot.source.get_value(), dot.source.get_value())))
-            p_number = DecimalNumber(price_source.get_value(), num_decimal_places=0, color=GUIDE).scale(0.7)
+            p_number = DecimalNumber(price_source.get_value(), num_decimal_places=0, color=GUIDE).scale(0.65)
             p_number.ax, p_number.source = ea, price_source
             p_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
                 number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.25))
             p_number.update()
-            q_number = DecimalNumber(60 - 5 * price_source.get_value(), num_decimal_places=0, color=GUIDE).scale(0.7)
-            q_number.ax, q_number.source = ea, price_source
+            q_number = DecimalNumber(60 - 5 * price_source.get_value(), num_decimal_places=0, color=GUIDE).scale(0.65)
+            q_number.ax, q_number.source, q_number.initial_price = ea, price_source, price_source.get_value()
             q_number.add_updater(lambda number: number.set_value(60 - 5 * number.source.get_value()).next_to(
-                number.ax.c2p(60 - 5 * number.source.get_value(), 0), DOWN, buff=0.25))
+                number.ax.c2p(60 - 5 * number.source.get_value(), 0), DOWN,
+                buff=0.2 + 0.3 * (number.source.get_value() - number.initial_price)))
             q_number.update()
-            panel = VGroup(ea, ed, ep, eq, eu, ed_lab, equation, eh, ev, point, p_number, q_number)
-            panel.ax, panel.supply = ea, es
+            panel = VGroup(ea, ed, ep, eq, eu, ed_lab, equation, eh, ev, point, p_number, q_number, price_unit, good_name)
+            panel.ax = ea
             elasticity_panels.add(panel)
-            self.play(FadeIn(panel), FadeIn(es), run_time=0.7)
-        self.play(*[FadeOut(panel.supply) for panel in elasticity_panels])
+            self.play(FadeIn(panel), run_time=0.7)
         self.pause('3.b')
 
-        # ---- 3.c · Both cuts are one dollar; both quantities rise by five.
-        # Leave a faint dot at each original choice before the live readouts roll.
+        # ---- 3.c · Retain the starting coordinates and measure both changes.
         initial_choices = VGroup()
-        for panel, source in zip(elasticity_panels, elasticity_prices):
-            initial_choices.add(Dot(panel.ax.c2p(60 - 5 * source.get_value(), source.get_value()),
-                                    color=MUTED, radius=0.06))
+        for panel in elasticity_panels:
+            ghost = VGroup(*[panel[i].copy().clear_updaters() for i in (7, 8, 9, 10, 11)])
+            ghost.set_color(CAPTION).set_opacity(0.65)
+            initial_choices.add(ghost)
         self.add(initial_choices)
-        self.play(elasticity_prices[0].animate.set_value(10),
-                  elasticity_prices[1].animate.set_value(1), run_time=2, rate_func=smooth)
-        changes_left = MathTex(r'\Delta P=-1,\quad\Delta Q=5', color=FOCUS).scale(0.8)
-        changes_right = changes_left.copy()
-        changes_left.move_to([-3.75, -2.75, 0])
-        changes_right.move_to([3.75, -2.75, 0])
-        first_observation = MathTex(r'5\longrightarrow10', color=GUIDE).scale(0.8).move_to([-3.75, 2.42, 0])
-        second_observation = MathTex(r'50\longrightarrow55', color=GUIDE).scale(0.8).move_to([3.75, 2.42, 0])
-        self.play(FadeIn(changes_left), FadeIn(changes_right),
-                  FadeIn(first_observation), FadeIn(second_observation))
+        self.play(elasticity_prices[0].animate.set_value(11),
+                  elasticity_prices[1].animate.set_value(2), run_time=2, rate_func=smooth)
+        elasticity_changes, movement_arrows = VGroup(), VGroup()
+        for panel, old_price in zip(elasticity_panels, [10, 1]):
+            old_q, new_q = 60 - 5 * old_price, 60 - 5 * (old_price + 1)
+            p_start = panel.ax.c2p(0, old_price) + LEFT * 0.9
+            p_end = panel.ax.c2p(0, old_price + 1) + LEFT * 0.9
+            q_start = panel.ax.c2p(old_q, 0) + DOWN * 0.9
+            q_end = panel.ax.c2p(new_q, 0) + DOWN * 0.9
+            p_change = Line(p_start, p_end, color=FOCUS, stroke_width=4)
+            q_change = Line(q_start, q_end, color=FOCUS, stroke_width=4)
+            elasticity_changes.add(VGroup(
+                p_change, q_change,
+                Line(p_start + LEFT * 0.07, p_start + RIGHT * 0.07, color=FOCUS, stroke_width=2),
+                Line(p_end + LEFT * 0.07, p_end + RIGHT * 0.07, color=FOCUS, stroke_width=2),
+                Line(q_start + DOWN * 0.07, q_start + UP * 0.07, color=FOCUS, stroke_width=2),
+                Line(q_end + DOWN * 0.07, q_end + UP * 0.07, color=FOCUS, stroke_width=2),
+                MathTex('+1', color=FOCUS).scale(0.65).next_to(p_change, LEFT, buff=0.15),
+                MathTex('-5', color=FOCUS).scale(0.65).next_to(q_change, DOWN, buff=0.15)))
+            movement_arrows.add(Arrow(panel.ax.c2p(old_q, old_price), panel.ax.c2p(new_q, old_price + 1),
+                                      color=GUIDE, buff=0.055, thickness=3, tip_width_ratio=3,
+                                      max_tip_length_to_length_ratio=0.3))
+        self.play(FadeIn(elasticity_changes), FadeIn(movement_arrows))
+        self.bring_to_front(*[panel[9] for panel in elasticity_panels])
         self.pause('3.c')
 
         # ---- 3.d · Name responsiveness before computing it.
@@ -311,8 +323,8 @@ class B5(Scene):
         e_divider.set_opacity(0.5)
         midpoint_price = ValueTracker(10.5)
         endpoints = VGroup()
-        # sign +1 is the initial, higher price; sign -1 is the final price.
-        for sign in [1, -1]:
+        # Sign -1 is the initial, lower price; sign +1 is the final price.
+        for sign in [-1, 1]:
             endpoint = VGroup()
             h = DashedLine(ea.c2p(0, 10.5 + sign / 2), ea.c2p(7.5 - 2.5 * sign, 10.5 + sign / 2),
                            color=GUIDE, stroke_width=2).set_opacity(0.35)
@@ -373,11 +385,11 @@ class B5(Scene):
             line.ax.c2p(60 - 5 * line.source.get_value(), 0.16)))
         formula = MathTex(r'\epsilon_D', '=', r'\frac{\Delta Q/\bar Q}{\Delta P/\bar P}').scale(0.95)
         formula.move_to([3.95, 2.0, 0])
-        q_change_label = MathTex(r'\Delta Q=5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
+        q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_label = MathTex(r'\bar Q=7.5', color=FOCUS).scale(0.8).move_to([2.15, 0.0, 0])
         q_change_bar = Line([4.35, 0.75, 0], [4.6, 0.75, 0], color=FOCUS, stroke_width=10)
         q_average_bar = Line([4.35, 0, 0], [4.725, 0, 0], color=MUTED, stroke_width=10)
-        q_mid_formula = MathTex(r'\bar Q=\frac{5+10}{2}=7.5').scale(0.8).move_to([3.95, -1.55, 0])
+        q_mid_formula = MathTex(r'\bar Q=\frac{10+5}{2}=7.5').scale(0.8).move_to([3.95, -1.55, 0])
         midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
                            tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -390,7 +402,7 @@ class B5(Scene):
         self.play(FadeIn(q_mid_formula))
         self.pause('4.a')
 
-        # ---- 4.b · Repeat the same construction for price, with a negative change.
+        # ---- 4.b · Repeat the same construction for price, with a positive change.
         p_delta = Line(ea.c2p(5, 11), ea.c2p(5, 10), color=FOCUS, stroke_width=6)
         p_delta.ax, p_delta.source = ea, midpoint_price
         p_delta.add_updater(lambda line: line.put_start_and_end_on(
@@ -404,11 +416,11 @@ class B5(Scene):
         p_mid_tick.ax, p_mid_tick.source = ea, midpoint_price
         p_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(-0.8, line.source.get_value()), line.ax.c2p(0.8, line.source.get_value())))
-        p_change_label = MathTex(r'\Delta P=-1', color=FOCUS).scale(0.8).move_to([2.15, -0.8, 0])
+        p_change_label = MathTex(r'\Delta P=1', color=FOCUS).scale(0.8).move_to([2.15, -0.8, 0])
         p_average_label = MathTex(r'\bar P=10.5', color=FOCUS).scale(0.8).move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
-        p_mid_formula = MathTex(r'\bar P=\frac{11+10}{2}=10.5').scale(0.8).move_to([3.95, -2.55, 0])
+        p_mid_formula = MathTex(r'\bar P=\frac{10+11}{2}=10.5').scale(0.8).move_to([3.95, -2.55, 0])
         self.play(FadeOut(q_mid_formula), FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick))
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
                   TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label))
@@ -432,24 +444,24 @@ class B5(Scene):
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
             np.array([3.1, -0.45, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.45, 0])))
         percent_basis = Tex(r'$100\%$', color=CAPTION).scale(0.7).move_to([6.65, 0.2, 0])
-        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{5}{7.5}', color=FOCUS).scale(0.75)
+        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=FOCUS).scale(0.75)
         q_ratio_label.move_to([1.8, 0.85, 0])
-        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{-1}{10.5}', color=FOCUS).scale(0.75)
+        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=FOCUS).scale(0.75)
         p_ratio_label.move_to([1.8, -0.45, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
                   FadeIn(q_ratio_label), FadeIn(p_ratio_label), FadeIn(percent_basis))
-        q_percent = VGroup(DecimalNumber(100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
+        q_percent = VGroup(DecimalNumber(-100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
         q_percent.move_to([4.6, 1.2, 0])
         q_percent[0].source = midpoint_price
-        q_percent[0].add_updater(lambda number: number.set_value(100 * 5 / (60 - 5 * number.source.get_value())))
+        q_percent[0].add_updater(lambda number: number.set_value(-100 * 5 / (60 - 5 * number.source.get_value())))
         q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 1.2, 0]))
-        p_percent = VGroup(DecimalNumber(-100 / 10.5, num_decimal_places=1, color=FOCUS),
+        p_percent = VGroup(DecimalNumber(100 / 10.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
         p_percent.move_to([4.6, -0.1, 0])
         p_percent[0].source = midpoint_price
-        p_percent[0].add_updater(lambda number: number.set_value(-100 / number.source.get_value()))
+        p_percent[0].add_updater(lambda number: number.set_value(100 / number.source.get_value()))
         p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.1, 0]))
         self.play(FadeIn(q_percent), FadeIn(p_percent))
         self.pause('4.c')
