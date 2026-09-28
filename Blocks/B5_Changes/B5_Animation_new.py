@@ -892,9 +892,7 @@ class B5(Scene):
 
         # ---- 6.d · Raise the same dollar-wide interval: supply remains elastic.
         # With a positive price intercept, epsilon=P-bar/(P-bar-2)>1 everywhere.
-        supply_brace = Brace(supply, direction=UL, color=MUTED, buff=0.15)
         self.play(supply_midprice.animate.set_value(7.5), run_time=2.5, rate_func=smooth)
-        self.play(FadeIn(supply_brace))
         self.pause('6.d')
 
         # ---- 6.e · At higher prices the percentage responses approach each other.
