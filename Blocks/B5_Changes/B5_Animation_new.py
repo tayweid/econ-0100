@@ -584,10 +584,9 @@ class B5(Scene):
 
         # ---- 5.a · At one extreme, quantity does not respond at all.
         self.clear()
-        head = title('Elasticity')
-        question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
+        head = title('Elasticity: Two Extremes')
+        question = Tex(r'\mbox{\textsf{Buyers who are perfectly responsive and perfectly non-responsive to changes in price.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        elasticity_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
         ea = style_axes([0, 2, 1], [0, 12, 2], x_length=3.6, y_length=3.6)
         ea.shift(np.array([-3.7, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(2, 12)) / 2)
         ep = VGroup(Tex(r'\textsf{\$/pack}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
@@ -604,7 +603,7 @@ class B5(Scene):
             line.ax.c2p(1, line.source.get_value()), color=GUIDE).set_style(**line.get_style())))
         zero_response = VGroup(Tex('Perfectly inelastic', color=DEFINITION), MathTex(r'\epsilon_D=0'))
         zero_response.arrange(DOWN, buff=0.2).scale(0.85).move_to([-3.7, -3.0, 0])
-        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(ea), FadeIn(ep), FadeIn(eq), FadeIn(vertical_demand),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ep), FadeIn(eq), FadeIn(vertical_demand),
                   FadeIn(vertical_label), FadeIn(extreme_dot), FadeIn(extreme_h))
         self.play(extreme_price.animate.set_value(3), run_time=2, rate_func=smooth)
         extreme_note = Tex('Price changes; quantity stays fixed.', color=INK).scale(DEFINITION_SCALE)
@@ -632,11 +631,11 @@ class B5(Scene):
             line.ax.c2p(line.source.get_value(), 0), color=GUIDE).set_style(**line.get_style())))
         infinite_response = VGroup(Tex('Perfectly elastic', color=DEFINITION), MathTex(r'|\epsilon_D|\to\infty'))
         infinite_response.arrange(DOWN, buff=0.2).scale(0.85).move_to([3.7, -3.0, 0])
+        self.remove(extreme_note)
         self.play(FadeIn(right_ax), FadeIn(right_p), FadeIn(right_q), FadeIn(horizontal_demand),
                   FadeIn(horizontal_label), FadeIn(horizontal_dot), FadeIn(horizontal_v))
         self.play(extreme_quantity.animate.set_value(50), run_time=2, rate_func=smooth)
-        self.remove(extreme_note)
-        extreme_note = Tex('Quantity can change at the same price.', color=INK).scale(DEFINITION_SCALE)
+        extreme_note = Tex(r"The buyer will buy all or none if the price isn't \$4.", color=INK).scale(DEFINITION_SCALE)
         extreme_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(infinite_response), FadeIn(extreme_note))
         andrew_extreme_name = Tex(r"Andrew's spinach", color=INK).scale(0.9).move_to([3.7, 2.32, 0])
