@@ -674,9 +674,9 @@ class B5(Scene):
         elasticity_kind = Tex('Price Elasticity of Supply', color=SUPPLY).scale(0.7).move_to([3.95, 3.05, 0])
         sa = style_axes([0, 80, 20], [0, 9, 2], x_length=4.6, y_length=4.6, ticks=True,
                         axis_config={'tick_size': 0.05},
-                        x_axis_config={'numbers_to_include': [20, 40, 60],
+                        x_axis_config={'numbers_to_include': [20],
                                        'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
-                        y_axis_config={'numbers_to_include': [2, 4, 6, 8],
+                        y_axis_config={'numbers_to_include': [2, 6, 8],
                                        'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
         sa.shift(np.array([-5.4, -2.25, 0]) - sa.c2p(0, 0))
         supply = Line(sa.c2p(0, 2), sa.c2p(80, 6), color=SUPPLY, stroke_width=4)
@@ -706,13 +706,10 @@ class B5(Scene):
         supply_pn.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
             number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.6))
         supply_pn.update()
-        supply_qn = VGroup(MathTex(r'Q_s=', color=GUIDE), DecimalNumber(40, num_decimal_places=0, color=GUIDE))
-        supply_qn.arrange(RIGHT, buff=0.05).scale(0.7)
+        supply_qn = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.6)
         supply_qn.ax, supply_qn.source = sa, supply_price
-        supply_qn[1].source = supply_price
-        supply_qn[1].add_updater(lambda number: number.set_value(20 * (number.source.get_value() - 2)))
-        supply_qn.add_updater(lambda group: group.arrange(RIGHT, buff=0.05).next_to(
-            group.ax.c2p(20 * (group.source.get_value() - 2), 0), DOWN, buff=0.6))
+        supply_qn.add_updater(lambda number: number.set_value(20 * (number.source.get_value() - 2)).move_to(
+            number.ax.c2p(20 * (number.source.get_value() - 2), 0) + DOWN * 0.32))
         supply_qn.update()
         supply_def = Tex(r'\mbox{ {{Elasticity of supply}} measures how quantity supplied responds to price.}',
                         tex_to_color_map={'Elasticity of supply': DEFINITION}).scale(DEFINITION_SCALE)
@@ -735,27 +732,180 @@ class B5(Scene):
         self.play(FadeIn(seller_bars))
         self.pause('6.a')
 
-        # ---- 6.b · Twenty additional sellers can cover their costs at $5.
-        original_supply_point = Dot(sa.c2p(40, 4), color=MUTED, radius=0.06)
-        self.add(original_supply_point)
+        # ---- 6.b · Keep the original choice and measure the price and quantity changes.
+        original_supply_choice = VGroup(*[
+            mob.copy().clear_updaters() for mob in (supply_h, supply_v, supply_dot, supply_pn, supply_qn)])
+        original_supply_choice.set_color(CAPTION).set_opacity(0.65)
+        self.add(original_supply_choice)
         self.play(supply_price.animate.set_value(5), run_time=2, rate_func=smooth)
-        seller_entry = Tex('20 more sellers', color=INK).scale(0.85).move_to([-3.9, -3.25, 0])
-        self.play(FadeIn(seller_entry))
+        supply_q_change = Line(sa.c2p(40, 0) + DOWN * 0.72, sa.c2p(60, 0) + DOWN * 0.72,
+                               color=FOCUS, stroke_width=4)
+        supply_p_change = Line(sa.c2p(0, 4) + LEFT * 1.05, sa.c2p(0, 5) + LEFT * 1.05,
+                               color=FOCUS, stroke_width=4)
+        supply_change_caps = VGroup(
+            Line(supply_q_change.get_start() + DOWN * 0.06, supply_q_change.get_start() + UP * 0.06, color=FOCUS),
+            Line(supply_q_change.get_end() + DOWN * 0.06, supply_q_change.get_end() + UP * 0.06, color=FOCUS),
+            Line(supply_p_change.get_start() + LEFT * 0.06, supply_p_change.get_start() + RIGHT * 0.06, color=FOCUS),
+            Line(supply_p_change.get_end() + LEFT * 0.06, supply_p_change.get_end() + RIGHT * 0.06, color=FOCUS))
+        supply_change_values = VGroup(
+            MathTex('+20', color=FOCUS).scale(0.6).next_to(supply_q_change, DOWN, buff=0.12),
+            MathTex('+1', color=FOCUS).scale(0.6).next_to(supply_p_change, LEFT, buff=0.14))
+        self.play(FadeIn(supply_q_change), FadeIn(supply_p_change), FadeIn(supply_change_caps), FadeIn(supply_change_values))
         self.pause('6.b')
 
-        # ---- 6.c · Quantity's percentage response is positive and larger.
+        # ---- 6.c · Reuse the midpoint picture on a wider price and quantity scale.
+        self.play(FadeOut(sa), FadeOut(supply), FadeOut(sp), FadeOut(sq), FadeOut(su),
+                  FadeOut(supply_price_unit), FadeOut(supply_label), FadeOut(supply_equation),
+                  FadeOut(supply_h), FadeOut(supply_v), FadeOut(supply_dot), FadeOut(supply_pn), FadeOut(supply_qn),
+                  FadeOut(seller_bars), FadeOut(original_supply_choice), FadeOut(supply_q_change),
+                  FadeOut(supply_p_change), FadeOut(supply_change_caps), FadeOut(supply_change_values),
+                  FadeOut(elasticity_kind))
+        sa = style_axes([0, 240, 40], [0, 15, 2], x_length=4.8, y_length=4.8, ticks=True,
+                        axis_config={'tick_size': 0.05},
+                        x_axis_config={'numbers_to_include': [80, 160],
+                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
+                        y_axis_config={'numbers_to_include': [2, 6, 10, 14],
+                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
+        sa.shift(np.array([-5.4, -2.25, 0]) - sa.c2p(0, 0))
+        supply = Line(sa.c2p(0, 2), sa.c2p(240, 14), color=SUPPLY, stroke_width=4)
+        sp = Tex('P').scale(0.8).next_to(sa.c2p(0, 15), LEFT, buff=0.25)
+        supply_price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(sp, RIGHT, buff=0.35)
+        sq = Tex('Q').scale(0.8).next_to(sa.c2p(240, 0), DOWN, buff=0.35)
+        su = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(sq, RIGHT, buff=0.18)
+        supply_label = Tex('S').scale(0.8).next_to(supply.get_end(), RIGHT, buff=0.15)
+        supply_equation = MathTex(r'P=2+Q_s/20', color=SUPPLY).scale(0.8).move_to([-3.45, 2.45, 0])
+        supply_midprice = ValueTracker(4.5)
+        supply_endpoints = VGroup()
+        for sign, endpoint_color in [(-1, CAPTION), (1, GUIDE)]:
+            endpoint_price = 4.5 + sign / 2
+            endpoint_quantity = 20 * (endpoint_price - 2)
+            h = DashedLine(sa.c2p(0, endpoint_price), sa.c2p(endpoint_quantity, endpoint_price),
+                           color=endpoint_color, stroke_width=2).set_opacity(0.45)
+            h.ax, h.source, h.sign = sa, supply_midprice, sign
+            h.add_updater(lambda line: line.become(DashedLine(
+                line.ax.c2p(0, line.source.get_value() + line.sign / 2),
+                line.ax.c2p(20 * (line.source.get_value() + line.sign / 2 - 2), line.source.get_value() + line.sign / 2),
+                color=line.get_color(), stroke_width=2).set_style(**line.get_style())))
+            v = DashedLine(sa.c2p(endpoint_quantity, 0), sa.c2p(endpoint_quantity, endpoint_price),
+                           color=endpoint_color, stroke_width=2).set_opacity(0.45)
+            v.ax, v.source, v.sign = sa, supply_midprice, sign
+            v.add_updater(lambda line: line.become(DashedLine(
+                line.ax.c2p(20 * (line.source.get_value() + line.sign / 2 - 2), 0),
+                line.ax.c2p(20 * (line.source.get_value() + line.sign / 2 - 2), line.source.get_value() + line.sign / 2),
+                color=line.get_color(), stroke_width=2).set_style(**line.get_style())))
+            point = Dot(sa.c2p(endpoint_quantity, endpoint_price), color=endpoint_color, radius=0.055)
+            point.ax, point.source, point.sign = sa, supply_midprice, sign
+            point.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
+                20 * (dot.source.get_value() + dot.sign / 2 - 2), dot.source.get_value() + dot.sign / 2)))
+            pn = DecimalNumber(endpoint_price, num_decimal_places=1, color=endpoint_color).scale(0.6)
+            pn.ax, pn.source, pn.sign = sa, supply_midprice, sign
+            pn.add_updater(lambda number: number.set_value(number.source.get_value() + number.sign / 2).next_to(
+                number.ax.c2p(0, number.source.get_value() + number.sign / 2), LEFT, buff=0.5))
+            qn = DecimalNumber(endpoint_quantity, num_decimal_places=0, color=endpoint_color).scale(0.54)
+            qn.ax, qn.source, qn.sign = sa, supply_midprice, sign
+            qn.add_updater(lambda number: number.set_value(20 * (number.source.get_value() + number.sign / 2 - 2)).move_to(
+                number.ax.c2p(20 * (number.source.get_value() + number.sign / 2 - 2), 0)
+                + DOWN * 0.65 + RIGHT * number.sign * 0.05))
+            supply_endpoints.add(VGroup(h, v, point, pn, qn))
+        supply_midpoint = Dot(sa.c2p(50, 4.5), color=FOCUS, radius=0.055)
+        supply_midpoint.ax, supply_midpoint.source = sa, supply_midprice
+        supply_midpoint.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
+            20 * (dot.source.get_value() - 2), dot.source.get_value())))
+        supply_qbase = Line(sa.c2p(0, 0), sa.c2p(50, 0), color=MUTED, stroke_width=6)
+        supply_qbase.ax, supply_qbase.source = sa, supply_midprice
+        supply_qbase.add_updater(lambda line: line.put_start_and_end_on(
+            line.ax.c2p(0, 0), line.ax.c2p(20 * (line.source.get_value() - 2), 0)))
+        supply_pbase = Line(sa.c2p(0, 0), sa.c2p(0, 4.5), color=MUTED, stroke_width=6)
+        supply_pbase.ax, supply_pbase.source = sa, supply_midprice
+        supply_pbase.add_updater(lambda line: line.put_start_and_end_on(
+            line.ax.c2p(0, 0), line.ax.c2p(0, line.source.get_value())))
+        supply_qtick = Line(sa.c2p(50, 0) + DOWN * 0.06, sa.c2p(50, 0) + UP * 0.06, color=FOCUS)
+        supply_qtick.ax, supply_qtick.source = sa, supply_midprice
+        supply_qtick.add_updater(lambda line: line.put_start_and_end_on(
+            line.ax.c2p(20 * (line.source.get_value() - 2), 0) + DOWN * 0.06,
+            line.ax.c2p(20 * (line.source.get_value() - 2), 0) + UP * 0.06))
+        supply_ptick = Line(sa.c2p(0, 4.5) + LEFT * 0.06, sa.c2p(0, 4.5) + RIGHT * 0.06, color=FOCUS)
+        supply_ptick.ax, supply_ptick.source = sa, supply_midprice
+        supply_ptick.add_updater(lambda line: line.put_start_and_end_on(
+            line.ax.c2p(0, line.source.get_value()) + LEFT * 0.06,
+            line.ax.c2p(0, line.source.get_value()) + RIGHT * 0.06))
+        supply_qdelta = Line(sa.c2p(40, 0) + DOWN * 1.0, sa.c2p(60, 0) + DOWN * 1.0, color=FOCUS, stroke_width=4)
+        supply_qdelta.ax, supply_qdelta.source = sa, supply_midprice
+        supply_qdelta.add_updater(lambda line: line.put_start_and_end_on(
+            line.ax.c2p(20 * (line.source.get_value() - 2.5), 0) + DOWN * 1.0,
+            line.ax.c2p(20 * (line.source.get_value() - 1.5), 0) + DOWN * 1.0))
+        supply_pdelta = Line(sa.c2p(0, 4) + LEFT * 1.1, sa.c2p(0, 5) + LEFT * 1.1, color=FOCUS, stroke_width=4)
+        supply_pdelta.ax, supply_pdelta.source = sa, supply_midprice
+        supply_pdelta.add_updater(lambda line: line.put_start_and_end_on(
+            line.ax.c2p(0, line.source.get_value() - 0.5) + LEFT * 1.1,
+            line.ax.c2p(0, line.source.get_value() + 0.5) + LEFT * 1.1))
+        supply_deltaq_value = MathTex('+20', color=FOCUS).scale(0.54)
+        supply_deltaq_value.span = supply_qdelta
+        supply_deltaq_value.add_updater(lambda label: label.next_to(label.span, DOWN, buff=0.1))
+        supply_deltap_value = MathTex('+1', color=FOCUS).scale(0.58)
+        supply_deltap_value.span = supply_pdelta
+        supply_deltap_value.add_updater(lambda label: label.next_to(label.span, LEFT, buff=0.14))
         divider_x = max(sq.get_right()[0], su.get_right()[0]) + 0.35
         supply_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
-        supply_formula = MathTex(r'\epsilon_S=\dfrac{\quad\dfrac{\Delta Q_s}{\bar Q_s}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
-        supply_substitution = MathTex(r'=\frac{(60-40)/50}{(5-4)/4.5}', color=FOCUS).scale(0.95)
-        supply_result = MathTex(r'=\frac{40\%}{22.2\%}\approx1.8', color=FOCUS).scale(0.95)
-        supply_work = VGroup(supply_formula, supply_substitution, supply_result)
-        supply_work.arrange(DOWN, buff=0.4, aligned_edge=LEFT).move_to([3.9, BODY_MID + 0.15, 0])
-        supply_elastic = Tex('Elastic supply', color=DEFINITION).scale(0.9).next_to(supply_work, DOWN, buff=0.25)
-        self.play(FadeIn(supply_divider), FadeIn(supply_formula))
-        self.play(FadeIn(supply_substitution))
-        self.play(FadeIn(supply_result), FadeIn(supply_elastic))
+        supply_formula = MathTex(r'\epsilon_S=\dfrac{\quad\dfrac{\Delta Q_s}{\bar Q_s}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.73)
+        elasticity_kind = Tex('Price Elasticity of Supply:', color=DEFINITION).scale(0.67)
+        VGroup(elasticity_kind, supply_formula).arrange(RIGHT, buff=0.2).move_to([4.05, 1.9, 0])
+        elasticity_kind.set_y(supply_formula[r'\epsilon_S'].get_y())
+        supply_ratio_tracks = VGroup(
+            Line([3.1, 0.35, 0], [6.1, 0.35, 0], color=MUTED, stroke_width=10),
+            Line([3.1, -0.95, 0], [6.1, -0.95, 0], color=MUTED, stroke_width=10))
+        supply_qratio = Line([3.1, 0.35, 0], [4.3, 0.35, 0], color=FOCUS, stroke_width=10)
+        supply_qratio.source = supply_midprice
+        supply_qratio.add_updater(lambda line: line.put_start_and_end_on(
+            np.array([3.1, 0.35, 0]), np.array([3.1 + 3 / (line.source.get_value() - 2), 0.35, 0])))
+        supply_pratio = Line([3.1, -0.95, 0], [3.1 + 3 / 4.5, -0.95, 0], color=FOCUS, stroke_width=10)
+        supply_pratio.source = supply_midprice
+        supply_pratio.add_updater(lambda line: line.put_start_and_end_on(
+            np.array([3.1, -0.95, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.95, 0])))
+        supply_ratio_labels = VGroup(
+            MathTex(r'\frac{\Delta Q_s}{\bar Q_s}', color=FOCUS).scale(0.8).move_to([1.8, 0.35, 0]),
+            MathTex(r'\frac{\Delta P}{\bar P}', color=FOCUS).scale(0.8).move_to([1.8, -0.95, 0]),
+            Tex(r'$100\%$', color=CAPTION).scale(0.7).move_to([6.65, -0.3, 0]))
+        supply_qpercent = VGroup(DecimalNumber(40, num_decimal_places=1, color=FOCUS), MathTex(r'\%', color=FOCUS)).scale(0.8)
+        supply_qpercent[0].source = supply_midprice
+        supply_qpercent[0].add_updater(lambda number: number.set_value(100 / (number.source.get_value() - 2)))
+        supply_qpercent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 0.7, 0]))
+        supply_ppercent = VGroup(DecimalNumber(100 / 4.5, num_decimal_places=1, color=FOCUS), MathTex(r'\%', color=FOCUS)).scale(0.8)
+        supply_ppercent[0].source = supply_midprice
+        supply_ppercent[0].add_updater(lambda number: number.set_value(100 / number.source.get_value()))
+        supply_ppercent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.6, 0]))
+        supply_epsilon_number = DecimalNumber(1.8, num_decimal_places=2, color=FOCUS).scale(1.1)
+        supply_epsilon_number.source = supply_midprice
+        supply_epsilon_number.add_updater(lambda number: number.set_value(number.source.get_value() / (number.source.get_value() - 2)))
+        supply_epsilon = VGroup(MathTex(r'\epsilon_S=').scale(1.1), supply_epsilon_number)
+        supply_epsilon.add_updater(lambda group: group.arrange(RIGHT, buff=0.18).move_to([4.05, -1.75, 0]))
+        supply_elastic = Tex(r'Elastic: $\epsilon_S>1$', color=DEFINITION).scale(0.8).move_to([4.05, -2.55, 0])
+        self.play(FadeIn(sa), FadeIn(supply), FadeIn(sp), FadeIn(sq), FadeIn(su), FadeIn(supply_price_unit),
+                  FadeIn(supply_label), FadeIn(supply_equation), FadeIn(supply_endpoints), FadeIn(supply_divider))
+        self.play(FadeIn(supply_midpoint), FadeIn(supply_qbase), FadeIn(supply_pbase), FadeIn(supply_qtick), FadeIn(supply_ptick),
+                  FadeIn(supply_qdelta), FadeIn(supply_pdelta), FadeIn(supply_deltaq_value), FadeIn(supply_deltap_value),
+                  FadeIn(elasticity_kind), FadeIn(supply_formula), FadeIn(supply_ratio_tracks), FadeIn(supply_qratio),
+                  FadeIn(supply_pratio), FadeIn(supply_ratio_labels), FadeIn(supply_qpercent), FadeIn(supply_ppercent),
+                  FadeIn(supply_epsilon), FadeIn(supply_elastic))
+        self.bring_to_front(supply_endpoints, supply_midpoint, supply_qtick, supply_ptick)
         self.pause('6.c')
+
+        # ---- 6.d · Raise the same dollar-wide interval: supply remains elastic.
+        # With a positive price intercept, epsilon=P-bar/(P-bar-2)>1 everywhere.
+        supply_brace = Brace(supply, direction=UL, color=MUTED, buff=0.15)
+        self.play(supply_midprice.animate.set_value(7.5), run_time=2.5, rate_func=smooth)
+        self.play(FadeIn(supply_brace))
+        self.pause('6.d')
+
+        # ---- 6.e · At higher prices the percentage responses approach each other.
+        self.play(supply_midprice.animate.set_value(12.5), run_time=2.5, rate_func=smooth)
+        self.play(FadeOut(supply_def))
+        supply_limit_note = Tex(r'\mbox{This supply curve stays {{elastic}}; elasticity approaches 1 as price rises.}',
+                                tex_to_color_map={'elastic': DEFINITION}).scale(DEFINITION_SCALE)
+        supply_limit_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        supply_limit = MathTex(r'\epsilon_S>1,\qquad\epsilon_S\to1', color=DEFINITION).scale(0.8).move_to(supply_elastic)
+        self.play(ReplacementTransform(supply_elastic, supply_limit), FadeIn(supply_limit_note))
+        self.pause('6.e')
 
 
         # ---- 7.a · Return to the same market before changing the curves.
