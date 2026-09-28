@@ -213,8 +213,8 @@ class B5(Scene):
         head = title('Elasticity')
         question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        elasticity_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
-        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind))
+        comparison_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
+        self.play(FadeIn(head), FadeIn(question), FadeIn(comparison_kind))
         scenario_note = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.65)
         scenario_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(scenario_note))
@@ -315,7 +315,7 @@ class B5(Scene):
         head = title('Elasticity')
         question = Tex(r"\textsf{Responsiveness to change.}", color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        elasticity_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
+        elasticity_kind = Tex('Price Elasticity of Demand:', color=DEFINITION).scale(0.7)
         ea = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6, ticks=True,
                         axis_config={'tick_size': 0.05},
                         x_axis_config={'numbers_to_include': [20, 40],
@@ -396,7 +396,8 @@ class B5(Scene):
                                color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
                                max_tip_length_to_length_ratio=0.12)
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
-        formula.move_to([3.95, 1.9, 0])
+        VGroup(elasticity_kind, formula).arrange(RIGHT, buff=0.22).move_to([3.95, 1.9, 0])
+        elasticity_kind.set_y(formula[r'\epsilon_D'].get_y())
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_result = MathTex(r'\bar Q=', '7.5', color=FOCUS).scale(0.8).move_to([2.15, 0.0, 0])
         q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', color=FOCUS).scale(0.8)
@@ -406,9 +407,9 @@ class B5(Scene):
         midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
                            tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
                   FadeIn(price_unit), FadeIn(ed_lab), FadeIn(equation), FadeIn(e_divider), FadeIn(endpoints))
-        self.play(FadeIn(formula), FadeIn(midpoint_def))
+        self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note), FadeIn(midpoint_arrow))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
                   TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label))
@@ -540,7 +541,7 @@ class B5(Scene):
         # ---- 4.h · Only after the sweep, collect the three region definitions.
         self.play(FadeOut(q_ratio_track), FadeOut(p_ratio_track), FadeOut(q_ratio_bar), FadeOut(p_ratio_bar),
                   FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
-                  FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(inelastic_word),
+                  FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
                   FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
                   FadeOut(q_mid_tick), FadeOut(p_mid_tick), FadeOut(endpoints), FadeOut(midpoint_dot),
                   FadeOut(demand_sign_note))
@@ -577,7 +578,7 @@ class B5(Scene):
                 .scale(0.8).move_to([3.75, -3.3, 0]))
         slope_answer = Tex('Same slope, different elasticities.', color=FOCUS).scale(DEFINITION_SCALE)
         slope_answer.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_kind), FadeIn(elasticity_panels),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(comparison_kind), FadeIn(elasticity_panels),
                   FadeIn(initial_choices), FadeIn(movement_arrows), FadeIn(comparison_slopes))
         self.play(FadeIn(comparison_elasticities), FadeIn(slope_answer))
         self.pause('4.i')
@@ -762,7 +763,7 @@ class B5(Scene):
         self.clear()
         head = title('Equilibrium')
         curve_question = Tex('What if the curves move instead?', color=FOCUS).scale(0.9)
-        curve_question.next_to(head, DOWN, buff=0.12).set_x(0)
+        curve_question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(head), FadeIn(recap_market), FadeIn(curve_question))
         self.pause('7.a')
         self.play(FadeOut(head), FadeOut(recap_market), FadeOut(curve_question))
