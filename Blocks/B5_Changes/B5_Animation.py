@@ -45,10 +45,10 @@ class B5(Scene):
         ax.shift(np.array([-5.0, -2.25, 0]) - ax.c2p(0, 0))
         axes_words = VGroup(
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.25),
-            Tex(r'\textsf{dollars per pound}', color=CAPTION).scale(0.7)
+            Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
                 .next_to(ax.c2p(0, 13), RIGHT, buff=0.2),
             Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{thousand pounds}', color=CAPTION).scale(0.7)
+            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
                 .next_to(ax.c2p(30, 0), DOWN, buff=0.7))
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
         supply = Line(ax.c2p(0, 2), ax.c2p(60, 5), color=SUPPLY, stroke_width=3)
@@ -56,8 +56,8 @@ class B5(Scene):
             Tex('D', color=INK).scale(0.8).next_to(ax.c2p(55, 1), UR, buff=0.1),
             Tex('S', color=INK).scale(0.8).next_to(supply.get_end(), RIGHT, buff=0.15))
         point = Dot(ax.c2p(40, 4), color=GUIDE, radius=0.065, z_index=12)
-        p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, z_index=10)
-        q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, z_index=10)
+        p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
+        q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         result_words = VGroup(
             Tex(r'$P^*=4$', color=GUIDE).scale(0.8).next_to(ax.c2p(0, 4), LEFT, buff=0.2),
             Tex(r'$Q^*=40$', color=GUIDE).scale(0.8).next_to(ax.c2p(40, 0), DOWN, buff=0.2))
@@ -98,17 +98,17 @@ class B5(Scene):
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
         axes_words = VGroup(
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 18), LEFT, buff=0.25),
-            Tex(r'\textsf{dollars per pound}', color=CAPTION).scale(0.7)
+            Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
                 .next_to(ax.c2p(0, 18), RIGHT, buff=0.2),
             Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(90, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{thousand pounds}', color=CAPTION).scale(0.7)
+            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
                 .next_to(ax.c2p(45, 0), DOWN, buff=0.75))
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
         supply = Line(ax.c2p(0, 2), ax.c2p(90, 6.5), color=SUPPLY, stroke_width=3).set_opacity(0.3)
         demand_word = Tex('D', color=INK).scale(0.8).next_to(ax.c2p(60, 0), UR, buff=0.18)
         supply_word = Tex('S', color=CAPTION).scale(0.8).next_to(supply.get_end(), RIGHT, buff=0.15)
         selected_bar = Line(ax.c2p(30, 0), ax.c2p(30, 6), color=DEMAND, stroke_width=10)
-        selected_word = Tex('Gary', color=INK).scale(0.8).next_to(selected_bar, UP, buff=0.2)
+        selected_word = Tex(r"Gary's next unit", color=INK).scale(0.8).next_to(selected_bar.get_end(), UR, buff=0.2)
         self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(demand), FadeIn(supply),
                   FadeIn(demand_word), FadeIn(supply_word))
         self.play(FadeIn(selected_bar), FadeIn(selected_word))
@@ -121,7 +121,7 @@ class B5(Scene):
         gary_bar = Line(gary_base, gary_base + UP * 2.0, color=DEMAND, stroke_width=20)
         gary_bar.base, gary_bar.benefit = gary_base, benefit
         gary_bar.add_updater(lambda m: m.put_start_and_end_on(m.base, m.base + UP * m.benefit.get_value() / 3))
-        gary_name = Tex('Gary', color=INK).scale(0.9).next_to(gary_base, DOWN, buff=0.35)
+        gary_name = Tex(r"Gary's next unit", color=INK).scale(0.8).next_to(gary_base, DOWN, buff=0.35)
         gary_number = DecimalNumber(6, num_decimal_places=0, color=GUIDE).scale(0.9)
         gary_number.bar, gary_number.benefit = gary_bar, benefit
         gary_number.add_updater(lambda m: m.set_value(m.benefit.get_value()).next_to(m.bar.get_end(), RIGHT, buff=0.3))
@@ -156,15 +156,15 @@ class B5(Scene):
         point = Dot(ax.c2p(40, 4), color=GUIDE, radius=0.065, z_index=12)
         point.ax, point.price, point.shift_value = ax, price, shift
         point.add_updater(lambda m: m.move_to(m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value())))
-        p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, z_index=10)
+        p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         p_line.ax, p_line.price, p_line.shift_value = ax, price, shift
         p_line.add_updater(lambda m: m.become(DashedLine(m.ax.c2p(0, m.price.get_value()),
-            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value()), color=GUIDE, z_index=10).set_style(**m.get_style())))
-        q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, z_index=10)
+            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
+        q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         q_line.ax, q_line.price, q_line.shift_value = ax, price, shift
         q_line.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), 0),
-            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value()), color=GUIDE, z_index=10).set_style(**m.get_style())))
+            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
         p_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.8)
         p_number.ax, p_number.price = ax, price
         p_number.add_updater(lambda m: m.set_value(m.price.get_value()).next_to(m.ax.c2p(0, m.price.get_value()), LEFT, buff=0.2))
@@ -183,7 +183,7 @@ class B5(Scene):
         # The parameter is present before the first market shift. Its gold
         # span measures vertical displacement from the original intercept 12.
         demand_equation = MathTex(r'P=12+', 'a', r'-Q/5',
-                                  tex_to_color_map={'a': DEFINITION}).scale(0.85)
+                                  tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'a': DEFINITION}).scale(0.85)
         demand_equation.move_to([4.35, 2.0, 0])
         a_number = DecimalNumber(0, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.8)
         a_number.source = shift
@@ -208,7 +208,7 @@ class B5(Scene):
         a_label.ax, a_label.source = ax, shift
         a_label.add_updater(lambda m: m.next_to(
             m.ax.c2p(0, 12 + m.source.get_value() / 2) + LEFT * 0.85, LEFT, buff=0.18))
-        demand_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1)
+        demand_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         demand_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([2.1, 0.73, 0], aligned_edge=LEFT)
         demand_scenarios = VGroup()
         for label, sign, y in [
@@ -260,7 +260,7 @@ class B5(Scene):
         self.play(FadeIn(p_line), FadeIn(q_line), FadeIn(point), FadeIn(p_number), FadeIn(q_number), FadeIn(q_prefix))
 
         # ---- 3.d · Reduced preference reverses the shift at the same price.
-        self.play(demand_scenarios[0].animate.set_opacity(0.45), FadeIn(demand_scenarios[1]))
+        self.play(demand_scenarios[0].animate.set_color(CAPTION), FadeIn(demand_scenarios[1]))
         self.remove(bottom)
         bottom = Tex('Less demand: less is wanted at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -269,7 +269,7 @@ class B5(Scene):
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 3.e · Income rises: normal goods move out.
-        self.play(demand_scenarios[1].animate.set_opacity(0.45), FadeIn(demand_scenarios[2]))
+        self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2]))
         self.remove(head, question, bottom)
         head = title('Demand shifters')
         question = Tex('What else changes demand for spinach?', color=DEFINITION).scale(0.75)
@@ -283,7 +283,7 @@ class B5(Scene):
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 3.f · Reuse the schematic for noodles, explicitly naming the good.
-        self.play(demand_scenarios[2].animate.set_opacity(0.45), FadeIn(demand_scenarios[3]))
+        self.play(demand_scenarios[2].animate.set_color(CAPTION), FadeIn(demand_scenarios[3]))
         # The geometry illustrates direction only; these are not measured data.
         self.remove(bottom)
         self.remove(head, question)
@@ -304,7 +304,7 @@ class B5(Scene):
                   FadeIn(axes_words[1]), FadeIn(axes_words[3]))
 
         # ---- 3.g · Return to spinach: romaine is a substitute.
-        self.play(demand_scenarios[3].animate.set_opacity(0.45), FadeIn(demand_scenarios[4]))
+        self.play(demand_scenarios[3].animate.set_color(CAPTION), FadeIn(demand_scenarios[4]))
         self.remove(bottom)
         self.remove(head, question)
         head = title('Demand shifters')
@@ -320,7 +320,7 @@ class B5(Scene):
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 3.h · Dressing is a complement; its higher price reduces demand.
-        self.play(demand_scenarios[4].animate.set_opacity(0.45), FadeIn(demand_scenarios[5]))
+        self.play(demand_scenarios[4].animate.set_color(CAPTION), FadeIn(demand_scenarios[5]))
         self.remove(bottom)
         bottom = Tex(r'{{Complements}} are used together.',
                      tex_to_color_map={'Complements': DEFINITION}).scale(DEFINITION_SCALE)
@@ -331,7 +331,7 @@ class B5(Scene):
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 3.i · More buyers add quantity at each price.
-        self.play(demand_scenarios[5].animate.set_opacity(0.45), FadeIn(demand_scenarios[6]))
+        self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
         self.remove(bottom)
         bottom = Tex('More buyers increase market demand.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -352,10 +352,10 @@ class B5(Scene):
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
         axes_words = VGroup(
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 9), LEFT, buff=0.25),
-            Tex(r'\textsf{dollars per pound}', color=CAPTION).scale(0.7)
+            Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
                 .next_to(ax.c2p(0, 9), RIGHT, buff=0.2),
             Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(100, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{thousand pounds}', color=CAPTION).scale(0.7)
+            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
                 .next_to(ax.c2p(50, 0), DOWN, buff=0.75))
         price = ValueTracker(4)
         cost_shift = ValueTracker(0)
@@ -369,15 +369,15 @@ class B5(Scene):
         point = Dot(ax.c2p(40, 4), color=GUIDE, radius=0.065, z_index=12)
         point.ax, point.price, point.shift_value = ax, price, cost_shift
         point.add_updater(lambda m: m.move_to(m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value())))
-        p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, z_index=10)
+        p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         p_line.ax, p_line.price, p_line.shift_value = ax, price, cost_shift
         p_line.add_updater(lambda m: m.become(DashedLine(m.ax.c2p(0, m.price.get_value()),
-            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value()), color=GUIDE, z_index=10).set_style(**m.get_style())))
-        q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, z_index=10)
+            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
+        q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         q_line.ax, q_line.price, q_line.shift_value = ax, price, cost_shift
         q_line.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), 0),
-            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value()), color=GUIDE, z_index=10).set_style(**m.get_style())))
+            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
         p_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.8)
         p_number.ax, p_number.price = ax, price
         p_number.add_updater(lambda m: m.set_value(m.price.get_value()).next_to(m.ax.c2p(0, m.price.get_value()), LEFT, buff=0.2))
@@ -396,7 +396,7 @@ class B5(Scene):
         self.play(FadeIn(q_line), FadeIn(q_number), FadeIn(q_prefix), FadeIn(bottom))
         # Positive b raises marginal cost, so it means a decrease in supply.
         supply_equation = MathTex(r'P=2+', 'b', r'+Q/20',
-                                  tex_to_color_map={'b': DEFINITION}).scale(0.85)
+                                  tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'b': DEFINITION}).scale(0.85)
         supply_equation.move_to([4.35, 2.0, 0])
         b_number = DecimalNumber(0, num_decimal_places=2, include_sign=True, color=DEFINITION).scale(0.8)
         b_number.source = cost_shift
@@ -421,7 +421,7 @@ class B5(Scene):
         b_label.ax, b_label.source = ax, cost_shift
         b_label.add_updater(lambda m: m.next_to(
             m.ax.c2p(0, 2 + m.source.get_value() / 2) + LEFT * 0.85, LEFT, buff=0.18))
-        supply_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1)
+        supply_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         supply_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([2.1, 0.73, 0], aligned_edge=LEFT)
         supply_scenarios = VGroup()
         for label, sign, y in [
@@ -471,20 +471,20 @@ class B5(Scene):
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
 
         # ---- 4.c · Cheaper fertilizer lowers each marginal cost.
-        self.play(supply_scenarios[0].animate.set_opacity(0.45), FadeIn(supply_scenarios[1]))
+        self.play(supply_scenarios[0].animate.set_color(CAPTION), FadeIn(supply_scenarios[1]))
         self.play(cost_shift.animate.set_value(-1), run_time=1.7)
         self.pause('4.c')
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
 
         # ---- 4.d · A better alternative use raises opportunity cost.
-        self.play(supply_scenarios[1].animate.set_opacity(0.45), FadeIn(supply_scenarios[2]))
+        self.play(supply_scenarios[1].animate.set_color(CAPTION), FadeIn(supply_scenarios[2]))
         self.play(cost_shift.animate.set_value(1.25), run_time=1.7)
         self.pause('4.d')
         self.play(cost_shift.animate.set_value(0), FadeOut(molly_bar), FadeOut(molly_name),
                   FadeOut(molly_price), FadeOut(molly_price_word), run_time=1.2)
 
         # ---- 4.e · Entry expands the market without lowering Molly's own MC.
-        self.play(supply_scenarios[2].animate.set_opacity(0.45), FadeIn(supply_scenarios[3]))
+        self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3]))
         # The individual bar is removed before entry; the outward market shift
         # represents added sellers rather than a fall in every incumbent's cost.
         self.remove(bottom)
@@ -496,7 +496,7 @@ class B5(Scene):
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
 
         # ---- 4.f · Technology lowers cost and expands supply.
-        self.play(supply_scenarios[3].animate.set_opacity(0.45), FadeIn(supply_scenarios[4]))
+        self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4]))
         self.remove(bottom)
         bottom = Tex('Lower costs increase supply at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -765,8 +765,11 @@ class B5(Scene):
         epsilon_number.add_updater(lambda number: number.set_value(
             -number.source.get_value() / (12 - number.source.get_value())))
         epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18).move_to([3.95, -1.75, 0]))
-        elastic_word = Tex('Elastic', color=DEFINITION).scale(0.85).move_to([3.95, -2.55, 0])
-        self.play(FadeIn(epsilon_result), FadeIn(elastic_word))
+        elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
+        self.remove(midpoint_def)
+        demand_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
+        demand_sign_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(epsilon_result), FadeIn(elastic_word), FadeIn(demand_sign_note))
         self.pause('5.g')
 
         # ---- 5.h · Slide the SAME dollar-wide interval to the low-price example.
@@ -778,7 +781,7 @@ class B5(Scene):
         p_ratio_label = MathTex(r'\Delta P/\bar P', color=FOCUS).scale(0.8).move_to([1.7, -0.45, 0])
         self.play(FadeIn(q_ratio_label), FadeIn(p_ratio_label))
         self.play(midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
-        inelastic_word = Tex(r'Inelastic: $\epsilon_D=-1/7$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
+        inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
         self.play(FadeIn(inelastic_word))
         self.pause('5.h')
 
@@ -792,13 +795,13 @@ class B5(Scene):
         # ---- 5.j · Sweep the fixed line and stop exactly at unit elasticity.
         # Its slope never changes. The interval remains symmetric about P-bar,
         # so at P-bar=6 and Q-bar=30 the midpoint elasticity is exactly -1.
-        self.remove(third_result, midpoint_def)
-        responsiveness_def = Tex(r'\mbox{ {{Unit elastic}} means equal percentage changes in quantity and price.}',
+        self.remove(third_result, demand_sign_note)
+        responsiveness_def = Tex(r'\mbox{ {{Unit elastic}}: quantity and price change by equal percentages in magnitude.}',
                                   tex_to_color_map={'Unit elastic': DEFINITION}).scale(DEFINITION_SCALE)
         responsiveness_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(midpoint_price.animate.set_value(10.5), run_time=3, rate_func=smooth)
         self.play(midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
-        unit_word = Tex('Unit elastic', color=DEFINITION).scale(0.85).move_to([3.95, -2.55, 0])
+        unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
         self.play(FadeIn(unit_word), FadeIn(responsiveness_def))
         self.pause('5.j')
 
@@ -842,7 +845,7 @@ class B5(Scene):
         ea = style_axes([0, 60, 10], [0, 12, 2], x_length=5.3, y_length=4.1)
         ea.shift(np.array([-3.7, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(60, 12)) / 2)
         ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
-        eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35).shift(RIGHT * 0.6)
+        eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
         vertical_demand = Line(ea.c2p(30, 0), ea.c2p(30, 12), color=DEMAND, stroke_width=4)
         vertical_label = Tex('D').scale(0.8).next_to(vertical_demand, RIGHT, buff=0.15).align_to(vertical_demand, UP)
         extreme_price = ValueTracker(9)
@@ -858,7 +861,9 @@ class B5(Scene):
         self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ep), FadeIn(eq), FadeIn(vertical_demand),
                   FadeIn(vertical_label), FadeIn(extreme_dot), FadeIn(extreme_h))
         self.play(extreme_price.animate.set_value(3), run_time=2, rate_func=smooth)
-        self.play(FadeIn(zero_response))
+        extreme_note = Tex('Price changes; quantity stays fixed.', color=INK).scale(DEFINITION_SCALE)
+        extreme_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(zero_response), FadeIn(extreme_note))
         self.pause('5.l')
 
         # ---- 5.m · At the other extreme, the curve is horizontal.
@@ -881,7 +886,10 @@ class B5(Scene):
         self.play(FadeIn(right_ax), FadeIn(right_p), FadeIn(right_q), FadeIn(horizontal_demand),
                   FadeIn(horizontal_label), FadeIn(horizontal_dot), FadeIn(horizontal_v))
         self.play(extreme_quantity.animate.set_value(50), run_time=2, rate_func=smooth)
-        self.play(FadeIn(infinite_response))
+        self.remove(extreme_note)
+        extreme_note = Tex('Quantity can change at the same price.', color=INK).scale(DEFINITION_SCALE)
+        extreme_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(infinite_response), FadeIn(extreme_note))
         self.pause('5.m')
 
         # ---- 5.n · Apply the same percentage ratio to the familiar supply curve.
@@ -927,8 +935,8 @@ class B5(Scene):
         supply_qn.add_updater(lambda group: group.arrange(RIGHT, buff=0.05).next_to(
             group.ax.c2p(20 * (group.source.get_value() - 2), 0), DOWN, buff=0.3))
         supply_qn.update()
-        supply_def = Tex(r'\mbox{ {{Elasticity of Supply}} measures how quantity supplied responds to price.}',
-                        tex_to_color_map={'Elasticity of Supply': DEFINITION}).scale(DEFINITION_SCALE)
+        supply_def = Tex(r'\mbox{ {{Elasticity of supply}} measures how quantity supplied responds to price.}',
+                        tex_to_color_map={'Elasticity of supply': DEFINITION}).scale(DEFINITION_SCALE)
         supply_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(head), FadeIn(question), FadeIn(sa), FadeIn(supply), FadeIn(sp), FadeIn(sq), FadeIn(su),
                   FadeIn(supply_label), FadeIn(supply_equation), FadeIn(supply_h), FadeIn(supply_v),
@@ -979,7 +987,7 @@ class B5(Scene):
         cs_d_label = Tex('D', color=INK).scale(0.8)
         cs_d_label.ax, cs_d_label.shock = cs_ax, cs_a
         cs_d_label.add_updater(lambda m: m.next_to(m.ax.c2p(
-            4.3 * (12 + m.shock.get_value()), 0.14 * (12 + m.shock.get_value())), RIGHT, buff=0.15))
+            5 * (12 + m.shock.get_value()), 0), UR, buff=0.15))
         cs_d_label.update()
         cs_d_equation = MathTex(r'P=12+a-\frac{Q}{5}',
                                tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'a': DEFINITION}).scale(0.85)
@@ -989,27 +997,31 @@ class B5(Scene):
         cs_a_number.add_updater(lambda m: m.set_value(m.source.get_value()))
         cs_a_word = MathTex('a=', color=DEFINITION).scale(0.8)
         # Reuse the established a measure: baseline intercept to current intercept.
-        # A one-micron segment and zero stroke width avoid a zero-length Line.
-        cs_a_span = Line(cs_ax.c2p(0, 12) + LEFT * 0.8,
-                         cs_ax.c2p(0, 12) + LEFT * 0.8 + UP * 1e-6,
-                         color=DEFINITION, stroke_width=0)
+        # Coincident points make a zero shift vanish without changing opacity.
+        cs_a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
         cs_a_span.ax, cs_a_span.source = cs_ax, cs_a
-        cs_a_span.add_updater(lambda m: m.put_start_and_end_on(
+        cs_a_span.add_updater(lambda m: m.set_points_as_corners([
             m.ax.c2p(0, 12) + LEFT * 0.8,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8
-            + (UP * 1e-6 if abs(m.source.get_value()) < 1e-6 else ORIGIN))
-            .set_stroke(width=0 if abs(m.source.get_value()) < 1e-6 else 4))
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8]))
+        cs_a_anchor = Line(cs_ax.c2p(0, 12) + LEFT * 0.95,
+                               cs_ax.c2p(0, 12) + LEFT * 0.65, color=MUTED, stroke_width=2)
+        cs_a_cap = Line(cs_ax.c2p(0, 12) + LEFT * 0.95,
+                            cs_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
+        cs_a_cap.ax, cs_a_cap.source = cs_ax, cs_a
+        cs_a_cap.add_updater(lambda m: m.put_start_and_end_on(
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.95,
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.65))
         cs_a_group = VGroup(cs_a_word, cs_a_number).arrange(RIGHT, buff=0.08)
         cs_a_group.ax, cs_a_group.source = cs_ax, cs_a
         cs_a_group.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(
             m.ax.c2p(0, min(12, 12 + m.source.get_value())) + LEFT * 0.8 + DOWN * 0.28))
         cs_a_group.update()
-        cs_phase = Tex('Demand before supply', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
+        cs_phase = Tex('Recall the demand shift', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('How does the market respond to a change?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         # This case record remains in one place across the three experiments.
         # Results enter only after each market has reached its new equilibrium.
-        cs_case_heading = Tex('Cases', color=CAPTION).scale(0.7).move_to([4.55, -1.22, 0])
+        cs_case_heading = Tex('Scenarios', color=CAPTION).scale(0.7).move_to([4.55, -1.22, 0])
         cs_case_up = Tex('Demand increases', color=CAPTION).scale(0.7).move_to([2.2, -1.67, 0], aligned_edge=LEFT)
         cs_case_down = Tex('Demand decreases', color=CAPTION).scale(0.7).move_to([2.2, -2.12, 0], aligned_edge=LEFT)
         cs_case_supply = Tex('Supply decreases', color=CAPTION).scale(0.7).move_to([2.2, -2.57, 0], aligned_edge=LEFT)
@@ -1020,7 +1032,7 @@ class B5(Scene):
                            cs_case_up_result, cs_case_down_result, cs_case_supply_result]
         self.play(FadeIn(head), FadeIn(cs_ax), FadeIn(cs_p_name), FadeIn(cs_p_units),
                   FadeIn(cs_q_name), FadeIn(cs_q_units), FadeIn(cs_demand), FadeIn(cs_d_label),
-                  FadeIn(cs_d_equation), FadeIn(cs_a_group), FadeIn(cs_a_span), FadeIn(cs_divider),
+                  FadeIn(cs_d_equation), FadeIn(cs_a_group), FadeIn(cs_a_span), FadeIn(cs_a_anchor), FadeIn(cs_a_cap), FadeIn(cs_divider),
                   FadeIn(cs_phase), FadeIn(cs_prompt), FadeIn(cs_case_heading),
                   FadeIn(cs_case_up), FadeIn(cs_case_down), FadeIn(cs_case_supply))
         self.pause('6.a')
@@ -1236,7 +1248,7 @@ class B5(Scene):
         ss_b = ValueTracker(0)
         ss_price = ValueTracker(4)
         ss_demand = Line(ss_ax.c2p(0, 12), ss_ax.c2p(60, 0), color=DEMAND, stroke_width=4)
-        ss_d_label = Tex('D', color=INK).scale(0.8).next_to(ss_ax.c2p(52, 1.6), RIGHT, buff=0.15)
+        ss_d_label = Tex('D', color=INK).scale(0.8).next_to(ss_ax.c2p(60, 0), UR, buff=0.15)
         ss_supply_before = Line(ss_ax.c2p(0, 2), ss_ax.c2p(90, 6.5), color=MUTED, stroke_width=2)
         ss_supply = Line(ss_ax.c2p(0, 2), ss_ax.c2p(90, 6.5), color=SUPPLY, stroke_width=4)
         ss_supply.ax, ss_supply.shock = ss_ax, ss_b
@@ -1284,15 +1296,19 @@ class B5(Scene):
         ss_b_number = DecimalNumber(0, num_decimal_places=2, include_sign=True, color=DEFINITION).scale(0.8)
         ss_b_number.source = ss_b
         ss_b_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        ss_b_span = Line(ss_ax.c2p(0, 2) + LEFT * 0.8,
-                         ss_ax.c2p(0, 2) + LEFT * 0.8 + UP * 1e-6,
-                         color=DEFINITION, stroke_width=0)
+        ss_b_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
         ss_b_span.ax, ss_b_span.source = ss_ax, ss_b
-        ss_b_span.add_updater(lambda m: m.put_start_and_end_on(
+        ss_b_span.add_updater(lambda m: m.set_points_as_corners([
             m.ax.c2p(0, 2) + LEFT * 0.8,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8
-            + (UP * 1e-6 if abs(m.source.get_value()) < 1e-6 else ORIGIN))
-            .set_stroke(width=0 if abs(m.source.get_value()) < 1e-6 else 4))
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8]))
+        ss_b_anchor = Line(ss_ax.c2p(0, 2) + LEFT * 0.95,
+                               ss_ax.c2p(0, 2) + LEFT * 0.65, color=MUTED, stroke_width=2)
+        ss_b_cap = Line(ss_ax.c2p(0, 2) + LEFT * 0.95,
+                            ss_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
+        ss_b_cap.ax, ss_b_cap.source = ss_ax, ss_b
+        ss_b_cap.add_updater(lambda m: m.put_start_and_end_on(
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.95,
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.65))
         ss_b_group = VGroup(MathTex('b=', color=DEFINITION).scale(0.8), ss_b_number)
         ss_b_group.ax, ss_b_group.source = ss_ax, ss_b
         ss_b_group.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(
@@ -1302,7 +1318,7 @@ class B5(Scene):
                   FadeIn(ss_q_units), FadeIn(ss_demand), FadeIn(ss_d_label), FadeIn(ss_supply), FadeIn(ss_s_label))
         self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot), FadeIn(ss_d_drop), FadeIn(ss_s_drop),
                   FadeIn(ss_p_number), FadeIn(ss_q_number), FadeIn(ss_equation), FadeIn(ss_b_group),
-                  FadeIn(ss_b_span), FadeIn(ss_divider), FadeIn(ss_phase), FadeIn(ss_prompt),
+                  FadeIn(ss_b_span), FadeIn(ss_b_anchor), FadeIn(ss_b_cap), FadeIn(ss_divider), FadeIn(ss_phase), FadeIn(ss_prompt),
                   cs_case_down.animate.set_color(CAPTION), cs_case_supply.animate.set_color(INK))
         ss_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
         ss_equilibrium.anchor = ss_d_dot
@@ -1389,24 +1405,32 @@ class B5(Scene):
         both_q_units.next_to(both_q_name, DOWN, buff=0.15).align_to(both_q_name, RIGHT)
         both_a, both_b = ValueTracker(0), ValueTracker(0)
         # Keep both changes measurable while the outcome record accumulates.
-        both_a_span = Line(both_ax.c2p(0, 12) + LEFT * 0.8,
-                           both_ax.c2p(0, 12) + LEFT * 0.8 + UP * 1e-6,
-                           color=DEFINITION, stroke_width=0)
+        both_a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
         both_a_span.ax, both_a_span.source = both_ax, both_a
-        both_a_span.add_updater(lambda m: m.put_start_and_end_on(
+        both_a_span.add_updater(lambda m: m.set_points_as_corners([
             m.ax.c2p(0, 12) + LEFT * 0.8,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8
-            + (UP * 1e-6 if abs(m.source.get_value()) < 1e-6 else ORIGIN))
-            .set_stroke(width=0 if abs(m.source.get_value()) < 1e-6 else 4))
-        both_b_span = Line(both_ax.c2p(0, 2) + LEFT * 0.8,
-                           both_ax.c2p(0, 2) + LEFT * 0.8 + UP * 1e-6,
-                           color=DEFINITION, stroke_width=0)
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8]))
+        both_a_anchor = Line(both_ax.c2p(0, 12) + LEFT * 0.95,
+                               both_ax.c2p(0, 12) + LEFT * 0.65, color=MUTED, stroke_width=2)
+        both_a_cap = Line(both_ax.c2p(0, 12) + LEFT * 0.95,
+                            both_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
+        both_a_cap.ax, both_a_cap.source = both_ax, both_a
+        both_a_cap.add_updater(lambda m: m.put_start_and_end_on(
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.95,
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.65))
+        both_b_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
         both_b_span.ax, both_b_span.source = both_ax, both_b
-        both_b_span.add_updater(lambda m: m.put_start_and_end_on(
+        both_b_span.add_updater(lambda m: m.set_points_as_corners([
             m.ax.c2p(0, 2) + LEFT * 0.8,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8
-            + (UP * 1e-6 if abs(m.source.get_value()) < 1e-6 else ORIGIN))
-            .set_stroke(width=0 if abs(m.source.get_value()) < 1e-6 else 4))
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8]))
+        both_b_anchor = Line(both_ax.c2p(0, 2) + LEFT * 0.95,
+                               both_ax.c2p(0, 2) + LEFT * 0.65, color=MUTED, stroke_width=2)
+        both_b_cap = Line(both_ax.c2p(0, 2) + LEFT * 0.95,
+                            both_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
+        both_b_cap.ax, both_b_cap.source = both_ax, both_b
+        both_b_cap.add_updater(lambda m: m.put_start_and_end_on(
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.95,
+            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.65))
         both_a_number = DecimalNumber(0, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.7)
         both_a_number.source = both_a
         both_a_number.add_updater(lambda m: m.set_value(m.source.get_value()))
@@ -1438,7 +1462,7 @@ class B5(Scene):
         both_d_label = Tex('D', color=INK).scale(0.8)
         both_d_label.ax, both_d_label.source = both_ax, both_a
         both_d_label.add_updater(lambda m: m.next_to(m.ax.c2p(
-            4.3 * (12 + m.source.get_value()), 0.14 * (12 + m.source.get_value())), RIGHT, buff=0.15))
+            5 * (12 + m.source.get_value()), 0), UR, buff=0.15))
         both_d_label.update()
         both_s_label = Tex('S', color=INK).scale(0.8)
         both_s_label.ax, both_s_label.source = both_ax, both_b
@@ -1491,13 +1515,15 @@ class B5(Scene):
                                   Tex('Rises', color=INK).scale(0.75).move_to([6.55, -0.7, 0]))
         both_record_down = VGroup(Tex('Falls', color=INK).scale(0.75).move_to([4.55, -1.35, 0]),
                                   Tex('Rises', color=INK).scale(0.75).move_to([6.55, -1.35, 0]))
-        both_record_note = Tex('Three possible outcomes', color=CAPTION).scale(0.7).move_to([5.35, -2.15, 0])
+        both_record_note = VGroup(Tex('Same starting market', color=CAPTION),
+                                  Tex('Three possible outcomes', color=CAPTION))
+        both_record_note.arrange(DOWN, buff=0.2).scale(0.7).move_to([5.35, -2.2, 0])
         self.play(FadeIn(head), FadeIn(both_ax), FadeIn(both_p_name), FadeIn(both_p_units),
                   FadeIn(both_q_name), FadeIn(both_q_units), FadeIn(both_d), FadeIn(both_s),
                   FadeIn(both_d_label), FadeIn(both_s_label), FadeIn(both_h), FadeIn(both_v),
                   FadeIn(both_dot), FadeIn(both_p_number), FadeIn(both_q_number), FadeIn(both_causes),
-                  FadeIn(both_divider), FadeIn(both_record_headers), FadeIn(both_prompt),
-                  FadeIn(both_a_span), FadeIn(both_b_span), FadeIn(both_a_group), FadeIn(both_b_group))
+                  FadeIn(both_divider), FadeIn(both_record_headers), FadeIn(both_prompt), FadeIn(both_record_note),
+                  FadeIn(both_a_span), FadeIn(both_a_anchor), FadeIn(both_a_cap), FadeIn(both_b_span), FadeIn(both_b_anchor), FadeIn(both_b_cap), FadeIn(both_a_group), FadeIn(both_b_group))
         both_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
         both_equilibrium.anchor = both_dot
         both_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
@@ -1517,7 +1543,7 @@ class B5(Scene):
 
         # ---- 7.d · A still larger supply shift lowers price; quantity rises again.
         self.play(both_record_same.animate.set_color(CAPTION), both_b.animate.set_value(-2.5), run_time=1.8)
-        self.play(FadeIn(both_record_down), FadeIn(both_record_note))
+        self.play(FadeIn(both_record_down))
         indeterminate_def = Tex(r'{{Indeterminate}}: the direction depends on the relative sizes of the shifts.',
                                 tex_to_color_map={'Indeterminate': DEFINITION}).scale(DEFINITION_SCALE)
         indeterminate_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -1572,12 +1598,12 @@ class B5(Scene):
         elastic_d_word = Tex('D', color=INK).scale(0.8)
         elastic_d_word.ax, elastic_d_word.source = elastic_ax, panel_a
         elastic_d_word.add_updater(lambda m: m.next_to(m.ax.c2p(
-            4.3 * (12 + m.source.get_value()), 0.14 * (12 + m.source.get_value())), RIGHT, buff=0.12))
+            5 * (12 + m.source.get_value()), 0), UR, buff=0.15))
         elastic_d_word.update()
         inelastic_d_word = Tex('D', color=INK).scale(0.8)
         inelastic_d_word.ax, inelastic_d_word.source = inelastic_ax, panel_a
         inelastic_d_word.add_updater(lambda m: m.next_to(m.ax.c2p(
-            4.3 * (12 + m.source.get_value()), 0.14 * (12 + m.source.get_value())), RIGHT, buff=0.12))
+            5 * (12 + m.source.get_value()), 0), UR, buff=0.15))
         inelastic_d_word.update()
         panel_baseline = VGroup()
         for panel_ax in (elastic_ax, inelastic_ax):

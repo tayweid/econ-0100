@@ -88,7 +88,7 @@ We also wanted to know who benefits from the exchanges in the market. So we deve
 
 // plass:comment
 // | Beats
-// | 2.a · Pick out Gary’s willingness-to-pay bar on the demand curve.
+// | 2.a · Pick out the willingness-to-pay bar for Gary’s next unit.
 // | 2.b · Bring his bar forward. The spinach study raises his valuation.
 // /plass:comment
 _*But the world is not always the same. Sometimes things change. Let’s say a new study comes out linking spinach to longer lives. Gary liked spinach before. But like nearly everyone, this new piece of information means he’s even more interested in buying spinach.*_
@@ -192,13 +192,13 @@ The market supply curve is also impacted by the number of sellers. Like when we 
 // | 5.d · On the first graph, measure the quantity change and its midpoint base.
 // | 5.e · Measure the price change and its midpoint base in the same way.
 // | 5.f · Turn the measurements into percentage bars on a shared scale.
-// | 5.g · Divide the percentages to find demand elasticity of −7.
+// | 5.g · Find elasticity of −7; distinguish its sign from its responsiveness.
 // | 5.h · Move to the second interval; the same changes give elasticity of −1/7.
 // | 5.i · Try $3 to $2; elasticity is −5/19.
-// | 5.j · Move along the fixed curve and stop at its unit-elastic midpoint.
+// | 5.j · Stop at the unit-elastic midpoint: equal percentage changes in magnitude.
 // | 5.k · Label the elastic and inelastic regions while the slope stays constant.
 // | 5.l · Move price along vertical demand: quantity does not respond.
-// | 5.m · Show horizontal demand, the perfectly elastic extreme.
+// | 5.m · On perfectly elastic demand, quantity can change at the same price.
 // | 5.n · Raise price along supply and follow the quantity supplied.
 // | 5.o · Use the same percentage ratio to calculate positive supply elasticity.
 // /plass:comment
@@ -321,7 +321,7 @@ What about with an increase in the cost of fertilizer, an input to producing spi
 
 // plass:comment
 // | Beats
-// | 7.a · Set up both changes beside a table of possible outcomes.
+// | 7.a · Set up both changes; compare three possible outcomes with one baseline.
 // | 7.b · Increase demand and supply; record rising quantity and price.
 // | 7.c · Increase supply further; add rising quantity with unchanged price.
 // | 7.d · Increase supply again; add rising quantity with falling price.
