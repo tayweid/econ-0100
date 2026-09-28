@@ -28,7 +28,7 @@ class B5(Scene):
         squares = bumper_raster(self)
         flicker(self, squares)
         episode = bumper_title(self, squares, 'B', 5)
-        thesis = Tex(r'\textit{How prices change.}', color=CAPTION)
+        thesis = Tex(r'\textit{How markets change.}', color=CAPTION)
         thesis.scale(1.1).next_to(episode, DOWN, buff=0.5)
         self.play(FadeIn(thesis))
         self.pause('0.a')
