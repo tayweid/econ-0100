@@ -1732,55 +1732,28 @@ class B5(Scene):
         cs_d_label.add_updater(lambda m: m.next_to(m.ax.c2p(
             5 * (12 + m.shock.get_value()), 0), UR, buff=0.15))
         cs_d_label.update()
-        cs_d_equation = MathTex(r'P=12+a-\frac{Q}{5}',
-                               tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'a': DEFINITION}).scale(0.85)
-        cs_d_equation.move_to([4.55, 1.35, 0])
-        cs_a_number = DecimalNumber(0, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.8)
-        cs_a_number.source = cs_a
-        cs_a_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        cs_a_word = MathTex('a=', color=DEFINITION).scale(0.8)
-        # Reuse the established a measure: baseline intercept to current intercept.
-        # Coincident points make a zero shift vanish without changing opacity.
-        cs_a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
-        cs_a_span.ax, cs_a_span.source = cs_ax, cs_a
-        cs_a_span.add_updater(lambda m: m.set_points_as_corners([
-            m.ax.c2p(0, 12) + LEFT * 0.8,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8]))
-        cs_a_anchor = Line(cs_ax.c2p(0, 12) + LEFT * 0.95,
-                               cs_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        cs_a_cap = Line(cs_ax.c2p(0, 12) + LEFT * 0.95,
-                            cs_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        cs_a_cap.ax, cs_a_cap.source = cs_ax, cs_a
-        cs_a_cap.add_updater(lambda m: m.put_start_and_end_on(
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.95,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.65))
-        cs_a_group = VGroup(cs_a_word, cs_a_number).arrange(RIGHT, buff=0.08)
-        cs_a_group.ax, cs_a_group.source = cs_ax, cs_a
-        cs_a_group.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(
-            m.ax.c2p(0, min(12, 12 + m.source.get_value())) + LEFT * 0.8 + DOWN * 0.28))
-        cs_a_group.update()
         cs_phase = Tex('Recall the demand shift', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('How does the market respond to a change?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         # This case record remains in one place across the three experiments.
         # Results enter only after each market has reached its new equilibrium.
         cs_case_heading = Tex('Scenarios', color=CAPTION).scale(0.7).move_to([4.55, -1.22, 0])
-        cs_case_up = Tex('Demand increases', color=CAPTION).scale(0.7).move_to([2.2, -1.67, 0], aligned_edge=LEFT)
-        cs_case_down = Tex('Demand decreases', color=CAPTION).scale(0.7).move_to([2.2, -2.12, 0], aligned_edge=LEFT)
-        cs_case_supply = Tex('Supply decreases', color=CAPTION).scale(0.7).move_to([2.2, -2.57, 0], aligned_edge=LEFT)
-        cs_case_up_result = MathTex(r'P^*\uparrow,\;Q^*\uparrow', color=GUIDE).scale(0.7).move_to([6.35, -1.67, 0])
-        cs_case_down_result = MathTex(r'P^*\downarrow,\;Q^*\downarrow', color=GUIDE).scale(0.7).move_to([6.35, -2.12, 0])
-        cs_case_supply_result = MathTex(r'P^*\uparrow,\;Q^*\downarrow', color=GUIDE).scale(0.7).move_to([6.35, -2.57, 0])
+        cs_case_up = Tex('Demand increases', color=CAPTION).scale(0.6).move_to([2.2, -1.67, 0], aligned_edge=LEFT)
+        cs_case_down = Tex('Demand decreases', color=CAPTION).scale(0.6).move_to([2.2, -2.12, 0], aligned_edge=LEFT)
+        cs_case_supply = Tex('Supply decreases', color=CAPTION).scale(0.6).move_to([2.2, -2.57, 0], aligned_edge=LEFT)
+        cs_case_up_result = Tex('Price rises; quantity rises', color=GUIDE).scale(0.5).move_to([6.2, -1.67, 0])
+        cs_case_down_result = Tex('Price falls; quantity falls', color=GUIDE).scale(0.5).move_to([6.2, -2.12, 0])
+        cs_case_supply_result = Tex('Price rises; quantity falls', color=GUIDE).scale(0.5).move_to([6.2, -2.57, 0])
         cs_case_objects = [cs_case_heading, cs_case_up, cs_case_down, cs_case_supply,
                            cs_case_up_result, cs_case_down_result, cs_case_supply_result]
-        self.play(FadeIn(head), FadeIn(cs_ax), FadeIn(cs_p_name), FadeIn(cs_p_units),
-                  FadeIn(cs_q_name), FadeIn(cs_q_units), FadeIn(cs_demand), FadeIn(cs_d_label),
-                  FadeIn(cs_d_equation), FadeIn(cs_a_group), FadeIn(cs_a_span), FadeIn(cs_a_anchor), FadeIn(cs_a_cap), FadeIn(cs_divider),
+        self.play(FadeIn(head), FadeIn(cs_ax), FadeIn(cs_p_name),
+                  FadeIn(cs_p_units), FadeIn(cs_q_name), FadeIn(cs_q_units),
+                  FadeIn(cs_demand), FadeIn(cs_d_label), FadeIn(cs_divider),
                   FadeIn(cs_phase), FadeIn(cs_prompt), FadeIn(cs_case_heading),
                   FadeIn(cs_case_up), FadeIn(cs_case_down), FadeIn(cs_case_supply))
         self.pause('10.a')
 
-        # ---- 10.b · Revisit a on demand alone, with its measured shift in gold.
+        # ---- 10.b · Recall outward and inward demand shifts.
         self.add(cs_demand_before)
         self.bring_to_front(cs_demand)
         self.play(cs_a.animate.set_value(5), run_time=1.8)
@@ -1792,9 +1765,6 @@ class B5(Scene):
         # ---- 10.d · Supply restores the familiar equilibrium: Q=40, P=4.
         cs_supply = Line(cs_ax.c2p(0, 2), cs_ax.c2p(90, 6.5), color=SUPPLY, stroke_width=4)
         cs_s_label = Tex('S', color=INK).scale(0.8).next_to(cs_ax.c2p(84, 6.2), UP, buff=0.12)
-        cs_s_equation = MathTex(r'P=2+\frac{Q}{20}',
-                               tex_to_color_map={'P': GUIDE, 'Q': GUIDE}).scale(0.85)
-        cs_s_equation.move_to([4.55, 0.55, 0])
         cs_h = DashedLine(cs_ax.c2p(0, 4), cs_ax.c2p(40, 4), color=GUIDE, stroke_width=2)
         cs_h.ax, cs_h.price, cs_h.shock = cs_ax, cs_price, cs_a
         cs_h.add_updater(lambda m: m.become(DashedLine(
@@ -1820,22 +1790,12 @@ class B5(Scene):
         cs_d_drop.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(60 + 5 * m.shock.get_value() - 5 * m.price.get_value(), m.price.get_value()),
             m.ax.c2p(60 + 5 * m.shock.get_value() - 5 * m.price.get_value(), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        cs_p_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
-        cs_p_number.ax, cs_p_number.source = cs_ax, cs_price
-        cs_p_number.add_updater(lambda m: m.set_value(m.source.get_value())
-                               .next_to(m.ax.c2p(0, m.source.get_value()), LEFT, buff=0.2))
-        cs_p_number.update()
-        cs_q_number = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7)
-        cs_q_number.ax, cs_q_number.source = cs_ax, cs_price
-        cs_q_number.add_updater(lambda m: m.set_value(20 * m.source.get_value() - 40)
-                               .next_to(m.ax.c2p(20 * m.source.get_value() - 40, 0), DOWN, buff=0.2))
-        cs_q_number.update()
         self.remove(cs_phase)
         cs_phase = Tex('Baseline equilibrium', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
-        self.play(FadeIn(cs_supply), FadeIn(cs_s_label), FadeIn(cs_s_equation), FadeIn(cs_phase))
-        self.play(FadeIn(cs_p_number), FadeIn(cs_h), FadeIn(cs_s_dot), FadeIn(cs_d_dot))
-        self.play(FadeIn(cs_s_drop), FadeIn(cs_d_drop), FadeIn(cs_q_number))
-        cs_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
+        self.play(FadeIn(cs_supply), FadeIn(cs_s_label), FadeIn(cs_phase))
+        self.play(FadeIn(cs_h), FadeIn(cs_s_dot), FadeIn(cs_d_dot))
+        self.play(FadeIn(cs_s_drop), FadeIn(cs_d_drop))
+        cs_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
         cs_equilibrium.anchor = cs_s_dot
         cs_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
         cs_equilibrium.update()
@@ -1844,7 +1804,7 @@ class B5(Scene):
 
         # ---- 10.e · A positive demand shock arrives while the price stays $4.
         # The dots remain the two quantities at that price, never a moving
-        # equilibrium. Separate quantity labels are staggered while they meet.
+        # equilibrium. The gap shows excess demand or excess supply.
         self.remove(head)
         head = title('A change in demand')
         self.remove(cs_phase, cs_prompt)
@@ -1852,28 +1812,11 @@ class B5(Scene):
         cs_prompt = Tex('What happens when demand increases?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(head), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
-        cs_s_q = VGroup(MathTex('Q_s=', color=GUIDE).scale(0.7),
-                       DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7))
-        cs_s_q.ax, cs_s_q.source = cs_ax, cs_price
-        cs_s_q[1].source = cs_price
-        cs_s_q[1].add_updater(lambda m: m.set_value(20 * m.source.get_value() - 40))
-        cs_s_q.add_updater(lambda m: m.arrange(RIGHT, buff=0.08)
-                          .next_to(m.ax.c2p(20 * m.source.get_value() - 40, 0), DOWN, buff=0.2))
-        cs_s_q.update()
-        cs_d_q = VGroup(MathTex('Q_d=', color=GUIDE).scale(0.7),
-                       DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7))
-        cs_d_q.ax, cs_d_q.price, cs_d_q.shock = cs_ax, cs_price, cs_a
-        cs_d_q[1].price, cs_d_q[1].shock = cs_price, cs_a
-        cs_d_q[1].add_updater(lambda m: m.set_value(60 + 5 * m.shock.get_value() - 5 * m.price.get_value()))
-        cs_d_q.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).next_to(m.ax.c2p(
-            60 + 5 * m.shock.get_value() - 5 * m.price.get_value(), 0), DOWN, buff=0.64))
-        cs_d_q.update()
-        self.remove(cs_q_number, cs_equilibrium)
-        self.play(FadeIn(cs_s_q), FadeIn(cs_d_q))
+        self.remove(cs_equilibrium)
         self.play(cs_a.animate.set_value(5), run_time=2)
         cs_shortage = Brace(Line(cs_ax.c2p(40, 4.3), cs_ax.c2p(65, 4.3)), direction=UP,
                                         color=INK, buff=0.1)
-        cs_shortage_word = Tex('Shortage: 25', color=INK).scale(0.7).next_to(cs_shortage, UP, buff=0.12)
+        cs_shortage_word = Tex('Shortage', color=INK).scale(0.7).next_to(cs_shortage, UP, buff=0.12)
         self.play(FadeIn(cs_shortage), FadeIn(cs_shortage_word))
         self.pause('10.e')
 
@@ -1887,44 +1830,12 @@ class B5(Scene):
         cs_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_phase))
         self.play(cs_price.animate.set_value(5), run_time=2.4)
-        self.remove(cs_s_q, cs_d_q)
-        cs_q_number.update()
         cs_equilibrium.update()
-        self.play(FadeIn(cs_q_number), FadeIn(cs_equilibrium))
-        cs_increase = MathTex(r'\Delta P=+1,\qquad\Delta Q=+20',
-                             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, '+1': GUIDE, '+20': GUIDE}).scale(0.8)
-        cs_increase.move_to([4.55, -0.35, 0])
-        self.play(FadeIn(cs_increase), FadeIn(cs_case_up_result))
+        self.play(FadeIn(cs_equilibrium))
+        self.play(FadeIn(cs_case_up_result))
         self.pause('10.f')
 
-        # ---- 10.g · Equate the two schedules, then reveal each algebra step.
-        # This is the calculation of the equilibrium just observed on the graph.
-        self.play(FadeOut(cs_d_equation), FadeOut(cs_s_equation), FadeOut(cs_increase))
-        self.remove(cs_phase)
-        cs_phase = Tex('Solve for equilibrium', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
-        self.play(FadeIn(cs_phase))
-        cs_equal = MathTex(r'12+a-\frac{Q}{5}=2+\frac{Q}{20}',
-                          tex_to_color_map={'Q': GUIDE, 'a': DEFINITION}).scale(0.8).move_to([4.55, 1.5, 0])
-        cs_collect = MathTex(r'10+a=\frac{Q}{4}', tex_to_color_map={'Q': GUIDE, 'a': DEFINITION}).scale(0.8)
-        cs_collect.move_to([4.55, 0.9, 0])
-        cs_q_solution = MathTex(r'Q^*=40+4a', tex_to_color_map={'Q^*': GUIDE, 'a': DEFINITION}).scale(0.85)
-        cs_q_solution.move_to([4.55, 0.3, 0])
-        cs_p_solution = MathTex(r'P^*=4+\frac{a}{5}', tex_to_color_map={'P^*': GUIDE, 'a': DEFINITION}).scale(0.85)
-        cs_p_solution.move_to([4.55, -0.3, 0])
-        self.play(FadeIn(cs_equal))
-        self.play(FadeIn(cs_collect))
-        self.play(FadeIn(cs_q_solution))
-        self.play(FadeIn(cs_p_solution))
-        self.pause('10.g')
-        cs_concrete = MathTex(r'a=5:\quad Q^*=60,\quad P^*=5',
-                             tex_to_color_map={'Q^*': GUIDE, 'P^*': GUIDE, '60': GUIDE, 'a': DEFINITION}).scale(0.8)
-        cs_concrete.move_to([4.55, -0.8, 0])
-        self.play(FadeIn(cs_concrete))
-        self.pause('10.h')
-
         # ---- 10.i · Reset explicitly, then reduce normal-good demand at $4.
-        self.play(FadeOut(cs_equal), FadeOut(cs_collect), FadeOut(cs_q_solution),
-                  FadeOut(cs_p_solution), FadeOut(cs_concrete))
         self.remove(head)
         head = title('A change in demand')
         self.remove(cs_phase, cs_prompt)
@@ -1935,38 +1846,24 @@ class B5(Scene):
                   cs_case_up.animate.set_color(CAPTION), cs_case_down.animate.set_color(INK),
                   cs_a.animate.set_value(0), cs_price.animate.set_value(4), run_time=1.6)
         self.pause('10.i')
-        self.remove(cs_q_number, cs_equilibrium)
-        cs_s_q.update()
-        cs_d_q.update()
-        self.play(FadeIn(cs_s_q), FadeIn(cs_d_q))
+        self.remove(cs_equilibrium)
         self.remove(cs_phase)
         cs_phase = Tex('Demand falls; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_phase))
         self.play(cs_a.animate.set_value(-5), run_time=2)
         cs_excess = Brace(Line(cs_ax.c2p(15, 4.3), cs_ax.c2p(40, 4.3)), direction=UP,
                                       color=INK, buff=0.1)
-        cs_excess_word = Tex('Excess supply: 25', color=INK).scale(0.7).next_to(cs_excess, UP, buff=0.12)
-        cs_low_equation = MathTex(r'P=7-\frac{Q}{5}',
-                                 tex_to_color_map={'P': GUIDE, 'Q': GUIDE}).scale(0.85)
-        cs_low_equation.move_to([4.55, 1.35, 0])
-        self.play(FadeIn(cs_excess), FadeIn(cs_excess_word), FadeIn(cs_low_equation))
+        cs_excess_word = Tex('Excess supply', color=INK).scale(0.7).next_to(cs_excess, UP, buff=0.12)
+        self.play(FadeIn(cs_excess), FadeIn(cs_excess_word))
         self.pause('10.j')
         self.play(FadeOut(cs_excess), FadeOut(cs_excess_word))
         self.remove(cs_phase)
         cs_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_phase))
         self.play(cs_price.animate.set_value(3), run_time=2.4)
-        self.remove(cs_s_q, cs_d_q)
-        cs_q_number.update()
         cs_equilibrium.update()
-        self.play(FadeIn(cs_q_number), FadeIn(cs_equilibrium))
-        cs_low_result = MathTex(r'Q^*=20,\qquad P^*=3',
-                               tex_to_color_map={'Q^*': GUIDE, 'P^*': GUIDE, '20': GUIDE, '3': GUIDE}).scale(0.85)
-        cs_low_result.move_to([4.55, 0.55, 0])
-        cs_low_delta = MathTex(r'\Delta P=-1,\qquad\Delta Q=-20',
-                              tex_to_color_map={'P': GUIDE, 'Q': GUIDE, '-1': GUIDE, '-20': GUIDE}).scale(0.8)
-        cs_low_delta.move_to([4.55, -0.35, 0])
-        self.play(FadeIn(cs_low_result), FadeIn(cs_low_delta), FadeIn(cs_case_down_result))
+        self.play(FadeIn(cs_equilibrium))
+        self.play(FadeIn(cs_case_down_result))
         self.pause('10.k')
         # Keep the completed demand cases visible while replacing the market.
         self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in cs_case_objects])
@@ -2024,46 +1921,13 @@ class B5(Scene):
         ss_s_drop.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), m.price.get_value()),
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        ss_p_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
-        ss_p_number.ax, ss_p_number.source = ss_ax, ss_price
-        ss_p_number.add_updater(lambda m: m.set_value(m.source.get_value())
-                               .next_to(m.ax.c2p(0, m.source.get_value()), LEFT, buff=0.2))
-        ss_p_number.update()
-        ss_q_number = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7)
-        ss_q_number.ax, ss_q_number.source = ss_ax, ss_price
-        ss_q_number.add_updater(lambda m: m.set_value(60 - 5 * m.source.get_value())
-                               .next_to(m.ax.c2p(60 - 5 * m.source.get_value(), 0), DOWN, buff=0.2))
-        ss_q_number.update()
-        ss_equation = MathTex(r'P=2+b+\frac{Q}{20}',
-                             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'b': DEFINITION}).scale(0.85).move_to([4.55, 1.35, 0])
-        ss_b_number = DecimalNumber(0, num_decimal_places=2, include_sign=True, color=DEFINITION).scale(0.8)
-        ss_b_number.source = ss_b
-        ss_b_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        ss_b_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
-        ss_b_span.ax, ss_b_span.source = ss_ax, ss_b
-        ss_b_span.add_updater(lambda m: m.set_points_as_corners([
-            m.ax.c2p(0, 2) + LEFT * 0.8,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8]))
-        ss_b_anchor = Line(ss_ax.c2p(0, 2) + LEFT * 0.95,
-                               ss_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        ss_b_cap = Line(ss_ax.c2p(0, 2) + LEFT * 0.95,
-                            ss_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        ss_b_cap.ax, ss_b_cap.source = ss_ax, ss_b
-        ss_b_cap.add_updater(lambda m: m.put_start_and_end_on(
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.95,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.65))
-        ss_b_group = VGroup(MathTex('b=', color=DEFINITION).scale(0.8), ss_b_number)
-        ss_b_group.ax, ss_b_group.source = ss_ax, ss_b
-        ss_b_group.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(
-            m.ax.c2p(0, min(2, 2 + m.source.get_value())) + LEFT * 0.8 + DOWN * 0.3))
-        ss_b_group.update()
         self.play(FadeIn(head), FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
                   FadeIn(ss_q_units), FadeIn(ss_demand), FadeIn(ss_d_label), FadeIn(ss_supply), FadeIn(ss_s_label))
-        self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot), FadeIn(ss_d_drop), FadeIn(ss_s_drop),
-                  FadeIn(ss_p_number), FadeIn(ss_q_number), FadeIn(ss_equation), FadeIn(ss_b_group),
-                  FadeIn(ss_b_span), FadeIn(ss_b_anchor), FadeIn(ss_b_cap), FadeIn(ss_divider), FadeIn(ss_phase), FadeIn(ss_prompt),
-                  cs_case_down.animate.set_color(CAPTION), cs_case_supply.animate.set_color(INK))
-        ss_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
+        self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot),
+                  FadeIn(ss_d_drop), FadeIn(ss_s_drop), FadeIn(ss_divider),
+                  FadeIn(ss_phase), FadeIn(ss_prompt), cs_case_down.animate.set_color(CAPTION),
+                  cs_case_supply.animate.set_color(INK))
+        ss_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
         ss_equilibrium.anchor = ss_d_dot
         ss_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
         ss_equilibrium.update()
@@ -2073,31 +1937,14 @@ class B5(Scene):
         # ---- 10.m · More costly supply leaves only 15 available at the old $4.
         self.add(ss_supply_before)
         self.bring_to_front(ss_supply)
-        ss_s_q = VGroup(MathTex('Q_s=', color=GUIDE).scale(0.7),
-                       DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7))
-        ss_s_q.ax, ss_s_q.price, ss_s_q.shock = ss_ax, ss_price, ss_b
-        ss_s_q[1].price, ss_s_q[1].shock = ss_price, ss_b
-        ss_s_q[1].add_updater(lambda m: m.set_value(20 * (m.price.get_value() - 2 - m.shock.get_value())))
-        ss_s_q.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).next_to(m.ax.c2p(
-            20 * (m.price.get_value() - 2 - m.shock.get_value()), 0), DOWN, buff=0.64))
-        ss_s_q.update()
-        ss_d_q = VGroup(MathTex('Q_d=', color=GUIDE).scale(0.7),
-                       DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7))
-        ss_d_q.ax, ss_d_q.price = ss_ax, ss_price
-        ss_d_q[1].price = ss_price
-        ss_d_q[1].add_updater(lambda m: m.set_value(60 - 5 * m.price.get_value()))
-        ss_d_q.add_updater(lambda m: m.arrange(RIGHT, buff=0.08)
-                          .next_to(m.ax.c2p(60 - 5 * m.price.get_value(), 0), DOWN, buff=0.2))
-        ss_d_q.update()
-        self.remove(ss_q_number, ss_equilibrium)
-        self.play(FadeIn(ss_s_q), FadeIn(ss_d_q))
+        self.remove(ss_equilibrium)
         self.remove(ss_phase)
         ss_phase = Tex('Supply falls; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(ss_phase))
         self.play(ss_b.animate.set_value(1.25), run_time=2)
         ss_shortage = Brace(Line(ss_ax.c2p(15, 4.3), ss_ax.c2p(40, 4.3)), direction=UP,
                                         color=INK, buff=0.1)
-        ss_shortage_word = Tex('Shortage: 25', color=INK).scale(0.7).next_to(ss_shortage, UP, buff=0.12)
+        ss_shortage_word = Tex('Shortage', color=INK).scale(0.7).next_to(ss_shortage, UP, buff=0.12)
         self.play(FadeIn(ss_shortage), FadeIn(ss_shortage_word))
         self.pause('10.m')
 
@@ -2111,18 +1958,9 @@ class B5(Scene):
         ss_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(ss_phase))
         self.play(ss_price.animate.set_value(5), run_time=2.4)
-        self.remove(ss_s_q, ss_d_q)
-        ss_q_number.update()
         ss_equilibrium.update()
-        self.play(FadeIn(ss_q_number), FadeIn(ss_equilibrium))
-        ss_solution = MathTex(r'Q^*=40-4b,\quad P^*=4+\frac{4b}{5}',
-                             tex_to_color_map={'Q^*': GUIDE, 'P^*': GUIDE, 'b': DEFINITION}).scale(0.8)
-        ss_solution.move_to([4.55, 0.55, 0])
-        ss_result = MathTex(r'Q^*=35,\qquad P^*=5',
-                           tex_to_color_map={'Q^*': GUIDE, 'P^*': GUIDE, '35': GUIDE, '5': GUIDE}).scale(0.85)
-        ss_result.move_to([4.55, -0.35, 0])
-        self.play(FadeIn(ss_solution))
-        self.play(FadeIn(ss_result), FadeIn(cs_case_supply_result))
+        self.play(FadeIn(ss_equilibrium))
+        self.play(FadeIn(cs_case_supply_result))
         comparative_def = Tex(r'{{Comparative statics}} compares equilibrium before and after a change.',
                               tex_to_color_map={'Comparative statics': DEFINITION}).scale(DEFINITION_SCALE)
         comparative_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -2147,49 +1985,6 @@ class B5(Scene):
         both_q_units = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45)
         both_q_units.next_to(both_q_name, RIGHT, buff=0.18)
         both_a, both_b = ValueTracker(0), ValueTracker(0)
-        # Keep both changes measurable while the outcome record accumulates.
-        both_a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
-        both_a_span.ax, both_a_span.source = both_ax, both_a
-        both_a_span.add_updater(lambda m: m.set_points_as_corners([
-            m.ax.c2p(0, 12) + LEFT * 0.8,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8]))
-        both_a_anchor = Line(both_ax.c2p(0, 12) + LEFT * 0.95,
-                               both_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        both_a_cap = Line(both_ax.c2p(0, 12) + LEFT * 0.95,
-                            both_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        both_a_cap.ax, both_a_cap.source = both_ax, both_a
-        both_a_cap.add_updater(lambda m: m.put_start_and_end_on(
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.95,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.65))
-        both_b_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
-        both_b_span.ax, both_b_span.source = both_ax, both_b
-        both_b_span.add_updater(lambda m: m.set_points_as_corners([
-            m.ax.c2p(0, 2) + LEFT * 0.8,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.8]))
-        both_b_anchor = Line(both_ax.c2p(0, 2) + LEFT * 0.95,
-                               both_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        both_b_cap = Line(both_ax.c2p(0, 2) + LEFT * 0.95,
-                            both_ax.c2p(0, 2) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
-        both_b_cap.ax, both_b_cap.source = both_ax, both_b
-        both_b_cap.add_updater(lambda m: m.put_start_and_end_on(
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.95,
-            m.ax.c2p(0, 2 + m.source.get_value()) + LEFT * 0.65))
-        both_a_number = DecimalNumber(0, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.7)
-        both_a_number.source = both_a
-        both_a_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        both_a_group = VGroup(MathTex('a=', color=DEFINITION).scale(0.7), both_a_number)
-        both_a_group.ax, both_a_group.source = both_ax, both_a
-        both_a_group.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(
-            m.ax.c2p(0, min(12, 12 + m.source.get_value())) + LEFT * 0.8 + DOWN * 0.28))
-        both_a_group.update()
-        both_b_number = DecimalNumber(0, num_decimal_places=3, include_sign=True, color=DEFINITION).scale(0.7)
-        both_b_number.source = both_b
-        both_b_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        both_b_group = VGroup(MathTex('b=', color=DEFINITION).scale(0.7), both_b_number)
-        both_b_group.ax, both_b_group.source = both_ax, both_b
-        both_b_group.add_updater(lambda m: m.arrange(RIGHT, buff=0.08).move_to(
-            m.ax.c2p(0, min(2, 2 + m.source.get_value())) + LEFT * 0.8 + DOWN * 0.3))
-        both_b_group.update()
         both_d_before = Line(both_ax.c2p(0, 12), both_ax.c2p(60, 0), color=MUTED, stroke_width=2)
         both_s_before = Line(both_ax.c2p(0, 2), both_ax.c2p(90, 6.5), color=MUTED, stroke_width=2)
         both_d = Line(both_ax.c2p(0, 12), both_ax.c2p(60, 0), color=DEMAND, stroke_width=4)
@@ -2228,17 +2023,6 @@ class B5(Scene):
             m.ax.c2p(40 + 4 * m.a.get_value() - 4 * m.b.get_value(),
                      4 + m.a.get_value() / 5 + 4 * m.b.get_value() / 5),
             m.ax.c2p(40 + 4 * m.a.get_value() - 4 * m.b.get_value(), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        both_p_number = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
-        both_p_number.ax, both_p_number.a, both_p_number.b = both_ax, both_a, both_b
-        both_p_number.add_updater(lambda m: m.set_value(4 + m.a.get_value() / 5 + 4 * m.b.get_value() / 5)
-                                 .next_to(m.ax.c2p(0, 4 + m.a.get_value() / 5 + 4 * m.b.get_value() / 5),
-                                          LEFT, buff=0.2))
-        both_p_number.update()
-        both_q_number = DecimalNumber(40, num_decimal_places=1, color=GUIDE).scale(0.7)
-        both_q_number.ax, both_q_number.a, both_q_number.b = both_ax, both_a, both_b
-        both_q_number.add_updater(lambda m: m.set_value(40 + 4 * m.a.get_value() - 4 * m.b.get_value())
-                                 .next_to(m.ax.c2p(40 + 4 * m.a.get_value() - 4 * m.b.get_value(), 0), DOWN, buff=0.2))
-        both_q_number.update()
         both_baseline = VGroup(
             Dot(both_ax.c2p(40, 4), color=MUTED, radius=0.055),
             DashedLine(both_ax.c2p(0, 4), both_ax.c2p(40, 4), color=MUTED, stroke_width=1.5),
@@ -2261,13 +2045,13 @@ class B5(Scene):
         both_record_note = VGroup(Tex('Same starting market', color=CAPTION),
                                   Tex('Three possible outcomes', color=CAPTION))
         both_record_note.arrange(DOWN, buff=0.2).scale(0.7).move_to([5.35, -2.2, 0])
-        self.play(FadeIn(head), FadeIn(both_ax), FadeIn(both_p_name), FadeIn(both_p_units),
-                  FadeIn(both_q_name), FadeIn(both_q_units), FadeIn(both_d), FadeIn(both_s),
-                  FadeIn(both_d_label), FadeIn(both_s_label), FadeIn(both_h), FadeIn(both_v),
-                  FadeIn(both_dot), FadeIn(both_p_number), FadeIn(both_q_number), FadeIn(both_causes),
-                  FadeIn(both_divider), FadeIn(both_record_headers), FadeIn(both_prompt), FadeIn(both_record_note),
-                  FadeIn(both_a_span), FadeIn(both_a_anchor), FadeIn(both_a_cap), FadeIn(both_b_span), FadeIn(both_b_anchor), FadeIn(both_b_cap), FadeIn(both_a_group), FadeIn(both_b_group))
-        both_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
+        self.play(FadeIn(head), FadeIn(both_ax), FadeIn(both_p_name),
+                  FadeIn(both_p_units), FadeIn(both_q_name), FadeIn(both_q_units),
+                  FadeIn(both_d), FadeIn(both_s), FadeIn(both_d_label),
+                  FadeIn(both_s_label), FadeIn(both_h), FadeIn(both_v),
+                  FadeIn(both_dot), FadeIn(both_causes), FadeIn(both_divider),
+                  FadeIn(both_record_headers), FadeIn(both_prompt), FadeIn(both_record_note))
+        both_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
         both_equilibrium.anchor = both_dot
         both_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
         both_equilibrium.update()
@@ -2376,38 +2160,16 @@ class B5(Scene):
         inelastic_v.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(40 + m.source.get_value(), 4 + 0.8 * m.source.get_value()),
             m.ax.c2p(40 + m.source.get_value(), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        elastic_p = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
-        elastic_p.ax, elastic_p.source = elastic_ax, panel_a
-        elastic_p.add_updater(lambda m: m.set_value(4 + m.source.get_value() / 5)
-                             .next_to(m.ax.c2p(0, 4 + m.source.get_value() / 5), LEFT, buff=0.16))
-        elastic_p.update()
-        inelastic_p = DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7)
-        inelastic_p.ax, inelastic_p.source = inelastic_ax, panel_a
-        inelastic_p.add_updater(lambda m: m.set_value(4 + 0.8 * m.source.get_value())
-                               .next_to(m.ax.c2p(0, 4 + 0.8 * m.source.get_value()), LEFT, buff=0.16))
-        inelastic_p.update()
-        elastic_q = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7)
-        elastic_q.ax, elastic_q.source = elastic_ax, panel_a
-        elastic_q.add_updater(lambda m: m.set_value(40 + 4 * m.source.get_value())
-                             .next_to(m.ax.c2p(40 + 4 * m.source.get_value(), 0), DOWN, buff=0.2))
-        elastic_q.update()
-        inelastic_q = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.7)
-        inelastic_q.ax, inelastic_q.source = inelastic_ax, panel_a
-        inelastic_q.add_updater(lambda m: m.set_value(40 + m.source.get_value())
-                               .next_to(m.ax.c2p(40 + m.source.get_value(), 0), DOWN, buff=0.2))
-        inelastic_q.update()
         self.play(FadeIn(head), FadeIn(question), FadeIn(elastic_ax), FadeIn(inelastic_ax), FadeIn(panel_axes_words),
                   FadeIn(elastic_name), FadeIn(inelastic_name), FadeIn(elastic_d), FadeIn(inelastic_d),
                   FadeIn(elastic_s), FadeIn(inelastic_s), FadeIn(elastic_s_word), FadeIn(inelastic_s_word),
                   FadeIn(elastic_d_word), FadeIn(inelastic_d_word))
-        self.play(FadeIn(elastic_dot), FadeIn(inelastic_dot), FadeIn(elastic_h), FadeIn(elastic_v),
-                  FadeIn(inelastic_h), FadeIn(inelastic_v), FadeIn(elastic_p), FadeIn(inelastic_p),
-                  FadeIn(elastic_q), FadeIn(inelastic_q))
-        elastic_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
+        self.play(FadeIn(elastic_dot), FadeIn(inelastic_dot), FadeIn(elastic_h), FadeIn(elastic_v), FadeIn(inelastic_h), FadeIn(inelastic_v))
+        elastic_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
         elastic_equilibrium.anchor = elastic_dot
         elastic_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
         elastic_equilibrium.update()
-        inelastic_equilibrium = MathTex(r'(Q^*,P^*)', color=GUIDE).scale(0.7)
+        inelastic_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
         inelastic_equilibrium.anchor = inelastic_dot
         inelastic_equilibrium.add_updater(lambda m: m.next_to(m.anchor, RIGHT, buff=0.18))
         inelastic_equilibrium.update()
@@ -2419,11 +2181,9 @@ class B5(Scene):
         self.bring_to_front(elastic_d, inelastic_d, elastic_dot, inelastic_dot)
         self.play(panel_a.animate.set_value(5), run_time=3)
         self.pause('12.b')
-        elastic_delta = MathTex(r'\Delta P=+1,\quad\Delta Q=+20',
-                               tex_to_color_map={'P': GUIDE, 'Q': GUIDE, '+1': GUIDE, '+20': GUIDE}).scale(0.8)
+        elastic_delta = Tex('Small price rise; large quantity rise', color=GUIDE).scale(0.65)
         elastic_delta.move_to([-3.75, -3.03, 0])
-        inelastic_delta = MathTex(r'\Delta P=+4,\quad\Delta Q=+5',
-                                 tex_to_color_map={'P': GUIDE, 'Q': GUIDE, '+4': GUIDE, '+5': GUIDE}).scale(0.8)
+        inelastic_delta = Tex('Large price rise; small quantity rise', color=GUIDE).scale(0.65)
         inelastic_delta.move_to([3.75, -3.03, 0])
         self.play(FadeIn(elastic_delta), FadeIn(inelastic_delta))
         response_def = Tex(r'{{Elasticity}} helps explain how a shift changes price and quantity.',
