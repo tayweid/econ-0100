@@ -935,15 +935,15 @@ class B5(Scene):
         demand_word = Tex('D', color=INK).scale(0.8).next_to(ax.c2p(60, 0), UR, buff=0.18)
         shift = ValueTracker(0)
         demand_slope = ValueTracker(0.2)
-        demand_p_intercept = DecimalNumber(12, num_decimal_places=0, color=DEFINITION).scale(0.6)
+        demand_p_intercept = DecimalNumber(12, num_decimal_places=0, color=CAPTION).scale(0.6)
         demand_p_intercept.ax, demand_p_intercept.source = ax, shift
         demand_p_intercept.add_updater(lambda number: number.set_value(12 + number.source.get_value()).next_to(
             number.ax.c2p(0, 12 + number.source.get_value()), LEFT, buff=0.18))
-        demand_q_intercept = DecimalNumber(60, num_decimal_places=0, color=DEFINITION).scale(0.6)
+        demand_q_intercept = DecimalNumber(60, num_decimal_places=0, color=CAPTION).scale(0.6)
         demand_q_intercept.ax, demand_q_intercept.source, demand_q_intercept.slope = ax, shift, demand_slope
         demand_q_intercept.add_updater(lambda number: number.set_value((12 + number.source.get_value()) / number.slope.get_value()).move_to(
             number.ax.c2p((12 + number.source.get_value()) / number.slope.get_value(), 0) + DOWN * 0.95))
-        demand_q_intercept_tick = Line(ax.c2p(60, 0) + DOWN * 0.06, ax.c2p(60, 0) + UP * 0.06, color=DEFINITION)
+        demand_q_intercept_tick = Line(ax.c2p(60, 0) + DOWN * 0.06, ax.c2p(60, 0) + UP * 0.06, color=MUTED)
         demand_q_intercept_tick.ax, demand_q_intercept_tick.source, demand_q_intercept_tick.slope = ax, shift, demand_slope
         demand_q_intercept_tick.add_updater(lambda tick: tick.put_start_and_end_on(
             tick.ax.c2p((12 + tick.source.get_value()) / tick.slope.get_value(), 0) + DOWN * 0.06,
@@ -979,9 +979,6 @@ class B5(Scene):
         q_number.slope = demand_slope
         q_number.add_updater(lambda m: m.set_value((12 + m.shift_value.get_value() - m.price.get_value()) / m.slope.get_value())
             .next_to(m.ax.c2p(m.get_value(), 0), DOWN, buff=0.2))
-        q_prefix = Tex('$Q_d=$', color=GUIDE).scale(0.8)
-        q_prefix.number = q_number
-        q_prefix.add_updater(lambda m: m.next_to(m.number, LEFT, buff=0.08))
         bottom = Tex(r'A change in {{quantity demanded}} moves along the curve.',
                      tex_to_color_map={'quantity demanded': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -990,7 +987,7 @@ class B5(Scene):
                   FadeIn(demand_word), FadeIn(demand_p_intercept), FadeIn(demand_q_intercept),
                   FadeIn(demand_q_intercept_tick), FadeIn(curve_equation))
         self.play(FadeIn(p_line), FadeIn(point), FadeIn(p_number))
-        self.play(FadeIn(q_line), FadeIn(q_number), FadeIn(q_prefix), FadeIn(bottom))
+        self.play(FadeIn(q_line), FadeIn(q_number), FadeIn(bottom))
         self.play(price.animate.set_value(3), run_time=1.6)
         self.pause('7.b')
 
@@ -1102,6 +1099,21 @@ class B5(Scene):
         self.pause('7.e')
 
         # ---- 7.f · Generalize Gary's higher MB to the other buyers.
+        # Keep the comparison at the original P=4, Q=40 through every shift.
+        p_number.clear_updaters().set_color(CAPTION)
+        original_price_guide = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4),
+                                         color=MUTED, stroke_width=2, z_index=8)
+        original_quantity_guide = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4),
+                                            color=MUTED, stroke_width=2, z_index=8)
+        original_point = Dot(ax.c2p(40, 4), color=MUTED, radius=0.065, z_index=11)
+        original_marks = VGroup(original_price_guide, original_quantity_guide, original_point)
+        original_q_number = Tex('40', color=CAPTION).scale(0.8).next_to(ax.c2p(40, 0), DOWN, buff=0.2)
+        original_q_number.source, original_q_number.slope = shift, demand_slope
+        # Fade only overlapping labels; the original coordinates never move.
+        original_q_number.add_updater(lambda label: label.set_opacity(np.clip(
+            (abs((12 + label.source.get_value() - 4) / label.slope.get_value() - 40) * 4.6 / 90 - 0.35) / 0.2, 0, 1)))
+        q_number.add_updater(lambda number: number.set_color(CAPTION if abs(number.get_value() - 40) < 0.001 else GUIDE))
+        self.add(original_marks, original_q_number)
         before_demand = demand.copy().clear_updaters().set_color(MUTED).set_opacity(0.55).set_z_index(-2)
         original_demand_p_intercept = Tex('12', color=CAPTION).scale(0.6).next_to(ax.c2p(0, 12), LEFT, buff=0.18)
         original_demand_p_intercept.source = shift
@@ -1115,6 +1127,9 @@ class B5(Scene):
             (abs((12 + label.source.get_value()) / label.slope.get_value() - 60) * 4.6 / 90 - 0.35) / 0.25, 0, 0.65)))
         self.add(original_demand_p_intercept, original_demand_q_intercept)
         before_word = Tex('$D_0$', color=CAPTION).scale(0.7).next_to(ax.c2p(54, 1.2), RIGHT, buff=0.16)
+        before_word.source, before_word.slope = shift, demand_slope
+        before_word.add_updater(lambda label: label.set_opacity(np.clip(
+            (abs((12 + label.source.get_value()) / label.slope.get_value() - 60) * 4.6 / 90 - 0.35) / 0.25, 0, 1)))
         self.add(before_demand)
         self.play(FadeIn(before_word))
         shifted_curve_equation = MathTex(r'P=17-Q/5', color=DEMAND).scale(0.8).move_to(curve_equation)
@@ -1149,6 +1164,9 @@ class B5(Scene):
         a_label.ax, a_label.source = ax, shift
         a_label.add_updater(lambda m: m.next_to(
             m.ax.c2p(0, 12 + m.source.get_value() / 2) + LEFT * 0.85, LEFT, buff=0.18))
+        for marker in (a_span, a_anchor, a_cap, a_label):
+            marker.source = shift
+            marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value()) * 4, 0, 1)))
         demand_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         demand_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([2.1, 0.73, 0], aligned_edge=LEFT)
         demand_scenarios = VGroup()
@@ -1190,7 +1208,8 @@ class B5(Scene):
 
         # ---- 8.c · The same shift can be read vertically at a fixed quantity.
         # Remove the price-input guides before measuring MB at Q=30.
-        self.play(FadeOut(p_line), FadeOut(q_line), FadeOut(point), FadeOut(p_number), FadeOut(q_number), FadeOut(q_prefix))
+        self.play(FadeOut(p_line), FadeOut(q_line), FadeOut(point), FadeOut(p_number), FadeOut(q_number),
+                  FadeOut(original_marks), FadeOut(original_q_number))
         vertical_change = Line(ax.c2p(30, 6), ax.c2p(30, 11), color=FOCUS, stroke_width=5)
         endpoints = VGroup(Dot(ax.c2p(30, 6), color=CAPTION), Dot(ax.c2p(30, 11), color=GUIDE))
         mb_words = VGroup(Tex('6', color=CAPTION).scale(0.7).next_to(ax.c2p(30, 6), LEFT, buff=0.2),
@@ -1202,9 +1221,10 @@ class B5(Scene):
         self.pause('8.c')
         self.play(FadeOut(vertical_change), FadeOut(endpoints), FadeOut(mb_words))
         self.play(shift.animate.set_value(0), run_time=1.2)
-        for mob in (p_line, q_line, point, p_number, q_number, q_prefix):
+        for mob in (p_line, q_line, point, p_number, q_number):
             mob.update()
-        self.play(FadeIn(p_line), FadeIn(q_line), FadeIn(point), FadeIn(p_number), FadeIn(q_number), FadeIn(q_prefix))
+        self.play(FadeIn(p_line), FadeIn(q_line), FadeIn(point), FadeIn(p_number), FadeIn(q_number),
+                  FadeIn(original_marks), FadeIn(original_q_number))
 
         # ---- 8.d · Reduced preference reverses the shift at the same price.
         self.remove(question)
@@ -1246,12 +1266,12 @@ class B5(Scene):
                      tex_to_color_map={'Inferior goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(bottom),
-                  FadeOut(p_number), FadeOut(q_number), FadeOut(q_prefix),
+                  FadeOut(p_number), FadeOut(q_number), FadeOut(original_q_number),
                   FadeOut(axes_words[1]), FadeOut(axes_words[3]))
         self.play(shift.animate.set_value(-3), run_time=1.7)
         self.pause('8.f')
         self.play(shift.animate.set_value(0), run_time=1.2)
-        self.play(FadeIn(p_number), FadeIn(q_number), FadeIn(q_prefix),
+        self.play(FadeIn(p_number), FadeIn(q_number), FadeIn(original_q_number),
                   FadeIn(axes_words[1]), FadeIn(axes_words[3]))
 
         # ---- 8.g · Return to spinach: romaine is a substitute.
