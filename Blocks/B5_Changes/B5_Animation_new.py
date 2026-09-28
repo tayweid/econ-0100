@@ -994,32 +994,65 @@ class B5(Scene):
         # ---- 7.c · The bars hold still; Gary chooses whether to buy at this price.
         # Q=30 selects a representative marginal lot with MB=$6.
         buyer_bars = VGroup()
+        buyer_changes = VGroup()
         for buyer_quantity in range(1, 90):
             if buyer_quantity != 30:
                 buyer_bar = Line(ax.c2p(buyer_quantity, 0),
                                  ax.c2p(buyer_quantity, max(0.001, 12 - buyer_quantity / 5)),
                                  color=DEMAND, stroke_width=2, z_index=-1)
-                buyer_bar.ax, buyer_bar.quantity, buyer_bar.source = ax, buyer_quantity, shift
+                buyer_bar.ax, buyer_bar.quantity, buyer_bar.source, buyer_bar.slope = ax, buyer_quantity, shift, demand_slope
+                buyer_bar.old_mb = max(0, 12 - buyer_quantity / 5)
                 buyer_bar.add_updater(lambda bar: bar.put_start_and_end_on(
-                    bar.ax.c2p(bar.quantity, 0),
-                    bar.ax.c2p(bar.quantity, max(0.001, 12 + bar.source.get_value() - bar.quantity / 5)))
-                    .set_opacity(0.2 if 12 + bar.source.get_value() - bar.quantity / 5 > 0 else 0))
+                    bar.ax.c2p(bar.quantity, 0), bar.ax.c2p(bar.quantity, max(0.001,
+                    min(bar.old_mb, 12 + bar.source.get_value() - bar.quantity * bar.slope.get_value()))))
+                    .set_opacity(0.2 if min(bar.old_mb, 12 + bar.source.get_value() - bar.quantity * bar.slope.get_value()) > 0 else 0))
                 buyer_bar.update()
                 buyer_bars.add(buyer_bar)
+                buyer_change = VMobject(stroke_color=FOCUS, stroke_width=1.2, fill_opacity=0, z_index=-1)
+                buyer_change.ax, buyer_change.quantity, buyer_change.source, buyer_change.slope = ax, buyer_quantity, shift, demand_slope
+                buyer_change.old_mb = max(0, 12 - buyer_quantity / 5)
+                buyer_change.add_updater(lambda box: box.set_points_as_corners([
+                    box.ax.c2p(box.quantity - 0.25, box.old_mb), box.ax.c2p(box.quantity + 0.25, box.old_mb),
+                    box.ax.c2p(box.quantity + 0.25, max(0, 12 + box.source.get_value() - box.quantity * box.slope.get_value())),
+                    box.ax.c2p(box.quantity - 0.25, max(0, 12 + box.source.get_value() - box.quantity * box.slope.get_value())),
+                    box.ax.c2p(box.quantity - 0.25, box.old_mb)])
+                    .set_stroke(opacity=0.35 if abs(max(0, 12 + box.source.get_value() - box.quantity * box.slope.get_value()) - box.old_mb) > 0.001 else 0))
+                buyer_changes.add(buyer_change)
         selected_bar = Polygon(ax.c2p(29.2, 0), ax.c2p(30.8, 0), ax.c2p(30.8, 6), ax.c2p(29.2, 6),
                                stroke_width=0, fill_color=DEMAND, fill_opacity=1, z_index=2)
         benefit = ValueTracker(6)
-        # This flyout also fits between the graph and the later math divider.
-        gary_base = np.array([0.15, -1.8, 0])
+        benefit.market_shift = shift
+        self.add(benefit)
+        # Keep Gary at the right edge; the equation and scenarios occupy the middle.
+        gary_base = np.array([6.25, -1.8, 0])
         gary_bar = Rectangle(width=0.2, height=2, stroke_width=0, fill_color=DEMAND, fill_opacity=1)
         gary_bar.move_to(gary_base + UP)
+        gary_bar.base, gary_bar.source = gary_base, benefit
+        gary_bar.add_updater(lambda bar: bar.set_points_as_corners([
+            bar.base + LEFT * 0.1, bar.base + RIGHT * 0.1,
+            bar.base + RIGHT * 0.1 + UP * min(6, bar.source.get_value()) / 3,
+            bar.base + LEFT * 0.1 + UP * min(6, bar.source.get_value()) / 3, bar.base + LEFT * 0.1]))
+        # Gary's rank changes when identical buyers enter, not his own MB.
+        selected_bar.ax, selected_bar.source, selected_bar.slope = ax, benefit, demand_slope
+        selected_bar.add_updater(lambda bar: bar.set_points_as_corners([
+            bar.ax.c2p(6 / bar.slope.get_value() - 0.8, 0), bar.ax.c2p(6 / bar.slope.get_value() + 0.8, 0),
+            bar.ax.c2p(6 / bar.slope.get_value() + 0.8, min(6, bar.source.get_value())),
+            bar.ax.c2p(6 / bar.slope.get_value() - 0.8, min(6, bar.source.get_value())),
+            bar.ax.c2p(6 / bar.slope.get_value() - 0.8, 0)]))
         gary_name = Tex('Gary', color=INK).scale(0.8).next_to(gary_base, DOWN, buff=0.35)
-        gary_units = Tex(r'MB (\$/lb)', color=CAPTION).scale(0.65).move_to([0.15, 2.25, 0])
-        old_top = DashedLine([-0.4, 0.2, 0], [0.7, 0.2, 0], color=MUTED)
+        gary_units = Tex(r'MB (\$/lb)', color=CAPTION).scale(0.65).move_to([6.25, 2.25, 0])
+        old_top = DashedLine([5.7, 0.2, 0], [6.8, 0.2, 0], color=MUTED)
         old_six = Tex('6', color=CAPTION).scale(0.7).next_to(old_top, LEFT, buff=0.15)
         graph_old_top = DashedLine(ax.c2p(25, 6), ax.c2p(35, 6), color=MUTED, stroke_width=2, z_index=4)
         graph_old_six = Tex('6', color=CAPTION).scale(0.6).next_to(graph_old_top, LEFT, buff=0.15)
-        gary_price_line = DashedLine([-0.4, -0.8, 0], [0.7, -0.8, 0], color=GUIDE, stroke_width=2)
+        graph_old_top.ax, graph_old_top.slope = ax, demand_slope
+        graph_old_top.add_updater(lambda line: line.become(DashedLine(
+            line.ax.c2p(6 / line.slope.get_value() - 5, 6), line.ax.c2p(6 / line.slope.get_value() + 5, 6),
+            color=MUTED, stroke_width=2, z_index=4).set_style(**line.get_style())))
+        graph_old_six.ax, graph_old_six.slope = ax, demand_slope
+        graph_old_six.add_updater(lambda label: label.next_to(
+            label.ax.c2p(6 / label.slope.get_value() - 5, 6), LEFT, buff=0.15))
+        gary_price_line = DashedLine([5.7, -0.8, 0], [6.8, -0.8, 0], color=GUIDE, stroke_width=2)
         gary_price_line.base, gary_price_line.source = gary_base, price
         gary_price_line.add_updater(lambda line: line.become(DashedLine(
             line.base + LEFT * 0.55 + UP * line.source.get_value() / 3,
@@ -1029,7 +1062,7 @@ class B5(Scene):
         gary_price_number.base, gary_price_number.source = gary_base, price
         gary_price_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
             number.base + RIGHT * 0.55 + UP * number.source.get_value() / 3, RIGHT, buff=0.15))
-        gary_check = MathTex(r'\checkmark', color=GREEN).scale(0.85).move_to([0.15, 1.05, 0])
+        gary_check = MathTex(r'\checkmark', color=GREEN).scale(0.85).move_to([6.25, 1.05, 0])
         gary_check.price, gary_check.benefit = price, benefit
         gary_check.add_updater(lambda mark: mark.set_opacity(
             1 if mark.price.get_value() < mark.benefit.get_value() - 0.001 else 0))
@@ -1068,33 +1101,56 @@ class B5(Scene):
             box.base + np.array([-0.1, box.source.get_value() / 3, 0]),
             box.base + np.array([-0.1, 2, 0])]))
         graph_gain = VMobject(stroke_color=FOCUS, stroke_width=2, fill_opacity=0, z_index=3)
-        graph_gain.ax, graph_gain.source = ax, benefit
+        graph_gain.ax, graph_gain.source, graph_gain.slope = ax, benefit, demand_slope
         graph_gain.add_updater(lambda box: box.set_points_as_corners([
-            box.ax.c2p(29.2, 6), box.ax.c2p(30.8, 6),
-            box.ax.c2p(30.8, box.source.get_value()), box.ax.c2p(29.2, box.source.get_value()),
-            box.ax.c2p(29.2, 6)]))
-        new_top = DashedLine([-0.4, 0.2, 0], [0.7, 0.2, 0], color=DEMAND)
+            box.ax.c2p(6 / box.slope.get_value() - 0.8, 6), box.ax.c2p(6 / box.slope.get_value() + 0.8, 6),
+            box.ax.c2p(6 / box.slope.get_value() + 0.8, box.source.get_value()), box.ax.c2p(6 / box.slope.get_value() - 0.8, box.source.get_value()),
+            box.ax.c2p(6 / box.slope.get_value() - 0.8, 6)]))
+        new_top = DashedLine([5.7, 0.2, 0], [6.8, 0.2, 0], color=DEMAND)
         new_top.base, new_top.source = gary_base, benefit
         new_top.add_updater(lambda line: line.become(DashedLine(
             [line.base[0] - 0.55, line.base[1] + line.source.get_value() / 3, 0],
             [line.base[0] + 0.55, line.base[1] + line.source.get_value() / 3, 0],
-            color=DEMAND).set_style(**line.get_style())).set_opacity(np.clip(line.source.get_value() - 6, 0, 1)))
+            color=DEMAND).set_style(**line.get_style())).set_opacity(np.clip(abs(line.source.get_value() - 6), 0, 1)))
         gary_number = DecimalNumber(6, num_decimal_places=0, color=DEMAND).scale(0.7)
         gary_number.base, gary_number.source = gary_base, benefit
         gary_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
             np.array([number.base[0] - 0.55, number.base[1] + number.source.get_value() / 3, 0]), LEFT, buff=0.15)
-            .set_opacity(np.clip((number.source.get_value() - 6.8) / 0.4, 0, 1)))
+            .set_opacity(np.clip((abs(number.source.get_value() - 6) - 0.8) / 0.4, 0, 1)))
         graph_new_top = DashedLine(ax.c2p(25, 6), ax.c2p(35, 6), color=DEMAND, stroke_width=2, z_index=4)
-        graph_new_top.ax, graph_new_top.source = ax, benefit
+        graph_new_top.ax, graph_new_top.source, graph_new_top.slope = ax, benefit, demand_slope
         graph_new_top.add_updater(lambda line: line.become(DashedLine(
-            line.ax.c2p(25, line.source.get_value()), line.ax.c2p(35, line.source.get_value()),
-            color=DEMAND, stroke_width=2, z_index=4).set_style(**line.get_style())).set_opacity(np.clip(line.source.get_value() - 6, 0, 1)))
+            line.ax.c2p(6 / line.slope.get_value() - 5, line.source.get_value()), line.ax.c2p(6 / line.slope.get_value() + 5, line.source.get_value()),
+            color=DEMAND, stroke_width=2, z_index=4).set_style(**line.get_style())).set_opacity(np.clip(abs(line.source.get_value() - 6), 0, 1)))
         graph_new_number = DecimalNumber(6, num_decimal_places=0, color=DEMAND).scale(0.6)
-        graph_new_number.ax, graph_new_number.source = ax, benefit
+        graph_new_number.ax, graph_new_number.source, graph_new_number.slope = ax, benefit, demand_slope
         graph_new_number.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
-            number.ax.c2p(25, number.source.get_value()), LEFT, buff=0.15)
-            .set_opacity(np.clip((number.source.get_value() - 6.8) / 0.4, 0, 1)))
-        self.add(gary_gain, graph_gain, new_top, gary_number, graph_new_top, graph_new_number)
+            number.ax.c2p(6 / number.slope.get_value() - 5, number.source.get_value()), LEFT, buff=0.15)
+            .set_opacity(np.clip((abs(number.source.get_value() - 6) - 0.8) / 0.4, 0, 1)))
+        gary_a_span = VMobject(stroke_color=DEFINITION, stroke_width=5)
+        gary_a_span.base, gary_a_span.source = gary_base, benefit
+        gary_a_span.add_updater(lambda line: line.set_points_as_corners([
+            line.base + LEFT + UP * 2, line.base + LEFT + UP * line.source.get_value() / 3]))
+        gary_a_anchor = Line(gary_base + LEFT * 1.12 + UP * 2, gary_base + LEFT * 0.88 + UP * 2,
+                             color=DEFINITION, stroke_width=2)
+        gary_a_cap = Line(gary_base + LEFT * 1.12 + UP * 2, gary_base + LEFT * 0.88 + UP * 2,
+                          color=DEFINITION, stroke_width=2)
+        gary_a_cap.base, gary_a_cap.source = gary_base, benefit
+        gary_a_cap.add_updater(lambda tick: tick.put_start_and_end_on(
+            tick.base + LEFT * 1.12 + UP * tick.source.get_value() / 3,
+            tick.base + LEFT * 0.88 + UP * tick.source.get_value() / 3))
+        gary_a_number = DecimalNumber(0, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.65)
+        gary_a_number.source = benefit
+        gary_a_number.add_updater(lambda number: number.set_value(number.source.get_value() - 6))
+        gary_a_readout = VGroup(MathTex('a=', color=DEFINITION).scale(0.65), gary_a_number)
+        gary_a_readout.base, gary_a_readout.source = gary_base, benefit
+        gary_a_readout.add_updater(lambda group: group.arrange(RIGHT, buff=0.07).next_to(
+            group.base + LEFT + UP * (6 + group.source.get_value()) / 6, LEFT, buff=0.18))
+        for marker in (gary_a_span, gary_a_anchor, gary_a_cap, gary_a_readout):
+            marker.source = benefit
+            marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value() - 6) * 4, 0, 1)))
+        self.add(gary_gain, graph_gain, new_top, gary_number, graph_new_top, graph_new_number,
+                 gary_a_span, gary_a_anchor, gary_a_cap, gary_a_readout)
         self.play(benefit.animate.set_value(11), run_time=1.8)
         self.pause('7.e')
 
@@ -1133,20 +1189,15 @@ class B5(Scene):
         self.add(before_demand)
         self.play(FadeIn(before_word))
         shifted_curve_equation = MathTex(r'P=17-Q/5', color=DEMAND).scale(0.8).move_to(curve_equation)
+        self.add(buyer_changes)
         self.play(shift.animate.set_value(5), TransformMatchingTex(curve_equation, shifted_curve_equation), run_time=2)
+        benefit.add_updater(lambda value: value.set_value(6 + value.market_shift.get_value()))
         self.pause('7.f')
-
         # ---- 8.a · Name the shared change a after its meaning is visible.
         # Its gold span measures displacement from the original intercept 12.
         demand_equation = MathTex(r'P=12+', 'a', r'-Q/5',
                                   tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'a': DEFINITION}).scale(0.85)
-        demand_equation.move_to([4.35, 2.0, 0])
-        a_number = DecimalNumber(5, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.8)
-        a_number.source = shift
-        a_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        a_readout = VGroup(MathTex('a=', color=DEFINITION).scale(0.8), a_number)
-        a_readout.arrange(RIGHT, buff=0.1).move_to([4.35, 1.35, 0])
-        a_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.1).move_to([4.35, 1.35, 0]))
+        demand_equation.move_to([2.0, 2.0, 0])
         a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
         a_span.ax, a_span.source = ax, shift
         a_span.add_updater(lambda m: m.set_points_as_corners([
@@ -1167,30 +1218,24 @@ class B5(Scene):
         for marker in (a_span, a_anchor, a_cap, a_label):
             marker.source = shift
             marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value()) * 4, 0, 1)))
-        demand_divider = Line([1.55, -3.15, 0], [1.55, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
-        demand_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([2.1, 0.73, 0], aligned_edge=LEFT)
+        demand_divider = Line([-0.25, -3.15, 0], [-0.25, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
+        demand_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([0.1, 1.0, 0], aligned_edge=LEFT)
         demand_scenarios = VGroup()
         for label, sign, y in [
-                ('Health study', 'a>0', 0.2),
-                ('Less preference', 'a<0', -0.23),
-                ('Income: normal good', 'a>0', -0.66),
-                ('Income: inferior good', 'a<0', -1.09),
-                ('Romaine price rises', 'a>0', -1.52),
-                ('Dressing price rises', 'a<0', -1.95),
-                ('More buyers', r'c\downarrow', -2.38)]:
-            scenario = VGroup(Tex(label, color=INK).scale(0.72).move_to([2.1, y, 0], aligned_edge=LEFT),
-                              MathTex(sign, color=DEFINITION).scale(0.72).move_to([6.7, y, 0]))
+                ('More Preference', 'a>0', 0.48),
+                ('Less Preference', 'a<0', 0.02),
+                ('More Income: Normal', 'a>0', -0.44),
+                ('More Income: Inferior', 'a<0', -0.9),
+                ('Pricier Substitutes', 'a>0', -1.36),
+                ('Pricier Complements', 'a<0', -1.82),
+                ('More Buyers', r'c\downarrow', -2.28)]:
+            scenario = VGroup(Tex(label, color=INK).scale(0.56).move_to([0.4, y, 0], aligned_edge=LEFT),
+                              MathTex(sign, color=DEFINITION).scale(0.6).move_to([3.55, y, 0]))
             demand_scenarios.add(scenario)
-        self.play(FadeOut(shifted_curve_equation), FadeIn(demand_divider), FadeIn(demand_equation), FadeIn(a_readout),
+        self.play(FadeOut(shifted_curve_equation), FadeIn(demand_divider), FadeIn(demand_equation),
                   FadeIn(a_span), FadeIn(a_anchor), FadeIn(a_cap), FadeIn(a_label))
 
         self.pause('8.a')
-        for mob in (gary_gain, graph_gain, new_top, gary_number, graph_new_top, graph_new_number, buyer_bars):
-            mob.clear_updaters()
-        self.play(FadeOut(gary_bar), FadeOut(gary_name), FadeOut(gary_number), FadeOut(gary_units),
-                  FadeOut(old_top), FadeOut(old_six), FadeOut(selected_bar), FadeOut(buyer_bars),
-                  FadeOut(gary_gain), FadeOut(graph_gain), FadeOut(new_top), FadeOut(graph_new_top),
-                  FadeOut(graph_new_number), FadeOut(graph_old_top), FadeOut(graph_old_six), FadeOut(before_word))
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 8.b · Apply the shift to the health-study scenario.
@@ -1202,29 +1247,17 @@ class B5(Scene):
         bottom = Tex(r'A change in {{demand}} shifts the whole curve.',
                      tex_to_color_map={'demand': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom), FadeIn(demand_list_head), FadeIn(demand_scenarios[0]), FadeIn(before_word))
+        self.play(FadeIn(bottom), FadeIn(demand_list_head), FadeIn(demand_scenarios[0]))
         self.play(shift.animate.set_value(5), run_time=2)
         self.pause('8.b')
 
-        # ---- 8.c · The same shift can be read vertically at a fixed quantity.
-        # Remove the price-input guides before measuring MB at Q=30.
-        self.play(FadeOut(p_line), FadeOut(q_line), FadeOut(point), FadeOut(p_number), FadeOut(q_number),
-                  FadeOut(original_marks), FadeOut(original_q_number))
-        vertical_change = Line(ax.c2p(30, 6), ax.c2p(30, 11), color=FOCUS, stroke_width=5)
-        endpoints = VGroup(Dot(ax.c2p(30, 6), color=CAPTION), Dot(ax.c2p(30, 11), color=GUIDE))
-        mb_words = VGroup(Tex('6', color=CAPTION).scale(0.7).next_to(ax.c2p(30, 6), LEFT, buff=0.2),
-                          Tex('11', color=GUIDE).scale(0.7).next_to(ax.c2p(30, 11), RIGHT, buff=0.2))
+        # ---- 8.c · Read the same change on each buyer's bar and on Gary.
         self.remove(bottom)
         bottom = Tex('More at the same price; a higher willingness to pay for the same quantity.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(vertical_change), FadeIn(endpoints), FadeIn(mb_words), FadeIn(bottom))
+        self.play(FadeIn(bottom), Indicate(graph_gain, color=FOCUS), Indicate(gary_a_span, color=FOCUS))
         self.pause('8.c')
-        self.play(FadeOut(vertical_change), FadeOut(endpoints), FadeOut(mb_words))
         self.play(shift.animate.set_value(0), run_time=1.2)
-        for mob in (p_line, q_line, point, p_number, q_number):
-            mob.update()
-        self.play(FadeIn(p_line), FadeIn(q_line), FadeIn(point), FadeIn(p_number), FadeIn(q_number),
-                  FadeIn(original_marks), FadeIn(original_q_number))
 
         # ---- 8.d · Reduced preference reverses the shift at the same price.
         self.remove(question)
@@ -1265,14 +1298,13 @@ class B5(Scene):
         bottom = Tex(r'{{Inferior goods}}: higher income decreases demand.',
                      tex_to_color_map={'Inferior goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom),
-                  FadeOut(p_number), FadeOut(q_number), FadeOut(original_q_number),
+        schematic_mb = Tex('MB', color=CAPTION).scale(0.65).move_to(gary_units)
+        self.play(FadeIn(bottom), FadeOut(gary_units), FadeIn(schematic_mb),
                   FadeOut(axes_words[1]), FadeOut(axes_words[3]))
         self.play(shift.animate.set_value(-3), run_time=1.7)
         self.pause('8.f')
         self.play(shift.animate.set_value(0), run_time=1.2)
-        self.play(FadeIn(p_number), FadeIn(q_number), FadeIn(original_q_number),
-                  FadeIn(axes_words[1]), FadeIn(axes_words[3]))
+        self.play(FadeOut(schematic_mb), FadeIn(gary_units), FadeIn(axes_words[1]), FadeIn(axes_words[3]))
 
         # ---- 8.g · Return to spinach: romaine is a substitute.
         self.play(demand_scenarios[3].animate.set_color(CAPTION), FadeIn(demand_scenarios[4]))
@@ -1310,22 +1342,23 @@ class B5(Scene):
         # at every price: P=12-0.20Q becomes P=12-0.16Q. This is still a shift.
         self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
         self.remove(bottom, question, demand_equation)
-        self.play(FadeOut(a_readout), FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
+        self.play(FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
         question = Tex(r'\mbox{\textsf{The number of identical buyers increases by 25\%.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         demand_entry_equation = MathTex(r'P=12-cQ',
-            tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'c': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
+            tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'c': DEFINITION}).scale(0.85).move_to([2.0, 2.0, 0])
         c_number = DecimalNumber(0.2, num_decimal_places=2, color=DEFINITION).scale(0.8)
         c_number.source = demand_slope
         c_number.add_updater(lambda m: m.set_value(m.source.get_value()))
-        c_readout = VGroup(Tex('Slope coefficient:', color=CAPTION).scale(0.7),
+        c_readout = VGroup(Tex('Slope coefficient:', color=CAPTION).scale(0.6),
                           MathTex('c=', color=DEFINITION).scale(0.8), c_number)
-        c_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.12).move_to([4.35, 1.35, 0]))
+        c_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.12).move_to([2.0, 1.35, 0]))
         c_readout.update()
         bottom = Tex('More buyers increase quantity demanded at each price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(question), FadeIn(demand_entry_equation), FadeIn(c_readout), FadeIn(bottom))
-        self.play(demand_slope.animate.set_value(0.16), run_time=1.7)
+        gary_unchanged = Tex('MB unchanged', color=CAPTION).scale(0.55).next_to(gary_name, DOWN, buff=0.3)
+        self.play(FadeIn(gary_unchanged), demand_slope.animate.set_value(0.16), run_time=1.7)
         self.pause('8.i')
         # No callbacks survive the cut into the supply construction.
         for mob in self.mobjects:
