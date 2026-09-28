@@ -439,7 +439,13 @@ class B5(Scene):
         p_average_label.shift(p_average_result[r'\bar P='].get_center() - p_average_label[r'\bar P='].get_center())
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
-        self.play(FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick))
+        price_midpoint_note = midpoint_note.copy().next_to(p_mid_tick, LEFT, buff=0.65)
+        price_midpoint_arrow = Arrow(price_midpoint_note.get_right(), p_mid_tick.get_left(),
+                                     color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
+                                     max_tip_length_to_length_ratio=0.12)
+        self.play(FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick),
+                  Transform(midpoint_note, price_midpoint_note),
+                  Transform(midpoint_arrow, price_midpoint_arrow), run_time=0.8)
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
                   TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label))
         self.wait(0.25)
