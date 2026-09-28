@@ -922,8 +922,8 @@ class B5(Scene):
         # ---- 7.b · Gary is a selected willingness-to-pay bar on the graph.
         # Selecting Q=30 gives MB=$6 in the market ordering. His bar is a
         # representative marginal lot, not an individual demand schedule.
-        head = title('A change in preferences')
-        question = Tex(r'\textsf{What if spinach is healthier than we thought?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Demand')
+        question = Tex(r'\mbox{\textsf{A new study finds spinach is healthier than we had thought.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ax = style_axes([0, 90, 20], [0, 18, 4], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
@@ -937,10 +937,27 @@ class B5(Scene):
         supply = Line(ax.c2p(0, 2), ax.c2p(90, 6.5), color=SUPPLY, stroke_width=3).set_opacity(0.3)
         demand_word = Tex('D', color=INK).scale(0.8).next_to(ax.c2p(60, 0), UR, buff=0.18)
         supply_word = Tex('S', color=CAPTION).scale(0.8).next_to(supply.get_end(), RIGHT, buff=0.15)
+        shift = ValueTracker(0)
+        demand_slope = ValueTracker(0.2)
+        demand_p_intercept = DecimalNumber(12, num_decimal_places=0, color=DEFINITION).scale(0.6)
+        demand_p_intercept.ax, demand_p_intercept.source = ax, shift
+        demand_p_intercept.add_updater(lambda number: number.set_value(12 + number.source.get_value()).next_to(
+            number.ax.c2p(0, 12 + number.source.get_value()), LEFT, buff=0.18))
+        demand_q_intercept = DecimalNumber(60, num_decimal_places=0, color=DEFINITION).scale(0.6)
+        demand_q_intercept.ax, demand_q_intercept.source, demand_q_intercept.slope = ax, shift, demand_slope
+        demand_q_intercept.add_updater(lambda number: number.set_value((12 + number.source.get_value()) / number.slope.get_value()).move_to(
+            number.ax.c2p((12 + number.source.get_value()) / number.slope.get_value(), 0) + DOWN * 0.95))
+        demand_q_intercept_tick = Line(ax.c2p(60, 0) + DOWN * 0.06, ax.c2p(60, 0) + UP * 0.06, color=DEFINITION)
+        demand_q_intercept_tick.ax, demand_q_intercept_tick.source, demand_q_intercept_tick.slope = ax, shift, demand_slope
+        demand_q_intercept_tick.add_updater(lambda tick: tick.put_start_and_end_on(
+            tick.ax.c2p((12 + tick.source.get_value()) / tick.slope.get_value(), 0) + DOWN * 0.06,
+            tick.ax.c2p((12 + tick.source.get_value()) / tick.slope.get_value(), 0) + UP * 0.06))
+        context_supply_intercept = Tex('2', color=CAPTION).scale(0.6).next_to(ax.c2p(0, 2), LEFT, buff=0.18).set_opacity(0.5)
         selected_bar = Line(ax.c2p(30, 0), ax.c2p(30, 6), color=DEMAND, stroke_width=10)
         selected_word = Tex(r"Gary's next unit", color=INK).scale(0.8).next_to(selected_bar.get_end(), UR, buff=0.2)
         self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(demand), FadeIn(supply),
-                  FadeIn(demand_word), FadeIn(supply_word))
+                  FadeIn(demand_word), FadeIn(supply_word), FadeIn(demand_p_intercept),
+                  FadeIn(demand_q_intercept), FadeIn(demand_q_intercept_tick), FadeIn(context_supply_intercept))
         self.play(FadeIn(selected_bar), FadeIn(selected_word))
         self.pause('7.b')
 
@@ -968,16 +985,14 @@ class B5(Scene):
         gary_number.clear_updaters()
         self.play(FadeOut(gary_bar), FadeOut(gary_name), FadeOut(gary_number), FadeOut(gary_units),
                   FadeOut(old_top), FadeOut(old_six), FadeOut(selected_bar), FadeOut(selected_word),
-                  FadeOut(supply), FadeOut(supply_word), FadeOut(bottom))
+                  FadeOut(supply), FadeOut(supply_word), FadeOut(context_supply_intercept), FadeOut(bottom))
 
         # ---- 8.a · Own price changes the selected point, never the curve.
         self.remove(head, question)
-        head = title('Demand: movement and shift')
-        question = Tex(r'\textsf{Did demand change, or did the price change?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Demand')
+        question = Tex(r'\mbox{\textsf{The price of spinach falls from \$4 to \$3.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         price = ValueTracker(4)
-        shift = ValueTracker(0)
-        demand_slope = ValueTracker(0.2)
         demand.ax, demand.shift_value, demand.slope = ax, shift, demand_slope
         demand.add_updater(lambda m: m.put_start_and_end_on(
             m.ax.c2p(0, 12 + m.shift_value.get_value()),
@@ -1067,7 +1082,22 @@ class B5(Scene):
 
         # ---- 8.b · At fixed price, everyone's increased MB shifts demand.
         before_demand = demand.copy().clear_updaters().set_color(MUTED).set_opacity(0.55)
+        original_demand_p_intercept = Tex('12', color=CAPTION).scale(0.6).next_to(ax.c2p(0, 12), LEFT, buff=0.18)
+        original_demand_p_intercept.source = shift
+        original_demand_p_intercept.add_updater(lambda label: label.set_opacity(
+            np.clip((abs(label.source.get_value()) * 4.6 / 18 - 0.3) / 0.25, 0, 0.65)))
+        original_demand_q_intercept = VGroup(
+            Tex('60', color=CAPTION).scale(0.6).move_to(ax.c2p(60, 0) + DOWN * 0.95),
+            Line(ax.c2p(60, 0) + DOWN * 0.06, ax.c2p(60, 0) + UP * 0.06, color=CAPTION))
+        original_demand_q_intercept.source, original_demand_q_intercept.slope = shift, demand_slope
+        original_demand_q_intercept.add_updater(lambda label: label.set_opacity(np.clip(
+            (abs((12 + label.source.get_value()) / label.slope.get_value() - 60) * 4.6 / 90 - 0.35) / 0.25, 0, 0.65)))
+        self.add(original_demand_p_intercept, original_demand_q_intercept)
         before_word = Tex('$D_0$', color=CAPTION).scale(0.7).next_to(ax.c2p(54, 1.2), RIGHT, buff=0.16)
+        self.remove(question)
+        question = Tex(r'\mbox{\textsf{A new study finds spinach is healthier than we had thought.}}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(question))
         self.add(before_demand)
         self.remove(bottom)
         bottom = Tex(r'A change in {{demand}} shifts the whole curve.',
@@ -1096,6 +1126,10 @@ class B5(Scene):
         self.play(FadeIn(p_line), FadeIn(q_line), FadeIn(point), FadeIn(p_number), FadeIn(q_number), FadeIn(q_prefix))
 
         # ---- 8.d · Reduced preference reverses the shift at the same price.
+        self.remove(question)
+        question = Tex(r'\mbox{\textsf{Buyers become less interested in spinach.}}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(question))
         self.play(demand_scenarios[0].animate.set_color(CAPTION), FadeIn(demand_scenarios[1]))
         self.remove(bottom)
         bottom = Tex('Less demand: less is wanted at every price.', color=INK).scale(DEFINITION_SCALE)
@@ -1107,8 +1141,8 @@ class B5(Scene):
         # ---- 8.e · Income rises: normal goods move out.
         self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2]))
         self.remove(head, question, bottom)
-        head = title('Demand shifters')
-        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Demand')
+        question = Tex(r'\mbox{\textsf{Incomes rise; spinach is a normal good.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'{{Normal goods}}: higher income increases demand.',
                      tex_to_color_map={'Normal goods': DEFINITION}).scale(DEFINITION_SCALE)
@@ -1123,8 +1157,8 @@ class B5(Scene):
         # The geometry illustrates direction only; these are not measured data.
         self.remove(bottom)
         self.remove(head, question)
-        head = title('Demand shifters')
-        question = Tex(r'\textsf{What if the good is instant noodles?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Demand')
+        question = Tex(r'\mbox{\textsf{Incomes rise; instant noodles are an inferior good.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
         bottom = Tex(r'{{Inferior goods}}: higher income decreases demand.',
@@ -1143,8 +1177,8 @@ class B5(Scene):
         self.play(demand_scenarios[3].animate.set_color(CAPTION), FadeIn(demand_scenarios[4]))
         self.remove(bottom)
         self.remove(head, question)
-        head = title('Demand shifters')
-        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Demand')
+        question = Tex(r'\mbox{\textsf{The price of romaine rises.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
         bottom = Tex(r'{{Substitutes}} can take each other\textquotesingle s place.',
@@ -1156,6 +1190,10 @@ class B5(Scene):
         self.play(shift.animate.set_value(0), run_time=1.2)
 
         # ---- 8.h · Dressing is a complement; its higher price reduces demand.
+        self.remove(question)
+        question = Tex(r'\mbox{\textsf{The price of salad dressing rises.}}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(question))
         self.play(demand_scenarios[4].animate.set_color(CAPTION), FadeIn(demand_scenarios[5]))
         self.remove(bottom)
         bottom = Tex(r'{{Complements}} are used together.',
@@ -1172,7 +1210,7 @@ class B5(Scene):
         self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
         self.remove(bottom, question, demand_equation)
         self.play(FadeOut(a_readout), FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
-        question = Tex(r'\textsf{What if we add 25\% more identical buyers?}', color=CAPTION).scale(0.55)
+        question = Tex(r'\mbox{\textsf{The number of identical buyers increases by 25\%.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         demand_entry_equation = MathTex(r'P=12-cQ',
             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'c': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
@@ -1195,8 +1233,8 @@ class B5(Scene):
         self.clear()
 
         # ---- 9.a · Price alone moves along an unchanged supply curve.
-        head = title('Supply: movement and shift')
-        question = Tex(r'\textsf{Did supply change, or did the price change?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Supply')
+        question = Tex(r'\mbox{\textsf{The price of spinach rises from \$4 to \$5.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ax = style_axes([0, 100, 20], [0, 9, 2], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
@@ -1213,6 +1251,10 @@ class B5(Scene):
         supply.ax, supply.shift_value, supply.slope = ax, cost_shift, supply_slope
         supply.add_updater(lambda m: m.put_start_and_end_on(m.ax.c2p(0, 2 + m.shift_value.get_value()),
             m.ax.c2p(100, 2 + m.shift_value.get_value() + 100 * m.slope.get_value())))
+        supply_p_intercept = DecimalNumber(2, num_decimal_places=2, color=DEFINITION).scale(0.6)
+        supply_p_intercept.ax, supply_p_intercept.source = ax, cost_shift
+        supply_p_intercept.add_updater(lambda number: number.set_value(2 + number.source.get_value()).next_to(
+            number.ax.c2p(0, 2 + number.source.get_value()), LEFT, buff=0.18))
         supply_word = Tex('S', color=INK).scale(0.8)
         supply_word.curve = supply
         supply_word.add_updater(lambda m: m.next_to(m.curve.get_end(), RIGHT, buff=0.15))
@@ -1246,7 +1288,7 @@ class B5(Scene):
         bottom = Tex(r'A change in {{quantity supplied}} moves along the curve.',
                      tex_to_color_map={'quantity supplied': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(supply), FadeIn(supply_word))
+        self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(supply), FadeIn(supply_word), FadeIn(supply_p_intercept))
         self.play(FadeIn(p_line), FadeIn(point), FadeIn(p_number))
         self.play(FadeIn(q_line), FadeIn(q_number), FadeIn(q_prefix), FadeIn(bottom))
         # Positive b raises marginal cost, so it means a decrease in supply.
@@ -1298,11 +1340,16 @@ class B5(Scene):
         # ---- 9.b · Molly's costs rise; at the same price fewer lots pay.
         # A named cost bar is an enlarged marginal unit, not a second market.
         before_supply = supply.copy().clear_updaters().set_color(MUTED).set_opacity(0.55)
+        original_supply_intercept = Tex('2.00', color=CAPTION).scale(0.6).next_to(ax.c2p(0, 2), LEFT, buff=0.18)
+        original_supply_intercept.source = cost_shift
+        original_supply_intercept.add_updater(lambda label: label.set_opacity(
+            np.clip((abs(label.source.get_value()) * 4.6 / 9 - 0.3) / 0.25, 0, 0.65)))
+        self.add(original_supply_intercept)
         before_word = Tex('$S_0$', color=CAPTION).scale(0.7).next_to(ax.c2p(85, 6.25), UP, buff=0.15)
         self.add(before_supply)
         self.remove(head, question, bottom)
-        head = title('Supply shifters')
-        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.55)
+        head = title('Shifters: Supply')
+        question = Tex(r'\mbox{\textsf{Farmland becomes more expensive.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'A change in {{supply}} shifts the whole curve.',
                      tex_to_color_map={'supply': DEFINITION}).scale(DEFINITION_SCALE)
@@ -1326,12 +1373,20 @@ class B5(Scene):
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
 
         # ---- 9.c · Cheaper fertilizer lowers each marginal cost.
+        self.remove(question)
+        question = Tex(r'\mbox{\textsf{Fertilizer becomes cheaper.}}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(question))
         self.play(supply_scenarios[0].animate.set_color(CAPTION), FadeIn(supply_scenarios[1]))
         self.play(cost_shift.animate.set_value(-1), run_time=1.7)
         self.pause('9.c')
         self.play(cost_shift.animate.set_value(0), run_time=1.2)
 
         # ---- 9.d · A better alternative use raises opportunity cost.
+        self.remove(question)
+        question = Tex(r'\mbox{\textsf{The price of carrots rises.}}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(question))
         self.play(supply_scenarios[1].animate.set_color(CAPTION), FadeIn(supply_scenarios[2]))
         self.play(cost_shift.animate.set_value(1.25), run_time=1.7)
         self.pause('9.d')
@@ -1344,7 +1399,7 @@ class B5(Scene):
         self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3]))
         self.remove(bottom, question, supply_equation)
         self.play(FadeOut(b_readout), FadeOut(b_span), FadeOut(b_anchor), FadeOut(b_cap), FadeOut(b_label))
-        question = Tex(r'\textsf{What if we add 25\% more identical sellers?}', color=CAPTION).scale(0.55)
+        question = Tex(r'\mbox{\textsf{The number of identical sellers increases by 25\%.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         supply_entry_equation = MathTex(r'P=2+dQ',
             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'd': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
@@ -1365,7 +1420,7 @@ class B5(Scene):
         # ---- 9.f · Technology lowers cost and expands supply.
         self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4]))
         self.remove(bottom, question, supply_entry_equation, d_readout)
-        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.55)
+        question = Tex(r'\mbox{\textsf{Better technology lowers the cost of growing spinach.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex('Lower costs increase supply at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
