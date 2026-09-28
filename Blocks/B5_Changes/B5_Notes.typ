@@ -59,6 +59,7 @@ In this video we’ll consider what happens to equilibrium price and quantity wh
 // | 1.a · The familiar market at 40 and $4.
 // | 1.b · CS and PS become total surplus.
 // /plass:comment
+
 _*Start by talking about what markets are doing, that we get equilibrium price because of buyers and sellers incentives, and that under some conditions, this is very good for buyers and sellers, although not everyone.*_
 
 // plass:comment
@@ -91,6 +92,7 @@ We also wanted to know who benefits from the exchanges in the market. So we deve
 // | 2.a · Pick out the willingness-to-pay bar for Gary’s next unit.
 // | 2.b · Bring his bar forward. The spinach study raises his valuation.
 // /plass:comment
+
 _*But the world is not always the same. Sometimes things change. Let’s say a new study comes out linking spinach to longer lives. Gary liked spinach before. But like nearly everyone, this new piece of information means he’s even more interested in buying spinach.*_
 
 First, we’re going to show how prices and quantities, our coordination device, are impacted by forces outside the model. We’ll do this by #strike[building on] {++introducing++} the idea of *Shifters*.
@@ -113,6 +115,7 @@ First, we’re going to show how prices and quantities, our coordination device,
 // | 3.h · More expensive dressing decreases demand for spinach.
 // | 3.i · More identical buyers flatten market demand; show the changing slope coefficient.
 // /plass:comment
+
 // plass:comment
 // | Editor. Proposed passage for B5.1's first standard: a movement along the curve versus a shift, and a change in quantity demanded versus a change in demand. No passage for this existed in B1, B2, or here.
 // /plass:comment
@@ -156,6 +159,7 @@ Everyone is willing to buy more spinach at every price or alternatively everyone
 // | 4.e · More identical sellers flatten market supply; show the changing slope coefficient.
 // | 4.f · Better harvesting technology lowers costs and increases supply.
 // /plass:comment
+
 {++The same distinction holds for sellers. A change in the price of spinach moves Molly along her supply curve. That’s a change in the quantity supplied. Anything else that changes her costs shifts the whole curve. That’s a change in supply.++}
 
 Molly’s _*Individual Supply Curve*_ depends on the costs of producing spinach. For example, what would happen if the price of renting farmland increased? Her supply curve would also #strike[increase] {++shift up++}! The cost of each additional unit of spinach becomes more expensive since the input, land, has also become more expensive. This means that, for example, she wouldn’t be willing to produce as much spinach as before at a price of \$4 or any price.
@@ -202,6 +206,7 @@ The market supply curve is also impacted by the number of sellers. Like when we 
 // | 5.n · Raise price along supply and follow the quantity supplied.
 // | 5.o · Use the same percentage ratio to calculate positive supply elasticity.
 // /plass:comment
+
 _How should we measure the responsiveness of the demand curve?_
 
 // plass:comment
@@ -287,6 +292,7 @@ _*{++Show a vertical demand curve, then a horizontal one, each labeled.++}*_
 // | 6.m · Raise fertilizer costs at the old price and show the shortage.
 // | 6.n · Raise price; record 35 at $5 with all three outcomes in view.
 // /plass:comment
+
 {++We just talked about shifters.++} #strike[You’ll remember, we talked shifters in Demand.] When forces that impact Buyers’ preferences for spinach change, so does the Demand curve.
 
 ==== #strike[B2]
@@ -326,6 +332,7 @@ What about with an increase in the cost of fertilizer, an input to producing spi
 // | 7.c · Increase supply further; add rising quantity with unchanged price.
 // | 7.d · Increase supply again; add rising quantity with falling price.
 // /plass:comment
+
 Now what about when the price of romaine lettuce goes up while the price of spinach harvesting technology goes down at the same time?
 
 ==== #strike[B3]
@@ -344,6 +351,7 @@ Prices are _indeterminate_ because the shift in demand raises prices, while the 
 // | 8.b · Shift demand equally in both markets and follow the equilibria.
 // | 8.c · Compare the resulting price and quantity changes.
 // /plass:comment
+
 _*Ok, but will prices always respond like this? No. It turns out if the slopes were different, the response would be different. Pivot the S&D curves around equilibrium.*_
 
 _*The slope is related to how the S or D curves respond to a change in price. But simply looking at the slope itself gives us the wrong picture.*_
@@ -368,6 +376,7 @@ _*{++Show two graphs side by side. Left: the B3 supply curve. Right: a steep sup
 // | 9.a · Hold the paired markets to recap how they respond to change.
 // | 9.b · Introduce the next block: international trade.
 // /plass:comment
+
 {++Markets respond to change. When preferences, incomes, or costs change, the curves shift, and the equilibrium moves to a new price and quantity. Elasticity tells us how that change splits between price and quantity. Next time we take these tools across the border, to international trade.++}
 
 === {++Parked++}

@@ -1,5 +1,7 @@
 # Storyboard Template
 
+> **Superseded for B3 and B4 on 2026-09-27**, and for each other block when it is next worked on. There is no separate storyboard file under the new convention: the beats live inside the block's Notes file as Plass comments, one line per beat. See `_Style_Guide.md` §8, File names. This template still describes the blocks on the numbered names.
+
 A storyboard maps each student beat link in `01_Notes.md` to its on-screen
 action in `03_Code.py`. The notes establish the student-facing cue and episode
 order. The storyboard contains only what happens.

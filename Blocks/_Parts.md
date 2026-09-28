@@ -103,6 +103,8 @@ Blocks/
 
 ### File Descriptions
 
+> **Naming changed on 2026-09-27.** B3 and B4 now use block-first names with no numbers (`B3_Notes.typ`, `B3_Animation.py`, `B3_Outline.typ`), and the storyboard lives inside the notes as Plass comments. The convention is in `_Style_Guide.md` §8. The descriptions below cover blocks still on the numbered names; each converts when it is next worked on.
+
 **00_Assets/**
 
 - Contains original Jupyter notebooks (.ipynb files)
