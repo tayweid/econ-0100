@@ -760,11 +760,12 @@ class B5(Scene):
         # ---- 7.a · Return to the same market before changing the curves.
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
-        curve_question = Tex(r'\textsf{What if the curves move instead?}', color=CAPTION).scale(0.9)
-        curve_question.to_edge(UP, buff=0.75)
-        self.play(FadeIn(recap_market), FadeIn(curve_question))
+        head = title('Equilibrium')
+        curve_question = Tex('What if the curves move instead?', color=FOCUS).scale(0.9)
+        curve_question.next_to(head, DOWN, buff=0.12).set_x(0)
+        self.play(FadeIn(head), FadeIn(recap_market), FadeIn(curve_question))
         self.pause('7.a')
-        self.play(FadeOut(recap_market), FadeOut(curve_question))
+        self.play(FadeOut(head), FadeOut(recap_market), FadeOut(curve_question))
         self.clear()
 
         # ---- 7.b · Gary is a selected willingness-to-pay bar on the graph.
