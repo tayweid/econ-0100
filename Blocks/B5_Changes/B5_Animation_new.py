@@ -68,9 +68,11 @@ class B5(Scene):
         self.pause('1.a')
 
         # ---- 1.b · Add welfare to the equilibrium recap.
-        self.remove(head)
+        self.remove(head, question)
         head = title('Equilibrium + Welfare')
-        self.play(FadeIn(head))
+        question = Tex(r'\textsf{Equilibrium in competitive markets maximizes total surplus.}', color=CAPTION).scale(0.55)
+        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.play(FadeIn(head), FadeIn(question))
         cs = Polygon(ax.c2p(0, 4), ax.c2p(0, 12), ax.c2p(40, 4),
                      stroke_width=0, fill_color=DEMAND, fill_opacity=AREA_OPACITY)
         ps = Polygon(ax.c2p(0, 2), ax.c2p(0, 4), ax.c2p(40, 4),
@@ -84,7 +86,7 @@ class B5(Scene):
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(cs), FadeIn(ps), FadeIn(welfare_words), FadeIn(bottom))
         self.play(cs.animate.set_fill(TOTAL), ps.animate.set_fill(TOTAL), FadeOut(welfare_words))
-        total_word = Tex('Total surplus', color=TOTAL).scale(0.65).move_to(ax.c2p(16, 6.5))
+        total_word = Tex('Total surplus', color=TOTAL).scale(0.65).move_to(ax.c2p(40 / 3, 6))
         self.play(FadeIn(total_word))
         self.pause('1.b')
 
