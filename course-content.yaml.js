@@ -246,7 +246,7 @@ parts:
         dates:
           class: '2026-09-21'
           recitation: '2026-09-25'
-          homework: '2026-09-27'
+          homework: '2026-09-28'
 
       - block: B4
         folder: B4_Efficiency
@@ -268,7 +268,7 @@ parts:
         dates:
           class: '2026-09-23'
           recitation: '2026-09-25'
-          homework: '2026-09-27'
+          homework: '2026-09-28'
 
       - block: B5
         folder: B5_Changes
@@ -278,6 +278,7 @@ parts:
           Elasticity measures how responsive quantity is to changes in price, income, or other factors. Comparative statics analyzes how equilibrium changes when supply or demand conditions shift.
         episode:
           description: "*How markets respond to changes*"
+          links: [{label: Animations, file: Blocks/B5_Changes/media/B5_present/}]
         reading:
           name: Reading B5
         vignette:
