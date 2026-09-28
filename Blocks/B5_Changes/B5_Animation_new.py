@@ -392,8 +392,8 @@ class B5(Scene):
         midpoint_arrow = Arrow(midpoint_note.get_right(), q_mid_tick.get_top(),
                                color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
                                max_tip_length_to_length_ratio=0.12)
-        formula = MathTex(r'\epsilon_D', '=', r'\frac{\Delta Q/\bar Q}{\Delta P/\bar P}').scale(0.95)
-        formula.move_to([3.95, 2.0, 0])
+        formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.85)
+        formula.move_to([3.95, 2.1, 0])
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_result = MathTex(r'\bar Q=', '7.5', color=FOCUS).scale(0.8).move_to([2.15, 0.0, 0])
         q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', color=FOCUS).scale(0.8)
