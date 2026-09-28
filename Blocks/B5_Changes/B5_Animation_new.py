@@ -38,18 +38,17 @@ class B5(Scene):
         # ---- 1.a · Resume the market at the B3/B4 equilibrium.
         # The same line equations and thousand-pound units survive the recap.
         # This is a continuous model; don't import B4's discrete welfare totals.
-        head = title('Equilibrium and total surplus')
-        question = Tex('What have markets coordinated?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
-        ax = style_axes([0, 60, 10], [0, 13, 2], x_length=10, y_length=4.6)
-        ax.shift(np.array([-5.0, -2.25, 0]) - ax.c2p(0, 0))
-        axes_words = VGroup(
-            Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.25),
-            Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-                .next_to(ax.c2p(0, 13), RIGHT, buff=0.2),
-            Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-                .next_to(ax.c2p(30, 0), DOWN, buff=0.7))
+        head = title('Equilibrium')
+        question = Tex(r'\textsf{No one has a reason to change.}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        ax = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6)
+        ax.shift(np.array([-2.3, -2.25, 0]) - ax.c2p(0, 0))
+        axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.25)
+        axis_q = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.35)
+        axes_words = VGroup(axis_p,
+            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(axis_p, LEFT, buff=0.12),
+            axis_q,
+            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(axis_q, DOWN, buff=0.08))
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
         supply = Line(ax.c2p(0, 2), ax.c2p(60, 5), color=SUPPLY, stroke_width=3)
         curve_words = VGroup(
@@ -68,7 +67,10 @@ class B5(Scene):
         self.play(FadeIn(p_line), FadeIn(point), FadeIn(q_line), FadeIn(result_words), FadeIn(bottom))
         self.pause('1.a')
 
-        # ---- 1.b · A brief welfare reminder, then clear the areas for change.
+        # ---- 1.b · Add welfare to the equilibrium recap.
+        self.remove(head)
+        head = title('Equilibrium + Welfare')
+        self.play(FadeIn(head))
         cs = Polygon(ax.c2p(0, 4), ax.c2p(0, 12), ax.c2p(40, 4),
                      stroke_width=0, fill_color=DEMAND, fill_opacity=AREA_OPACITY)
         ps = Polygon(ax.c2p(0, 2), ax.c2p(0, 4), ax.c2p(40, 4),
@@ -77,49 +79,34 @@ class B5(Scene):
             Tex('CS', color=DEMAND).scale(0.85).move_to(ax.c2p(12, 6.5)),
             Tex('PS', color=SUPPLY).scale(0.8).move_to(ax.c2p(12, 3.3)))
         self.remove(bottom)
-        bottom = Tex(r'{{Total surplus}} adds the gains to buyers and sellers.',
-                     tex_to_color_map={'Total surplus': DEFINITION}).scale(DEFINITION_SCALE)
+        bottom = Tex(r'{{Total Surplus}} is the sum of the gains for buyers and sellers.',
+                     tex_to_color_map={'Total Surplus': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(cs), FadeIn(ps), FadeIn(welfare_words), FadeIn(bottom))
         self.play(cs.animate.set_fill(TOTAL), ps.animate.set_fill(TOTAL), FadeOut(welfare_words))
-        total_word = Tex('Total surplus', color=TOTAL).scale(0.85).move_to(ax.c2p(14, 6.5))
+        total_word = Tex('Total surplus', color=TOTAL).scale(0.65).move_to(ax.c2p(16, 6.5))
         self.play(FadeIn(total_word))
         self.pause('1.b')
 
-        # ---- 1.c · Return from surplus areas to the people at the $4 price.
-        self.play(FadeOut(cs), FadeOut(ps), FadeOut(total_word), FadeOut(bottom), FadeOut(question))
-        recap_buyer_bars, recap_seller_bars = VGroup(), VGroup()
-        for rank in range(1, 61):
-            mb, mc = max(0.001, 12 - rank / 5), 2 + rank / 20
-            buyer_bar = Polygon(ax.c2p(rank - 0.88, 0), ax.c2p(rank - 0.55, 0),
-                                ax.c2p(rank - 0.55, mb), ax.c2p(rank - 0.88, mb),
-                                stroke_width=0, fill_color=DEMAND if rank <= 40 else MUTED,
-                                fill_opacity=0.55 if rank <= 40 else 0.18, z_index=-2)
-            seller_bar = Polygon(ax.c2p(rank - 0.45, 0), ax.c2p(rank - 0.12, 0),
-                                 ax.c2p(rank - 0.12, mc), ax.c2p(rank - 0.45, mc),
-                                 stroke_width=0, fill_color=SUPPLY if rank <= 40 else MUTED,
-                                 fill_opacity=0.55 if rank <= 40 else 0.18, z_index=-2)
-            recap_buyer_bars.add(buyer_bar)
-            recap_seller_bars.add(seller_bar)
-        self.play(FadeIn(recap_buyer_bars), FadeIn(recap_seller_bars))
+        # The later return to equilibrium uses this same square graph.
         recap_market = VGroup(ax, demand, supply, axes_words, curve_words, point,
-                              p_line, q_line, result_words, recap_buyer_bars, recap_seller_bars).copy()
-        self.pause('1.c')
+                              p_line, q_line, result_words).copy()
 
-        # ---- 2.a · Same-looking lines, deliberately different numerical scales.
-        # One buyer represents one 1,000-unit lot, as in B3/B4.
-        self.play(FadeOut(head), FadeOut(supply), FadeOut(recap_seller_bars),
-                  FadeOut(curve_words), FadeOut(axes_words), FadeOut(result_words))
-        hook_head = title('When the price goes up')
+        # ---- 2.a · Compare two goods, with the question and values present.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+        hook_head = title('Responsiveness to Price')
+        hook_question = Tex(r'\textsf{Which buyers are hit harder?}', color=CAPTION).scale(0.75)
+        hook_question.next_to(hook_head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         hook_price = ValueTracker(4)
         hook_panels, hook_numbers = VGroup(), VGroup()
         hook_buyer_groups, hook_dots, hook_guides = [], [], []
-        for panel_x, good, max_q, max_p, coefficient, unit in [
-                (-3.85, 'Spinach', 60, 12, 0.2, r'thousand lb'),
-                (3.85, 'Chocolate', 120, 6, 0.05, r'thousand bars')]:
+        for panel_x, good, max_q, max_p, coefficient, unit, price_unit, equation_text in [
+                (-3.75, 'Spinach', 60, 12, 0.2, r'thousand lb', r'\$/lb', r'P=12-Q/5'),
+                (3.75, 'Chocolate', 120, 6, 0.05, r'thousand bars', r'\$/bar', r'P=6-Q/20')]:
             hook_ax = style_axes([0, max_q, max_q / 6], [0, max_p, max_p / 6],
-                                 x_length=5.3, y_length=3.5)
-            hook_ax.shift(np.array([panel_x - 2.65, -1.65, 0]) - hook_ax.c2p(0, 0))
+                                 x_length=3.4, y_length=3.4)
+            hook_ax.shift(np.array([panel_x - 1.7, -2.1, 0]) - hook_ax.c2p(0, 0))
             hook_curve = Line(hook_ax.c2p(0, max_p), hook_ax.c2p(max_q, 0),
                               color=DEMAND, stroke_width=3, z_index=2)
             hook_bars = VGroup()
@@ -150,83 +137,71 @@ class B5(Scene):
                 m.ax.c2p((m.intercept - m.source.get_value()) / m.coefficient, 0),
                 m.ax.c2p((m.intercept - m.source.get_value()) / m.coefficient, m.source.get_value()),
                 color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
-            hook_name = Tex(good, color=INK).scale(0.9).move_to([panel_x, 2.22, 0])
-            hook_p = Tex('P', color=INK).scale(0.8).next_to(hook_ax.c2p(0, max_p), UP, buff=0.15)
+            hook_name = Tex(good, color=INK).scale(0.9).move_to([panel_x, 2.25, 0])
+            hook_equation = MathTex(equation_text, color=TITLE).scale(0.8).next_to(hook_name, DOWN, buff=0.16)
+            hook_p = Tex('P', color=INK).scale(0.8).next_to(hook_ax.c2p(0, max_p), UP, buff=0.16)
+            hook_price_unit = Tex(r'\textsf{' + price_unit + '}', color=CAPTION).scale(0.5).next_to(hook_p, LEFT, buff=0.12)
             hook_q = Tex('Q', color=INK).scale(0.8).next_to(hook_ax.c2p(max_q, 0), RIGHT, buff=0.16)
-            hook_unit = Tex(r'\textsf{' + unit + '}', color=CAPTION).scale(0.7).move_to([panel_x, -2.55, 0])
+            hook_unit = Tex(r'\textsf{' + unit + '}', color=CAPTION).scale(0.5).next_to(hook_q, RIGHT, buff=0.12)
+            hook_pn = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.65)
+            hook_pn.ax, hook_pn.source = hook_ax, hook_price
+            hook_pn.add_updater(lambda m: m.set_value(m.source.get_value()).next_to(
+                m.ax.c2p(0, m.source.get_value()), LEFT, buff=0.2))
+            hook_qn = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65)
+            hook_qn.ax, hook_qn.source, hook_qn.intercept, hook_qn.coefficient = hook_ax, hook_price, max_p, coefficient
+            hook_qn.add_updater(lambda m: m.set_value((m.intercept - m.source.get_value()) / m.coefficient).next_to(
+                m.ax.c2p(m.get_value(), 0), DOWN, buff=0.2 + 0.3 * (m.source.get_value() - 4)))
+            hook_pn.update(); hook_qn.update()
             panel = VGroup(hook_ax, hook_curve, hook_bars, hook_h, hook_v, hook_dot,
-                           hook_name, hook_p, hook_q, hook_unit)
+                           hook_name, hook_p, hook_q, hook_unit, hook_price_unit, hook_equation, hook_pn, hook_qn)
             panel.ax, panel.intercept, panel.coefficient = hook_ax, max_p, coefficient
             hook_panels.add(panel)
             hook_buyer_groups.append(hook_bars)
             hook_dots.append(hook_dot)
             hook_guides.extend([hook_h, hook_v])
-            numerals = VGroup(
-                Tex(str(max_p), color=INK).scale(0.65).next_to(hook_ax.c2p(0, max_p), LEFT, buff=0.2),
-                Tex(str(max_q), color=INK).scale(0.65).next_to(hook_ax.c2p(max_q, 0), DOWN, buff=0.2),
-                Tex('4', color=CAPTION).scale(0.65).next_to(hook_ax.c2p(0, 4), LEFT, buff=0.2),
-                Tex('40', color=CAPTION).scale(0.65).next_to(hook_ax.c2p(40, 0), DOWN, buff=0.18),
-                Tex('5', color=GUIDE).scale(0.65).next_to(hook_ax.c2p(0, 5), LEFT, buff=0.2),
-                Tex(str(round((max_p - 5) / coefficient)), color=GUIDE).scale(0.65)
-                    .next_to(hook_ax.c2p((max_p - 5) / coefficient, 0), DOWN, buff=0.52))
-            hook_numbers.add(numerals)
-        self.play(FadeIn(hook_head),
-                  ReplacementTransform(ax, hook_panels[0][0]),
-                  ReplacementTransform(demand, hook_panels[0][1]),
-                  ReplacementTransform(recap_buyer_bars, hook_panels[0][2]),
-                  ReplacementTransform(p_line, hook_panels[0][3]),
-                  ReplacementTransform(q_line, hook_panels[0][4]),
-                  ReplacementTransform(point, hook_panels[0][5]),
-                  *[FadeIn(m) for m in hook_panels[0][6:]], FadeIn(hook_panels[1]), run_time=1.5)
-        self.remove(*hook_panels[0])
-        self.add(hook_panels[0])
+            hook_numbers.add(VGroup(
+                Tex(str(max_p), color=CAPTION).scale(0.6).next_to(hook_ax.c2p(0, max_p), LEFT, buff=0.2),
+                Tex(str(max_q), color=CAPTION).scale(0.6).next_to(hook_ax.c2p(max_q, 0), DOWN, buff=0.2)))
+        self.play(FadeIn(hook_head), FadeIn(hook_question), FadeIn(hook_panels), FadeIn(hook_numbers))
         self.pause('2.a')
 
-        # ---- 2.b · Pause before moving either price so the class can vote.
-        hook_question = Tex('Which buyers are hit harder?', color=DEFINITION).scale(0.75)
-        hook_question.next_to(hook_head, DOWN, buff=0.18, aligned_edge=LEFT)
-        self.play(FadeIn(hook_question))
-        self.pause('2.b')
-
-        # ---- 2.c · The same dollar increase crosses five versus twenty buyers.
-        hook_old_choices = VGroup(*[
-            Dot(panel.ax.c2p(40, 4), color=MUTED, radius=0.055, z_index=11)
-            for panel in hook_panels])
+        # ---- 2.c · Retain the initial coordinates as the live price rises.
+        hook_old_choices = VGroup()
+        for panel in hook_panels:
+            ghost = VGroup(*[panel[i].copy().clear_updaters() for i in (3, 4, 5, 12, 13)])
+            ghost.set_color(CAPTION).set_opacity(0.65)
+            hook_old_choices.add(ghost)
         self.add(hook_old_choices)
         self.play(hook_price.animate.set_value(5), run_time=2.5, rate_func=smooth)
         self.pause('2.c')
 
-        # ---- 2.d · Count the people who leave each market.
-        hook_counts = VGroup(
-            Tex('5 buyers drop out', color=INK).scale(0.8).move_to([-3.85, -3.02, 0]),
-            Tex('20 buyers drop out', color=INK).scale(0.8).move_to([3.85, -3.02, 0]))
-        self.play(FadeIn(hook_counts))
+        # ---- 2.d · Horizontal spans measure the quantities forgone.
+        hook_changes = VGroup()
+        for panel in hook_panels:
+            final_q = (panel.intercept - 5) / panel.coefficient
+            left_end = panel.ax.c2p(final_q, 0) + DOWN * 0.87
+            right_end = panel.ax.c2p(40, 0) + DOWN * 0.87
+            hook_changes.add(VGroup(
+                Line(left_end, right_end, color=FOCUS, stroke_width=4),
+                Line(left_end + DOWN * 0.07, left_end + UP * 0.07, color=FOCUS, stroke_width=2),
+                Line(right_end + DOWN * 0.07, right_end + UP * 0.07, color=FOCUS, stroke_width=2)))
+        self.play(FadeIn(hook_changes))
         self.pause('2.d')
 
-        # ---- 2.e · Gary stays: his $6 benefit is still above the new price.
-        hook_gary = hook_buyer_groups[0][29]
-        hook_gary.set_stroke(DEMAND, width=2)
-        hook_gary_name = Tex('Gary', color=INK).scale(0.75).next_to(hook_gary.get_top(), UR, buff=0.18)
-        self.play(FadeIn(hook_gary_name))
-        self.pause('2.e')
-
-        # ---- 2.f · Reveal why identical-looking lines had different responses.
-        self.play(FadeIn(hook_numbers))
-        self.pause('2.f')
-
-        # ---- 2.g · Name the responses without introducing the formula yet.
+        # ---- 2.g · Describe responsiveness directly under each comparison.
         hook_classes = VGroup(
-            Tex('Inelastic', color=DEFINITION).scale(0.85).move_to([-3.85, -3.5, 0]),
-            Tex('Elastic', color=DEFINITION).scale(0.85).move_to([3.85, -3.5, 0]))
+            Tex(r'{{Inelastic}}: a relatively small change in quantity.', tex_to_color_map={'Inelastic': DEFINITION})
+                .scale(0.62).move_to([-3.75, -3.4, 0]),
+            Tex(r'{{Elastic}}: a relatively large change in quantity.', tex_to_color_map={'Elastic': DEFINITION})
+                .scale(0.62).move_to([3.75, -3.4, 0]))
         self.play(FadeIn(hook_classes))
-        hook_recall = VGroup(hook_head, hook_panels[0], hook_panels[1], hook_old_choices, hook_numbers, hook_gary_name).copy()
+        hook_recall = VGroup(hook_head, hook_panels, hook_old_choices, hook_numbers).copy()
         self.pause('2.g')
 
-        # ---- 3.a · Keep the comparison on screen for the slope question.
-        self.remove(hook_question)
-        hook_question = Tex('Is it the slope?', color=DEFINITION).scale(0.75)
-        hook_question.next_to(hook_head, DOWN, buff=0.18, aligned_edge=LEFT)
-        self.play(FadeIn(hook_question))
+        # ---- 3.a · Put the slope question in the bottom prompt strip.
+        slope_question = Tex('Is it the slope?', color=FOCUS).scale(DEFINITION_SCALE)
+        slope_question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(slope_question))
         self.pause('3.a')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
@@ -235,21 +210,21 @@ class B5(Scene):
         # The scales and curve are identical; only the selected interval differs.
         self.clear()
         head = title('Price elasticity of demand')
-        question = Tex('Does the same price change mean the same response?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{Does the same price change mean the same response?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         self.play(FadeIn(head), FadeIn(question))
         elasticity_panels = VGroup()
         elasticity_prices = [ValueTracker(11), ValueTracker(2)]
         for panel_x, price_source in zip([-3.75, 3.75], elasticity_prices):
-            ea = style_axes([0, 60, 10], [0, 12, 2], x_length=5.55, y_length=3.9)
+            ea = style_axes([0, 60, 10], [0, 12, 2], x_length=3.9, y_length=3.9)
             ea.shift(np.array([panel_x, BODY_MID + 0.15, 0])
                      - (ea.c2p(0, 0) + ea.c2p(60, 12)) / 2)
             ed = Line(ea.c2p(0, 12), ea.c2p(60, 0), color=DEMAND, stroke_width=4)
             es = Line(ea.c2p(0, 2), ea.c2p(60, 5), color=SUPPLY, stroke_width=4)
-            ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
-            eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35).shift(RIGHT * 0.6)
-            eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-            eu.next_to(eq, DOWN, buff=0.12).shift(LEFT * 0.6)
+            ep = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
+            eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
+            eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
+            eu.next_to(eq, DOWN, buff=0.08)
             ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
             equation = MathTex(r'P=12-Q/5', color=INK).scale(0.8)
             equation.move_to(ea.c2p(37, 11))
@@ -322,14 +297,14 @@ class B5(Scene):
         # is concatenated with the other: the denominator is visibly a midpoint.
         self.clear()
         head = title('Measuring elasticity')
-        question = Tex('How responsive are buyers?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
-        ea = style_axes([0, 60, 10], [0, 12, 2], x_length=5.5, y_length=4.3)
+        question = Tex(r'\textsf{How responsive are buyers?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        ea = style_axes([0, 60, 10], [0, 12, 2], x_length=4.3, y_length=4.3)
         ea.shift(np.array([-3.9, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(60, 12)) / 2)
         ed = Line(ea.c2p(0, 12), ea.c2p(60, 0), color=DEMAND, stroke_width=4)
-        ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
-        eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35).shift(RIGHT * 0.6)
-        eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7).next_to(eq, DOWN, buff=0.12).shift(LEFT * 0.6)
+        ep = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
+        eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
+        eu = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(eq, DOWN, buff=0.08)
         ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
         equation = MathTex(r'P=12-Q/5').scale(0.8).move_to(ea.c2p(36, 11))
         e_divider = Line([0.2, -2.85, 0], [0.2, 2.55, 0], color=MUTED, stroke_width=1)
@@ -577,12 +552,12 @@ class B5(Scene):
         # ---- 5.a · At one extreme, quantity does not respond at all.
         self.clear()
         head = title('The extremes of elasticity')
-        question = Tex('How far can responsiveness go?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
-        ea = style_axes([0, 2, 1], [0, 12, 2], x_length=5.3, y_length=3.6)
+        question = Tex(r'\textsf{How far can responsiveness go?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        ea = style_axes([0, 2, 1], [0, 12, 2], x_length=3.6, y_length=3.6)
         ea.shift(np.array([-3.7, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(2, 12)) / 2)
-        ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
-        eq = Tex('Q').scale(0.8).next_to(ea.c2p(2, 0), DOWN, buff=0.35)
+        ep = VGroup(Tex(r'\textsf{\$/pack}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
+        eq = VGroup(Tex('Q').scale(0.8), Tex(r'\textsf{packs/year}', color=CAPTION).scale(0.5)).arrange(DOWN, buff=0.08).next_to(ea.c2p(2, 0), DOWN, buff=0.35)
         vertical_demand = Line(ea.c2p(1, 0), ea.c2p(1, 12), color=DEMAND, stroke_width=4)
         vertical_label = Tex('D').scale(0.8).next_to(vertical_demand, RIGHT, buff=0.15).align_to(vertical_demand, UP)
         extreme_price = ValueTracker(9)
@@ -607,10 +582,10 @@ class B5(Scene):
         self.pause('5.a')
 
         # ---- 5.b · At the other extreme, the curve is horizontal.
-        right_ax = style_axes([0, 60, 10], [0, 12, 2], x_length=5.3, y_length=3.6)
+        right_ax = style_axes([0, 60, 10], [0, 12, 2], x_length=3.6, y_length=3.6)
         right_ax.shift(np.array([3.7, BODY_MID, 0]) - (right_ax.c2p(0, 0) + right_ax.c2p(60, 12)) / 2)
-        right_p = Tex('P').scale(0.8).next_to(right_ax.c2p(0, 12), LEFT, buff=0.25)
-        right_q = Tex('Q').scale(0.8).next_to(right_ax.c2p(60, 0), DOWN, buff=0.35)
+        right_p = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(right_ax.c2p(0, 12), LEFT, buff=0.25)
+        right_q = VGroup(Tex('Q').scale(0.8), Tex(r'\textsf{lb}', color=CAPTION).scale(0.5)).arrange(DOWN, buff=0.08).next_to(right_ax.c2p(60, 0), DOWN, buff=0.35)
         horizontal_demand = Line(right_ax.c2p(0, 4), right_ax.c2p(60, 4), color=DEMAND, stroke_width=4)
         horizontal_label = Tex('D').scale(0.8).next_to(horizontal_demand, RIGHT, buff=0.15)
         extreme_quantity = ValueTracker(10)
@@ -660,14 +635,14 @@ class B5(Scene):
         # yields (20/50)/(1/4.5)=1.8; price and quantity move together.
         self.clear()
         head = title('Price elasticity of supply')
-        question = Tex('How responsive are sellers?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
-        sa = style_axes([0, 80, 20], [0, 8, 2], x_length=5.5, y_length=4.3)
+        question = Tex(r'\textsf{How responsive are sellers?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        sa = style_axes([0, 80, 20], [0, 8, 2], x_length=4.3, y_length=4.3)
         sa.shift(np.array([-3.9, BODY_MID, 0]) - (sa.c2p(0, 0) + sa.c2p(80, 8)) / 2)
         supply = Line(sa.c2p(0, 2), sa.c2p(80, 6), color=SUPPLY, stroke_width=4)
-        sp = Tex('P').scale(0.8).next_to(sa.c2p(0, 8), LEFT, buff=0.25)
+        sp = VGroup(Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(sa.c2p(0, 8), LEFT, buff=0.25)
         sq = Tex('Q').scale(0.8).next_to(sa.c2p(80, 0), DOWN, buff=0.35)
-        su = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7).next_to(sq, DOWN, buff=0.12)
+        su = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(sq, DOWN, buff=0.12)
         supply_label = Tex('S').scale(0.8).next_to(sa.c2p(80, 6), RIGHT, buff=0.15)
         supply_equation = MathTex(r'P=2+Q_s/20').scale(0.8).move_to(sa.c2p(39, 7.3))
         supply_price = ValueTracker(4)
@@ -744,7 +719,7 @@ class B5(Scene):
         # ---- 7.a · Return to the same market before changing the curves.
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
-        curve_question = Tex('What if the curves move instead?', color=DEFINITION).scale(0.9)
+        curve_question = Tex(r'\textsf{What if the curves move instead?}', color=CAPTION).scale(0.9)
         curve_question.to_edge(UP, buff=0.75)
         self.play(FadeIn(recap_market), FadeIn(curve_question))
         self.pause('7.a')
@@ -755,17 +730,16 @@ class B5(Scene):
         # Selecting Q=30 gives MB=$6 in the market ordering. His bar is a
         # representative marginal lot, not an individual demand schedule.
         head = title('A change in preferences')
-        question = Tex('What if spinach is healthier than we thought?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
-        ax = style_axes([0, 90, 20], [0, 18, 4], x_length=7.2, y_length=4.6)
+        question = Tex(r'\textsf{What if spinach is healthier than we thought?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        ax = style_axes([0, 90, 20], [0, 18, 4], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
-        axes_words = VGroup(
-            Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 18), LEFT, buff=0.25),
-            Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-                .next_to(ax.c2p(0, 18), RIGHT, buff=0.2),
-            Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(90, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-                .next_to(ax.c2p(45, 0), DOWN, buff=0.75))
+        axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 18), LEFT, buff=0.25)
+        axis_q = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(90, 0), DOWN, buff=0.35)
+        axes_words = VGroup(axis_p,
+            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(axis_p, LEFT, buff=0.12),
+            axis_q,
+            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(axis_q, DOWN, buff=0.08))
         demand = Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3)
         supply = Line(ax.c2p(0, 2), ax.c2p(90, 6.5), color=SUPPLY, stroke_width=3).set_opacity(0.3)
         demand_word = Tex('D', color=INK).scale(0.8).next_to(ax.c2p(60, 0), UR, buff=0.18)
@@ -778,7 +752,7 @@ class B5(Scene):
         self.pause('7.b')
 
         # ---- 7.c · Bring that one bar forward; raise willingness to pay only.
-        # The axes and supply stay still. The market-wide shift comes in 3.b.
+        # The axes and supply stay still. The market-wide shift comes in 8.b.
         benefit = ValueTracker(6)
         gary_base = np.array([4.0, -1.8, 0])
         gary_bar = Line(gary_base, gary_base + UP * 2.0, color=DEMAND, stroke_width=20)
@@ -806,8 +780,8 @@ class B5(Scene):
         # ---- 8.a · Own price changes the selected point, never the curve.
         self.remove(head, question)
         head = title('Demand: movement and shift')
-        question = Tex('Did demand change, or did the price change?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{Did demand change, or did the price change?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         price = ValueTracker(4)
         shift = ValueTracker(0)
         demand_slope = ValueTracker(0.2)
@@ -941,8 +915,8 @@ class B5(Scene):
         self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2]))
         self.remove(head, question, bottom)
         head = title('Demand shifters')
-        question = Tex('What else changes demand for spinach?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         bottom = Tex(r'{{Normal goods}}: higher income increases demand.',
                      tex_to_color_map={'Normal goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -957,8 +931,8 @@ class B5(Scene):
         self.remove(bottom)
         self.remove(head, question)
         head = title('Demand shifters')
-        question = Tex('What if the good is instant noodles?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What if the good is instant noodles?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         self.play(FadeIn(head), FadeIn(question))
         bottom = Tex(r'{{Inferior goods}}: higher income decreases demand.',
                      tex_to_color_map={'Inferior goods': DEFINITION}).scale(DEFINITION_SCALE)
@@ -977,8 +951,8 @@ class B5(Scene):
         self.remove(bottom)
         self.remove(head, question)
         head = title('Demand shifters')
-        question = Tex('What else changes demand for spinach?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What else changes demand for spinach?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         self.play(FadeIn(head), FadeIn(question))
         bottom = Tex(r'{{Substitutes}} can take each other\textquotesingle s place.',
                      tex_to_color_map={'Substitutes': DEFINITION}).scale(DEFINITION_SCALE)
@@ -1005,8 +979,8 @@ class B5(Scene):
         self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
         self.remove(bottom, question, demand_equation)
         self.play(FadeOut(a_readout), FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
-        question = Tex(r'What if we add 25\% more identical buyers?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What if we add 25\% more identical buyers?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         demand_entry_equation = MathTex(r'P=12-cQ',
             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'c': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
         c_number = DecimalNumber(0.2, num_decimal_places=2, color=DEFINITION).scale(0.8)
@@ -1029,17 +1003,16 @@ class B5(Scene):
 
         # ---- 9.a · Price alone moves along an unchanged supply curve.
         head = title('Supply: movement and shift')
-        question = Tex('Did supply change, or did the price change?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
-        ax = style_axes([0, 100, 20], [0, 9, 2], x_length=7.2, y_length=4.6)
+        question = Tex(r'\textsf{Did supply change, or did the price change?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        ax = style_axes([0, 100, 20], [0, 9, 2], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
-        axes_words = VGroup(
-            Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 9), LEFT, buff=0.25),
-            Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-                .next_to(ax.c2p(0, 9), RIGHT, buff=0.2),
-            Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(100, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-                .next_to(ax.c2p(50, 0), DOWN, buff=0.75))
+        axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 9), LEFT, buff=0.25)
+        axis_q = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(100, 0), DOWN, buff=0.35)
+        axes_words = VGroup(axis_p,
+            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5).next_to(axis_p, LEFT, buff=0.12),
+            axis_q,
+            Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(axis_q, DOWN, buff=0.08))
         price = ValueTracker(4)
         cost_shift = ValueTracker(0)
         supply_slope = ValueTracker(0.05)
@@ -1136,8 +1109,8 @@ class B5(Scene):
         self.add(before_supply)
         self.remove(head, question, bottom)
         head = title('Supply shifters')
-        question = Tex('What changes the cost of growing spinach?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         bottom = Tex(r'A change in {{supply}} shifts the whole curve.',
                      tex_to_color_map={'supply': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -1178,8 +1151,8 @@ class B5(Scene):
         self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3]))
         self.remove(bottom, question, supply_equation)
         self.play(FadeOut(b_readout), FadeOut(b_span), FadeOut(b_anchor), FadeOut(b_cap), FadeOut(b_label))
-        question = Tex(r'What if we add 25\% more identical sellers?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What if we add 25\% more identical sellers?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         supply_entry_equation = MathTex(r'P=2+dQ',
             tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'd': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
         d_number = DecimalNumber(0.05, num_decimal_places=2, color=DEFINITION).scale(0.8)
@@ -1199,8 +1172,8 @@ class B5(Scene):
         # ---- 9.f · Technology lowers cost and expands supply.
         self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4]))
         self.remove(bottom, question, supply_entry_equation, d_readout)
-        question = Tex('What changes the cost of growing spinach?', color=DEFINITION).scale(0.75)
-        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        question = Tex(r'\textsf{What changes the cost of growing spinach?}', color=CAPTION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT).shift(RIGHT * 0.35)
         bottom = Tex('Lower costs increase supply at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(question), FadeIn(supply_equation), FadeIn(b_readout), FadeIn(b_span),
@@ -1217,15 +1190,15 @@ class B5(Scene):
         # separate motion on the schedules that now exist.
         self.clear()
         head = title('Comparative statics')
-        cs_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=7.2, y_length=4.5)
+        cs_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         cs_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (cs_ax.c2p(0, 0) + cs_ax.c2p(90, 18)) / 2)
         cs_p_name = Tex('P', color=INK).scale(0.8).next_to(cs_ax.c2p(0, 18), LEFT, buff=0.18)
-        cs_p_units = Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-        cs_p_units.next_to(cs_ax.c2p(0, 18), RIGHT, buff=0.2)
+        cs_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
+        cs_p_units.next_to(cs_p_name, LEFT, buff=0.12)
         cs_q_name = Tex('Q', color=INK).scale(0.8).next_to(cs_ax.c2p(90, 0), DOWN, buff=0.2)
-        cs_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-        cs_q_units.next_to(cs_ax.c2p(45, 0), DOWN, buff=1.08)
+        cs_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
+        cs_q_units.next_to(cs_q_name, DOWN, buff=0.08)
         cs_divider_x = max(cs_q_name.get_right()[0], cs_q_units.get_right()[0]) + 0.35
         cs_divider = Line([cs_divider_x, BODY_BOTTOM, 0], [cs_divider_x, BODY_TOP, 0],
                           color=MUTED, stroke_width=1).set_opacity(0.5)
@@ -1483,15 +1456,15 @@ class B5(Scene):
 
         # ---- 10.l · Fertilizer starts on its own freshly restored market.
         head = title('A change in supply')
-        ss_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=7.2, y_length=4.5)
+        ss_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         ss_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (ss_ax.c2p(0, 0) + ss_ax.c2p(90, 18)) / 2)
         ss_p_name = Tex('P', color=INK).scale(0.8).next_to(ss_ax.c2p(0, 18), LEFT, buff=0.18)
-        ss_p_units = Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-        ss_p_units.next_to(ss_ax.c2p(0, 18), RIGHT, buff=0.2)
+        ss_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
+        ss_p_units.next_to(ss_p_name, LEFT, buff=0.12)
         ss_q_name = Tex('Q', color=INK).scale(0.8).next_to(ss_ax.c2p(90, 0), DOWN, buff=0.2)
-        ss_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-        ss_q_units.next_to(ss_ax.c2p(45, 0), DOWN, buff=1.08)
+        ss_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
+        ss_q_units.next_to(ss_q_name, DOWN, buff=0.08)
         ss_divider_x = max(ss_q_name.get_right()[0], ss_q_units.get_right()[0]) + 0.35
         ss_divider = Line([ss_divider_x, BODY_BOTTOM, 0], [ss_divider_x, BODY_TOP, 0],
                           color=MUTED, stroke_width=1).set_opacity(0.5)
@@ -1647,15 +1620,15 @@ class B5(Scene):
         # baseline. These moving intersections compare equilibria; they do not
         # assert that a real market's adjustment follows this transition path.
         head = title('Both curves shift')
-        both_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=8.4, y_length=4.5)
+        both_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         both_ax.shift(np.array([-1.2, BODY_MID + 0.18, 0])
                       - (both_ax.c2p(0, 0) + both_ax.c2p(90, 18)) / 2)
         both_p_name = Tex('P', color=INK).scale(0.8).next_to(both_ax.c2p(0, 18), LEFT, buff=0.18)
-        both_p_units = Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-        both_p_units.next_to(both_ax.c2p(0, 18), RIGHT, buff=0.2)
+        both_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
+        both_p_units.next_to(both_p_name, LEFT, buff=0.12)
         both_q_name = Tex('Q', color=INK).scale(0.8).next_to(both_ax.c2p(90, 0), DOWN, buff=0.2)
-        both_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-        both_q_units.next_to(both_q_name, DOWN, buff=0.15).align_to(both_q_name, RIGHT)
+        both_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5)
+        both_q_units.next_to(both_q_name, DOWN, buff=0.08)
         both_a, both_b = ValueTracker(0), ValueTracker(0)
         # Keep both changes measurable while the outcome record accumulates.
         both_a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
@@ -1812,10 +1785,10 @@ class B5(Scene):
         head = title('Elasticity and market changes')
         question = Tex('How much changes in price, and how much in quantity?', color=DEFINITION).scale(DEFINITION_SCALE)
         question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        elastic_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=5.65, y_length=4.2)
+        elastic_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.2, y_length=4.2)
         elastic_ax.shift(np.array([-3.75, BODY_MID + 0.13, 0])
                          - (elastic_ax.c2p(0, 0) + elastic_ax.c2p(90, 18)) / 2)
-        inelastic_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=5.65, y_length=4.2)
+        inelastic_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.2, y_length=4.2)
         inelastic_ax.shift(np.array([3.75, BODY_MID + 0.13, 0])
                            - (inelastic_ax.c2p(0, 0) + inelastic_ax.c2p(90, 18)) / 2)
         elastic_name = Tex('More elastic supply', color=INK).scale(0.8).move_to([-3.75, 2.58, 0])
@@ -1824,14 +1797,11 @@ class B5(Scene):
         # Repeated geometry only; all animation order remains below in construct.
         for panel_ax in (elastic_ax, inelastic_ax):
             panel_p = Tex('P', color=INK).scale(0.8).next_to(panel_ax.c2p(0, 18), LEFT, buff=0.16)
-            panel_p_units = Tex(r'\textsf{dollars per lb}', color=CAPTION).scale(0.7)
-            panel_p_units.next_to(panel_ax.c2p(0, 18), RIGHT, buff=0.17)
+            panel_p_units = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.5)
+            panel_p_units.next_to(panel_p, LEFT, buff=0.12)
             panel_q = Tex('Q', color=INK).scale(0.8).next_to(panel_ax.c2p(90, 0), DOWN, buff=0.2)
-            panel_axes_words.add(panel_p, panel_p_units, panel_q)
-        # Shared quantity units sit in the gap, clear of both change equations.
-        panel_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.7)
-        panel_q_units.move_to([0, -2.8, 0])
-        panel_axes_words.add(panel_q_units)
+            panel_q_units = Tex(r'\textsf{thousand lb}', color=CAPTION).scale(0.5).next_to(panel_q, DOWN, buff=0.08)
+            panel_axes_words.add(panel_p, panel_p_units, panel_q, panel_q_units)
         panel_a = ValueTracker(0)
         elastic_d_before = Line(elastic_ax.c2p(0, 12), elastic_ax.c2p(60, 0), color=MUTED, stroke_width=2)
         inelastic_d_before = Line(inelastic_ax.c2p(0, 12), inelastic_ax.c2p(60, 0), color=MUTED, stroke_width=2)
