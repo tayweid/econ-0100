@@ -1500,11 +1500,6 @@ class B5(Scene):
         molly_units = Tex(r'MC (\$/lb)', color=CAPTION).scale(0.65).move_to([6.25, 2.25, 0])
         molly_old_top = DashedLine([5.7, 0, 0], [6.8, 0, 0], color=MUTED)
         molly_old_number = Tex('3', color=CAPTION).scale(0.7).next_to(molly_old_top, RIGHT, buff=0.15)
-        molly_graph_old_top = DashedLine(ax.c2p(15, 3), ax.c2p(25, 3), color=MUTED, stroke_width=2, z_index=4)
-        molly_graph_old_top.ax, molly_graph_old_top.slope = ax, supply_slope
-        molly_graph_old_top.add_updater(lambda line: line.become(DashedLine(
-            line.ax.c2p(1 / line.slope.get_value() - 5, 3), line.ax.c2p(1 / line.slope.get_value() + 5, 3),
-            color=MUTED, stroke_width=2, z_index=4).set_style(**line.get_style())))
         molly_gain = VMobject(stroke_color=FOCUS, stroke_width=2, fill_opacity=0)
         molly_gain.base, molly_gain.source = molly_base, cost_shift
         molly_gain.add_updater(lambda box: box.set_points_as_corners([
@@ -1529,13 +1524,6 @@ class B5(Scene):
         molly_number.add_updater(lambda number: number.set_value(3 + number.source.get_value()).next_to(
             number.base + RIGHT * 0.55 + UP * 0.6 * (3 + number.source.get_value()), RIGHT, buff=0.15)
             .set_opacity(np.clip((abs(number.source.get_value()) - 0.4) * 4, 0, 1)))
-        molly_graph_new_top = DashedLine(ax.c2p(15, 3), ax.c2p(25, 3), color=SUPPLY, stroke_width=2, z_index=4)
-        molly_graph_new_top.ax, molly_graph_new_top.source, molly_graph_new_top.slope = ax, cost_shift, supply_slope
-        molly_graph_new_top.add_updater(lambda line: line.become(DashedLine(
-            line.ax.c2p(1 / line.slope.get_value() - 5, 3 + line.source.get_value()),
-            line.ax.c2p(1 / line.slope.get_value() + 5, 3 + line.source.get_value()),
-            color=SUPPLY, stroke_width=2, z_index=4).set_style(**line.get_style()))
-            .set_opacity(np.clip(abs(line.source.get_value()) * 4, 0, 1)))
         molly_price = DashedLine([5.7, 0.6, 0], [6.8, 0.6, 0], color=GUIDE)
         molly_price_word = Tex('4', color=GUIDE).scale(0.7).next_to(molly_price, RIGHT, buff=0.15)
         molly_check = MathTex(r'\checkmark', color=GREEN).scale(0.85).move_to([6.25, 1.4, 0])
@@ -1546,9 +1534,9 @@ class B5(Scene):
         molly_cross.add_updater(lambda mark: mark.set_opacity(1 if 3 + mark.source.get_value() > 4 else 0))
         self.play(FadeIn(seller_bars), FadeIn(molly_selection))
         self.play(TransformFromCopy(molly_selection, molly_bar), FadeIn(molly_name), FadeIn(molly_units))
-        self.play(FadeIn(molly_old_top), FadeIn(molly_old_number), FadeIn(molly_graph_old_top),
+        self.play(FadeIn(molly_old_top), FadeIn(molly_old_number),
                   FadeIn(molly_price), FadeIn(molly_price_word))
-        self.add(molly_gain, molly_graph_gain, molly_new_top, molly_number, molly_graph_new_top,
+        self.add(molly_gain, molly_graph_gain, molly_new_top, molly_number,
                  molly_check, molly_cross)
         self.pause('9.a1')
         for mob in (molly_check, molly_cross):
