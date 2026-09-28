@@ -921,8 +921,6 @@ class B5(Scene):
 
         # ---- 7.b · Price first moves the selected point along fixed demand.
         head = title('Shifters: Demand')
-        question = Tex(r'\mbox{\textsf{The price changes; willingness to pay stays the same.}}', color=CAPTION).scale(0.55)
-        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ax = style_axes([0, 90, 20], [0, 18, 4], x_length=4.6, y_length=4.6)
         ax.shift(np.array([-6.25, -2.25, 0]) - ax.c2p(0, 0))
         axis_p = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 18), LEFT, buff=0.25)
@@ -983,7 +981,7 @@ class B5(Scene):
                      tex_to_color_map={'quantity demanded': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         curve_equation = MathTex(r'P=12-Q/5', color=DEMAND).scale(0.8).move_to([-3.6, 1.35, 0])
-        self.play(FadeIn(head), FadeIn(question), FadeIn(ax), FadeIn(axes_words), FadeIn(demand),
+        self.play(FadeIn(head), FadeIn(ax), FadeIn(axes_words), FadeIn(demand),
                   FadeIn(demand_word), FadeIn(demand_p_intercept), FadeIn(demand_q_intercept),
                   FadeIn(demand_q_intercept_tick), FadeIn(curve_equation))
         self.play(FadeIn(p_line), FadeIn(point), FadeIn(p_number))
@@ -1086,7 +1084,7 @@ class B5(Scene):
         self.play(FadeOut(gary_check), FadeOut(gary_cross), FadeOut(gary_price_line), FadeOut(gary_price_number))
 
         # ---- 7.e · Preferences raise Gary's MB while the price stays fixed.
-        self.remove(question, bottom)
+        self.remove(bottom)
         question = Tex(r'\mbox{\textsf{Buyers place a higher value on spinach.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'A change in {{preferences}} moves the curve itself.',
