@@ -1153,7 +1153,7 @@ class B5(Scene):
             m.ax.c2p(0, 12) + LEFT * 0.85,
             m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.85]))
         a_anchor = Line(ax.c2p(0, 12) + LEFT * 1.0, ax.c2p(0, 12) + LEFT * 0.7,
-                        color=MUTED, stroke_width=2)
+                        color=DEFINITION, stroke_width=2)
         a_cap = Line(ax.c2p(0, 12) + LEFT * 1.0, ax.c2p(0, 12) + LEFT * 0.7,
                      color=DEFINITION, stroke_width=2)
         a_cap.ax, a_cap.source = ax, shift
@@ -1579,7 +1579,7 @@ class B5(Scene):
             m.ax.c2p(0, 12) + LEFT * 0.8,
             m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8]))
         cs_a_anchor = Line(cs_ax.c2p(0, 12) + LEFT * 0.95,
-                               cs_ax.c2p(0, 12) + LEFT * 0.65, color=MUTED, stroke_width=2)
+                               cs_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         cs_a_cap = Line(cs_ax.c2p(0, 12) + LEFT * 0.95,
                             cs_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         cs_a_cap.ax, cs_a_cap.source = cs_ax, cs_a
@@ -1986,7 +1986,7 @@ class B5(Scene):
             m.ax.c2p(0, 12) + LEFT * 0.8,
             m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.8]))
         both_a_anchor = Line(both_ax.c2p(0, 12) + LEFT * 0.95,
-                               both_ax.c2p(0, 12) + LEFT * 0.65, color=MUTED, stroke_width=2)
+                               both_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         both_a_cap = Line(both_ax.c2p(0, 12) + LEFT * 0.95,
                             both_ax.c2p(0, 12) + LEFT * 0.65, color=DEFINITION, stroke_width=2)
         both_a_cap.ax, both_a_cap.source = both_ax, both_a
