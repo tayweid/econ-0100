@@ -111,7 +111,7 @@ First, we’re going to show how prices and quantities, our coordination device,
 // | 3.f · Higher income decreases demand for an inferior good.
 // | 3.g · More expensive romaine increases demand for spinach.
 // | 3.h · More expensive dressing decreases demand for spinach.
-// | 3.i · More buyers increase market demand.
+// | 3.i · More identical buyers flatten market demand; show the changing slope coefficient.
 // /plass:comment
 // plass:comment
 // | Editor. Proposed passage for B5.1's first standard: a movement along the curve versus a shift, and a change in quantity demanded versus a change in demand. No passage for this existed in B1, B2, or here.
@@ -153,7 +153,7 @@ Everyone is willing to buy more spinach at every price or alternatively everyone
 // | 4.b · Molly’s costs raise b. Measure the shift in gold and begin the supply list.
 // | 4.c · Cheaper fertilizer lowers costs and increases supply.
 // | 4.d · More valuable carrots raise the opportunity cost of spinach.
-// | 4.e · More sellers increase market supply.
+// | 4.e · More identical sellers flatten market supply; show the changing slope coefficient.
 // | 4.f · Better harvesting technology lowers costs and increases supply.
 // /plass:comment
 {++The same distinction holds for sellers. A change in the price of spinach moves Molly along her supply curve. That’s a change in the quantity supplied. Anything else that changes her costs shifts the whole curve. That’s a change in supply.++}

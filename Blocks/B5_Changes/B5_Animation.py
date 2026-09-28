@@ -147,30 +147,36 @@ class B5(Scene):
         question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
         price = ValueTracker(4)
         shift = ValueTracker(0)
-        demand.ax, demand.shift_value = ax, shift
+        demand_slope = ValueTracker(0.2)
+        demand.ax, demand.shift_value, demand.slope = ax, shift, demand_slope
         demand.add_updater(lambda m: m.put_start_and_end_on(
             m.ax.c2p(0, 12 + m.shift_value.get_value()),
-            m.ax.c2p(60 + 5 * m.shift_value.get_value(), 0)))
+            m.ax.c2p((12 + m.shift_value.get_value()) / m.slope.get_value(), 0)))
         demand_word.curve = demand
         demand_word.add_updater(lambda m: m.next_to(m.curve.get_end(), UR, buff=0.18))
         point = Dot(ax.c2p(40, 4), color=GUIDE, radius=0.065, z_index=12)
         point.ax, point.price, point.shift_value = ax, price, shift
-        point.add_updater(lambda m: m.move_to(m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value())))
+        point.slope = demand_slope
+        point.add_updater(lambda m: m.move_to(m.ax.c2p(
+            (12 + m.shift_value.get_value() - m.price.get_value()) / m.slope.get_value(), m.price.get_value())))
         p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         p_line.ax, p_line.price, p_line.shift_value = ax, price, shift
+        p_line.slope = demand_slope
         p_line.add_updater(lambda m: m.become(DashedLine(m.ax.c2p(0, m.price.get_value()),
-            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
+            m.ax.c2p((12 + m.shift_value.get_value() - m.price.get_value()) / m.slope.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
         q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         q_line.ax, q_line.price, q_line.shift_value = ax, price, shift
+        q_line.slope = demand_slope
         q_line.add_updater(lambda m: m.become(DashedLine(
-            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), 0),
-            m.ax.c2p(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
+            m.ax.c2p((12 + m.shift_value.get_value() - m.price.get_value()) / m.slope.get_value(), 0),
+            m.ax.c2p((12 + m.shift_value.get_value() - m.price.get_value()) / m.slope.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
         p_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.8)
         p_number.ax, p_number.price = ax, price
         p_number.add_updater(lambda m: m.set_value(m.price.get_value()).next_to(m.ax.c2p(0, m.price.get_value()), LEFT, buff=0.2))
         q_number = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.8)
         q_number.ax, q_number.price, q_number.shift_value = ax, price, shift
-        q_number.add_updater(lambda m: m.set_value(60 + 5 * m.shift_value.get_value() - 5 * m.price.get_value())
+        q_number.slope = demand_slope
+        q_number.add_updater(lambda m: m.set_value((12 + m.shift_value.get_value() - m.price.get_value()) / m.slope.get_value())
             .next_to(m.ax.c2p(m.get_value(), 0), DOWN, buff=0.2))
         q_prefix = Tex('$Q_d=$', color=GUIDE).scale(0.8)
         q_prefix.number = q_number
@@ -218,7 +224,7 @@ class B5(Scene):
                 ('Income: inferior good', 'a<0', -1.09),
                 ('Romaine price rises', 'a>0', -1.52),
                 ('Dressing price rises', 'a<0', -1.95),
-                ('More buyers', 'a>0', -2.38)]:
+                ('More buyers', r'c\downarrow', -2.38)]:
             scenario = VGroup(Tex(label, color=INK).scale(0.72).move_to([2.1, y, 0], aligned_edge=LEFT),
                               MathTex(sign, color=DEFINITION).scale(0.72).move_to([6.7, y, 0]))
             demand_scenarios.add(scenario)
@@ -330,13 +336,27 @@ class B5(Scene):
         self.pause('3.h')
         self.play(shift.animate.set_value(0), run_time=1.2)
 
-        # ---- 3.i · More buyers add quantity at each price.
+        # ---- 3.i · Add identical buyers: quantities scale, the intercept stays.
+        # With 25% more identical demand schedules, Q is 1.25 times as large
+        # at every price: P=12-0.20Q becomes P=12-0.16Q. This is still a shift.
         self.play(demand_scenarios[5].animate.set_color(CAPTION), FadeIn(demand_scenarios[6]))
-        self.remove(bottom)
-        bottom = Tex('More buyers increase market demand.', color=INK).scale(DEFINITION_SCALE)
+        self.remove(bottom, question, demand_equation)
+        self.play(FadeOut(a_readout), FadeOut(a_span), FadeOut(a_anchor), FadeOut(a_cap), FadeOut(a_label))
+        question = Tex(r'What if we add 25\% more identical buyers?', color=DEFINITION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        demand_entry_equation = MathTex(r'P=12-cQ',
+            tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'c': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
+        c_number = DecimalNumber(0.2, num_decimal_places=2, color=DEFINITION).scale(0.8)
+        c_number.source = demand_slope
+        c_number.add_updater(lambda m: m.set_value(m.source.get_value()))
+        c_readout = VGroup(Tex('Slope coefficient:', color=CAPTION).scale(0.7),
+                          MathTex('c=', color=DEFINITION).scale(0.8), c_number)
+        c_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.12).move_to([4.35, 1.35, 0]))
+        c_readout.update()
+        bottom = Tex('More buyers increase quantity demanded at each price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom))
-        self.play(shift.animate.set_value(3), run_time=1.7)
+        self.play(FadeIn(question), FadeIn(demand_entry_equation), FadeIn(c_readout), FadeIn(bottom))
+        self.play(demand_slope.animate.set_value(0.16), run_time=1.7)
         self.pause('3.i')
         # No callbacks survive the cut into the supply construction.
         for mob in self.mobjects:
@@ -359,31 +379,37 @@ class B5(Scene):
                 .next_to(ax.c2p(50, 0), DOWN, buff=0.75))
         price = ValueTracker(4)
         cost_shift = ValueTracker(0)
+        supply_slope = ValueTracker(0.05)
         supply = Line(ax.c2p(0, 2), ax.c2p(100, 7), color=SUPPLY, stroke_width=3)
-        supply.ax, supply.shift_value = ax, cost_shift
+        supply.ax, supply.shift_value, supply.slope = ax, cost_shift, supply_slope
         supply.add_updater(lambda m: m.put_start_and_end_on(m.ax.c2p(0, 2 + m.shift_value.get_value()),
-            m.ax.c2p(100, 7 + m.shift_value.get_value())))
+            m.ax.c2p(100, 2 + m.shift_value.get_value() + 100 * m.slope.get_value())))
         supply_word = Tex('S', color=INK).scale(0.8)
         supply_word.curve = supply
         supply_word.add_updater(lambda m: m.next_to(m.curve.get_end(), RIGHT, buff=0.15))
         point = Dot(ax.c2p(40, 4), color=GUIDE, radius=0.065, z_index=12)
         point.ax, point.price, point.shift_value = ax, price, cost_shift
-        point.add_updater(lambda m: m.move_to(m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value())))
+        point.slope = supply_slope
+        point.add_updater(lambda m: m.move_to(m.ax.c2p(
+            (m.price.get_value() - 2 - m.shift_value.get_value()) / m.slope.get_value(), m.price.get_value())))
         p_line = DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         p_line.ax, p_line.price, p_line.shift_value = ax, price, cost_shift
+        p_line.slope = supply_slope
         p_line.add_updater(lambda m: m.become(DashedLine(m.ax.c2p(0, m.price.get_value()),
-            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
+            m.ax.c2p((m.price.get_value() - 2 - m.shift_value.get_value()) / m.slope.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
         q_line = DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2, z_index=10)
         q_line.ax, q_line.price, q_line.shift_value = ax, price, cost_shift
+        q_line.slope = supply_slope
         q_line.add_updater(lambda m: m.become(DashedLine(
-            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), 0),
-            m.ax.c2p(20 * (m.price.get_value() - 2 - m.shift_value.get_value()), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
+            m.ax.c2p((m.price.get_value() - 2 - m.shift_value.get_value()) / m.slope.get_value(), 0),
+            m.ax.c2p((m.price.get_value() - 2 - m.shift_value.get_value()) / m.slope.get_value(), m.price.get_value()), color=GUIDE, stroke_width=2, z_index=10).set_style(**m.get_style())))
         p_number = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.8)
         p_number.ax, p_number.price = ax, price
         p_number.add_updater(lambda m: m.set_value(m.price.get_value()).next_to(m.ax.c2p(0, m.price.get_value()), LEFT, buff=0.2))
         q_number = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.8)
         q_number.ax, q_number.price, q_number.shift_value = ax, price, cost_shift
-        q_number.add_updater(lambda m: m.set_value(20 * (m.price.get_value() - 2 - m.shift_value.get_value()))
+        q_number.slope = supply_slope
+        q_number.add_updater(lambda m: m.set_value((m.price.get_value() - 2 - m.shift_value.get_value()) / m.slope.get_value())
             .next_to(m.ax.c2p(m.get_value(), 0), DOWN, buff=0.2))
         q_prefix = Tex('$Q_s=$', color=GUIDE).scale(0.8)
         q_prefix.number = q_number
@@ -428,7 +454,7 @@ class B5(Scene):
                 ('Farmland costs more', 'b>0', 0.2),
                 ('Fertilizer costs less', 'b<0', -0.35),
                 ('Carrots pay more', 'b>0', -0.9),
-                ('More sellers', 'b<0', -1.45),
+                ('More sellers', r'd\downarrow', -1.45),
                 ('Better technology', 'b<0', -2.0)]:
             scenario = VGroup(Tex(label, color=INK).scale(0.7).move_to([2.1, y, 0], aligned_edge=LEFT),
                               MathTex(sign, color=DEFINITION).scale(0.7).move_to([5.85, y, 0]))
@@ -483,24 +509,39 @@ class B5(Scene):
         self.play(cost_shift.animate.set_value(0), FadeOut(molly_bar), FadeOut(molly_name),
                   FadeOut(molly_price), FadeOut(molly_price_word), run_time=1.2)
 
-        # ---- 4.e · Entry expands the market without lowering Molly's own MC.
+        # ---- 4.e · Add identical sellers without changing individual costs.
+        # Horizontal aggregation raises Q by 25% at every price above $2.
+        # P=2+0.05Q becomes P=2+0.04Q; the cost intercept remains $2.
         self.play(supply_scenarios[2].animate.set_color(CAPTION), FadeIn(supply_scenarios[3]))
-        # The individual bar is removed before entry; the outward market shift
-        # represents added sellers rather than a fall in every incumbent's cost.
-        self.remove(bottom)
-        bottom = Tex('More sellers increase market supply.', color=INK).scale(DEFINITION_SCALE)
+        self.remove(bottom, question, supply_equation)
+        self.play(FadeOut(b_readout), FadeOut(b_span), FadeOut(b_anchor), FadeOut(b_cap), FadeOut(b_label))
+        question = Tex(r'What if we add 25\% more identical sellers?', color=DEFINITION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
+        supply_entry_equation = MathTex(r'P=2+dQ',
+            tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'd': DEFINITION}).scale(0.85).move_to([4.35, 2.0, 0])
+        d_number = DecimalNumber(0.05, num_decimal_places=2, color=DEFINITION).scale(0.8)
+        d_number.source = supply_slope
+        d_number.add_updater(lambda m: m.set_value(m.source.get_value()))
+        d_readout = VGroup(Tex('Slope coefficient:', color=CAPTION).scale(0.7),
+                          MathTex('d=', color=DEFINITION).scale(0.8), d_number)
+        d_readout.add_updater(lambda m: m.arrange(RIGHT, buff=0.12).move_to([4.35, 1.35, 0]))
+        d_readout.update()
+        bottom = Tex('More sellers increase quantity supplied at each price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom))
-        self.play(cost_shift.animate.set_value(-1), run_time=1.7)
+        self.play(FadeIn(question), FadeIn(supply_entry_equation), FadeIn(d_readout), FadeIn(bottom))
+        self.play(supply_slope.animate.set_value(0.04), run_time=1.7)
         self.pause('4.e')
-        self.play(cost_shift.animate.set_value(0), run_time=1.2)
+        self.play(supply_slope.animate.set_value(0.05), run_time=1.2)
 
         # ---- 4.f · Technology lowers cost and expands supply.
         self.play(supply_scenarios[3].animate.set_color(CAPTION), FadeIn(supply_scenarios[4]))
-        self.remove(bottom)
+        self.remove(bottom, question, supply_entry_equation, d_readout)
+        question = Tex('What changes the cost of growing spinach?', color=DEFINITION).scale(0.75)
+        question.next_to(head, DOWN, buff=0.18, aligned_edge=LEFT)
         bottom = Tex('Lower costs increase supply at every price.', color=INK).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(bottom))
+        self.play(FadeIn(question), FadeIn(supply_equation), FadeIn(b_readout), FadeIn(b_span),
+                  FadeIn(b_anchor), FadeIn(b_cap), FadeIn(b_label), FadeIn(bottom))
         self.play(cost_shift.animate.set_value(-1), run_time=1.7)
         self.pause('4.f')
         for mob in self.mobjects:
