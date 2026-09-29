@@ -26,252 +26,192 @@
 #show math.equation.where(block: true): set block(above: 21.490pt, below: 23.702pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #set math.equation(numbering: "(1)")
-#import "@preview/mitex:0.2.5": mi, mitex
 
 == Episode B3 | Equilibrium
 
 _Equilibrium: when no one wants to change_
 
-// plass:comment
-// | Storyboard. Each section opens with its beats, one line each, as built on Sep 23 in the opening of B4_Animation.py. That opening follows the seven scenes and is the version to carry forward.
-// | B3_Animation.py is the Sep 21 build, used in class that day. Its beats run 2.a to 5.exercise.
-// | Camera, layout, and color detail: B4_Efficiency/_archive/B4_Storyboard_2026-09-23.md.
-// /plass:comment
+=== Teaching Plan
 
-=== Opener
+These are preparation notes for the seven scenes in #link("B3_Outline.typ")[B3 Outline]. They combine the current notes with the useful teaching points in #link("01_Notes_scenes_2026-09-22.md")[the September 22 scene draft]. The older draft retains the detailed staging history; this version organizes the economics and the work students do in class.
 
-// plass:comment
-// | 0.a · Bumper with the part, the episode number, and the thesis.
-// | Not built: the recap of demand and supply on twin graphs, and the price line that detaches and drifts with a question mark.
-// /plass:comment
+*The question for B3:* Where do prices come from? Buyers and sellers respond to prices; their incentives push a competitive market toward a price at which their quantities agree. Individual consumer and producer surplus help explain those incentives. Adding up welfare and evaluating price controls belong in B4.
 
-Last week we started with buyers: we found that individuals preferences about how much spinach to buy obey the law of demand giving us an individual demand curve. Then we took many buyers and found the spinach demand curve. Representing this with algebra allowed us to find the quantity demanded at a whole range of prices.
+*Pacing:* Keep scenes 1–3 to roughly the opening ten minutes. Use one exchange, one bidding example, and one example of switching between sellers. Move directly to the full set of buyers and sellers. If using existing animation, run repeated bids or market entry quickly; do not pause over each arrival or each switch. Protect at least half the class for scenes 6–7, including students drawing, calculating, and explaining.
 
-Then we turned to the other side of the market, sellers: we allowed Molly to make her decision about where to live on the frontier which gave us her individual supply curve, which obeys the law of supply. Then we took all the many farmers growing spinach and found the spinach supply curve. Representing this with algebra allowed us to find the quantity supplied at a whole range of prices.
+*Board and paper:* Students begin working in scene 1, draw demand in scene 4, add a separate supply graph in scene 5, mark gaps in scene 6, and combine the curves in scene 7. Keep these graphs available throughout. Use the existing Exercise B3 in pieces: Q2(a)(b), then Q2(c)(d), then Q1. The teaching order differs from the printed order.
 
-This answered part of the question about where on the frontier to live but introduced another free variable left to float around Price. In some sense we simply pushed the question of where to live on the PPF one level deeper into prices. Now we put the two together and ask whether there’s a price at which those quantities agree. So this brings us to the question. What happens to prices when we have supply and demand in a market for spinach? Let’s run a little fun simulation to build up some intuition for markets.
+*Opener:* Demand tells us how much buyers want at each price. Supply tells us how much sellers want at each price. We have left the price floating. What happens when the two sides meet in a market for spinach?
 
-To do this, let’s set up a farmer’s market for spinach and use two graphs. One for supply and one for demand.
+=== Scene 1 | The Basic Exchange
 
-=== The Basic Exchange
+*Claim:* A price between a seller’s marginal cost and a buyer’s marginal benefit can make both willing to trade, but this alone does not select a price.
 
-// plass:comment
-// | 1.a.price_question · Gary and Molly, head on. MB $6 and MC $2. Title: Which prices work?
-// | 1.a.surplus · Price $4. CS $2 and PS $2 appear together, with the green expenditure and revenue boundary and the orange cost.
-// | 1.a · The interval from $2 to $6 is marked between the two bars. Bottom: MC < P < MB.
-// | Sep 21 build, beats 2.a to 2.b.vi: the same exchange built step by step. Side view, would they both accept, expenditure, CS, revenue, cost, PS, one unit.
-// /plass:comment
+Gary would pay up to \$6 for a pound of spinach. Growing that pound costs Molly \$2. At a price of \$4, would both say yes? Gary pays less than the spinach is worth to him. Molly receives more than it costs her.
 
-*\[draft\]* Let’s start with just two people. Gary would pay up to \$6 for a pound of spinach. Growing that pound costs Molly \$2. Now suppose a price of \$4 comes up between them. Would they both say yes? Gary pays less than the spinach is worth to him. Molly receives more than it cost her. So the trade happens.
-
-*\[draft\]* Let’s zoom way in on this one exchange. Gary hands over \$4 — his expenditure. Against his marginal benefit of \$6, that leaves him \$2 of consumer surplus. Molly receives the same \$4 as revenue. Above her cost of \$2, that leaves her \$2 of producer surplus. The price is doing the splitting: it divides the gains from this trade between the two of them.
-
-There is a price that can facilitate this trade if it can be between MC and MB: #mi(`MC < P < MB`).
-
-_*Show a few other prices that don’t work and some that do.*_
-
-*\[draft\]* And notice that any price between \$2 and \$6 would have worked — the same window we saw in Part A, when our two farmers settled on an exchange rate.
-
-_*And then ask “What price should they choose?”*_
-
-=== The Bidding War
-
-// plass:comment
-// | 1.b · Amanda-Grace arrives with MB $7 and offers $4.75. Title: Would Molly switch? Bottom: Molly receives $0.75 more.
-// | 1.b.competition · Title: Who gets the spinach? Molly switches, Gary answers at $5, and the bids alternate by a quarter up to $6.25 in one play.
-// | 1.b.settled · Amanda-Grace buys at $6.25. Bottom: We stop when no one wants to bid.
-// /plass:comment
-
-*\[draft\]* Now let’s add another buyer. Two buyers want spinach and Molly only has so much. Whoever would go home empty-handed has a reason to offer a little more, so the price creeps up.
-
-Who should get the spinach? Gary is able to pay Molly and had a nice deal if Amanda-Grace weren’t there.
-
-A price is not stable unless no one has an incentive to switch.
-
-This stability is equilibrium. No one wants to switch.
+Gary’s \$4 expenditure is Molly’s \$4 revenue. Gary gains \$2, measured by consumer surplus, $"MB"-P$. Molly gains \$2, measured by producer surplus, $P-"MC"$. Use these amounts to explain why each accepts. Leave aggregate surplus areas for B4.
 
 #quote(block: true)[
-  _*Equilibrium*_: _No one wants to switch._
-
+  *Paper pause:* Try prices of \$5, \$7, and \$1. At each price, would Gary buy and would Molly sell? At \$5, calculate each person’s gain.
 ]
 
-=== Multiple Trades
+*Check:* At \$5 both accept: Gary gains \$1 and Molly gains \$3. At \$7 Gary declines; at \$1 Molly declines. For both to gain strictly, $"MC" < P < "MB"$. At either endpoint one person is indifferent; count an indifferent person as willing for the quantity exercises that follow.
 
-// plass:comment
-// | 1.b.before_entry · The plaza with the side graphs. Title: Would any player switch?
-// | 1.b.two_trades.plaza · Andrew arrives with MC $4 and asks $4.25. Amanda-Grace and Molly stay paired at $6.25.
-// | 1.b.two_trades.center · Gary walks to the circle at the center.
-// | 1.b.two_trades · Close-up, title: Gary and Andrew. Bottom: Would Gary buy at $4.25?
-// | 1.b.two_trades.accepted · Bottom: Gary gains $1.75. The camera flies back and Gary joins Andrew.
-// | 1.b.convergence · Bottom: The same incentives bring both prices together. Both prices move to $5.50 in one play.
-// | 1.b.equal_prices · Two trades at $5.50, marked on both side graphs.
-// /plass:comment
+Any price strictly between \$2 and \$6 benefits both. This is like the range of exchange rates that could support trade in Part A. End with the unresolved question: *What price should they choose?*
 
-*\[draft\]* Add another seller and the pressure runs the other way: sellers competing for buyers cut their prices. Andrew is new, so he prices near his cost to get a customer.
+=== Scene 2 | The Bidding War
 
-If the pairings’ prices weren’t equal, someone could switch and do better.
+*Claim:* A buyer who is left out can have an incentive to offer more, and a seller can have an incentive to accept.
 
-Prices must be equal for prices to be stable.
+Amanda-Grace values the pound at \$7. Gary is buying it from Molly for \$4. Compare Amanda-Grace’s two options: stay out and gain nothing, or offer \$4.75 and gain \$2.25. Molly receives \$0.75 more by switching. Count both sides of the proposed trade.
 
-=== Buyers
-
-// plass:comment
-// | 1.c.buyers.rule · 59 buyers in one row, head on, sorted by MB. Bottom: Buy if MB ≥ P.
-// | 1.c.buyers.curve · The line P = 12 − Qd/5 through the tops of the bars.
-// | 1.c.buyers · Price $6. 30 green checks, the rest dimmed, and 30 thousand lb under the row.
-// | 1.c.buyers.low · The price falls to $3. 45 checks.
-// /plass:comment
-
-_*Arrange buyers in order and ask who would buy at a range of prices. Put a green check over them, and a green circle under them to indicate a trade. Then show the graph of the demand curve like we already do and an equation for demand.*_
-
-*\[draft\]* We just have one person per bar, and if someone wants more than one, we just have them show up twice.
-
-_*This should be a large enough number that the equation makes sense as a good approximation.*_
-
-Prices must be equal for everyone. At this price, this is how many people would buy.
-
-_*Then show that some aren’t happy or willing to pay that much, but still want it. Show the offers, which are at the price for those who would pay, and the MB for those who wouldn’t.*_
-
-=== Sellers
-
-// plass:comment
-// | 1.c.sellers.units · 100 sellers in one row, head on, sorted by MC.
-// | 1.c.sellers.curve · The line P = 2 + Qs/20.
-// | 1.c.sellers · Price $3. 20 green checks. Bottom: Sell if MC ≤ P.
-// | 1.c.sellers.high · The price rises to $6. 80 checks. Then back to $3.
-// /plass:comment
-
-On the seller side, in a separate plaza, it’s a similar setup. The single price, it works for most, but some sellers can’t price that low. Their asks are their MC.
+Gary can answer with \$5 and still gain \$1. Ask who will get the spinach, then compress the remaining bidding. At \$6.25 Amanda-Grace gains \$0.75; Gary cannot profitably outbid her because his MB is only \$6.
 
 #quote(block: true)[
-  _Pause for Exercise B3 | Q2 (a)(b): at 5 galleons on the pumpkin-pasty curves, find the quantity demanded and the quantity supplied._
-
+  *Ask:* Why does Gary stop? He still likes spinach. What makes another bid unattractive?
 ]
 
-=== Finding Equilibrium
+The answer is his next-best option: not buying gives him zero, while buying above \$6 gives him a loss. Being left out does not always create an incentive to bid more.
 
-// plass:comment
-// | 1.d · Buyers and sellers on the plaza, demand above supply at the right. Title: A low price: $3. Bottom: Who trades?
-// | 1.e.willing · The willing step forward with green checks: 45 buyers and 20 sellers. The rest stay at the rim with a red X.
-// | 1.e · 20 pairs meet along the center line. 25 willing buyers are left, marked yellow. Shortage 25.
-// | 1.e.exchanged · 20 exchanged, labeled on the plaza and on the graph.
-// | 1.j · Exercise B3 Q2 card.
-// | 1.f.offer · One buyer who is left out is ringed in yellow. Bottom: A buyer who's left out offers a seller more than $3.
-// | 1.f.match, 1.f.wait, 1.f · Close-up of three people. Wait at $3: gain $0. Offer $3.25: gain $3.75/lb.
-// | 1.f.accepted · The offer is accepted at $3.25, and the three fly back to the plaza.
-// | 1.f.incentive · Title: Price adjustment. Bottom: Other unserved buyers have the same incentive.
-// | 1.f.adjusted · The price rises to $4 in one play, to 40 willing buyers, 40 willing sellers, and 40 trades. Bottom: Shortages lead to an increase in the price.
-// | 1.g · Title: A high price: $6. Bottom: Who trades? 30 and 80 on the graphs.
-// | 1.h.offer · 30 pairs, 50 willing sellers left. Excess 50. Bottom: A seller who's left out offers a buyer less than $6.
-// | 1.h.match, 1.h.wait, 1.h · Close-up of three people. Keep $6: gain $0. Ask $5.75: gain $1.75/lb.
-// | 1.h.accepted · The offer is accepted at $5.75.
-// | 1.h.incentive · Bottom: Other unserved sellers have the same incentive. The price falls to $4 in one play.
-// | 1.i · Title: Equilibrium. 40 pairs. Bottom: Equilibrium: no willing buyer or seller is left without a trade. Qs = Qd.
-// | 1.i.stability · Bottom: What happens to this system if we raise the price a little?
-// | 1.i.excess · $4.25 gives 38 and 45. Bottom: Seven willing sellers have no buyer. They can undercut.
-// | 1.i.shortage · $3.75 gives 41 and 35. Bottom: Six willing buyers have no seller. They can offer more.
-// | 1.i.stable · Back at $4. Bottom: Above $4: excess. Below $4: shortage.
-// | Not built here: the word surplus crossed out and replaced by excess. The Sep 21 build has it at beat 5.e.
-// /plass:comment
+Introduce the idea of *equilibrium*: no one wants to switch. Here we have shown why the bidding stops. One seller and this particular bidding path do not establish a unique competitive market price. The full market will let us connect the stability idea to supply and demand.
 
-*\[draft\]* But suppose the buyers aren’t happy paying \$4. A bunch of them get together and insist on a lower price: \$3 a pound.
+=== Scene 3 | Multiple Trades
 
-We can find the quantity supplied at this price. Which comes out to be 20,000 pounds. But is this how much buyers are willing to buy at this price? The quantity demanded is 45,000 pounds and we find this by plugging in price into the demand curve.
+*Claim:* For the same good in a market where people can switch freely, different transaction prices create an opportunity to do better.
 
-So it turns out people want more than is available which we call a shortage.
+Add Andrew, whose MC is \$4. Suppose Gary buys from Andrew at \$4.25 while Amanda-Grace buys from Molly at \$6.25. Both trades are individually acceptable. Can these two prices last?
+
+Amanda-Grace would prefer the cheaper spinach. She could offer Andrew \$4.50: she gains \$2.50 instead of \$0.75, and Andrew receives \$0.25 more. This can displace Gary and leave Molly looking for a buyer. The same incentives that raise a low offer can push a high asking price down.
 
 #quote(block: true)[
-  _*Shortage*_: _Quantity demanded is greater than quantity supplied._
-
+  *Quick comparison:* Write Amanda-Grace’s gain and Andrew’s gain before and after the proposed switch. Why is it not enough to say that Amanda-Grace would like a lower price?
 ]
 
-But let’s say in the situation. Amanda-Grace an entrepreneurial buyer decides to offer Molly a higher price. Let’s say three dollars and twenty-five cents. This is good for Molly since she’s making more and it’s good for Amanda-Grace who is more than willing to pay for the higher price if she can receive what she wants.
+*Check:* Amanda-Grace’s gain rises from \$0.75 to \$2.50; Andrew’s rises from \$0.25 to \$0.50. The alternative must also be acceptable to the trading partner.
 
-But it turns out the buyer who was buying from Molly now can’t get any spinach. So, what should they do? They should raise the price.
+Use two trades at \$5.50 as an example of a common price. Do not walk through every intervening switch. With these four people, multiple common prices can support two trades; we have explained pressure toward *one price across trades*, not yet pinned down *which price*. Assume identical spinach, visible prices, and no costs of switching.
 
-In this way, whenever there’s a shortage both buyers and sellers have an incentive to raise their prices.
+=== Scene 4 | Buyers
 
-*\[draft\]* Of course, the sellers can play the same game in the other direction.
+*Claim:* At a given price, the demand curve counts the quantity buyers are willing to buy; it does not tell us how many trades actually happen.
 
-Let’s say instead spinach sellers sell at a price of \$6. At this price the quantity supplied is 80,000 pounds. And the quantity demanded is 30,000. So people want less than is available. Which we’ll call an excess.
+Move directly to the full set of buyers, ordered from highest MB to lowest. Each bar represents one unit decision. Someone who wants several units contributes several such decisions. For the large spinach market, measure quantity in *thousands of pounds* and price in *dollars per pound*. A displayed unit now represents a 1,000-pound lot; MB and MC remain per-pound amounts.
+
+Buy if $"MB" >= P$. A buyer below the price line will not pay that price; their MB is the most they would offer. A buyer above it is willing to buy, but still needs a seller. Keep willingness separate from receiving spinach.
+
+$ P = 12 - frac(Q_d, 5) quad <==> quad Q_d = 60 - 5P $
 
 #quote(block: true)[
-  _*Excess*_: _Quantity supplied is greater than quantity demanded._
-
+  *Board and paper:* Draw demand with price on the vertical axis and quantity on the horizontal axis. Label the intercepts. At \$6, read the quantity horizontally to the curve and then down to the quantity axis. Repeat at \$3. Predict the direction before calculating.
 ]
 
-I want to offer a little side note here most textbooks call this a surplus but for reasons we’ll get into later. I think this naming convention is less than ideal and can be confusing. So instead of surplus we use excess to describe quantity supplied being greater than quantity demanded. But I just want you to be aware that it’s often called surplus.
+*Check:* The intercepts are \$12 and 60 thousand pounds. At \$6, $Q_d=30$; at \$3, $Q_d=45$. These are movements along the same demand curve. Use a few prices, not a slow count of individual buyers.
 
-So Andrew is sitting around with excess spinach. He can’t sell at 6 per pound. So Andrew being the entrepreneur farmer, decides to offer a price of \$5.75 to Gary.
+=== Scene 5 | Sellers
 
-Gary was buying spinach from another farmer but is more than willing to buy spinach from Andrew at the lower price. And would even buy a little extra. You can think of the law of demand here. That farmer isn’t happy about losing Gary’s business. So they decide to lower their prices too.
+*Claim:* At the same price, supply counts the quantity sellers are willing to sell.
 
-In this way, whenever there’s excess both buyers and sellers have an incentive to lower their prices.
+Use a separate graph for sellers, ordered from lowest MC to highest. Sell if $"MC" <= P$. A seller whose cost exceeds the price declines; their MC is the lowest price they would accept. Willingness to sell does not guarantee a buyer.
+
+$ P = 2 + frac(Q_s, 20) quad <==> quad Q_s = 20P - 40 $
 
 #quote(block: true)[
-  _Pause for Exercise B3 | Q2 (c)(d): name the situation at 5 galleons, say how large it is, and predict which way the price moves._
-
+  *Board and paper:* Draw supply beside or below demand using matching axis scales. Mark its price intercept and find the quantities supplied at \$3 and \$6. Use the same price on both graphs.
 ]
 
-So prices will rise with a shortage and lower with an excess.
-
-Can there ever be a price that doesn’t change? Yes. What if quantity demanded was equal to quantity supplied? Here no one has an incentive to change their prices or quantities. If a seller raised their price, they would lose all their business.
-
-If they lower their price, they would make less than they could. If a buyer raised their price, they would be paying more than they needed to. And if the buyer lowered their price no seller would sell to them. In this way incentives push the price to the point where quantity supplied is equal to quantity demanded.
+*Check:* Supply begins at \$2 when $Q_s=0$. At \$3, $Q_s=20$; at \$6, $Q_s=80$. The stated supply equation applies at prices of at least \$2; below that, quantity supplied is zero.
 
 #quote(block: true)[
-  _*Equilibrium*_: _The price and quantity at which quantity supplied equals quantity demanded — where no one wants to change._
-
+  *Exercise B3 | Q2(a)(b):* At 5 galleons in the pumpkin-pasty market, find quantity demanded and quantity supplied. Add separate demand and supply sketches on paper and mark the two quantities. Save the interpretation for scene 6.
 ]
 
-Okay, so we’ve found where prices come from. And we’ve found an equilibrium concept that’s stable.
+*Instructor check:* $Q_d=14$ pasties and $Q_s=6$ pasties. Neither number by itself is “the market quantity.”
 
-At this equilibrium price and quantity no buyer and no seller wants to change the price they’re offering and the quantity they’re either supplying or demanding from the market. So we call this equilibrium stable.
+=== Scene 6 | Finding Equilibrium
 
-*\[draft\]* Notice what happened both times: a whole side of the market teamed up to move the price, and it still didn’t hold. Someone always found it worthwhile to break ranks.
+*Claim:* Count both sides at one price. The side left without trades explains the pressure on price.
 
-=== The Graph and the Algebra
+Before revealing the result at each price, have students predict the quantities and who will be left out. In this simple market, with willing buyers and sellers matched, the amount exchanged is the smaller of quantity demanded and quantity supplied.
 
-// plass:comment
-// | 1.i.graph · The two graphs slide together into one. The lines cross at 40 and $4, and the definition returns.
-// | 1.i.algebra.equal · Both equations, with Qd = Qs = Q.
-// | 1.i.algebra.equate · 12 − Q/5 = 2 + Q/20.
-// | 1.i.algebra.simplify · 10 = Q/4.
-// | 1.i.algebra.solve · Q* = 40, then P* = 2 + 40/20 = 4.
-// | 1.i.algebra · The starred pair lands on the crossing. Bottom: 40,000 pounds at $4 per pound.
-// | Not built here: the Exercise B3 Q1 card. The Sep 21 build has it at beat 4.exercise.
-// /plass:comment
+==== A low price: \$3
 
-We typically combine supply and demand on one graph, so let’s do that here.
-
-Here we’re going to use algebra to build a model using both supply and demand to arrive at the prices that coordinate sellers choices of quantity supplied and buyers choices of quantity demanded.
-
-The supply curve for spinach was price is equal to two plus one over twenty quantity and the demand curve for spinach was price is equal to twelve minus one over five quantity. There’s one price that allows quantity supplied to equal quantity demanded. And that’s where they intersect.
-
-Let’s first solve for the equilibrium quantity then solve for equilibrium price. We set the supply curve equal to the demand curve. Then we solve for quantity which gives us 40. We then take this and plug it into the supply curve.
-
-And solve for price which comes out to be \$4. It would be equivalent if you plugged the quantity into the demand curve and solved for price that way but plugging it into the supply curve is usually easier.
-
-We denote the equilibrium price and quantity with a star.
-
-Plot it on the graph.
+At \$3, buyers want 45,000 pounds and sellers offer 20,000 pounds. Only 20,000 pounds can change hands. The remaining 25,000 pounds of demand are unfilled.
 
 #quote(block: true)[
-  _Pause for Exercise B3 | Q1: solve for Q\* and P\* in the pumpkin-pasty market on the exercise sheet, then plot the starred pair._
-
+  *Shortage:* Quantity demanded exceeds quantity supplied. Its size is $Q_d-Q_s$.
 ]
 
-=== Closing
+An unserved Amanda-Grace can gain by offering \$3.25 instead of remaining without spinach: her gain is \$3.75 per pound. A seller gains by accepting the higher offer. Other unserved buyers have the same kind of incentive. As price rises, quantity demanded falls and quantity supplied rises, closing the gap.
 
-*\[draft\]* We’ve found where prices come from. Next time we keep the same setup and ask how good the market’s answer is: we’ll add up the gains from every exchange, and see what happens when a government moves the price.
+Use one buyer’s comparison, then move directly to \$4. At that price, 40,000 pounds are demanded and 40,000 pounds are supplied. There is no longer a group of willing buyers unable to find sellers.
 
-=== Parked
+==== A high price: \$6
+
+At \$6, buyers want 30,000 pounds and sellers offer 80,000 pounds. Only 30,000 pounds change hands. Sellers are willing to sell 50,000 pounds more than buyers want.
+
+#quote(block: true)[
+  *Excess:* Quantity supplied exceeds quantity demanded. Its size is $Q_s-Q_d$. Textbooks often call this a “surplus”; use “excess” here to distinguish it from consumer and producer surplus.
+]
+
+Suppose Andrew, whose MC is \$4, has no buyer. Offering \$5.75 gives him a gain of \$1.75 per pound instead of zero. Gary gains by switching from a seller charging \$6. Other unserved sellers have a reason to undercut too. As price falls, quantity supplied falls and quantity demanded rises, closing the gap.
+
+Again, use one comparison and move directly to \$4. There is no longer a group of willing sellers unable to find buyers.
+
+#quote(block: true)[
+  *Board and paper:* On the separate spinach graphs, mark the same horizontal price at \$3, then at \$6. Label both quantities, the amount exchanged, and the size of the gap. Add an arrow showing the predicted price movement.
+
+  *Exercise B3 | Q2(c)(d):* Return to the two quantities at 5 galleons. Name and measure the gap, then explain which side has an incentive to move the price and in which direction.
+]
+
+*Instructor check:* The pasty market has a shortage of 8 pasties; 6 can trade at that price. Unserved buyers can offer more, putting upward pressure on price.
+
+==== The price that holds: \$4
+
+#quote(block: true)[
+  *Equilibrium:* The price and quantity at which $Q_d=Q_s$. Buyers and sellers are choosing their preferred quantities at the prevailing price, and those choices are compatible.
+]
+
+At \$4, 40,000 pounds are demanded, supplied, and exchanged. “No one wants to change” means no one can improve their outcome through an available trade or switch at the going market opportunities. It does not mean everyone likes the price or everyone buys. Buyers with MB below \$4 and sellers with MC above \$4 choose to stay out.
+
+*Stability check:* Ask what happens a little above \$4 and a little below it. Above: excess and downward pressure. Below: shortage and upward pressure. Have students explain this from the slopes on their graphs; another long sequence of price changes is unnecessary. Price adjustment here is an incentive story, not a claim that every real market clears instantly.
+
+=== Scene 7 | The Graph and the Algebra
+
+*Claim:* The intersection identifies the same compatible choices we found by counting both sides.
+
+#quote(block: true)[
+  *Board and paper:* Combine the spinach curves on one set of axes. Label demand, supply, and the axes with units. Predict the intersection from scene 6. Draw guides from it to the price and quantity axes. Re-mark the shortage at \$3 and the excess at \$6 as horizontal distances between the curves.
+]
+
+Now solve for the intersection. At equilibrium, $Q_d=Q_s=Q$, and both curves give the same price:
+
+$ 12 - frac(Q, 5) = 2 + frac(Q, 20) quad ==> quad 10 = frac(Q, 4) quad ==> quad Q^star = 40. $
+
+Substitute into supply, then check with demand:
+
+$ P^star = 2 + frac(40, 20) = 4 quad "and" quad P^star = 12 - frac(40, 5) = 4. $
+
+The starred pair is *40,000 pounds at \$4 per pound*. Label $Q^star$ and $P^star$ on the graph. Away from equilibrium, $Q_d$ and $Q_s$ generally differ; setting them equal is the equilibrium condition, not an identity at every price.
+
+#quote(block: true)[
+  *Exercise B3 | Q1:* Solve for the equilibrium quantity and price in the pumpkin-pasty market. Combine the curves on one graph and label the starred pair. Transfer the 5-galleon line from Q2 to this graph and check that its location agrees with the predicted price movement.
+]
+
+*Instructor check:* $12-Q/2=2+Q/2$ gives $Q^star=10$ pasties and $P^star=7$ galleons. The 5-galleon line is below equilibrium, consistent with a shortage and upward price pressure.
+
+*Exit check:* At a price above equilibrium, identify quantity demanded, quantity supplied, and quantity exchanged. Who is left out, and what offer could improve their outcome? Require both a graph and one sentence about incentives.
+
+=== Closing | From Equilibrium to B4
+
+We have found how a market price coordinates buyers’ and sellers’ choices. Does that outcome make the most of the possible gains from trade? In B4, use price ceilings and price floors to investigate that question and develop the first welfare theorem: under the competitive model’s assumptions, including no externalities, equilibrium exhausts the gains from trade and maximizes total surplus in this market. Keep the distinction between efficiency and fairness visible.
+
+For the next B4 pass, intersperse graphing and welfare exercises with the price-control intuition. Plaza simulations of price controls are a separate future project.
+
+=== Parked | Outside the Core Sequence
+
+The following material is retained for later preparation. It is not additional required material after scene 7. If class time is tight, keep the graphing and exercise pauses; leave these extensions parked.
 
 ==== PPF Tieback
-
-// plass:comment
-// | The only animated tieback is beat 5.b of _archive/Animate_A.py: the market graph moves to a corner, the two-farmer PPF returns, and the two prices form the exchange-rate line.
-// /plass:comment
 
 We’ve spent time talking about markets, the preferences of buyers and sellers, and the incentives that push markets toward equilibrium. And we found that this equilibrium gave us two things: a price and a quantity.
 
@@ -316,25 +256,3 @@ Plot of histogram of prices.
 Then do the math.
 
 plan 0100 simulation: equilibrium sim by using math to predict the price before. start with the card game version. run it. find the price. then change the cards, use some math, find the price, set the price, and see if anyone switches. it might take a bit more work to get right, but I think it could make the point that equilibrium is predictable and about deviation. maybe don’t even show them the math at first.
-
-==== Decisions
-
-Taylor, Sep 22. Do not re-litigate these in the notes pass or the storyboard.
-
-+ *Seven short scenes, not one long animation.* Each carries one claim and can be rendered, exported, and presented on its own.
-+ *No one-at-a-time growth.* Stages are 1×1 → 2×1 → 2×2 → the full market. Bidding, switching, one price, and deliberation are taught on the small stages, then shown for one or two people inside the big one.
-+ *Equilibrium is named at scene 2* on the smallest case, as “no one wants to switch,” and re-earned at scene 6 where the counts match.
-+ *The price window (\$2–\$6) appears only in scene 1.*
-+ *One person per bar.* A buyer who wants more than one stands twice.
-+ *The big market is the algebra market.* Demand P = 12 − Q/5, supply P = 2 + Q/20, Q in thousands of pounds. One person = one 1,000-lb lot at the per-pound price. Counts in the plaza equal the algebra’s Qd and Qs at \$3, \$4, \$5, \$6 (see §4 for the quarter-dollar caveat).
-+ *One market price line, stepped by Taylor, plus one boxed deliberation per direction.* Not decentralized per-seller price discovery in the big market.
-+ *Sorted head-on rows build each curve;* the curve lifts to a side graph; the camera then pulls out to the plaza, where checks and circles happen.
-+ *Build the whole thing now.* Scenes 4–6 first: they carry the mechanism and are the assets B4′s price controls reuse.
-+ *Class 09 (Wed Sep 23) does not depend on this.* Quick graph-centred review of the current export, straight to Exercise Q2, then B4 (§11).
-
-==== Numbers
-
-- Market: demand P = 12 − Q/5, supply P = 2 + Q/20, equilibrium at 40 and \$4. Q is in thousands of pounds, and one person is one 1,000 pound lot.
-- Small cast: Gary MB \$6, Amanda-Grace MB \$7, Molly MC \$2, Andrew MC \$4. First offer \$4. Bids and cuts move in \$0.25 steps.
-- At \$3, quantity demanded is 45 and quantity supplied is 20. At \$6, quantity demanded is 30 and quantity supplied is 80.
-- Exercise, pumpkin pasties: P = 12 − Qd/2 and P = 2 + Qs/2, equilibrium at 10 and 7. At 5 galleons, Qd is 14 and Qs is 6.
