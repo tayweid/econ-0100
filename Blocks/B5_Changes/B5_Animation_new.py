@@ -1296,16 +1296,22 @@ class B5(Scene):
         for marker in (a_span, a_anchor, a_cap, a_label):
             marker.source = shift
             marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value()) * 4, 0, 1)))
-        shifted_curve_equation = MathTex(r'P=17-Q/5', color=DEMAND).scale(0.8).move_to(curve_equation)
+        shifted_curve_equation = MathTex(r'P=12+', 'a', r'-Q/5', color=DEMAND,
+                                        tex_to_color_map={'a': DEFINITION}).scale(0.8).move_to(curve_equation)
         self.add(buyer_changes, a_span, a_anchor, a_cap, a_label)
         self.play(shift.animate.set_value(5), TransformMatchingTex(curve_equation, shifted_curve_equation), run_time=2)
         benefit.add_updater(lambda value: value.set_value(6 + value.market_shift.get_value()))
         self.pause('7.f')
         # ---- 8.a · Name the shared change a after its meaning is visible.
         # Its gold span measures displacement from the original intercept 12.
-        demand_equation = MathTex(r'P=12+', 'a', r'-Q/5',
-                                  tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'a': DEFINITION}).scale(0.85)
-        demand_equation.move_to([2.0, 2.0, 0])
+        demand_a_value = DecimalNumber(5, num_decimal_places=2, include_sign=True, color=DEFINITION).scale(0.85)
+        demand_a_value.source = shift
+        demand_a_value.add_updater(lambda number: number.set_value(number.source.get_value()))
+        demand_equation = VGroup(
+            MathTex(r'P=12', tex_to_color_map={'P': GUIDE}).scale(0.85), demand_a_value,
+            MathTex(r'-Q/5', tex_to_color_map={'Q': GUIDE}).scale(0.85))
+        demand_equation.add_updater(lambda group: group.arrange(RIGHT, buff=0.08).move_to([2.0, 2.0, 0]))
+        demand_equation.update()
         demand_divider = Line([-0.25, -3.15, 0], [-0.25, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         demand_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([0.1, 1.0, 0], aligned_edge=LEFT)
         demand_scenarios = VGroup()
