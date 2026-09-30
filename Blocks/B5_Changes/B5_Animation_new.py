@@ -466,13 +466,19 @@ class B5(Scene):
         p_ratio_bar.source = midpoint_price
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
             np.array([3.1, -2.07, 0]), np.array([3.1 + 3 / line.source.get_value(), -2.07, 0])))
-        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=INK).scale(0.75)
-        q_ratio_label.move_to([1.8, -0.95, 0])
-        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=INK).scale(0.75)
-        p_ratio_label.move_to([1.8, -2.25, 0])
+        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=INK).scale(0.75)
+        q_ratio_equals = MathTex('=', color=INK).scale(0.75)
+        q_ratio_value = MathTex(r'\frac{-5}{7.5}', color=INK).scale(0.75)
+        VGroup(q_ratio_label, q_ratio_equals, q_ratio_value).arrange(RIGHT, buff=0.12).move_to([1.8, -0.95, 0])
+        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=INK).scale(0.75)
+        p_ratio_equals = MathTex('=', color=INK).scale(0.75)
+        p_ratio_value = MathTex(r'\frac{1}{10.5}', color=INK).scale(0.75)
+        VGroup(p_ratio_label, p_ratio_equals, p_ratio_value).arrange(RIGHT, buff=0.12).move_to([1.8, -2.25, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
-                  FadeIn(q_ratio_label), FadeIn(p_ratio_label), response_heading.animate.set_y(-0.1),
+                  FadeIn(q_ratio_label), FadeIn(q_ratio_equals), FadeIn(q_ratio_value),
+                  FadeIn(p_ratio_label), FadeIn(p_ratio_equals), FadeIn(p_ratio_value),
+                  response_heading.animate.set_y(-0.1),
                   action_heading.animate.set_y(-1.6))
         q_percent = VGroup(DecimalNumber(-100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.7)
@@ -491,39 +497,31 @@ class B5(Scene):
         self.play(FadeIn(q_percent), FadeIn(p_percent))
         self.pause('4.c')
 
-        # ---- 4.d · Evaluate each share, then carry it into the main division.
-        # Ellipses retain the unrounded values: their ratio is exactly -7.
-        p_share_result = MathTex(r'0.095238\ldots', color=INK).scale(0.65).move_to(p_ratio_label)
-        q_share_result = MathTex(r'-0.666\ldots', color=INK).scale(0.65).move_to(q_ratio_label)
-        self.play(ReplacementTransform(p_ratio_label, p_share_result))
-        self.pause('4.d.action')
-        self.play(ReplacementTransform(q_ratio_label, q_share_result))
-        self.pause('4.d.response')
-
-        compact_formula = MathTex(r'\epsilon_D', '=').scale(0.75).align_to(formula, LEFT)
-        compact_formula.shift(UP * (formula['='].get_y() - compact_formula['='].get_y()))
-        numeric_bar = Line(LEFT * 0.95, RIGHT * 0.95, color=INK, stroke_width=2)
-        numeric_bar.next_to(compact_formula, RIGHT, buff=0.18).set_y(compact_formula['='].get_y())
-        q_share_top = q_share_result.copy().next_to(numeric_bar, UP, buff=0.12)
-        p_share_top = p_share_result.copy().next_to(numeric_bar, DOWN, buff=0.12)
-        self.play(TransformMatchingTex(formula, compact_formula), FadeIn(numeric_bar),
-                  ReplacementTransform(p_share_result, p_share_top))
-        formula = compact_formula
+        # ---- 4.d · Divide the two percentages; preserve the demand sign.
+        # Keep the symbolic equation; substitute the two fractions to its right.
+        calculation_equals = MathTex('=').scale(0.75)
+        calculation_equals.next_to(formula, RIGHT, buff=0.18).set_y(formula['='].get_y())
+        numeric_bar = Line(LEFT * 0.65, RIGHT * 0.65, color=INK, stroke_width=2)
+        numeric_bar.next_to(calculation_equals, RIGHT, buff=0.18).set_y(formula['='].get_y())
+        q_share_top = MathTex(r'\frac{-5}{7.5}', color=INK).scale(0.75).next_to(numeric_bar, UP, buff=0.12)
+        p_share_top = MathTex(r'\frac{1}{10.5}', color=INK).scale(0.75).next_to(numeric_bar, DOWN, buff=0.12)
+        self.play(FadeIn(calculation_equals), FadeIn(numeric_bar),
+                  FadeOut(p_ratio_equals), ReplacementTransform(p_ratio_value, p_share_top))
         self.pause('4.d.substitute_action')
-        self.play(ReplacementTransform(q_share_result, q_share_top))
+        self.play(FadeOut(q_ratio_equals), ReplacementTransform(q_ratio_value, q_share_top))
         self.pause('4.d.divide')
 
-        # Keep epsilon and its equals sign; simplify the numerical division.
+        epsilon_prefix = MathTex('=').scale(0.75)
         epsilon_number = DecimalNumber(-7, num_decimal_places=2, color=INK).scale(0.75)
-        epsilon_result = VGroup(epsilon_number)
+        epsilon_result = VGroup(epsilon_prefix, epsilon_number).arrange(RIGHT, buff=0.18)
         epsilon_result.formula = formula
         epsilon_result.next_to(formula, RIGHT, buff=0.18).set_y(formula['='].get_y())
-        self.play(ReplacementTransform(VGroup(q_share_top, numeric_bar, p_share_top), epsilon_result))
+        self.play(ReplacementTransform(VGroup(calculation_equals, q_share_top, numeric_bar, p_share_top), epsilon_result))
         epsilon_number.source = midpoint_price
         epsilon_number.add_updater(lambda number: number.set_value(
             -number.source.get_value() / (12 - number.source.get_value())))
-        epsilon_result.add_updater(lambda group: group.next_to(group.formula, RIGHT, buff=0.18)
-                                  .set_y(group.formula['='].get_y()))
+        epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
+                                  .next_to(group.formula, RIGHT, buff=0.18).set_y(group.formula['='].get_y()))
         elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=INK, tex_to_color_map={'Elastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
         self.remove(midpoint_def)
         demand_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
@@ -534,18 +532,15 @@ class B5(Scene):
         # ---- 4.e · Lower the interval within the elastic region, then pause.
         # The graph and live percentage bars stay in place throughout the sweep.
         # Each brace covers a whole region, not just the interval being measured.
-        self.remove(q_ratio_label, p_ratio_label)
-        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=INK).scale(0.8).move_to([1.7, -0.95, 0])
-        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=INK).scale(0.8).move_to([1.7, -2.25, 0])
         upper_demand = Line(ea.c2p(0, 12), ea.c2p(30, 6), color=DEMAND, stroke_width=7)
         lower_demand = Line(ea.c2p(30, 6), ea.c2p(60, 0), color=DEMAND, stroke_width=7)
         upper_brace = Brace(upper_demand, direction=UR, color=MUTED, buff=0.15)
         lower_brace = Brace(lower_demand, direction=UR, color=MUTED, buff=0.15)
-        upper_brace_label = MathTex(r'|\epsilon_D|>1', color=INK).scale(0.7)
+        upper_brace_label = MathTex(r'|\epsilon_D|>1', color=DEFINITION).scale(0.7)
         upper_brace_label.move_to(upper_brace.get_center() + UR * 0.65)
-        lower_brace_label = MathTex(r'|\epsilon_D|<1', color=INK).scale(0.7)
+        lower_brace_label = MathTex(r'|\epsilon_D|<1', color=DEFINITION).scale(0.7)
         lower_brace_label.move_to(lower_brace.get_center() + UR * 0.65)
-        self.play(FadeOut(left_panel[13]), FadeOut(equation), FadeIn(q_ratio_label), FadeIn(p_ratio_label))
+        self.play(FadeOut(left_panel[13]), FadeOut(equation))
         self.play(midpoint_price.animate.set_value(8), run_time=2.5, rate_func=smooth)
         self.play(FadeIn(upper_brace), FadeIn(upper_brace_label))
         self.pause('4.e')
@@ -554,7 +549,7 @@ class B5(Scene):
         self.play(FadeOut(elastic_word), midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
         unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=INK, tex_to_color_map={'Unit elastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
         unit_marker = Dot(ea.c2p(30, 6), color=FOCUS, radius=0.055)
-        unit_marker_label = MathTex(r'|\epsilon_D|=1', color=INK).scale(0.7)
+        unit_marker_label = MathTex(r'|\epsilon_D|=1', color=DEFINITION).scale(0.7)
         unit_marker_label.next_to(unit_marker, LEFT, buff=0.3).shift(DOWN * 0.55)
         self.play(FadeIn(unit_word), FadeIn(unit_marker), FadeIn(unit_marker_label))
         self.pause('4.f')
