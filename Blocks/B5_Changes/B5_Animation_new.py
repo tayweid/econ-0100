@@ -391,15 +391,18 @@ class B5(Scene):
         q_delta.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), 0) + DOWN * 0.55,
             line.ax.c2p(60 - 5 * (line.source.get_value() - 0.5), 0) + DOWN * 0.55))
-        q_base = Line(ea.c2p(0, 0), ea.c2p(7.5, 0), color=MUTED, stroke_width=8)
+        q_base = Line(ea.c2p(0, 0) + DOWN * 0.3, ea.c2p(7.5, 0) + DOWN * 0.3,
+                      color=MUTED, stroke_width=8)
         q_base.ax, q_base.source = ea, midpoint_price
         q_base.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(0, 0), line.ax.c2p(60 - 5 * line.source.get_value(), 0)))
-        q_mid_tick = Line(ea.c2p(7.5, -0.16), ea.c2p(7.5, 0.16), color=FOCUS, stroke_width=3)
+            line.ax.c2p(0, 0) + DOWN * 0.3,
+            line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.3))
+        q_mid_tick = Line(ea.c2p(7.5, -0.16) + DOWN * 0.3, ea.c2p(7.5, 0.16) + DOWN * 0.3,
+                          color=FOCUS, stroke_width=3)
         q_mid_tick.ax, q_mid_tick.source = ea, midpoint_price
         q_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(60 - 5 * line.source.get_value(), -0.16),
-            line.ax.c2p(60 - 5 * line.source.get_value(), 0.16)))
+            line.ax.c2p(60 - 5 * line.source.get_value(), -0.16) + DOWN * 0.3,
+            line.ax.c2p(60 - 5 * line.source.get_value(), 0.16) + DOWN * 0.3))
         midpoint_arrow = Arrow(midpoint_note.get_right(), q_mid_tick.get_top(),
                                color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
                                max_tip_length_to_length_ratio=0.12)
@@ -434,14 +437,17 @@ class B5(Scene):
         p_delta.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(0, line.source.get_value() + 0.5) + LEFT * 0.9,
             line.ax.c2p(0, line.source.get_value() - 0.5) + LEFT * 0.9))
-        p_base = Line(ea.c2p(0, 0), ea.c2p(0, 10.5), color=MUTED, stroke_width=8)
+        p_base = Line(ea.c2p(0, 0) + LEFT * 0.15, ea.c2p(0, 10.5) + LEFT * 0.15,
+                      color=MUTED, stroke_width=8)
         p_base.ax, p_base.source = ea, midpoint_price
         p_base.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(0, 0), line.ax.c2p(0, line.source.get_value())))
-        p_mid_tick = Line(ea.c2p(-0.8, 10.5), ea.c2p(0.8, 10.5), color=FOCUS, stroke_width=3)
+            line.ax.c2p(0, 0) + LEFT * 0.15, line.ax.c2p(0, line.source.get_value()) + LEFT * 0.15))
+        p_mid_tick = Line(ea.c2p(-0.8, 10.5) + LEFT * 0.15, ea.c2p(0.8, 10.5) + LEFT * 0.15,
+                          color=FOCUS, stroke_width=3)
         p_mid_tick.ax, p_mid_tick.source = ea, midpoint_price
         p_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(-0.8, line.source.get_value()), line.ax.c2p(0.8, line.source.get_value())))
+            line.ax.c2p(-0.8, line.source.get_value()) + LEFT * 0.15,
+            line.ax.c2p(0.8, line.source.get_value()) + LEFT * 0.15))
         p_change_label = MathTex(r'\Delta P=1', color=FOCUS).scale(0.8).move_to([2.15, -0.8, 0])
         p_average_label = MathTex(r'\bar P=', r'\frac{10+11}{2}', '=10.5', color=FOCUS).scale(0.8)
         p_average_label.move_to([2.15, -1.55, 0])
