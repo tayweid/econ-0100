@@ -367,36 +367,36 @@ class B5(Scene):
             pn.ax, pn.source, pn.sign = ea, midpoint_price, sign
             pn.add_updater(lambda number: number.set_value(number.source.get_value() + number.sign / 2)
                           .next_to(number.ax.c2p(0, number.source.get_value() + number.sign / 2),
-                                   LEFT, buff=0.25).shift(UP * number.sign * 0.1))
+                                   LEFT, buff=0.65).shift(UP * number.sign * 0.1))
             pn.update()
             qn = previous_endpoint[4]
             qn.num_decimal_places = 1
             qn.ax, qn.source, qn.sign = ea, midpoint_price, sign
             qn.add_updater(lambda number: number.set_value(60 - 5 * (number.source.get_value() + number.sign / 2))
                           .move_to(number.ax.c2p(60 - 5 * (number.source.get_value() + number.sign / 2), 0)
-                                   + DOWN * 0.95 + LEFT * number.sign * 0.16))
+                                   + DOWN * 0.65 + LEFT * number.sign * 0.16))
             qn.update()
             endpoint.add(h, v, point, pn, qn)
             endpoints.add(endpoint)
         # Measure changes outside the axes, as in the responsiveness comparison.
-        q_delta = Line(ea.c2p(5, 0) + DOWN * 0.55, ea.c2p(10, 0) + DOWN * 0.55,
+        q_delta = Line(ea.c2p(5, 0) + DOWN * 0.36, ea.c2p(10, 0) + DOWN * 0.36,
                        color=FOCUS, stroke_width=6)
         q_delta.ax, q_delta.source = ea, midpoint_price
         q_delta.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), 0) + DOWN * 0.55,
-            line.ax.c2p(60 - 5 * (line.source.get_value() - 0.5), 0) + DOWN * 0.55))
-        q_base = Line(ea.c2p(0, 0) + DOWN * 0.3, ea.c2p(7.5, 0) + DOWN * 0.3,
+            line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), 0) + DOWN * 0.36,
+            line.ax.c2p(60 - 5 * (line.source.get_value() - 0.5), 0) + DOWN * 0.36))
+        q_base = Line(ea.c2p(0, 0) + DOWN * 0.16, ea.c2p(7.5, 0) + DOWN * 0.16,
                       color=MUTED, stroke_width=8)
         q_base.ax, q_base.source = ea, midpoint_price
         q_base.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(0, 0) + DOWN * 0.3,
-            line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.3))
-        q_mid_tick = Line(ea.c2p(7.5, -0.16) + DOWN * 0.3, ea.c2p(7.5, 0.16) + DOWN * 0.3,
+            line.ax.c2p(0, 0) + DOWN * 0.16,
+            line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.16))
+        q_mid_tick = Line(ea.c2p(7.5, -0.16) + DOWN * 0.16, ea.c2p(7.5, 0.16) + DOWN * 0.16,
                           color=FOCUS, stroke_width=3)
         q_mid_tick.ax, q_mid_tick.source = ea, midpoint_price
         q_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(60 - 5 * line.source.get_value(), -0.16) + DOWN * 0.3,
-            line.ax.c2p(60 - 5 * line.source.get_value(), 0.16) + DOWN * 0.3))
+            line.ax.c2p(60 - 5 * line.source.get_value(), -0.16) + DOWN * 0.16,
+            line.ax.c2p(60 - 5 * line.source.get_value(), 0.16) + DOWN * 0.16))
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
         VGroup(elasticity_kind, formula).arrange(RIGHT, buff=0.22).move_to([3.95, 1.9, 0])
         elasticity_kind.set_y(formula[r'\epsilon_D'].get_y())
@@ -422,12 +422,12 @@ class B5(Scene):
         self.pause('4.a')
 
         # ---- 4.b · Repeat the same construction for price, with a positive change.
-        p_delta = Line(ea.c2p(0, 11) + LEFT * 0.9, ea.c2p(0, 10) + LEFT * 0.9,
+        p_delta = Line(ea.c2p(0, 11) + LEFT * 0.4, ea.c2p(0, 10) + LEFT * 0.4,
                        color=FOCUS, stroke_width=6)
         p_delta.ax, p_delta.source = ea, midpoint_price
         p_delta.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(0, line.source.get_value() + 0.5) + LEFT * 0.9,
-            line.ax.c2p(0, line.source.get_value() - 0.5) + LEFT * 0.9))
+            line.ax.c2p(0, line.source.get_value() + 0.5) + LEFT * 0.4,
+            line.ax.c2p(0, line.source.get_value() - 0.5) + LEFT * 0.4))
         p_base = Line(ea.c2p(0, 0) + LEFT * 0.15, ea.c2p(0, 10.5) + LEFT * 0.15,
                       color=MUTED, stroke_width=8)
         p_base.ax, p_base.source = ea, midpoint_price
