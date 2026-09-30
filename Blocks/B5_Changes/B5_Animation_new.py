@@ -762,42 +762,7 @@ class B5(Scene):
                 opacity=0.5 if m.mc <= m.source.get_value() + 1e-8 else 0.14))
             seller_bars.add(bar)
         self.play(FadeIn(seller_bars))
-        supply_molly_selection = Polygon(sa.c2p(19.2, 0), sa.c2p(20.8, 0),
-                                         sa.c2p(20.8, 3), sa.c2p(19.2, 3),
-                                         stroke_width=0, fill_color=SUPPLY, fill_opacity=1, z_index=2)
-        supply_molly_bar = Rectangle(width=0.2, height=1.8, stroke_width=0, fill_color=SUPPLY, fill_opacity=1)
-        supply_molly_bar.move_to([3.95, -1.35, 0])
-        supply_molly_name = Tex('Molly', color=INK).scale(0.8).move_to([3.95, -2.65, 0])
-        supply_molly_units = Tex(r'MC (\$/lb)', color=CAPTION).scale(0.65).move_to([3.95, 1.6, 0])
-        supply_molly_cost = Tex('3', color=SUPPLY).scale(0.7).next_to(supply_molly_bar.get_top(), LEFT, buff=0.3)
-        supply_molly_price = DashedLine([3.25, 0.15, 0], [4.65, 0.15, 0], color=GUIDE)
-        supply_molly_price.source = supply_price
-        supply_molly_price.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.25, -2.25 + 0.6 * line.source.get_value(), 0]),
-            np.array([4.65, -2.25 + 0.6 * line.source.get_value(), 0])))
-        supply_molly_pn = DecimalNumber(4, num_decimal_places=1, color=GUIDE).scale(0.7)
-        supply_molly_pn.source, supply_molly_pn.line = supply_price, supply_molly_price
-        supply_molly_pn.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(number.line, RIGHT, buff=0.15))
-        self.play(FadeIn(supply_molly_selection))
-        self.play(TransformFromCopy(supply_molly_selection, supply_molly_bar),
-                  FadeIn(supply_molly_name), FadeIn(supply_molly_units), FadeIn(supply_molly_cost),
-                  FadeIn(supply_molly_price), FadeIn(supply_molly_pn))
-        supply_molly_selection.source = supply_price
-        supply_molly_selection.add_updater(lambda bar: bar.set_fill(
-            SUPPLY if bar.source.get_value() >= 3 else MUTED,
-            opacity=1 if bar.source.get_value() >= 3 else 0.14))
-        supply_molly_check = MathTex(r'\checkmark', color=GREEN).scale(0.85).move_to([3.95, 2.3, 0])
-        supply_molly_check.source = supply_price
-        supply_molly_check.add_updater(lambda mark: mark.set_opacity(1 if mark.source.get_value() >= 3 else 0))
-        supply_molly_cross = MathTex(r'\times', color=GUIDE).scale(0.85).move_to(supply_molly_check)
-        supply_molly_cross.source = supply_price
-        supply_molly_cross.add_updater(lambda mark: mark.set_opacity(1 if mark.source.get_value() < 3 else 0))
-        self.add(supply_molly_check, supply_molly_cross)
         self.pause('6.a')
-        self.play(supply_price.animate.set_value(2.5), run_time=2, rate_func=smooth)
-        self.pause('6.a.no')
-        self.play(supply_price.animate.set_value(4), run_time=2, rate_func=smooth)
-        self.pause('6.a.yes')
 
         # ---- 6.b · Keep the original choice and measure the price and quantity changes.
         original_supply_choice = VGroup(*[
@@ -825,13 +790,8 @@ class B5(Scene):
         # ---- 6.c · Keep the graph fixed while introducing the midpoint calculation.
         old_supply_choices = VGroup(supply_h, supply_v, supply_dot, supply_pn, supply_qn, original_supply_choice)
         old_supply_choices.clear_updaters()
-        for mob in (supply_molly_selection, supply_molly_check, supply_molly_cross):
-            mob.clear_updaters()
         self.play(FadeOut(seller_bars), FadeOut(supply_q_change), FadeOut(supply_p_change),
-                  FadeOut(supply_change_caps), FadeOut(supply_change_values),
-                  FadeOut(supply_molly_selection), FadeOut(supply_molly_bar), FadeOut(supply_molly_name),
-                  FadeOut(supply_molly_units), FadeOut(supply_molly_cost), FadeOut(supply_molly_price), FadeOut(supply_molly_pn),
-                  FadeOut(supply_molly_check), FadeOut(supply_molly_cross))
+                  FadeOut(supply_change_caps), FadeOut(supply_change_values))
         supply_midprice = ValueTracker(4.5)
         supply_endpoints = VGroup()
         for sign, endpoint_color in [(-1, CAPTION), (1, GUIDE)]:
