@@ -226,8 +226,7 @@ class B5(Scene):
         head = title('Elasticity')
         question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        comparison_kind = Tex('Price Elasticity of Demand', color=DEMAND).scale(0.7).move_to([3.95, 3.05, 0])
-        self.play(FadeIn(head), FadeIn(question), FadeIn(comparison_kind))
+        self.play(FadeIn(head), FadeIn(question))
         scenario_note = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.65)
         scenario_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(scenario_note))
@@ -591,7 +590,7 @@ class B5(Scene):
                 .scale(0.8).move_to([3.75, -3.3, 0]))
         slope_answer = Tex('Same slope, different elasticities.', color=FOCUS).scale(DEFINITION_SCALE)
         slope_answer.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(comparison_kind), FadeIn(elasticity_panels),
+        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_panels),
                   FadeIn(initial_choices), FadeIn(movement_arrows), FadeIn(comparison_slopes))
         self.play(FadeIn(comparison_elasticities), FadeIn(slope_answer))
         self.pause('4.i')
