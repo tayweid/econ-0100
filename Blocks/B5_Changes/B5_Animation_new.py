@@ -227,7 +227,7 @@ class B5(Scene):
         question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
-        scenario_note = Tex(r'\textsf{Price goes up by \$1 in both scenarios.}', color=CAPTION).scale(0.65)
+        scenario_note = Tex(r'Price goes up by \$1 in both scenarios.', color=INK).scale(0.65)
         scenario_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(scenario_note))
         elasticity_panels = VGroup()
