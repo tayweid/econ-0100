@@ -378,12 +378,6 @@ class B5(Scene):
             qn.update()
             endpoint.add(h, v, point, pn, qn)
             endpoints.add(endpoint)
-        midpoint_dot = Dot(ea.c2p(7.5, 10.5), color=FOCUS, radius=0.055)
-        midpoint_dot.ax, midpoint_dot.source = ea, midpoint_price
-        midpoint_dot.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
-            60 - 5 * dot.source.get_value(), dot.source.get_value())))
-        midpoint_note = Tex('Midpoint', color=DEFINITION).scale(0.6)
-        midpoint_note.next_to(ea.c2p(0, 0), LEFT, buff=0.65).shift(UP * 0.45)
         # Measure changes outside the axes, as in the responsiveness comparison.
         q_delta = Line(ea.c2p(5, 0) + DOWN * 0.55, ea.c2p(10, 0) + DOWN * 0.55,
                        color=FOCUS, stroke_width=6)
@@ -403,9 +397,6 @@ class B5(Scene):
         q_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(60 - 5 * line.source.get_value(), -0.16) + DOWN * 0.3,
             line.ax.c2p(60 - 5 * line.source.get_value(), 0.16) + DOWN * 0.3))
-        midpoint_arrow = Arrow(midpoint_note.get_right(), q_mid_tick.get_top(),
-                               color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
-                               max_tip_length_to_length_ratio=0.12)
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
         VGroup(elasticity_kind, formula).arrange(RIGHT, buff=0.22).move_to([3.95, 1.9, 0])
         elasticity_kind.set_y(formula[r'\epsilon_D'].get_y())
@@ -422,7 +413,7 @@ class B5(Scene):
         self.add(endpoints)
         self.play(FadeIn(e_divider))
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
-        self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note), FadeIn(midpoint_arrow))
+        self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
                   TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
         self.wait(0.25)
@@ -453,19 +444,13 @@ class B5(Scene):
         p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
-        price_midpoint_note = midpoint_note.copy().next_to(p_mid_tick, DOWN, buff=0.55)
-        price_midpoint_arrow = Arrow(price_midpoint_note.get_top(), p_mid_tick.get_bottom(),
-                                     color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
-                                     max_tip_length_to_length_ratio=0.12)
-        self.play(FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick),
-                  Transform(midpoint_note, price_midpoint_note),
-                  Transform(midpoint_arrow, price_midpoint_arrow), run_time=0.8)
+        self.play(FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick), run_time=0.8)
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
                   TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label[:2]))
         self.wait(0.25)
         # Keep the averaging arithmetic visible and append its result.
         self.play(FadeIn(p_average_label[2:]), run_time=0.65)
-        self.bring_to_front(endpoints, midpoint_dot, q_mid_tick, p_mid_tick)
+        self.bring_to_front(endpoints, q_mid_tick, p_mid_tick)
         self.pause('4.b')
 
         # ---- 4.c · Normalize the measurements before comparing their lengths.
@@ -525,7 +510,7 @@ class B5(Scene):
         # ---- 4.e · Lower the interval within the elastic region, then pause.
         # The graph and live percentage bars stay in place throughout the sweep.
         # Each brace covers a whole region, not just the interval being measured.
-        self.remove(q_ratio_label, p_ratio_label, midpoint_note, midpoint_arrow)
+        self.remove(q_ratio_label, p_ratio_label)
         q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=FOCUS).scale(0.8).move_to([1.7, 0.35, 0])
         p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=FOCUS).scale(0.8).move_to([1.7, -0.95, 0])
         upper_demand = Line(ea.c2p(0, 12), ea.c2p(30, 6), color=DEMAND, stroke_width=7)
@@ -556,7 +541,7 @@ class B5(Scene):
                   FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
                   FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
                   FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
-                  FadeOut(q_mid_tick), FadeOut(p_mid_tick), FadeOut(endpoints), FadeOut(midpoint_dot),
+                  FadeOut(q_mid_tick), FadeOut(p_mid_tick), FadeOut(endpoints),
                   FadeOut(demand_sign_note))
         elastic_region = VGroup(Tex('Elastic', color=DEFINITION), MathTex(r'|\epsilon_D|>1'))
         elastic_region.arrange(RIGHT, buff=0.3).scale(0.9).move_to([3.6, 1.5, 0])
