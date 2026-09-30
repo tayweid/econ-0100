@@ -584,7 +584,7 @@ class B5(Scene):
             Tex(r'{{Inelastic}}: $\epsilon_D=-1/7$', tex_to_color_map={'Inelastic': DEFINITION})
                 .scale(0.8).move_to([3.75, -3.3, 0]))
         slope_answer = Tex('Same slope, different elasticities.', color=FOCUS).scale(DEFINITION_SCALE)
-        slope_answer.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        slope_answer.move_to([0, 3.3, 0])
         self.play(FadeIn(head), FadeIn(question), FadeIn(comparison_panels),
                   FadeIn(comparison_choices), FadeIn(comparison_arrows), FadeIn(comparison_slopes))
         self.play(FadeIn(comparison_elasticities), FadeIn(slope_answer))
