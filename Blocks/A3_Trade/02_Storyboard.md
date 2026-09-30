@@ -208,7 +208,7 @@ her offer point (4, 34) outside her PPF, Andrew's (4, 6) INSIDE his. Andrew coun
    exchange rate always exists.` — two sentences, full stop, no dash.
 6. **Note #7 — the exercise cards are two revisions stale.** The current Exercise_A3 is:
    Q1 | Specialization, Q2 | Trade, Q3 | Workable Rates (Q4 is the follow-up, gradescope-only —
-   no card). Changing Labor is DROPPED (parked at Practice_Bank/Parked_Q_Changing_Labor.md), so
+   no card). Changing Labor is DROPPED (parked at ../A_Practice_Bank/Parked_Q_Changing_Labor.md), so
    the second cut beat dies. The notes put all three questions at ONE stop, after the
    shift-toward-specialties paragraph. Staging suggestion: three sequential cards with pauses
    (B11 / B11b / B11c), one question each — matching how the class actually runs (work Q1, work

@@ -148,7 +148,7 @@ Then we plug these numbers into our equation and solve.
 > >
 > > 
 > >
-> *Exercise B1 | candidate: give a demand curve, find the quantity demanded at a price, then the consumer surplus at that price. The Fall 2024 Classwork B1 Q1 is the pattern (pumpkin pasties, P = 17 − Q/6, CS at 5 and 10 galleons), minus its elasticity question (now B5′s). Source: Practice_Bank/Classwork_B1_v3.md. Continuing-cast note: Vignette B1′s pasties curve is P = 12 − Q/2 — the Exercise could reuse that same curve so recitation and class run one example.*
+> *Exercise B1 | candidate: give a demand curve, find the quantity demanded at a price, then the consumer surplus at that price. The Fall 2024 Classwork B1 Q1 is the pattern (pumpkin pasties, P = 17 − Q/6, CS at 5 and 10 galleons), minus its elasticity question (now B5′s). Source: ../B_Practice_Bank/Classwork_B1_pasties_F24.md. Continuing-cast note: Vignette B1′s pasties curve is P = 12 − Q/2 — the Exercise could reuse that same curve so recitation and class run one example.*
 
 <!-- ED: EXERCISE UPDATE (2026-09-15, per chat) — Exercise_B1.md and its Gradescope version use P = 12 − Q/2 with Q in pasties, not thousands. At P = 10, Q = 4; at Q = 4, marginal benefit is 10 galleons per pasty; at P = 5, Q = 14 and the continuous-model CS is 49 galleons. Author wording is still needed to carry the divisible-good convention into the pasties example: whole-number axis units do not require indivisible goods. If instead you intend only whole pasties valued at the right endpoints, CS at 5 would be 45.5 galleons, not 49. My pick is to retain the continuous model just taught and allow fractional pasties. The older vignette and archived problems still have their original units. -->
 
