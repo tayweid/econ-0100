@@ -67,16 +67,28 @@ class B5(Scene):
         self.play(FadeIn(p_line), FadeIn(point), FadeIn(q_line), FadeIn(result_words), FadeIn(bottom))
         self.pause('1.a')
 
-        # ---- 1.b · Add welfare to the equilibrium recap.
+        # ---- 1.b · Show CS/PS as vertical slices, then recolor them for TS.
         self.remove(head, question)
         head = title('Equilibrium + Welfare')
         question = Tex(r'\textsf{Equilibrium in competitive markets maximizes total surplus.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question))
-        cs = Polygon(ax.c2p(0, 4), ax.c2p(0, 12), ax.c2p(40, 4),
-                     stroke_width=0, fill_color=DEMAND, fill_opacity=AREA_OPACITY)
-        ps = Polygon(ax.c2p(0, 2), ax.c2p(0, 4), ax.c2p(40, 4),
-                     stroke_width=0, fill_color=SUPPLY, fill_opacity=AREA_OPACITY)
+        WELFARE_BAR_STEP = 1.0  # Q is measured in thousands of pounds.
+        WELFARE_BAR_GAP = 0.15
+        cs, ps = VGroup(), VGroup()
+        # Narrow gaps distinguish the bars; sloping edges follow the curves.
+        # Matching quantity intervals keep CS and PS aligned when both turn TS purple.
+        for q in np.arange(0, 40, WELFARE_BAR_STEP):
+            q_left = q + WELFARE_BAR_GAP / 2
+            q_right = min(q + WELFARE_BAR_STEP, 40) - WELFARE_BAR_GAP / 2
+            cs.add(Polygon(
+                ax.c2p(q_left, 4), ax.c2p(q_left, 12 - q_left / 5),
+                ax.c2p(q_right, 12 - q_right / 5), ax.c2p(q_right, 4),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=AREA_OPACITY))
+            ps.add(Polygon(
+                ax.c2p(q_left, 2 + q_left / 20), ax.c2p(q_left, 4),
+                ax.c2p(q_right, 4), ax.c2p(q_right, 2 + q_right / 20),
+                stroke_width=0, fill_color=SUPPLY, fill_opacity=AREA_OPACITY))
         welfare_words = VGroup(
             Tex('CS', color=DEMAND).scale(0.85).move_to(ax.c2p(12, 6.5)),
             Tex('PS', color=SUPPLY).scale(0.8).move_to(ax.c2p(12, 3.3)))
