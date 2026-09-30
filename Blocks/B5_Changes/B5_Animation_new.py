@@ -392,7 +392,7 @@ class B5(Scene):
             line.ax.c2p(0, 0) + DOWN * 0.16,
             line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.16))
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
-        elasticity_kind.move_to([3.95, 3.0, 0])
+        elasticity_kind.move_to([2.15, 3.3, 0])
         formula.move_to([3.1, 1.9, 0])
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', '=7.5', color=FOCUS).scale(0.8)
