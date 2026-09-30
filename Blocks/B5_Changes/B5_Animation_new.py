@@ -557,7 +557,8 @@ class B5(Scene):
         unit_region.arrange(RIGHT, buff=0.3).scale(0.9).move_to([3.6, 0.0, 0])
         inelastic_region = VGroup(Tex('Inelastic', color=DEFINITION), MathTex(r'|\epsilon_D|<1'))
         inelastic_region.arrange(RIGHT, buff=0.3).scale(0.9).move_to([3.6, -1.5, 0])
-        slope_note = MathTex(r'\text{Slope}=-1/5', color=CAPTION).scale(0.8).move_to([3.6, -2.55, 0])
+        slope_note = Tex('Different elasticities with the same slope: 1/5.', color=CAPTION).scale(DEFINITION_SCALE)
+        slope_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         unit_guides = VGroup(
             DashedLine(ea.c2p(0, 6), ea.c2p(30, 6), color=MUTED),
             DashedLine(ea.c2p(30, 0), ea.c2p(30, 6), color=MUTED))
