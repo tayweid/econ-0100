@@ -598,7 +598,7 @@ class B5(Scene):
         ea = style_axes([0, 2, 1], [0, 12, 2], x_length=3.6, y_length=3.6)
         ea.shift(np.array([-3.7, BODY_MID, 0]) - (ea.c2p(0, 0) + ea.c2p(2, 12)) / 2)
         ep = VGroup(Tex(r'\textsf{\$/pack}', color=CAPTION).scale(0.5), Tex('P').scale(0.8)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(0, 12), LEFT, buff=0.25)
-        eq = VGroup(Tex('Q').scale(0.8), Tex(r'\textsf{packs/year}', color=CAPTION).scale(0.5)).arrange(DOWN, buff=0.08).next_to(ea.c2p(2, 0), DOWN, buff=0.35)
+        eq = VGroup(Tex('Q').scale(0.8), Tex(r'\textsf{packs/year}', color=CAPTION).scale(0.5)).arrange(RIGHT, buff=0.12).next_to(ea.c2p(2, 0), RIGHT, buff=0.15)
         vertical_demand = Line(ea.c2p(1, 0), ea.c2p(1, 12), color=DEMAND, stroke_width=4)
         vertical_label = Tex('D').scale(0.8).next_to(vertical_demand, RIGHT, buff=0.15).align_to(vertical_demand, UP)
         extreme_price = ValueTracker(9)
