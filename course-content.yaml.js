@@ -288,25 +288,6 @@ parts:
           recitation: '2026-10-02'
           homework: '2026-10-04'
 
-      - block: B6
-        folder: B6_Trade
-        nav: Trade
-        title: International Trade
-        description: >-
-          International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs.
-        episode:
-          video: Kxq2E69dpCA
-          description: "*International Trade*"
-        reading:
-          chapter: 20
-          topic: Globalization and protectionism
-        vignette:
-          description: "*International trade practice problems*"
-        dates:
-          class: '2026-09-30'
-          recitation: '2026-10-02'
-          homework: '2026-10-04'
-
       - checkpoint:
           reattempt: TBA
           date: '2026-10-05'
@@ -324,12 +305,19 @@ parts:
       - block: C1
         folder: C1_Tariffs
         nav: Tariffs
-        title: Tariffs
-        description: Political pressure to close the border, tariffs, inefficiency.
+        title: International Trade and Tariffs
+        description: 'International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs, a tax on imports.'
         episode:
-          description: "*Tariffs*"
+          description: "*International Trade and Tariffs*"
+          video: Kxq2E69dpCA
+        reading:
+          chapter: 20
+          description: Globalization and protectionism
         vignette:
-          description: "*Tariffs practice problems*"
+          description: "*International trade practice problems*"
+        dates:
+          class: '2026-10-07'
+          recitation: '2026-10-16'
 
       - block: C2
         folder: C2_Taxes_and_Subsidies
