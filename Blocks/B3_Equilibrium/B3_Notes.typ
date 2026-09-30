@@ -32,10 +32,6 @@
 
 _Equilibrium: when no one wants to change_
 
-// plass:comment
-// | Editor. Reorganized from B3_Notes_tw.typ at your request; that draft is unchanged. The order is now: basic exchange; bidding war; multiple trades; separate demand/supply curves and quantity exchanged; low/high-price tests; the messy market and its settled outcome; the combined graph and algebra. Existing prose is moved rather than cut. Proposed headings, transitions, and equations remain in {++ ++}; your outstanding proposals and exercise-rewrite note are preserved.
-// /plass:comment
-
 Last week we started with buyers, and asked how much each was willing to buy at a range of prices. This gave us a relationship between prices and quantity demanded on the price quantity graph, a relationship we call demand. We found it to be downward sloping, which is what we call the Law of Demand: people buy more when the price is lower. These ideas work for individuals and for large groups. The only difference is that in large groups we ask many people at each price. In general Demand is not linear but for this class we’ll represent preferences like this with a linear function. Working with a function like this, whether it’s linear or not, makes it very easy for us to ask questions about people’s preferences for things over a whole range of prices, which turns out to~be very convenient.~
 
 Then we asked the same kinds of questions of sellers. Molly has to decide how much spinach to sell.~As price goes up, shes willing to switch her resources away from other uses toward growing spinach, and maybe even expand her farm or factory to produce more. This gave us a positive relationship between price and quantity supplied, Individual Supply, which obeys the Law of Supply: sellers will~sell more when prices go up. Again here we can ask the same questions of any number of sellers and represent the relationship between prices and quantities with a mathematical function. And again while it’s generally not linear in reality, it doesn’t change any core results if we work with linear~supply to keep the math simple.~
@@ -60,8 +56,6 @@ The price splits the gains from the exchange between the two of them. Both would
   Exercise to Rewrite:~_At prices of \$5, \$7, and \$1, would Gary buy? Would Molly sell? At \$5, how much does each gain?_
 
 ]
-
-~
 
 More generally, if the price is too high, the the buyer will not accept the exchange. If the price is~too~low the seller will not accept the exchange. A price can facilitate a trade if it calls between the seller’s MC and the buyer’s MB: #mi(`MC < P < MB`).
 
@@ -95,7 +89,7 @@ With these three people, the price is stable. No one wants to switch. This idea 
 
 ]
 
-=== {++Act 3 | Multiple Trades++}
+=== Act 3 | Multiple Trades
 
 With multiple sellers of spinach a new phenomenon shows up. Andrew is another seller of spinach who isn’t quite as efficient as Molly and is willing to sell a pound of spinach for no less than \$4. Lets keep our lives simple and pretend that the sellers cannot make up the prices they charge, they simply take the prices that the buyers offer, and choose to accept or reject. This doesn’t change our results but does make our lives easier. While Amanda-Grace is over buying spinach from Molly, Gary realizes his two options are to walk away or try to buy from Andrew. Gary is a generous buy and splits their difference with an offer of \$5. Andrew accepts this offer since it’s the best available option for him. Both Gary and Andrew gain \$1 in surplus value from this exchange.
 
@@ -116,56 +110,33 @@ So the prices end up being the same. Interestingly, if the pairings’ prices we
 
 With two pairings it’s easy to see that there will be incentives to switch whenever prices aren’t equal. But it doesn’t yet tell us which price the larger market will settle on.~
 
-=== {++Act 4 | Buyers and Sellers++}
+=== Act 4 | Buyers and Sellers
 
-// plass:comment
-// | Editor. Moved the separate demand and supply views ahead of the market run. The group is present, but its price is still an open question. The original paragraphs explaining settled pairings and people remaining on the sidelines are now after the run in Act 6. The framing, units, and displayed equations below are proposed additions; the equations use the same market as your existing algebra. The misplaced italic marker in the demand exercise (D_raw) is repaired as formatting only.
-// /plass:comment
+Our four are part of many in the larger farmers market. I’ve put the other buyers on one side and the other sellers on the other. There are many buyers here who want more~than one pound of spinach. We’ve just included them muliple times, once for each of the pounds~of spinach they’d like. And the~sellers who want to sell more than a pound of spinach are also shown multiple times. The number of buyers and sellers isn’t necessarily equal.~
 
-{++Before we let this larger market run, let’s look at the buyers and sellers separately. We can ask how much each side would want at a price without yet knowing where the price will settle.++}
+This is all pretty complicated looking. The value of models like we’re developing is to give us a better view of complicated things. To keep things organized, lets keep track of all the buyers in order on the side, forming a demand curve like we’re familiar with, along with an equation for the line through their marginal benefits. Like before, we can use price to ask how much this group wants.~
 
-We just have one person per bar, and if someone wants more than one, we just have them show up twice.
-
-{++For the large market, quantity is measured in thousands of pounds and price in dollars per pound. Each displayed unit represents a 1,000-pound lot.++}
-
-{++Let’s arrange all the buyers in order so we can see their demand curve.++}
-
-Lets put their demand curve on the side like we’re familiar with, along with it’s equation, and the price and quantity demanded for~these~buyers.
-
-{++The demand curve is #mi(`P = 12 - Q_d/5`).++}
+At a price of … , buyers want ….~
 
 #quote(block: true)[
-  _Exercise: Draw the demand curve, with price on the vertical axis and quantity on the horizontal axis. Label the units and intercepts. At \$6, find the quantity demanded and mark it on the graph. Then do the same at \$3._
+  _Find a few price and quantity pairs, showing the buyers who would buy with green checks, and~those who wouldn’t with red xs.~_
 
 ]
 
-{++Now arrange the sellers in order so we can see their supply curve.++}
-
-Like we did for buyers, lets put the supply curve on the side like we’re familiar with, along with it’s~equation, and the price and quantity supplied for these sellers.~
-
-{++The supply curve is #mi(`P = 2 + Q_s/20`).++}
+Like we did for buyers, lets keep track of the sellers on the side, forming the supply curve like we’re familiar with, along with the equation for their marginal costs.~
 
 #quote(block: true)[
-  _Exercise: Draw supply on a separate graph, using the same axis scales as demand. At \$3, find the quantity supplied and mark it on the graph. Repeat at \$6._
+  _Find a few price and quantity pairs, showing the sellers who would sell with green checks, and~those who wouldn’t with red xs.~_
 
 ]
-
-#quote(block: true)[
-  _Exercise B3 | Q2(a)(b): At 5 galleons on the pumpkin-pasty curves, find the quantity demanded and the quantity supplied. Sketch the two curves separately and mark the quantities._
-
-]
-
-==== {++Quantity Exchanged++}
-
-{++Now we have both sides. At 5 galleons, buyers want 14 pasties and sellers are willing to sell 6.++}
-
-Q. In this situation, how much is sold? A. #mi(`Q_s`).
 
 Q. How much is bought? A. #mi(`Q_s`), since that’s all that’s available, meaning many buyers who would want to buy will go without.
 
 {++Six pasties are sold, and the same six are bought. The quantity exchanged is 6, even though the quantity demanded is 14.++}
 
 {++In this market, when willing buyers and sellers can find each other, quantity exchanged is the smaller of quantity demanded and quantity supplied.++}
+
+_Exercise B3 | Q2(a)(b): At 5 galleons on the pumpkin-pasty curves, find the quantity demanded and the quantity supplied. Sketch the two curves separately and mark the quantities._
 
 === Act 5 | Low and High Prices
 
@@ -220,29 +191,17 @@ In this way, whenever there’s excess both buyers and sellers have an incentive
 // /plass:comment
 
 #quote(block: true)[
-  _{++Board and paper: At \$3 and at \$6, mark quantity demanded, quantity supplied, and quantity exchanged on your spinach graphs. Find the size of the gap and draw an arrow showing which way the price moves.++}_
+  _Exercise: At \$3 and at \$6, mark quantity demanded, quantity supplied, and quantity exchanged on your spinach graphs. Find the size of the gap and draw an arrow showing which way the price moves._
 
-  _{++Return to Exercise B3 | Q2(c)(d): At 5 galleons, name the situation, say how large it is, and predict which way the price moves. Who has an incentive to make a different offer?++}_
+  _Return to Exercise B3 | Q2(c)(d): At 5 galleons, name the situation, say how large it is, and predict which way the price moves. Who has an incentive to make a different offer?_
 
 ]
-
-// plass:comment
-// | Editor. Exercise check: Qd = 14, Qs = 6, quantity exchanged = 6; shortage = 8 pasties; upward price pressure. This finishes the question begun in Act 4. The existing exercise sheet is unchanged; graphing and the quantity-exchanged question are proposed class prompts in these notes.
-// /plass:comment
 
 So prices will rise with a shortage and lower with an excess.
 
 Can there ever be a price that doesn’t change?
 
-// plass:comment
-// | Editor. Your Act 3 now asks sellers to accept or reject buyer offers, while the inherited high-price example has Andrew setting a lower ask. Both passages are retained. This assumption is a choice for your next wording pass; the reordering itself does not resolve it.
-// /plass:comment
-
-=== {++Act 6 | The Messy Market++}
-
-// plass:comment
-// | Editor. This act now follows the separate-curve calculations, quantity exchanged, the low/high-price cases, and Exercise Q2. Keep those curves visible while the market grows and settles. The full-market price is observed here before the combined graph and algebra in Act 7. Your market-buildup direction and narration are otherwise retained.
-// /plass:comment
+=== Act 6 | The Messy Market
 
 Starting with a small set of exchanges, we can continue to expand the number of buyers and sellers making exchanges through the same kinds of undercutting and out-bidding as in the smaller settings. Let’s quickly add more and more people until the market gets much bigger.
 
