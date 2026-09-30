@@ -391,12 +391,6 @@ class B5(Scene):
         q_base.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(0, 0) + DOWN * 0.16,
             line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.16))
-        q_mid_tick = Line(ea.c2p(7.5, -0.16) + DOWN * 0.16, ea.c2p(7.5, 0.16) + DOWN * 0.16,
-                          color=FOCUS, stroke_width=3)
-        q_mid_tick.ax, q_mid_tick.source = ea, midpoint_price
-        q_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(60 - 5 * line.source.get_value(), -0.16) + DOWN * 0.16,
-            line.ax.c2p(60 - 5 * line.source.get_value(), 0.16) + DOWN * 0.16))
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
         VGroup(elasticity_kind, formula).arrange(RIGHT, buff=0.22).move_to([3.95, 1.9, 0])
         elasticity_kind.set_y(formula[r'\epsilon_D'].get_y())
@@ -413,7 +407,7 @@ class B5(Scene):
         self.add(endpoints)
         self.play(FadeIn(e_divider))
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
-        self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick))
+        self.play(FadeIn(q_delta), FadeIn(q_base))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
                   TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
         self.wait(0.25)
@@ -433,24 +427,18 @@ class B5(Scene):
         p_base.ax, p_base.source = ea, midpoint_price
         p_base.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(0, 0) + LEFT * 0.15, line.ax.c2p(0, line.source.get_value()) + LEFT * 0.15))
-        p_mid_tick = Line(ea.c2p(-0.8, 10.5) + LEFT * 0.15, ea.c2p(0.8, 10.5) + LEFT * 0.15,
-                          color=FOCUS, stroke_width=3)
-        p_mid_tick.ax, p_mid_tick.source = ea, midpoint_price
-        p_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(-0.8, line.source.get_value()) + LEFT * 0.15,
-            line.ax.c2p(0.8, line.source.get_value()) + LEFT * 0.15))
         p_change_label = MathTex(r'\Delta P=1', color=FOCUS).scale(0.8).move_to([2.15, -0.8, 0])
         p_average_label = MathTex(r'\bar P=', r'\frac{10+11}{2}', '=10.5', color=FOCUS).scale(0.8)
         p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
-        self.play(FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick), run_time=0.8)
+        self.play(FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
                   TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label[:2]))
         self.wait(0.25)
         # Keep the averaging arithmetic visible and append its result.
         self.play(FadeIn(p_average_label[2:]), run_time=0.65)
-        self.bring_to_front(endpoints, q_mid_tick, p_mid_tick)
+        self.bring_to_front(endpoints)
         self.pause('4.b')
 
         # ---- 4.c · Normalize the measurements before comparing their lengths.
@@ -541,7 +529,7 @@ class B5(Scene):
                   FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
                   FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
                   FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
-                  FadeOut(q_mid_tick), FadeOut(p_mid_tick), FadeOut(endpoints),
+                  FadeOut(endpoints),
                   FadeOut(demand_sign_note))
         elastic_region = VGroup(Tex('Elastic', color=DEFINITION), MathTex(r'|\epsilon_D|>1'))
         elastic_region.arrange(RIGHT, buff=0.3).scale(0.9).move_to([3.6, 1.5, 0])
