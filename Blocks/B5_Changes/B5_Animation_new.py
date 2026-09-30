@@ -491,23 +491,44 @@ class B5(Scene):
         self.play(FadeIn(q_percent), FadeIn(p_percent))
         self.pause('4.c')
 
-        # ---- 4.d · Divide the two percentages; preserve the demand sign.
-        # Complete the standing formula instead of repeating epsilon_D below.
-        epsilon_prefix = MathTex('=').scale(0.75)
+        # ---- 4.d · Evaluate each share, then carry it into the main division.
+        # Ellipses retain the unrounded values: their ratio is exactly -7.
+        p_share_result = MathTex(r'0.095238\ldots', color=INK).scale(0.65).move_to(p_ratio_label)
+        q_share_result = MathTex(r'-0.666\ldots', color=INK).scale(0.65).move_to(q_ratio_label)
+        self.play(ReplacementTransform(p_ratio_label, p_share_result))
+        self.pause('4.d.action')
+        self.play(ReplacementTransform(q_ratio_label, q_share_result))
+        self.pause('4.d.response')
+
+        compact_formula = MathTex(r'\epsilon_D', '=').scale(0.75).align_to(formula, LEFT)
+        compact_formula.shift(UP * (formula['='].get_y() - compact_formula['='].get_y()))
+        numeric_bar = Line(LEFT * 0.95, RIGHT * 0.95, color=INK, stroke_width=2)
+        numeric_bar.next_to(compact_formula, RIGHT, buff=0.18).set_y(compact_formula['='].get_y())
+        q_share_top = q_share_result.copy().next_to(numeric_bar, UP, buff=0.12)
+        p_share_top = p_share_result.copy().next_to(numeric_bar, DOWN, buff=0.12)
+        self.play(TransformMatchingTex(formula, compact_formula), FadeIn(numeric_bar),
+                  ReplacementTransform(p_share_result, p_share_top))
+        formula = compact_formula
+        self.pause('4.d.substitute_action')
+        self.play(ReplacementTransform(q_share_result, q_share_top))
+        self.pause('4.d.divide')
+
+        # Keep epsilon and its equals sign; simplify the numerical division.
         epsilon_number = DecimalNumber(-7, num_decimal_places=2, color=INK).scale(0.75)
-        epsilon_result = VGroup(epsilon_prefix, epsilon_number).arrange(RIGHT, buff=0.18)
+        epsilon_result = VGroup(epsilon_number)
         epsilon_result.formula = formula
         epsilon_result.next_to(formula, RIGHT, buff=0.18).set_y(formula['='].get_y())
+        self.play(ReplacementTransform(VGroup(q_share_top, numeric_bar, p_share_top), epsilon_result))
         epsilon_number.source = midpoint_price
         epsilon_number.add_updater(lambda number: number.set_value(
             -number.source.get_value() / (12 - number.source.get_value())))
-        epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
-                                  .next_to(group.formula, RIGHT, buff=0.18).set_y(group.formula['='].get_y()))
+        epsilon_result.add_updater(lambda group: group.next_to(group.formula, RIGHT, buff=0.18)
+                                  .set_y(group.formula['='].get_y()))
         elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=INK, tex_to_color_map={'Elastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
         self.remove(midpoint_def)
         demand_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
         demand_sign_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(epsilon_result), FadeIn(elastic_word), FadeIn(demand_sign_note))
+        self.play(FadeIn(elastic_word), FadeIn(demand_sign_note))
         self.pause('4.d')
 
         # ---- 4.e · Lower the interval within the elastic region, then pause.
