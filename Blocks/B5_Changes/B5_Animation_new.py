@@ -459,26 +459,27 @@ class B5(Scene):
         p_ratio_bar.source = midpoint_price
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
             np.array([3.1, -0.77, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.77, 0])))
-        percent_basis = Tex(r'$100\%$', color=CAPTION).scale(0.7).move_to([6.65, -0.3, 0])
         q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=FOCUS).scale(0.75)
         q_ratio_label.move_to([1.8, 0.35, 0])
         p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=FOCUS).scale(0.75)
         p_ratio_label.move_to([1.8, -0.95, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
-                  FadeIn(q_ratio_label), FadeIn(p_ratio_label), FadeIn(percent_basis))
+                  FadeIn(q_ratio_label), FadeIn(p_ratio_label))
         q_percent = VGroup(DecimalNumber(-100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
-                           MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
-        q_percent.move_to([4.6, 0.9, 0])
+                           MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.7)
+        q_percent.bar = q_ratio_bar
+        q_percent.next_to(q_percent.bar, UP, buff=0.12)
         q_percent[0].source = midpoint_price
         q_percent[0].add_updater(lambda number: number.set_value(-100 * 5 / (60 - 5 * number.source.get_value())))
-        q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 0.9, 0]))
+        q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).next_to(group.bar, UP, buff=0.12))
         p_percent = VGroup(DecimalNumber(100 / 10.5, num_decimal_places=1, color=FOCUS),
-                           MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
-        p_percent.move_to([4.6, -0.4, 0])
+                           MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.7)
+        p_percent.bar = p_ratio_bar
+        p_percent.next_to(p_percent.bar, UP, buff=0.12)
         p_percent[0].source = midpoint_price
         p_percent[0].add_updater(lambda number: number.set_value(100 / number.source.get_value()))
-        p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.4, 0]))
+        p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).next_to(group.bar, UP, buff=0.12))
         self.play(FadeIn(q_percent), FadeIn(p_percent))
         self.pause('4.c')
 
@@ -530,7 +531,7 @@ class B5(Scene):
         # ---- 4.h · Only after the sweep, collect the three region definitions.
         self.play(FadeOut(q_ratio_track), FadeOut(p_ratio_track), FadeOut(q_ratio_bar), FadeOut(p_ratio_bar),
                   FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
-                  FadeOut(percent_basis), FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
+                  FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
                   FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
                   FadeOut(endpoints),
                   FadeOut(demand_sign_note))
