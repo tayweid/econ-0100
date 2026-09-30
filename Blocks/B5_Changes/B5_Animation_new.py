@@ -307,7 +307,7 @@ class B5(Scene):
                 MathTex('-5', color=FOCUS).scale(0.65).next_to(q_change, DOWN, buff=0.15)))
             movement_arrows.add(Arrow(panel.ax.c2p(old_q, old_price), panel.ax.c2p(new_q, old_price + 1),
                                       color=GUIDE, buff=0.055, thickness=3, tip_width_ratio=3,
-                                      max_tip_length_to_length_ratio=0.3))
+                                      max_tip_length_to_length_ratio=0.3).shift(UP * 0.2))
         self.play(FadeIn(elasticity_changes), FadeIn(movement_arrows))
         self.bring_to_front(*[panel[9] for panel in elasticity_panels])
         self.pause('3.c')
