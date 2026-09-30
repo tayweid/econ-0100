@@ -410,9 +410,10 @@ class B5(Scene):
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base))
         self.pause('4.a.bars')
-        self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
-                  TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
-        self.wait(0.25)
+        self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label))
+        self.pause('4.a.change')
+        self.play(TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
+        self.pause('4.a.midpoint')
         # Keep the averaging arithmetic visible and append its result.
         self.play(FadeIn(q_average_label[2:]), run_time=0.65)
         self.pause('4.a')
@@ -437,9 +438,10 @@ class B5(Scene):
         VGroup(p_change_label, p_average_label, p_change_bar, p_average_bar).shift(DOWN * 0.35)
         self.play(FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
         self.pause('4.b.bars')
-        self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
-                  TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label[:2]))
-        self.wait(0.25)
+        self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label))
+        self.pause('4.b.change')
+        self.play(TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label[:2]))
+        self.pause('4.b.midpoint')
         # Keep the averaging arithmetic visible and append its result.
         self.play(FadeIn(p_average_label[2:]), run_time=0.65)
         self.bring_to_front(endpoints)
