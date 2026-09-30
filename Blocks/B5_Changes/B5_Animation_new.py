@@ -68,11 +68,12 @@ class B5(Scene):
         self.pause('1.a')
 
         # ---- 1.b · Show CS/PS as vertical slices, then recolor them for TS.
-        self.remove(head, question)
-        head = title('Equilibrium + Welfare')
+        # Keep the existing title visible; only the new suffix fades in.
+        self.remove(question)
+        welfare_title = title('+ Welfare').next_to(head, RIGHT, buff=0.25, aligned_edge=UP)
         question = Tex(r'\textsf{Equilibrium in competitive markets maximizes total surplus.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        self.play(FadeIn(head), FadeIn(question))
+        self.play(FadeIn(welfare_title), FadeIn(question))
         WELFARE_BAR_STEP = 1.0  # Q is measured in thousands of pounds.
         WELFARE_BAR_GAP = 0.15
         cs, ps = VGroup(), VGroup()
