@@ -138,70 +138,9 @@ Q. How much is bought? A. #mi(`Q_s`), since that’s all that’s available, mea
 
 _Exercise B3 | Q2(a)(b): At 5 galleons on the pumpkin-pasty curves, find the quantity demanded and the quantity supplied. Sketch the two curves separately and mark the quantities._
 
-=== Act 5 | Low and High Prices
-
-// plass:comment
-// | Editor. These low- and high-price cases now establish the counts and incentives before the market run. The two passages that name $4 as the place where the gap closes have moved to Act 6; they can explain the observed result after it appears. Keep the curves separate and ask for predictions here.
-// /plass:comment
-
-==== A Low Price: \$3
-
-Let’s say spinach sellers, of which Molly and Andrew are included, decide to sell spinach at a price of \$3. We can find the quantity supplied at this price. Which comes out to be 20,000 pounds. But is this how much buyers are willing to buy at this price? The quantity demanded is 45,000 pounds and we find this by plugging in price into the demand curve.
-
-{++How much is exchanged? There are only 20,000 pounds offered for sale, so 20,000 pounds are bought and sold. Buyers want another 25,000 pounds at this price.++}
-
-So it turns out people want more than is available which we call a shortage.
-
-#quote(block: true)[
-  ___*Shortage*__: Quantity demanded is greater than quantity supplied._
-
-]
-
-But let’s say in this situation Amanda-Grace, an entrepreneurial buyer, decides to offer Molly a higher price. Let’s say three dollars and twenty-five cents. This is good for Molly since she’s making more and it’s good for Amanda-Grace who is more than willing to pay the higher price if she can receive what she wants.
-
-But it turns out the buyer who was buying from Molly now can’t get any spinach. So, what should they do? They should raise the price.
-
-In this way, whenever there’s a shortage both buyers and sellers have an incentive to raise their prices.
-
-// plass:comment
-// | Editor. This restores your original sellers-offer-a-price setup from 01_Notes_Original.md. The later buyers-get-together and break-ranks passages were editor additions, so they are not assumed here. Names and $3/$4/$6 figures follow the current notes. For one concrete deliberation, an unserved Amanda-Grace compares zero with $7 - $3.25 = $3.75 per pound, while Molly compares receipts of $3 and $3.25. The existing narration already counts both participants' incentives.
-// /plass:comment
-
-==== A High Price: \$6
-
-Let’s say instead spinach sellers sell at a price of \$6. At this price the quantity supplied is 80,000 pounds. And the quantity demanded is 30,000. So people want less than is available. Which we’ll call an excess.
-
-#quote(block: true)[
-  ___*Excess*__: Quantity supplied is greater than quantity demanded._
-
-]
-
-{++How much is exchanged this time? Buyers only want 30,000 pounds, so 30,000 pounds are bought and sold. Sellers are willing to sell another 50,000 pounds at this price, but they don’t have buyers.++}
-
-I want to offer a little side note here: most textbooks call this a surplus but for reasons we’ll get into later, I think this naming convention is less than ideal and can be confusing. So instead of surplus we use excess to describe quantity supplied being greater than quantity demanded. But I just want you to be aware that it’s often called surplus.
-
-So Andrew is sitting around with excess spinach. He can’t sell at 6 per pound. So Andrew, being the entrepreneur farmer, decides to offer a price of \$5.75 to Gary.
-
-Gary was buying spinach from another farmer but is more than willing to buy spinach from Andrew at the lower price. And would even buy a little extra. You can think of the law of demand here. That farmer isn’t happy about losing Gary’s business. So they decide to lower their prices too.
-
-In this way, whenever there’s excess both buyers and sellers have an incentive to lower their prices.
-
-// plass:comment
-// | Editor. The excess story is your prose as carried forward in the current notes. Andrew's $5.75 offer gives him $1.75 per pound above MC instead of no sale; Gary pays $0.25 less. Keep one such comparison, then return to the whole market. “Would even buy a little extra” expresses the quantity response; with one unit per bar, an extra unit is another decision/bar, not a second unit hidden inside Gary's bar.
-// /plass:comment
-
-#quote(block: true)[
-  _Exercise: At \$3 and at \$6, mark quantity demanded, quantity supplied, and quantity exchanged on your spinach graphs. Find the size of the gap and draw an arrow showing which way the price moves._
-
-  _Return to Exercise B3 | Q2(c)(d): At 5 galleons, name the situation, say how large it is, and predict which way the price moves. Who has an incentive to make a different offer?_
-
-]
-
-So prices will rise with a shortage and lower with an excess.
-
 Can there ever be a price that doesn’t change?
 
-=== Act 6 | The Messy Market
+=== Act 5 | The Messy Market
 
 Starting with a small set of exchanges, we can continue to expand the number of buyers and sellers making exchanges through the same kinds of undercutting and out-bidding as in the smaller settings. Let’s quickly add more and more people until the market gets much bigger.
 
@@ -218,9 +157,7 @@ There are a lot of decisions going on at once now. We don’t need to follow eve
 
 _*Supply and demand separate to start. Stack them vertically to show the quantities are equal.*_
 
-Yes. What if quantity demanded was equal to quantity supplied? Here no one has an incentive to change their prices or quantities. If a seller raised their price, they would lose all their business.
-
-If they lower their price, they would make less than they could. If a buyer raised their price, they would be paying more than they needed to. And if the buyer lowered their price no seller would sell to them. In this way incentives push the price to the point where quantity supplied is equal to quantity demanded.
+Yes. What if quantity demanded was equal to quantity supplied?
 
 #quote(block: true)[
   ___*Equilibrium*__: The price and quantity at which quantity supplied equals quantity demanded — where no one wants to change._
@@ -228,12 +165,6 @@ If they lower their price, they would make less than they could. If a buyer rais
 ]
 
 {++At \$4, quantity demanded, quantity supplied, and quantity exchanged are all 40,000 pounds.++}
-
-{++We can now look back at our two trial prices and see where the adjustment leads.++}
-
-{++As the price rises, quantity demanded falls and quantity supplied rises. The gap closes. At \$4, buyers want 40,000 pounds and sellers are willing to sell 40,000 pounds.++}
-
-{++As the price falls, quantity supplied falls and quantity demanded rises. Again, the gap closes at \$4.++}
 
 The exact pairings between the buyers and sellers isn’t particularly important here. We could swap~any two pairs and no one would be any less well off. So lets arrange all the buyers in order.~
 
@@ -243,22 +174,16 @@ We can also arrange sellers in order, making it clear that the sellers on the si
 
 {++This doesn’t mean everyone buys or sells. The buyers who are left out aren’t willing to pay \$4, and the sellers who are left out aren’t willing to sell for \$4. There is no willing buyer left without a seller, or willing seller left without a buyer.++}
 
-_*{++Ask what would happen a little above \$4, then a little below it. Use the graphs to show which side is left out and why the price moves back.++}*_
-
-Okay, so we’ve found where prices come from. And we’ve found an equilibrium concept that’s stable.
-
-At this equilibrium price and quantity no buyer and no seller wants to change the price they’re offering and the quantity they’re either supplying or demanding from the market. So we call this equilibrium stable.
-
 // plass:comment
-// | Editor. The shortage and excess cases now lead to the open question before the market runs. This section answers it afterward, using the observed price and the separate curves. The existing headings and definitions are unmarked; moving your words or renumbering sections is not new writing. The remaining {++ ++} spans identify wording added by the editor. The graph tests make “stable” visible rather than only announcing it. The no-better-offer argument assumes the competitive setting where alternative trading partners are available; it is stronger than what scene 2's lone seller establishes.
+// | Editor. This act identifies the market’s settled outcome and connects it to equal quantities on the separate curves. The full high/low-price stability test and its conclusion now follow the algebra in Act 7. Moving your prose and renumbering existing headings does not make them editor additions; new transitions remain marked.
 // /plass:comment
 
-=== Act 7 | The Graph and the Algebra
+=== Act 6 | The Graph and the Algebra
 
 We typically combine supply and demand on one graph, so let’s do that here.
 
 #quote(block: true)[
-  _{++Board and paper: Put the spinach demand and supply curves on the same axes. Label the intersection using what we found at \$4. Mark the horizontal gap at \$3 and at \$6. How does each gap compare with the one on your separate graphs?++}_
+  _{++Board and paper: Put the spinach demand and supply curves on the same axes. Label the intersection using what we found at \$4.++}_
 
 ]
 
@@ -286,7 +211,97 @@ Plot it on the graph.
 ]
 
 // plass:comment
-// | Editor. Exercise check: 12 - Q/2 = 2 + Q/2 gives Q* = 10 pasties and P* = 7 galleons. At 5 galleons the graph gives Qs = 6, Qd = 14, and the shortage of 8. The teaching order is Q2(a)(b), Q2(c)(d), then Q1; the printed sheet remains as it is. Students first read each curve, then compare the two quantities, then solve for the common quantity.
+// | Editor. Exercise check: 12 - Q/2 = 2 + Q/2 gives Q* = 10 pasties and P* = 7 galleons. At 5 galleons the graph gives Qs = 6, Qd = 14, and the shortage of 8. The teaching order is Q2(a)(b), Q1, then Q2(c)(d); the printed sheet remains as it is. Students first read each curve and compare quantities, then solve for the common quantity, and finally return to the off-equilibrium price to test stability.
+// /plass:comment
+
+=== Act 7 | Low and High Prices
+
+// plass:comment
+// | Editor. The market has now settled in Act 5, and Act 6 has solved for its price and quantity. These cases test stability: starting away from the known equilibrium creates incentives to return. The return-to-$4 passages are back beside their respective cases. Use the combined graph and the separate-curve readings students already know; the population and curves stay fixed during these tests.
+// /plass:comment
+
+{++We’ve watched the market find a price, and we’ve used the curves to calculate it. Now let’s ask what happens if the price moves away from that equilibrium. Do the incentives bring it back?++}
+
+==== A Low Price: \$3
+
+Let’s say spinach sellers, of which Molly and Andrew are included, decide to sell spinach at a price of \$3. We can find the quantity supplied at this price. Which comes out to be 20,000 pounds. But is this how much buyers are willing to buy at this price? The quantity demanded is 45,000 pounds and we find this by plugging in price into the demand curve.
+
+{++How much is exchanged? There are only 20,000 pounds offered for sale, so 20,000 pounds are bought and sold. Buyers want another 25,000 pounds at this price.++}
+
+So it turns out people want more than is available which we call a shortage.
+
+#quote(block: true)[
+  ___*Shortage*__: Quantity demanded is greater than quantity supplied._
+
+]
+
+But let’s say in this situation Amanda-Grace, an entrepreneurial buyer, decides to offer Molly a higher price. Let’s say three dollars and twenty-five cents. This is good for Molly since she’s making more and it’s good for Amanda-Grace who is more than willing to pay the higher price if she can receive what she wants.
+
+But it turns out the buyer who was buying from Molly now can’t get any spinach. So, what should they do? They should raise the price.
+
+In this way, whenever there’s a shortage both buyers and sellers have an incentive to raise their prices.
+
+{++As the price rises, quantity demanded falls and quantity supplied rises. The gap closes. At \$4, buyers want 40,000 pounds and sellers are willing to sell 40,000 pounds.++}
+
+// plass:comment
+// | Editor. This restores your original sellers-offer-a-price setup from 01_Notes_Original.md. The later buyers-get-together and break-ranks passages were editor additions, so they are not assumed here. Names and $3/$4/$6 figures follow the current notes. For one concrete deliberation, an unserved Amanda-Grace compares zero with $7 - $3.25 = $3.75 per pound, while Molly compares receipts of $3 and $3.25. The existing narration already counts both participants' incentives.
+// /plass:comment
+
+==== A High Price: \$6
+
+Let’s say instead spinach sellers sell at a price of \$6. At this price the quantity supplied is 80,000 pounds. And the quantity demanded is 30,000. So people want less than is available. Which we’ll call an excess.
+
+#quote(block: true)[
+  ___*Excess*__: Quantity supplied is greater than quantity demanded._
+
+]
+
+{++How much is exchanged this time? Buyers only want 30,000 pounds, so 30,000 pounds are bought and sold. Sellers are willing to sell another 50,000 pounds at this price, but they don’t have buyers.++}
+
+I want to offer a little side note here: most textbooks call this a surplus but for reasons we’ll get into later, I think this naming convention is less than ideal and can be confusing. So instead of surplus we use excess to describe quantity supplied being greater than quantity demanded. But I just want you to be aware that it’s often called surplus.
+
+So Andrew is sitting around with excess spinach. He can’t sell at 6 per pound. So Andrew, being the entrepreneur farmer, decides to offer a price of \$5.75 to Gary.
+
+Gary was buying spinach from another farmer but is more than willing to buy spinach from Andrew at the lower price. And would even buy a little extra. You can think of the law of demand here. That farmer isn’t happy about losing Gary’s business. So they decide to lower their prices too.
+
+In this way, whenever there’s excess both buyers and sellers have an incentive to lower their prices.
+
+{++As the price falls, quantity supplied falls and quantity demanded rises. Again, the gap closes at \$4.++}
+
+// plass:comment
+// | Editor. The excess story is your prose as carried forward in the current notes. Andrew's $5.75 offer gives him $1.75 per pound above MC instead of no sale; Gary pays $0.25 less. Keep one such comparison, then return to the whole market. “Would even buy a little extra” expresses the quantity response; with one unit per bar, an extra unit is another decision/bar, not a second unit hidden inside Gary's bar.
+// /plass:comment
+
+#quote(block: true)[
+  _Exercise: At \$3 and at \$6, mark quantity demanded, quantity supplied, and quantity exchanged on your spinach graphs. Find the size of the gap and draw an arrow showing which way the price moves._
+
+  _Return to Exercise B3 | Q2(c)(d): At 5 galleons, name the situation, say how large it is, and predict which way the price moves. Who has an incentive to make a different offer?_
+
+]
+
+{++We can now look back at our two trial prices and see where the adjustment leads.++}
+
+#quote(block: true)[
+  _{++Mark the horizontal gap at \$3 and at \$6. How does each gap compare with the one on your separate graphs?++}_
+
+]
+
+_*{++Ask what would happen a little above \$4, then a little below it. Use the graphs to show which side is left out and why the price moves back.++}*_
+
+So prices will rise with a shortage and lower with an excess.
+
+{++Now return to the equilibrium price of \$4.++}
+
+Here no one has an incentive to change their prices or quantities. If a seller raised their price, they would lose all their business.
+
+If they lower their price, they would make less than they could. If a buyer raised their price, they would be paying more than they needed to. And if the buyer lowered their price no seller would sell to them. In this way incentives push the price to the point where quantity supplied is equal to quantity demanded.
+
+Okay, so we’ve found where prices come from. And we’ve found an equilibrium concept that’s stable.
+
+At this equilibrium price and quantity no buyer and no seller wants to change the price they’re offering and the quantity they’re either supplying or demanding from the market. So we call this equilibrium stable.
+
+// plass:comment
+// | Editor. This is the final teaching act before the B4 question. Q2(c)(d) now follows Q1: students know the equilibrium before explaining the pressure at 5 galleons. The deviation argument and return to equilibrium use the competitive-market assumptions already in the notes.
 // /plass:comment
 
 === Closing
@@ -296,6 +311,8 @@ But at this point you might be wondering: Ok, this is nice. Markets pick a price
 The answer is complicated as we’ll see. But what I’m going to show you is a simple answer to a simpler question.
 
 What would happen to our market if the government decided the price should be low?
+
+{++What changes if the law prevents buyers and sellers from making the offers that would bring the price back to equilibrium?++}
 
 // plass:comment
 // | Editor. These are your opening lines from Lecture 08 (B4), moved here as a candidate closing question. They connect the incentives in B3 to the price-control route into welfare that you described on September 26. For the eventual B4 notes, retain the next paragraph's distinction: buyers would normally offer more, but the legal restriction prevents it, so the shortage persists. Market-wide welfare, DWL, and the first welfare theorem stay with B4.
