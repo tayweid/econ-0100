@@ -212,9 +212,9 @@ class B5(Scene):
         self.play(FadeIn(hook_classes))
         self.pause('2.g')
 
-        # ---- 3.a · Put the slope question in the bottom prompt strip.
-        slope_question = Tex('Is it the slope?', color=FOCUS).scale(DEFINITION_SCALE)
-        slope_question.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        # ---- 3.a · Center the slope question in the gap between the graphs.
+        slope_question = Tex(r'\shortstack{Is this related\\to the slope?}', color=FOCUS).scale(DEFINITION_SCALE)
+        slope_question.move_to([0, BODY_MID, 0])
         self.play(FadeIn(slope_question))
         self.pause('3.a')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
