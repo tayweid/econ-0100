@@ -405,9 +405,8 @@ class B5(Scene):
         VGroup(elasticity_kind, formula).arrange(RIGHT, buff=0.22).move_to([3.95, 1.9, 0])
         elasticity_kind.set_y(formula[r'\epsilon_D'].get_y())
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
-        q_average_result = MathTex(r'\bar Q=', '7.5', color=FOCUS).scale(0.8).move_to([2.15, 0.0, 0])
-        q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', color=FOCUS).scale(0.8)
-        q_average_label.shift(q_average_result[r'\bar Q='].get_center() - q_average_label[r'\bar Q='].get_center())
+        q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', '=7.5', color=FOCUS).scale(0.8)
+        q_average_label.move_to([2.15, 0.0, 0])
         q_change_bar = Line([4.35, 0.75, 0], [4.6, 0.75, 0], color=FOCUS, stroke_width=10)
         q_average_bar = Line([4.35, 0, 0], [4.725, 0, 0], color=MUTED, stroke_width=10)
         midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
@@ -420,11 +419,10 @@ class B5(Scene):
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note), FadeIn(midpoint_arrow))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
-                  TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label))
+                  TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
         self.wait(0.25)
-        self.play(TransformMatchingTex(q_average_label, q_average_result,
-                                       matched_keys=[r'\bar Q='], key_map={r'\frac{10+5}{2}': '7.5'}), run_time=0.65)
-        q_average_label = q_average_result
+        # Keep the averaging arithmetic visible and append its result.
+        self.play(FadeIn(q_average_label[2:]), run_time=0.65)
         self.pause('4.a')
 
         # ---- 4.b · Repeat the same construction for price, with a positive change.
@@ -442,9 +440,8 @@ class B5(Scene):
         p_mid_tick.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(-0.8, line.source.get_value()), line.ax.c2p(0.8, line.source.get_value())))
         p_change_label = MathTex(r'\Delta P=1', color=FOCUS).scale(0.8).move_to([2.15, -0.8, 0])
-        p_average_result = MathTex(r'\bar P=', '10.5', color=FOCUS).scale(0.8).move_to([2.15, -1.55, 0])
-        p_average_label = MathTex(r'\bar P=', r'\frac{10+11}{2}', color=FOCUS).scale(0.8)
-        p_average_label.shift(p_average_result[r'\bar P='].get_center() - p_average_label[r'\bar P='].get_center())
+        p_average_label = MathTex(r'\bar P=', r'\frac{10+11}{2}', '=10.5', color=FOCUS).scale(0.8)
+        p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
         price_midpoint_note = midpoint_note.copy().next_to(p_mid_tick, LEFT, buff=0.65)
@@ -455,11 +452,10 @@ class B5(Scene):
                   Transform(midpoint_note, price_midpoint_note),
                   Transform(midpoint_arrow, price_midpoint_arrow), run_time=0.8)
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
-                  TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label))
+                  TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label[:2]))
         self.wait(0.25)
-        self.play(TransformMatchingTex(p_average_label, p_average_result,
-                                       matched_keys=[r'\bar P='], key_map={r'\frac{10+11}{2}': '10.5'}), run_time=0.65)
-        p_average_label = p_average_result
+        # Keep the averaging arithmetic visible and append its result.
+        self.play(FadeIn(p_average_label[2:]), run_time=0.65)
         self.bring_to_front(endpoints, midpoint_dot, q_mid_tick, p_mid_tick)
         self.pause('4.b')
 
