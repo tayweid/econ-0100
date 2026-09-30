@@ -323,60 +323,54 @@ class B5(Scene):
         # The grey base starts at zero and ends at Q-bar, NOT at the first Q.
         # The short gold change joins the two endpoint quantities. Neither bar
         # is concatenated with the other: the denominator is visibly a midpoint.
-        self.clear()
-        head = title('Elasticity')
-        question = Tex(r"\textsf{Responsiveness to change.}", color=CAPTION).scale(0.55)
-        question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        # Preserve the left model and headings while the right panel leaves.
+        # Save the comparison before its selected points acquire midpoint updaters.
+        comparison_panels = elasticity_panels.copy()
+        comparison_choices = initial_choices.copy()
+        comparison_arrows = movement_arrows.copy()
+        left_panel = elasticity_panels[0]
+        ea, ed, ep, eq, eu, ed_lab, equation = left_panel[:7]
+        price_unit = left_panel[12]
+        old_endpoints = VGroup(initial_choices[0], VGroup(*left_panel[7:12]))
+        old_endpoints.clear_updaters()
+        self.play(FadeOut(elasticity_panels[1]), FadeOut(initial_choices[1]),
+                  FadeOut(elasticity_changes), FadeOut(movement_arrows), FadeOut(elasticity_def))
         elasticity_kind = Tex('Price Elasticity of Demand:', color=DEFINITION).scale(0.7)
-        ea = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6, ticks=True,
-                        axis_config={'tick_size': 0.05},
-                        x_axis_config={'numbers_to_include': [20, 40],
-                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
-                        y_axis_config={'numbers_to_include': [4, 8, 12],
-                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
-        ea.shift(np.array([-5.4, -2.25, 0]) - ea.c2p(0, 0))
-        ed = Line(ea.c2p(0, 12), ea.c2p(60, 0), color=DEMAND, stroke_width=4)
-        ep = Tex('P').scale(0.8).next_to(ea.c2p(0, 13), LEFT, buff=0.25)
-        price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(ep, RIGHT, buff=0.35)
-        eq = Tex('Q').scale(0.8).next_to(ea.c2p(60, 0), DOWN, buff=0.35)
-        eu = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(eq, RIGHT, buff=0.18)
-        ed_lab = Tex('D').scale(0.8).next_to(ea.c2p(60, 0), RIGHT, buff=0.15)
-        equation = MathTex(r'P=12-Q/5', color=DEMAND).scale(0.8).move_to(ea.c2p(39, 11))
         divider_x = max(eq.get_right()[0], eu.get_right()[0]) + 0.35
         e_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1)
         e_divider.set_opacity(0.5)
         midpoint_price = ValueTracker(10.5)
         endpoints = VGroup()
         # Sign -1 is the initial, lower price; sign +1 is the final price.
-        for sign in [-1, 1]:
+        for sign, previous_endpoint in zip([-1, 1], old_endpoints):
             endpoint = VGroup()
-            h = DashedLine(ea.c2p(0, 10.5 + sign / 2), ea.c2p(7.5 - 2.5 * sign, 10.5 + sign / 2),
-                           color=GUIDE, stroke_width=2).set_opacity(0.35)
+            h = previous_endpoint[0]
             h.ax, h.source, h.sign = ea, midpoint_price, sign
             h.add_updater(lambda line: line.become(DashedLine(
                 line.ax.c2p(0, line.source.get_value() + line.sign / 2),
                 line.ax.c2p(60 - 5 * (line.source.get_value() + line.sign / 2),
                             line.source.get_value() + line.sign / 2),
                 color=GUIDE, stroke_width=2).set_style(**line.get_style())))
-            v = DashedLine(ea.c2p(7.5 - 2.5 * sign, 10.5 + sign / 2), ea.c2p(7.5 - 2.5 * sign, 0),
-                           color=GUIDE, stroke_width=2).set_opacity(0.35)
+            v = previous_endpoint[1]
             v.ax, v.source, v.sign = ea, midpoint_price, sign
             v.add_updater(lambda line: line.become(DashedLine(
                 line.ax.c2p(60 - 5 * (line.source.get_value() + line.sign / 2),
                             line.source.get_value() + line.sign / 2),
                 line.ax.c2p(60 - 5 * (line.source.get_value() + line.sign / 2), 0),
                 color=GUIDE, stroke_width=2).set_style(**line.get_style())))
-            point = Dot(ea.c2p(7.5 - 2.5 * sign, 10.5 + sign / 2), color=GUIDE, radius=0.06)
+            point = previous_endpoint[2]
             point.ax, point.source, point.sign = ea, midpoint_price, sign
             point.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
                 60 - 5 * (dot.source.get_value() + dot.sign / 2), dot.source.get_value() + dot.sign / 2)))
-            pn = DecimalNumber(10.5 + sign / 2, num_decimal_places=1, color=GUIDE).scale(0.7)
+            pn = previous_endpoint[3]
+            pn.num_decimal_places = 1
             pn.ax, pn.source, pn.sign = ea, midpoint_price, sign
             pn.add_updater(lambda number: number.set_value(number.source.get_value() + number.sign / 2)
                           .next_to(number.ax.c2p(0, number.source.get_value() + number.sign / 2),
                                    LEFT, buff=0.25).shift(UP * number.sign * 0.1))
             pn.update()
-            qn = DecimalNumber(7.5 - 2.5 * sign, num_decimal_places=1, color=GUIDE).scale(0.62)
+            qn = previous_endpoint[4]
+            qn.num_decimal_places = 1
             qn.ax, qn.source, qn.sign = ea, midpoint_price, sign
             qn.add_updater(lambda number: number.set_value(60 - 5 * (number.source.get_value() + number.sign / 2))
                           .move_to(number.ax.c2p(60 - 5 * (number.source.get_value() + number.sign / 2), 0)
@@ -419,8 +413,10 @@ class B5(Scene):
         midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
                            tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(ea), FadeIn(ed), FadeIn(ep), FadeIn(eq), FadeIn(eu),
-                  FadeIn(price_unit), FadeIn(ed_lab), FadeIn(equation), FadeIn(e_divider), FadeIn(endpoints))
+        # Update the selected-point annotations continuously; the graph never leaves.
+        self.remove(old_endpoints)
+        self.add(endpoints)
+        self.play(FadeIn(e_divider))
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base), FadeIn(q_mid_tick), FadeIn(midpoint_dot), FadeIn(midpoint_note), FadeIn(midpoint_arrow))
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
@@ -590,8 +586,8 @@ class B5(Scene):
                 .scale(0.8).move_to([3.75, -3.3, 0]))
         slope_answer = Tex('Same slope, different elasticities.', color=FOCUS).scale(DEFINITION_SCALE)
         slope_answer.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(elasticity_panels),
-                  FadeIn(initial_choices), FadeIn(movement_arrows), FadeIn(comparison_slopes))
+        self.play(FadeIn(head), FadeIn(question), FadeIn(comparison_panels),
+                  FadeIn(comparison_choices), FadeIn(comparison_arrows), FadeIn(comparison_slopes))
         self.play(FadeIn(comparison_elasticities), FadeIn(slope_answer))
         self.pause('4.i')
 
