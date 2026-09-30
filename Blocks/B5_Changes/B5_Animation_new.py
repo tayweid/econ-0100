@@ -384,11 +384,13 @@ class B5(Scene):
             60 - 5 * dot.source.get_value(), dot.source.get_value())))
         midpoint_note = Tex('Midpoint', color=DEFINITION).scale(0.6)
         midpoint_note.next_to(ea.c2p(0, 0), LEFT, buff=0.65).shift(UP * 0.45)
-        q_delta = Line(ea.c2p(5, 10), ea.c2p(10, 10), color=FOCUS, stroke_width=6)
+        # Measure changes outside the axes, as in the responsiveness comparison.
+        q_delta = Line(ea.c2p(5, 0) + DOWN * 0.55, ea.c2p(10, 0) + DOWN * 0.55,
+                       color=FOCUS, stroke_width=6)
         q_delta.ax, q_delta.source = ea, midpoint_price
         q_delta.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), line.source.get_value() - 0.5),
-            line.ax.c2p(60 - 5 * (line.source.get_value() - 0.5), line.source.get_value() - 0.5)))
+            line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), 0) + DOWN * 0.55,
+            line.ax.c2p(60 - 5 * (line.source.get_value() - 0.5), 0) + DOWN * 0.55))
         q_base = Line(ea.c2p(0, 0), ea.c2p(7.5, 0), color=MUTED, stroke_width=8)
         q_base.ax, q_base.source = ea, midpoint_price
         q_base.add_updater(lambda line: line.put_start_and_end_on(
@@ -426,11 +428,12 @@ class B5(Scene):
         self.pause('4.a')
 
         # ---- 4.b · Repeat the same construction for price, with a positive change.
-        p_delta = Line(ea.c2p(5, 11), ea.c2p(5, 10), color=FOCUS, stroke_width=6)
+        p_delta = Line(ea.c2p(0, 11) + LEFT * 0.9, ea.c2p(0, 10) + LEFT * 0.9,
+                       color=FOCUS, stroke_width=6)
         p_delta.ax, p_delta.source = ea, midpoint_price
         p_delta.add_updater(lambda line: line.put_start_and_end_on(
-            line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), line.source.get_value() + 0.5),
-            line.ax.c2p(60 - 5 * (line.source.get_value() + 0.5), line.source.get_value() - 0.5)))
+            line.ax.c2p(0, line.source.get_value() + 0.5) + LEFT * 0.9,
+            line.ax.c2p(0, line.source.get_value() - 0.5) + LEFT * 0.9))
         p_base = Line(ea.c2p(0, 0), ea.c2p(0, 10.5), color=MUTED, stroke_width=8)
         p_base.ax, p_base.source = ea, midpoint_price
         p_base.add_updater(lambda line: line.put_start_and_end_on(
@@ -444,8 +447,8 @@ class B5(Scene):
         p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
-        price_midpoint_note = midpoint_note.copy().next_to(p_mid_tick, LEFT, buff=0.65)
-        price_midpoint_arrow = Arrow(price_midpoint_note.get_right(), p_mid_tick.get_left(),
+        price_midpoint_note = midpoint_note.copy().next_to(p_mid_tick, DOWN, buff=0.55)
+        price_midpoint_arrow = Arrow(price_midpoint_note.get_top(), p_mid_tick.get_bottom(),
                                      color=DEFINITION, buff=0.06, thickness=2, tip_width_ratio=3,
                                      max_tip_length_to_length_ratio=0.12)
         self.play(FadeIn(p_delta), FadeIn(p_base), FadeIn(p_mid_tick),
