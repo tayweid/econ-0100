@@ -408,6 +408,7 @@ class B5(Scene):
         self.play(FadeIn(e_divider))
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
         self.play(FadeIn(q_delta), FadeIn(q_base))
+        self.pause('4.a.bars')
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label),
                   TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
         self.wait(0.25)
@@ -433,6 +434,7 @@ class B5(Scene):
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
         self.play(FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
+        self.pause('4.b.bars')
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
                   TransformFromCopy(p_base.copy().clear_updaters(), p_average_bar), FadeIn(p_average_label[:2]))
         self.wait(0.25)
