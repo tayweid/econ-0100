@@ -167,13 +167,13 @@ Q. How much is bought? A. #mi(`Q_s`), since that’s all that’s available, mea
 
 {++In this market, when willing buyers and sellers can find each other, quantity exchanged is the smaller of quantity demanded and quantity supplied.++}
 
-=== {++Act 5 | Low and High Prices++}
+=== Act 5 | Low and High Prices
 
 // plass:comment
 // | Editor. These low- and high-price cases now establish the counts and incentives before the market run. The two passages that name $4 as the place where the gap closes have moved to Act 6; they can explain the observed result after it appears. Keep the curves separate and ask for predictions here.
 // /plass:comment
 
-==== {++A Low Price: \$3++}
+==== A Low Price: \$3
 
 Let’s say spinach sellers, of which Molly and Andrew are included, decide to sell spinach at a price of \$3. We can find the quantity supplied at this price. Which comes out to be 20,000 pounds. But is this how much buyers are willing to buy at this price? The quantity demanded is 45,000 pounds and we find this by plugging in price into the demand curve.
 
@@ -182,7 +182,7 @@ Let’s say spinach sellers, of which Molly and Andrew are included, decide to s
 So it turns out people want more than is available which we call a shortage.
 
 #quote(block: true)[
-  _{++__*Shortage*__: Quantity demanded is greater than quantity supplied.++}_
+  ___*Shortage*__: Quantity demanded is greater than quantity supplied._
 
 ]
 
@@ -196,12 +196,12 @@ In this way, whenever there’s a shortage both buyers and sellers have an incen
 // | Editor. This restores your original sellers-offer-a-price setup from 01_Notes_Original.md. The later buyers-get-together and break-ranks passages were editor additions, so they are not assumed here. Names and $3/$4/$6 figures follow the current notes. For one concrete deliberation, an unserved Amanda-Grace compares zero with $7 - $3.25 = $3.75 per pound, while Molly compares receipts of $3 and $3.25. The existing narration already counts both participants' incentives.
 // /plass:comment
 
-==== {++A High Price: \$6++}
+==== A High Price: \$6
 
 Let’s say instead spinach sellers sell at a price of \$6. At this price the quantity supplied is 80,000 pounds. And the quantity demanded is 30,000. So people want less than is available. Which we’ll call an excess.
 
 #quote(block: true)[
-  _{++__*Excess*__: Quantity supplied is greater than quantity demanded.++}_
+  ___*Excess*__: Quantity supplied is greater than quantity demanded._
 
 ]
 
@@ -253,7 +253,7 @@ Starting with a small set of exchanges, we can continue to expand the number of 
 
 There are a lot of decisions going on at once now. We don’t need to follow every one of them. They’re the same kinds of decisions we just looked at with a few people.~Each buyer and seller will accept a better offer if it’s available. This process continues, until no one wants to change, leaving us with a~price for all the exchanges.~
 
-==== {++The Price That Doesn’t Change++}
+==== The Price That Doesn’t Change
 
 {++Now let’s read the price and quantity where the market settled from the two curves on the side.++}
 
@@ -264,7 +264,7 @@ Yes. What if quantity demanded was equal to quantity supplied? Here no one has a
 If they lower their price, they would make less than they could. If a buyer raised their price, they would be paying more than they needed to. And if the buyer lowered their price no seller would sell to them. In this way incentives push the price to the point where quantity supplied is equal to quantity demanded.
 
 #quote(block: true)[
-  _{++__*Equilibrium*__: The price and quantity at which quantity supplied equals quantity demanded — where no one wants to change.++}_
+  ___*Equilibrium*__: The price and quantity at which quantity supplied equals quantity demanded — where no one wants to change._
 
 ]
 
@@ -291,10 +291,10 @@ Okay, so we’ve found where prices come from. And we’ve found an equilibrium 
 At this equilibrium price and quantity no buyer and no seller wants to change the price they’re offering and the quantity they’re either supplying or demanding from the market. So we call this equilibrium stable.
 
 // plass:comment
-// | Editor. The shortage and excess cases now lead to the open question before the market runs. This section answers it afterward, using the observed price and the separate curves. The formal definition was a marked proposal in the older scene draft, so its wording remains proposed. The graph tests make “stable” visible rather than only announcing it. The no-better-offer argument assumes the competitive setting where alternative trading partners are available; it is stronger than what scene 2's lone seller establishes.
+// | Editor. The shortage and excess cases now lead to the open question before the market runs. This section answers it afterward, using the observed price and the separate curves. The existing headings and definitions are unmarked; moving your words or renumbering sections is not new writing. The remaining {++ ++} spans identify wording added by the editor. The graph tests make “stable” visible rather than only announcing it. The no-better-offer argument assumes the competitive setting where alternative trading partners are available; it is stronger than what scene 2's lone seller establishes.
 // /plass:comment
 
-=== {++Act 7 | The Graph and the Algebra++}
+=== Act 7 | The Graph and the Algebra
 
 We typically combine supply and demand on one graph, so let’s do that here.
 
