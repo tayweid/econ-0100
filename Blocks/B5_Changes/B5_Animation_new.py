@@ -976,14 +976,20 @@ class B5(Scene):
         self.play(FadeIn(supply_q_percent), FadeIn(supply_p_percent))
         self.pause('6.c.ratios')
 
+        # Reduce to exact fractions with integer terms before substituting.
+        self.play(Transform(supply_p_ratio_value, MathTex(r'\frac{2}{9}', color=INK).scale(0.75).move_to(supply_p_ratio_value)))
+        self.pause('6.c.ratios.simplify_action')
+        self.play(Transform(supply_q_ratio_value, MathTex(r'\frac{2}{5}', color=INK).scale(0.75).move_to(supply_q_ratio_value)))
+        self.pause('6.c.ratios.simplify_response')
+
         # ---- 6.c.result · Divide response by action; supply elasticity is positive.
         # Keep the symbolic supply equation; substitute the fractions to its right.
         supply_calculation_equals = MathTex('=').scale(0.75)
         supply_calculation_equals.next_to(supply_formula, RIGHT, buff=0.18).set_y(supply_formula['='].get_y())
         supply_numeric_bar = Line(LEFT * 0.65, RIGHT * 0.65, color=INK, stroke_width=2)
         supply_numeric_bar.next_to(supply_calculation_equals, RIGHT, buff=0.18).set_y(supply_formula['='].get_y())
-        supply_q_share_top = MathTex(r'\frac{20}{50}', color=INK).scale(0.75).next_to(supply_numeric_bar, UP, buff=0.12)
-        supply_p_share_top = MathTex(r'\frac{1}{4.5}', color=INK).scale(0.75).next_to(supply_numeric_bar, DOWN, buff=0.12)
+        supply_q_share_top = MathTex(r'\frac{2}{5}', color=INK).scale(0.75).next_to(supply_numeric_bar, UP, buff=0.12)
+        supply_p_share_top = MathTex(r'\frac{2}{9}', color=INK).scale(0.75).next_to(supply_numeric_bar, DOWN, buff=0.12)
         self.play(FadeIn(supply_calculation_equals), FadeIn(supply_numeric_bar),
                   FadeOut(supply_p_ratio_equals), ReplacementTransform(supply_p_ratio_value, supply_p_share_top))
         self.pause('6.c.result.substitute_action')
@@ -991,14 +997,11 @@ class B5(Scene):
         self.pause('6.c.result.divide')
 
         supply_epsilon_prefix = MathTex('=').scale(0.75)
-        supply_epsilon_number = DecimalNumber(1.8, num_decimal_places=2, color=INK).scale(0.75)
+        supply_epsilon_number = MathTex(r'\frac{9}{5}', color=INK).scale(0.75)
         supply_epsilon_result = VGroup(supply_epsilon_prefix, supply_epsilon_number).arrange(RIGHT, buff=0.18)
         supply_epsilon_result.supply_formula = supply_formula
         supply_epsilon_result.next_to(supply_formula, RIGHT, buff=0.18).set_y(supply_formula['='].get_y())
         self.play(ReplacementTransform(VGroup(supply_calculation_equals, supply_q_share_top, supply_numeric_bar, supply_p_share_top), supply_epsilon_result))
-        supply_epsilon_number.source = supply_midprice
-        supply_epsilon_number.add_updater(lambda number: number.set_value(
-            number.source.get_value() / (number.source.get_value() - 2)))
         supply_epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
                                   .next_to(group.supply_formula, RIGHT, buff=0.18).set_y(group.supply_formula['='].get_y()))
         supply_elastic = VGroup(Tex('Elastic:', color=DEFINITION), MathTex(r'|\epsilon_S|>1', color=INK))
@@ -1014,11 +1017,15 @@ class B5(Scene):
         supply_graph_inequality = MathTex(r'|\epsilon_S|>1', color=DEFINITION).scale(0.7)
         supply_graph_inequality.move_to(sa.c2p(120, 8) + UL * 0.65)
         self.play(FadeOut(supply_elastic[0]), ReplacementTransform(supply_elastic[1], supply_graph_inequality))
-        self.play(supply_midprice.animate.set_value(7.5), run_time=2.5, rate_func=smooth)
+        self.play(supply_midprice.animate.set_value(7.5),
+                  Transform(supply_epsilon_number, MathTex(r'\frac{15}{11}', color=INK).scale(0.75).move_to(supply_epsilon_number)),
+                  run_time=2.5, rate_func=smooth)
         self.pause('6.d')
 
         # ---- 6.e · At higher prices the percentage responses approach each other.
-        self.play(supply_midprice.animate.set_value(12.5), run_time=2.5, rate_func=smooth)
+        self.play(supply_midprice.animate.set_value(12.5),
+                  Transform(supply_epsilon_number, MathTex(r'\frac{25}{21}', color=INK).scale(0.75).move_to(supply_epsilon_number)),
+                  run_time=2.5, rate_func=smooth)
         self.play(FadeOut(supply_sign_note))
         supply_limit_note = Tex(r'\mbox{This supply curve stays {{elastic}}; elasticity approaches 1 as price rises.}',
                                 tex_to_color_map={'elastic': DEFINITION}).scale(DEFINITION_SCALE)
