@@ -393,12 +393,13 @@ class B5(Scene):
             line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.16))
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
         elasticity_kind.move_to([2.15, 3.3, 0])
-        formula.move_to([3.1, 1.9, 0])
+        formula.set_y(1.9).align_to(elasticity_kind, LEFT).shift(RIGHT * 0.35)
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', '=7.5', color=FOCUS).scale(0.8)
         q_average_label.move_to([2.15, 0.0, 0])
         q_change_bar = Line([4.35, 0.75, 0], [4.6, 0.75, 0], color=FOCUS, stroke_width=10)
         q_average_bar = Line([4.35, 0, 0], [4.725, 0, 0], color=MUTED, stroke_width=10)
+        VGroup(q_change_label, q_average_label, q_change_bar, q_average_bar).shift(DOWN * 0.35)
         midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
                            tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -433,6 +434,7 @@ class B5(Scene):
         p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
+        VGroup(p_change_label, p_average_label, p_change_bar, p_average_bar).shift(DOWN * 0.35)
         self.play(FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
         self.pause('4.b.bars')
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label),
@@ -449,20 +451,20 @@ class B5(Scene):
         # Raw pounds and dollars are never compared.
         self.play(FadeOut(q_change_label), FadeOut(q_average_label),
                   FadeOut(p_change_label), FadeOut(p_average_label))
-        q_ratio_track = Line([3.1, 0.35, 0], [6.1, 0.35, 0], color=MUTED, stroke_width=10)
-        p_ratio_track = Line([3.1, -0.95, 0], [6.1, -0.95, 0], color=MUTED, stroke_width=10)
-        q_ratio_bar = Line([3.1, 0.53, 0], [5.1, 0.53, 0], color=FOCUS, stroke_width=10)
+        q_ratio_track = Line([3.1, 0.0, 0], [6.1, 0.0, 0], color=MUTED, stroke_width=10)
+        p_ratio_track = Line([3.1, -1.3, 0], [6.1, -1.3, 0], color=MUTED, stroke_width=10)
+        q_ratio_bar = Line([3.1, 0.18, 0], [5.1, 0.18, 0], color=FOCUS, stroke_width=10)
         q_ratio_bar.source = midpoint_price
         q_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.1, 0.53, 0]), np.array([3.1 + 3 * 5 / (60 - 5 * line.source.get_value()), 0.53, 0])))
-        p_ratio_bar = Line([3.1, -0.77, 0], [3.1 + 3 / 10.5, -0.77, 0], color=FOCUS, stroke_width=10)
+            np.array([3.1, 0.18, 0]), np.array([3.1 + 3 * 5 / (60 - 5 * line.source.get_value()), 0.18, 0])))
+        p_ratio_bar = Line([3.1, -1.12, 0], [3.1 + 3 / 10.5, -1.12, 0], color=FOCUS, stroke_width=10)
         p_ratio_bar.source = midpoint_price
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.1, -0.77, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.77, 0])))
+            np.array([3.1, -1.12, 0]), np.array([3.1 + 3 / line.source.get_value(), -1.12, 0])))
         q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=FOCUS).scale(0.75)
-        q_ratio_label.move_to([1.8, 0.35, 0])
+        q_ratio_label.move_to([1.8, 0.0, 0])
         p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=FOCUS).scale(0.75)
-        p_ratio_label.move_to([1.8, -0.95, 0])
+        p_ratio_label.move_to([1.8, -1.3, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
                   FadeIn(q_ratio_label), FadeIn(p_ratio_label))
@@ -506,8 +508,8 @@ class B5(Scene):
         # The graph and live percentage bars stay in place throughout the sweep.
         # Each brace covers a whole region, not just the interval being measured.
         self.remove(q_ratio_label, p_ratio_label)
-        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=FOCUS).scale(0.8).move_to([1.7, 0.35, 0])
-        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=FOCUS).scale(0.8).move_to([1.7, -0.95, 0])
+        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=FOCUS).scale(0.8).move_to([1.7, 0.0, 0])
+        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=FOCUS).scale(0.8).move_to([1.7, -1.3, 0])
         upper_demand = Line(ea.c2p(0, 12), ea.c2p(30, 6), color=DEMAND, stroke_width=7)
         lower_demand = Line(ea.c2p(30, 6), ea.c2p(60, 0), color=DEMAND, stroke_width=7)
         upper_brace = Brace(upper_demand, direction=UR, color=MUTED, buff=0.15)
