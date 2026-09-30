@@ -1300,6 +1300,8 @@ class B5(Scene):
                                         tex_to_color_map={'a': DEFINITION}).scale(0.8).move_to(curve_equation)
         self.add(buyer_changes, a_span, a_anchor, a_cap, a_label)
         self.play(shift.animate.set_value(5), TransformMatchingTex(curve_equation, shifted_curve_equation), run_time=2)
+        # Retire the source container left behind by the matching transform.
+        self.remove(curve_equation)
         benefit.add_updater(lambda value: value.set_value(6 + value.market_shift.get_value()))
         self.pause('7.f')
         # ---- 8.a · Name the shared change a after its meaning is visible.
@@ -1327,6 +1329,7 @@ class B5(Scene):
                               MathTex(sign, color=DEFINITION).scale(0.6).move_to([3.55, y, 0]))
             demand_scenarios.add(scenario)
         self.play(FadeOut(shifted_curve_equation), FadeIn(demand_divider), FadeIn(demand_equation))
+        self.remove(curve_equation, shifted_curve_equation)
 
         self.pause('8.a')
         self.play(shift.animate.set_value(0), run_time=1.2)
