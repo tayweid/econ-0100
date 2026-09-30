@@ -704,20 +704,20 @@ class B5(Scene):
         head = title('Elasticity')
         question = Tex(r'\textsf{Responsiveness to change.}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        sa = style_axes([0, 80, 20], [0, 9, 2], x_length=4.6, y_length=4.6, ticks=True,
+        sa = style_axes([0, 240, 40], [0, 15, 2], x_length=3.4, y_length=3.4, ticks=True,
                         axis_config={'tick_size': 0.05},
-                        x_axis_config={'numbers_to_include': [20],
+                        x_axis_config={'numbers_to_include': [80, 160],
                                        'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
-                        y_axis_config={'numbers_to_include': [2, 6, 8],
+                        y_axis_config={'numbers_to_include': [2, 6, 10, 14],
                                        'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
-        sa.shift(np.array([-5.4, -2.25, 0]) - sa.c2p(0, 0))
-        supply = Line(sa.c2p(0, 2), sa.c2p(80, 6), color=SUPPLY, stroke_width=4)
-        sp = Tex('P').scale(0.8).next_to(sa.c2p(0, 9), LEFT, buff=0.25)
-        supply_price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(sp, RIGHT, buff=0.35)
-        sq = Tex('Q').scale(0.8).next_to(sa.c2p(80, 0), DOWN, buff=0.35)
+        sa.shift(np.array([-5.45, -2.1, 0]) - sa.c2p(0, 0))
+        supply = Line(sa.c2p(0, 2), sa.c2p(240, 14), color=SUPPLY, stroke_width=4)
+        sp = Tex('P').scale(0.8).next_to(sa.c2p(0, 15), UP, buff=0.16)
+        supply_price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(sp, LEFT, buff=0.12)
+        sq = Tex('Q').scale(0.8).next_to(sa.c2p(240, 0), RIGHT, buff=0.16)
         su = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(sq, RIGHT, buff=0.18)
-        supply_label = Tex('S').scale(0.8).next_to(sa.c2p(80, 6), RIGHT, buff=0.15)
-        supply_equation = MathTex(r'P=2+Q_s/20', color=SUPPLY).scale(0.8).move_to(sa.c2p(39, 7.3))
+        supply_label = Tex('S').scale(0.8).next_to(supply.get_end(), RIGHT, buff=0.15)
+        supply_equation = MathTex(r'P=2+Q_s/20', color=SUPPLY).scale(0.8).move_to([-3.75, 1.85, 0])
         supply_price = ValueTracker(4)
         supply_h = DashedLine(sa.c2p(0, 4), sa.c2p(40, 4), color=GUIDE).set_opacity(0.4)
         supply_h.ax, supply_h.source = sa, supply_price
@@ -733,15 +733,15 @@ class B5(Scene):
         supply_dot.ax, supply_dot.source = sa, supply_price
         supply_dot.add_updater(lambda dot: dot.move_to(dot.ax.c2p(
             20 * (dot.source.get_value() - 2), dot.source.get_value())))
-        supply_pn = DecimalNumber(4, num_decimal_places=1, color=GUIDE).scale(0.7)
+        supply_pn = DecimalNumber(4, num_decimal_places=1, color=GUIDE).scale(0.6)
         supply_pn.ax, supply_pn.source = sa, supply_price
         supply_pn.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(
-            number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.6))
+            number.ax.c2p(0, number.source.get_value()), LEFT, buff=0.65).shift(UP * 0.1))
         supply_pn.update()
-        supply_qn = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.6)
+        supply_qn = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.54)
         supply_qn.ax, supply_qn.source = sa, supply_price
         supply_qn.add_updater(lambda number: number.set_value(20 * (number.source.get_value() - 2)).move_to(
-            number.ax.c2p(20 * (number.source.get_value() - 2), 0) + DOWN * 0.32))
+            number.ax.c2p(20 * (number.source.get_value() - 2), 0) + DOWN * 0.65 + RIGHT * 0.16))
         supply_qn.update()
         supply_def = Tex(r'\mbox{ {{Price Elasticity of Supply}} measures how quantity supplied responds to price.}',
                         tex_to_color_map={'Price Elasticity of Supply': DEFINITION}).scale(DEFINITION_SCALE)
@@ -750,7 +750,7 @@ class B5(Scene):
                   FadeIn(supply_price_unit), FadeIn(supply_label), FadeIn(supply_equation), FadeIn(supply_h), FadeIn(supply_v),
                   FadeIn(supply_dot), FadeIn(supply_pn), FadeIn(supply_qn), FadeIn(supply_def))
         seller_bars = VGroup()
-        for rank in range(1, 81):
+        for rank in range(1, 241):
             mc = 2 + rank / 20
             bar = Polygon(sa.c2p(rank - 0.93, 0), sa.c2p(rank - 0.07, 0),
                           sa.c2p(rank - 0.07, mc), sa.c2p(rank - 0.93, mc),
@@ -803,9 +803,11 @@ class B5(Scene):
         original_supply_choice = VGroup(*[
             mob.copy().clear_updaters() for mob in (supply_h, supply_v, supply_dot, supply_pn, supply_qn)])
         original_supply_choice.set_color(CAPTION).set_opacity(0.65)
+        original_supply_choice[3].shift(DOWN * 0.2)
+        original_supply_choice[4].shift(LEFT * 0.32)
         self.add(original_supply_choice)
         self.play(supply_price.animate.set_value(5), run_time=2, rate_func=smooth)
-        supply_q_change = Line(sa.c2p(40, 0) + DOWN * 0.72, sa.c2p(60, 0) + DOWN * 0.72,
+        supply_q_change = Line(sa.c2p(40, 0) + DOWN * 0.95, sa.c2p(60, 0) + DOWN * 0.95,
                                color=FOCUS, stroke_width=4)
         supply_p_change = Line(sa.c2p(0, 4) + LEFT * 1.05, sa.c2p(0, 5) + LEFT * 1.05,
                                color=FOCUS, stroke_width=4)
@@ -820,10 +822,9 @@ class B5(Scene):
         self.play(FadeIn(supply_q_change), FadeIn(supply_p_change), FadeIn(supply_change_caps), FadeIn(supply_change_values))
         self.pause('6.b')
 
-        # ---- 6.c · Reuse the midpoint picture on a wider price and quantity scale.
-        old_supply_graph = VGroup(sa, supply, sp, sq, su, supply_price_unit, supply_label, supply_equation,
-                                  supply_h, supply_v, supply_dot, supply_pn, supply_qn, original_supply_choice)
-        old_supply_graph.clear_updaters()
+        # ---- 6.c · Keep the graph fixed while introducing the midpoint calculation.
+        old_supply_choices = VGroup(supply_h, supply_v, supply_dot, supply_pn, supply_qn, original_supply_choice)
+        old_supply_choices.clear_updaters()
         for mob in (supply_molly_selection, supply_molly_check, supply_molly_cross):
             mob.clear_updaters()
         self.play(FadeOut(seller_bars), FadeOut(supply_q_change), FadeOut(supply_p_change),
@@ -831,20 +832,6 @@ class B5(Scene):
                   FadeOut(supply_molly_selection), FadeOut(supply_molly_bar), FadeOut(supply_molly_name),
                   FadeOut(supply_molly_units), FadeOut(supply_molly_cost), FadeOut(supply_molly_price), FadeOut(supply_molly_pn),
                   FadeOut(supply_molly_check), FadeOut(supply_molly_cross))
-        sa = style_axes([0, 240, 40], [0, 15, 2], x_length=3.4, y_length=3.4, ticks=True,
-                        axis_config={'tick_size': 0.05},
-                        x_axis_config={'numbers_to_include': [80, 160],
-                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}},
-                        y_axis_config={'numbers_to_include': [2, 6, 10, 14],
-                                       'decimal_number_config': {'num_decimal_places': 0, 'color': CAPTION, 'font_size': 20}})
-        sa.shift(np.array([-5.45, -2.1, 0]) - sa.c2p(0, 0))
-        supply = Line(sa.c2p(0, 2), sa.c2p(240, 14), color=SUPPLY, stroke_width=4)
-        sp = Tex('P').scale(0.8).next_to(sa.c2p(0, 15), UP, buff=0.16)
-        supply_price_unit = Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.45).next_to(sp, LEFT, buff=0.12)
-        sq = Tex('Q').scale(0.8).next_to(sa.c2p(240, 0), RIGHT, buff=0.16)
-        su = Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.45).next_to(sq, RIGHT, buff=0.18)
-        supply_label = Tex('S').scale(0.8).next_to(supply.get_end(), RIGHT, buff=0.15)
-        supply_equation = MathTex(r'P=2+Q_s/20', color=SUPPLY).scale(0.8).move_to([-3.75, 1.85, 0])
         supply_midprice = ValueTracker(4.5)
         supply_endpoints = VGroup()
         for sign, endpoint_color in [(-1, CAPTION), (1, GUIDE)]:
@@ -904,8 +891,7 @@ class B5(Scene):
         supply_midpoint_def = Tex(r'\mbox{ {{Midpoint method}} divides each change by the average of its two values.}',
                                   tex_to_color_map={'Midpoint method': DEFINITION}).scale(DEFINITION_SCALE)
         supply_midpoint_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        new_supply_graph = VGroup(sa, supply, sp, sq, su, supply_price_unit, supply_label, supply_equation, supply_endpoints)
-        self.play(FadeOut(old_supply_graph), FadeIn(new_supply_graph), FadeIn(supply_divider))
+        self.play(FadeOut(old_supply_choices), FadeIn(supply_endpoints), FadeIn(supply_divider))
         self.play(FadeOut(supply_def), FadeIn(supply_elasticity_kind), FadeIn(supply_formula), FadeIn(supply_midpoint_def))
         supply_q_change_label = MathTex(r'\Delta Q_s=20', color=INK).scale(0.8).move_to([2.15, 0.75, 0])
         supply_q_average_label = MathTex(r'\bar Q_s=', r'\frac{40+60}{2}', '=50', color=INK).scale(0.8)
