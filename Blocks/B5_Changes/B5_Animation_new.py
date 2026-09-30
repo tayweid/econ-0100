@@ -775,14 +775,29 @@ class B5(Scene):
         supply_molly_price.add_updater(lambda line: line.put_start_and_end_on(
             np.array([3.25, -2.25 + 0.6 * line.source.get_value(), 0]),
             np.array([4.65, -2.25 + 0.6 * line.source.get_value(), 0])))
-        supply_molly_pn = DecimalNumber(4, num_decimal_places=0, color=GUIDE).scale(0.7)
+        supply_molly_pn = DecimalNumber(4, num_decimal_places=1, color=GUIDE).scale(0.7)
         supply_molly_pn.source, supply_molly_pn.line = supply_price, supply_molly_price
         supply_molly_pn.add_updater(lambda number: number.set_value(number.source.get_value()).next_to(number.line, RIGHT, buff=0.15))
         self.play(FadeIn(supply_molly_selection))
         self.play(TransformFromCopy(supply_molly_selection, supply_molly_bar),
                   FadeIn(supply_molly_name), FadeIn(supply_molly_units), FadeIn(supply_molly_cost),
                   FadeIn(supply_molly_price), FadeIn(supply_molly_pn))
+        supply_molly_selection.source = supply_price
+        supply_molly_selection.add_updater(lambda bar: bar.set_fill(
+            SUPPLY if bar.source.get_value() >= 3 else MUTED,
+            opacity=1 if bar.source.get_value() >= 3 else 0.14))
+        supply_molly_check = MathTex(r'\checkmark', color=GREEN).scale(0.85).move_to([3.95, 2.3, 0])
+        supply_molly_check.source = supply_price
+        supply_molly_check.add_updater(lambda mark: mark.set_opacity(1 if mark.source.get_value() >= 3 else 0))
+        supply_molly_cross = MathTex(r'\times', color=GUIDE).scale(0.85).move_to(supply_molly_check)
+        supply_molly_cross.source = supply_price
+        supply_molly_cross.add_updater(lambda mark: mark.set_opacity(1 if mark.source.get_value() < 3 else 0))
+        self.add(supply_molly_check, supply_molly_cross)
         self.pause('6.a')
+        self.play(supply_price.animate.set_value(2.5), run_time=2, rate_func=smooth)
+        self.pause('6.a.no')
+        self.play(supply_price.animate.set_value(4), run_time=2, rate_func=smooth)
+        self.pause('6.a.yes')
 
         # ---- 6.b · Keep the original choice and measure the price and quantity changes.
         original_supply_choice = VGroup(*[
@@ -809,10 +824,13 @@ class B5(Scene):
         old_supply_graph = VGroup(sa, supply, sp, sq, su, supply_price_unit, supply_label, supply_equation,
                                   supply_h, supply_v, supply_dot, supply_pn, supply_qn, original_supply_choice)
         old_supply_graph.clear_updaters()
+        for mob in (supply_molly_selection, supply_molly_check, supply_molly_cross):
+            mob.clear_updaters()
         self.play(FadeOut(seller_bars), FadeOut(supply_q_change), FadeOut(supply_p_change),
                   FadeOut(supply_change_caps), FadeOut(supply_change_values),
                   FadeOut(supply_molly_selection), FadeOut(supply_molly_bar), FadeOut(supply_molly_name),
-                  FadeOut(supply_molly_units), FadeOut(supply_molly_cost), FadeOut(supply_molly_price), FadeOut(supply_molly_pn))
+                  FadeOut(supply_molly_units), FadeOut(supply_molly_cost), FadeOut(supply_molly_price), FadeOut(supply_molly_pn),
+                  FadeOut(supply_molly_check), FadeOut(supply_molly_cross))
         sa = style_axes([0, 240, 40], [0, 15, 2], x_length=3.4, y_length=3.4, ticks=True,
                         axis_config={'tick_size': 0.05},
                         x_axis_config={'numbers_to_include': [80, 160],
