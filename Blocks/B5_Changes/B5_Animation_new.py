@@ -1891,10 +1891,12 @@ class B5(Scene):
         self.play(FadeIn(cs_supply), FadeIn(cs_s_label), FadeIn(cs_phase))
         self.play(FadeIn(cs_h), FadeIn(cs_s_dot), FadeIn(cs_d_dot))
         self.play(FadeIn(cs_s_drop), FadeIn(cs_d_drop))
-        cs_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
-        cs_equilibrium.anchor = cs_s_dot
-        cs_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
-        cs_equilibrium.update()
+        # Put equilibrium values at their axis projections, not over the curves.
+        cs_baseline = VGroup(
+            MathTex(r'P^*=4', color=CAPTION).scale(0.45).next_to(cs_ax.c2p(0, 4), LEFT, buff=0.16),
+            MathTex(r'Q^*=40', color=CAPTION).scale(0.45).next_to(cs_ax.c2p(40, 0), DOWN, buff=0.12),
+        )
+        cs_equilibrium = cs_baseline.copy().set_color(GUIDE)
         self.play(FadeIn(cs_equilibrium))
         self.pause('10.d')
 
@@ -1911,9 +1913,16 @@ class B5(Scene):
         self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
         self.remove(cs_equilibrium)
         self.play(cs_a.animate.set_value(5), run_time=2)
-        cs_shortage = Brace(Line(cs_ax.c2p(40, 4.3), cs_ax.c2p(65, 4.3)), direction=UP,
+        cs_gap_values = VGroup(
+            MathTex(r'P^*=4', color=GUIDE).scale(0.45).next_to(cs_ax.c2p(0, 4), LEFT, buff=0.16),
+            cs_baseline[1].copy(),
+            MathTex(r'Q_s=40', color=GUIDE).scale(0.43).next_to(cs_ax.c2p(40, 0), DOWN, buff=0.40),
+            MathTex(r'Q_d=65', color=GUIDE).scale(0.43).next_to(cs_ax.c2p(65, 0), DOWN, buff=0.40),
+        )
+        self.add(cs_gap_values)
+        cs_shortage = Brace(Line(cs_ax.c2p(40, 0) + DOWN * 0.66, cs_ax.c2p(65, 0) + DOWN * 0.66), direction=DOWN,
                                         color=INK, buff=0.1)
-        cs_shortage_word = Tex('Shortage', color=INK).scale(0.7).next_to(cs_shortage, UP, buff=0.12)
+        cs_shortage_word = Tex('Shortage', color=INK).scale(0.5).next_to(cs_shortage, DOWN, buff=0.08)
         self.play(FadeIn(cs_shortage), FadeIn(cs_shortage_word))
         self.pause('10.e')
 
@@ -1922,12 +1931,17 @@ class B5(Scene):
         cs_old_h = DashedLine(cs_ax.c2p(0, 4), cs_ax.c2p(40, 4), color=MUTED, stroke_width=1.5)
         cs_old_v = DashedLine(cs_ax.c2p(40, 0), cs_ax.c2p(40, 4), color=MUTED, stroke_width=1.5)
         self.play(FadeOut(cs_shortage), FadeOut(cs_shortage_word))
+        self.remove(cs_gap_values)
+        self.add(cs_baseline.set_opacity(1).set_z_index(8))
         self.add(cs_old_dot, cs_old_h, cs_old_v)
         self.remove(cs_phase)
         cs_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_phase))
         self.play(cs_price.animate.set_value(5), run_time=2.4)
-        cs_equilibrium.update()
+        cs_equilibrium = VGroup(
+            MathTex(r"P^{*\prime}=5", color=GUIDE).scale(0.45).next_to(cs_ax.c2p(0, 5), LEFT, buff=0.16).shift(UP * 0.08),
+            MathTex(r"Q^{*\prime}=60", color=GUIDE).scale(0.45).next_to(cs_ax.c2p(60, 0), DOWN, buff=0.45),
+        )
         self.play(FadeIn(cs_equilibrium))
         self.play(FadeIn(cs_case_up_result))
         self.pause('10.f')
@@ -1937,29 +1951,44 @@ class B5(Scene):
         cs_subtitle = Tex(r'\textsf{Income falls; spinach is a normal good.}', color=CAPTION).scale(0.55)
         cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
+        self.remove(cs_equilibrium, cs_baseline)
         cs_phase = Tex('Income falls: reset the market', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('What if income falls?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
                   cs_case_up.animate.set_color(CAPTION), cs_case_down.animate.set_color(INK),
                   cs_a.animate.set_value(0), cs_price.animate.set_value(4), run_time=1.6)
+        cs_equilibrium = cs_baseline.copy().set_color(GUIDE)
+        self.add(cs_equilibrium)
         self.pause('10.i')
         self.remove(cs_equilibrium)
         self.remove(cs_phase)
         cs_phase = Tex('Demand falls; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_phase))
         self.play(cs_a.animate.set_value(-5), run_time=2)
-        cs_excess = Brace(Line(cs_ax.c2p(15, 4.3), cs_ax.c2p(40, 4.3)), direction=UP,
+        cs_gap_values = VGroup(
+            MathTex(r'P^*=4', color=GUIDE).scale(0.45).next_to(cs_ax.c2p(0, 4), LEFT, buff=0.16),
+            cs_baseline[1].copy(),
+            MathTex(r'Q_s=40', color=GUIDE).scale(0.43).next_to(cs_ax.c2p(40, 0), DOWN, buff=0.40),
+            MathTex(r'Q_d=15', color=GUIDE).scale(0.43).next_to(cs_ax.c2p(15, 0), DOWN, buff=0.40),
+        )
+        self.add(cs_gap_values)
+        cs_excess = Brace(Line(cs_ax.c2p(15, 0) + DOWN * 0.66, cs_ax.c2p(40, 0) + DOWN * 0.66), direction=DOWN,
                                       color=INK, buff=0.1)
-        cs_excess_word = Tex('Excess supply', color=INK).scale(0.7).next_to(cs_excess, UP, buff=0.12)
+        cs_excess_word = Tex('Excess supply', color=INK).scale(0.5).next_to(cs_excess, DOWN, buff=0.08)
         self.play(FadeIn(cs_excess), FadeIn(cs_excess_word))
         self.pause('10.j')
         self.play(FadeOut(cs_excess), FadeOut(cs_excess_word))
+        self.remove(cs_gap_values)
+        self.add(cs_baseline.set_opacity(1).set_z_index(8))
         self.remove(cs_phase)
         cs_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_phase))
         self.play(cs_price.animate.set_value(3), run_time=2.4)
-        cs_equilibrium.update()
+        cs_equilibrium = VGroup(
+            MathTex(r"P^{*\prime}=3", color=GUIDE).scale(0.45).next_to(cs_ax.c2p(0, 3), LEFT, buff=0.16).shift(DOWN * 0.08),
+            MathTex(r"Q^{*\prime}=20", color=GUIDE).scale(0.45).next_to(cs_ax.c2p(20, 0), DOWN, buff=0.45),
+        )
         self.play(FadeIn(cs_equilibrium))
         self.play(FadeIn(cs_case_down_result))
         self.pause('10.k')
@@ -2026,10 +2055,12 @@ class B5(Scene):
                   FadeIn(ss_d_drop), FadeIn(ss_s_drop), FadeIn(ss_divider),
                   FadeIn(ss_phase), FadeIn(ss_prompt), cs_case_down.animate.set_color(CAPTION),
                   cs_case_supply.animate.set_color(INK))
-        ss_equilibrium = Tex('Equilibrium', color=GUIDE).scale(0.55)
-        ss_equilibrium.anchor = ss_d_dot
-        ss_equilibrium.add_updater(lambda m: m.next_to(m.anchor, UP, buff=0.23))
-        ss_equilibrium.update()
+        # Put equilibrium values at their axis projections, not over the curves.
+        ss_baseline = VGroup(
+            MathTex(r'P^*=4', color=CAPTION).scale(0.45).next_to(ss_ax.c2p(0, 4), LEFT, buff=0.16),
+            MathTex(r'Q^*=40', color=CAPTION).scale(0.45).next_to(ss_ax.c2p(40, 0), DOWN, buff=0.12),
+        )
+        ss_equilibrium = ss_baseline.copy().set_color(GUIDE)
         self.play(FadeIn(ss_equilibrium))
         self.pause('10.l')
 
@@ -2041,9 +2072,16 @@ class B5(Scene):
         ss_phase = Tex('Supply falls; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(ss_phase))
         self.play(ss_b.animate.set_value(1.25), run_time=2)
-        ss_shortage = Brace(Line(ss_ax.c2p(15, 4.3), ss_ax.c2p(40, 4.3)), direction=UP,
+        ss_gap_values = VGroup(
+            MathTex(r'P^*=4', color=GUIDE).scale(0.45).next_to(ss_ax.c2p(0, 4), LEFT, buff=0.16),
+            ss_baseline[1].copy(),
+            MathTex(r'Q_s=15', color=GUIDE).scale(0.43).next_to(ss_ax.c2p(15, 0), DOWN, buff=0.40),
+            MathTex(r'Q_d=40', color=GUIDE).scale(0.43).next_to(ss_ax.c2p(40, 0), DOWN, buff=0.40),
+        )
+        self.add(ss_gap_values)
+        ss_shortage = Brace(Line(ss_ax.c2p(15, 0) + DOWN * 0.66, ss_ax.c2p(40, 0) + DOWN * 0.66), direction=DOWN,
                                         color=INK, buff=0.1)
-        ss_shortage_word = Tex('Shortage', color=INK).scale(0.7).next_to(ss_shortage, UP, buff=0.12)
+        ss_shortage_word = Tex('Shortage', color=INK).scale(0.5).next_to(ss_shortage, DOWN, buff=0.08)
         self.play(FadeIn(ss_shortage), FadeIn(ss_shortage_word))
         self.pause('10.m')
 
@@ -2052,18 +2090,23 @@ class B5(Scene):
         ss_old_h = DashedLine(ss_ax.c2p(0, 4), ss_ax.c2p(40, 4), color=MUTED, stroke_width=1.5)
         ss_old_v = DashedLine(ss_ax.c2p(40, 0), ss_ax.c2p(40, 4), color=MUTED, stroke_width=1.5)
         self.play(FadeOut(ss_shortage), FadeOut(ss_shortage_word))
+        self.remove(ss_gap_values)
+        self.add(ss_baseline.set_opacity(1).set_z_index(8))
         self.add(ss_old_dot, ss_old_h, ss_old_v)
         self.remove(ss_phase)
         ss_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(ss_phase))
         self.play(ss_price.animate.set_value(5), run_time=2.4)
-        ss_equilibrium.update()
+        ss_equilibrium = VGroup(
+            MathTex(r"P^{*\prime}=5", color=GUIDE).scale(0.45).next_to(ss_ax.c2p(0, 5), LEFT, buff=0.16).shift(UP * 0.08),
+            MathTex(r"Q^{*\prime}=35", color=GUIDE).scale(0.45).next_to(ss_ax.c2p(35, 0), DOWN, buff=0.45),
+        )
         self.play(FadeIn(ss_equilibrium))
         self.play(FadeIn(cs_case_supply_result))
         self.pause('10.n')
 
         # ---- 10.o · Reset, then let cheaper fertilizer increase supply.
-        self.remove(cs_subtitle, ss_phase, ss_prompt, ss_equilibrium)
+        self.remove(cs_subtitle, ss_phase, ss_prompt, ss_equilibrium, ss_baseline)
         cs_subtitle = Tex(r'\textsf{Fertilizer becomes cheaper.}', color=CAPTION).scale(0.55)
         cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ss_phase = Tex('Reset the market', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
@@ -2072,22 +2115,36 @@ class B5(Scene):
         self.play(FadeIn(cs_subtitle), FadeIn(ss_phase), FadeIn(ss_prompt),
                   cs_case_supply.animate.set_color(CAPTION), cs_case_supply_up.animate.set_color(INK),
                   ss_b.animate.set_value(0), ss_price.animate.set_value(4), run_time=1.6)
+        ss_equilibrium = ss_baseline.copy().set_color(GUIDE)
+        self.add(ss_equilibrium)
         self.pause('10.o')
-        self.remove(ss_phase)
+        self.remove(ss_phase, ss_equilibrium)
         ss_phase = Tex('Supply rises; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(ss_phase))
         self.play(ss_b.animate.set_value(-1.25), run_time=2)
-        ss_excess = Brace(Line(ss_ax.c2p(40, 4.3), ss_ax.c2p(65, 4.3)), direction=UP,
+        ss_gap_values = VGroup(
+            MathTex(r'P^*=4', color=GUIDE).scale(0.45).next_to(ss_ax.c2p(0, 4), LEFT, buff=0.16),
+            ss_baseline[1].copy(),
+            MathTex(r'Q_s=65', color=GUIDE).scale(0.43).next_to(ss_ax.c2p(65, 0), DOWN, buff=0.40),
+            MathTex(r'Q_d=40', color=GUIDE).scale(0.43).next_to(ss_ax.c2p(40, 0), DOWN, buff=0.40),
+        )
+        self.add(ss_gap_values)
+        ss_excess = Brace(Line(ss_ax.c2p(40, 0) + DOWN * 0.66, ss_ax.c2p(65, 0) + DOWN * 0.66), direction=DOWN,
                           color=INK, buff=0.1)
-        ss_excess_word = Tex('Excess supply', color=INK).scale(0.7).next_to(ss_excess, UP, buff=0.12)
+        ss_excess_word = Tex('Excess supply', color=INK).scale(0.5).next_to(ss_excess, DOWN, buff=0.08)
         self.play(FadeIn(ss_excess), FadeIn(ss_excess_word))
         self.pause('10.p')
         self.play(FadeOut(ss_excess), FadeOut(ss_excess_word))
+        self.remove(ss_gap_values)
+        self.add(ss_baseline.set_opacity(1).set_z_index(8))
         self.remove(ss_phase)
         ss_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         self.play(FadeIn(ss_phase))
         self.play(ss_price.animate.set_value(3), run_time=2.4)
-        ss_equilibrium.update()
+        ss_equilibrium = VGroup(
+            MathTex(r"P^{*\prime}=3", color=GUIDE).scale(0.45).next_to(ss_ax.c2p(0, 3), LEFT, buff=0.16).shift(DOWN * 0.08),
+            MathTex(r"Q^{*\prime}=45", color=GUIDE).scale(0.45).next_to(ss_ax.c2p(45, 0), DOWN, buff=0.45),
+        )
         self.play(FadeIn(ss_equilibrium), FadeIn(cs_case_supply_up_result))
         comparative_def = Tex(r'{{Comparative statics}} compares equilibrium before and after a change.',
                               tex_to_color_map={'Comparative statics': DEFINITION}).scale(DEFINITION_SCALE)
