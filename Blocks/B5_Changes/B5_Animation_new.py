@@ -335,7 +335,7 @@ class B5(Scene):
         old_endpoints.clear_updaters()
         self.play(FadeOut(elasticity_panels[1]), FadeOut(initial_choices[1]),
                   FadeOut(elasticity_changes), FadeOut(movement_arrows), FadeOut(elasticity_def))
-        elasticity_kind = Tex('Price Elasticity of Demand:', color=DEFINITION).scale(0.7)
+        elasticity_kind = Tex('Price Elasticity of Demand', color=DEFINITION).scale(0.7)
         divider_x = max(eq.get_right()[0], eu.get_right()[0]) + 0.35
         e_divider = Line([divider_x, -3, 0], [divider_x, 2.75, 0], color=MUTED, stroke_width=1)
         e_divider.set_opacity(0.5)
@@ -392,8 +392,8 @@ class B5(Scene):
             line.ax.c2p(0, 0) + DOWN * 0.16,
             line.ax.c2p(60 - 5 * line.source.get_value(), 0) + DOWN * 0.16))
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
-        VGroup(elasticity_kind, formula).arrange(RIGHT, buff=0.22).move_to([3.95, 1.9, 0])
-        elasticity_kind.set_y(formula[r'\epsilon_D'].get_y())
+        elasticity_kind.move_to([3.95, 3.0, 0])
+        formula.move_to([3.1, 1.9, 0])
         q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
         q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', '=7.5', color=FOCUS).scale(0.8)
         q_average_label.move_to([2.15, 0.0, 0])
@@ -484,14 +484,17 @@ class B5(Scene):
         self.pause('4.c')
 
         # ---- 4.d · Divide the two percentages; preserve the demand sign.
-        epsilon_prefix = MathTex(r'\epsilon_D=').scale(1.1)
-        epsilon_number = DecimalNumber(-7, num_decimal_places=2, color=FOCUS).scale(1.1)
+        # Complete the standing formula instead of repeating epsilon_D below.
+        epsilon_prefix = MathTex('=').scale(0.75)
+        epsilon_number = DecimalNumber(-7, num_decimal_places=2, color=FOCUS).scale(0.75)
         epsilon_result = VGroup(epsilon_prefix, epsilon_number).arrange(RIGHT, buff=0.18)
-        epsilon_result.move_to([3.95, -1.75, 0])
+        epsilon_result.formula = formula
+        epsilon_result.next_to(formula, RIGHT, buff=0.18).set_y(formula['='].get_y())
         epsilon_number.source = midpoint_price
         epsilon_number.add_updater(lambda number: number.set_value(
             -number.source.get_value() / (12 - number.source.get_value())))
-        epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18).move_to([3.95, -1.75, 0]))
+        epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
+                                  .next_to(group.formula, RIGHT, buff=0.18).set_y(group.formula['='].get_y()))
         elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
         self.remove(midpoint_def)
         demand_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
