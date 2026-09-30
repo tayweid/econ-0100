@@ -1827,25 +1827,27 @@ class B5(Scene):
         cs_d_label.add_updater(lambda m: m.next_to(m.ax.c2p(
             5 * (12 + m.shock.get_value()), 0), UR, buff=0.15))
         cs_d_label.update()
-        cs_phase = Tex('Recall the demand shift', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('How does the market respond to a change?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        # This case record remains in one place across the three experiments.
+        # This case record remains in one place across the four experiments.
         # Results enter only after each market has reached its new equilibrium.
-        cs_case_heading = Tex('Scenarios', color=CAPTION).scale(0.7).move_to([4.55, -1.22, 0])
-        cs_case_up = Tex('Demand increases', color=CAPTION).scale(0.6).move_to([2.2, -1.67, 0], aligned_edge=LEFT)
-        cs_case_down = Tex('Demand decreases', color=CAPTION).scale(0.6).move_to([2.2, -2.12, 0], aligned_edge=LEFT)
-        cs_case_supply = Tex('Supply decreases', color=CAPTION).scale(0.6).move_to([2.2, -2.57, 0], aligned_edge=LEFT)
-        cs_case_up_result = Tex('Price rises; quantity rises', color=GUIDE).scale(0.5).move_to([6.2, -1.67, 0])
-        cs_case_down_result = Tex('Price falls; quantity falls', color=GUIDE).scale(0.5).move_to([6.2, -2.12, 0])
-        cs_case_supply_result = Tex('Price rises; quantity falls', color=GUIDE).scale(0.5).move_to([6.2, -2.57, 0])
+        cs_case_heading = Tex('Scenarios', color=CAPTION).scale(0.7).move_to([2.15, 0.95, 0], aligned_edge=LEFT)
+        cs_case_up = Tex('Demand increases', color=CAPTION).scale(0.6).move_to([2.45, 0.35, 0], aligned_edge=LEFT)
+        cs_case_down = Tex('Demand decreases', color=CAPTION).scale(0.6).move_to([2.45, -0.30, 0], aligned_edge=LEFT)
+        cs_case_supply = Tex('Supply decreases', color=CAPTION).scale(0.6).move_to([2.45, -0.95, 0], aligned_edge=LEFT)
+        cs_case_supply_up = Tex('Supply increases', color=CAPTION).scale(0.6).move_to([2.45, -1.60, 0], aligned_edge=LEFT)
+        cs_case_supply_up_result = Tex('Price falls; quantity rises', color=GUIDE).scale(0.5).move_to([6.15, -1.60, 0])
+        cs_case_up_result = Tex('Price rises; quantity rises', color=GUIDE).scale(0.5).move_to([6.15, 0.35, 0])
+        cs_case_down_result = Tex('Price falls; quantity falls', color=GUIDE).scale(0.5).move_to([6.15, -0.30, 0])
+        cs_case_supply_result = Tex('Price rises; quantity falls', color=GUIDE).scale(0.5).move_to([6.15, -0.95, 0])
         cs_case_objects = [cs_case_heading, cs_case_up, cs_case_down, cs_case_supply,
-                           cs_case_up_result, cs_case_down_result, cs_case_supply_result]
+                           cs_case_up_result, cs_case_down_result, cs_case_supply_result,
+                           cs_case_supply_up, cs_case_supply_up_result]
         self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_ax), FadeIn(cs_p_name),
                   FadeIn(cs_p_units), FadeIn(cs_q_name), FadeIn(cs_q_units),
                   FadeIn(cs_demand), FadeIn(cs_d_label), FadeIn(cs_divider),
-                  FadeIn(cs_phase), FadeIn(cs_prompt), FadeIn(cs_case_heading),
-                  FadeIn(cs_case_up), FadeIn(cs_case_down), FadeIn(cs_case_supply))
+                  FadeIn(cs_prompt), FadeIn(cs_case_heading),
+                  FadeIn(cs_case_up), FadeIn(cs_case_down), FadeIn(cs_case_supply), FadeIn(cs_case_supply_up))
         self.pause('10.a')
 
         # ---- 10.b · Recall outward and inward demand shifts.
@@ -1885,7 +1887,6 @@ class B5(Scene):
         cs_d_drop.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(60 + 5 * m.shock.get_value() - 5 * m.price.get_value(), m.price.get_value()),
             m.ax.c2p(60 + 5 * m.shock.get_value() - 5 * m.price.get_value(), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        self.remove(cs_phase)
         cs_phase = Tex('Baseline equilibrium', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         self.play(FadeIn(cs_supply), FadeIn(cs_s_label), FadeIn(cs_phase))
         self.play(FadeIn(cs_h), FadeIn(cs_s_dot), FadeIn(cs_d_dot))
@@ -1900,15 +1901,14 @@ class B5(Scene):
         # ---- 10.e · A positive demand shock arrives while the price stays $4.
         # The dots remain the two quantities at that price, never a moving
         # equilibrium. The gap shows excess demand or excess supply.
-        self.remove(head, cs_subtitle)
-        head = title('Comparative Statics')
+        self.remove(cs_subtitle)
         cs_subtitle = Tex(r'\textsf{Demand increases.}', color=CAPTION).scale(0.55)
         cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
         cs_phase = Tex('Demand rises; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('What happens when demand increases?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
+        self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
         self.remove(cs_equilibrium)
         self.play(cs_a.animate.set_value(5), run_time=2)
         cs_shortage = Brace(Line(cs_ax.c2p(40, 4.3), cs_ax.c2p(65, 4.3)), direction=UP,
@@ -1933,15 +1933,14 @@ class B5(Scene):
         self.pause('10.f')
 
         # ---- 10.i · Reset explicitly, then reduce normal-good demand at $4.
-        self.remove(head, cs_subtitle)
-        head = title('Comparative Statics')
+        self.remove(cs_subtitle)
         cs_subtitle = Tex(r'\textsf{Income falls; spinach is a normal good.}', color=CAPTION).scale(0.55)
         cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
         cs_phase = Tex('Income falls: reset the market', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('What if income falls?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
+        self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
                   cs_case_up.animate.set_color(CAPTION), cs_case_down.animate.set_color(INK),
                   cs_a.animate.set_value(0), cs_price.animate.set_value(4), run_time=1.6)
         self.pause('10.i')
@@ -1965,10 +1964,9 @@ class B5(Scene):
         self.play(FadeIn(cs_case_down_result))
         self.pause('10.k')
         # Keep the completed demand cases visible while replacing the market.
-        self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in cs_case_objects])
+        self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in cs_case_objects and mob is not head])
 
         # ---- 10.l · Fertilizer starts on its own freshly restored market.
-        head = title('Comparative Statics')
         cs_subtitle = Tex(r'\textsf{Fertilizer becomes more expensive.}', color=CAPTION).scale(0.55)
         cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ss_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
@@ -2022,7 +2020,7 @@ class B5(Scene):
         ss_s_drop.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), m.price.get_value()),
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
+        self.play(FadeIn(cs_subtitle), FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
                   FadeIn(ss_q_units), FadeIn(ss_demand), FadeIn(ss_d_label), FadeIn(ss_supply), FadeIn(ss_s_label))
         self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot),
                   FadeIn(ss_d_drop), FadeIn(ss_s_drop), FadeIn(ss_divider),
@@ -2062,12 +2060,41 @@ class B5(Scene):
         ss_equilibrium.update()
         self.play(FadeIn(ss_equilibrium))
         self.play(FadeIn(cs_case_supply_result))
+        self.pause('10.n')
+
+        # ---- 10.o · Reset, then let cheaper fertilizer increase supply.
+        self.remove(cs_subtitle, ss_phase, ss_prompt, ss_equilibrium)
+        cs_subtitle = Tex(r'\textsf{Fertilizer becomes cheaper.}', color=CAPTION).scale(0.55)
+        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        ss_phase = Tex('Reset the market', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
+        ss_prompt = Tex('What happens when fertilizer costs less?', color=DEFINITION).scale(DEFINITION_SCALE)
+        ss_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
+        self.play(FadeIn(cs_subtitle), FadeIn(ss_phase), FadeIn(ss_prompt),
+                  cs_case_supply.animate.set_color(CAPTION), cs_case_supply_up.animate.set_color(INK),
+                  ss_b.animate.set_value(0), ss_price.animate.set_value(4), run_time=1.6)
+        self.pause('10.o')
+        self.remove(ss_phase)
+        ss_phase = Tex('Supply rises; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
+        self.play(FadeIn(ss_phase))
+        self.play(ss_b.animate.set_value(-1.25), run_time=2)
+        ss_excess = Brace(Line(ss_ax.c2p(40, 4.3), ss_ax.c2p(65, 4.3)), direction=UP,
+                          color=INK, buff=0.1)
+        ss_excess_word = Tex('Excess supply', color=INK).scale(0.7).next_to(ss_excess, UP, buff=0.12)
+        self.play(FadeIn(ss_excess), FadeIn(ss_excess_word))
+        self.pause('10.p')
+        self.play(FadeOut(ss_excess), FadeOut(ss_excess_word))
+        self.remove(ss_phase)
+        ss_phase = Tex('Price adjusts; curves stay fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
+        self.play(FadeIn(ss_phase))
+        self.play(ss_price.animate.set_value(3), run_time=2.4)
+        ss_equilibrium.update()
+        self.play(FadeIn(ss_equilibrium), FadeIn(cs_case_supply_up_result))
         comparative_def = Tex(r'{{Comparative statics}} compares equilibrium before and after a change.',
                               tex_to_color_map={'Comparative statics': DEFINITION}).scale(DEFINITION_SCALE)
         comparative_def.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.remove(ss_prompt)
         self.play(FadeIn(comparative_def))
-        self.pause('10.n')
+        self.pause('10.q')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
 
