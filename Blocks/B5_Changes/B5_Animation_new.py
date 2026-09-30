@@ -522,7 +522,8 @@ class B5(Scene):
             -number.source.get_value() / (12 - number.source.get_value())))
         epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
                                   .next_to(group.formula, RIGHT, buff=0.18).set_y(group.formula['='].get_y()))
-        elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=INK, tex_to_color_map={'Elastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
+        elastic_word = VGroup(Tex('Elastic:', color=DEFINITION), MathTex(r'|\epsilon_D|>1', color=INK))
+        elastic_word.arrange(RIGHT, buff=0.18).scale(0.8).move_to([3.95, 0.7, 0])
         self.remove(midpoint_def)
         demand_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
         demand_sign_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -542,28 +543,36 @@ class B5(Scene):
         lower_brace_label.move_to(lower_brace.get_center() + UR * 0.65)
         self.play(FadeOut(left_panel[13]), FadeOut(equation))
         self.play(midpoint_price.animate.set_value(8), run_time=2.5, rate_func=smooth)
-        self.play(FadeIn(upper_brace), FadeIn(upper_brace_label))
+        self.play(FadeIn(upper_brace), FadeOut(elastic_word[0]),
+                  ReplacementTransform(elastic_word[1], upper_brace_label))
         self.pause('4.e')
 
         # ---- 4.f · Stop at the midpoint: the percentage changes are equal.
-        self.play(FadeOut(elastic_word), midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
-        unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=INK, tex_to_color_map={'Unit elastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
+        self.play(midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
+        unit_word = VGroup(Tex('Unit elastic:', color=DEFINITION), MathTex(r'|\epsilon_D|=1', color=INK))
+        unit_word.arrange(RIGHT, buff=0.18).scale(0.8).move_to([3.95, 0.7, 0])
         unit_marker = Dot(ea.c2p(30, 6), color=FOCUS, radius=0.055)
         unit_marker_label = MathTex(r'|\epsilon_D|=1', color=DEFINITION).scale(0.7)
         unit_marker_label.next_to(unit_marker, LEFT, buff=0.3).shift(DOWN * 0.55)
-        self.play(FadeIn(unit_word), FadeIn(unit_marker), FadeIn(unit_marker_label))
+        self.play(FadeIn(unit_word), FadeIn(unit_marker))
+        self.pause('4.f.classification')
+        self.play(FadeOut(unit_word[0]), ReplacementTransform(unit_word[1], unit_marker_label))
         self.pause('4.f')
 
         # ---- 4.g · Continue to low price; mark the entire inelastic region.
-        self.play(FadeOut(unit_word), midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
-        inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=INK, tex_to_color_map={'Inelastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
-        self.play(FadeOut(ed_lab), FadeIn(lower_brace), FadeIn(lower_brace_label), FadeIn(inelastic_word))
+        self.play(midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
+        inelastic_word = VGroup(Tex('Inelastic:', color=DEFINITION), MathTex(r'|\epsilon_D|=1/7<1', color=INK))
+        inelastic_word.arrange(RIGHT, buff=0.18).scale(0.8).move_to([3.95, 0.7, 0])
+        self.play(FadeIn(inelastic_word))
+        self.pause('4.g.classification')
+        self.play(FadeOut(ed_lab), FadeIn(lower_brace), FadeOut(inelastic_word[0]),
+                  ReplacementTransform(inelastic_word[1], lower_brace_label))
         self.pause('4.g')
 
         # ---- 4.h · Only after the sweep, collect the three region definitions.
         self.play(FadeOut(q_ratio_track), FadeOut(p_ratio_track), FadeOut(q_ratio_bar), FadeOut(p_ratio_bar),
                   FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
-                  FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
+                  FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind),
                   FadeOut(action_heading), FadeOut(response_heading),
                   FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
                   FadeOut(endpoints),
@@ -988,7 +997,8 @@ class B5(Scene):
             number.source.get_value() / (number.source.get_value() - 2)))
         supply_epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
                                   .next_to(group.supply_formula, RIGHT, buff=0.18).set_y(group.supply_formula['='].get_y()))
-        supply_elastic = Tex(r'Elastic: $|\epsilon_S|>1$', color=INK, tex_to_color_map={'Elastic': DEFINITION}).scale(0.8).move_to([3.95, 0.7, 0])
+        supply_elastic = VGroup(Tex('Elastic:', color=DEFINITION), MathTex(r'|\epsilon_S|>1', color=INK))
+        supply_elastic.arrange(RIGHT, buff=0.18).scale(0.8).move_to([3.95, 0.7, 0])
         self.remove(supply_midpoint_def)
         supply_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
         supply_sign_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -997,6 +1007,9 @@ class B5(Scene):
 
         # ---- 6.d · Raise the same dollar-wide interval: supply remains elastic.
         # With a positive price intercept, epsilon=P-bar/(P-bar-2)>1 everywhere.
+        supply_graph_inequality = MathTex(r'|\epsilon_S|>1', color=DEFINITION).scale(0.7)
+        supply_graph_inequality.move_to(sa.c2p(120, 8) + UL * 0.65)
+        self.play(FadeOut(supply_elastic[0]), ReplacementTransform(supply_elastic[1], supply_graph_inequality))
         self.play(supply_midprice.animate.set_value(7.5), run_time=2.5, rate_func=smooth)
         self.pause('6.d')
 
@@ -1006,8 +1019,8 @@ class B5(Scene):
         supply_limit_note = Tex(r'\mbox{This supply curve stays {{elastic}}; elasticity approaches 1 as price rises.}',
                                 tex_to_color_map={'elastic': DEFINITION}).scale(DEFINITION_SCALE)
         supply_limit_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        supply_limit = MathTex(r'\epsilon_S>1,\qquad\epsilon_S\to1', color=INK).scale(0.8).move_to(supply_elastic)
-        self.play(ReplacementTransform(supply_elastic, supply_limit), FadeIn(supply_limit_note))
+        supply_limit = MathTex(r'\epsilon_S\to1', color=INK).scale(0.8).move_to([3.95, 0.7, 0])
+        self.play(FadeIn(supply_limit), FadeIn(supply_limit_note))
         self.pause('6.e')
 
 
