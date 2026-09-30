@@ -519,9 +519,13 @@ class B5(Scene):
         lower_demand = Line(ea.c2p(30, 6), ea.c2p(60, 0), color=DEMAND, stroke_width=7)
         upper_brace = Brace(upper_demand, direction=UR, color=MUTED, buff=0.15)
         lower_brace = Brace(lower_demand, direction=UR, color=MUTED, buff=0.15)
-        self.play(FadeIn(q_ratio_label), FadeIn(p_ratio_label))
+        upper_brace_label = MathTex(r'|\epsilon_D|>1', color=DEFINITION).scale(0.7)
+        upper_brace_label.next_to(upper_brace, UP, buff=0.15)
+        lower_brace_label = MathTex(r'|\epsilon_D|<1', color=DEFINITION).scale(0.7)
+        lower_brace_label.next_to(lower_brace, UP, buff=0.15)
+        self.play(FadeOut(left_panel[13]), FadeOut(equation), FadeIn(q_ratio_label), FadeIn(p_ratio_label))
         self.play(midpoint_price.animate.set_value(8), run_time=2.5, rate_func=smooth)
-        self.play(FadeIn(upper_brace))
+        self.play(FadeIn(upper_brace), FadeIn(upper_brace_label))
         self.pause('4.e')
 
         # ---- 4.f · Stop at the midpoint: the percentage changes are equal.
@@ -535,7 +539,7 @@ class B5(Scene):
         self.add(unit_marker)
         self.play(FadeOut(unit_word), midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
         inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
-        self.play(FadeIn(lower_brace), FadeIn(inelastic_word))
+        self.play(FadeIn(lower_brace), FadeIn(lower_brace_label), FadeIn(inelastic_word))
         self.pause('4.g')
 
         # ---- 4.h · Only after the sweep, collect the three region definitions.
