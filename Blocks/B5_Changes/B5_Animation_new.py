@@ -1902,14 +1902,11 @@ class B5(Scene):
         # ---- 10.e · A positive demand shock arrives while the price stays $4.
         # The dots remain the two quantities at that price, never a moving
         # equilibrium. The gap shows excess demand or excess supply.
-        self.remove(cs_subtitle)
-        cs_subtitle = Tex(r'\textsf{Demand increases.}', color=CAPTION).scale(0.55)
-        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
         cs_phase = Tex('Demand rises; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
-        cs_prompt = Tex('What happens when demand increases?', color=DEFINITION).scale(DEFINITION_SCALE)
+        cs_prompt = Tex(r'Buyers place a {{higher value}} on spinach.', tex_to_color_map={'higher value': DEFINITION}, color=INK).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
+        self.play(FadeIn(cs_phase), FadeIn(cs_prompt),
                   FadeIn(cs_case_heading), FadeIn(cs_case_up.set_color(INK)))
         self.remove(cs_equilibrium)
         self.play(cs_a.animate.set_value(5), run_time=2)
@@ -1947,15 +1944,12 @@ class B5(Scene):
         self.pause('10.f')
 
         # ---- 10.i · Reset explicitly, then reduce normal-good demand at $4.
-        self.remove(cs_subtitle)
-        cs_subtitle = Tex(r'\textsf{Income falls; spinach is a normal good.}', color=CAPTION).scale(0.55)
-        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         self.remove(cs_phase, cs_prompt)
         self.remove(cs_equilibrium, cs_baseline)
         cs_phase = Tex('Income falls: reset the market', color=INK).scale(0.8).move_to([4.55, 2.25, 0])
-        cs_prompt = Tex('What if income falls?', color=DEFINITION).scale(DEFINITION_SCALE)
+        cs_prompt = Tex(r'{{Income falls}}; spinach is a normal good.', tex_to_color_map={'Income falls': DEFINITION}, color=INK).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
+        self.play(FadeIn(cs_phase), FadeIn(cs_prompt),
                   cs_case_up.animate.set_color(CAPTION), FadeIn(cs_case_down.set_color(INK)),
                   cs_a.animate.set_value(0), cs_price.animate.set_value(4), run_time=1.6)
         cs_equilibrium = cs_baseline.copy().set_color(GUIDE)
@@ -1993,11 +1987,9 @@ class B5(Scene):
         self.play(FadeIn(cs_case_down_result))
         self.pause('10.k')
         # Keep the completed demand cases visible while replacing the market.
-        self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in cs_case_objects and mob is not head])
+        self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in cs_case_objects and mob is not head and mob is not cs_subtitle])
 
         # ---- 10.l · Fertilizer starts on its own freshly restored market.
-        cs_subtitle = Tex(r'\textsf{Fertilizer becomes more expensive.}', color=CAPTION).scale(0.55)
-        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         ss_ax = style_axes([0, 90, 10], [0, 18, 2], x_length=4.5, y_length=4.5)
         ss_ax.shift(np.array([-2.25, BODY_MID + 0.18, 0])
                     - (ss_ax.c2p(0, 0) + ss_ax.c2p(90, 18)) / 2)
@@ -2011,7 +2003,7 @@ class B5(Scene):
         ss_divider = Line([ss_divider_x, BODY_BOTTOM, 0], [ss_divider_x, BODY_TOP, 0],
                           color=MUTED, stroke_width=1).set_opacity(0.5)
         ss_phase = Tex('Fertilizer costs rise', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
-        ss_prompt = Tex('What happens when fertilizer costs more?', color=DEFINITION).scale(DEFINITION_SCALE)
+        ss_prompt = Tex(r'Fertilizer becomes {{more expensive}}.', tex_to_color_map={'more expensive': DEFINITION}, color=INK).scale(DEFINITION_SCALE)
         ss_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         ss_b = ValueTracker(0)
         ss_price = ValueTracker(4)
@@ -2049,7 +2041,7 @@ class B5(Scene):
         ss_s_drop.add_updater(lambda m: m.become(DashedLine(
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), m.price.get_value()),
             m.ax.c2p(20 * (m.price.get_value() - 2 - m.shock.get_value()), 0), color=GUIDE, stroke_width=2).set_style(**m.get_style())))
-        self.play(FadeIn(cs_subtitle), FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
+        self.play(FadeIn(ss_ax), FadeIn(ss_p_name), FadeIn(ss_p_units), FadeIn(ss_q_name),
                   FadeIn(ss_q_units), FadeIn(ss_demand), FadeIn(ss_d_label), FadeIn(ss_supply), FadeIn(ss_s_label))
         self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot),
                   FadeIn(ss_d_drop), FadeIn(ss_s_drop), FadeIn(ss_divider),
@@ -2106,13 +2098,11 @@ class B5(Scene):
         self.pause('10.n')
 
         # ---- 10.o · Reset, then let cheaper fertilizer increase supply.
-        self.remove(cs_subtitle, ss_phase, ss_prompt, ss_equilibrium, ss_baseline)
-        cs_subtitle = Tex(r'\textsf{Fertilizer becomes cheaper.}', color=CAPTION).scale(0.55)
-        cs_subtitle.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
+        self.remove(ss_phase, ss_prompt, ss_equilibrium, ss_baseline)
         ss_phase = Tex('Reset the market', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
-        ss_prompt = Tex('What happens when fertilizer costs less?', color=DEFINITION).scale(DEFINITION_SCALE)
+        ss_prompt = Tex(r'Fertilizer becomes {{cheaper}}.', tex_to_color_map={'cheaper': DEFINITION}, color=INK).scale(DEFINITION_SCALE)
         ss_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(cs_subtitle), FadeIn(ss_phase), FadeIn(ss_prompt),
+        self.play(FadeIn(ss_phase), FadeIn(ss_prompt),
                   cs_case_supply.animate.set_color(CAPTION), FadeIn(cs_case_supply_up.set_color(INK)),
                   ss_b.animate.set_value(0), ss_price.animate.set_value(4), run_time=1.6)
         ss_equilibrium = ss_baseline.copy().set_color(GUIDE)
