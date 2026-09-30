@@ -394,8 +394,8 @@ class B5(Scene):
         formula = MathTex(r'\epsilon_D', '=', r'\dfrac{\quad\dfrac{\Delta Q}{\bar Q}\quad}{\quad\dfrac{\Delta P}{\bar P}\quad}').scale(0.75)
         elasticity_kind.move_to([2.15, 3.3, 0])
         formula.set_y(1.9).align_to(elasticity_kind, LEFT).shift(RIGHT * 0.35)
-        q_change_label = MathTex(r'\Delta Q=-5', color=FOCUS).scale(0.8).move_to([2.15, 0.75, 0])
-        q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', '=7.5', color=FOCUS).scale(0.8)
+        q_change_label = MathTex(r'\Delta Q=-5', color=INK).scale(0.8).move_to([2.15, 0.75, 0])
+        q_average_label = MathTex(r'\bar Q=', r'\frac{10+5}{2}', '=7.5', color=INK).scale(0.8)
         q_average_label.move_to([2.15, 0.0, 0])
         q_change_bar = Line([4.35, 0.75, 0], [4.6, 0.75, 0], color=FOCUS, stroke_width=10)
         q_average_bar = Line([4.35, 0, 0], [4.725, 0, 0], color=MUTED, stroke_width=10)
@@ -420,13 +420,13 @@ class B5(Scene):
         p_base.ax, p_base.source = ea, midpoint_price
         p_base.add_updater(lambda line: line.put_start_and_end_on(
             line.ax.c2p(0, 0) + LEFT * 0.15, line.ax.c2p(0, line.source.get_value()) + LEFT * 0.15))
-        p_change_label = MathTex(r'\Delta P=1', color=FOCUS).scale(0.8).move_to([2.15, -0.8, 0])
-        p_average_label = MathTex(r'\bar P=', r'\frac{10+11}{2}', '=10.5', color=FOCUS).scale(0.8)
+        p_change_label = MathTex(r'\Delta P=1', color=INK).scale(0.8).move_to([2.15, -0.8, 0])
+        p_average_label = MathTex(r'\bar P=', r'\frac{10+11}{2}', '=10.5', color=INK).scale(0.8)
         p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
         VGroup(p_change_label, p_average_label, p_change_bar, p_average_bar).shift(DOWN * 0.55)
-        action_heading = Tex('Action', color=INK).scale(0.7).move_to([2.15, -0.95, 0])
+        action_heading = Tex('Action', color=DEFINITION).scale(0.7).move_to([2.15, -0.95, 0]).align_to(elasticity_kind, LEFT)
         self.play(FadeIn(action_heading), FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
         self.pause('4.b.bars')
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label))
@@ -439,7 +439,7 @@ class B5(Scene):
         self.pause('4.b')
 
         # ---- 4.a · Response: follow with quantity in the upper row.
-        response_heading = Tex('Response', color=INK).scale(0.7).move_to([2.15, 0.85, 0])
+        response_heading = Tex('Response', color=DEFINITION).scale(0.7).move_to([2.15, 0.85, 0]).align_to(elasticity_kind, LEFT)
         self.play(FadeIn(response_heading), FadeIn(q_delta), FadeIn(q_base))
         self.pause('4.a.bars')
         self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label))
@@ -466,9 +466,9 @@ class B5(Scene):
         p_ratio_bar.source = midpoint_price
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
             np.array([3.1, -1.12, 0]), np.array([3.1 + 3 / line.source.get_value(), -1.12, 0])))
-        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=FOCUS).scale(0.75)
+        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=INK).scale(0.75)
         q_ratio_label.move_to([1.8, 0.0, 0])
-        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=FOCUS).scale(0.75)
+        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}=\frac{1}{10.5}', color=INK).scale(0.75)
         p_ratio_label.move_to([1.8, -1.3, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
@@ -493,7 +493,7 @@ class B5(Scene):
         # ---- 4.d · Divide the two percentages; preserve the demand sign.
         # Complete the standing formula instead of repeating epsilon_D below.
         epsilon_prefix = MathTex('=').scale(0.75)
-        epsilon_number = DecimalNumber(-7, num_decimal_places=2, color=FOCUS).scale(0.75)
+        epsilon_number = DecimalNumber(-7, num_decimal_places=2, color=INK).scale(0.75)
         epsilon_result = VGroup(epsilon_prefix, epsilon_number).arrange(RIGHT, buff=0.18)
         epsilon_result.formula = formula
         epsilon_result.next_to(formula, RIGHT, buff=0.18).set_y(formula['='].get_y())
@@ -502,7 +502,7 @@ class B5(Scene):
             -number.source.get_value() / (12 - number.source.get_value())))
         epsilon_result.add_updater(lambda group: group.arrange(RIGHT, buff=0.18)
                                   .next_to(group.formula, RIGHT, buff=0.18).set_y(group.formula['='].get_y()))
-        elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
+        elastic_word = Tex(r'Elastic: $|\epsilon_D|>1$', color=INK, tex_to_color_map={'Elastic': DEFINITION}).scale(0.8).move_to([3.95, -2.55, 0])
         self.remove(midpoint_def)
         demand_sign_note = Tex('The sign gives direction; the magnitude measures responsiveness.', color=INK).scale(DEFINITION_SCALE)
         demand_sign_note.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -513,16 +513,16 @@ class B5(Scene):
         # The graph and live percentage bars stay in place throughout the sweep.
         # Each brace covers a whole region, not just the interval being measured.
         self.remove(q_ratio_label, p_ratio_label)
-        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=FOCUS).scale(0.8).move_to([1.7, 0.0, 0])
-        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=FOCUS).scale(0.8).move_to([1.7, -1.3, 0])
+        q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}', color=INK).scale(0.8).move_to([1.7, 0.0, 0])
+        p_ratio_label = MathTex(r'\frac{\Delta P}{\bar P}', color=INK).scale(0.8).move_to([1.7, -1.3, 0])
         upper_demand = Line(ea.c2p(0, 12), ea.c2p(30, 6), color=DEMAND, stroke_width=7)
         lower_demand = Line(ea.c2p(30, 6), ea.c2p(60, 0), color=DEMAND, stroke_width=7)
         upper_brace = Brace(upper_demand, direction=UR, color=MUTED, buff=0.15)
         lower_brace = Brace(lower_demand, direction=UR, color=MUTED, buff=0.15)
-        upper_brace_label = MathTex(r'|\epsilon_D|>1', color=DEFINITION).scale(0.7)
-        upper_brace_label.next_to(upper_brace, UP, buff=0.15)
-        lower_brace_label = MathTex(r'|\epsilon_D|<1', color=DEFINITION).scale(0.7)
-        lower_brace_label.next_to(lower_brace, UP, buff=0.15)
+        upper_brace_label = MathTex(r'|\epsilon_D|>1', color=INK).scale(0.7)
+        upper_brace_label.move_to(upper_brace.get_center() + UR * 0.65)
+        lower_brace_label = MathTex(r'|\epsilon_D|<1', color=INK).scale(0.7)
+        lower_brace_label.move_to(lower_brace.get_center() + UR * 0.65)
         self.play(FadeOut(left_panel[13]), FadeOut(equation), FadeIn(q_ratio_label), FadeIn(p_ratio_label))
         self.play(midpoint_price.animate.set_value(8), run_time=2.5, rate_func=smooth)
         self.play(FadeIn(upper_brace), FadeIn(upper_brace_label))
@@ -530,16 +530,17 @@ class B5(Scene):
 
         # ---- 4.f · Stop at the midpoint: the percentage changes are equal.
         self.play(FadeOut(elastic_word), midpoint_price.animate.set_value(6), run_time=2.5, rate_func=smooth)
-        unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
-        self.play(FadeIn(unit_word))
+        unit_word = Tex(r'Unit elastic: $|\epsilon_D|=1$', color=INK, tex_to_color_map={'Unit elastic': DEFINITION}).scale(0.8).move_to([3.95, -2.55, 0])
+        unit_marker = Dot(ea.c2p(30, 6), color=FOCUS, radius=0.055)
+        unit_marker_label = MathTex(r'|\epsilon_D|=1', color=INK).scale(0.7)
+        unit_marker_label.next_to(unit_marker, LEFT, buff=0.3).shift(DOWN * 0.55)
+        self.play(FadeIn(unit_word), FadeIn(unit_marker), FadeIn(unit_marker_label))
         self.pause('4.f')
 
         # ---- 4.g · Continue to low price; mark the entire inelastic region.
-        unit_marker = Dot(ea.c2p(30, 6), color=FOCUS, radius=0.055)
-        self.add(unit_marker)
         self.play(FadeOut(unit_word), midpoint_price.animate.set_value(1.5), run_time=3, rate_func=smooth)
-        inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=DEFINITION).scale(0.8).move_to([3.95, -2.55, 0])
-        self.play(FadeIn(lower_brace), FadeIn(lower_brace_label), FadeIn(inelastic_word))
+        inelastic_word = Tex(r'Inelastic: $|\epsilon_D|=1/7<1$', color=INK, tex_to_color_map={'Inelastic': DEFINITION}).scale(0.8).move_to([3.95, -2.55, 0])
+        self.play(FadeOut(ed_lab), FadeIn(lower_brace), FadeIn(lower_brace_label), FadeIn(inelastic_word))
         self.pause('4.g')
 
         # ---- 4.h · Only after the sweep, collect the three region definitions.
