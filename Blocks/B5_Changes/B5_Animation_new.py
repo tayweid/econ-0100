@@ -319,7 +319,7 @@ class B5(Scene):
         self.play(FadeOut(scenario_note), FadeIn(elasticity_def))
         self.pause('3.d')
 
-        # ---- 4.a · Measure the quantity change and the midpoint separately.
+        # ---- 4 · Set up the midpoint model; teach price before quantity.
         # The grey base starts at zero and ends at Q-bar, NOT at the first Q.
         # The short gold change joins the two endpoint quantities. Neither bar
         # is concatenated with the other: the denominator is visibly a midpoint.
@@ -408,17 +408,7 @@ class B5(Scene):
         self.add(endpoints)
         self.play(FadeIn(e_divider))
         self.play(FadeIn(elasticity_kind), FadeIn(formula), FadeIn(midpoint_def))
-        self.play(FadeIn(q_delta), FadeIn(q_base))
-        self.pause('4.a.bars')
-        self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label))
-        self.pause('4.a.change')
-        self.play(TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
-        self.pause('4.a.midpoint')
-        # Keep the averaging arithmetic visible and append its result.
-        self.play(FadeIn(q_average_label[2:]), run_time=0.65)
-        self.pause('4.a')
-
-        # ---- 4.b · Repeat the same construction for price, with a positive change.
+        # ---- 4.b · Action: start with price in the lower calculation row.
         p_delta = Line(ea.c2p(0, 11) + LEFT * 0.4, ea.c2p(0, 10) + LEFT * 0.4,
                        color=FOCUS, stroke_width=6)
         p_delta.ax, p_delta.source = ea, midpoint_price
@@ -435,8 +425,9 @@ class B5(Scene):
         p_average_label.move_to([2.15, -1.55, 0])
         p_change_bar = Line([4.35, -0.8, 0], [4.55, -0.8, 0], color=FOCUS, stroke_width=10)
         p_average_bar = Line([4.35, -1.55, 0], [6.45, -1.55, 0], color=MUTED, stroke_width=10)
-        VGroup(p_change_label, p_average_label, p_change_bar, p_average_bar).shift(DOWN * 0.35)
-        self.play(FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
+        VGroup(p_change_label, p_average_label, p_change_bar, p_average_bar).shift(DOWN * 0.55)
+        action_heading = Tex('Action', color=INK).scale(0.7).move_to([2.15, -0.95, 0])
+        self.play(FadeIn(action_heading), FadeIn(p_delta), FadeIn(p_base), run_time=0.8)
         self.pause('4.b.bars')
         self.play(TransformFromCopy(p_delta.copy().clear_updaters(), p_change_bar), FadeIn(p_change_label))
         self.pause('4.b.change')
@@ -446,6 +437,18 @@ class B5(Scene):
         self.play(FadeIn(p_average_label[2:]), run_time=0.65)
         self.bring_to_front(endpoints)
         self.pause('4.b')
+
+        # ---- 4.a · Response: follow with quantity in the upper row.
+        response_heading = Tex('Response', color=INK).scale(0.7).move_to([2.15, 0.85, 0])
+        self.play(FadeIn(response_heading), FadeIn(q_delta), FadeIn(q_base))
+        self.pause('4.a.bars')
+        self.play(TransformFromCopy(q_delta.copy().clear_updaters(), q_change_bar), FadeIn(q_change_label))
+        self.pause('4.a.change')
+        self.play(TransformFromCopy(q_base.copy().clear_updaters(), q_average_bar), FadeIn(q_average_label[:2]))
+        self.pause('4.a.midpoint')
+        # Keep the averaging arithmetic visible and append its result.
+        self.play(FadeIn(q_average_label[2:]), run_time=0.65)
+        self.pause('4.a')
 
         # ---- 4.c · Normalize the measurements before comparing their lengths.
         # A full grey bar is now 100% for BOTH rows. Gold shows the change as
@@ -469,7 +472,7 @@ class B5(Scene):
         p_ratio_label.move_to([1.8, -1.3, 0])
         self.play(ReplacementTransform(q_average_bar, q_ratio_track), ReplacementTransform(p_average_bar, p_ratio_track),
                   ReplacementTransform(q_change_bar, q_ratio_bar), ReplacementTransform(p_change_bar, p_ratio_bar),
-                  FadeIn(q_ratio_label), FadeIn(p_ratio_label))
+                  FadeIn(q_ratio_label), FadeIn(p_ratio_label), action_heading.animate.set_y(-0.65))
         q_percent = VGroup(DecimalNumber(-100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.7)
         q_percent.bar = q_ratio_bar
@@ -539,6 +542,7 @@ class B5(Scene):
         self.play(FadeOut(q_ratio_track), FadeOut(p_ratio_track), FadeOut(q_ratio_bar), FadeOut(p_ratio_bar),
                   FadeOut(q_ratio_label), FadeOut(p_ratio_label), FadeOut(q_percent), FadeOut(p_percent),
                   FadeOut(epsilon_result), FadeOut(formula), FadeOut(elasticity_kind), FadeOut(inelastic_word),
+                  FadeOut(action_heading), FadeOut(response_heading),
                   FadeOut(q_delta), FadeOut(p_delta), FadeOut(q_base), FadeOut(p_base),
                   FadeOut(endpoints),
                   FadeOut(demand_sign_note))
