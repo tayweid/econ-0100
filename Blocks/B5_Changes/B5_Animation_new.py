@@ -1273,8 +1273,31 @@ class B5(Scene):
             (abs((12 + label.source.get_value()) / label.slope.get_value() - 60) * 4.6 / 90 - 0.35) / 0.25, 0, 1)))
         self.add(before_demand)
         self.play(FadeIn(before_word))
+        a_span = VMobject(stroke_color=DEFINITION, stroke_width=5)
+        a_span.ax, a_span.source = ax, shift
+        a_span.add_updater(lambda m: m.set_points_as_corners([
+            m.ax.c2p(0, 12) + LEFT * 0.65,
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.65]))
+        a_anchor = Line(ax.c2p(0, 12) + LEFT * 0.77, ax.c2p(0, 12) + LEFT * 0.53,
+                        color=DEFINITION, stroke_width=2)
+        a_cap = Line(ax.c2p(0, 12) + LEFT * 0.77, ax.c2p(0, 12) + LEFT * 0.53,
+                     color=DEFINITION, stroke_width=2)
+        a_cap.ax, a_cap.source = ax, shift
+        a_cap.add_updater(lambda m: m.put_start_and_end_on(
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.77,
+            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.53))
+        a_number = DecimalNumber(0, num_decimal_places=0, include_sign=True, color=DEFINITION).scale(0.6)
+        a_number.source = shift
+        a_number.add_updater(lambda number: number.set_value(number.source.get_value()))
+        a_label = VGroup(MathTex('a=', color=DEFINITION).scale(0.6), a_number)
+        a_label.ax, a_label.source = ax, shift
+        a_label.add_updater(lambda m: m.arrange(RIGHT, buff=0.07).next_to(
+            m.ax.c2p(0, 12 + m.source.get_value() / 2) + LEFT * 0.65, LEFT, buff=0.18))
+        for marker in (a_span, a_anchor, a_cap, a_label):
+            marker.source = shift
+            marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value()) * 4, 0, 1)))
         shifted_curve_equation = MathTex(r'P=17-Q/5', color=DEMAND).scale(0.8).move_to(curve_equation)
-        self.add(buyer_changes)
+        self.add(buyer_changes, a_span, a_anchor, a_cap, a_label)
         self.play(shift.animate.set_value(5), TransformMatchingTex(curve_equation, shifted_curve_equation), run_time=2)
         benefit.add_updater(lambda value: value.set_value(6 + value.market_shift.get_value()))
         self.pause('7.f')
@@ -1283,26 +1306,6 @@ class B5(Scene):
         demand_equation = MathTex(r'P=12+', 'a', r'-Q/5',
                                   tex_to_color_map={'P': GUIDE, 'Q': GUIDE, 'a': DEFINITION}).scale(0.85)
         demand_equation.move_to([2.0, 2.0, 0])
-        a_span = VMobject(stroke_color=DEFINITION, stroke_width=6)
-        a_span.ax, a_span.source = ax, shift
-        a_span.add_updater(lambda m: m.set_points_as_corners([
-            m.ax.c2p(0, 12) + LEFT * 0.85,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.85]))
-        a_anchor = Line(ax.c2p(0, 12) + LEFT * 1.0, ax.c2p(0, 12) + LEFT * 0.7,
-                        color=DEFINITION, stroke_width=2)
-        a_cap = Line(ax.c2p(0, 12) + LEFT * 1.0, ax.c2p(0, 12) + LEFT * 0.7,
-                     color=DEFINITION, stroke_width=2)
-        a_cap.ax, a_cap.source = ax, shift
-        a_cap.add_updater(lambda m: m.put_start_and_end_on(
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 1.0,
-            m.ax.c2p(0, 12 + m.source.get_value()) + LEFT * 0.7))
-        a_label = MathTex('a', color=DEFINITION).scale(0.75)
-        a_label.ax, a_label.source = ax, shift
-        a_label.add_updater(lambda m: m.next_to(
-            m.ax.c2p(0, 12 + m.source.get_value() / 2) + LEFT * 0.85, LEFT, buff=0.18))
-        for marker in (a_span, a_anchor, a_cap, a_label):
-            marker.source = shift
-            marker.add_updater(lambda mob: mob.set_opacity(np.clip(abs(mob.source.get_value()) * 4, 0, 1)))
         demand_divider = Line([-0.25, -3.15, 0], [-0.25, 2.45, 0], color=MUTED, stroke_width=1).set_opacity(0.5)
         demand_list_head = Tex('Scenarios', color=CAPTION).scale(0.75).move_to([0.1, 1.0, 0], aligned_edge=LEFT)
         demand_scenarios = VGroup()
@@ -1317,8 +1320,7 @@ class B5(Scene):
             scenario = VGroup(Tex(label, color=INK).scale(0.56).move_to([0.4, y, 0], aligned_edge=LEFT),
                               MathTex(sign, color=DEFINITION).scale(0.6).move_to([3.55, y, 0]))
             demand_scenarios.add(scenario)
-        self.play(FadeOut(shifted_curve_equation), FadeIn(demand_divider), FadeIn(demand_equation),
-                  FadeIn(a_span), FadeIn(a_anchor), FadeIn(a_cap), FadeIn(a_label))
+        self.play(FadeOut(shifted_curve_equation), FadeIn(demand_divider), FadeIn(demand_equation))
 
         self.pause('8.a')
         self.play(shift.animate.set_value(0), run_time=1.2)
@@ -1363,14 +1365,13 @@ class B5(Scene):
 
         # ---- 8.e · Income rises: normal goods move out.
         self.play(demand_scenarios[1].animate.set_color(CAPTION), FadeIn(demand_scenarios[2][0]))
-        self.remove(head, question, bottom)
-        head = title('Shifters: Demand')
+        self.remove(question, bottom)
         question = Tex(r'\mbox{\textsf{Incomes rise; spinach is a normal good.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'{{Normal goods}}: higher income increases demand.',
                      tex_to_color_map={'Normal goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question))
+        self.play(FadeIn(question))
         self.pause('8.e.predict')
         self.play(FadeIn(demand_scenarios[2][1]), FadeIn(bottom))
         self.play(shift.animate.set_value(3), run_time=1.7)
@@ -1381,11 +1382,10 @@ class B5(Scene):
         self.play(demand_scenarios[2].animate.set_color(CAPTION), FadeIn(demand_scenarios[3][0]))
         # The geometry illustrates direction only; these are not measured data.
         self.remove(bottom)
-        self.remove(head, question)
-        head = title('Shifters: Demand')
+        self.remove(question)
         question = Tex(r'\mbox{\textsf{Incomes rise; instant noodles are an inferior good.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        self.play(FadeIn(head), FadeIn(question))
+        self.play(FadeIn(question))
         bottom = Tex(r'{{Inferior goods}}: higher income decreases demand.',
                      tex_to_color_map={'Inferior goods': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -1402,11 +1402,10 @@ class B5(Scene):
         # ---- 8.g · Return to spinach: romaine is a substitute.
         self.play(demand_scenarios[3].animate.set_color(CAPTION), FadeIn(demand_scenarios[4][0]))
         self.remove(bottom)
-        self.remove(head, question)
-        head = title('Shifters: Demand')
+        self.remove(question)
         question = Tex(r'\mbox{\textsf{The price of romaine rises.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
-        self.play(FadeIn(head), FadeIn(question))
+        self.play(FadeIn(question))
         bottom = Tex(r'{{Substitutes}} can take each other\textquotesingle s place.',
                      tex_to_color_map={'Substitutes': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -1704,14 +1703,13 @@ class B5(Scene):
         before_word.add_updater(lambda label: label.set_opacity(np.clip(
             (abs(label.source.get_value() + 85 * (label.slope.get_value() - 0.05)) * 4.6 / 9 - 0.2) / 0.2, 0, 1)))
         self.add(before_supply)
-        self.remove(head, question, bottom)
-        head = title('Shifters: Supply')
+        self.remove(question, bottom)
         question = Tex(r'\mbox{\textsf{Farmland becomes more expensive.}}', color=CAPTION).scale(0.55)
         question.next_to(head, DOWN, buff=0.08, aligned_edge=LEFT)
         bottom = Tex(r'A change in {{supply}} shifts the whole curve.',
                      tex_to_color_map={'supply': DEFINITION}).scale(DEFINITION_SCALE)
         bottom.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(head), FadeIn(question), FadeIn(before_word))
+        self.play(FadeIn(question), FadeIn(before_word))
         self.play(FadeIn(supply_list_head), FadeIn(supply_scenarios[0][0]))
         self.pause('9.b.predict')
         self.play(FadeIn(supply_scenarios[0][1]), FadeIn(bottom))
