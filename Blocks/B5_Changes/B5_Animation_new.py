@@ -443,19 +443,20 @@ class B5(Scene):
 
         # ---- 4.c · Normalize the measurements before comparing their lengths.
         # A full grey bar is now 100% for BOTH rows. Gold shows the change as
-        # a share of its midpoint. Raw pounds and dollars are never compared.
+        # a share of its midpoint, slightly above the full grey baseline.
+        # Raw pounds and dollars are never compared.
         self.play(FadeOut(q_change_label), FadeOut(q_average_label),
                   FadeOut(p_change_label), FadeOut(p_average_label))
         q_ratio_track = Line([3.1, 0.35, 0], [6.1, 0.35, 0], color=MUTED, stroke_width=10)
         p_ratio_track = Line([3.1, -0.95, 0], [6.1, -0.95, 0], color=MUTED, stroke_width=10)
-        q_ratio_bar = Line([3.1, 0.35, 0], [5.1, 0.35, 0], color=FOCUS, stroke_width=10)
+        q_ratio_bar = Line([3.1, 0.53, 0], [5.1, 0.53, 0], color=FOCUS, stroke_width=10)
         q_ratio_bar.source = midpoint_price
         q_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.1, 0.35, 0]), np.array([3.1 + 3 * 5 / (60 - 5 * line.source.get_value()), 0.35, 0])))
-        p_ratio_bar = Line([3.1, -0.95, 0], [3.1 + 3 / 10.5, -0.95, 0], color=FOCUS, stroke_width=10)
+            np.array([3.1, 0.53, 0]), np.array([3.1 + 3 * 5 / (60 - 5 * line.source.get_value()), 0.53, 0])))
+        p_ratio_bar = Line([3.1, -0.77, 0], [3.1 + 3 / 10.5, -0.77, 0], color=FOCUS, stroke_width=10)
         p_ratio_bar.source = midpoint_price
         p_ratio_bar.add_updater(lambda line: line.put_start_and_end_on(
-            np.array([3.1, -0.95, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.95, 0])))
+            np.array([3.1, -0.77, 0]), np.array([3.1 + 3 / line.source.get_value(), -0.77, 0])))
         percent_basis = Tex(r'$100\%$', color=CAPTION).scale(0.7).move_to([6.65, -0.3, 0])
         q_ratio_label = MathTex(r'\frac{\Delta Q}{\bar Q}=\frac{-5}{7.5}', color=FOCUS).scale(0.75)
         q_ratio_label.move_to([1.8, 0.35, 0])
@@ -466,16 +467,16 @@ class B5(Scene):
                   FadeIn(q_ratio_label), FadeIn(p_ratio_label), FadeIn(percent_basis))
         q_percent = VGroup(DecimalNumber(-100 * 5 / 7.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
-        q_percent.move_to([4.6, 0.7, 0])
+        q_percent.move_to([4.6, 0.9, 0])
         q_percent[0].source = midpoint_price
         q_percent[0].add_updater(lambda number: number.set_value(-100 * 5 / (60 - 5 * number.source.get_value())))
-        q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 0.7, 0]))
+        q_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, 0.9, 0]))
         p_percent = VGroup(DecimalNumber(100 / 10.5, num_decimal_places=1, color=FOCUS),
                            MathTex(r'\%', color=FOCUS)).arrange(RIGHT, buff=0.04).scale(0.8)
-        p_percent.move_to([4.6, -0.6, 0])
+        p_percent.move_to([4.6, -0.4, 0])
         p_percent[0].source = midpoint_price
         p_percent[0].add_updater(lambda number: number.set_value(100 / number.source.get_value()))
-        p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.6, 0]))
+        p_percent.add_updater(lambda group: group.arrange(RIGHT, buff=0.04).move_to([4.6, -0.4, 0]))
         self.play(FadeIn(q_percent), FadeIn(p_percent))
         self.pause('4.c')
 
