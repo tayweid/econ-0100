@@ -1830,7 +1830,7 @@ class B5(Scene):
         cs_prompt = Tex('How does the market respond to a change?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         # This case record remains in one place across the four experiments.
-        # Results enter only after each market has reached its new equilibrium.
+        # Each scenario enters when it starts; its result follows the new equilibrium.
         cs_case_heading = Tex('Scenarios', color=CAPTION).scale(0.7).move_to([2.15, 0.95, 0], aligned_edge=LEFT)
         cs_case_up = Tex('Demand increases', color=CAPTION).scale(0.6).move_to([2.45, 0.35, 0], aligned_edge=LEFT)
         cs_case_down = Tex('Demand decreases', color=CAPTION).scale(0.6).move_to([2.45, -0.30, 0], aligned_edge=LEFT)
@@ -1846,8 +1846,7 @@ class B5(Scene):
         self.play(FadeIn(head), FadeIn(cs_subtitle), FadeIn(cs_ax), FadeIn(cs_p_name),
                   FadeIn(cs_p_units), FadeIn(cs_q_name), FadeIn(cs_q_units),
                   FadeIn(cs_demand), FadeIn(cs_d_label), FadeIn(cs_divider),
-                  FadeIn(cs_prompt), FadeIn(cs_case_heading),
-                  FadeIn(cs_case_up), FadeIn(cs_case_down), FadeIn(cs_case_supply), FadeIn(cs_case_supply_up))
+                  FadeIn(cs_prompt))
         self.pause('10.a')
 
         # ---- 10.b · Recall outward and inward demand shifts.
@@ -1910,7 +1909,8 @@ class B5(Scene):
         cs_phase = Tex('Demand rises; price fixed', color=INK).scale(0.7).move_to([4.55, 2.25, 0])
         cs_prompt = Tex('What happens when demand increases?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
-        self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt), cs_case_up.animate.set_color(INK))
+        self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
+                  FadeIn(cs_case_heading), FadeIn(cs_case_up.set_color(INK)))
         self.remove(cs_equilibrium)
         self.play(cs_a.animate.set_value(5), run_time=2)
         cs_gap_values = VGroup(
@@ -1956,7 +1956,7 @@ class B5(Scene):
         cs_prompt = Tex('What if income falls?', color=DEFINITION).scale(DEFINITION_SCALE)
         cs_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(cs_subtitle), FadeIn(cs_phase), FadeIn(cs_prompt),
-                  cs_case_up.animate.set_color(CAPTION), cs_case_down.animate.set_color(INK),
+                  cs_case_up.animate.set_color(CAPTION), FadeIn(cs_case_down.set_color(INK)),
                   cs_a.animate.set_value(0), cs_price.animate.set_value(4), run_time=1.6)
         cs_equilibrium = cs_baseline.copy().set_color(GUIDE)
         self.add(cs_equilibrium)
@@ -2054,7 +2054,7 @@ class B5(Scene):
         self.play(FadeIn(ss_h), FadeIn(ss_d_dot), FadeIn(ss_s_dot),
                   FadeIn(ss_d_drop), FadeIn(ss_s_drop), FadeIn(ss_divider),
                   FadeIn(ss_phase), FadeIn(ss_prompt), cs_case_down.animate.set_color(CAPTION),
-                  cs_case_supply.animate.set_color(INK))
+                  FadeIn(cs_case_supply.set_color(INK)))
         # Put equilibrium values at their axis projections, not over the curves.
         ss_baseline = VGroup(
             MathTex(r'P^*=4', color=CAPTION).scale(0.45).next_to(ss_ax.c2p(0, 4), LEFT, buff=0.16),
@@ -2113,7 +2113,7 @@ class B5(Scene):
         ss_prompt = Tex('What happens when fertilizer costs less?', color=DEFINITION).scale(DEFINITION_SCALE)
         ss_prompt.set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         self.play(FadeIn(cs_subtitle), FadeIn(ss_phase), FadeIn(ss_prompt),
-                  cs_case_supply.animate.set_color(CAPTION), cs_case_supply_up.animate.set_color(INK),
+                  cs_case_supply.animate.set_color(CAPTION), FadeIn(cs_case_supply_up.set_color(INK)),
                   ss_b.animate.set_value(0), ss_price.animate.set_value(4), run_time=1.6)
         ss_equilibrium = ss_baseline.copy().set_color(GUIDE)
         self.add(ss_equilibrium)
