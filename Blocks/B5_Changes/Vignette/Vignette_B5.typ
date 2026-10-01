@@ -31,29 +31,29 @@
 
 _Due in Recitation. Vignettes are a certificate of the work done together in Recitation._
 
-Members of the wizarding world have preferences for pumpkin pasties according to the following demand curve:
+Members of the wizarding world have preferences for pumpkin pasties according to the following demand curve and production costs according to the following supply curve.
 
 #mitex(`
-P_d = 14 - \frac{1}{2} Q_d
-`)
-
-Pumpkin pasties are produced by many sellers according to the following supply curve:
-
-#mitex(`
-P = 2 + \frac{1}{2} Q_s
+P = 14 - \frac{1}{2} Q_D \ \ \ \ \textit{and} \ \ \ \ P = 2 + \frac{1}{2} Q_S
 `)
 
 Prices are in galleons and quantity is in pasties.
 
 == Q1 | Price Elasticity
 
-a) Use the midpoint method to find the elasticity of demand when the price changes from 6 to 8 galleons. \_\_\_\_\_\_\_\_\_\_
+a) When price changes from 6 to 8 galleons: 
 
-b) Is demand elastic, unit elastic, or inelastic in a)? \_\_\_\_\_\_\_\_\_\_
+#mi(`\hspace{1cm}`)What is the price elasticity of demand? \_\_\_\_\_\_\_\_\_\_
 
-c) Use the midpoint method to find the elasticity of demand when the price changes from 1 to 3 galleons. \_\_\_\_\_\_\_\_\_\_
+#mi(`\hspace{1cm}`)Is demand elastic, unit elastic, or inelastic between these prices? \_\_\_\_\_\_\_\_\_\_
 
-d) Use the midpoint method to find the elasticity of supply when the price changes from 4 to 6 galleons. \_\_\_\_\_\_\_\_\_\_
+b) When price changes from 1 to 3 galleons: 
+
+#mi(`\hspace{1cm}`)What is the price elasticity of supply? \_\_\_\_\_\_\_\_\_\_
+
+~
+
+#mi(`\hspace{1cm}`)Is supply~elastic, unit elastic, or inelastic between these prices? \_\_\_\_\_\_\_\_\_\_
 
 #pagebreak()
 
@@ -98,8 +98,3 @@ b) Equilibrium quantity: \_\_\_\_\_\_\_\_\_\_
 c) Equilibrium price has: _increased, stayed the same, decreased, indeterminate_
 
 d) Equilibrium quantity has: _increased, stayed the same, decreased, indeterminate_
-
-// plass:comment
-// | Editor. Sources: the curves are Vignette B3's. Q1 is Exercise B5 Q1's wording with prices picked for clean answers (6 to 8 is exactly unit elastic). Q2 is 24F Vignette B2 (B_Practice_Bank/Vignette_B2_pasties_F24): Q3 drier growing seasons and Q6 FlueTube, verbatim except "an increase"; the drier-season supply moved from 4 + 2Q/3 to 4 + Q/2 to match this semester's curves, and the question asks at 8 galleons instead of 10. Q3's closing prompt is Vignette B2 Q6's "Without using numbers, use the graph above to discuss how the market has been impacted." Wording in {++ ++} is mine.
-// | Answers: Q1 a) −1, b) unit elastic, c) −1/6, d) 5/3. Q2 a) −4 pasties (12 to 8), b) −20 galleons (36 to 16), c) shifted out, d) stayed the same. Q3 a) 9, b) 10, c) increased, d) indeterminate.
-// /plass:comment
