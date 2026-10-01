@@ -45,10 +45,9 @@ Skills you pass stay passed. If you no-pass a skill on Checkpoint B, complete al
 
 #align(center, table(
   columns: (auto, 1fr, auto),
-  align: (center + horizon, left + horizon, center + horizon),
   inset: 9pt,
-  fill: (x, y) => if y == 0 { luma(220) },
-  table.header([*Code*], [*Skill*], [*Practice*]),
+  align: (center + horizon, left + horizon, center + horizon),
+  table.header(table.cell(fill: luma(220))[*Code*], table.cell(fill: luma(220))[*Skill*], table.cell(fill: luma(220))[*Practice*]),
   [B1.1], [Demand], [Exercise B1 · Vignette B1 · HW B1],
   [B1.2], [Consumer Surplus], [Exercise B1 · Vignette B1 · HW B1],
   [B2.1], [Supply], [Exercise B2 · Vignette B2 · HW B2],
@@ -59,7 +58,6 @@ Skills you pass stay passed. If you no-pass a skill on Checkpoint B, complete al
   [B5.1], [Supply & Demand Shifters], [Exercise B5 · Vignette B5 · HW B5],
   [B5.2], [Price Elasticity], [Exercise B5 · Vignette B5 · HW B5],
   [B5.3], [Comparative Statics], [Exercise B5 · Vignette B5 · HW B5],
-  [B6.1], [International Trade], [Exercise B6 · Vignette B6 · HW B6],
 ))
 
 === B1.1 | Demand
@@ -149,7 +147,7 @@ A change in the good’s own price moves along a curve. A change in preferences,
 
 === B5.2 | Price Elasticity
 
-Elasticity is a normalized measure of how responsive quantities are to changes in prices. 
+Elasticity is a normalized measure of how responsive quantities are to changes in prices.
 
 *Standard.* You pass this skill if you can:
 
