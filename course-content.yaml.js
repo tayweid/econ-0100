@@ -283,6 +283,8 @@ parts:
           name: Reading B5
         vignette:
           description: "*Elasticity and comparative statics practice problems*"
+        homework:
+          file: B5
         dates:
           class: '2026-09-28'
           recitation: '2026-10-02'

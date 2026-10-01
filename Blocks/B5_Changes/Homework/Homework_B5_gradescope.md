@@ -17,7 +17,6 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `Total Surplus`
 ## Q1: `Price Elasticity`
 
 ```
@@ -81,66 +80,95 @@ See Q1 | Price Elasticity on the Homework B5 handout (the PDF on the course page
 ## Q2: `Supply & Demand Shifters`
 
 ```
-See Q2 | Supply & Demand Shifters on the Homework B5 handout. Enter your answers here.
+See Q2 | Supply & Demand Shifters on the Homework B5 handout. For each change below, which curve in the butter beer market shifts, and in which direction? Enter your answers here.
 ```
 
-### Q2.1: `After the viral post, the demand curve:`
+### Q2.1: `Wages rise across the wizarding world, and butter beer is a normal good.`
 
 ```
-(x) Shifted in
-( ) Stayed the same
-( ) Shifted out
+(x) Demand shifts up
+( ) Demand shifts down
+( ) Supply shifts up
+( ) Supply shifts down
 ```
 
-### Q2.2: `After the butter extract shortage, the supply curve:`
+### Q2.2: `Wages rise across the wizarding world, and butter beer is an inferior good.`
 
 ```
-(x) Shifted in
-( ) Stayed the same
-( ) Shifted out
+( ) Demand shifts up
+(x) Demand shifts down
+( ) Supply shifts up
+( ) Supply shifts down
 ```
 
-### Q2.3: `Wages rise. If butter beer is a normal good, the demand curve:`
+### Q2.3: `The price of pumpkin juice, which wizards drink instead of butter beer, rises.`
 
 ```
-( ) Shifted in
-( ) Stayed the same
-(x) Shifted out
+(x) Demand shifts up
+( ) Demand shifts down
+( ) Supply shifts up
+( ) Supply shifts down
 ```
 
-### Q2.4: `Wages rise. If butter beer is an inferior good, the demand curve:`
+### Q2.4: `The price of the pumpkin pasties that wizards eat with their butter beer rises.`
 
 ```
-(x) Shifted in
-( ) Stayed the same
-( ) Shifted out
+( ) Demand shifts up
+(x) Demand shifts down
+( ) Supply shifts up
+( ) Supply shifts down
+```
+
+### Q2.5: `The rent on brewing cellars in Hogsmeade rises.`
+
+```
+( ) Demand shifts up
+( ) Demand shifts down
+(x) Supply shifts up
+( ) Supply shifts down
+```
+
+### Q2.6: `A new brewing charm lets brewers make each batch in half the time.`
+
+```
+( ) Demand shifts up
+( ) Demand shifts down
+( ) Supply shifts up
+(x) Supply shifts down
+```
+
+### Q2.7: `The price of firewhisky, which brewers could make instead, rises.`
+
+```
+( ) Demand shifts up
+( ) Demand shifts down
+(x) Supply shifts up
+( ) Supply shifts down
 ```
 
 ## Q3: `Comparative Statics`
 
 ```
-See Q3 | Comparative Statics on the Homework B5 handout. Enter your answers here.
+See Q3 | Comparative Statics on the Homework B5 handout: the viral post and the butter extract shortage. Enter your answers here.
 ```
 
-### Q3.1: `After the butter extract shortage alone, what is the equilibrium price?`
+### Q3.1: `Due to the viral post, the demand curve:`
 
 ```
-( ) $$60$$ galleons
-(x) $$65$$ galleons
-( ) $$70$$ galleons
-( ) $$55$$ galleons
+( ) Shifted up
+( ) Stayed the same
+(x) Shifted down
 ```
 
-### Q3.2: `After the butter extract shortage alone, what is the equilibrium quantity?`
+### Q3.2: `Due to the butter extract shortage, the supply curve:`
 
 ```
-( ) $$80$$ bottles
-(x) $$70$$ bottles
-( ) $$60$$ bottles
-( ) $$50$$ bottles
+(x) Shifted up
+( ) Stayed the same
+( ) Shifted down
 ```
 
-### Q3.3: `Without numbers, after both events, prices:`
+### Q3.3: `Without using numbers, how did the two events together change the market? Prices:`
 
 ```
 ( ) Increased
@@ -149,7 +177,7 @@ See Q3 | Comparative Statics on the Homework B5 handout. Enter your answers here
 (x) Indeterminate
 ```
 
-### Q3.4: `Without numbers, after both events, quantity:`
+### Q3.4: `Without using numbers, how did the two events together change the market? Quantity:`
 
 ```
 ( ) Increased
@@ -158,20 +186,20 @@ See Q3 | Comparative Statics on the Homework B5 handout. Enter your answers here
 ( ) Indeterminate
 ```
 
-### Q3.5: `After both events, what is the equilibrium price?`
+### Q3.5: `After both events, the curves became P = 30 + Q/2 and P = 80 - Q/2. What is the change in equilibrium price?`
 
 ```
-(x) $$55$$ galleons
-( ) $$60$$ galleons
-( ) $$65$$ galleons
-( ) $$50$$ galleons
+(x) $$-5$$ galleons
+( ) $$+5$$ galleons
+( ) $$-10$$ galleons
+( ) $$+10$$ galleons
 ```
 
-### Q3.6: `After both events, what is the equilibrium quantity?`
+### Q3.6: `What is the change in equilibrium quantity?`
 
 ```
-( ) $$70$$ bottles
-( ) $$60$$ bottles
-(x) $$50$$ bottles
-( ) $$40$$ bottles
+(x) $$-30$$ bottles
+( ) $$-10$$ bottles
+( ) $$+30$$ bottles
+( ) $$-20$$ bottles
 ```
