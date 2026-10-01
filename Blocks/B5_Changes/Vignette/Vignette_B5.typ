@@ -41,60 +41,62 @@ Prices are in galleons and quantity is in pasties.
 
 == Q1 | Price Elasticity
 
-a) When price changes from 6 to 8 galleons: 
+a) When price changes from 6 to 8 galleons:
 
 #mi(`\hspace{1cm}`)What is the price elasticity of demand? \_\_\_\_\_\_\_\_\_\_
 
 #mi(`\hspace{1cm}`)Is demand elastic, unit elastic, or inelastic between these prices? \_\_\_\_\_\_\_\_\_\_
 
-b) When price changes from 1 to 3 galleons: 
+b) When price changes from 4 to 6 galleons:
 
 #mi(`\hspace{1cm}`)What is the price elasticity of supply? \_\_\_\_\_\_\_\_\_\_
 
-~
-
 #mi(`\hspace{1cm}`)Is supply~elastic, unit elastic, or inelastic between these prices? \_\_\_\_\_\_\_\_\_\_
-
-#pagebreak()
 
 == Q2 | Supply & Demand Shifters
 
-Recent drier growing seasons has made growing pumpkins more difficult, with a new supply curve that can be represented by the following. At a price of 8 galleons, how has the quantity supplied and producer surplus changed with this change in climate?
+For each change below, which curve in the pumpkin pasty market shifts, and in which direction?
 
-#mitex(`
-P = 4 + \frac{1}{2} Q_s
-`)
+a) Recent drier growing seasons have made growing pumpkins more difficult.
 
-a) Change in quantity supplied: \_\_\_\_\_\_\_\_\_\_
+_#mi(`\hspace{1cm}`)demand shifts up · demand shifts down · supply shifts up · supply shifts down_
 
-b) Change in producer surplus: \_\_\_\_\_\_\_\_\_\_
+b) A popular channel on the wizarding social network FlueTube has been promoting pumpkin pasties, leading to an increase in the popularity of the snack.
 
-~
+_#mi(`\hspace{1cm}`)demand shifts up · demand shifts down · supply shifts up · supply shifts down_
 
-~
+c) An early freeze damaged the lemon crop, driving the price of lemons up and increasing the cost of lemon cakes.
 
-A popular channel on the wizarding social network FlueTube has been promoting pumpkin pasties, leading to {++an++} #strike[a] increase in the popularity of the snack.
+_#mi(`\hspace{1cm}`)demand shifts up · demand shifts down · supply shifts up · supply shifts down_
 
-c) The demand curve: _shifted in, stayed the same, shifted out_
+d) The price of butter beer, which wizards drink with their pasties, rises.
 
-d) The supply curve: _shifted in, stayed the same, shifted out_
+_#mi(`\hspace{1cm}`)demand shifts up · demand shifts down · supply shifts up · supply shifts down_
 
-#pagebreak()
+e) A boom at Gringotts raises wizards’ incomes, and pumpkin pasties are an inferior good.
+
+_#mi(`\hspace{1cm}`)demand shifts up · demand shifts down · supply shifts up · supply shifts down_
 
 == Q3 | Comparative Statics
 
-{++Using the new supply curve from Q2 and the original demand curve,++} find and plot the equilibrium price and quantity for pumpkin pasties.
+Each part below has two changes at once. Use a graph to show both shifts, then say what happened to the pumpkin pastie market without using numbers.
 
-a) Equilibrium price: \_\_\_\_\_\_\_\_\_\_
+a) With both the drier growing seasons and the FlueTube promotion, use the graph above to discuss how the market has been impacted.
 
-b) Equilibrium quantity: \_\_\_\_\_\_\_\_\_\_
+#mi(`\hspace{1cm}`)Prices: _increased · stayed the same · decreased · indeterminate_
+
+#mi(`\hspace{1cm}`)Quantity: _increased · stayed the same · decreased · indeterminate_
 
 ~
 
 ~
 
-{++With both the drier growing seasons and the FlueTube promotion,++} without using numbers, use the graph above to discuss how the market has been impacted.
+~
 
-c) Equilibrium price has: _increased, stayed the same, decreased, indeterminate_
+~
 
-d) Equilibrium quantity has: _increased, stayed the same, decreased, indeterminate_
+b) A record pumpkin harvest makes pumpkins cheap for bakers. At the same time, Hogwarts adds a second Hogsmeade weekend each month, bringing more students to the village.
+
+#mi(`\hspace{1cm}`)Prices: _increased · stayed the same · decreased · indeterminate_
+
+#mi(`\hspace{1cm}`)Quantity: _increased · stayed the same · decreased · indeterminate_
