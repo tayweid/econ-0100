@@ -56,9 +56,9 @@ d) Use the midpoint method to find the elasticity of supply when the price chang
 
 A subcommittee of the Ministry published a story in the Daily Profit establishing a link between the consumption of pumpkin pasties and accidental magical spell casting by wizards and witches in public areas.
 
-a) The demand curve: _shifted in, stayed the same, shifted out_
+a) The demand curve: _shifted up, stayed the same, shifted down_
 
-b) The supply curve: _shifted in, stayed the same, shifted out_
+b) The supply curve: _shifted up, stayed the same, shifted down_
 
 ~
 

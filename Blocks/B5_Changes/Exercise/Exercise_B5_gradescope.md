@@ -49,17 +49,17 @@ A subcommittee of the Ministry published a story in the Daily Profit establishin
 ### Q2.1: `The demand curve:`
 
 ```
-(x) Shifted in
+( ) Shifted up
 ( ) Stayed the same
-( ) Shifted out
+(x) Shifted down
 ```
 
 ### Q2.2: `The supply curve:`
 
 ```
-( ) Shifted in
+( ) Shifted up
 (x) Stayed the same
-( ) Shifted out
+( ) Shifted down
 ```
 
 ## Q3: `Comparative Statics`
