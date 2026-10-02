@@ -299,10 +299,10 @@ parts:
 
       - checkpoint:
           reattempt: In Recitation
+          reattempt_date: ['2026-10-22', '2026-10-23']
           date: '2026-10-05'
           description: >-
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
-          reattempt_date: '2026-10-30'
           demo:
             video: yG7ahMJe8iA
             links: [{label: Demo B, file: Blocks/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Blocks/B_Checkpoint/Demo_B_sols.pdf}]
@@ -400,7 +400,8 @@ parts:
           homework: '2026-10-18'
 
       - checkpoint:
-          reattempt: TBA
+          reattempt: In Recitation
+          reattempt_date: ['2026-11-05', '2026-11-06']
           date: '2026-10-19'
           description: >-
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -494,7 +495,8 @@ parts:
           homework: '2026-11-01'
 
       - checkpoint:
-          reattempt: TBA
+          reattempt: In Recitation
+          reattempt_date: ['2026-12-03', '2026-12-04']
           date: '2026-11-02'
           description: >-
             Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
