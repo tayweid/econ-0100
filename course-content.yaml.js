@@ -306,6 +306,7 @@ parts:
           demo:
             video: yG7ahMJe8iA
             links: [{label: Demo B, file: Blocks/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Blocks/B_Checkpoint/Demo_B_sols.pdf}]
+            description: 'The video walkthrough is from a previous semester and will be updated soon. The Demo B and Solutions are the place to start.'
 
   C:
     title: Externalities
