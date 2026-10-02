@@ -33,6 +33,23 @@ _The invisible hand can make mistakes._
 
 This video introduces externalities and market failure.
 
+=== Notes from Things 3 - nice way to think about externalities
+
+#quote(block: true)[
+  before getting to markets and such, set up a single person
+
+  give them a cost a benefit and an externality
+
+  then ask whether they would accept or refuse
+
+  run through a few where they would accept when the social cost exceeds the benefits
+
+  and a few where they refuse even though the benefits exceed the costs
+
+  only then move to markets
+
+]
+
 ==== Externalities
 
 Markets do many things very well. We’ve looked at markets for goods where the seller carries all the costs of production and the buyer carries all the benefits of consumption. This is the generic good we’ve looked at so far.
