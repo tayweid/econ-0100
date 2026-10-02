@@ -18,8 +18,20 @@ if [ ! -f "$script" ]; then
 fi
 
 # Apps opened from Finder get a bare PATH, so look for Python where it usually lives.
-for python in /opt/homebrew/bin/python3 /usr/local/bin/python3 /opt/anaconda3/bin/python3 "$HOME/anaconda3/bin/python3" /usr/bin/python3; do
-    [ -x "$python" ] && break
+# A uv-managed Python comes first. The /usr/bin/python3 shim is avoided: from a Finder
+# launch it cannot spawn its real binary ("posix_spawn ... Undefined error: 0"), so that
+# binary inside the Command Line Tools is called directly as the last resort.
+python=""
+for uv in "$HOME/.local/bin/uv" /opt/homebrew/bin/uv; do
+    [ -x "$uv" ] && python="$("$uv" python find 2>/dev/null)" && break
 done
+case "$python" in /usr/bin/python3|/usr/bin/python3.*) python="";; esac
+if [ ! -x "$python" ]; then
+    for python in /opt/homebrew/bin/python3 /usr/local/bin/python3 /opt/anaconda3/bin/python3 "$HOME/anaconda3/bin/python3" \
+        /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/Current/Resources/Python.app/Contents/MacOS/Python \
+        /usr/bin/python3; do
+        [ -x "$python" ] && break
+    done
+fi
 
 nohup "$python" "$script" "$site" >> "$HOME/Library/Logs/Edit Course.log" 2>&1 &

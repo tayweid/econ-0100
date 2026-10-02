@@ -21,7 +21,10 @@ window.COURSE_CONTENT_YAML = String.raw`
 #                          #   Blocks/<folder>/Vignette/Vignette_<BLOCK>.pdf
 #                          #   Blocks/<folder>/Homework/Homework_<BLOCK>.pdf
 #                          # Drop a conventionally named PDF in and it appears on its own;
-#                          # solutions stay opt-in via solutions: true.
+#                          # its ..._sols.pdf appears the day after the step's date (course
+#                          # post: and solutions: below; a step's own post: or solutions:
+#                          # wins, e.g. post: on_date under vignette: holds the PDF until
+#                          # recitation).
 #
 # Optional per block:
 #   dates:                 # yyyy-mm-dd; a step's dot turns blue once its date has passed
@@ -57,7 +60,11 @@ course:
   checkpoint: Checkpoint
   reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
   materials: Blocks               # conventional PDFs live under Blocks/<folder>/
-  solutions: after_due            # a pushed ..._sols.pdf appears the day after its recitation or homework date
+  post:                           # when a pushed PDF appears, by kind; a block's own post: wins
+    exercise: on_date             #   Exercise_<BLOCK>.pdf on the class date
+    vignette: after_date          #   Vignette_<BLOCK>.pdf the day after recitation
+    homework: now                 #   Homework_<BLOCK>.pdf as soon as it is there
+  solutions: after_date           # every ..._sols.pdf the day after its class, recitation, or homework date
 
 parts:
   A:
@@ -291,12 +298,14 @@ parts:
           homework: '2026-10-04'
 
       - checkpoint:
-          reattempt: TBA
+          reattempt: In Recitation
           date: '2026-10-05'
           description: >-
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          reattempt_date: '2026-10-30'
           demo:
             video: yG7ahMJe8iA
+            links: [{label: Demo B, file: Blocks/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Blocks/B_Checkpoint/Demo_B_sols.pdf}]
 
   C:
     title: Externalities
