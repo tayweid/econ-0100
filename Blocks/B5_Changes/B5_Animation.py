@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "seaborn==0.13.2",
+# ]
+#
+# [tool.uv]
+# exclude-newer = "2026-10-02T23:47:58Z"
+# ///
+
 # maniml B5_Animation_new.py B5
 # B5 | Market Changes. Beat outlines live in B5_Notes_new.typ.
 # Read construct top to bottom: the graph is the setting throughout.

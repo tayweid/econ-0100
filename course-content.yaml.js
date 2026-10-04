@@ -304,7 +304,7 @@ parts:
           description: >-
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
-            video: yG7ahMJe8iA
+            video: xMhI4kJC-mA
             links: [{label: Demo B, file: Blocks/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Blocks/B_Checkpoint/Demo_B_sols.pdf}]
             description: 'The video walkthrough is from a previous semester and will be updated soon. The Demo B and Solutions are the place to start.'
 

@@ -94,3 +94,9 @@ Lets model the Covid Vaccine. Lets assume the following:
 3. There is a linear supply curve for the vaccine. The supply curve for the vaccine is a little funny, and we'll talk about imperfect close substitutes in the next few weeks. But we'll just assume it's there.
 
 Use a graph to discuss the welfare in the market, any potential market failure, and maybe offer some policy options to correct any market failure you may find.
+
+## Exercise candidate: Toffees (moved from B5_Notes.typ, 2026-10-02)
+
+Editor. First moved into the B5 notes from B3_Equilibrium/_Unplaced.md on Sep 16. It turns on a subsidy, which Part B doesn't teach and C2 does. It would work in B5 only if the shifter became "production got cheaper".
+
+Due to longstanding tradition, all toffees are made the same way, anyone could easily start making them, and the number of toffee makers had been constant over the past couple of years. This changed when the Ministry imposed a subsidy on all toffee sales. Using a couple of graphs to illustrate your answer, explain what happened in the market because of this subsidy.

@@ -21,3 +21,5 @@ __pycache__/
 !.env.example
 *.pem
 *.key
+# Claerbout: large data, caches and scratch, pinned by .claerbout/untracked.json
+/untracked/
