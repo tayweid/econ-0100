@@ -54,33 +54,31 @@ class PitMarket(Scene):
         head = title('Simulation B $|$ The Market')
         question = subtitle(head, 'What prices emerge when buyers and sellers negotiate?')
 
-        buyer = Tex('Buyers: black cards', color=DEMAND).scale(1.0)
+        buyer = Tex('Black cards: buyers', color=DEMAND).scale(1.0)
         buyer.move_to([-7.4, 1.7, 0], aligned_edge=LEFT)
         buyer_rules = VGroup(
-            Tex(r'Card number $=$ value of one unit.'),
-            Tex('Buy at or below that number.'),
-            Tex(r'Gain $=$ value $-$ price.'),
+            Tex(r'Face value $=$ MB'),
+            Tex(r'CS $=$ MB $-$ price'),
         ).arrange(DOWN, buff=0.22, aligned_edge=LEFT).scale(0.85)
         buyer_rules.next_to(buyer, DOWN, buff=0.3).align_to(buyer, LEFT)
 
-        seller = Tex('Sellers: red cards', color=SUPPLY).scale(1.0)
+        seller = Tex('Red cards: sellers', color=SUPPLY).scale(1.0)
         seller.move_to([0.4, 1.7, 0], aligned_edge=LEFT)
         seller_rules = VGroup(
-            Tex(r'Card number $=$ cost of one unit.'),
-            Tex('Sell at or above that number.'),
-            Tex(r'Gain $=$ price $-$ cost.'),
+            Tex(r'Face value $=$ MC'),
+            Tex(r'PS $=$ price $-$ MC'),
         ).arrange(DOWN, buff=0.22, aligned_edge=LEFT).scale(0.85)
         seller_rules.next_to(seller, DOWN, buff=0.3).align_to(seller, LEFT)
 
         rules = VGroup(
-            Tex('1. Find someone on the other side. Shop around; you can reject an offer.'),
-            Tex('2. Agree on a price. Each card can be used for one trade only.'),
-            Tex('3. Report the price together and hand in both cards face down.'),
-            Tex('4. The price goes on the board. Wait until the next round to trade again.'),
+            Tex('1. Find a trading partner. Negotiate; no losses.'),
+            Tex('2. One trade per card. You may turn down any offer.'),
+            Tex('3. Report your price together. Turn in both cards face down.'),
+            Tex('4. Wait for the next round.'),
         ).arrange(DOWN, buff=0.32, aligned_edge=LEFT).scale(0.85)
-        rules.move_to([-7.4, -0.5, 0], aligned_edge=UL)
+        rules.move_to([-7.4, -1.1, 0], aligned_edge=UL)
         reminder = Tex('Keep your card number private.', color=DEFINITION).scale(0.9)
-        reminder.to_edge(DOWN, buff=0.45)
+        reminder.move_to([-7.4, -0.4, 0], aligned_edge=LEFT)
         self.play(FadeIn(head), FadeIn(question), FadeIn(buyer), FadeIn(buyer_rules),
                   FadeIn(seller), FadeIn(seller_rules), FadeIn(rules), FadeIn(reminder))
         self.pause('0.a')
