@@ -83,8 +83,6 @@ class PitMarket(Scene):
         # separates dots; it does not imply transaction order or quantity.
         FadeAll(self)
         head = title('Pit Market $|$ Earlier Results')
-        data_head = Tex('Earlier class: Round 3', color=INK).scale(0.85)
-        data_head.move_to([-4.2, 2.8, 0])
         data_ax = style_axes([0, 4.5, 1], [0, 10, 2],
                              x_length=4.5, y_length=4.8, ticks=True)
         data_ax.shift([-6.5, -2.45, 0] - data_ax.c2p(0, 0))
@@ -110,7 +108,7 @@ class PitMarket(Scene):
                 lanes[lane] = price
             price_dots.add(Dot(data_ax.c2p(0.45 + 0.4 * lane, price),
                                radius=0.07, color=INK, z_index=5))
-        self.play(FadeIn(head), FadeIn(data_head), FadeIn(data_ax),
+        self.play(FadeIn(head), FadeIn(data_ax),
                   FadeIn(data_ticks), FadeIn(data_units), FadeIn(data_note))
         self.play(LaggedStart(*[FadeIn(dot) for dot in price_dots],
                               lag_ratio=0.08), run_time=1.5)
