@@ -8,7 +8,7 @@
 # (the earlier instruction animation could not be located).
 # Run: maniml B0_Animate.py PitMarket
 # One numbered card = one unit; use the instructor's prepared card decks.
-# Storyboard: 0.a complete simulation setup on one screen; 3.a debrief;
+# Storyboard: 0.a complete simulation setup on one screen;
 # 4.a Round 3 price distribution; 4.b average; 5.a full-deck card curves;
 # 5.b predicted price ($6), compared with the historical average.
 
@@ -44,7 +44,6 @@ class PitMarket(Scene):
     def construct(self):
         self.camera.fps = 15
         self.camera.frame.set(width=FRAME_W).move_to(ORIGIN)
-        BODY_MID = -0.1
 
         # ---- 0.a · One complete setup screen stays up during trading.
         head = title('Simulation B $|$ The Market')
@@ -78,18 +77,6 @@ class PitMarket(Scene):
         self.play(FadeIn(head), FadeIn(question), FadeIn(buyer), FadeIn(buyer_rules),
                   FadeIn(seller), FadeIn(seller_rules), FadeIn(rules), FadeIn(reminder))
         self.pause('0.a')
-
-        # ---- 3.a · Advance after trading; return to 0.a for another round.
-        FadeAll(self)
-        head = title('Pit Market $|$ What Happened?')
-        questions = VGroup(
-            Tex('Where did transaction prices cluster?'),
-            Tex('What price and quantity do the cards predict?'),
-            Tex('How does the second round compare with the first?'),
-        ).arrange(DOWN, buff=0.55, aligned_edge=LEFT)
-        questions.move_to(UP * BODY_MID)
-        self.play(FadeIn(head), FadeIn(questions))
-        self.pause('3.a')
 
         # ---- 4.a · Prior-class observations, with price vertical so the
         # model can later use the same price scale. Horizontal spacing only
