@@ -9,14 +9,29 @@
 # Run: maniml B0_Animate.py PitMarket
 # One numbered card = one unit; use the instructor's prepared card decks.
 # Storyboard: 0.a simulation card (B0 demand convention); 1.a roles;
-# 1.b gains; 2.a trading; 2.b reporting; 3.a debrief.
+# 1.b gains; 2.a trading; 2.b reporting; 3.a debrief;
+# 4.a Round 3 price distribution; 4.b average.
+# Pending: full card deck (including non-traders) for the model prediction.
 
 from manim import *
+from decimal import Decimal, ROUND_HALF_UP
 import os
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../_Assets'))
 from style import *
+from style import axes as style_axes
+
+
+# Snapshot: Equilibrium_Simulation_preF24.xlsx, Sheet1!H3:H23 (Round 3).
+# x4 / H6 is blank and is omitted, not counted as a zero price.
+# These are participant reports, not 20 distinct transactions; retain each
+# source observation rather than guessing a deduplication from repeated prices.
+ROUND3_PRICES = (
+    5, 5, 5, 4.15, 6, 5.25, 6, 5, 6, 5.25,
+    6, 5, 5, 4.15, 4.1, 6.25, 5, 5, 6.25, 4.1,
+)
+
 
 
 class PitMarket(Scene):
@@ -110,3 +125,52 @@ class PitMarket(Scene):
         questions.move_to(UP * BODY_MID)
         self.play(FadeIn(questions))
         self.pause('3.a')
+
+        # ---- 4.a · Prior-class observations, with price vertical so the
+        # model can later use the same price scale. Horizontal spacing only
+        # separates dots; it does not imply transaction order or quantity.
+        FadeAll(self)
+        head = title('Pit Market $|$ Earlier Results')
+        data_head = Tex('Earlier class: Round 3', color=INK).scale(0.85)
+        data_head.move_to([-4.2, 2.8, 0])
+        data_ax = style_axes([0, 4.5, 1], [0, 10, 2],
+                             x_length=4.5, y_length=4.8, ticks=True)
+        data_ax.shift([-6.5, -2.45, 0] - data_ax.c2p(0, 0))
+        data_ax.x_axis.set_opacity(0)
+        data_ticks = VGroup(*[
+            Tex(str(p), color=CAPTION).scale(0.7)
+            .next_to(data_ax.c2p(0, p), LEFT, buff=0.15)
+            for p in range(0, 11, 2)
+        ])
+        data_units = Tex(r'Price (\$)', color=CAPTION).scale(0.7)
+        data_units.rotate(PI / 2).move_to([-7.4, -0.05, 0])
+        data_note = Tex('One dot per participant report', color=CAPTION).scale(0.7)
+        data_note.move_to([-4.2, -2.95, 0])
+
+        price_dots, lanes = VGroup(), []
+        for price in sorted(ROUND3_PRICES):
+            lane = 0
+            while lane < len(lanes) and abs(price - lanes[lane]) * 0.48 < 0.2:
+                lane += 1
+            if lane == len(lanes):
+                lanes.append(price)
+            else:
+                lanes[lane] = price
+            price_dots.add(Dot(data_ax.c2p(0.45 + 0.4 * lane, price),
+                               radius=0.07, color=INK, z_index=5))
+        self.play(FadeIn(head), FadeIn(data_head), FadeIn(data_ax),
+                  FadeIn(data_ticks), FadeIn(data_units), FadeIn(data_note))
+        self.play(LaggedStart(*[FadeIn(dot) for dot in price_dots],
+                              lag_ratio=0.08), run_time=1.5)
+        self.pause('4.a')
+
+        # ---- 4.b · The observed mean, independently calculated from prices.
+        average = sum(Decimal(str(p)) for p in ROUND3_PRICES) / len(ROUND3_PRICES)
+        average_text = average.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        mean_line = DashedLine(data_ax.c2p(0, float(average)),
+                               data_ax.c2p(4.35, float(average)),
+                               color=DEFINITION, stroke_width=2, z_index=3)
+        mean_label = Tex(rf'Average: \${average_text}', color=DEFINITION).scale(0.9)
+        mean_label.move_to([-4.2, -3.55, 0])
+        self.play(Create(mean_line), FadeIn(mean_label))
+        self.pause('4.b')
