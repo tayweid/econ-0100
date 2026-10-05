@@ -67,9 +67,9 @@ class PitMarket(Scene):
         seller_rules.next_to(seller, DOWN, buff=0.3).align_to(seller, LEFT)
 
         rules = VGroup(
-            Tex('1. Find a trading partner. Negotiate; no losses.'),
-            Tex('2. One trade per card. You may turn down any offer.'),
-            Tex('3. Report your price together. Turn in both cards face down.'),
+            Tex('1. Find a trading partner.'),
+            Tex('2. One trade per card.'),
+            Tex('3. Report your price together.'),
             Tex('4. Wait for the next round.'),
         ).arrange(DOWN, buff=0.32, aligned_edge=LEFT).scale(0.85)
         rules.move_to([-7.4, -1.1, 0], aligned_edge=UL)
