@@ -202,7 +202,7 @@ class PitMarket(Scene):
                          color=GUIDE, stroke_width=2)
               for q in (positive_trades, possible_trades)],
         )
-        prediction = Tex(rf'Predicted price: \${predicted_price}', color=DEFINITION).scale(0.9)
+        prediction = Tex(rf'Predicted: \${predicted_price}', color=DEFINITION).scale(0.9)
         prediction.move_to([3.45, -3.55, 0])
         model_result = Tex(f'{positive_trades}--{possible_trades} trades at this price',
                            color=CAPTION).scale(0.7).move_to(model_note)
