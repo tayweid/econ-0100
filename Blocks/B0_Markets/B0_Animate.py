@@ -51,20 +51,20 @@ class PitMarket(Scene):
         question = subtitle(head, 'What prices emerge when buyers and sellers negotiate?')
 
         buyer = Tex('Black cards: buyers', color=DEMAND).scale(1.0)
-        buyer.move_to([-7.4, 1.7, 0], aligned_edge=LEFT)
+        buyer.move_to([-3.7, 1.7, 0])
         buyer_rules = VGroup(
             Tex(r'Face value $=$ MB'),
             Tex(r'CS $=$ MB $-$ price'),
-        ).arrange(DOWN, buff=0.22, aligned_edge=LEFT).scale(0.85)
-        buyer_rules.next_to(buyer, DOWN, buff=0.3).align_to(buyer, LEFT)
+        ).arrange(DOWN, buff=0.22).scale(0.85)
+        buyer_rules.next_to(buyer, DOWN, buff=0.3)
 
         seller = Tex('Red cards: sellers', color=SUPPLY).scale(1.0)
-        seller.move_to([0.4, 1.7, 0], aligned_edge=LEFT)
+        seller.move_to([3.7, 1.7, 0])
         seller_rules = VGroup(
             Tex(r'Face value $=$ MC'),
             Tex(r'PS $=$ price $-$ MC'),
-        ).arrange(DOWN, buff=0.22, aligned_edge=LEFT).scale(0.85)
-        seller_rules.next_to(seller, DOWN, buff=0.3).align_to(seller, LEFT)
+        ).arrange(DOWN, buff=0.22).scale(0.85)
+        seller_rules.next_to(seller, DOWN, buff=0.3)
 
         rules = VGroup(
             Tex('1. Find a trading partner.'),
@@ -74,7 +74,7 @@ class PitMarket(Scene):
         ).arrange(DOWN, buff=0.32, aligned_edge=LEFT).scale(0.85)
         rules.move_to([-7.4, -1.1, 0], aligned_edge=UL)
         reminder = Tex('Keep your card number private.', color=DEFINITION).scale(0.9)
-        reminder.move_to([-7.4, -0.4, 0], aligned_edge=LEFT)
+        reminder.move_to([0, -0.4, 0])
         self.play(FadeIn(head), FadeIn(question), FadeIn(buyer), FadeIn(buyer_rules),
                   FadeIn(seller), FadeIn(seller_rules), FadeIn(rules), FadeIn(reminder))
         self.pause('0.a')
