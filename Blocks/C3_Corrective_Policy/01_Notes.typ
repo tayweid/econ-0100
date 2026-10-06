@@ -27,7 +27,7 @@
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #set math.equation(numbering: "(1)")
 
-== Episode C4 | _Correcting Market Failures_
+== Episode C3 | _Correcting Market Failures_
 
 _We can offset the problems of externalities with the problems of taxes._
 

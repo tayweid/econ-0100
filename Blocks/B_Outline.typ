@@ -72,6 +72,10 @@ International trade improves welfare but also creates winners and losers, which 
 
 === (moving to Part C) Episode B7 | Tariffs
 
+// plass:comment
+// | Editor. 2026-10-06: tariffs came back from Part C (C1) and join B6 as one block, International Trade and Tariffs, at the end of Part B. This heading still says "moving to Part C"; your call on retitling it. Material: Blocks/B6_International_Trade/From_C1_Tariffs.
+// /plass:comment
+
 This video introduces international trade, import/export taxes/tariffs, and combinations with domestic taxes. The idea is to bring together many related ideas in the model of perfectly competitive markets.
 
 === Next Up.

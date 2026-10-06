@@ -1,4 +1,4 @@
-# Unplaced — C3_Externalities
+# Unplaced — C1_Externalities
 
 Paragraphs from `Week_07_23S.ipynb` with no exact match anywhere else in `blocks/`. Everything else in that notebook was already present elsewhere and is not repeated here.
 

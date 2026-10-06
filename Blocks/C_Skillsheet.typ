@@ -23,31 +23,29 @@ Skills you pass stay passed. If you do not pass a skill on Checkpoint C, complet
 
 *Assessment scope.* The standards below define the evidence required for each pass. Show calculation setups; minor arithmetic slips do not erase a correct method. Skills are judged separately.
 
-== C1.1 | International Trade
+== C1.1 | Negative Externalities
 
-Opening trade can raise domestic total surplus while making some domestic participants worse off.
-
-*Practice:* Exercise C1 · Vignette C1 · Homework C1.
-
-*You pass if you can:*
-
-- Compare a given world price with the domestic equilibrium price to determine whether a small, price-taking country imports or exports.
-- Calculate domestic quantity demanded, quantity supplied, and imports or exports at the world price.
-- Identify whether domestic buyers and sellers gain or lose, and whether domestic total surplus rises or falls.
-
-== C1.2 | Tariffs
-
-An import tariff raises the domestic price while imports continue.
+An external cost can make privately attractive trades socially costly.
 
 *Practice:* Exercise C1 · Vignette C1 · Homework C1.
 
 *You pass if you can:*
 
-- For a nonprohibitive per-unit import tariff, calculate domestic price, domestic quantities, and remaining imports.
-- Calculate tariff revenue as the tariff times imports.
-- Identify buyers’ losses and sellers’ gains relative to free trade, and identify the production and consumption deadweight-loss regions on a graph. Numerical surplus changes and DWL areas are not required.
+- Add a constant per-unit external cost to marginal private cost to construct marginal social cost.
+- Calculate market and efficient quantities using private and social marginal conditions, and show why the market produces too much.
+- Identify the deadweight-loss region on a graph and explain it using social marginal cost and benefit. Numerical DWL area is not required.
 
-#pagebreak()
+== C1.2 | Positive Externalities
+
+An external benefit can make trades socially worthwhile even when private incentives do not support them.
+
+*Practice:* Exercise C1 · Vignette C1 · Homework C1.
+
+*You pass if you can:*
+
+- Identify marginal social benefit above marginal private benefit when an activity generates a positive external benefit.
+- On a supplied graph, identify market and efficient quantities and the deadweight-loss region, and explain why the market produces too little.
+
 == C2.1 | Taxes & Incidence
 
 A per-unit tax separates the price buyers pay from the price sellers receive.
@@ -70,35 +68,11 @@ A per-unit subsidy reverses the wedge between buyers and sellers.
 - Use the subsidy wedge (seller price minus buyer price equals the subsidy) to calculate the traded quantity and both prices from linear demand and supply.
 - In a market without externalities, explain why the added trades beyond the efficient quantity have marginal cost above marginal benefit. No separate welfare-area calculations are required.
 
-== C3.1 | Negative Externalities
-
-An external cost can make privately attractive trades socially costly.
-
-*Practice:* Exercise C3 · Vignette C3 · Homework C3.
-
-*You pass if you can:*
-
-- Add a constant per-unit external cost to marginal private cost to construct marginal social cost.
-- Calculate market and efficient quantities using private and social marginal conditions, and show why the market produces too much.
-- Identify the deadweight-loss region on a graph and explain it using social marginal cost and benefit. Numerical DWL area is not required.
-
-#pagebreak()
-== C3.2 | Positive Externalities
-
-An external benefit can make trades socially worthwhile even when private incentives do not support them.
-
-*Practice:* Exercise C3 · Vignette C3 · Homework C3.
-
-*You pass if you can:*
-
-- Identify marginal social benefit above marginal private benefit when an activity generates a positive external benefit.
-- On a supplied graph, identify market and efficient quantities and the deadweight-loss region, and explain why the market produces too little.
-
-== C4.1 | Corrective Taxes & Subsidies
+== C3.1 | Corrective Taxes & Subsidies
 
 A corrective policy aligns private incentives with social costs or benefits.
 
-*Practice:* Exercise C4 · Vignette C4 · Homework C4.
+*Practice:* Exercise C3 · Vignette C3 · Homework C3.
 
 *You pass if you can:*
 

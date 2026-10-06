@@ -27,7 +27,7 @@
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #set math.equation(numbering: "(1)")
 
-== Episode C3 | _Externalities_
+== Episode C1 | _Externalities_
 
 _The invisible hand can make mistakes._
 

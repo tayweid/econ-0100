@@ -297,6 +297,20 @@ parts:
           recitation: '2026-10-02'
           homework: '2026-10-04'
 
+      - block: B6
+        folder: B6_International_Trade
+        nav: Trade
+        title: International Trade and Tariffs
+        description: 'International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs, a tax on imports.'
+        episode:
+          description: "*International Trade and Tariffs*"
+          video: Kxq2E69dpCA
+        reading:
+          chapter: 20
+          description: Globalization and protectionism
+        vignette:
+          description: "*International trade practice problems*"
+
       - checkpoint:
           reattempt: In Recitation
           reattempt_date: ['2026-10-22', '2026-10-23']
@@ -315,45 +329,7 @@ parts:
       In Part A we set up the landscape of what’s possible and in Part B we introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. But not every market is competitive or without externalities. Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. We’ll build the models to show how pollution, taxes, and corrective policies can either harm or correct market behavior.
     sections:
       - block: C1
-        folder: C1_Tariffs
-        nav: Tariffs
-        title: International Trade and Tariffs
-        description: 'International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs, a tax on imports.'
-        episode:
-          description: "*International Trade and Tariffs*"
-          video: Kxq2E69dpCA
-        reading:
-          chapter: 20
-          description: Globalization and protectionism
-        vignette:
-          description: "*International trade practice problems*"
-        dates:
-          class: '2026-10-07'
-          recitation: '2026-10-16'
-
-      - block: C2
-        folder: C2_Taxes_and_Subsidies
-        nav: Taxes
-        title: Taxes
-        description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
-        episode:
-          video: R2NctbU80y0
-          description: "*Taxes and Welfare*"
-        reading:
-          chapter: 5
-          topic: Elasticity and tax incidence
-          video: AYJh3NefuUM
-        vignette:
-          description: "*Taxes practice problems*"
-          files: C2
-          solutions: false
-        dates:
-          class: '2026-10-07'
-          recitation: '2026-10-09'
-          homework: '2026-10-11'
-
-      - block: C3
-        folder: C3_Externalities
+        folder: C1_Externalities
         nav: Externalities
         title: Externalities
         description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
@@ -377,12 +353,33 @@ parts:
               - {label: Episode 472, file: 'https://www.npr.org/sections/money/2013/07/12/201502003/episode-472-the-one-page-plan-to-fix-global-warming'}
               - {label: Revisited, file: 'https://www.npr.org/sections/money/2018/07/18/630267782/episode-472-the-one-page-plan-to-fix-global-warming-revisited'}
         dates:
-          class: '2026-10-05'
-          recitation: '2026-10-09'
-          homework: '2026-10-11'
+          class: '2026-10-07'
+          recitation: '2026-10-16'
+          homework: '2026-10-14'
 
-      - block: C4
-        folder: C4_Corrective_Policy
+      - block: C2
+        folder: C2_Taxes_and_Subsidies
+        nav: Taxes
+        title: Taxes
+        description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
+        episode:
+          video: R2NctbU80y0
+          description: "*Taxes and Welfare*"
+        reading:
+          chapter: 5
+          topic: Elasticity and tax incidence
+          video: AYJh3NefuUM
+        vignette:
+          description: "*Taxes practice problems*"
+          files: C2
+          solutions: false
+        dates:
+          class: '2026-10-12'
+          recitation: '2026-10-16'
+          homework: '2026-10-18'
+
+      - block: C3
+        folder: C3_Corrective_Policy
         nav: Corrective Taxes
         title: Corrective Taxes
         description: Pigouvian taxes can internalize externalities and restore market efficiency by aligning private and social costs.
@@ -396,7 +393,7 @@ parts:
         vignette:
           description: "*Corrective taxes practice problems*"
         dates:
-          class: '2026-10-12'
+          class: '2026-10-14'
           recitation: '2026-10-16'
           homework: '2026-10-18'
 

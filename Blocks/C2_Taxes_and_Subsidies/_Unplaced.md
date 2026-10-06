@@ -1,4 +1,4 @@
-# Unplaced — C1_Taxes_and_Subsidies
+# Unplaced — C2_Taxes_and_Subsidies
 
 Paragraphs from `Week_05_23S.ipynb` with no exact match anywhere else in `blocks/`. Everything else in that notebook was already present elsewhere and is not repeated here.
 

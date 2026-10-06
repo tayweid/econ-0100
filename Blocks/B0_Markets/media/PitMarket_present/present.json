@@ -1,0 +1,178 @@
+{
+ "format": 1,
+ "scene": "PitMarket",
+ "fps": 15,
+ "duration": 10.933333333333309,
+ "resolution": [
+  2160,
+  1080
+ ],
+ "source": {
+  "file": "B0_Animate.py",
+  "mtime": 1791214904.870118,
+  "hash": "556d32109d50379afd399c86218aea73"
+ },
+ "pause_anchored": true,
+ "checkpoints": [
+  {
+   "index": 0,
+   "time": 0.0,
+   "line": null,
+   "unit": -1,
+   "chip_unit": -1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 1,
+   "time": 1.0,
+   "line": 78,
+   "unit": 0,
+   "chip_unit": 1,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 2,
+   "time": 1.0,
+   "line": 79,
+   "unit": 1,
+   "chip_unit": 1,
+   "name": "0.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 3,
+   "time": 2.0,
+   "line": 112,
+   "unit": 2,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 4,
+   "time": 3.0,
+   "line": 112,
+   "unit": 2,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 5,
+   "time": 4.533333333333331,
+   "line": 114,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 6,
+   "time": 4.533333333333331,
+   "line": 115,
+   "unit": 4,
+   "chip_unit": 4,
+   "name": "4.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 7,
+   "time": 5.533333333333328,
+   "line": 125,
+   "unit": 5,
+   "chip_unit": 6,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 8,
+   "time": 5.533333333333328,
+   "line": 126,
+   "unit": 6,
+   "chip_unit": 6,
+   "name": "4.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 9,
+   "time": 6.533333333333324,
+   "line": 163,
+   "unit": 7,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 10,
+   "time": 7.73333333333332,
+   "line": 164,
+   "unit": 8,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 11,
+   "time": 8.933333333333316,
+   "line": 165,
+   "unit": 9,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 12,
+   "time": 8.933333333333316,
+   "line": 166,
+   "unit": 10,
+   "chip_unit": 10,
+   "name": "5.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 13,
+   "time": 9.933333333333312,
+   "line": 198,
+   "unit": 11,
+   "chip_unit": 13,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 14,
+   "time": 10.933333333333309,
+   "line": 199,
+   "unit": 12,
+   "chip_unit": 13,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 15,
+   "time": 10.933333333333309,
+   "line": 200,
+   "unit": 13,
+   "chip_unit": 13,
+   "name": "5.b",
+   "stop": true,
+   "loop": false
+  }
+ ]
+}

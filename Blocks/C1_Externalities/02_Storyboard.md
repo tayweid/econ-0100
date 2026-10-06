@@ -1,4 +1,4 @@
-# Episode C3: Externalities - Storyboard
+# Episode C1: Externalities - Storyboard
 
 [To be developed]
 

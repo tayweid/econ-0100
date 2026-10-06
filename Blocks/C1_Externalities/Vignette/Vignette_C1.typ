@@ -27,7 +27,7 @@
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
 #import "@preview/mitex:0.2.5": mi, mitex
 
-= ECON 0100 | Vignette C3 | Externalities
+= ECON 0100 | Vignette C1 | Externalities
 
 _Due in Recitation. Vignettes are a certificate of the work done together in Recitation._
 
@@ -56,8 +56,8 @@ a) Market Equilibrium Quantity: \_\_\_\_\_\_\_\_\_\_ Socially Efficient Quantity
 b) Market Equilibrium Price: \_\_\_\_\_\_\_\_\_\_ Deadweight Loss: \_\_\_\_\_\_\_\_\_\_
 
 // plass:comment
-// | Editor. Source. The story and Q1 are 24F Demo C1, "Somethin’s Up With Pumpkins", Q1 (of 3) "Market Equilibrium" (ECON_0100/Checkpoints/C/_Archive/24F_Demo_C.md, +pdf), verbatim. Left out: the MiniExam timing line and the Academic Conduct Code, the story title (the Part B Vignettes have none), and the "(of 3)". Q2–Q3 of that demo are Vignette C4.
+// | Editor. Source. The story and Q1 are 24F Demo C1, "Somethin’s Up With Pumpkins", Q1 (of 3) "Market Equilibrium" (ECON_0100/Checkpoints/C/_Archive/24F_Demo_C.md, +pdf), verbatim. Left out: the MiniExam timing line and the Academic Conduct Code, the story title (the Part B Vignettes have none), and the "(of 3)". Q2–Q3 of that demo are Vignette C3.
 // | Answers. MSC = 10 + Q + 10 = 20 + Q; MSB = MB = 100 − Q. Market: 100 − Q = 10 + Q, Q 45, P 55. Efficient: 100 − Q = 20 + Q, Q 40 (P 60). DWL = ½ · 10 · (45 − 40) = 25. Matches the ink key Demo_C_sols.pdf (45, 55, 40, 25).
-// | Flags. These curves (100 − Q, 10 + Q) differ from Vignette C2's (17 − Q/6, 2 + 2Q/3) and Vignette C1's; the stories are separate, so both are kept.
-// | Gap: C3.2 Positive Externalities.
+// | Flags. These curves (100 − Q, 10 + Q) differ from Vignette C2's (17 − Q/6, 2 + 2Q/3) and old Vignette C1's; the stories are separate, so both are kept.
+// | Gap: C1.2 Positive Externalities.
 // /plass:comment
