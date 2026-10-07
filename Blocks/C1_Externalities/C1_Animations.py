@@ -419,6 +419,7 @@ class C1(ThreeDScene):
         self.play(*[FadeOut(m) for m in self.mobjects])
         self.clear()
         head = fixed(title('Negative externalities'))
+        negative_context = fixed(subtitle(head, 'A cost paid by others outside the market.', book=True))
         PAIR_BASE, PAIR_SCALE, PAIR_WIDTH = -1.65, 0.58, 0.95
         # Exact averages for the representative market interval 29–30.
         PAIR_MB, PAIR_MC = 6.1, 3.475
@@ -461,18 +462,16 @@ class C1(ThreeDScene):
         for mob in pair_people.get_family():
             if isinstance(mob, Sphere):
                 mob.apply_depth_test()
-        bystander_question = fixed(Tex('Who else is affected by this trade?', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         pair_material = fixed(Group(pair_bars, pair_words, pair_price, pair_baseline))
         self.add(pair_people)
-        self.play(FadeIn(head), FadeIn(pair_material), FadeIn(bystander_question))
+        self.play(FadeIn(head), FadeIn(negative_context), FadeIn(pair_material))
         self.remove(pair_people, pair_material)
         self.add(pair)
         self.pause('2.a')
 
         # ---- 2.b · A single external-cost piece belongs to one grey bystander.
         bystanders = fixed(Group())
-        external_stack = fixed(VGroup())
+        individual_costs, external_stack = fixed(VGroup()), fixed(VGroup())
         for i in range(8):
             x = 1.4 + i * 0.61
             person = fixed(Group(
@@ -484,30 +483,35 @@ class C1(ThreeDScene):
             external_stack.add(fixed(Polygon([3.05, lower, 0], [4.35, lower, 0],
                 [4.35, lower + 0.25 * PAIR_SCALE, 0], [3.05, lower + 0.25 * PAIR_SCALE, 0],
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
+            individual_costs.add(external_stack[-1].copy().stretch_to_fit_width(0.46)
+                .move_to([x, PAIR_BASE + 0.125 * PAIR_SCALE, 0]))
         bystander_word = fixed(Tex('A bystander', color=CAPTION).scale(0.7).move_to([2.0, -2.8, 0]))
-        small_cost = external_stack[0].copy().move_to([1.4, PAIR_BASE + 0.125 * PAIR_SCALE, 0])
         small_word = fixed(Tex(r'External cost: $\$0.25$/ton', color=EXT).scale(0.7).move_to([3.7, 0.55, 0]))
         self.add(bystanders[0])
-        self.play(FadeIn(bystander_word), FadeIn(small_cost), FadeIn(small_word))
+        self.play(FadeIn(bystander_word), FadeIn(individual_costs[0]), FadeIn(small_word))
         self.pause('2.b')
 
-        # ---- 2.c · Stack the small harms; the eight grey people stay underneath.
-        self.play(Transform(small_cost, external_stack[0]), run_time=0.7)
-        self.remove(small_cost)
-        self.add(external_stack[0])
+        # ---- 2.c.people · Each person's cost stays above them until all eight appear.
+        self.play(FadeOut(bystander_word))
         for i in range(1, 8):
-            incoming = external_stack[i].copy().move_to([1.4 + i * 0.61, PAIR_BASE + 0.125 * PAIR_SCALE, 0])
             self.add(bystanders[i])
-            self.play(FadeIn(incoming), run_time=0.18)
-            self.play(Transform(incoming, external_stack[i]), run_time=0.35)
-            self.remove(incoming)
-            self.add(external_stack[i])
-        self.remove(small_word, bystander_word, bystander_question)
-        stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/ton', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
+            self.play(FadeIn(individual_costs[i]), run_time=0.35)
         many_word = fixed(Tex('People outside the trade', color=CAPTION).scale(0.7).move_to([3.55, -2.8, 0]))
-        conclusion = fixed(Tex('One trade can impose small costs on many other people.', color=DEFINITION)
-                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(stack_word), FadeIn(many_word), FadeIn(conclusion))
+        self.play(FadeIn(many_word))
+        self.pause('2.c.people')
+
+        # ---- 2.c · Only now combine those eight costs into one stack.
+        self.play(FadeOut(small_word),
+                  LaggedStart(*[Transform(individual_costs[i], external_stack[i]) for i in range(8)],
+                              lag_ratio=0.15), run_time=2)
+        self.remove(*list(individual_costs))
+        self.add(external_stack)
+        stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/ton', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
+        conclusion = fixed(VGroup(
+            Tex('Exchanges between buyer and seller in the market', color=DEFINITION).scale(DEFINITION_SCALE),
+            Tex('can impose a cost on others.', color=DEFINITION).scale(DEFINITION_SCALE))
+            .arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(stack_word), FadeIn(conclusion))
         self.pause('2.c')
 
         # ---- 2.d · The stack becomes the external-cost area of one trade.
@@ -644,7 +648,7 @@ class C1(ThreeDScene):
         self.pause('2.f')
 
         # ---- 3.a · Strip away benefit to account for every cost.
-        self.remove(head)
+        self.remove(head, negative_context)
         head = fixed(title('Marginal social cost'))
         cost_question = fixed(Tex('What is the full cost of a trade?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))

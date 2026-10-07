@@ -100,17 +100,17 @@
 === 2 | Gary, Molly, and the people outside the trade
 
 #quote(block: true)[
-  2.a · Title: Negative externalities. Bottom: Who else is affected by this trade? Keep this question through the first bystander reveal, then replace it with the takeaway in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means one ton; omit the grey footer.
+  2.a · Title: Negative externalities. Subtitle from the start: A cost paid by others outside the market. Keep this subtitle through 2.f. Leave the bottom text empty until the costs are stacked in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means one ton; omit the grey footer.
 
 ]
 
 #quote(block: true)[
-  2.b · One small grey bystander appears off to the right. Reveal a pink external-cost piece above that person: 0.25 dollars per ton. Gary and Molly’s bars and price do not move.
+  2.b · One small grey bystander appears off to the right with a narrow pink external-cost bar directly above them: 0.25 dollars per ton. Keep that cost above the person as the other people arrive. No yellow prompt. Gary and Molly’s bars and price do not move.
 
 ]
 
 #quote(block: true)[
-  2.c · Reveal seven more small grey bystanders, each bearing another 0.25 dollars per ton from this same trade. Move each new piece into the same stack; eight pieces total 2 dollars per ton. All eight people remain below the stack. Bottom: One trade can impose small costs on many other people.
+  2.c.people → 2.c · Reveal seven more small grey bystanders, each with a separate narrow pink cost bar directly above them. Keep all eight bars above their respective people, with matching heights and no overlap, and pause. Leave the bottom text empty. Only after all eight people and their bars are visible, move the eight costs into one stack totaling 2 dollars per ton. All eight people remain below. Then show the yellow takeaway across two lines: Exchanges between buyer and seller in the market can impose a cost on others.
 
 ]
 
@@ -125,14 +125,14 @@
 ]
 
 #quote(block: true)[
-  2.f · Keep the existing Negative externalities title on screen throughout the zoom-out; do not fade it in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Each trade’s buyer and seller pieces share the full width of its market slice and match its cost, CS, and PS regions exactly; fade the buyer expenditure base during the merge. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80 dollars.
+  2.f · Keep the existing Negative externalities title and A cost paid by others outside the market. subtitle on screen throughout the zoom-out; do not fade them in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Each trade’s buyer and seller pieces share the full width of its market slice and match its cost, CS, and PS regions exactly; fade the buyer expenditure base during the merge. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80 dollars.
 
 ]
 
 === 3 | Constructing marginal social cost
 
 #quote(block: true)[
-  3.a · Title: Marginal social cost. Bottom: What is the full cost of a trade? Replace the question with the definition in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MPC curve on the left and the externality rectangles on the right.
+  3.a · Remove the Negative externalities subtitle when changing the title to Marginal social cost. Bottom: What is the full cost of a trade? Replace the question with the definition in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MPC curve on the left and the externality rectangles on the right.
 
 ]
 
