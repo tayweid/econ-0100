@@ -628,18 +628,32 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
         social_cost = fixed(DashedLine(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
-        cost_definition = fixed(Tex('MSC $=$ MC $+$ EXT', color=DEFINITION)
-                               .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        cost_terms = fixed(VGroup(
+            Tex('Marginal social cost', color=SUPPLY), Tex('$=$', color=INK),
+            Tex('Marginal cost', color=SUPPLY), Tex('$+$', color=INK),
+            Tex('External cost', color=EXT)).scale(0.72))
+        cost_terms[0].move_to([3.8, 0.65, 0])
+        VGroup(*list(cost_terms)[1:]).arrange(RIGHT, buff=0.16).next_to(cost_terms[0], DOWN, buff=0.25)
+        cost_definition = fixed(VGroup(
+            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex('MC', color=SUPPLY),
+            Tex('$+$', color=INK), Tex('EXT', color=EXT))
+            .arrange(RIGHT, buff=0.16).scale(0.8).move_to(cost_terms))
+        cost_divider = fixed(Line([0.25, -3, 0], [0.25, 2, 0], color=MUTED,
+                                 stroke_width=1, stroke_opacity=0.45))
         self.remove(cost_question)
         self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
-                  FadeIn(social_cost), FadeIn(social_word), FadeIn(cost_definition))
+                  FadeIn(social_cost), FadeIn(social_word))
+        self.play(FadeIn(cost_terms), FadeIn(cost_divider))
+        self.pause('3.b.words')
+        self.play(ReplacementTransform(cost_terms, cost_definition), run_time=1.2)
         self.pause('3.b')
 
         # ---- 3.c · Recenter, restore demand, and mark the unchanged market outcome.
+        self.play(FadeOut(cost_definition), FadeOut(cost_divider))
         cost_graph = fixed(VGroup(left_ax, left_words, private_bars, external_bars, potential_ext,
                                  left_supply, left_curve_words[1], social_cost, social_word))
-        self.remove(*[m for m in self.mobjects if m is not head and m is not cost_definition])
-        self.add(cost_graph, head, cost_definition)
+        self.remove(*[m for m in self.mobjects if m is not head])
+        self.add(cost_graph, head)
         self.play(cost_graph.animate.shift(RIGHT * 3.7), run_time=1.1)
         self.play(cost_graph.animate.scale(1.15, about_point=left_ax.c2p(30, 6.5)), run_time=0.8)
         # Keep the axes' numerical mappings live after the group moves.
@@ -650,7 +664,7 @@ class C1(ThreeDScene):
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             Tex(r'$Q_m=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
             Tex(r'$P_m=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 4), DOWN + RIGHT, buff=0.14)))
-        self.remove(head, cost_definition)
+        self.remove(head)
         head = fixed(title('Social welfare'))
         question = fixed(Tex('Would increasing or decreasing quantity improve welfare?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))

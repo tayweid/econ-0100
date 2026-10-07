@@ -129,17 +129,17 @@
 === 3 | Constructing marginal social cost
 
 #quote(block: true)[
-  3.a · Remove the Negative externalities subtitle when changing the title to Marginal social cost. Bottom: What is the full cost of a trade? Replace the question with the definition in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MC curve on the left and the externality rectangles on the right.
+  3.a · Remove the Negative externalities subtitle when changing the title to Marginal social cost. Bottom: What is the full cost of a trade? Clear the question before showing the equation at right in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MC curve on the left and the externality rectangles on the right.
 
 ]
 
 #quote(block: true)[
-  3.b · Move the external-cost rectangles across one by one onto the tops of the matching private-cost slices. Each pink strip is height 2 above MC; its sloping edges follow MC exactly. Fade the now-empty external-cost axes. Introduce the dashed orange upper boundary and label MSC. Bottom: MSC = MC + EXT. Show faint potential strips past the current quantity so MSC is defined across the graph.
+  3.b.words → 3.b · Move the external-cost rectangles across one by one onto the tops of the matching private-cost slices. Each pink strip is height 2 above MC; its sloping edges follow MC exactly. Fade the now-empty external-cost axes. Introduce the dashed orange upper boundary and label MSC. Show faint potential strips past the current quantity so MSC is defined across the graph. Leave the bottom text empty. In the open space to the right, use a subtle grey divider and show the full-word equation: Marginal social cost = Marginal cost + External cost. Put Marginal social cost above the equals-and-sum line for readable spacing. Use orange for the cost terms, pink for external cost, and white for the operators. Pause on the full words, then transform the corresponding terms into one line: MSC = MC + EXT. Pause again. Keep the graph curve labeled MC, and retain MB when demand returns; do not introduce MPC or MPB.
 
 ]
 
 #quote(block: true)[
-  3.c · Title: Social welfare. Keep this topic title through both quantity comparisons and their returns to the market. Recenter and enlarge the combined graph. Restore demand as MB, keep supply labeled MC, and plot unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would increasing or decreasing quantity improve welfare? Pause before revealing an answer.
+  3.c · Title: Social welfare. Keep this topic title through both quantity comparisons and their returns to the market. Fade the right-side equation and divider before recentering and enlarging the combined graph. Restore demand as MB, keep supply labeled MC, and plot unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would increasing or decreasing quantity improve welfare? Pause before revealing an answer.
 
 ]
 
