@@ -179,6 +179,7 @@ class C1(ThreeDScene):
         intro_words, intro_message = intro_states[0][1:]
         first_selection = fixed(SurroundingRectangle(intro_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.play(FadeIn(first_selection), FadeIn(intro_pair))
+        self.pause('1.a.first.select')
         self.play(FadeOut(market), FadeOut(first_selection),
                   Transform(intro_pair, intro_value_states[0][0]), run_time=1.6)
         value_words = intro_value_states[0][1]
@@ -218,6 +219,7 @@ class C1(ThreeDScene):
         marginal_selection = fixed(SurroundingRectangle(
             VGroup(costs[-1], cs[-1], ps[-1]), color=FOCUS, buff=0.025, stroke_width=2))
         self.play(FadeIn(marginal_selection), FadeIn(intro_pair))
+        self.pause('1.a.last.select')
         self.play(FadeOut(market), FadeOut(marginal_selection),
                   Transform(intro_pair, intro_value_states[1][0]), run_time=1.6)
         value_words = intro_value_states[1][1]
@@ -269,9 +271,7 @@ class C1(ThreeDScene):
         self.add(extra_pair)
         selected_ton = fixed(SurroundingRectangle(extra_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(question)
-        question = fixed(Tex('Look at this one added ton.', color=DEFINITION)
-                         .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(selected_ton), FadeIn(question))
+        self.play(FadeIn(selected_ton))
         self.pause('1.b.select')
 
         # ---- 1.c · Carry the selected pair into B4's head-on bar comparison.
@@ -280,7 +280,7 @@ class C1(ThreeDScene):
             extra_target.add(fixed(Polygon([left, DETAIL_BASE, 0], [left + 1.1, DETAIL_BASE, 0],
                 [left + 1.1, DETAIL_BASE + value * DETAIL_SCALE, 0], [left, DETAIL_BASE + value * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(market), FadeOut(extra_lots), FadeOut(selected_ton), FadeOut(question),
+        self.play(FadeOut(market), FadeOut(extra_lots), FadeOut(selected_ton),
                   Transform(extra_pair, extra_target), run_time=1.6, rate_func=smooth)
         detail_people = fixed(Group())
         for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
@@ -350,9 +350,7 @@ class C1(ThreeDScene):
         self.pause('1.e')
         selected_ton = fixed(SurroundingRectangle(removed_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(question)
-        question = fixed(Tex('Look at this one removed ton.', color=DEFINITION)
-                         .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(removed_pair), FadeIn(selected_ton), FadeIn(question))
+        self.play(FadeIn(removed_pair), FadeIn(selected_ton))
         self.pause('1.e.select')
 
         # ---- 1.f · The same bar-pair zoom, now examining a forgone gain.
@@ -361,7 +359,7 @@ class C1(ThreeDScene):
             removed_target.add(fixed(Polygon([left, DETAIL_BASE, 0], [left + 1.1, DETAIL_BASE, 0],
                 [left + 1.1, DETAIL_BASE + value * DETAIL_SCALE, 0], [left, DETAIL_BASE + value * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(market), FadeOut(selected_ton), FadeOut(question),
+        self.play(FadeOut(market), FadeOut(selected_ton),
                   Transform(removed_pair, removed_target), run_time=1.6)
         removed_detail = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -716,10 +714,9 @@ class C1(ThreeDScene):
                 left_ax.c2p(47.96, 6.4), left_ax.c2p(47.04, 6.4),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         extra_social_home = extra_social_pair.copy()
-        selection_word = fixed(Tex('Look at the same one added ton.', color=DEFINITION)
-                               .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        selected_ton = fixed(SurroundingRectangle(extra_social_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(question)
-        self.play(FadeIn(extra_social_pair), FadeIn(selection_word))
+        self.play(FadeIn(extra_social_pair), FadeIn(selected_ton))
         self.pause('3.d.select')
         extra_social_target = fixed(VGroup())
         for left, low, high, color in [(-1.16, 0, 2.4, DEMAND), (0.06, 0, 4.4, SUPPLY),
@@ -730,7 +727,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
         private_target = extra_social_target.copy()
         private_target[2].set_opacity(0)
-        self.play(FadeOut(social_graph), FadeOut(selection_word),
+        self.play(FadeOut(social_graph), FadeOut(selected_ton),
                   Transform(extra_social_pair, private_target), run_time=1.6)
         extra_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -787,10 +784,9 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
             private_bars[COMPARE_LOW].copy(), external_bars[COMPARE_LOW].copy()))
         removed_social_home = removed_social_pair.copy()
-        selection_word = fixed(Tex('Look at the same one removed ton.', color=DEFINITION)
-                               .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        selected_ton = fixed(SurroundingRectangle(removed_social_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(question)
-        self.play(FadeIn(removed_social_pair), FadeIn(selection_word))
+        self.play(FadeIn(removed_social_pair), FadeIn(selected_ton))
         self.pause('3.e.select')
         removed_social_target = fixed(VGroup())
         for left, low, high, color in [(-1.16, 0, 4.8, DEMAND), (0.06, 0, 3.8, SUPPLY),
@@ -801,7 +797,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
         private_target = removed_social_target.copy()
         private_target[2].set_opacity(0)
-        self.play(FadeOut(social_graph), FadeOut(selection_word),
+        self.play(FadeOut(social_graph), FadeOut(selected_ton),
                   Transform(removed_social_pair, private_target), run_time=1.6)
         removed_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)

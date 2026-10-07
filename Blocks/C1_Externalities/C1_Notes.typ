@@ -48,7 +48,7 @@
 ]
 
 #quote(block: true)[
-  1.a.first.values → 1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the starting exchange at Q = 0 with one thin yellow outline box around its full existing bar slice. Keep the bars teal and orange; do not add selection dots, vertical lines, or extra colored outlines. Carry that same buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, the buyer/seller spheres, and Buyer/Seller labels beneath them. Anchor MB/MC labels beside their hard value lines. Omit the extra values/average caption. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: Is there a price that would make this exchange work? Pause on the values. Fade the question as price appears. Keep MB/MC, spheres, and Buyer/Seller visible throughout the following reveals. First reveal the established price 4 line and label. In the next play, fade in stronger teal CS 8 and orange PS 2 above the respective faint bases, together with their surplus labels. Put the CS/PS labels immediately beside the corresponding regions, with no connector lines. Bottom: First exchange: both the buyer and seller gain. Pause again.
+  1.a.first.values → 1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the starting exchange at Q = 0 with one thin yellow outline box around its full existing bar slice. Keep the bars teal and orange; do not add selection dots, vertical lines, or extra colored outlines. Pause on the highlighted exchange with no bottom annotation, then carry that same buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, the buyer/seller spheres, and Buyer/Seller labels beneath them. Anchor MB/MC labels beside their hard value lines. Omit the extra values/average caption. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: Is there a price that would make this exchange work? Pause on the values. Fade the question as price appears. Keep MB/MC, spheres, and Buyer/Seller visible throughout the following reveals. First reveal the established price 4 line and label. In the next play, fade in stronger teal CS 8 and orange PS 2 above the respective faint bases, together with their surplus labels. Put the CS/PS labels immediately beside the corresponding regions, with no connector lines. Bottom: First exchange: both the buyer and seller gain. Pause again.
 
 ]
 
@@ -58,7 +58,7 @@
 ]
 
 #quote(block: true)[
-  1.a.last.values → 1.a.last · Keep title: Competitive equilibrium; no subtitle. Put one thin yellow outline box around the last existing exchange at Q = 40, retaining the canonical red intersection marker. Do not add a yellow dot. Fade the box as its marginal buyer/seller pair moves into the close-up on the same scale. First show only MB = MC = 4 dollars per ton, faint bars, hard value edges, and buyer/seller spheres with names underneath. MB and MC labels sit beside the equal-height value lines. Withhold price and the conclusion; pause on the values without asking which price would work. Keep the same MB/MC labels, spheres, and Buyer/Seller visible. Reveal the established price 4 line and label, then the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
+  1.a.last.values → 1.a.last · Keep title: Competitive equilibrium; no subtitle. Put one thin yellow outline box around the last existing exchange at Q = 40, retaining the canonical red intersection marker. Do not add a yellow dot. Pause on the highlighted exchange with no bottom annotation. Fade the box as its marginal buyer/seller pair moves into the close-up on the same scale. First show only MB = MC = 4 dollars per ton, faint bars, hard value edges, and buyer/seller spheres with names underneath. MB and MC labels sit beside the equal-height value lines. Withhold price and the conclusion; pause on the values without asking which price would work. Keep the same MB/MC labels, spheres, and Buyer/Seller visible. Reveal the established price 4 line and label, then the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
 
 ]
 
@@ -68,7 +68,7 @@
 ]
 
 #quote(block: true)[
-  1.b → 1.b.select · Ask: What happens if we increase quantity? Add eight separate one-ton bars, one after another, beyond Q = 40 through Q = 48. Then highlight the last actual bar, ton 48, and pause. Bottom: Look at this one added ton. Only this selected one-ton exchange moves into the close-up.
+  1.b → 1.b.select · Ask: What happens if we increase quantity? Add eight separate one-ton bars, one after another, beyond Q = 40 through Q = 48. Then clear the question, highlight the last actual bar, ton 48, and pause with no bottom annotation. Only this selected one-ton exchange moves into the close-up.
 
 ]
 
@@ -83,7 +83,7 @@
 ]
 
 #quote(block: true)[
-  1.e → 1.e.select · Keep title: Competitive equilibrium. Ask: What happens if we decrease quantity? Fade existing one-ton bars from ton 40 down through ton 36, reaching Q = 35. Select ton 36 from the existing market bars: reuse its cost polygon and the buyer bar’s existing demand edge and baseline. Put one thin yellow outline box around the full existing one-ton slice, keeping the bars teal and orange. Bottom: Look at this one removed ton. Keep both columns in the same original one-unit-wide slice until the close-up separates them.
+  1.e → 1.e.select · Keep title: Competitive equilibrium. Ask: What happens if we decrease quantity? Fade existing one-ton bars from ton 40 down through ton 36, reaching Q = 35. Select ton 36 from the existing market bars: reuse its cost polygon and the buyer bar’s existing demand edge and baseline. Put one thin yellow outline box around the full existing one-ton slice, keeping the bars teal and orange. Clear the question and pause on the highlight with no bottom annotation, then zoom in. Keep both columns in the same original one-unit-wide slice until the close-up separates them.
 
 ]
 
@@ -147,12 +147,12 @@
 ]
 
 #quote(block: true)[
-  3.d.select → 3.d.values → 3.d.costs → 3.d · Select the same one added ton at rank 48. Bottom: Look at the same one added ton. Carry its one-unit-wide pair into the close-up. Repeat the subtitle: The 48th unit: a quantity larger than in equilibrium. First reveal only MSB 2.40 and MPC 4.40 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.40 at its line. Bottom: What changes when we count the external cost? Pause again. Finally reveal TS = −4 dollars for this one ton. Bottom: Adding this ton reduces social welfare. Fade the subtitle when returning to the same one-ton market slice.
+  3.d.select → 3.d.values → 3.d.costs → 3.d · Put a thin yellow outline box around the same one added ton at rank 48. Clear the question and pause on the highlight with no bottom annotation. Carry its one-unit-wide pair into the close-up. Repeat the subtitle: The 48th unit: a quantity larger than in equilibrium. First reveal only MSB 2.40 and MPC 4.40 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.40 at its line. Bottom: What changes when we count the external cost? Pause again. Finally reveal TS = −4 dollars for this one ton. Bottom: Adding this ton reduces social welfare. Fade the subtitle when returning to the same one-ton market slice.
 
 ]
 
 #quote(block: true)[
-  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the same one removed ton at rank 36, copying the existing private-cost and external-cost strips so its market width and sloping edges match exactly. Bottom: Look at the same one removed ton. In the close-up, repeat the subtitle: The 36th unit: a quantity smaller than in equilibrium. First reveal only MSB 4.80 and MPC 3.80 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally reveal TS = −1 dollar for this one ton. Bottom: Removing this ton increases social welfare. Fade the subtitle on the return to its original one-ton market slice.
+  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the same one removed ton at rank 36, copying the existing private-cost and external-cost strips so its market width and sloping edges match exactly. Put a thin yellow outline box around the selected slice and pause with no bottom annotation before zooming in. In the close-up, repeat the subtitle: The 36th unit: a quantity smaller than in equilibrium. First reveal only MSB 4.80 and MPC 3.80 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally reveal TS = −1 dollar for this one ton. Bottom: Removing this ton increases social welfare. Fade the subtitle on the return to its original one-ton market slice.
 
 ]
 
