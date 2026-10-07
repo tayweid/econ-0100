@@ -249,14 +249,13 @@ class C1(ThreeDScene):
         extra_lots = fixed(VGroup())
         for q in range(MARKET_Q, COMPARE_HIGH):
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
-            mb, mc = 12 - (q + 1) / 5, 2 + (q + 1) / 20
             extra_lots.add(fixed(VGroup(
-                Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, mb), ax.c2p(left, mb),
+                Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                    ax.c2p(right, 12 - right / 5), ax.c2p(left, 12 - left / 5),
                     stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-                Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, mc), ax.c2p(left, mc),
-                    stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-                Line(ax.c2p(left, mb), ax.c2p(right, mb), color=DEMAND, stroke_width=3),
-                Line(ax.c2p(left, mc), ax.c2p(right, mc), color=SUPPLY, stroke_width=3))))
+                Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                    ax.c2p(right, 2 + right / 20), ax.c2p(left, 2 + left / 20),
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY))))
         question = fixed(Tex('What happens if we increase quantity?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(question))
@@ -265,7 +264,7 @@ class C1(ThreeDScene):
                   Transform(quantity_label, fixed(Tex(r'$Q=48$', color=GUIDE).scale(0.7).next_to(ax.c2p(48, 0), DOWN, buff=0.20))),
                   run_time=2)
         self.pause('1.b')
-        extra_pair = fixed(VGroup(*list(extra_lots[-1])[:2]))
+        extra_pair = fixed(VGroup(*list(extra_lots[-1])))
         extra_lots[-1].remove(*list(extra_pair))
         extra_home = extra_pair.copy()
         self.add(extra_pair)
@@ -703,15 +702,16 @@ class C1(ThreeDScene):
         self.pause('3.c')
 
         # ---- 3.d · Revisit the same added ton, with external cost stacked on MPC.
+        left, right = COMPARE_HIGH - 1 + BAR_GAP / 2, COMPARE_HIGH - BAR_GAP / 2
         extra_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(47.04, 0), left_ax.c2p(47.96, 0),
-                left_ax.c2p(47.96, 2.4), left_ax.c2p(47.04, 2.4),
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-            Polygon(left_ax.c2p(47.04, 0), left_ax.c2p(47.96, 0),
-                left_ax.c2p(47.96, 4.4), left_ax.c2p(47.04, 4.4),
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 2 + right / 20), left_ax.c2p(left, 2 + left / 20),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(47.04, 4.4), left_ax.c2p(47.96, 4.4),
-                left_ax.c2p(47.96, 6.4), left_ax.c2p(47.04, 6.4),
+            Polygon(left_ax.c2p(left, 2 + left / 20), left_ax.c2p(right, 2 + right / 20),
+                left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         extra_social_home = extra_social_pair.copy()
         selected_ton = fixed(SurroundingRectangle(extra_social_pair, color=FOCUS, buff=0.025, stroke_width=2))

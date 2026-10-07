@@ -263,6 +263,9 @@ until after the values-only pause. With externalities, reveal private values
 first, then external/social cost, then the welfare result, with discussion
 pauses between those steps. For a quantity experiment, add or remove individual one-ton bars until a
 convenient example is available, then select one actual bar for the close-up.
+Added market bars use the same sloping curve boundaries, spacing, and fill
+treatment as the existing bars. Do not add horizontal value caps or a
+staircase on top of the continuous curves.
 That pair represents one ton, and TS is its own benefit minus cost. Do not
 replace it with an average over several units or multiply the gap by a batch
 size. Choose the unit to get readable numbers.

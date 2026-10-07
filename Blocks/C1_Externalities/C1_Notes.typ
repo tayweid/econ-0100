@@ -68,7 +68,7 @@
 ]
 
 #quote(block: true)[
-  1.b → 1.b.select · Ask: What happens if we increase quantity? Add eight separate one-ton bars, one after another, beyond Q = 40 through Q = 48. Then clear the question, highlight the last actual bar, ton 48, and pause with no bottom annotation. Only this selected one-ton exchange moves into the close-up.
+  1.b → 1.b.select · Ask: What happens if we increase quantity? Add eight separate one-ton bars, one after another, beyond Q = 40 through Q = 48. Match the existing bars’ spacing, fills, and sloping curve boundaries; do not add horizontal value caps or a staircase along demand or supply. Then clear the question, highlight the last actual bar, ton 48, and pause with no bottom annotation. Only this selected one-ton exchange moves into the close-up.
 
 ]
 
@@ -147,7 +147,7 @@
 ]
 
 #quote(block: true)[
-  3.d.select → 3.d.values → 3.d.costs → 3.d · Put a thin yellow outline box around the same one added ton at rank 48. Clear the question and pause on the highlight with no bottom annotation. Carry its one-unit-wide pair into the close-up. Repeat the subtitle: The 48th unit: a quantity larger than in equilibrium. First reveal only MSB 2.40 and MPC 4.40 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.40 at its line. Bottom: What changes when we count the external cost? Pause again. Finally reveal TS = −4 dollars for this one ton. Bottom: Adding this ton reduces social welfare. Fade the subtitle when returning to the same one-ton market slice.
+  3.d.select → 3.d.values → 3.d.costs → 3.d · Put a thin yellow outline box around the same one added ton at rank 48. Its market polygons follow the demand, private-cost, and social-cost slopes, matching the existing bars without horizontal caps. Clear the question and pause on the highlight with no bottom annotation. Carry its one-unit-wide pair into the close-up. Repeat the subtitle: The 48th unit: a quantity larger than in equilibrium. First reveal only MSB 2.40 and MPC 4.40 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.40 at its line. Bottom: What changes when we count the external cost? Pause again. Finally reveal TS = −4 dollars for this one ton. Bottom: Adding this ton reduces social welfare. Fade the subtitle when returning to the same one-ton market slice.
 
 ]
 
