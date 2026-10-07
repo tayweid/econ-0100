@@ -516,10 +516,8 @@ class C1(ThreeDScene):
         self.remove(*list(individual_costs))
         self.add(external_stack)
         stack_word = fixed(Tex(r'$8\times\$0.25=\$2$', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
-        conclusion = fixed(VGroup(
-            Tex('Exchanges between buyer and seller in the market', color=DEFINITION).scale(DEFINITION_SCALE),
-            Tex('can impose a cost on others.', color=DEFINITION).scale(DEFINITION_SCALE))
-            .arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        conclusion = fixed(Tex('Exchanges between buyer and seller in the market can impose a cost on others.',
+            color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(stack_word), FadeIn(conclusion))
         self.pause('2.c')
 
