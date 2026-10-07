@@ -673,7 +673,7 @@ class C1(ThreeDScene):
         head = fixed(title('Social Welfare'))
         welfare_context = fixed(subtitle(head,
             'The welfare of everyone, not just buyers and sellers in the market.'))
-        question = fixed(Tex('Would increasing or decreasing quantity improve welfare?', color=DEFINITION)
+        question = fixed(Tex('Would reducing quantity improve welfare?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(welfare_context), FadeIn(full_demand),
                   FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
@@ -682,147 +682,7 @@ class C1(ThreeDScene):
         self.add(social_graph)
         self.pause('3.c')
 
-        # ---- 3.d · Revisit the same added ton, with external cost stacked on MC.
-        left, right = COMPARE_HIGH - 1 + BAR_GAP / 2, COMPARE_HIGH - BAR_GAP / 2
-        extra_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
-                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
-                left_ax.c2p(right, 2 + right / 20), left_ax.c2p(left, 2 + left / 20),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(left, 2 + left / 20), left_ax.c2p(right, 2 + right / 20),
-                left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
-                stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
-        extra_social_home = extra_social_pair.copy()
-        selected_ton = fixed(SurroundingRectangle(extra_social_pair, color=FOCUS, buff=0.025, stroke_width=2))
-        self.remove(question)
-        self.play(FadeIn(extra_social_pair), FadeIn(selected_ton))
-        self.pause('3.d.select')
-        # Reserve the right half for the detached cost and the worked equation.
-        EXCHANGE_X, CALCULATION_X = -2.8, 3.8
-        extra_social_target = fixed(VGroup())
-        for left, low, high, color in [(-1.16, 0, 2.4, DEMAND), (0.06, 0, 4.4, SUPPLY),
-                                      (0.06, 4.4, 6.4, EXT)]:
-            extra_social_target.add(fixed(Polygon(
-                [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
-                [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
-                stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
-        extra_social_target.shift(RIGHT * EXCHANGE_X)
-        self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(selected_ton),
-                  Transform(extra_social_pair, extra_social_target), run_time=1.6)
-        extra_social_labels = fixed(VGroup(
-            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
-              for bar, color in zip(extra_social_target, [DEMAND, SUPPLY, SUPPLY])],
-            Line([EXCHANGE_X - 1.3, DETAIL_BASE, 0], [EXCHANGE_X + 1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
-            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$6.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
-        social_gap = fixed(VGroup(
-            DashedLine([-3.55, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
-            DashedLine([0.06, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
-            Line([-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=3),
-            VGroup(Tex(r'TS $=-\$4$', color=TOTAL), Tex(r'DWL $=\$4$', color=INK))
-                .arrange(DOWN, buff=0.16, aligned_edge=RIGHT).scale(0.8)
-                .next_to([-3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
-        conclusion = fixed(Tex(r'Adding this ton creates $\$4$ of deadweight loss.', color=DEFINITION)
-                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        private_note = fixed(Tex('Buyers and sellers only consider their private costs and benefits.', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        extra_social_labels[4].bars = extra_social_labels[5].bars = extra_social_pair
-        extra_social_labels[4].add_updater(lambda m:
-            m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
-        extra_social_labels[5].add_updater(lambda m:
-            m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
-        private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
-        unit_context = fixed(subtitle(head,
-            'The 48th unit: a quantity larger than in equilibrium.'))
-        unit_bystander = fixed(Group(
-            Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=MUTED, fill_opacity=0.28)
-                .move_to([0, DETAIL_BASE - 0.60, 0]),
-            Sphere(radius=0.18, color=MUTED, opacity=1, resolution=(32, 24))
-                .move_to([0, DETAIL_BASE - 0.35, 0])))
-        unit_bystander[1].apply_depth_test()
-        unit_bystander_word = fixed(Tex('Bystanders', color=CAPTION).scale(0.65)
-            .move_to([0, DETAIL_BASE - 0.94, 0]))
-        detail_people.shift(RIGHT * EXCHANGE_X)
-        unit_bystander.shift(RIGHT * EXCHANGE_X)
-        unit_bystander_word.shift(RIGHT * EXCHANGE_X)
-        self.add(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeIn(private_labels), FadeIn(extra_social_labels[6]), FadeIn(unit_context))
-        self.pause('3.d.values')
-
-        # ---- 3.d.external · Move the already-visible cost outside the private decision.
-        unit_cost_heading = fixed(Tex('Externalized cost per ton', color=CAPTION).scale(0.65)
-            .move_to([CALCULATION_X, 1.45, 0]))
-        unit_cost_number = fixed(Tex(r'$\$2$', color=EXT).scale(0.75).move_to([CALCULATION_X, 0.85, 0]))
-        self.play(FadeOut(extra_social_labels[6]), FadeOut(unit_bystander_word), run_time=0.3)
-        self.play(Transform(extra_social_pair[2], extra_social_pair[2].copy().move_to([CALCULATION_X, -0.72, 0]),
-                            path_arc=-PI / 2),
-                  Transform(unit_bystander, unit_bystander.copy().shift(RIGHT * (CALCULATION_X - EXCHANGE_X)),
-                            path_arc=PI / 4),
-                  FadeIn(private_note), run_time=1.4)
-        unit_bystander_word.shift(RIGHT * (CALCULATION_X - EXCHANGE_X))
-        self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_number), FadeIn(unit_bystander_word), run_time=0.4)
-        self.pause('3.d.external')
-        self.play(FadeOut(unit_cost_heading), FadeOut(unit_cost_number), FadeOut(unit_bystander_word),
-                  FadeOut(private_note), run_time=0.3)
-        self.play(Transform(extra_social_pair[2], extra_social_target[2], path_arc=PI / 2),
-                  Transform(unit_bystander, unit_bystander.copy().shift(LEFT * (CALCULATION_X - EXCHANGE_X)),
-                            path_arc=-PI / 4), run_time=1.4)
-        unit_bystander_word.shift(LEFT * (CALCULATION_X - EXCHANGE_X))
-        self.play(FadeIn(extra_social_labels[6]), FadeIn(unit_bystander_word), run_time=0.4)
-        self.pause('3.d.extension')
-
-        # ---- 3.d.math · Copy the known values into the equation, then simplify.
-        calculation_divider = fixed(Line([0.7, 2.1, 0], [0.7, -3.1, 0],
-            color=MUTED, stroke_width=1.5))
-        msc_formula = fixed(VGroup(
-            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex('MC', color=SUPPLY),
-            Tex('$+$', color=INK), Tex('EXT', color=EXT))
-            .arrange(RIGHT, buff=0.16).scale(0.75).move_to([CALCULATION_X, 0.1, 0]))
-        msc_substitution = fixed(VGroup(
-            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex(r'$\$4.40$', color=SUPPLY),
-            Tex('$+$', color=INK), Tex(r'$\$2$', color=EXT))
-            .arrange(RIGHT, buff=0.16).scale(0.75).next_to(msc_formula, DOWN, buff=0.4))
-        self.play(FadeIn(calculation_divider), FadeIn(msc_formula))
-        self.pause('3.d.formula')
-        self.play(*[TransformFromCopy(msc_formula[i], msc_substitution[i]) for i in (0, 1, 3)])
-        self.play(TransformFromCopy(extra_social_labels[5], msc_substitution[2]), run_time=0.9)
-        self.play(TransformFromCopy(extra_social_labels[6], msc_substitution[4]), run_time=0.9)
-        self.remove(*list(msc_substitution))
-        self.add(msc_substitution)
-        self.pause('3.d.substitution')
-        msc_result = fixed(VGroup(Tex('MSC', color=SUPPLY), Tex('$=$', color=INK),
-            Tex(r'$\$6.40$', color=SUPPLY)).arrange(RIGHT, buff=0.16).scale(0.75)
-            .move_to(msc_substitution))
-        self.play(ReplacementTransform(msc_substitution, msc_result), run_time=1)
-        self.pause('3.d.result')
-        self.play(FadeOut(msc_formula), FadeOut(msc_result[1]),
-                  ReplacementTransform(fixed(VGroup(msc_result[0], msc_result[2])), extra_social_labels[7]),
-                  FadeIn(extra_social_labels[2]), run_time=1.4)
-        self.remove(msc_result)
-        self.pause('3.d.costs')
-        # Recenter the completed exchange once the calculation area is cleared.
-        self.play(FadeOut(calculation_divider),
-                  extra_social_pair.animate.shift(LEFT * EXCHANGE_X),
-                  extra_social_labels.animate.shift(LEFT * EXCHANGE_X),
-                  detail_people.animate.shift(LEFT * EXCHANGE_X),
-                  unit_bystander.animate.shift(LEFT * EXCHANGE_X),
-                  unit_bystander_word.animate.shift(LEFT * EXCHANGE_X), run_time=1.1)
-        self.play(FadeIn(social_gap), FadeIn(conclusion))
-        self.pause('3.d')
-        self.remove(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
-                  Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), FadeIn(welfare_context), run_time=1.6)
-        self.play(FadeOut(extra_social_pair))
-        self.pause('3.d.return')
-
-        # ---- 3.e · Revisit the same removed ton, with external cost stacked on MC.
+        # ---- 3.e · Work through one traded ton, including external cost and deadweight loss.
         removed_social_pair = fixed(VGroup(
             Polygon(*private_bars[COMPARE_LOW].get_vertices()[:2],
                 left_ax.c2p(COMPARE_LOW + 1 - BAR_GAP / 2, 12 - (COMPARE_LOW + 1 - BAR_GAP / 2) / 5),
@@ -834,6 +694,8 @@ class C1(ThreeDScene):
         self.remove(question)
         self.play(FadeIn(removed_social_pair), FadeIn(selected_ton))
         self.pause('3.e.select')
+        # Reserve the right half for the detached cost and the worked equation.
+        EXCHANGE_X, CALCULATION_X = -2.8, 3.8
         removed_social_target = fixed(VGroup())
         for left, low, high, color in [(-1.16, 0, 4.8, DEMAND), (0.06, 0, 3.8, SUPPLY),
                                       (0.06, 3.8, 5.8, EXT)]:
@@ -841,12 +703,13 @@ class C1(ThreeDScene):
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
+        removed_social_target.shift(RIGHT * EXCHANGE_X)
         self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(selected_ton),
                   Transform(removed_social_pair, removed_social_target), run_time=1.6)
         removed_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(removed_social_target, [DEMAND, SUPPLY, SUPPLY])],
-            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
+            Line([EXCHANGE_X - 1.3, DETAIL_BASE, 0], [EXCHANGE_X + 1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
             Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
@@ -871,30 +734,81 @@ class C1(ThreeDScene):
         removed_social_labels[5].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
-        external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 7]]))
         unit_context = fixed(subtitle(head,
             'The 36th unit: a quantity exchanged in equilibrium.'))
+        unit_bystander = fixed(Group(
+            Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=MUTED, fill_opacity=0.28)
+                .move_to([0, DETAIL_BASE - 0.60, 0]),
+            Sphere(radius=0.18, color=MUTED, opacity=1, resolution=(32, 24))
+                .move_to([0, DETAIL_BASE - 0.35, 0])))
+        unit_bystander[1].apply_depth_test()
+        unit_bystander_word = fixed(Tex('Bystanders', color=CAPTION).scale(0.65)
+            .move_to([0, DETAIL_BASE - 0.94, 0]))
+        detail_people.shift(RIGHT * EXCHANGE_X)
+        unit_bystander.shift(RIGHT * EXCHANGE_X)
+        unit_bystander_word.shift(RIGHT * EXCHANGE_X)
         self.add(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeIn(private_labels), FadeIn(removed_social_labels[6]), FadeIn(unit_context))
         self.pause('3.e.values')
-        unit_cost_heading.set_x(4.7)
-        unit_cost_number.set_x(4.7)
+
+        # ---- 3.e.external · Move the already-visible cost outside the private decision.
+        unit_cost_heading = fixed(Tex('Externalized cost per ton', color=CAPTION).scale(0.65)
+            .move_to([CALCULATION_X, 1.45, 0]))
+        unit_cost_number = fixed(Tex(r'$\$2$', color=EXT).scale(0.75).move_to([CALCULATION_X, 0.85, 0]))
         self.play(FadeOut(removed_social_labels[6]), FadeOut(unit_bystander_word), run_time=0.3)
-        self.play(Transform(removed_social_pair[2], removed_social_pair[2].copy().move_to([4.7, -0.72, 0]),
-                            path_arc=-2 * PI / 3),
-                  Transform(unit_bystander, unit_bystander.copy().shift(RIGHT * 4.7), path_arc=PI / 3),
+        self.play(Transform(removed_social_pair[2], removed_social_pair[2].copy().move_to([CALCULATION_X, -0.72, 0]),
+                            path_arc=-PI / 2),
+                  Transform(unit_bystander, unit_bystander.copy().shift(RIGHT * (CALCULATION_X - EXCHANGE_X)),
+                            path_arc=PI / 4),
                   FadeIn(private_note), run_time=1.4)
-        unit_bystander_word.shift(RIGHT * 4.7)
+        unit_bystander_word.shift(RIGHT * (CALCULATION_X - EXCHANGE_X))
         self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_number), FadeIn(unit_bystander_word), run_time=0.4)
         self.pause('3.e.external')
         self.play(FadeOut(unit_cost_heading), FadeOut(unit_cost_number), FadeOut(unit_bystander_word),
                   FadeOut(private_note), run_time=0.3)
-        self.play(Transform(removed_social_pair[2], removed_social_target[2], path_arc=2 * PI / 3),
-                  Transform(unit_bystander, unit_bystander.copy().shift(LEFT * 4.7), path_arc=-PI / 3), run_time=1.4)
-        unit_bystander_word.shift(LEFT * 4.7)
+        self.play(Transform(removed_social_pair[2], removed_social_target[2], path_arc=PI / 2),
+                  Transform(unit_bystander, unit_bystander.copy().shift(LEFT * (CALCULATION_X - EXCHANGE_X)),
+                            path_arc=-PI / 4), run_time=1.4)
+        unit_bystander_word.shift(LEFT * (CALCULATION_X - EXCHANGE_X))
         self.play(FadeIn(removed_social_labels[6]), FadeIn(unit_bystander_word), run_time=0.4)
-        self.play(FadeIn(external_labels))
+        self.pause('3.e.extension')
+
+        # ---- 3.e.math · Copy the known values into the equation, then simplify.
+        calculation_divider = fixed(Line([0.7, 2.1, 0], [0.7, -3.1, 0],
+            color=MUTED, stroke_width=1.5))
+        msc_formula = fixed(VGroup(
+            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex('MC', color=SUPPLY),
+            Tex('$+$', color=INK), Tex('EXT', color=EXT))
+            .arrange(RIGHT, buff=0.16).scale(0.75).move_to([CALCULATION_X, 0.1, 0]))
+        msc_substitution = fixed(VGroup(
+            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex(r'$\$3.80$', color=SUPPLY),
+            Tex('$+$', color=INK), Tex(r'$\$2$', color=EXT))
+            .arrange(RIGHT, buff=0.16).scale(0.75).next_to(msc_formula, DOWN, buff=0.4))
+        self.play(FadeIn(calculation_divider), FadeIn(msc_formula))
+        self.pause('3.e.formula')
+        self.play(*[TransformFromCopy(msc_formula[i], msc_substitution[i]) for i in (0, 1, 3)])
+        self.play(TransformFromCopy(removed_social_labels[5], msc_substitution[2]), run_time=0.9)
+        self.play(TransformFromCopy(removed_social_labels[6], msc_substitution[4]), run_time=0.9)
+        self.remove(*list(msc_substitution))
+        self.add(msc_substitution)
+        self.pause('3.e.substitution')
+        msc_result = fixed(VGroup(Tex('MSC', color=SUPPLY), Tex('$=$', color=INK),
+            Tex(r'$\$5.80$', color=SUPPLY)).arrange(RIGHT, buff=0.16).scale(0.75)
+            .move_to(msc_substitution))
+        self.play(ReplacementTransform(msc_substitution, msc_result), run_time=1)
+        self.pause('3.e.result')
+        self.play(FadeOut(msc_formula), FadeOut(msc_result[1]),
+                  ReplacementTransform(fixed(VGroup(msc_result[0], msc_result[2])), removed_social_labels[7]),
+                  FadeIn(removed_social_labels[2]), run_time=1.4)
+        self.remove(msc_result)
         self.pause('3.e.costs')
+        # Recenter the completed exchange once the calculation area is cleared.
+        self.play(FadeOut(calculation_divider),
+                  removed_social_pair.animate.shift(LEFT * EXCHANGE_X),
+                  removed_social_labels.animate.shift(LEFT * EXCHANGE_X),
+                  detail_people.animate.shift(LEFT * EXCHANGE_X),
+                  unit_bystander.animate.shift(LEFT * EXCHANGE_X),
+                  unit_bystander_word.animate.shift(LEFT * EXCHANGE_X), run_time=1.1)
         # Carry this ton's loss, rather than its whole external cost, back to the market.
         removed_dwl_bar = fixed(Polygon(
             [0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
