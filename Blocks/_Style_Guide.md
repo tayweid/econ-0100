@@ -215,6 +215,13 @@ into the close-up and back to the same market location; keep a common scale
 across close-ups. Distinguish an exact marginal value at equilibrium from the
 average over a finite lot. A close-up does not need a subtitle when its labels
 and yellow teaching line supply the needed context.
+At each close-up, first reveal the faint full MB/MC bars, their hard value edges,
+and their values; pause with the question. Reveal price and CS/PS afterward.
+For a welfare comparison, withhold the surplus gap, inequality, and conclusion
+until after the values-only pause. With externalities, reveal private values
+first, then external/social cost, then the welfare result, with discussion
+pauses between those steps. Choose quantity changes that yield readable numbers;
+do not force a one-unit change when it creates distracting decimals.
 
 ## 3. Typography
 

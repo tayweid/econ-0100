@@ -33,8 +33,9 @@
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
 // | Bar revision 2026-10-07: start with the full market, carry the first exchange into a close-up and back, then carry the exact marginal exchange at Q = 40 into a close-up and back. No subtitles on these close-ups. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
+// | Reveal revision 2026-10-07: each close-up pauses on MB and MC before price, surplus, or a welfare answer. Externality comparisons first show private values, then external/social cost, then the welfare result. Ask about increasing/decreasing quantity, not changing it by one.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
-// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Exact continuous interval areas; lot-comparison bar heights are interval averages. The introductory marginal-exchange close-up uses the exact boundary at Q = 40, where MB = MC = 4.
+// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Quantity comparisons use exact averages over Q = 40 to 48 and Q = 32 to 40 (8,000 pounds each). The opening close-ups use the boundary values at Q = 0 (MB 12, MC 2) and Q = 40 (MB = MC = 4).
 // /plass:comment
 
 === 1 | Equilibrium and the First Welfare Theorem
@@ -45,7 +46,7 @@
 ]
 
 #quote(block: true)[
-  1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the first lot on the market graph, then carry that buyer/seller pair into a close-up as the market fades. Use the exact averages over Q = 0 to 1: MB 11.90 and MC 2.025 dollars per pound, at price 4. The buyer has a faint teal base below price and stronger teal CS above it; the seller has faint orange cost below MC and stronger orange PS up to price. Solid teal/orange edges mark MB/MC; a red line marks price. Label CS 7.90 and PS 1.975 dollars per pound beside their regions. Bottom: First exchange: both the buyer and seller gain.
+  1.a.first.values → 1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the starting exchange at Q = 0 and carry its buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, party labels, and values per pound at Q = 0. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: What price would make both people willing to trade? Pause. Then reveal price 4, stronger teal CS 8 and orange PS 2 above the respective faint bases. Bottom: First exchange: both the buyer and seller gain. Pause again.
 
 ]
 
@@ -55,7 +56,7 @@
 ]
 
 #quote(block: true)[
-  1.a.last · Keep title: Competitive equilibrium; no subtitle. Select the exact intersection at Q = 40, P = 4, then carry its marginal buyer/seller pair into the close-up on the same scale as the first example. Both MB and MC are exactly 4 dollars per pound. Both faint bars end at price; there is no CS/PS region or surplus leader. Label the values per pound at Q = 40. Bottom: At equilibrium, MB = MC = 4 dollars. These are marginal boundary values, not averages over the whole 39–40 lot used later in the removal experiment.
+  1.a.last.values → 1.a.last · Keep title: Competitive equilibrium; no subtitle. Select the exact intersection at Q = 40 and carry its marginal buyer/seller pair into the close-up on the same scale. First show only MB = MC = 4 dollars per pound, faint bars, and hard value edges. Withhold price and the conclusion. Bottom question: What price would make this exchange possible? Pause. Then reveal price 4 and the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
 
 ]
 
@@ -65,12 +66,12 @@
 ]
 
 #quote(block: true)[
-  1.b · Increase quantity from 40 to 41 while keeping the equilibrium price reference at 4. Highlight the added interval, with its buyer and seller bars side by side. Ask whether this trade improves welfare.
+  1.b · Ask: What happens if we increase quantity? Move the evaluated quantity from 40 to 48 while keeping the equilibrium price reference at 4. Highlight the whole added interval and the buyer/seller rectangles representing its average values. The exact loss triangle has corners (40,4), (48,2.4), and (48,4.4).
 
 ]
 
 #quote(block: true)[
-  1.c · Carry those same two bars into the B4 close-up, fading the market. Their heights are the interval averages: MB 3.90 and MC 4.025 dollars per pound. Thin purple horizontal guides connect both bar tops to a purple vertical gap labeled TS = −125 dollars for the full lot. Bottom: One more trade adds more cost than benefit. The 1,000-pound lot loses 125 dollars; do not confuse the average heights with the exact boundary values.
+  1.c.values → 1.c · Carry the selected pair into the close-up, fading the market. First show only the full faint bars, solid value edges, average MB 3.20 and MC 4.20 dollars per pound, and the quantity change 40,000 to 48,000 pounds. Bottom question: Can any price make these added trades worthwhile? Pause before any purple gap, TS value, inequality, or answer. Then connect the bar tops to a purple gap labeled TS = −8,000 dollars for the full increase. Show MC \> MB. Bottom: Increasing quantity adds more cost than benefit.
 
 ]
 
@@ -80,12 +81,12 @@
 ]
 
 #quote(block: true)[
-  1.e · Keep title: Competitive equilibrium. Decrease quantity from 40 to 39. Grey the lost surplus slice and select the removed buyer/seller pair.
+  1.e · Keep title: Competitive equilibrium. Ask: What happens if we decrease quantity? Move evaluated quantity from 40 to 32. Fade all eight removed cost/CS/PS slices, highlight the exact lost-surplus triangle with corners (32,3.6), (40,4), and (32,5.6), and select the rectangles representing the removed interval’s averages.
 
 ]
 
 #quote(block: true)[
-  1.f · Carry that same pair forward. Average MB is 4.10, average MC is 3.975; the removed trade had positive surplus of 125 dollars per 1,000-pound lot. Connect both bar tops to the purple gap labeled TS = +125 dollars; below it, state that removing the trade loses 125 dollars. Bottom: One fewer trade removes more benefit than cost.
+  1.f.values → 1.f · Carry that same pair into the close-up. First show only average MB 4.80 and MC 3.80 dollars per pound, the faint bars with hard value edges, and the decrease from 40,000 to 32,000 pounds. Bottom question: Would removing these trades improve welfare? Pause. Then reveal MB \> MC, the purple gap labeled TS = +8,000 dollars for these trades, and the fact that removing them loses 8,000 dollars. Bottom: Decreasing quantity removes more benefit than cost.
 
 ]
 
@@ -139,17 +140,17 @@
 ]
 
 #quote(block: true)[
-  3.c · Title: Social welfare. Keep this topic title through both quantity comparisons and their returns to the market. Recenter and enlarge the combined graph. Restore demand as MPB = MSB, keep supply labeled MPC, and plot the unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would one more trade or one fewer trade improve welfare? Pause before revealing an answer.
+  3.c · Title: Social welfare. Keep this topic title through both quantity comparisons and their returns to the market. Recenter and enlarge the combined graph. Restore demand as MPB = MSB, keep supply labeled MPC, and plot unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would increasing or decreasing quantity improve welfare? Pause before revealing an answer.
 
 ]
 
 #quote(block: true)[
-  3.d · Select the added lot from 40 to 41, then carry the bar pair forward. Average MSB 3.90; private cost 4.025 with the pink external cost of 2 stacked above it. MSC 6.025 exceeds MSB. Purple guides connect both bar tops to the purple gap, labeled TS = −2,125 dollars for the lot. Bottom: One more trade reduces social welfare. Return to the same graph.
+  3.d.select → 3.d.values → 3.d.costs → 3.d · Select the increase from Q = 40 to 48 and carry the average-value bars forward. First reveal only average MSB 3.20 and MPC 4.20 dollars per pound, with no pink cap or welfare answer. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.20. Bottom: What changes when we count the external cost? Pause again. Finally show the purple gap and TS = −24,000 dollars for the added 8,000 pounds. Bottom: Increasing quantity reduces social welfare. Return to the same graph.
 
 ]
 
 #quote(block: true)[
-  3.e · Select the removed lot from 39 to 40 and bring it forward. Average MSB 4.10; private cost 3.975 plus external cost 2 gives MSC 5.975. The private gain is smaller than the harm to bystanders. Purple guides connect both bar tops to the purple gap, labeled TS = −1,875 dollars for the lot; removing this negative-surplus trade improves welfare. Bottom: One fewer trade increases social welfare. Return to the graph.
+  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the decrease from Q = 40 to 32 and carry the removed interval’s average-value bars forward. First reveal only average MSB 4.80 and MPC 3.80 dollars per pound. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally show the purple gap labeled TS = −8,000 dollars for these trades; removing them increases welfare by 8,000 dollars. Bottom: Decreasing quantity increases social welfare. Return to the same graph.
 
 ]
 
