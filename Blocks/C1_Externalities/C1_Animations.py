@@ -965,12 +965,59 @@ class C1(ThreeDScene):
         self.remove(head, conclusion)
         head = fixed(title('Efficient Quantity'))
         self.play(FadeIn(head))
-        conclusion = fixed(Tex('Some production is worthwhile even when it causes harm.', color=DEFINITION)
+        conclusion = fixed(Tex('Are some exchanges worthwhile even with externalities on others?', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(evaluation_q.animate.set_value(24), FadeIn(conclusion), run_time=1.8)
-        benefit_gap = fixed(Line(left_ax.c2p(24, 5.2), left_ax.c2p(24, 7.2), color=TOTAL, stroke_width=7))
-        benefit_word = fixed(Tex('MB $>$ MSC', color=TOTAL).scale(0.72).next_to(benefit_gap, LEFT, buff=0.25))
-        self.play(FadeIn(benefit_gap), FadeIn(benefit_word))
+        left, right = 23 + BAR_GAP / 2, 24 - BAR_GAP / 2
+        beneficial_pair = fixed(VGroup(
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            private_bars[23].copy(), external_bars[23].copy()))
+        beneficial_home = beneficial_pair.copy()
+        beneficial_selection = fixed(SurroundingRectangle(beneficial_pair,
+            color=FOCUS, buff=0.025, stroke_width=2))
+        self.play(FadeIn(beneficial_pair), FadeIn(beneficial_selection), FadeOut(evaluation_line))
         self.pause('4.c.beneficial')
-        self.play(FadeOut(benefit_gap), FadeOut(benefit_word), evaluation_q.animate.set_value(32), run_time=1.8)
+        # Keep the higher MB bar below the subtitle while retaining a common value scale.
+        BENEFICIAL_SCALE = 0.55
+        beneficial_target = fixed(VGroup())
+        for left, low, high, color in [(-1.16, 0, 7.2, DEMAND), (0.06, 0, 3.2, SUPPLY),
+                                      (0.06, 3.2, 5.2, EXT)]:
+            beneficial_target.add(fixed(Polygon(
+                [left, DETAIL_BASE + low * BENEFICIAL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * BENEFICIAL_SCALE, 0],
+                [left + 1.1, DETAIL_BASE + high * BENEFICIAL_SCALE, 0], [left, DETAIL_BASE + high * BENEFICIAL_SCALE, 0],
+                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
+        self.remove(*list(loss_slices))
+        self.add(loss_slices)
+        self.play(FadeOut(social_graph), FadeOut(loss_slices), FadeOut(dwl_word),
+                  FadeOut(efficient_dot), FadeOut(efficient_word), FadeOut(beneficial_selection),
+                  Transform(beneficial_pair, beneficial_target), run_time=1.6)
+        beneficial_labels = fixed(VGroup(
+            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
+              for bar, color in zip(beneficial_target, [DEMAND, SUPPLY, SUPPLY])],
+            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
+            Tex(r'MB $\$7.20$', color=DEMAND).scale(0.72).next_to(beneficial_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$3.20$', color=SUPPLY).scale(0.72).next_to(beneficial_target[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(beneficial_target[2], RIGHT, buff=0.25),
+            Tex(r'MSC $\$5.20$', color=SUPPLY).scale(0.72).next_to(beneficial_target[2].get_corner(UR), RIGHT, buff=0.25)))
+        beneficial_context = fixed(subtitle(head, 'The 24th unit: a quantity below the efficient quantity.'))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(beneficial_labels), FadeIn(beneficial_context))
+        self.pause('4.c.values')
+        beneficial_surplus = fixed(Polygon(
+            [-1.16, DETAIL_BASE + 5.2 * BENEFICIAL_SCALE, 0], [-0.06, DETAIL_BASE + 5.2 * BENEFICIAL_SCALE, 0],
+            [-0.06, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], [-1.16, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0],
+            stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY))
+        beneficial_result = fixed(VGroup(Tex(r'TS $=\$2$', color=TOTAL), Tex(r'DWL $=\$0$', color=INK))
+            .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8).move_to([4.5, 0.4, 0]))
+        self.play(FadeIn(beneficial_surplus), FadeIn(beneficial_result))
+        self.pause('4.c.exchange')
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeOut(beneficial_labels), FadeOut(beneficial_context), FadeOut(beneficial_surplus),
+                  FadeOut(beneficial_result), run_time=0.4)
+        self.play(Transform(beneficial_pair, beneficial_home), FadeIn(social_graph), FadeIn(loss_slices),
+                  FadeIn(dwl_word), FadeIn(efficient_dot), FadeIn(efficient_word), run_time=1.6)
+        self.play(FadeOut(beneficial_pair), FadeIn(evaluation_line))
+        self.play(evaluation_q.animate.set_value(32), run_time=1.8)
         self.pause('4.c')
