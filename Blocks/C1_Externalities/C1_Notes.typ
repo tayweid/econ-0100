@@ -33,7 +33,7 @@
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
 // | Bar revision 2026-10-07: start with the full market, carry the first exchange into a close-up and back, then carry the exact marginal exchange at Q = 40 into a close-up and back. No subtitles on these close-ups. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
-// | Unit revision 2026-10-07: Q is tons; all prices, benefits, and costs are dollars per ton. Keep the simple numerical curves as a rescaled teaching example rather than converting the old physical dataset. Remove the values/average captions. CS/PS labels sit beside their regions without leaders; retain purple TS gap guides. MB sits directly left of its full benefit bar and MC/MPC directly right of its cost region. Keep value labels attached to the live bars through movement and return zooms.
+// | Unit revision 2026-10-07: Q is tons; all prices, benefits, and costs are dollars per ton. Keep the simple numerical curves as a rescaled teaching example rather than converting the old physical dataset. Remove grey explanatory captions from exchange close-ups: no average-values note, quantity-change footer, one-ton footer, or prose repeating the surplus result. Keep units on the axes and the active question/takeaway in yellow. CS/PS labels sit beside their regions without leaders; retain purple TS gap guides. MB sits directly left of its full benefit bar and MC/MPC directly right of its cost region. Keep value labels attached to the live bars through movement and return zooms.
 // | Reveal revision 2026-10-07: each close-up pauses on MB and MC before price, surplus, or a welfare answer. Externality comparisons first show private values, then external/social cost, then the welfare result. Ask about increasing/decreasing quantity, not changing it by one.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
 // | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per ton. Qm = 40; Qefficient = 32. Quantity comparisons use exact averages over Q = 40 to 48 and Q = 32 to 40 (8 tons each). The opening close-ups use the boundary values at Q = 0 (MB 12, MC 2) and Q = 40 (MB = MC = 4).
@@ -72,7 +72,7 @@
 ]
 
 #quote(block: true)[
-  1.c.values → 1.c · Carry the selected pair into the close-up, fading the market. First show only the full faint bars, solid value edges, average MB 3.20 and MC 4.20 dollars per ton, and the quantity change 40 to 48 tons. Bottom question: Can any price make these added trades worthwhile? Pause before any purple gap, TS value, inequality, or answer. Then connect the bar tops to a purple gap labeled TS = −8 dollars for the full increase. Show MC \> MB. Bottom: Increasing quantity adds more cost than benefit.
+  1.c.values → 1.c · Carry the selected pair into the close-up, fading the market. First show only the full faint bars, solid value edges, average MB 3.20 and MC 4.20 dollars per ton. Omit the grey quantity-change caption. Bottom question: Can any price make these added trades worthwhile? Pause before any purple gap, TS value, inequality, or answer. Then connect the bar tops to a purple gap labeled TS = −8 dollars for the full increase. Show MC \> MB. Bottom: Increasing quantity adds more cost than benefit.
 
 ]
 
@@ -87,7 +87,7 @@
 ]
 
 #quote(block: true)[
-  1.f.values → 1.f · Carry that same pair into the close-up. First show only average MB 4.80 and MC 3.80 dollars per ton, the faint bars with hard value edges, and the decrease from 40 to 32 tons. Bottom question: Would removing these trades improve welfare? Pause. Then reveal MB \> MC, the purple gap labeled TS = +8 dollars for these trades, and the fact that removing them loses 8 dollars. Bottom: Decreasing quantity removes more benefit than cost.
+  1.f.values → 1.f · Carry that same pair into the close-up. First show only average MB 4.80 and MC 3.80 dollars per ton, and the faint bars with hard value edges. Omit the grey quantity-change caption. Bottom question: Would removing these trades improve welfare? Pause. Then reveal MB \> MC, and the purple gap labeled TS = +8 dollars for these trades. Omit the grey sentence repeating the loss. Bottom: Decreasing quantity removes more benefit than cost.
 
 ]
 
@@ -99,7 +99,7 @@
 === 2 | Gary, Molly, and the people outside the trade
 
 #quote(block: true)[
-  2.a · Title: Negative externalities. Bottom: Who else is affected by this trade? Keep this question through the first bystander reveal, then replace it with the takeaway in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means one ton.
+  2.a · Title: Negative externalities. Bottom: Who else is affected by this trade? Keep this question through the first bystander reveal, then replace it with the takeaway in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means one ton; omit the grey footer.
 
 ]
 

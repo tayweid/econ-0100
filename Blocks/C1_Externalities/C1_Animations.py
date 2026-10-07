@@ -266,7 +266,6 @@ class C1(ThreeDScene):
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_pair[0], LEFT, buff=0.25),
             Tex(r'MC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_pair[1], RIGHT, buff=0.25),
-            Tex('Increase: 40 to 48 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
             DashedLine([-0.06, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
                 [2.1, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             DashedLine([1.16, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
@@ -285,10 +284,10 @@ class C1(ThreeDScene):
             m.next_to(m.bars[0], LEFT, buff=0.25))
         extra_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1], RIGHT, buff=0.25))
-        self.play(FadeIn(extra_detail[:6]), FadeIn(detail_people), FadeIn(value_question))
+        self.play(FadeIn(extra_detail[:5]), FadeIn(detail_people), FadeIn(value_question))
         self.pause('1.c.values')
         self.play(FadeOut(value_question))
-        self.play(FadeIn(extra_detail[6:]), FadeIn(conclusion))
+        self.play(FadeIn(extra_detail[5:]), FadeIn(conclusion))
         self.pause('1.c')
 
         # ---- 1.d · Return the exact same pair to its original quantity interval.
@@ -332,7 +331,6 @@ class C1(ThreeDScene):
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_pair[0], LEFT, buff=0.25),
             Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_pair[1], RIGHT, buff=0.25),
-            Tex('Decrease: 40 to 32 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
             DashedLine([-0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 [2.1, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             DashedLine([1.16, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0],
@@ -341,8 +339,7 @@ class C1(ThreeDScene):
                 color=TOTAL, stroke_width=3),
             Tex(r'TS $=+\$8$', color=TOTAL).scale(0.8)
                 .next_to([2.1, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
-            Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, -0.1, 0]),
-            Tex(r'Removing them loses $\$8$.', color=CAPTION).scale(0.7).move_to([4.3, -0.75, 0])))
+            Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, -0.1, 0])))
         conclusion = fixed(Tex('Decreasing quantity removes more benefit than cost.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('Would removing these trades improve welfare?', color=DEFINITION)
@@ -352,10 +349,10 @@ class C1(ThreeDScene):
             m.next_to(m.bars[0], LEFT, buff=0.25))
         removed_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1], RIGHT, buff=0.25))
-        self.play(FadeIn(removed_detail[:6]), FadeIn(detail_people), FadeIn(value_question))
+        self.play(FadeIn(removed_detail[:5]), FadeIn(detail_people), FadeIn(value_question))
         self.pause('1.f.values')
         self.play(FadeOut(value_question))
-        self.play(FadeIn(removed_detail[6:]), FadeIn(conclusion))
+        self.play(FadeIn(removed_detail[5:]), FadeIn(conclusion))
         self.pause('1.f')
 
         # ---- 1.g · The exact marginal boundary, rather than an average bar height.
@@ -421,8 +418,7 @@ class C1(ThreeDScene):
             Line([-4.7, PAIR_BASE + 4 * PAIR_SCALE, 0], [-2.38, PAIR_BASE + 4 * PAIR_SCALE, 0], color=GUIDE, stroke_width=2.5),
             Tex(r'Price $\$4$', color=GUIDE).scale(0.65).move_to([-5.7, PAIR_BASE + 4 * PAIR_SCALE, 0])))
         pair_baseline = fixed(Line([-4.7, PAIR_BASE, 0], [-2.38, PAIR_BASE, 0], color=MUTED))
-        pair_units = fixed(Tex('One ton', color=CAPTION).scale(0.65).move_to([-3.6, -3.18, 0]))
-        pair = fixed(Group(pair_bars, pair_people, pair_words, pair_price, pair_baseline, pair_units))
+        pair = fixed(Group(pair_bars, pair_people, pair_words, pair_price, pair_baseline))
         # Keep sphere front faces in front; fixed() disables depth for flat labels.
         for mob in pair_people.get_family():
             if isinstance(mob, Sphere):
@@ -689,8 +685,7 @@ class C1(ThreeDScene):
             Tex(r'MSB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_social_target[0], LEFT, buff=0.25),
             Tex(r'MPC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1], RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$6.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2], UP, buff=0.18),
-            Tex('Increase: 40 to 48 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
+            Tex(r'MSC $\$6.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2], UP, buff=0.18)))
         social_gap = fixed(VGroup(
             DashedLine([-1.16, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
                 [-2.0, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
@@ -709,7 +704,7 @@ class C1(ThreeDScene):
             m.next_to(m.bars[0], LEFT, buff=0.25))
         extra_social_labels[5].add_updater(lambda m:
             m.next_to(m.bars[1], RIGHT, buff=0.25))
-        private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5, 8]]))
+        private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[extra_social_labels[i] for i in [2, 6, 7]]))
         self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
         self.pause('3.d.values')
@@ -761,8 +756,7 @@ class C1(ThreeDScene):
             Tex(r'MSB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0], LEFT, buff=0.25),
             Tex(r'MPC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1], RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2], UP, buff=0.18),
-            Tex('Decrease: 40 to 32 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
+            Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2], UP, buff=0.18)))
         social_gap = fixed(VGroup(
             DashedLine([-1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 [-2.0, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
@@ -781,7 +775,7 @@ class C1(ThreeDScene):
             m.next_to(m.bars[0], LEFT, buff=0.25))
         removed_social_labels[5].add_updater(lambda m:
             m.next_to(m.bars[1], RIGHT, buff=0.25))
-        private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5, 8]]))
+        private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
         self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
         self.pause('3.e.values')

@@ -215,8 +215,10 @@ connector lines. Put MB immediately left of the full benefit bar and MC/MPC
 immediately right of the cost region. Anchor these labels to the live bars so
 they follow movement, including while fading during a return zoom; grouped
 bar/label transforms should preserve that relationship.
-Establish units on the axes; omit repeated “average values”
-captions from close-ups. When zooming from the market to an exchange, carry the selected bars
+Establish units and quantity changes on the market graph. Omit grey
+explanatory captions from exchange close-ups: no repeated “average values”
+note, quantity-change or one-unit footer, or prose restating the surplus result.
+Use the bar labels and yellow teaching line to carry the explanation. When zooming from the market to an exchange, carry the selected bars
 into the close-up and back to the same market location; keep a common scale
 across close-ups. Separate buyer/seller columns only in the close-up. In the
 market, both use identical horizontal bounds for the selected quantity slice
