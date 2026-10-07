@@ -133,13 +133,14 @@ class C1(ThreeDScene):
             ps.add(fixed(Polygon(ax.c2p(left, 2 + left / 20), ax.c2p(right, 2 + right / 20),
                 ax.c2p(right, 4), ax.c2p(left, 4),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY)))
+        # Place each short label at the centroid of its own surplus triangle.
         surplus_words = fixed(VGroup(
-            Tex('Consumer surplus', color=INK).scale(0.72).move_to(ax.c2p(13, 6.3)),
-            Tex('Producer surplus', color=INK).scale(0.72).move_to(ax.c2p(14, 3.25))))
+            Tex('CS', color=INK).scale(0.72).move_to(ax.c2p(MARKET_Q / 3, (12 + 2 * MARKET_P) / 3)),
+            Tex('PS', color=INK).scale(0.72).move_to(ax.c2p(MARKET_Q / 3, (2 + 2 * MARKET_P) / 3))))
         self.play(FadeIn(head), FadeIn(costs), FadeIn(ax), FadeIn(axis_words), FadeIn(demand), FadeIn(supply),
                   FadeIn(curve_words), FadeIn(equilibrium), FadeIn(quantity_guide), FadeIn(quantity_label))
-        self.play(FadeIn(cs), FadeIn(surplus_words[0]))
         self.play(FadeIn(ps), FadeIn(surplus_words[1]))
+        self.play(FadeIn(cs), FadeIn(surplus_words[0]))
         market = fixed(VGroup(ax, axis_words, costs, cs, ps, demand, supply, curve_words,
                              equilibrium, quantity_guide, quantity_label, surplus_words))
         self.remove(*[m for m in self.mobjects if m is not head])

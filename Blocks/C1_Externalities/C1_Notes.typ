@@ -42,7 +42,7 @@
 === 1 | Equilibrium and the First Welfare Theorem
 
 #quote(block: true)[
-  1.a · Title: Competitive equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in tons, P in dollars per ton. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then consumer surplus in teal and producer surplus in orange (opacity 0.65). The curves form the hard value boundaries. Use white labels inside the stronger fills for contrast. Continuous curves and exact sloping slices retain the B5 model.
+  1.a · Title: Competitive equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in tons, P in dollars per ton. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then fade in orange PS first and teal CS second (opacity 0.65), each with its label. The curves form the hard value boundaries. Use only the white abbreviations PS and CS, centered at the centroids of their own surplus triangles; do not spell out the full words. Continuous curves and exact sloping slices retain the B5 model.
 
 ]
 

@@ -207,7 +207,10 @@ buyer, orange the seller. The buyer column reaches MB, with CS above price;
 the seller column reaches price/revenue, with MC marked at the top of its cost
 region and PS above that boundary. Keep price as a red divider. On the combined
 market graph, show faint orange cost below MC, stronger orange PS up to price,
-and stronger teal CS above price. Do not overlay buyer expenditure on the same
+and stronger teal CS above price. Use the short white labels CS and PS inside
+their respective surplus regions, placed at each triangle’s centroid. In the
+C1 market opening, reveal PS first, then CS, each with its label.
+Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for
 contrast. Place CS/PS labels immediately beside their regions, as in B3, without
