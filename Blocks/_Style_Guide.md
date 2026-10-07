@@ -227,8 +227,11 @@ Part B buyer/seller spheres and their shadows: teal buyer, orange seller, with
 Buyer and Seller beneath the respective spheres. This applies to the first
 exchange, the MB = MC equilibrium exchange, and both quantity comparisons,
 including their externality versions. Reveal the spheres with the initial
-values and keep them visible through price, surplus, and welfare reveals;
-fade them only when leaving the close-up. Text labels never replace the spheres.
+values and keep them visible through price, surplus, and welfare reveals.
+Use basic, fully opaque spheres with depth testing enabled. Add and remove
+them directly: never opacity-fade a sphere or a group containing one, since
+the translucent surface reveals the rear mesh as internal discs. Remove the
+people only when leaving the close-up. Text labels never replace the spheres.
 Anchor the MB/MC labels to the live bars so
 they follow movement, including while fading during a return zoom; grouped
 bar/label transforms should preserve that relationship.

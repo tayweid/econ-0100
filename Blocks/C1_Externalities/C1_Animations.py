@@ -36,11 +36,12 @@ class C1(ThreeDScene):
         # Prepare the first lot and the exact marginal boundary on a common scale.
         head = fixed(title('Competitive equilibrium'))
         INTRO_BASE, INTRO_SCALE, INTRO_WIDTH = -2.0, 0.34, 1.15
+        # Opaque spheres enter directly; transparency exposes their rear surface.
         intro_people = fixed(Group())
         for x, color in [(-0.725, DEMAND), (0.725, SUPPLY)]:
             intro_people.add(fixed(Ellipse(width=0.42, height=0.05, stroke_width=0,
                 fill_color=color, fill_opacity=0.28).move_to([x, -2.63, 0])))
-            intro_people.add(fixed(Sphere(radius=0.18, color=color, resolution=(32, 24))
+            intro_people.add(fixed(Sphere(radius=0.18, color=color, opacity=1, resolution=(32, 24))
                 .move_to([x, -2.4, 0])).apply_depth_test())
         intro_states, intro_value_states = [], []
         for q, mb, mc, message in [
@@ -189,7 +190,8 @@ class C1(ThreeDScene):
             m.next_to(m.bars[5], RIGHT, buff=0.22))
         value_question = fixed(Tex('Is there a price that would make this exchange work?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(value_words), FadeIn(intro_people), FadeIn(value_question))
+        self.add(intro_people)
+        self.play(FadeIn(value_words), FadeIn(value_question))
         self.pause('1.a.first.values')
         # Split the faint buyer fill at price without changing its appearance.
         intro_pair[0].become(intro_states[0][0][0])
@@ -204,7 +206,8 @@ class C1(ThreeDScene):
         self.pause('1.a.first')
 
         # ---- 1.a.first.return · Restore the same pair to the same market location.
-        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_people), FadeOut(intro_message),
+        self.remove(intro_people)
+        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_message),
                   Transform(intro_pair, intro_homes[0]), FadeIn(market), run_time=1.6)
         self.play(FadeOut(intro_pair))
         self.pause('1.a.first.return')
@@ -224,7 +227,8 @@ class C1(ThreeDScene):
             m.next_to(m.bars[2], LEFT, buff=0.22))
         intro_words[1].add_updater(lambda m:
             m.next_to(m.bars[5], RIGHT, buff=0.22))
-        self.play(FadeIn(value_words), FadeIn(intro_people))
+        self.add(intro_people)
+        self.play(FadeIn(value_words))
         self.pause('1.a.last.values')
         self.play(intro_pair[-1].animate.set_opacity(1), FadeIn(intro_words[2]))
         self.play(FadeIn(intro_message))
@@ -233,7 +237,8 @@ class C1(ThreeDScene):
         self.pause('1.a.last')
 
         # ---- 1.a.last.return · Full market again before asking about the next lot.
-        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_people), FadeOut(intro_message),
+        self.remove(intro_people)
+        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_message),
                   Transform(intro_pair, intro_homes[1]), FadeIn(market), run_time=1.6)
         self.play(FadeOut(intro_pair))
         self.pause('1.a.last.return')
@@ -281,7 +286,7 @@ class C1(ThreeDScene):
         for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
             detail_people.add(fixed(Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=color, fill_opacity=0.28)
                 .move_to([x, DETAIL_BASE - 0.60, 0])))
-            detail_people.add(fixed(Sphere(radius=0.18, color=color, resolution=(32, 24))
+            detail_people.add(fixed(Sphere(radius=0.18, color=color, opacity=1, resolution=(32, 24))
                 .move_to([x, DETAIL_BASE - 0.35, 0])).apply_depth_test())
             detail_people.add(fixed(Tex('Buyer' if color == DEMAND else 'Seller', color=INK)
                 .scale(0.65).move_to([x, DETAIL_BASE - 0.94, 0])))
@@ -312,14 +317,16 @@ class C1(ThreeDScene):
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         unit_context = fixed(subtitle(head,
             'The 48th unit: a quantity larger than in equilibrium.', book=True))
-        self.play(FadeIn(extra_detail[:5]), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
+        self.add(detail_people)
+        self.play(FadeIn(extra_detail[:5]), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.c.values')
         self.play(FadeOut(value_question))
         self.play(FadeIn(extra_detail[5:]), FadeIn(conclusion))
         self.pause('1.c')
 
         # ---- 1.d · Return the exact same pair to its original quantity interval.
-        self.play(FadeOut(extra_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion), FadeOut(unit_context),
+        self.remove(detail_people)
+        self.play(FadeOut(extra_detail, suspend_mobject_updating=False), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_pair, extra_home), FadeIn(market), FadeIn(extra_lots), run_time=1.6)
         self.play(FadeOut(extra_pair), FadeOut(extra_lots),
                   Transform(quantity_guide, fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE))),
@@ -382,14 +389,16 @@ class C1(ThreeDScene):
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         unit_context = fixed(subtitle(head,
             'The 36th unit: a quantity smaller than in equilibrium.', book=True))
-        self.play(FadeIn(removed_detail[:5]), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
+        self.add(detail_people)
+        self.play(FadeIn(removed_detail[:5]), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.f.values')
         self.play(FadeOut(value_question))
         self.play(FadeIn(removed_detail[5:]), FadeIn(conclusion))
         self.pause('1.f')
 
         # ---- 1.g · The exact marginal boundary, rather than an average bar height.
-        self.play(FadeOut(removed_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion), FadeOut(unit_context),
+        self.remove(detail_people)
+        self.play(FadeOut(removed_detail, suspend_mobject_updating=False), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(removed_pair, removed_home), FadeIn(market), run_time=1.6)
         self.play(FadeOut(removed_pair),
                   *[bar.animate.set_fill(opacity=SURPLUS_OPACITY) for bars in (cs, ps) for bar in list(bars)[COMPARE_LOW:]],
@@ -426,7 +435,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
             pair_people.add(fixed(Ellipse(width=0.48, height=0.06, stroke_width=0, fill_color=color, fill_opacity=0.28)
                 .move_to([person_x, PAIR_BASE - 0.70, 0])))
-            pair_people.add(fixed(Sphere(radius=0.23, color=color, resolution=(32, 24))
+            pair_people.add(fixed(Sphere(radius=0.23, color=color, opacity=1, resolution=(32, 24))
                 .move_to([person_x, PAIR_BASE - 0.40, 0])))
             pair_words.add(fixed(Tex(name, color=INK).scale(0.7).move_to([person_x, PAIR_BASE - 1.05, 0])))
             pair_words.add(fixed(Tex(rf'{term} $\${value:g}$', color=color).scale(0.65)
@@ -457,7 +466,11 @@ class C1(ThreeDScene):
                 mob.apply_depth_test()
         bystander_question = fixed(Tex('Who else is affected by this trade?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(head), FadeIn(pair), FadeIn(bystander_question))
+        pair_material = fixed(Group(pair_bars, pair_words, pair_price, pair_baseline))
+        self.add(pair_people)
+        self.play(FadeIn(head), FadeIn(pair_material), FadeIn(bystander_question))
+        self.remove(pair_people, pair_material)
+        self.add(pair)
         self.pause('2.a')
 
         # ---- 2.b · A single external-cost piece belongs to one grey bystander.
@@ -467,7 +480,7 @@ class C1(ThreeDScene):
             x = 1.4 + i * 0.61
             person = fixed(Group(
                 Ellipse(width=0.27, height=0.04, stroke_width=0, fill_color=MUTED, fill_opacity=0.35).move_to([x, -2.28, 0]),
-                Sphere(radius=0.12, color=MUTED, resolution=(24, 16)).move_to([x, -2.10, 0])))
+                Sphere(radius=0.12, color=MUTED, opacity=1, resolution=(24, 16)).move_to([x, -2.10, 0])))
             person[1].apply_depth_test()
             bystanders.add(person)
             lower = PAIR_BASE + i * 0.25 * PAIR_SCALE
@@ -477,7 +490,8 @@ class C1(ThreeDScene):
         bystander_word = fixed(Tex('A bystander', color=CAPTION).scale(0.7).move_to([2.0, -2.8, 0]))
         small_cost = external_stack[0].copy().move_to([1.4, PAIR_BASE + 0.125 * PAIR_SCALE, 0])
         small_word = fixed(Tex(r'External cost: $\$0.25$/ton', color=EXT).scale(0.7).move_to([3.7, 0.55, 0]))
-        self.play(FadeIn(bystanders[0]), FadeIn(bystander_word), FadeIn(small_cost), FadeIn(small_word))
+        self.add(bystanders[0])
+        self.play(FadeIn(bystander_word), FadeIn(small_cost), FadeIn(small_word))
         self.pause('2.b')
 
         # ---- 2.c · Stack the small harms; the eight grey people stay underneath.
@@ -486,7 +500,8 @@ class C1(ThreeDScene):
         self.add(external_stack[0])
         for i in range(1, 8):
             incoming = external_stack[i].copy().move_to([1.4 + i * 0.61, PAIR_BASE + 0.125 * PAIR_SCALE, 0])
-            self.play(FadeIn(bystanders[i]), FadeIn(incoming), run_time=0.18)
+            self.add(bystanders[i])
+            self.play(FadeIn(incoming), run_time=0.18)
             self.play(Transform(incoming, external_stack[i]), run_time=0.35)
             self.remove(incoming)
             self.add(external_stack[i])
@@ -547,8 +562,12 @@ class C1(ThreeDScene):
             stroke_width=1.5, stroke_color=BG, fill_color=EXT, fill_opacity=0.65))
         second_ext_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(1.5, 1)))
         second_tick = fixed(Tex('2', color=GUIDE).scale(0.7).next_to(ext_ax.c2p(2, 0), DOWN, buff=0.18))
-        self.play(Transform(pair, first_small), FadeIn(second_pair), FadeIn(second_ext),
+        second_material = fixed(Group(second_pair[0], *list(second_pair)[2:]))
+        self.add(second_pair[1])
+        self.play(Transform(pair, first_small), FadeIn(second_material), FadeIn(second_ext),
                   FadeIn(second_ext_word), FadeIn(second_tick), run_time=1.6)
+        self.remove(second_pair[1], second_material)
+        self.add(second_pair)
         self.pause('2.e')
 
         # ---- 2.f · Both trades land at their own ranks in the complete market.
@@ -609,7 +628,10 @@ class C1(ThreeDScene):
         first_flying, second_flying = pair[0].copy(), second_pair[0].copy()
         self.add(first_flying, second_flying)
         # The topic is unchanged as the two trades become the full market.
-        self.play(FadeOut(pair), FadeOut(second_pair), FadeOut(bystanders),
+        pair_material = fixed(Group(pair[0], *list(pair)[2:]))
+        self.remove(pair, second_pair, bystanders)
+        self.add(pair_material, second_material)
+        self.play(FadeOut(pair_material), FadeOut(second_material),
                   FadeOut(ext_ax), FadeOut(ext_words), FadeOut(ext_area_word), FadeOut(second_ext_word), FadeOut(second_tick),
                   Transform(first_flying, landing_pairs[0]), Transform(second_flying, landing_pairs[1]),
                   Transform(external_stack, fixed(VGroup(external_bars[29].copy()))),
@@ -740,7 +762,8 @@ class C1(ThreeDScene):
         external_labels = fixed(VGroup(*[extra_social_labels[i] for i in [2, 6, 7]]))
         unit_context = fixed(subtitle(head,
             'The 48th unit: a quantity larger than in equilibrium.', book=True))
-        self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
+        self.add(detail_people)
+        self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.d.values')
         self.remove(value_question)
         value_question = fixed(Tex('What changes when we count the external cost?', color=DEFINITION)
@@ -750,7 +773,8 @@ class C1(ThreeDScene):
         self.play(FadeOut(value_question))
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.d')
-        self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
+        self.remove(detail_people)
+        self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), run_time=1.6)
         self.play(FadeOut(extra_social_pair))
         self.pause('3.d.return')
@@ -809,7 +833,8 @@ class C1(ThreeDScene):
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
         unit_context = fixed(subtitle(head,
             'The 36th unit: a quantity smaller than in equilibrium.', book=True))
-        self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
+        self.add(detail_people)
+        self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.e.values')
         self.remove(value_question)
         value_question = fixed(Tex('What changes when we count the external cost?', color=DEFINITION)
@@ -819,7 +844,8 @@ class C1(ThreeDScene):
         self.play(FadeOut(value_question))
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.e')
-        self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
+        self.remove(detail_people)
+        self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), run_time=1.6)
         self.play(FadeOut(removed_social_pair))
         self.pause('3.e.return')
