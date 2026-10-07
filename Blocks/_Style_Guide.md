@@ -209,9 +209,13 @@ region and PS above that boundary. Keep price as a red divider. On the combined
 market graph, show faint orange cost below MC, stronger orange PS up to price,
 and stronger teal CS above price. Use the short white labels CS and PS inside
 their respective surplus regions, placed at each triangle’s centroid. In the
-C1 market opening, reveal PS first, then CS, each with its label. Select the
-first exchange by highlighting both full value bars on their existing edges,
-using their own colors; omit a separate yellow vertical line and offset dots.
+C1 market opening, reveal PS first, then CS, each with its label. Before a
+close-up, place one thin yellow (FOCUS) outline box around the selected
+one-ton exchange, then zoom into it. The box surrounds the full existing bar
+slice; it does not widen or recolor the bars. Keep MB teal, MC orange, and the
+equilibrium marker red. Do not add yellow dots, separate selection lines, or
+extra colored outlines on the bars. At equilibrium, box the last existing
+exchange while retaining the red intersection marker.
 Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for

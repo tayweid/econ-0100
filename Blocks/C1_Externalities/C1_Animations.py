@@ -176,12 +176,7 @@ class C1(ThreeDScene):
         # ---- 1.a.first · Carry the first selected pair out of the market.
         intro_pair = intro_homes[0].copy()
         intro_words, intro_message = intro_states[0][1:]
-        # Outline both full value bars on their existing slice, with no offset guide.
-        first_selection = fixed(VGroup(
-            Polygon(intro_pair[0].get_corner(DL), intro_pair[0].get_corner(DR),
-                intro_pair[2].get_end(), intro_pair[2].get_start(),
-                fill_opacity=0, stroke_color=DEMAND, stroke_width=3),
-            intro_pair[3].copy().set_fill(opacity=0).set_stroke(SUPPLY, width=3)))
+        first_selection = fixed(SurroundingRectangle(intro_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.play(FadeIn(first_selection), FadeIn(intro_pair))
         self.play(FadeOut(market), FadeOut(first_selection),
                   Transform(intro_pair, intro_value_states[0][0]), run_time=1.6)
@@ -215,7 +210,8 @@ class C1(ThreeDScene):
         # ---- 1.a.last · The exact marginal exchange at the intersection.
         intro_pair = intro_homes[1].copy()
         intro_words, intro_message = intro_states[1][1:]
-        marginal_selection = fixed(Dot(ax.c2p(MARKET_Q, MARKET_P), radius=0.10, color=FOCUS))
+        marginal_selection = fixed(SurroundingRectangle(
+            VGroup(costs[-1], cs[-1], ps[-1]), color=FOCUS, buff=0.025, stroke_width=2))
         self.play(FadeIn(marginal_selection), FadeIn(intro_pair))
         self.play(FadeOut(market), FadeOut(marginal_selection),
                   Transform(intro_pair, intro_value_states[1][0]), run_time=1.6)
@@ -343,9 +339,7 @@ class C1(ThreeDScene):
                   Transform(quantity_label, fixed(Tex(r'$Q=35$', color=GUIDE).scale(0.7).next_to(ax.c2p(35, 0), DOWN, buff=0.20))),
                   run_time=2)
         self.pause('1.e')
-        selected_ton = fixed(VGroup(
-            removed_pair[0].copy().set_fill(opacity=0).set_stroke(DEMAND, width=3),
-            removed_pair[1].copy().set_fill(opacity=0).set_stroke(SUPPLY, width=3)))
+        selected_ton = fixed(SurroundingRectangle(removed_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(question)
         question = fixed(Tex('Look at this one removed ton.', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -400,10 +394,9 @@ class C1(ThreeDScene):
                   *[bar.animate.set_fill(opacity=BASE_OPACITY) for bar in list(costs)[COMPARE_LOW:]],
                   Transform(quantity_guide, fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE))),
                   Transform(quantity_label, fixed(Tex(r'$Q=40$', color=GUIDE).scale(0.7).next_to(ax.c2p(40, 0), DOWN, buff=0.20))))
-        boundary_dot = fixed(Dot(ax.c2p(40, 4), radius=0.09, color=FOCUS))
         boundary = fixed(Tex(r'At equilibrium, MB $=$ MC.', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(boundary_dot), FadeIn(boundary))
+        self.play(FadeIn(boundary))
         self.pause('1.g.boundary')
         self.remove(head, boundary)
         head = fixed(title('The First Welfare Theorem'))
