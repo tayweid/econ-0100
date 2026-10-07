@@ -487,9 +487,11 @@ class C1(ThreeDScene):
             individual_costs.add(external_stack[-1].copy().stretch_to_fit_width(0.46)
                 .move_to([x, PAIR_BASE + 0.125 * PAIR_SCALE, 0]))
         bystander_word = fixed(Tex('Bystander', color=CAPTION).scale(0.7).move_to([BYSTANDER_CENTER, -2.8, 0]))
-        small_word = fixed(Tex(r'External cost: $\$0.25$/ton', color=EXT).scale(0.7).move_to([BYSTANDER_CENTER, 0.55, 0]))
+        cost_heading = fixed(Tex('Externalized cost per ton', color=CAPTION).scale(0.65)
+            .move_to([BYSTANDER_CENTER, 1.15, 0]))
+        small_word = fixed(Tex(r'$\$0.25$', color=EXT).scale(0.7).move_to([BYSTANDER_CENTER, 0.55, 0]))
         self.add(bystanders[0])
-        self.play(FadeIn(bystander_word), FadeIn(individual_costs[0]), FadeIn(small_word))
+        self.play(FadeIn(bystander_word), FadeIn(individual_costs[0]), FadeIn(cost_heading), FadeIn(small_word))
         self.pause('2.b')
 
         # ---- 2.c.people · Each person's cost stays above them until all eight appear.
@@ -513,7 +515,7 @@ class C1(ThreeDScene):
                               lag_ratio=0.15), run_time=2)
         self.remove(*list(individual_costs))
         self.add(external_stack)
-        stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/ton', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
+        stack_word = fixed(Tex(r'$8\times\$0.25=\$2$', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
         conclusion = fixed(VGroup(
             Tex('Exchanges between buyer and seller in the market', color=DEFINITION).scale(DEFINITION_SCALE),
             Tex('can impose a cost on others.', color=DEFINITION).scale(DEFINITION_SCALE))
@@ -525,7 +527,7 @@ class C1(ThreeDScene):
         ext_ax = fixed(style_axes([0, 2.5, 1], [0, 3, 1], x_length=4.3, y_length=2.2))
         ext_ax.shift(np.array([1.3, -1.5, 0]) - ext_ax.c2p(0, 0))
         ext_words = fixed(VGroup(
-            Tex('External cost per ton', color=CAPTION).scale(0.65).next_to(ext_ax, UP, buff=0.20),
+            Tex('Externalized cost per ton', color=CAPTION).scale(0.65).next_to(ext_ax, UP, buff=0.20),
             Tex(r'$\$2$', color=EXT).scale(0.7).next_to(ext_ax.c2p(0, 2), LEFT, buff=0.15),
             Tex('1', color=GUIDE).scale(0.7).next_to(ext_ax.c2p(1, 0), DOWN, buff=0.18),
             Tex('Tons', color=CAPTION).scale(0.60).next_to(ext_ax, DOWN, buff=0.65)))
@@ -534,7 +536,7 @@ class C1(ThreeDScene):
             ext_parts.add(fixed(Polygon(ext_ax.c2p(0, i * 0.25), ext_ax.c2p(1, i * 0.25),
                 ext_ax.c2p(1, (i + 1) * 0.25), ext_ax.c2p(0, (i + 1) * 0.25),
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
-        self.play(FadeOut(stack_word), FadeOut(bystander_word), FadeOut(conclusion),
+        self.play(FadeOut(stack_word), FadeOut(cost_heading), FadeOut(bystander_word), FadeOut(conclusion),
                   bystanders.animate.scale(0.8).move_to([3.45, -2.85, 0]), FadeIn(ext_ax), FadeIn(ext_words),
                   *[Transform(external_stack[i], ext_parts[i]) for i in range(8)], run_time=1.5)
         ext_area_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(0.5, 1)))
@@ -588,7 +590,7 @@ class C1(ThreeDScene):
             Tex('Q', color=INK).scale(0.7).next_to(left_ax.c2p(60, 0), DOWN, buff=0.18),
             Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(45, 0), DOWN, buff=0.7)))
         right_words = fixed(VGroup(
-            Tex('External cost per ton', color=CAPTION).scale(0.65).next_to(right_ax.c2p(30, 13), UP, buff=0.16),
+            Tex('Externalized cost per ton', color=CAPTION).scale(0.65).next_to(right_ax.c2p(30, 13), UP, buff=0.16),
             Tex(r'$\$2$', color=EXT).scale(0.65).next_to(right_ax.c2p(0, 2), LEFT, buff=0.15),
             Tex('Q', color=INK).scale(0.7).next_to(right_ax.c2p(60, 0), DOWN, buff=0.18),
             Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(right_ax.c2p(45, 0), DOWN, buff=0.7),
@@ -680,7 +682,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
         social_cost = fixed(DashedLine(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
-        cost_definition = fixed(Tex('MSC $=$ MC $+$ Ext.', color=DEFINITION)
+        cost_definition = fixed(Tex('MSC $=$ MC $+$ EXT', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(cost_question)
         self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
@@ -736,6 +738,7 @@ class C1(ThreeDScene):
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
+        extra_social_target[2].set_fill(opacity=0).set_stroke(EXT, width=2.5)
         private_target = extra_social_target.copy()
         private_target[2].set_opacity(0)
         self.play(FadeOut(social_graph), FadeOut(selected_ton),
@@ -746,7 +749,7 @@ class C1(ThreeDScene):
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
             Tex(r'MC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
-            Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
+            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$6.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
             DashedLine([-3.55, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
@@ -767,18 +770,63 @@ class C1(ThreeDScene):
         extra_social_labels[5].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
-        external_labels = fixed(VGroup(*[extra_social_labels[i] for i in [2, 6, 7]]))
         unit_context = fixed(subtitle(head,
             'The 48th unit: a quantity larger than in equilibrium.', book=True))
         self.add(detail_people)
         self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.d.values')
-        self.remove(value_question)
-        value_question = fixed(Tex('What changes when we count the external cost?', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(Transform(extra_social_pair, extra_social_target), FadeIn(external_labels), FadeIn(value_question))
-        self.pause('3.d.costs')
+
+        # ---- 3.d.external · Recall the eight costs before adding them to MC.
         self.play(FadeOut(value_question))
+        unit_cost_heading = fixed(Tex('Externalized cost per ton', color=CAPTION).scale(0.65)
+            .move_to([4.7, 1.45, 0]))
+        unit_cost_math = fixed(Tex(r'$8\times\$0.25=\$2$', color=EXT).scale(0.75)
+            .move_to([4.7, 0.85, 0]))
+        unit_cost_stack = fixed(VGroup())
+        for i in range(8):
+            low = -1.4 + i * 0.25 * DETAIL_SCALE
+            unit_cost_stack.add(fixed(Polygon(
+                [4.15, low, 0], [5.25, low, 0],
+                [5.25, low + 0.25 * DETAIL_SCALE, 0], [4.15, low + 0.25 * DETAIL_SCALE, 0],
+                stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
+        self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_math), FadeIn(unit_cost_stack))
+        self.pause('3.d.external')
+        unit_cost_outline = extra_social_target[2].copy().move_to(unit_cost_stack)
+        self.play(Transform(unit_cost_stack, fixed(VGroup(unit_cost_outline))), run_time=0.8)
+        self.play(Transform(unit_cost_stack, fixed(VGroup(extra_social_target[2].copy()))),
+                  FadeOut(unit_cost_heading), FadeOut(unit_cost_math), run_time=1.4)
+        self.remove(unit_cost_stack)
+        extra_social_pair[2].become(extra_social_target[2])
+        self.play(FadeIn(extra_social_labels[6]))
+        self.pause('3.d.extension')
+
+        # ---- 3.d.math · Copy the known values into the equation, then simplify.
+        msc_formula = fixed(VGroup(
+            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex('MC', color=SUPPLY),
+            Tex('$+$', color=INK), Tex('EXT', color=EXT))
+            .arrange(RIGHT, buff=0.16).scale(0.75).move_to([4.6, 0.1, 0]))
+        msc_substitution = fixed(VGroup(
+            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex(r'$\$4.40$', color=SUPPLY),
+            Tex('$+$', color=INK), Tex(r'$\$2$', color=EXT))
+            .arrange(RIGHT, buff=0.16).scale(0.75).next_to(msc_formula, DOWN, buff=0.4))
+        self.play(FadeIn(msc_formula))
+        self.pause('3.d.formula')
+        self.play(*[TransformFromCopy(msc_formula[i], msc_substitution[i]) for i in (0, 1, 3)])
+        self.play(TransformFromCopy(extra_social_labels[5], msc_substitution[2]), run_time=0.9)
+        self.play(TransformFromCopy(extra_social_labels[6], msc_substitution[4]), run_time=0.9)
+        self.remove(*list(msc_substitution))
+        self.add(msc_substitution)
+        self.pause('3.d.substitution')
+        msc_result = fixed(VGroup(Tex('MSC', color=SUPPLY), Tex('$=$', color=INK),
+            Tex(r'$\$6.40$', color=SUPPLY)).arrange(RIGHT, buff=0.16).scale(0.75)
+            .move_to(msc_substitution))
+        self.play(ReplacementTransform(msc_substitution, msc_result), run_time=1)
+        self.pause('3.d.result')
+        self.play(FadeOut(msc_formula), FadeOut(msc_result[1]),
+                  ReplacementTransform(fixed(VGroup(msc_result[0], msc_result[2])), extra_social_labels[7]),
+                  FadeIn(extra_social_labels[2]), run_time=1.4)
+        self.remove(msc_result)
+        self.pause('3.d.costs')
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.d')
         self.remove(detail_people)

@@ -300,7 +300,7 @@ matching metrics.
   | Competitive equilibrium | A market without externalities | What happens if we increase quantity by one? |
   | Competitive equilibrium | A market without externalities | One fewer trade removes more benefit than cost. |
   | Negative externalities | One buyer and one seller | One trade can impose small costs on many other people. |
-  | Marginal social cost | — | MSC = MC + Ext. |
+  | Marginal social cost | — | MSC = MC + EXT |
 
   These C1 examples illustrate the roles; they are not mandatory wording for other episodes.
 
@@ -320,7 +320,7 @@ matching metrics.
 - **Axis-label positioning is the same across all graphs: vertical label LEFT of its axis, horizontal label BELOW its axis.** For P, use `next_to(ax.c2p(0,y_max), LEFT, buff=.25)`; for Q, use `next_to(ax.c2p(x_max,0), DOWN, buff=.35)`, replacing zero with the corresponding axis-origin coordinate when nonzero. Axis names are plain white `P` and `Q`; red `Q_d`/`Q_s` identify selected quantities, not the axis itself. Unit captions may sit beside those names; keep them clear of ticks, titles, and readouts.
 - **Graph beside calculations**: use a subtle grey vertical divider, centered vertically and tall enough to cover the graph and its horizontal labels (B2 uses six units). Put it to the right of the entire horizontal-label group, including units such as “tons per year,” with a 0.35-unit gap. Center the math block in the remaining space between divider and right safe margin; multi-step algebra may remain left-aligned internally. Fade the divider in and out with the calculation sequence. (Approved 2026-09-15.)
 - Curves: `axes.plot` for functions; **polyline (`set_points_as_corners`) inside `always_redraw`** for anything driven by a tracker or data — never `Transform` between two rebuilt plots (the wobble).
-- Labels ride the curve end: short (`D`, `S`, `MB`, `MC`, `ATC`), `INK`, `next_to` the right end. Keep demand labeled `MB` and supply `MC` when externalities enter. Introduce `MSC = MC + Ext.` for total marginal cost; `Ext.` means external cost per unit. Keep `MB` for benefit when there is no external benefit, as in C1; introduce `MSB` only when external benefits need a separate curve. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
+- Labels ride the curve end: short (`D`, `S`, `MB`, `MC`, `ATC`), `INK`, `next_to` the right end. Keep demand labeled `MB` and supply `MC` when externalities enter. Introduce `MSC = MC + EXT` for total marginal cost; `EXT` means external cost per unit. Keep `MB` for benefit when there is no external benefit, as in C1; introduce `MSB` only when external benefits need a separate curve. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
 - Put the standing curve equation above the curve in open graph space. Use the separate math area for the worked substitution, not for a second unrelated text stack.
 - Areas use the token's fill opacity. Explicit `Polygon` slices are appropriate for the editable, bar-by-bar sequences below; use axis coordinates for every boundary so bars and curves align.
 - Equilibrium: `GUIDE` dot + two dashed `GUIDE` drop-lines (`get_horizontal_line` / `get_vertical_line`, `dashed_ratio 0.85`, opacity 0.3 for the lines, 1.0 for the dot). Star the labels: `P^*`, `Q^*`.
