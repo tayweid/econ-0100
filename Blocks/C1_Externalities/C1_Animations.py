@@ -317,8 +317,8 @@ class C1(ThreeDScene):
         self.remove(head, boundary)
         head = fixed(title('The First Welfare Theorem'))
         theorem = fixed(VGroup(
-            Tex('Competitive equilibrium maximizes total surplus.', color=DEFINITION).scale(DEFINITION_SCALE),
-            Tex('All benefits and costs must be counted.', color=DEFINITION).scale(DEFINITION_SCALE))
+            Tex('When all benefits and costs are counted,', color=DEFINITION).scale(DEFINITION_SCALE),
+            Tex('competitive equilibrium maximizes total surplus.', color=DEFINITION).scale(DEFINITION_SCALE))
             .arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(theorem))
         self.pause('1.g')
@@ -368,7 +368,9 @@ class C1(ThreeDScene):
         for mob in pair_people.get_family():
             if isinstance(mob, Sphere):
                 mob.apply_depth_test()
-        self.play(FadeIn(head), FadeIn(pair))
+        bystander_question = fixed(Tex('Who else is affected by this trade?', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(head), FadeIn(pair), FadeIn(bystander_question))
         self.pause('2.a')
 
         # ---- 2.b · A single external-cost piece belongs to one grey bystander.
@@ -401,7 +403,7 @@ class C1(ThreeDScene):
             self.play(Transform(incoming, external_stack[i]), run_time=0.35)
             self.remove(incoming)
             self.add(external_stack[i])
-        self.remove(small_word, bystander_word)
+        self.remove(small_word, bystander_word, bystander_question)
         stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/lb', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
         many_word = fixed(Tex('People outside the trade', color=CAPTION).scale(0.7).move_to([3.55, -2.8, 0]))
         conclusion = fixed(Tex('One trade can impose small costs on many other people.', color=DEFINITION)
@@ -513,9 +515,8 @@ class C1(ThreeDScene):
         # Separate bars from their departing people so the bars survive the pullback.
         first_flying, second_flying = pair[0].copy(), second_pair[0].copy()
         self.add(first_flying, second_flying)
-        self.remove(head)
-        head = fixed(title('Negative externalities'))
-        self.play(FadeIn(head), FadeOut(pair), FadeOut(second_pair), FadeOut(bystanders),
+        # The topic is unchanged as the two trades become the full market.
+        self.play(FadeOut(pair), FadeOut(second_pair), FadeOut(bystanders),
                   FadeOut(ext_ax), FadeOut(ext_words), FadeOut(ext_area_word), FadeOut(second_ext_word), FadeOut(second_tick),
                   Transform(first_flying, landing_pairs[0]), Transform(second_flying, landing_pairs[1]),
                   Transform(external_stack, fixed(VGroup(external_bars[29].copy()))),
@@ -533,7 +534,9 @@ class C1(ThreeDScene):
         # ---- 3.a · Strip away benefit to account for every cost.
         self.remove(head)
         head = fixed(title('Marginal social cost'))
-        self.play(FadeIn(head), FadeOut(left_demand), FadeOut(benefit_bars), FadeOut(producer_surplus),
+        cost_question = fixed(Tex('What is the full cost of a trade?', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(head), FadeIn(cost_question), FadeOut(left_demand), FadeOut(benefit_bars), FadeOut(producer_surplus),
                   FadeOut(left_curve_words[0]), FadeOut(left_eq), FadeOut(ext_total_word))
         self.pause('3.a')
 
@@ -556,6 +559,7 @@ class C1(ThreeDScene):
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
         cost_definition = fixed(Tex('Marginal social cost $=$ private cost $+$ external cost.', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.remove(cost_question)
         self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
                   FadeIn(social_cost), FadeIn(social_word), FadeIn(cost_definition))
         self.pause('3.b')
@@ -576,7 +580,7 @@ class C1(ThreeDScene):
             Tex(r'$Q_m=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
             Tex(r'$P_m=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 4), DOWN + RIGHT, buff=0.14)))
         self.remove(head, cost_definition)
-        head = fixed(title('Market equilibrium and social welfare'))
+        head = fixed(title('Social welfare'))
         question = fixed(Tex('Would one more trade or one fewer trade improve welfare?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(full_demand), FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
@@ -720,6 +724,9 @@ class C1(ThreeDScene):
         self.pause('4.a')
 
         # ---- 4.b · The losses from excessive trades; not all external damage.
+        self.remove(head)
+        head = fixed(title('Deadweight loss'))
+        self.play(FadeIn(head))
         loss_slices = fixed(VGroup())
         for q in range(32, 40):
             loss_slices.add(fixed(Polygon(left_ax.c2p(q, 12 - q / 5), left_ax.c2p(q + 1, 12 - (q + 1) / 5),
@@ -738,7 +745,9 @@ class C1(ThreeDScene):
         self.pause('4.b')
 
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
-        self.remove(conclusion)
+        self.remove(head, conclusion)
+        head = fixed(title('Efficient quantity'))
+        self.play(FadeIn(head))
         conclusion = fixed(Tex('Some production is worthwhile even when it causes harm.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(evaluation_q.animate.set_value(24), FadeIn(conclusion), run_time=1.8)

@@ -90,14 +90,14 @@
 ]
 
 #quote(block: true)[
-  1.g · Return the pair to the graph and restore equilibrium. Mark the exact curve intersection. Bottom: At equilibrium, MB = MC. Finish with the First Welfare Theorem and its condition that all benefits and costs are counted.
+  1.g · Return the pair to the graph and restore equilibrium. Mark the exact curve intersection. Bottom: At equilibrium, MB = MC. Then change title to The First Welfare Theorem. One yellow takeaway, across two lines: When all benefits and costs are counted, competitive equilibrium maximizes total surplus.
 
 ]
 
 === 2 | Gary, Molly, and the people outside the trade
 
 #quote(block: true)[
-  2.a · Title: Negative externalities. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means 1,000 pounds.
+  2.a · Title: Negative externalities. Bottom: Who else is affected by this trade? Keep this question through the first bystander reveal, then replace it with the takeaway in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means 1,000 pounds.
 
 ]
 
@@ -122,14 +122,14 @@
 ]
 
 #quote(block: true)[
-  2.f · Keep title: Negative externalities. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80,000 dollars.
+  2.f · Keep the existing Negative externalities title on screen throughout the zoom-out; do not fade it in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80,000 dollars.
 
 ]
 
 === 3 | Constructing marginal social cost
 
 #quote(block: true)[
-  3.a · Title: Marginal social cost. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MPC curve on the left and the externality rectangles on the right.
+  3.a · Title: Marginal social cost. Bottom: What is the full cost of a trade? Replace the question with the definition in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MPC curve on the left and the externality rectangles on the right.
 
 ]
 
@@ -139,7 +139,7 @@
 ]
 
 #quote(block: true)[
-  3.c · Title: Market equilibrium and social welfare. Recenter and enlarge the combined graph. Restore demand as MPB = MSB, keep supply labeled MPC, and plot the unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would one more trade or one fewer trade improve welfare? Pause before revealing an answer.
+  3.c · Title: Social welfare. Keep this topic title through both quantity comparisons and their returns to the market. Recenter and enlarge the combined graph. Restore demand as MPB = MSB, keep supply labeled MPC, and plot the unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would one more trade or one fewer trade improve welfare? Pause before revealing an answer.
 
 ]
 
@@ -161,11 +161,11 @@
 ]
 
 #quote(block: true)[
-  4.b · Accumulate the grey social-loss slices between 32 and 40, then show the exact triangle between MSC and MSB. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades cost society more than they benefit society.
+  4.b · Title: Deadweight loss. Accumulate the grey social-loss slices between 32 and 40, then show the exact triangle between MSC and MSB. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades cost society more than they benefit society.
 
 ]
 
 #quote(block: true)[
-  4.c · Show an evaluation marker at Q = 24, where MSB is greater than MSC, then return it to 32. Bottom: Some production is worthwhile even when it causes harm. Stop here for the current intro build; preserve the old notebook’s positive-externality and corrective-policy material as the source for later notes.
+  4.c · Return title to Efficient quantity. Show an evaluation marker at Q = 24, where MSB is greater than MSC, then return it to 32. Bottom: Some production is worthwhile even when it causes harm. Stop here for the current intro build; preserve the old notebook’s positive-externality and corrective-policy material as the source for later notes.
 
 ]
