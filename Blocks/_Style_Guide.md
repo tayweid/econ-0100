@@ -308,10 +308,10 @@ their default is not a reason to restyle approved serif content.
 Sans 3 body; the stage's sans is CMU Sans and only CMU Sans — same pipeline,
 matching metrics.
 
-- Sizes by role, not ad-hoc scale: **episode head** 1.5 · **title** 1.2 · **body** 1.0 · **caption** 0.8 · **tick numbers** 0.7 · **part card** 3.0. Nothing below 0.7 — CMU's thin hairlines shimmer under projection and YouTube compression at small sizes; the scale floor and the 2160×1080 render are the defense.
+- Sizes by role, not ad-hoc scale: **episode head** 1.5 · **title** 1.2 · **body** 1.0 · **caption** 0.8 · **prose subtitle** 0.6 · **tick numbers** 0.7 · **part card** 3.0. Prose subtitles are the explicit exception to the 0.7 minimum for other teaching text; their smaller CMU Sans treatment keeps context subordinate to the title. Preserve the 2160×1080 render for legibility.
 - **Page titles** (`style.title`): `TITLE` azure, **flush left**, small top margin (buff 0.4, left 0.6). Every screen has one; figures don't get their own title — units go in a `CAPTION` **axis caption** beside the axis (`axis_caption`), e.g. title *Unemployment*, caption *rate (%)*.
 - **Titles name the main topic**, such as “Competitive Equilibrium,” “Consumer Surplus,” or “Marginal Social Cost.” **Capitalize the first letter of every word in titles**, including articles, prepositions, and conjunctions; retain canonical uppercase abbreviations. Subtitles and teaching lines remain sentence case. Keep the title stable while the animation explores that topic; change it when the topic changes, not whenever quantity changes or a new question is asked. A title is not the current question, action, or conclusion. “Last Time…” and production cards may keep their established wording, with every word capitalized.
-- **Subtitles give context only when needed**: the example, assumptions, or scope, such as “A market without externalities.” Use **CMU Sans** (`\textsf` through `subtitle(head, text)`), `CAPTION` grey, and caption scale 0.8. Place the subtitle **0.10 units below the title**, left-aligned with it; keep this a tight title–subtitle pair. Use the shared helper's defaults, not `book=True` for prose. Only actual stored equations retain the serif `book=True` exception. Omit a subtitle when it adds nothing; do not repeat the title or use this space for the current prompt. Previously established results may remain as quiet context when needed for the next step.
+- **Subtitles give context only when needed**: the example, assumptions, or scope, such as “A market without externalities.” Use **CMU Sans** (`\textsf` through `subtitle(head, text)`), `CAPTION` grey, and **subtitle scale 0.6** (28.8 points at the default 48-point size, 25% smaller than the former 0.8). Place the subtitle **0.10 units below the title**, left-aligned with it; keep this a tight title–subtitle pair. Use the shared helper's defaults, not `book=True` for prose. Actual stored equations retain serif `book=True` and caption scale 0.8. Omit a subtitle when it adds nothing; do not repeat the title or use this space for the current prompt. Previously established results may remain as quiet context when needed for the next step.
 - **Yellow text states the specific thing going on**: the current action, question, definition, or takeaway. Use `DEFINITION` for the whole teaching line in the reserved bottom strip, at the fixed bottom-text size and position below. Change this line as the beat changes: ask “What happens if we increase quantity by one?”, then replace it with “One more trade adds more cost than benefit.” Keep one primary teaching message at a time; do not repeat it in the title or subtitle. On-model labels retain their semantic colors.
 
   | Topic title (`TITLE`) | Optional context (`CAPTION`) | Current-beat text (`DEFINITION`) |
@@ -633,11 +633,12 @@ audit text roles when those sequences are next edited rather than copying their
 headings as a style reference.
 
 The same C1 review reaffirmed that prose subtitles are **CMU Sans** with a tight
-**0.10-unit gap** beneath the serif title, in `CAPTION` grey at scale 0.8.
+**0.10-unit gap** beneath the serif title, in `CAPTION` grey. The final styling
+pass reduced prose subtitle scale from 0.8 to **0.6**, making it 25% smaller.
 This applies to all prose context subtitles, including unit comparisons and
 externality definitions. The serif teaching-content default does not apply to
-these subtitles. `subtitle()` implements this spacing; `book=True` is reserved
-for actual stored equations.
+these subtitles. `subtitle()` implements this size and spacing; `book=True` is
+reserved for actual stored equations, which retain caption scale 0.8.
 
 ### Preferences from the B1/B2 session (2026-09-15; titles superseded above)
 

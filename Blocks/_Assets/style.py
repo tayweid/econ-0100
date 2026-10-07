@@ -93,6 +93,7 @@ SCALE_EPISODE = 1.5
 SCALE_TITLE = 1.2
 SCALE_BODY = 1.0
 SCALE_CAPTION = 0.8
+SCALE_SUBTITLE = 0.6
 SCALE_TICK = 0.7
 SCALE_CARD = 3.0
 
@@ -149,13 +150,13 @@ def title(text, scale=SCALE_TITLE, align=LEFT):
 
 def subtitle(under, text, buff=0.10, align=None, book=False):
     """Muted caption line under a title (the guide's subtitle idiom: CAPTION,
-    caption scale, left-aligned with the title — CAPTION, not MUTED: words get
+    prose subtitle scale, left-aligned with the title — CAPTION, not MUTED: words get
     the text token, lines get the geometry one). `under` is what it stacks
     below; pass `align` when that differs from what it left-aligns to.
-    Prose subtitles use CMU Sans, with a tight 0.10-unit title gap. Reserve
-    book=True for actual stored equations; prose context stays sans even
-    when the surrounding teaching content is serif."""
-    s = (Tex(text if book else narration(text)).scale(SCALE_CAPTION)
+    Prose subtitles use CMU Sans at scale 0.6, with a tight 0.10-unit title gap.
+    Reserve book=True for actual stored equations, which retain caption scale
+    0.8; prose context stays sans even when the teaching content is serif."""
+    s = (Tex(text if book else narration(text)).scale(SCALE_CAPTION if book else SCALE_SUBTITLE)
          .set_color(CAPTION).next_to(under, DOWN, buff=buff))
     return s.align_to(under if align is None else align, LEFT)
 
