@@ -630,7 +630,7 @@ class C1(ThreeDScene):
             potential_ext.add(fixed(Polygon(left_ax.c2p(l, 2 + l / 20), left_ax.c2p(r, 2 + r / 20),
                 left_ax.c2p(r, 4 + r / 20), left_ax.c2p(l, 4 + l / 20),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
-        social_cost = fixed(DashedLine(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
+        social_cost = fixed(Line(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
         cost_terms = fixed(VGroup(
             Tex('Marginal social cost', color=SUPPLY), Tex('$=$', color=INK),
@@ -899,15 +899,13 @@ class C1(ThreeDScene):
             if q == COMPARE_LOW:
                 loss_slices.add(removed_dwl_bar)
                 continue
-            loss_slices.add(fixed(Polygon(left_ax.c2p(q, 12 - q / 5), left_ax.c2p(q + 1, 12 - (q + 1) / 5),
-                left_ax.c2p(q + 1, 4 + (q + 1) / 20), left_ax.c2p(q, 4 + q / 20),
-                stroke_width=1, stroke_color=BG, fill_color=DWL, fill_opacity=0.8)))
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            loss_slices.add(fixed(Polygon(left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+                left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
+                stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
         self.remove(condition)
         self.play(external_bars.animate.set_fill(opacity=0.18),
                   LaggedStart(*[FadeIn(bar) for bar in loss_slices if bar is not removed_dwl_bar], lag_ratio=0.18), run_time=2)
-        dwl_triangle = fixed(Polygon(left_ax.c2p(32, 5.6), left_ax.c2p(40, 4), left_ax.c2p(40, 6),
-            stroke_width=0, fill_color=DWL, fill_opacity=0.8))
-        self.play(Transform(loss_slices, fixed(VGroup(dwl_triangle))), run_time=0.8)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
         conclusion = fixed(Tex('These trades create deadweight loss because social cost exceeds benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))

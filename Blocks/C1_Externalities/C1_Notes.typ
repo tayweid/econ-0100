@@ -134,7 +134,7 @@
 ]
 
 #quote(block: true)[
-  3.b.words → 3.b · Move the external-cost rectangles across one by one onto the tops of the matching private-cost slices. Each pink strip is height 2 above MC; its sloping edges follow MC exactly. Fade the now-empty external-cost axes. Introduce the dashed orange upper boundary and label MSC. Show faint potential strips past the current quantity so MSC is defined across the graph. Leave the bottom text empty. In the open space to the right, use a subtle grey divider and show the full-word equation: Marginal social cost = Marginal cost + External cost. Put Marginal social cost above the equals-and-sum line for readable spacing. Use orange for the cost terms, pink for external cost, and white for the operators. Pause on the full words, then transform the corresponding terms into one line: MSC = MC + EXT. Pause again. Keep the graph curve labeled MC, and retain MB when demand returns; do not introduce MPC or MPB.
+  3.b.words → 3.b · Move the external-cost rectangles across one by one onto the tops of the matching private-cost slices. Each pink strip is height 2 above MC; its sloping edges follow MC exactly. Fade the now-empty external-cost axes. Introduce the solid orange upper boundary and label MSC; keep MSC solid in every later graph view. Show faint potential strips past the current quantity so MSC is defined across the graph. Leave the bottom text empty. In the open space to the right, use a subtle grey divider and show the full-word equation: Marginal social cost = Marginal cost + External cost. Put Marginal social cost above the equals-and-sum line for readable spacing. Use orange for the cost terms, pink for external cost, and white for the operators. Pause on the full words, then transform the corresponding terms into one line: MSC = MC + EXT. Pause again. Keep the graph curve labeled MC, and retain MB when demand returns; do not introduce MPC or MPB.
 
 ]
 
@@ -156,7 +156,7 @@
 ]
 
 #quote(block: true)[
-  4.b · Title: Deadweight Loss. Retain the 36th-unit grey bar while adding the other grey social-loss slices between 32 and 40, then show the exact triangle between MSC and MB. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades create deadweight loss because social cost exceeds benefit.
+  4.b · Title: Deadweight Loss. Retain the 36th-unit grey bar while adding the other grey social-loss bars between 32 and 40. Keep all eight as separate one-ton bars, matching the widths and gaps of the existing exchange bars and following the sloping MSC and MB boundaries. Do not merge them into a triangle. Retain the separate bars through the remaining Efficient Quantity scenes. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades create deadweight loss because social cost exceeds benefit.
 
 ]
 
