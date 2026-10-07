@@ -789,11 +789,14 @@ class C1(ThreeDScene):
                 [4.15, low, 0], [5.25, low, 0],
                 [5.25, low + 0.25 * DETAIL_SCALE, 0], [4.15, low + 0.25 * DETAIL_SCALE, 0],
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
+        unit_bystanders = bystanders.copy().move_to([4.7, -2.2, 0])
+        self.add(unit_bystanders)
         self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_math), FadeIn(unit_cost_stack))
         self.pause('3.d.external')
         unit_cost_outline = extra_social_target[2].copy().move_to(unit_cost_stack)
         self.play(Transform(unit_cost_stack, fixed(VGroup(unit_cost_outline))), run_time=0.8)
         self.play(Transform(unit_cost_stack, fixed(VGroup(extra_social_target[2].copy()))),
+                  unit_bystanders.animate.move_to([detail_people.get_x(), -3.4, 0]),
                   FadeOut(unit_cost_heading), FadeOut(unit_cost_math), run_time=1.4)
         self.remove(unit_cost_stack)
         extra_social_pair[2].become(extra_social_target[2])
@@ -829,7 +832,7 @@ class C1(ThreeDScene):
         self.pause('3.d.costs')
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.d')
-        self.remove(detail_people)
+        self.remove(detail_people, unit_bystanders)
         self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), run_time=1.6)
         self.play(FadeOut(extra_social_pair))
