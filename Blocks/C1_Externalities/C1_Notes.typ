@@ -88,7 +88,7 @@
 ]
 
 #quote(block: true)[
-  1.f.values → 1.f · Carry that one-ton pair into the close-up. Under the topic title, show the subtitle: The 36th unit: a quantity smaller than in equilibrium. First show only MB 4.80 and MC 3.80 beside their hard value lines, faint bars, and spheres. Bottom question: Would removing this ton improve welfare? Pause. Then reveal MB \> MC and the purple gap labeled TS = +1 dollar for this single exchange. Bottom: Removing this ton loses more benefit than it saves in cost. Keep the context subtitle through the answer; omit grey footers.
+  1.f.values → 1.f · Carry that one-ton pair into the close-up. Under the topic title, show the subtitle: The 36th unit: a quantity exchanged in equilibrium. First show only MB 4.80 and MC 3.80 beside their hard value lines, faint bars, and spheres. Bottom question: Would removing this ton improve welfare? Pause. Then reveal MB \> MC and the purple gap labeled TS = +1 dollar for this single exchange. Bottom: Removing this ton loses more benefit than it saves in cost. Keep the context subtitle through the answer; omit grey footers.
 
 ]
 
@@ -152,7 +152,7 @@
 ]
 
 #quote(block: true)[
-  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the same one removed ton at rank 36, copying the existing private-cost and external-cost strips so its market width and sloping edges match exactly. Put a thin yellow outline box around the selected slice and pause with no bottom annotation before zooming in. In the close-up, repeat the subtitle: The 36th unit: a quantity smaller than in equilibrium. First reveal only MSB 4.80 and MPC 3.80 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally reveal TS = −1 dollar for this one ton. Bottom: Removing this ton increases social welfare. Fade the subtitle on the return to its original one-ton market slice.
+  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the same one removed ton at rank 36, copying the existing private-cost and external-cost strips so its market width and sloping edges match exactly. Put a thin yellow outline box around the selected slice and pause with no bottom annotation before zooming in. In the close-up, repeat the subtitle: The 36th unit: a quantity exchanged in equilibrium. First reveal only MSB 4.80 and MPC 3.80 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally reveal TS = −1 dollar for this one ton. Bottom: Removing this ton increases social welfare. Fade the subtitle on the return to its original one-ton market slice.
 
 ]
 

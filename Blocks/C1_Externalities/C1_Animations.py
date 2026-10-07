@@ -386,7 +386,7 @@ class C1(ThreeDScene):
         removed_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         unit_context = fixed(subtitle(head,
-            'The 36th unit: a quantity smaller than in equilibrium.', book=True))
+            'The 36th unit: a quantity exchanged in equilibrium.', book=True))
         self.add(detail_people)
         self.play(FadeIn(removed_detail[:5]), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.f.values')
@@ -828,7 +828,7 @@ class C1(ThreeDScene):
         private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
         unit_context = fixed(subtitle(head,
-            'The 36th unit: a quantity smaller than in equilibrium.', book=True))
+            'The 36th unit: a quantity exchanged in equilibrium.', book=True))
         self.add(detail_people)
         self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.e.values')
