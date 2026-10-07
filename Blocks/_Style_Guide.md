@@ -199,6 +199,20 @@ it is on screen more than anything else.
 | Best-response box | the player's own color; Nash cell `RED` box; efficient cell `GREEN` box; **same size** boxes |
 | Number-line roles | color on a number line means a *role*: `EFFICIENT` green = chosen/benefit, `NASH` red = given up/cost (`set_color_of`) |
 
+**Benefit/cost bars with surplus (C1 review, 2026-10-07).** When the same
+bar must show both its value and its surplus, use a solid value edge at MB or MC,
+a faint base fill at 0.16, and a stronger CS/PS fill at 0.65; this overrides the
+single-region 0.35 defaults above for this decomposition. Teal identifies the
+buyer, orange the seller. The buyer column reaches MB, with CS above price;
+the seller column reaches price/revenue, with MC marked at the top of its cost
+region and PS above that boundary. Keep price as a red divider. On the combined
+market graph, show faint orange cost below MC, stronger orange PS up to price,
+and stronger teal CS above price. Do not overlay buyer expenditure on the same
+regions. Use green only when the payment itself is being taught. Put labels
+outside fills in their semantic colors, or use white inside stronger fills for
+contrast. Introduce this treatment with one exchange before filling the market;
+keep the same scale when comparing the first and last exchanges.
+
 ## 3. Typography
 
 **Everything is LaTeX.** `Tex` for everything on screen; `MathTex` only for

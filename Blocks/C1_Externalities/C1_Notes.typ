@@ -32,6 +32,7 @@
 // plass:comment
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
+// | Bar revision 2026-10-07: start with the first exchange, then the last exchange at equilibrium on the same scale, before building the full market. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
 // | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Exact continuous interval areas; close-up bar heights are interval averages.
 // /plass:comment
@@ -39,7 +40,17 @@
 === 1 | Equilibrium and the First Welfare Theorem
 
 #quote(block: true)[
-  1.a · Title: Could one more trade improve welfare? Reuse the Part B spinach model: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in thousands of pounds, P in dollars per pound. Show market equilibrium Q = 40, P = 4. Reveal consumer surplus in teal, then producer surplus in orange. Continuous curves and exact sloping slices retain the B5 model; each quantity step is one 1,000-pound lot.
+  1.a.first · Title: Competitive equilibrium. Subtitle: First exchange · one 1,000-pound lot. Begin with just one buyer/seller pair at price 4, using exact averages over Q = 0 to 1: MB 11.90 and MC 2.025 dollars per pound. The buyer has a faint teal base below price and stronger teal CS above it; the seller has faint orange cost below MC and stronger orange PS up to price. Solid teal/orange edges mark MB/MC; a red line marks price. Label CS 7.90 and PS 1.975 dollars per pound beside their regions. Bottom: Both the buyer and seller gain from this exchange.
+
+]
+
+#quote(block: true)[
+  1.a.last · Keep the title and price; change the subtitle to Last exchange at equilibrium · one 1,000-pound lot. Transform the same pair on the same scale to the averages over Q = 39 to 40: MB 4.10 and MC 3.975. CS is 0.10 and PS 0.025 dollars per pound. Use leader lines to the true thin surplus regions; do not exaggerate their heights. Bottom: The last exchange adds only a small surplus. This whole lot still gains 125 dollars; exact MB = MC is reserved for the boundary later.
+
+]
+
+#quote(block: true)[
+  1.a · Keep title: Competitive equilibrium. Fade the close-up and build the full market. Reuse the Part B spinach model: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in thousands of pounds, P in dollars per pound. Show market equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then consumer surplus in teal and producer surplus in orange (opacity 0.65). The curves form the hard value boundaries. Use white labels inside the stronger fills for contrast. Continuous curves and exact sloping slices retain the B5 model; each quantity step is one 1,000-pound lot.
 
 ]
 
@@ -59,7 +70,7 @@
 ]
 
 #quote(block: true)[
-  1.e · Title: Could one fewer trade improve welfare? Decrease quantity from 40 to 39. Grey the lost surplus slice and select the removed buyer/seller pair.
+  1.e · Keep title: Competitive equilibrium. Decrease quantity from 40 to 39. Grey the lost surplus slice and select the removed buyer/seller pair.
 
 ]
 
@@ -76,7 +87,7 @@
 === 2 | Gary, Molly, and the people outside the trade
 
 #quote(block: true)[
-  2.a · Title: Who else is affected by this trade? Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. One lot means 1,000 pounds.
+  2.a · Title: Negative externalities. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means 1,000 pounds.
 
 ]
 
@@ -96,19 +107,19 @@
 ]
 
 #quote(block: true)[
-  2.e · Zoom the Gary–Molly pair down and reveal a second pair for the next lot, Q = 30 to 31: average MB 5.90, MPC 3.525. Add a second equal rectangle to the external-cost graph. Its two parts correspond to two separate trades; the same bystanders can be affected by both.
+  2.e · Zoom the Gary–Molly pair down and reveal a second pair for the next lot, Q = 30 to 31: average MB 5.90, MPC 3.525. Add a second equal rectangle to the external-cost graph. Update the second pair’s CS, PS, and hard value edges to its own values. Its two parts correspond to two separate trades; the same bystanders can be affected by both.
 
 ]
 
 #quote(block: true)[
-  2.f · Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80,000 dollars.
+  2.f · Keep title: Negative externalities. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80,000 dollars.
 
 ]
 
 === 3 | Constructing marginal social cost
 
 #quote(block: true)[
-  3.a · Title: What is the full cost of a trade? Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MPC curve on the left and the externality rectangles on the right.
+  3.a · Title: Marginal social cost. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MPC curve on the left and the externality rectangles on the right.
 
 ]
 
@@ -118,7 +129,7 @@
 ]
 
 #quote(block: true)[
-  3.c · Recenter and enlarge the combined graph. Restore demand as MPB = MSB, keep supply labeled MPC, and plot the unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would one more trade or one fewer trade improve welfare? Pause before revealing an answer.
+  3.c · Title: Market equilibrium and social welfare. Recenter and enlarge the combined graph. Restore demand as MPB = MSB, keep supply labeled MPC, and plot the unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would one more trade or one fewer trade improve welfare? Pause before revealing an answer.
 
 ]
 
@@ -135,7 +146,7 @@
 === 4 | Efficient quantity and deadweight loss
 
 #quote(block: true)[
-  4.a · Continue the fundamentals from the old animation_0 and Externalities scenes in C3_Corrective_Policy/03_Code.py: hold private demand, supply, and equilibrium fixed while comparing social marginal benefits and costs. Move an evaluation guide left from 40 until MSB = MSC at Q = 32. Retain the separate Qm = 40 marker. Bottom: Social welfare is maximized where MSB = MSC.
+  4.a · Title: Efficient quantity. Continue the fundamentals from the old animation_0 and Externalities scenes in C3_Corrective_Policy/03_Code.py: hold private demand, supply, and equilibrium fixed while comparing social marginal benefits and costs. Move an evaluation guide left from 40 until MSB = MSC at Q = 32. Retain the separate Qm = 40 marker. Bottom: Social welfare is maximized where MSB = MSC.
 
 ]
 
