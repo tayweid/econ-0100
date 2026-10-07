@@ -964,8 +964,15 @@ class C1(ThreeDScene):
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
         self.remove(head, conclusion)
         head = fixed(title('Efficient Quantity'))
-        quantity_comparison = fixed(Tex(r'$Q^* < \hat{Q}$', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        quantity_result = fixed(VGroup(
+            Tex(r'$Q^*$', color=FOCUS), Tex('$<$', color=INK),
+            Tex(r'$\hat{Q}$', color=GUIDE)).scale(1.3)
+            .arrange(RIGHT, buff=1.0).move_to([3.5, 1.9, 0]))
+        quantity_comparison = fixed(VGroup(quantity_result,
+            Tex('Efficient quantity', color=CAPTION).scale(0.7)
+                .next_to(quantity_result, DOWN, buff=0.22).set_x(quantity_result[0].get_x()),
+            Tex('Market quantity', color=CAPTION).scale(0.7)
+                .next_to(quantity_result, DOWN, buff=0.22).set_x(quantity_result[2].get_x())))
         self.play(FadeIn(head), FadeIn(quantity_comparison))
         self.pause('4.c.comparison')
         self.play(FadeOut(quantity_comparison), run_time=0.4)
