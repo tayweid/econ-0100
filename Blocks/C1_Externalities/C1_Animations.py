@@ -34,7 +34,7 @@ class C1(ThreeDScene):
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
 
         # Prepare the first lot and the exact marginal boundary on a common scale.
-        head = fixed(title('Competitive equilibrium'))
+        head = fixed(title('Competitive Equilibrium'))
         INTRO_BASE, INTRO_SCALE, INTRO_WIDTH = -2.0, 0.34, 1.15
         # Opaque spheres enter directly; transparency exposes their rear surface.
         intro_people = fixed(Group())
@@ -418,7 +418,7 @@ class C1(ThreeDScene):
         # ---- 2.a · Part B's head-on Gary/Molly deliberation, room for bystanders.
         self.play(*[FadeOut(m) for m in self.mobjects])
         self.clear()
-        head = fixed(title('Negative externalities'))
+        head = fixed(title('Negative Externalities'))
         negative_context = fixed(subtitle(head, 'A cost paid by others outside the market.'))
         PAIR_BASE, PAIR_SCALE, PAIR_WIDTH = -1.65, 0.44, 0.95
         PAIR_Q = 20
@@ -604,7 +604,7 @@ class C1(ThreeDScene):
 
         # ---- 3.a · Strip away benefit to account for every cost.
         self.remove(head, negative_context)
-        head = fixed(title('Marginal social cost'))
+        head = fixed(title('Marginal Social Cost'))
         cost_question = fixed(Tex('What is the full cost of a trade?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(cost_question), FadeOut(left_demand), FadeOut(benefit_bars), FadeOut(producer_surplus),
@@ -663,12 +663,16 @@ class C1(ThreeDScene):
             Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             Tex(r'$Q_m=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
-            Tex(r'$P_m=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 4), DOWN + RIGHT, buff=0.14)))
+            Tex(r'$P_m=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(0, 4), LEFT, buff=0.20),
+            DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2)))
         self.remove(head)
-        head = fixed(title('Social welfare'))
+        head = fixed(title('Social Welfare'))
+        welfare_context = fixed(subtitle(head,
+            'The welfare of everyone, not just buyers and sellers in the market.'))
         question = fixed(Tex('Would increasing or decreasing quantity improve welfare?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(head), FadeIn(full_demand), FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
+        self.play(FadeIn(head), FadeIn(welfare_context), FadeIn(full_demand),
+                  FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
         social_graph = fixed(VGroup(cost_graph, full_demand, demand_word, market_reference))
         self.remove(cost_graph, full_demand, demand_word, market_reference)
         self.add(social_graph)
@@ -701,7 +705,7 @@ class C1(ThreeDScene):
         extra_social_target[2].set_fill(opacity=0).set_stroke(EXT, width=2.5)
         private_target = extra_social_target.copy()
         private_target[2].set_opacity(0)
-        self.play(FadeOut(social_graph), FadeOut(selected_ton),
+        self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(selected_ton),
                   Transform(extra_social_pair, private_target), run_time=1.6)
         extra_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -794,7 +798,7 @@ class C1(ThreeDScene):
         self.pause('3.d')
         self.remove(detail_people, unit_bystanders)
         self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
-                  Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), run_time=1.6)
+                  Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), FadeIn(welfare_context), run_time=1.6)
         self.play(FadeOut(extra_social_pair))
         self.pause('3.d.return')
 
@@ -819,7 +823,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
         private_target = removed_social_target.copy()
         private_target[2].set_opacity(0)
-        self.play(FadeOut(social_graph), FadeOut(selected_ton),
+        self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(selected_ton),
                   Transform(removed_social_pair, private_target), run_time=1.6)
         removed_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -864,13 +868,13 @@ class C1(ThreeDScene):
         self.pause('3.e')
         self.remove(detail_people)
         self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
-                  Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), run_time=1.6)
+                  Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), FadeIn(welfare_context), run_time=1.6)
         self.play(FadeOut(removed_social_pair))
         self.pause('3.e.return')
 
         # ---- 4.a · Legacy social-planner sequence: change the evaluated Q only.
-        self.remove(head)
-        head = fixed(title('Efficient quantity'))
+        self.remove(head, welfare_context)
+        head = fixed(title('Efficient Quantity'))
         evaluation_q = ValueTracker(40)
         evaluation_line = fixed(Line(left_ax.c2p(40, 0), left_ax.c2p(40, 6), color=FOCUS, stroke_width=2))
         evaluation_line.axes, evaluation_line.quantity = left_ax, evaluation_q
@@ -896,7 +900,7 @@ class C1(ThreeDScene):
 
         # ---- 4.b · The losses from excessive trades; not all external damage.
         self.remove(head)
-        head = fixed(title('Deadweight loss'))
+        head = fixed(title('Deadweight Loss'))
         self.play(FadeIn(head))
         loss_slices = fixed(VGroup())
         for q in range(32, 40):
@@ -917,7 +921,7 @@ class C1(ThreeDScene):
 
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
         self.remove(head, conclusion)
-        head = fixed(title('Efficient quantity'))
+        head = fixed(title('Efficient Quantity'))
         self.play(FadeIn(head))
         conclusion = fixed(Tex('Some production is worthwhile even when it causes harm.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))

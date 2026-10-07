@@ -293,16 +293,16 @@ matching metrics.
 
 - Sizes by role, not ad-hoc scale: **episode head** 1.5 · **title** 1.2 · **body** 1.0 · **caption** 0.8 · **tick numbers** 0.7 · **part card** 3.0. Nothing below 0.7 — CMU's thin hairlines shimmer under projection and YouTube compression at small sizes; the scale floor and the 2160×1080 render are the defense.
 - **Page titles** (`style.title`): `TITLE` azure, **flush left**, small top margin (buff 0.4, left 0.6). Every screen has one; figures don't get their own title — units go in a `CAPTION` **axis caption** beside the axis (`axis_caption`), e.g. title *Unemployment*, caption *rate (%)*.
-- **Titles name the main topic**, such as “Competitive equilibrium,” “Consumer surplus,” or “Marginal social cost.” Keep the title stable while the animation explores that topic; change it when the topic changes, not whenever quantity changes or a new question is asked. A title is not the current question, action, or conclusion. “Last time…” and production cards may keep their established labels.
+- **Titles name the main topic**, such as “Competitive Equilibrium,” “Consumer Surplus,” or “Marginal Social Cost.” **Capitalize the first letter of every word in titles**, including articles, prepositions, and conjunctions; retain canonical uppercase abbreviations. Subtitles and teaching lines remain sentence case. Keep the title stable while the animation explores that topic; change it when the topic changes, not whenever quantity changes or a new question is asked. A title is not the current question, action, or conclusion. “Last Time…” and production cards may keep their established wording, with every word capitalized.
 - **Subtitles give context only when needed**: the example, assumptions, or scope, such as “A market without externalities.” Use **CMU Sans** (`\textsf` through `subtitle(head, text)`), `CAPTION` grey, and caption scale 0.8. Place the subtitle **0.10 units below the title**, left-aligned with it; keep this a tight title–subtitle pair. Use the shared helper's defaults, not `book=True` for prose. Only actual stored equations retain the serif `book=True` exception. Omit a subtitle when it adds nothing; do not repeat the title or use this space for the current prompt. Previously established results may remain as quiet context when needed for the next step.
 - **Yellow text states the specific thing going on**: the current action, question, definition, or takeaway. Use `DEFINITION` for the whole teaching line in the reserved bottom strip, at the fixed bottom-text size and position below. Change this line as the beat changes: ask “What happens if we increase quantity by one?”, then replace it with “One more trade adds more cost than benefit.” Keep one primary teaching message at a time; do not repeat it in the title or subtitle. On-model labels retain their semantic colors.
 
   | Topic title (`TITLE`) | Optional context (`CAPTION`) | Current-beat text (`DEFINITION`) |
   |---|---|---|
-  | Competitive equilibrium | A market without externalities | What happens if we increase quantity by one? |
-  | Competitive equilibrium | A market without externalities | One fewer trade removes more benefit than cost. |
-  | Negative externalities | One buyer and one seller | One trade can impose small costs on many other people. |
-  | Marginal social cost | — | What is the full cost of a trade? |
+  | Competitive Equilibrium | A market without externalities | What happens if we increase quantity by one? |
+  | Competitive Equilibrium | A market without externalities | One fewer trade removes more benefit than cost. |
+  | Negative Externalities | One buyer and one seller | One trade can impose small costs on many other people. |
+  | Marginal Social Cost | — | What is the full cost of a trade? |
 
   These C1 examples illustrate the roles; they are not mandatory wording for other episodes.
 
@@ -320,6 +320,7 @@ matching metrics.
 - **Tick numerals are always `MUTED` — never colored by good.** When the goods need their colors on a graph, the **axis captions** carry them (*Carrots* in `CARROTS` orange on x, *Spinach* in `SPINACH` green on y) — the words-as-glyphs principle doing that work. (A1's colored numerals are out of spec.)
 - Orientation invariants: **P vertical, Q horizontal** (B–E). **Carrots horizontal, spinach vertical** (A — as rendered in A1; reconcile `Video.py` if it disagrees). **Good A horizontal, good B vertical** (F). Wage vertical, labor horizontal (F2 — decide once).
 - **Axis-label positioning is the same across all graphs: vertical label LEFT of its axis, horizontal label BELOW its axis.** For P, use `next_to(ax.c2p(0,y_max), LEFT, buff=.25)`; for Q, use `next_to(ax.c2p(x_max,0), DOWN, buff=.35)`, replacing zero with the corresponding axis-origin coordinate when nonzero. Axis names are plain white `P` and `Q`; red `Q_d`/`Q_s` identify selected quantities, not the axis itself. Unit captions may sit beside those names; keep them clear of ticks, titles, and readouts.
+- **Price readouts belong on the vertical axis.** Put a selected or equilibrium price (`P`, `P*`, or `P_m`) just left of that axis, aligned with its price height, and connect it to the market point with a dashed `GUIDE` horizontal line. Do not put the price beside the intersection or elsewhere inside the graph. Keep it anchored to the axis as the graph moves or scales.
 - **Graph beside calculations**: use a subtle grey vertical divider, centered vertically and tall enough to cover the graph and its horizontal labels (B2 uses six units). Put it to the right of the entire horizontal-label group, including units such as “tons per year,” with a 0.35-unit gap. Center the math block in the remaining space between divider and right safe margin; multi-step algebra may remain left-aligned internally. Fade the divider in and out with the calculation sequence. (Approved 2026-09-15.)
 - Curves: `axes.plot` for functions; **polyline (`set_points_as_corners`) inside `always_redraw`** for anything driven by a tracker or data — never `Transform` between two rebuilt plots (the wobble).
 - Labels ride the curve end: short (`D`, `S`, `MB`, `MC`, `ATC`), `INK`, `next_to` the right end. Keep demand labeled `MB` and supply `MC` when externalities enter. In C1, introduce the full-word equation “Marginal social cost = Marginal cost + External cost” beside the graph, then abbreviate it to `MSC = MC + EXT`; `EXT` means external cost per unit. Keep `MB` for benefit when there is no external benefit, as in C1; introduce `MSB` only when external benefits need a separate curve. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
@@ -605,7 +606,8 @@ available space.
 ### Title, subtitle, and current-beat text (2026-10-07)
 
 Taylor corrected the question-title convention during the C1 review. The title
-names the main topic; the subtitle adds context when necessary; yellow text
+names the main topic, with the first letter of **every word capitalized**; the
+subtitle adds context when necessary; yellow text
 states the specific thing going on. Keep the topic title across related beats
 and update the yellow prompt or takeaway as the action changes. This supersedes
 the September instruction to make section titles questions. §§0, 2, 3, 7, and

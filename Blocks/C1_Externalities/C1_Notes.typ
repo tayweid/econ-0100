@@ -32,7 +32,7 @@
 // plass:comment
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
-// | Bar revision 2026-10-07: start with the full market, carry the first exchange into a close-up and back, then carry the exact marginal exchange at Q = 40 into a close-up and back. No subtitles on these close-ups. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
+// | Bar revision 2026-10-07: start with the full market, carry the first exchange into a close-up and back, then carry the exact marginal exchange at Q = 40 into a close-up and back. No subtitles on these close-ups. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Capitalize every word in topic titles. Topic titles stay stable while yellow teaching lines change.
 // | Unit revision 2026-10-07: Q is tons; all prices, benefits, and costs are dollars per ton. Keep the simple numerical curves as a rescaled teaching example rather than converting the old physical dataset. Remove grey explanatory captions from exchange close-ups: no average-values note, quantity-change footer, one-ton footer, or prose repeating the surplus result. Keep units on the axes and the active question/takeaway in yellow. CS/PS labels sit beside their regions without leaders; retain purple TS gap guides. MB sits directly left of the MB value line, and MC directly right of the MC value line, at the same height as that line. Restore the buyer/seller spheres and keep Buyer and Seller beneath their respective spheres in both opening close-ups. Keep value labels attached to the live bars through movement and return zooms.
 // | Reveal revision 2026-10-07: each close-up pauses on MB and MC before price, surplus, or a welfare answer. In the opening review, keep the same MB/MC labels, spheres, and Buyer/Seller labels visible continuously. Show the established market price next, then fade in CS/PS. The first exchange asks: Is there a price that would make this exchange work? Fade the question as price appears. Keep the MB = MC exchange free of a price question. Externality comparisons first show private values, then external/social cost, then the welfare result. Ask about increasing/decreasing quantity, not changing it by one.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Basic spheres stay fully opaque with depth testing enabled. Add and remove them directly; never opacity-fade spheres or groups containing them, since translucency exposes the rear mesh as internal discs. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
@@ -45,12 +45,12 @@
 === 1 | Equilibrium and the First Welfare Theorem
 
 #quote(block: true)[
-  1.a · Title: Competitive equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in tons, P in dollars per ton. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then fade in orange PS first and teal CS second (opacity 0.65), each with its label. The curves form the hard value boundaries. Use only the white abbreviations PS and CS, centered at the centroids of their own surplus triangles; do not spell out the full words. Continuous curves and exact sloping slices retain the B5 model.
+  1.a · Title: Competitive Equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in tons, P in dollars per ton. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then fade in orange PS first and teal CS second (opacity 0.65), each with its label. The curves form the hard value boundaries. Use only the white abbreviations PS and CS, centered at the centroids of their own surplus triangles; do not spell out the full words. Continuous curves and exact sloping slices retain the B5 model.
 
 ]
 
 #quote(block: true)[
-  1.a.first.values → 1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the starting exchange at Q = 0 with one thin yellow outline box around its full existing bar slice. Keep the bars teal and orange; do not add selection dots, vertical lines, or extra colored outlines. Pause on the highlighted exchange with no bottom annotation, then carry that same buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, the buyer/seller spheres, and Buyer/Seller labels beneath them. Anchor MB/MC labels beside their hard value lines. Omit the extra values/average caption. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: Is there a price that would make this exchange work? Pause on the values. Fade the question as price appears. Keep MB/MC, spheres, and Buyer/Seller visible throughout the following reveals. First reveal the established price 4 line and label. In the next play, fade in stronger teal CS 8 and orange PS 2 above the respective faint bases, together with their surplus labels. Put the CS/PS labels immediately beside the corresponding regions, with no connector lines. Bottom: First exchange: both the buyer and seller gain. Pause again.
+  1.a.first.values → 1.a.first · Keep title: Competitive Equilibrium; no subtitle. Select the starting exchange at Q = 0 with one thin yellow outline box around its full existing bar slice. Keep the bars teal and orange; do not add selection dots, vertical lines, or extra colored outlines. Pause on the highlighted exchange with no bottom annotation, then carry that same buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, the buyer/seller spheres, and Buyer/Seller labels beneath them. Anchor MB/MC labels beside their hard value lines. Omit the extra values/average caption. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: Is there a price that would make this exchange work? Pause on the values. Fade the question as price appears. Keep MB/MC, spheres, and Buyer/Seller visible throughout the following reveals. First reveal the established price 4 line and label. In the next play, fade in stronger teal CS 8 and orange PS 2 above the respective faint bases, together with their surplus labels. Put the CS/PS labels immediately beside the corresponding regions, with no connector lines. Bottom: First exchange: both the buyer and seller gain. Pause again.
 
 ]
 
@@ -60,7 +60,7 @@
 ]
 
 #quote(block: true)[
-  1.a.last.values → 1.a.last · Keep title: Competitive equilibrium; no subtitle. Put one thin yellow outline box around the last existing exchange at Q = 40, retaining the canonical red intersection marker. Do not add a yellow dot. Pause on the highlighted exchange with no bottom annotation. Fade the box as its marginal buyer/seller pair moves into the close-up on the same scale. First show only MB = MC = 4 dollars per ton, faint bars, hard value edges, and buyer/seller spheres with names underneath. MB and MC labels sit beside the equal-height value lines. Withhold price and the conclusion; pause on the values without asking which price would work. Keep the same MB/MC labels, spheres, and Buyer/Seller visible. Reveal the established price 4 line and label, then the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
+  1.a.last.values → 1.a.last · Keep title: Competitive Equilibrium; no subtitle. Put one thin yellow outline box around the last existing exchange at Q = 40, retaining the canonical red intersection marker. Do not add a yellow dot. Pause on the highlighted exchange with no bottom annotation. Fade the box as its marginal buyer/seller pair moves into the close-up on the same scale. First show only MB = MC = 4 dollars per ton, faint bars, hard value edges, and buyer/seller spheres with names underneath. MB and MC labels sit beside the equal-height value lines. Withhold price and the conclusion; pause on the values without asking which price would work. Keep the same MB/MC labels, spheres, and Buyer/Seller visible. Reveal the established price 4 line and label, then the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
 
 ]
 
@@ -85,7 +85,7 @@
 ]
 
 #quote(block: true)[
-  1.e → 1.e.select · Keep title: Competitive equilibrium. Ask: What happens if we decrease quantity? Fade existing one-ton bars from ton 40 down through ton 36, reaching Q = 35. Select ton 36 from the existing market bars: reuse its cost polygon and the buyer bar’s existing demand edge and baseline. Put one thin yellow outline box around the full existing one-ton slice, keeping the bars teal and orange. Clear the question and pause on the highlight with no bottom annotation, then zoom in. Keep both columns in the same original one-unit-wide slice until the close-up separates them.
+  1.e → 1.e.select · Keep title: Competitive Equilibrium. Ask: What happens if we decrease quantity? Fade existing one-ton bars from ton 40 down through ton 36, reaching Q = 35. Select ton 36 from the existing market bars: reuse its cost polygon and the buyer bar’s existing demand edge and baseline. Put one thin yellow outline box around the full existing one-ton slice, keeping the bars teal and orange. Clear the question and pause on the highlight with no bottom annotation, then zoom in. Keep both columns in the same original one-unit-wide slice until the close-up separates them.
 
 ]
 
@@ -102,7 +102,7 @@
 === 2 | Gary, Molly, and the people outside the trade
 
 #quote(block: true)[
-  2.a · Title: Negative externalities. Subtitle from the start: A cost paid by others outside the market. Set it in grey CMU Sans, left-aligned and 0.10 units below the title, matching all C1 context subtitles. Keep this subtitle through 2.f. Leave the bottom text empty until the costs are stacked in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. Use the 20th one-ton exchange, with marginal values at Q = 20: MB 8, MC 3, and price 4. Gary gains CS 4 and Molly gains PS 1. Keep the bar height within the existing body area on a common 0.44-unit-per-dollar scale. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MC edges; the seller column reaches price above its MC boundary. One lot means one ton; omit the grey footer.
+  2.a · Title: Negative Externalities. Subtitle from the start: A cost paid by others outside the market. Set it in grey CMU Sans, left-aligned and 0.10 units below the title, matching all C1 context subtitles. Keep this subtitle through 2.f. Leave the bottom text empty until the costs are stacked in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. Use the 20th one-ton exchange, with marginal values at Q = 20: MB 8, MC 3, and price 4. Gary gains CS 4 and Molly gains PS 1. Keep the bar height within the existing body area on a common 0.44-unit-per-dollar scale. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MC edges; the seller column reaches price above its MC boundary. One lot means one ton; omit the grey footer.
 
 ]
 
@@ -117,7 +117,7 @@
 ]
 
 #quote(block: true)[
-  2.d · Keep the Negative externalities title and A cost paid by others outside the market. subtitle visible. Go directly from Gary and Molly with the stacked bystander costs to the two full-market graphs: the market’s MB, MC, and equilibrium on the left, and externalized cost per ton on the right. Omit the small one-trade external-cost graph and the second buyer–seller example. Carry Gary and Molly’s bars into their Q = 19 to 20 slice for the 20th ton, sharing its full width and matching the sloping cost, CS, and PS boundaries. Fade the buyer expenditure base during the merge. Carry the pink stack into the same quantity interval on the right. Remove the people and close-up labels during the pullback. Both graphs use Q = 0 to 60 with matching horizontal scales. Pause with only Gary and Molly’s exchange and its matching external-cost rectangle filled; keep the other exchanges unfilled.
+  2.d · Keep the Negative Externalities title and A cost paid by others outside the market. subtitle visible. Go directly from Gary and Molly with the stacked bystander costs to the two full-market graphs: the market’s MB, MC, and equilibrium on the left, and externalized cost per ton on the right. Omit the small one-trade external-cost graph and the second buyer–seller example. Carry Gary and Molly’s bars into their Q = 19 to 20 slice for the 20th ton, sharing its full width and matching the sloping cost, CS, and PS boundaries. Fade the buyer expenditure base during the merge. Carry the pink stack into the same quantity interval on the right. Remove the people and close-up labels during the pullback. Both graphs use Q = 0 to 60 with matching horizontal scales. Pause with only Gary and Molly’s exchange and its matching external-cost rectangle filled; keep the other exchanges unfilled.
 
 ]
 
@@ -129,7 +129,7 @@
 === 3 | Constructing marginal social cost
 
 #quote(block: true)[
-  3.a · Remove the Negative externalities subtitle when changing the title to Marginal social cost. Bottom: What is the full cost of a trade? Clear the question before showing the equation at right in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MC curve on the left and the externality rectangles on the right.
+  3.a · Remove the Negative Externalities subtitle when changing the title to Marginal Social Cost. Bottom: What is the full cost of a trade? Clear the question before showing the equation at right in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MC curve on the left and the externality rectangles on the right.
 
 ]
 
@@ -139,7 +139,7 @@
 ]
 
 #quote(block: true)[
-  3.c · Title: Social welfare. Keep this topic title through both quantity comparisons and their returns to the market. Fade the right-side equation and divider before recentering and enlarging the combined graph. Restore demand as MB, keep supply labeled MC, and plot unchanged private equilibrium Qm = 40, P = 4. The MSC intersection is not a new market equilibrium. Bottom: Would increasing or decreasing quantity improve welfare? Pause before revealing an answer.
+  3.c · Title: Social Welfare. Add the grey CMU Sans subtitle: The welfare of everyone, not just buyers and sellers in the market. Place it 0.10 units below the title, left-aligned. Keep this topic title through both quantity comparisons and their returns to the market. Replace this subtitle with the unit-specific subtitle in each close-up, restore it on each return to the market, and remove it when the title changes to Efficient Quantity. Fade the right-side equation and divider before recentering and enlarging the combined graph. Restore demand as MB, keep supply labeled MC, and plot unchanged private equilibrium Qm = 40, P = 4. Put Pm = 4 to the left of the vertical axis at height 4, with a dashed red horizontal guide from the axis to the equilibrium point. Keep the price label on its axis throughout the later market views. The MSC intersection is not a new market equilibrium. Bottom: Would increasing or decreasing quantity improve welfare? Pause before revealing an answer.
 
 ]
 
@@ -156,16 +156,16 @@
 === 4 | Efficient quantity and deadweight loss
 
 #quote(block: true)[
-  4.a · Title: Efficient quantity. Continue the fundamentals from the old animation_0 and Externalities scenes in C3_Corrective_Policy/03_Code.py: hold private demand, supply, and equilibrium fixed while comparing social marginal benefits and costs. Move an evaluation guide left from 40 until MB = MSC at Q = 32. Retain the separate Qm = 40 marker. Bottom: Social welfare is maximized where MB = MSC.
+  4.a · Title: Efficient Quantity. Continue the fundamentals from the old animation_0 and Externalities scenes in C3_Corrective_Policy/03_Code.py: hold private demand, supply, and equilibrium fixed while comparing social marginal benefits and costs. Move an evaluation guide left from 40 until MB = MSC at Q = 32. Retain the separate Qm = 40 marker. Bottom: Social welfare is maximized where MB = MSC.
 
 ]
 
 #quote(block: true)[
-  4.b · Title: Deadweight loss. Accumulate the grey social-loss slices between 32 and 40, then show the exact triangle between MSC and MB. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades cost society more than they benefit society.
+  4.b · Title: Deadweight Loss. Accumulate the grey social-loss slices between 32 and 40, then show the exact triangle between MSC and MB. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades cost society more than they benefit society.
 
 ]
 
 #quote(block: true)[
-  4.c · Return title to Efficient quantity. Show an evaluation marker at Q = 24, where MB is greater than MSC, then return it to 32. Bottom: Some production is worthwhile even when it causes harm. Stop here for the current intro build; preserve the old notebook’s positive-externality and corrective-policy material as the source for later notes.
+  4.c · Return title to Efficient Quantity. Show an evaluation marker at Q = 24, where MB is greater than MSC, then return it to 32. Bottom: Some production is worthwhile even when it causes harm. Stop here for the current intro build; preserve the old notebook’s positive-externality and corrective-policy material as the source for later notes.
 
 ]
