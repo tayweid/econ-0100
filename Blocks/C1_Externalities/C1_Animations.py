@@ -187,12 +187,14 @@ class C1(ThreeDScene):
             m.next_to(m.bars[2], LEFT, buff=0.22))
         intro_words[1].add_updater(lambda m:
             m.next_to(m.bars[5], RIGHT, buff=0.22))
-        self.play(FadeIn(value_words), FadeIn(intro_people))
+        value_question = fixed(Tex('Is there a price that would make this exchange work?', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(value_words), FadeIn(intro_people), FadeIn(value_question))
         self.pause('1.a.first.values')
         # Split the faint buyer fill at price without changing its appearance.
         intro_pair[0].become(intro_states[0][0][0])
         intro_pair[1].set_fill(opacity=BASE_OPACITY)
-        self.play(intro_pair[-1].animate.set_opacity(1), FadeIn(intro_words[2]))
+        self.play(intro_pair[-1].animate.set_opacity(1), FadeIn(intro_words[2]), FadeOut(value_question))
         surplus_labels = fixed(VGroup(intro_words[3], intro_words[4]))
         self.play(intro_pair[1].animate.set_fill(opacity=SURPLUS_OPACITY),
                   intro_pair[4].animate.set_fill(opacity=SURPLUS_OPACITY),

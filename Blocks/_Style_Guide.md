@@ -248,8 +248,10 @@ At each close-up, first reveal the faint full MB/MC bars, their hard value edges
 and their values. Keep MB/MC labels and the people visible as later information
 is added; do not fade and recreate them between reveals. In the C1 opening
 review, the market price is already known: show MB/MC, then the price line and
-label, then fade in the CS/PS regions and labels. Omit price-discovery questions
-in both the first-exchange and MB = MC close-ups. At MB = MC, show the price and
+label, then fade in the CS/PS regions and labels. For the first exchange, use
+the yellow question “Is there a price that would make this exchange work?”
+with the initial values, then fade that question as price appears. Omit a
+price question at the MB = MC close-up. At MB = MC, show the price and
 equality takeaway without adding surplus regions.
 For a welfare comparison, withhold the surplus gap, inequality, and conclusion
 until after the values-only pause. With externalities, reveal private values
