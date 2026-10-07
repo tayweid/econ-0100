@@ -1,8 +1,9 @@
 # ECON 0100 Video Series — Graphite Style Guide (v1, 2026-08-26)
 
-*Preferences consolidated from Taylor's B1/B2 animation session, 2026-09-15.
-The current rules below incorporate the later corrections in that session;
-dated decisions in §9 preserve the history.*
+*Preferences consolidated from Taylor's B1/B2 animation session, 2026-09-15,
+with the title/subtitle/beat-text hierarchy revised in the C1 review, 2026-10-07.
+The current rules below incorporate those corrections; dated decisions in §9
+preserve the history.*
 
 *Economics from scratch.* One cohesive story in six Parts; the visual system has to
 carry continuity across ~30 episodes made over a year, by more than one pair of
@@ -52,8 +53,9 @@ Five things together make the look ours; no one of them alone does:
 
 1. **The 2:1 stage.** Wider than anyone else's math video, chosen so many cards
    fit side by side.
-2. **The title architecture.** Flush-left azure question title, generous
-   emptiness below, and a small caption only when it adds needed information.
+2. **The title architecture.** A flush-left azure topic title, an optional grey
+   subtitle for context, and yellow text for the specific action, question, or
+   takeaway of the current beat. Leave generous space around the model.
 3. **Words as glyphs.** A colored letter or word *is* the illustration:
    `10 C = 40 S` with C in carrot-orange and S in spinach-green, *Apple* in
    green instead of a drawing of an apple. No icons, no stick figures, no
@@ -110,8 +112,8 @@ use the token, so a change propagates. Three rules govern the whole palette:
   accents on the web, the wordmark. It is never a curve, a fill, or a character.
   (Decided 2026-08-26; this is why demand is teal, not blue-blue.)
 - **Marks and text are different jobs.** The six *marks* (§2b) are the persistent
-  model colors. `DEFINITION` gold belongs to terms, not curves. `FOCUS` yellow
-  may mark temporary measurements such as a triangle's height and base, with
+  model colors. `DEFINITION` gold belongs to terms and current-beat teaching
+  text, not curves. `FOCUS` yellow may mark temporary measurements such as a triangle's height and base, with
   matching yellow labels and numbers; it is not a persistent curve color.
 
 The values are not eyeballed: they were stepped in OKLCH for the graphite ground
@@ -137,14 +139,16 @@ axis names remain white (§4).
 | `MUTED` | `#696969` | 3.0:1 | **geometry only**: axes, ticks, ghosted/"before" curves, DWL |
 | `CAPTION` | `#9E9E9E` | 6.0:1 | **muted text**: subtitles, stored results, axis captions. (New in v1 — MUTED at 3.0:1 is below the 4.5:1 text floor and is the first thing YouTube compression eats. If it's words, it's CAPTION; if it's lines, it's MUTED.) |
 | `TITLE` | `#4A8FF0` | 5.1:1 | the brand azure. Titles only — see the reservation rule above. (Was #0096FF.) |
-| `DEFINITION` | `#E5C044` | 8.9:1 | **only** the defined term inside a definition line, and the episode's question lines. (Was #FFD700 — softened; still unmistakably gold, no longer a highlighter.) |
+| `DEFINITION` | `#E5C044` | 8.9:1 | defined terms and the entire current-beat teaching line: an action, question, definition, or takeaway (§3). (Was #FFD700 — softened; still unmistakably gold, no longer a highlighter.) |
 | `FOCUS` | `#FFE14D` | 13.4:1 | transient attention: wiggles, the optimum dot, the framebox, principle lines in E. The bright step of the same gold family (was pure YELLOW). Never a persistent curve color. |
 | `ON_FILL` | `BG` | — | text sitting on a solid token-colored fill (e.g. the farm card) |
 
-**Gold beyond definitions**: supporting *question lines* (*Where did all that
-wealth go?*, *20 of the 30 are ports.*) are `DEFINITION` gold at the bottom edge
-or under the title — gold marks "the thing to remember on this screen."
-Question-shaped page titles remain `TITLE` azure.
+**Yellow teaching text**: use `DEFINITION` gold for the entire line stating
+what is happening, being asked, or being learned in the current beat. Its normal
+place is the reserved bottom strip. Titles name the main topic in `TITLE` azure;
+optional subtitles supply context in `CAPTION` grey. Do not move the beat's
+question into either heading role. This supersedes the question-title rule
+(2026-10-07). `FOCUS` remains the separate token for temporary model highlights.
 
 **Carry meaning from graph to math.** Price, selected quantity, and MB/MC
 readouts are `GUIDE` red, including the corresponding symbols and substituted
@@ -216,12 +220,23 @@ matching metrics.
 
 - Sizes by role, not ad-hoc scale: **episode head** 1.5 · **title** 1.2 · **body** 1.0 · **caption** 0.8 · **tick numbers** 0.7 · **part card** 3.0. Nothing below 0.7 — CMU's thin hairlines shimmer under projection and YouTube compression at small sizes; the scale floor and the 2160×1080 render are the defense.
 - **Page titles** (`style.title`): `TITLE` azure, **flush left**, small top margin (buff 0.4, left 0.6). Every screen has one; figures don't get their own title — units go in a `CAPTION` **axis caption** beside the axis (`axis_caption`), e.g. title *Unemployment*, caption *rate (%)*.
-- **Titles ask the question being answered**, rather than naming the topic: “Which bars are worth buying?” or “How much do these exchanges benefit buyers?” Give the question a concrete subject; avoid an unclear “this.” Keep the question through the beats that answer it. “Last time…” and production cards may keep their established labels.
-- **Subtitles** (a question, a stored result): `CAPTION`, caption scale, stacked under the title and left-aligned with it (*What can a dollar get?*; the bakery's `OC(pie) = cake` lines).
+- **Titles name the main topic**, such as “Competitive equilibrium,” “Consumer surplus,” or “Marginal social cost.” Keep the title stable while the animation explores that topic; change it when the topic changes, not whenever quantity changes or a new question is asked. A title is not the current question, action, or conclusion. “Last time…” and production cards may keep their established labels.
+- **Subtitles give context only when needed**: the example, assumptions, or scope, such as “A market without externalities.” Use `CAPTION`, caption scale, stacked under the title and left-aligned with it. Omit a subtitle when it adds nothing; do not repeat the title or use this space for the current prompt. Previously established results may remain as quiet context when needed for the next step.
+- **Yellow text states the specific thing going on**: the current action, question, definition, or takeaway. Use `DEFINITION` for the whole teaching line in the reserved bottom strip, at the fixed bottom-text size and position below. Change this line as the beat changes: ask “What happens if we increase quantity by one?”, then replace it with “One more trade adds more cost than benefit.” Keep one primary teaching message at a time; do not repeat it in the title or subtitle. On-model labels retain their semantic colors.
+
+  | Topic title (`TITLE`) | Optional context (`CAPTION`) | Current-beat text (`DEFINITION`) |
+  |---|---|---|
+  | Competitive equilibrium | A market without externalities | What happens if we increase quantity by one? |
+  | Competitive equilibrium | A market without externalities | One fewer trade removes more benefit than cost. |
+  | Negative externalities | One buyer and one seller | One trade can impose small costs on many other people. |
+  | Marginal social cost | — | Marginal social cost = private cost + external cost. |
+
+  These C1 examples illustrate the roles; they are not mandatory wording for other episodes.
+
 - Lists: `VGroup(...).arrange(DOWN, buff=0.4, aligned_edge=LEFT)` under the title, left-aligned with it; never `to_edge(vector)` hacks. Rows that would overflow are scaled to fit the frame width, not wrapped.
 - Multi-clause statements (the *Microeconomics tells us…* card): one clause per line, **no bullets**, key phrases in `DEFINITION` gold; a clause that must break continues on an **indented** second line (`\quad`). Use CMU Serif and only the wording needed for the beat.
 - **Text entry and replacement**: prefer `FadeIn` for new text. When a title, definition, or explanatory line is replaced in the same position, remove the old text first, then fade the new text in; never superimpose the outgoing and incoming words. This is the B2 treatment Taylor approved on 2026-09-15. Keep tracker-driven numeric rolls and purposeful graph-to-math number transfers. `AddTextWordByWord` is reserved for the bumper label.
-- Definitions: one line, `{{Term}}` isolated and colored `DEFINITION` gold, rest in `INK` white. **All bottom definitions use one fixed text size**, including short definitions: match B2 beat 2.b's Individual Quantity Supplied line, `Tex(...).scale(0.7443)` at the default 48-point size (about 35.73 points). Center each bottom definition horizontally with `set_x(0)` and keep a tiny 0.05-unit bottom margin. Do not enlarge short lines or fit each sentence to a different size; if a future definition is too long for the 14.8-unit safe width, reflow it at the same size. This supersedes the earlier per-line shrink-to-fit and left-alignment rules (approved 2026-09-15). Full-frame definition cards retain their own body-size treatment. Term appears in the script first ("definitions without definition"), the card comes after.
+- Definitions: in body text or a full-frame definition card, isolate `{{Term}}` and color it `DEFINITION` gold, with the rest in `INK` white. In the bottom teaching strip, color the **whole line** `DEFINITION`, following the current-beat rule above. **All bottom teaching lines use one fixed text size**, including short questions, takeaways, and definitions: match B2 beat 2.b's Individual Quantity Supplied line, `Tex(...).scale(0.7443)` at the default 48-point size (about 35.73 points). Center each bottom teaching line horizontally with `set_x(0)` and keep a tiny 0.05-unit bottom margin. Do not enlarge short lines or fit each sentence to a different size; if a future definition is too long for the 14.8-unit safe width, reflow it at the same size. This supersedes the earlier per-line shrink-to-fit and left-alignment rules (approved 2026-09-15). Full-frame definition cards retain their own body-size treatment. Term appears in the script first ("definitions without definition"), the card comes after.
 - Principle lines (*Preferences are rankings.*) are full-frame cards: one sentence, body size, `FadeIn`.
 - **Exercise cards**: CMU Serif throughout, gold heading aligned left inside the box, white body slightly indented relative to that heading. Leave balanced internal padding and enough line spacing. B2 uses 0.65 units from the panel's left edge for the heading and another 0.35 for the body. Keep the card to the exercise prompt; avoid extra explanatory sentences that belong in the narration.
 - Preference chains read **less-preferred on the left**: `Chocolate Cake ≺ Carrot Cake`, so they dissolve onto a number line without reordering.
@@ -406,7 +421,7 @@ available space.
 |---|---|
 | Episode bumper | reuse `bumper_raster`, `flicker`, and `bumper_title` from `style.py`, as in B1/B2; keep the episode thesis and pause explicit. The shared bumper is the approved exception to flat choreography. Raster `MICROECONOMICS`, label beneath, part azure and episode caption-grey. |
 | Episode subtitle | the italic thesis line from the notes header (`*More might be possible!*`) appears under the bumper; every episode has one |
-| Section title | the concrete question being answered, in the normal azure title style, persists across the relevant beats (§3) |
+| Section title | the main topic in azure; persists while that topic is explored. Optional grey context sits below it, and the current action/question/takeaway goes in yellow in the bottom strip (§3) |
 | Last time… | reuse the specified prior animation literally when requested; preserve its objects, framing, wording, and pause placement. A concise graph-side list of gold terms with white definitions is also approved, as in B2. Do not invent a replacement recap dataset or layout. |
 | Next time… | a restrained cue on the relevant live model when useful; the B2 demand/supply price preview is the reference (§4). Add no automatic text stack or framebox. |
 | Definition card | bottom definition is the normal on-model treatment (§3). Use a full-frame definition screen only when the notes/approved sequence calls for it; fade it in and restore the model to its prior state. |
@@ -482,8 +497,11 @@ available space.
    invented resolution. Numerical examples may be simplified when Taylor has
    allowed it, but all equations, units, areas, and visible totals must agree;
    that permission is not blanket permission to edit prose.
-7. **Review the actual visuals.** Check representative stopped frames and the
-   motion that matters: tracker rolls, guide persistence, reveal order, label
+7. **Review the actual visuals.** First audit the text roles: does the azure
+   title name the topic, does any grey subtitle add necessary context, and does
+   the yellow line describe the current action, question, or takeaway? Keep the
+   topic title stable across its beats and remove duplicated prompts. Check
+   representative stopped frames and the motion that matters: tracker rolls, guide persistence, reveal order, label
    placement, and stacking. Keep mathematical and visual verification distinct.
    **Use the ManimLive development viewer as the default edit/review loop.**
    Reuse an existing connected session for the exact scene file when available.
@@ -511,11 +529,23 @@ available space.
 
 ## 9. Decisions
 
-### Current preferences from the B1/B2 session (2026-09-15)
+### Title, subtitle, and current-beat text (2026-10-07)
+
+Taylor corrected the question-title convention during the C1 review. The title
+names the main topic; the subtitle adds context when necessary; yellow text
+states the specific thing going on. Keep the topic title across related beats
+and update the yellow prompt or takeaway as the action changes. This supersedes
+the September instruction to make section titles questions. §§0, 2, 3, 7, and
+8 now use this hierarchy. Existing animations can contain the older convention;
+audit text roles when those sequences are next edited rather than copying their
+headings as a style reference.
+
+### Preferences from the B1/B2 session (2026-09-15; titles superseded above)
 
 The rules in §§1–8 above are the consolidated record. They cover the first
 faithful port, author-owned notes and quote-block directions, lead/Opus division
-of labor, flat editable code with the bumper exception, 15 fps, question titles,
+of labor, flat editable code with the bumper exception, 15 fps, the former
+question-title convention (superseded 2026-10-07),
 sparse serif teaching content, white axes/red readouts, sequential graph-to-math
 reveals, persistent grey quantities, narrow slices, per-bar cost then surplus,
 measurement colors, recap reuse, exercise layout, and the graph/math divider.
