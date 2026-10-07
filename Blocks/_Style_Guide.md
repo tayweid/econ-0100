@@ -211,8 +211,10 @@ and stronger teal CS above price. Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for
 contrast. Place CS/PS labels immediately beside their regions, as in B3, without
-connector lines. Put MB immediately left of the full benefit bar and MC/MPC
-immediately right of the cost region. Anchor these labels to the live bars so
+connector lines. Put MB immediately left of its hard value line and MC/MPC immediately right
+of its hard value line, at exactly the line’s height. Do not center value
+labels beside the filled region. Keep buyer/seller spheres in exchange
+close-ups, with Buyer and Seller labels beneath the respective spheres. Anchor these labels to the live bars so
 they follow movement, including while fading during a return zoom; grouped
 bar/label transforms should preserve that relationship.
 Establish units and quantity changes on the market graph. Omit grey
@@ -232,8 +234,11 @@ and their values; pause with the question. Reveal price and CS/PS afterward.
 For a welfare comparison, withhold the surplus gap, inequality, and conclusion
 until after the values-only pause. With externalities, reveal private values
 first, then external/social cost, then the welfare result, with discussion
-pauses between those steps. Choose quantity changes that yield readable numbers;
-do not force a one-unit change when it creates distracting decimals.
+pauses between those steps. For a quantity experiment, add or remove individual one-ton bars until a
+convenient example is available, then select one actual bar for the close-up.
+That pair represents one ton, and TS is its own benefit minus cost. Do not
+replace it with an average over several units or multiply the gap by a batch
+size. Choose the unit to get readable numbers.
 
 ## 3. Typography
 

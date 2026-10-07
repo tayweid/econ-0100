@@ -1,7 +1,7 @@
 # maniml C1_Animations.py C1
 # Storyboard: C1_Notes.typ. All lesson choreography stays in construct().
 # Part B's continuous market shape, with Q in tons and values in dollars per ton.
-# Quantity comparisons use exact interval averages; opening close-ups use the Q=0 and Q=40 boundaries.
+# Each comparison selects one one-ton exchange; its marginal values come from its quantity rank.
 
 from manim import *
 import numpy as np
@@ -27,7 +27,7 @@ class C1(ThreeDScene):
         BODY_MID = (BODY_TOP + BODY_BOTTOM) / 2
         DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         MARKET_Q, MARKET_P, EXTERNAL_COST, EFFICIENT_Q = 40, 4, 2, 32
-        COMPARE_LOW, COMPARE_HIGH = 32, 48  # Compare an 8-ton change, not one lot.
+        COMPARE_LOW, COMPARE_HIGH = 35, 44  # Select ton 36 when reducing, ton 44 when increasing.
         BAR_GAP = 0.08
         DETAIL_BASE, DETAIL_SCALE = -2.05, 0.68
 
@@ -36,6 +36,12 @@ class C1(ThreeDScene):
         # Prepare the first lot and the exact marginal boundary on a common scale.
         head = fixed(title('Competitive equilibrium'))
         INTRO_BASE, INTRO_SCALE, INTRO_WIDTH = -2.0, 0.34, 1.15
+        intro_people = fixed(Group())
+        for x, color in [(-0.725, DEMAND), (0.725, SUPPLY)]:
+            intro_people.add(fixed(Ellipse(width=0.42, height=0.05, stroke_width=0,
+                fill_color=color, fill_opacity=0.28).move_to([x, -2.63, 0])))
+            intro_people.add(fixed(Sphere(radius=0.18, color=color, resolution=(32, 24))
+                .move_to([x, -2.4, 0])).apply_depth_test())
         intro_states, intro_value_states = [], []
         for q, mb, mc, message in [
             (0, 12, 2, 'First exchange: both the buyer and seller gain.'),
@@ -65,16 +71,17 @@ class C1(ThreeDScene):
                 [1.45, INTRO_BASE + 4 * INTRO_SCALE, 0], color=GUIDE, stroke_width=2)))
             intro_words = fixed(VGroup(
                 Tex(rf'MB $\${mb:g}$', color=DEMAND).scale(0.7)
-                    .next_to(VGroup(next_pair[0], next_pair[1]), LEFT, buff=0.22),
+                    .next_to(next_pair[2], LEFT, buff=0.22),
                 Tex(rf'MC $\${mc:g}$', color=SUPPLY).scale(0.7)
-                    .next_to(next_pair[3], RIGHT, buff=0.22),
-                Tex(r'Price $\$4$', color=GUIDE).scale(0.7).move_to([-3.0, INTRO_BASE + 4 * INTRO_SCALE, 0]),
+                    .next_to(next_pair[5], RIGHT, buff=0.22),
+                Tex(r'Price $\$4$', color=GUIDE).scale(0.7).move_to(
+                    [-3.0, INTRO_BASE + 4 * INTRO_SCALE, 0] if q == 0 else [0, INTRO_BASE + 4 * INTRO_SCALE + 0.35, 0]),
                 Tex(rf'CS $\${mb - 4:g}$', color=DEMAND).scale(0.7)
                     .next_to(next_pair[1], LEFT, buff=0.22),
                 Tex(rf'PS $\${4 - mc:g}$', color=SUPPLY).scale(0.7)
                     .next_to(next_pair[4], RIGHT, buff=0.22),
-                Tex('Buyer', color=INK).scale(0.7).move_to([-0.725, -2.4, 0]),
-                Tex('Seller', color=INK).scale(0.7).move_to([0.725, -2.4, 0])))
+                Tex('Buyer', color=INK).scale(0.7).move_to([-0.725, -2.95, 0]),
+                Tex('Seller', color=INK).scale(0.7).move_to([0.725, -2.95, 0])))
             intro_message = fixed(Tex(message, color=DEFINITION)
                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
             # No surplus area or surplus labels at the exact MB=MC boundary.
@@ -180,12 +187,12 @@ class C1(ThreeDScene):
         for words in (value_words, intro_words):
             words[0].bars = words[1].bars = intro_pair
             words[0].add_updater(lambda m:
-                m.next_to((m.bars[0].get_corner(DL) + m.bars[2].get_left()) / 2, LEFT, buff=0.22))
+                m.next_to(m.bars[2], LEFT, buff=0.22))
             words[1].add_updater(lambda m:
-                m.next_to(m.bars[3], RIGHT, buff=0.22))
+                m.next_to(m.bars[5], RIGHT, buff=0.22))
         value_question = fixed(Tex('What price would make both people willing to trade?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(value_words), FadeIn(value_question))
+        self.play(FadeIn(value_words), FadeIn(intro_people), FadeIn(value_question))
         self.pause('1.a.first.values')
         self.play(FadeOut(value_words), FadeOut(value_question))
         self.play(Transform(intro_pair, intro_states[0][0]), run_time=0.8)
@@ -193,7 +200,7 @@ class C1(ThreeDScene):
         self.pause('1.a.first')
 
         # ---- 1.a.first.return · Restore the same pair to the same market location.
-        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_message),
+        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_people), FadeOut(intro_message),
                   Transform(intro_pair, intro_homes[0]), FadeIn(market), run_time=1.6)
         self.play(FadeOut(intro_pair))
         self.pause('1.a.first.return')
@@ -210,12 +217,12 @@ class C1(ThreeDScene):
         for words in (value_words, intro_words):
             words[0].bars = words[1].bars = intro_pair
             words[0].add_updater(lambda m:
-                m.next_to((m.bars[0].get_corner(DL) + m.bars[2].get_left()) / 2, LEFT, buff=0.22))
+                m.next_to(m.bars[2], LEFT, buff=0.22))
             words[1].add_updater(lambda m:
-                m.next_to(m.bars[3], RIGHT, buff=0.22))
+                m.next_to(m.bars[5], RIGHT, buff=0.22))
         value_question = fixed(Tex('What price would make this exchange possible?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(value_words), FadeIn(value_question))
+        self.play(FadeIn(value_words), FadeIn(intro_people), FadeIn(value_question))
         self.pause('1.a.last.values')
         self.play(FadeOut(value_words), FadeOut(value_question))
         self.play(Transform(intro_pair, intro_states[1][0]), run_time=0.8)
@@ -223,28 +230,41 @@ class C1(ThreeDScene):
         self.pause('1.a.last')
 
         # ---- 1.a.last.return · Full market again before asking about the next lot.
-        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_message),
+        self.play(FadeOut(intro_words, suspend_mobject_updating=False), FadeOut(intro_people), FadeOut(intro_message),
                   Transform(intro_pair, intro_homes[1]), FadeIn(market), run_time=1.6)
         self.play(FadeOut(intro_pair))
         self.pause('1.a.last.return')
 
-        # ---- 1.b · Increase quantity from 40 to 48. This is a quantity experiment.
-        extra_loss = fixed(Polygon(ax.c2p(40, 4), ax.c2p(48, 2.4), ax.c2p(48, 4.4),
-            stroke_width=0, fill_color=DWL, fill_opacity=DWL_OPACITY))
-        extra_pair = fixed(VGroup(
-            Polygon(ax.c2p(40, 0), ax.c2p(48, 0),
-                ax.c2p(48, 12 - 48 / 5), ax.c2p(40, 12 - 40 / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(ax.c2p(40, 0), ax.c2p(48, 0),
-                ax.c2p(48, 2 + 48 / 20), ax.c2p(40, 2 + 40 / 20),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY)))
-        extra_home = extra_pair.copy()
+        # ---- 1.b · Add separate one-ton exchanges, then select ton 44.
+        extra_lots = fixed(VGroup())
+        for q in range(MARKET_Q, COMPARE_HIGH):
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            mb, mc = 12 - (q + 1) / 5, 2 + (q + 1) / 20
+            extra_lots.add(fixed(VGroup(
+                Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, mb), ax.c2p(left, mb),
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+                Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, mc), ax.c2p(left, mc),
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
+                Line(ax.c2p(left, mb), ax.c2p(right, mb), color=DEMAND, stroke_width=3),
+                Line(ax.c2p(left, mc), ax.c2p(right, mc), color=SUPPLY, stroke_width=3))))
         question = fixed(Tex('What happens if we increase quantity?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(Transform(quantity_guide, fixed(DashedLine(ax.c2p(48, 0), ax.c2p(48, 4.4), color=GUIDE))),
-                  Transform(quantity_label, fixed(Tex(r'$Q=48$', color=GUIDE).scale(0.7).next_to(ax.c2p(48, 0), DOWN, buff=0.20))),
-                  FadeIn(extra_loss), FadeIn(extra_pair), FadeIn(question))
+        self.play(FadeIn(question))
+        self.play(LaggedStart(*[FadeIn(lot) for lot in extra_lots], lag_ratio=0.4),
+                  Transform(quantity_guide, fixed(DashedLine(ax.c2p(44, 0), ax.c2p(44, 4.2), color=GUIDE))),
+                  Transform(quantity_label, fixed(Tex(r'$Q=44$', color=GUIDE).scale(0.7).next_to(ax.c2p(44, 0), DOWN, buff=0.20))),
+                  run_time=2)
         self.pause('1.b')
+        extra_pair = fixed(VGroup(*list(extra_lots[-1])[:2]))
+        extra_lots[-1].remove(*list(extra_pair))
+        extra_home = extra_pair.copy()
+        self.add(extra_pair)
+        selected_ton = fixed(SurroundingRectangle(extra_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        self.remove(question)
+        question = fixed(Tex('Look at this one added ton.', color=DEFINITION)
+                         .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(selected_ton), FadeIn(question))
+        self.pause('1.b.select')
 
         # ---- 1.c · Carry the selected pair into B4's head-on bar comparison.
         extra_target = fixed(VGroup())
@@ -252,7 +272,7 @@ class C1(ThreeDScene):
             extra_target.add(fixed(Polygon([left, DETAIL_BASE, 0], [left + 1.1, DETAIL_BASE, 0],
                 [left + 1.1, DETAIL_BASE + value * DETAIL_SCALE, 0], [left, DETAIL_BASE + value * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(market), FadeOut(extra_loss), FadeOut(question),
+        self.play(FadeOut(market), FadeOut(extra_lots), FadeOut(selected_ton), FadeOut(question),
                   Transform(extra_pair, extra_target), run_time=1.6, rate_func=smooth)
         detail_people = fixed(Group())
         for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
@@ -260,30 +280,32 @@ class C1(ThreeDScene):
                 .move_to([x, DETAIL_BASE - 0.60, 0])))
             detail_people.add(fixed(Sphere(radius=0.18, color=color, resolution=(32, 24))
                 .move_to([x, DETAIL_BASE - 0.35, 0])).apply_depth_test())
+            detail_people.add(fixed(Tex('Buyer' if color == DEMAND else 'Seller', color=INK)
+                .scale(0.65).move_to([x, DETAIL_BASE - 0.94, 0])))
         extra_detail = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(extra_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_pair[0], LEFT, buff=0.25),
-            Tex(r'MC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_pair[1], RIGHT, buff=0.25),
+            Tex(r'MB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_pair[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_pair[1].get_corner(UR), RIGHT, buff=0.25),
             DashedLine([-0.06, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
-                [2.1, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            DashedLine([1.16, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
-                [2.1, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([2.1, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
+                [3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([3.25, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
+                [3.8, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
                 color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$8$', color=TOTAL).scale(0.8)
-                .next_to([2.1, DETAIL_BASE + 3.7 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
+            Tex(r'TS $=-\$1$', color=TOTAL).scale(0.8)
+                .next_to([3.8, DETAIL_BASE + 3.7 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
             Tex(r'MC $>$ MB', color=INK).scale(0.8).move_to([4.3, -0.2, 0])))
-        conclusion = fixed(Tex('Increasing quantity adds more cost than benefit.', color=DEFINITION)
+        conclusion = fixed(Tex('This added ton costs more than it benefits.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        value_question = fixed(Tex('Can any price make these added trades worthwhile?', color=DEFINITION)
+        value_question = fixed(Tex('Can any price make this trade worthwhile?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         extra_detail[3].bars = extra_detail[4].bars = extra_pair
         extra_detail[3].add_updater(lambda m:
-            m.next_to(m.bars[0], LEFT, buff=0.25))
+            m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
         extra_detail[4].add_updater(lambda m:
-            m.next_to(m.bars[1], RIGHT, buff=0.25))
+            m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         self.play(FadeIn(extra_detail[:5]), FadeIn(detail_people), FadeIn(value_question))
         self.pause('1.c.values')
         self.play(FadeOut(value_question))
@@ -292,30 +314,34 @@ class C1(ThreeDScene):
 
         # ---- 1.d · Return the exact same pair to its original quantity interval.
         self.play(FadeOut(extra_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion),
-                  Transform(extra_pair, extra_home), FadeIn(market), FadeIn(extra_loss), run_time=1.6)
-        self.play(FadeOut(extra_pair), FadeOut(extra_loss),
+                  Transform(extra_pair, extra_home), FadeIn(market), FadeIn(extra_lots), run_time=1.6)
+        self.play(FadeOut(extra_pair), FadeOut(extra_lots),
                   Transform(quantity_guide, fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE))),
                   Transform(quantity_label, fixed(Tex(r'$Q=40$', color=GUIDE).scale(0.7).next_to(ax.c2p(40, 0), DOWN, buff=0.20))))
         self.pause('1.d')
 
-        # ---- 1.e · Remove the interval 32–40, whose integrated gain is positive.
-        lost_gain = fixed(Polygon(ax.c2p(32, 3.6), ax.c2p(40, 4), ax.c2p(32, 5.6),
-            stroke_width=0, fill_color=DWL, fill_opacity=DWL_OPACITY))
+        # ---- 1.e · Reduce quantity, then pick one existing exchange: ton 36.
         removed_pair = fixed(VGroup(
-            Polygon(ax.c2p(32, 0), ax.c2p(40, 0),
-                ax.c2p(40, 12 - 40 / 5), ax.c2p(32, 12 - 32 / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(ax.c2p(32, 0), ax.c2p(40, 0),
-                ax.c2p(40, 2 + 40 / 20), ax.c2p(32, 2 + 32 / 20),
+            Polygon(ax.c2p(35.04, 0), ax.c2p(35.96, 0), ax.c2p(35.96, 4.8), ax.c2p(35.04, 4.8),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            Polygon(ax.c2p(35.04, 0), ax.c2p(35.96, 0), ax.c2p(35.96, 3.8), ax.c2p(35.04, 3.8),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY)))
         removed_home = removed_pair.copy()
         question = fixed(Tex('What happens if we decrease quantity?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(*[bar.animate.set_opacity(0.05) for bars in (cs, ps, costs) for bar in list(bars)[COMPARE_LOW:]],
-                  Transform(quantity_guide, fixed(DashedLine(ax.c2p(32, 0), ax.c2p(32, 5.6), color=GUIDE))),
-                  Transform(quantity_label, fixed(Tex(r'$Q=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(32, 0), DOWN, buff=0.20))),
-                  FadeIn(lost_gain), FadeIn(removed_pair), FadeIn(question))
+        self.play(FadeIn(question))
+        self.play(LaggedStart(*[VGroup(costs[q], cs[q], ps[q]).animate.set_opacity(0.05)
+                               for q in range(MARKET_Q - 1, COMPARE_LOW - 1, -1)], lag_ratio=0.3),
+                  Transform(quantity_guide, fixed(DashedLine(ax.c2p(35, 0), ax.c2p(35, 5), color=GUIDE))),
+                  Transform(quantity_label, fixed(Tex(r'$Q=35$', color=GUIDE).scale(0.7).next_to(ax.c2p(35, 0), DOWN, buff=0.20))),
+                  run_time=2)
         self.pause('1.e')
+        selected_ton = fixed(SurroundingRectangle(removed_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        self.remove(question)
+        question = fixed(Tex('Look at this one removed ton.', color=DEFINITION)
+                         .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(removed_pair), FadeIn(selected_ton), FadeIn(question))
+        self.pause('1.e.select')
 
         # ---- 1.f · The same bar-pair zoom, now examining a forgone gain.
         removed_target = fixed(VGroup())
@@ -323,32 +349,32 @@ class C1(ThreeDScene):
             removed_target.add(fixed(Polygon([left, DETAIL_BASE, 0], [left + 1.1, DETAIL_BASE, 0],
                 [left + 1.1, DETAIL_BASE + value * DETAIL_SCALE, 0], [left, DETAIL_BASE + value * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(market), FadeOut(lost_gain), FadeOut(question),
+        self.play(FadeOut(market), FadeOut(selected_ton), FadeOut(question),
                   Transform(removed_pair, removed_target), run_time=1.6)
         removed_detail = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(removed_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_pair[0], LEFT, buff=0.25),
-            Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_pair[1], RIGHT, buff=0.25),
+            Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_pair[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_pair[1].get_corner(UR), RIGHT, buff=0.25),
             DashedLine([-0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                [2.1, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            DashedLine([1.16, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0],
-                [2.1, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([2.1, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                [3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([3.25, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0],
+                [3.8, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([3.8, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 color=TOTAL, stroke_width=3),
-            Tex(r'TS $=+\$8$', color=TOTAL).scale(0.8)
-                .next_to([2.1, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
+            Tex(r'TS $=+\$1$', color=TOTAL).scale(0.8)
+                .next_to([3.8, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
             Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, -0.1, 0])))
-        conclusion = fixed(Tex('Decreasing quantity removes more benefit than cost.', color=DEFINITION)
+        conclusion = fixed(Tex('Removing this ton loses more benefit than it saves in cost.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        value_question = fixed(Tex('Would removing these trades improve welfare?', color=DEFINITION)
+        value_question = fixed(Tex('Would removing this ton improve welfare?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         removed_detail[3].bars = removed_detail[4].bars = removed_pair
         removed_detail[3].add_updater(lambda m:
-            m.next_to(m.bars[0], LEFT, buff=0.25))
+            m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
         removed_detail[4].add_updater(lambda m:
-            m.next_to(m.bars[1], RIGHT, buff=0.25))
+            m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         self.play(FadeIn(removed_detail[:5]), FadeIn(detail_people), FadeIn(value_question))
         self.pause('1.f.values')
         self.play(FadeOut(value_question))
@@ -357,8 +383,8 @@ class C1(ThreeDScene):
 
         # ---- 1.g · The exact marginal boundary, rather than an average bar height.
         self.play(FadeOut(removed_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion),
-                  Transform(removed_pair, removed_home), FadeIn(market), FadeIn(lost_gain), run_time=1.6)
-        self.play(FadeOut(removed_pair), FadeOut(lost_gain),
+                  Transform(removed_pair, removed_home), FadeIn(market), run_time=1.6)
+        self.play(FadeOut(removed_pair),
                   *[bar.animate.set_fill(opacity=SURPLUS_OPACITY) for bars in (cs, ps) for bar in list(bars)[COMPARE_LOW:]],
                   *[bar.animate.set_fill(opacity=BASE_OPACITY) for bar in list(costs)[COMPARE_LOW:]],
                   Transform(quantity_guide, fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE))),
@@ -412,8 +438,8 @@ class C1(ThreeDScene):
         for left, value, color in [(-4.55, PAIR_MB, DEMAND), (-3.48, PAIR_MC, SUPPLY)]:
             pair_bars.add(fixed(Line([left, PAIR_BASE + value * PAIR_SCALE, 0],
                 [left + PAIR_WIDTH, PAIR_BASE + value * PAIR_SCALE, 0], color=color, stroke_width=3)))
-        pair_words[1].next_to(VGroup(pair_bars[0], pair_bars[2]), LEFT, buff=0.22)
-        pair_words[3].next_to(pair_bars[1], RIGHT, buff=0.22)
+        pair_words[1].next_to(pair_bars[4], LEFT, buff=0.22)
+        pair_words[3].next_to(pair_bars[5], RIGHT, buff=0.22)
         pair_price = fixed(VGroup(
             Line([-4.7, PAIR_BASE + 4 * PAIR_SCALE, 0], [-2.38, PAIR_BASE + 4 * PAIR_SCALE, 0], color=GUIDE, stroke_width=2.5),
             Tex(r'Price $\$4$', color=GUIDE).scale(0.65).move_to([-5.7, PAIR_BASE + 4 * PAIR_SCALE, 0])))
@@ -509,8 +535,8 @@ class C1(ThreeDScene):
             replacement = fixed(Tex(text_value, color=INK if index % 2 == 0 else (DEMAND if index == 1 else SUPPLY))
                                 .scale((0.7 if index % 2 == 0 else 0.65) * 0.66).move_to(second_words[index]))
             second_words[index].become(replacement)
-        second_words[1].next_to(VGroup(second_bars[0], second_bars[2]), LEFT, buff=0.22 * 0.66)
-        second_words[3].next_to(second_bars[1], RIGHT, buff=0.22 * 0.66)
+        second_words[1].next_to(second_bars[4], LEFT, buff=0.22 * 0.66)
+        second_words[3].next_to(second_bars[5], RIGHT, buff=0.22 * 0.66)
         second_ext = fixed(Polygon(ext_ax.c2p(1, 0), ext_ax.c2p(2, 0), ext_ax.c2p(2, 2), ext_ax.c2p(1, 2),
             stroke_width=1.5, stroke_color=BG, fill_color=EXT, fill_opacity=0.65))
         second_ext_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(1.5, 1)))
@@ -650,19 +676,19 @@ class C1(ThreeDScene):
         self.add(social_graph)
         self.pause('3.c')
 
-        # ---- 3.d · The added 8 tons, with external cost stacked on MPC.
+        # ---- 3.d · Revisit the same added ton, with external cost stacked on MPC.
         extra_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(40, 0), left_ax.c2p(48, 0),
-                left_ax.c2p(48, 12 - 48 / 5), left_ax.c2p(40, 12 - 40 / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(40, 0), left_ax.c2p(48, 0),
-                left_ax.c2p(48, 2 + 48 / 20), left_ax.c2p(40, 2 + 40 / 20),
+            Polygon(left_ax.c2p(43.04, 0), left_ax.c2p(43.96, 0),
+                left_ax.c2p(43.96, 3.2), left_ax.c2p(43.04, 3.2),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            Polygon(left_ax.c2p(43.04, 0), left_ax.c2p(43.96, 0),
+                left_ax.c2p(43.96, 4.2), left_ax.c2p(43.04, 4.2),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(40, 2 + 40 / 20), left_ax.c2p(48, 2 + 48 / 20),
-                left_ax.c2p(48, 4 + 48 / 20), left_ax.c2p(40, 4 + 40 / 20),
+            Polygon(left_ax.c2p(43.04, 4.2), left_ax.c2p(43.96, 4.2),
+                left_ax.c2p(43.96, 6.2), left_ax.c2p(43.04, 6.2),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         extra_social_home = extra_social_pair.copy()
-        selection_word = fixed(Tex('Increase: 40 to 48 tons', color=DEFINITION)
+        selection_word = fixed(Tex('Look at the same one added ton.', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(question)
         self.play(FadeIn(extra_social_pair), FadeIn(selection_word))
@@ -682,28 +708,28 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(extra_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MSB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_social_target[0], LEFT, buff=0.25),
-            Tex(r'MPC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1], RIGHT, buff=0.25),
+            Tex(r'MSB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MPC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$6.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2], UP, buff=0.18)))
+            Tex(r'MSC $\$6.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
-            DashedLine([-1.16, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
-                [-2.0, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([-3.55, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             DashedLine([0.06, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0],
-                [-2.0, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([-2.0, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
-                [-2.0, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$24$', color=TOTAL).scale(0.8)
-                .next_to([-2.0, DETAIL_BASE + 4.7 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
-        conclusion = fixed(Tex('Increasing quantity reduces social welfare.', color=DEFINITION)
+                [-3.8, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([-3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
+            Tex(r'TS $=-\$3$', color=TOTAL).scale(0.8)
+                .next_to([-3.8, DETAIL_BASE + 4.7 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
+        conclusion = fixed(Tex('Adding this ton reduces social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         extra_social_labels[4].bars = extra_social_labels[5].bars = extra_social_pair
         extra_social_labels[4].add_updater(lambda m:
-            m.next_to(m.bars[0], LEFT, buff=0.25))
+            m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
         extra_social_labels[5].add_updater(lambda m:
-            m.next_to(m.bars[1], RIGHT, buff=0.25))
+            m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[extra_social_labels[i] for i in [2, 6, 7]]))
         self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
@@ -721,19 +747,19 @@ class C1(ThreeDScene):
         self.play(FadeOut(extra_social_pair))
         self.pause('3.d.return')
 
-        # ---- 3.e · The removed 8 tons, with external cost stacked on MPC.
+        # ---- 3.e · Revisit the same removed ton, with external cost stacked on MPC.
         removed_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(32, 0), left_ax.c2p(40, 0),
-                left_ax.c2p(40, 12 - 40 / 5), left_ax.c2p(32, 12 - 32 / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(32, 0), left_ax.c2p(40, 0),
-                left_ax.c2p(40, 2 + 40 / 20), left_ax.c2p(32, 2 + 32 / 20),
+            Polygon(left_ax.c2p(35.04, 0), left_ax.c2p(35.96, 0),
+                left_ax.c2p(35.96, 4.8), left_ax.c2p(35.04, 4.8),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            Polygon(left_ax.c2p(35.04, 0), left_ax.c2p(35.96, 0),
+                left_ax.c2p(35.96, 3.8), left_ax.c2p(35.04, 3.8),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(32, 2 + 32 / 20), left_ax.c2p(40, 2 + 40 / 20),
-                left_ax.c2p(40, 4 + 40 / 20), left_ax.c2p(32, 4 + 32 / 20),
+            Polygon(left_ax.c2p(35.04, 3.8), left_ax.c2p(35.96, 3.8),
+                left_ax.c2p(35.96, 5.8), left_ax.c2p(35.04, 5.8),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         removed_social_home = removed_social_pair.copy()
-        selection_word = fixed(Tex('Decrease: 40 to 32 tons', color=DEFINITION)
+        selection_word = fixed(Tex('Look at the same one removed ton.', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(question)
         self.play(FadeIn(removed_social_pair), FadeIn(selection_word))
@@ -753,28 +779,28 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(removed_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MSB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0], LEFT, buff=0.25),
-            Tex(r'MPC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1], RIGHT, buff=0.25),
+            Tex(r'MSB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MPC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2], UP, buff=0.18)))
+            Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
-            DashedLine([-1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                [-2.0, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([-3.55, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             DashedLine([0.06, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0],
-                [-2.0, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([-2.0, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                [-2.0, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$8$', color=TOTAL).scale(0.8)
-                .next_to([-2.0, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
-        conclusion = fixed(Tex('Decreasing quantity increases social welfare.', color=DEFINITION)
+                [-3.8, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([-3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
+            Tex(r'TS $=-\$1$', color=TOTAL).scale(0.8)
+                .next_to([-3.8, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
+        conclusion = fixed(Tex('Removing this ton increases social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         removed_social_labels[4].bars = removed_social_labels[5].bars = removed_social_pair
         removed_social_labels[4].add_updater(lambda m:
-            m.next_to(m.bars[0], LEFT, buff=0.25))
+            m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
         removed_social_labels[5].add_updater(lambda m:
-            m.next_to(m.bars[1], RIGHT, buff=0.25))
+            m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
         self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
