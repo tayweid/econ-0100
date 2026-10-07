@@ -82,17 +82,17 @@
 ]
 
 #quote(block: true)[
-  1.e → 1.e.select · Keep title: Competitive equilibrium. Ask: What happens if we decrease quantity? Fade existing one-ton bars from ton 40 down through ton 36, reaching Q = 35. Highlight ton 36 as the one removed exchange to examine. Bottom: Look at this one removed ton. Select only that one-unit-wide slice.
+  1.e → 1.e.select · Keep title: Competitive equilibrium. Ask: What happens if we decrease quantity? Fade existing one-ton bars from ton 40 down through ton 36, reaching Q = 35. Select ton 36 from the existing market bars: reuse its cost polygon and the buyer bar’s existing demand edge and baseline. Outline both full value bars on their exact edges, in teal and orange, without a padded selection box. Bottom: Look at this one removed ton. Keep both columns in the same original one-unit-wide slice until the close-up separates them.
 
 ]
 
 #quote(block: true)[
-  1.f.values → 1.f · Carry that one-ton pair into the close-up. First show only MB 4.80 and MC 3.80 beside their hard value lines, faint bars, and spheres. Bottom question: Would removing this ton improve welfare? Pause. Then reveal MB \> MC and the purple gap labeled TS = +1 dollar for this single exchange. Bottom: Removing this ton loses more benefit than it saves in cost. No grey explanatory notes.
+  1.f.values → 1.f · Carry that one-ton pair into the close-up. Under the topic title, show the subtitle: The 36th unit: a quantity smaller than in equilibrium. First show only MB 4.80 and MC 3.80 beside their hard value lines, faint bars, and spheres. Bottom question: Would removing this ton improve welfare? Pause. Then reveal MB \> MC and the purple gap labeled TS = +1 dollar for this single exchange. Bottom: Removing this ton loses more benefit than it saves in cost. Keep the context subtitle through the answer; omit grey footers.
 
 ]
 
 #quote(block: true)[
-  1.g · Return the pair to the graph and restore equilibrium. Mark the exact curve intersection. Bottom: At equilibrium, MB = MC. Then change title to The First Welfare Theorem. One yellow takeaway, across two lines: When all benefits and costs are counted, competitive equilibrium maximizes total surplus.
+  1.g · Fade the subtitle, return both columns to the exact original one-ton width and sloping value edges, and restore equilibrium. Mark the exact curve intersection. Bottom: At equilibrium, MB = MC. Then change title to The First Welfare Theorem. One yellow takeaway, across two lines: When all benefits and costs are counted, competitive equilibrium maximizes total surplus.
 
 ]
 
@@ -151,7 +151,7 @@
 ]
 
 #quote(block: true)[
-  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the same one removed ton at rank 36. Bottom: Look at the same one removed ton. First reveal only MSB 4.80 and MPC 3.80 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally reveal TS = −1 dollar for this one ton. Bottom: Removing this ton increases social welfare. Return to its original one-ton market slice.
+  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the same one removed ton at rank 36, copying the existing private-cost and external-cost strips so its market width and sloping edges match exactly. Bottom: Look at the same one removed ton. In the close-up, repeat the subtitle: The 36th unit: a quantity smaller than in equilibrium. First reveal only MSB 4.80 and MPC 3.80 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally reveal TS = −1 dollar for this one ton. Bottom: Removing this ton increases social welfare. Fade the subtitle on the return to its original one-ton market slice.
 
 ]
 

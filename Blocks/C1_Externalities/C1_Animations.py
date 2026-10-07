@@ -328,10 +328,9 @@ class C1(ThreeDScene):
 
         # ---- 1.e · Reduce quantity, then pick one existing exchange: ton 36.
         removed_pair = fixed(VGroup(
-            Polygon(ax.c2p(35.04, 0), ax.c2p(35.96, 0), ax.c2p(35.96, 4.8), ax.c2p(35.04, 4.8),
+            Polygon(*costs[COMPARE_LOW].get_vertices()[:2], *cs[COMPARE_LOW].get_vertices()[2:4],
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-            Polygon(ax.c2p(35.04, 0), ax.c2p(35.96, 0), ax.c2p(35.96, 3.8), ax.c2p(35.04, 3.8),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY)))
+            costs[COMPARE_LOW].copy()))
         removed_home = removed_pair.copy()
         question = fixed(Tex('What happens if we decrease quantity?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -342,7 +341,9 @@ class C1(ThreeDScene):
                   Transform(quantity_label, fixed(Tex(r'$Q=35$', color=GUIDE).scale(0.7).next_to(ax.c2p(35, 0), DOWN, buff=0.20))),
                   run_time=2)
         self.pause('1.e')
-        selected_ton = fixed(SurroundingRectangle(removed_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        selected_ton = fixed(VGroup(
+            removed_pair[0].copy().set_fill(opacity=0).set_stroke(DEMAND, width=3),
+            removed_pair[1].copy().set_fill(opacity=0).set_stroke(SUPPLY, width=3)))
         self.remove(question)
         question = fixed(Tex('Look at this one removed ton.', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -381,14 +382,16 @@ class C1(ThreeDScene):
             m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
         removed_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
-        self.play(FadeIn(removed_detail[:5]), FadeIn(detail_people), FadeIn(value_question))
+        unit_context = fixed(subtitle(head,
+            'The 36th unit: a quantity smaller than in equilibrium.', book=True))
+        self.play(FadeIn(removed_detail[:5]), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.f.values')
         self.play(FadeOut(value_question))
         self.play(FadeIn(removed_detail[5:]), FadeIn(conclusion))
         self.pause('1.f')
 
         # ---- 1.g · The exact marginal boundary, rather than an average bar height.
-        self.play(FadeOut(removed_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion),
+        self.play(FadeOut(removed_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(removed_pair, removed_home), FadeIn(market), run_time=1.6)
         self.play(FadeOut(removed_pair),
                   *[bar.animate.set_fill(opacity=SURPLUS_OPACITY) for bars in (cs, ps) for bar in list(bars)[COMPARE_LOW:]],
@@ -757,15 +760,11 @@ class C1(ThreeDScene):
 
         # ---- 3.e · Revisit the same removed ton, with external cost stacked on MPC.
         removed_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(35.04, 0), left_ax.c2p(35.96, 0),
-                left_ax.c2p(35.96, 4.8), left_ax.c2p(35.04, 4.8),
+            Polygon(*private_bars[COMPARE_LOW].get_vertices()[:2],
+                left_ax.c2p(COMPARE_LOW + 1 - BAR_GAP / 2, 12 - (COMPARE_LOW + 1 - BAR_GAP / 2) / 5),
+                left_ax.c2p(COMPARE_LOW + BAR_GAP / 2, 12 - (COMPARE_LOW + BAR_GAP / 2) / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-            Polygon(left_ax.c2p(35.04, 0), left_ax.c2p(35.96, 0),
-                left_ax.c2p(35.96, 3.8), left_ax.c2p(35.04, 3.8),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(35.04, 3.8), left_ax.c2p(35.96, 3.8),
-                left_ax.c2p(35.96, 5.8), left_ax.c2p(35.04, 5.8),
-                stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
+            private_bars[COMPARE_LOW].copy(), external_bars[COMPARE_LOW].copy()))
         removed_social_home = removed_social_pair.copy()
         selection_word = fixed(Tex('Look at the same one removed ton.', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -811,7 +810,9 @@ class C1(ThreeDScene):
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
-        self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
+        unit_context = fixed(subtitle(head,
+            'The 36th unit: a quantity smaller than in equilibrium.', book=True))
+        self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.e.values')
         self.remove(value_question)
         value_question = fixed(Tex('What changes when we count the external cost?', color=DEFINITION)
@@ -821,7 +822,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(value_question))
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.e')
-        self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(social_gap), FadeOut(conclusion),
+        self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), run_time=1.6)
         self.play(FadeOut(removed_social_pair))
         self.pause('3.e.return')
