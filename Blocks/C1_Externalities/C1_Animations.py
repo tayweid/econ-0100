@@ -539,7 +539,7 @@ class C1(ThreeDScene):
             Tex(r'$\$2$', color=EXT).scale(0.65).next_to(right_ax.c2p(0, 2), LEFT, buff=0.15),
             Tex('Q', color=INK).scale(0.7).next_to(right_ax.c2p(60, 0), DOWN, buff=0.18),
             Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(right_ax.c2p(60, 0), DOWN, buff=0.7),
-            Tex(r'$Q=40$', color=GUIDE).scale(0.65).next_to(right_ax.c2p(40, 0), DOWN, buff=0.18)))
+            Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.65).next_to(right_ax.c2p(40, 0), DOWN, buff=0.18)))
         left_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         left_supply = fixed(Line(left_ax.c2p(0, 2), left_ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
         left_curve_words = fixed(VGroup(
@@ -549,7 +549,7 @@ class C1(ThreeDScene):
             Dot(left_ax.c2p(40, 4), radius=0.06, color=GUIDE),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
-            Tex(r'$Q_m=40$', color=GUIDE).scale(0.65).next_to(left_ax.c2p(40, 0), DOWN, buff=0.18)))
+            Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.65).next_to(left_ax.c2p(40, 0), DOWN, buff=0.18)))
         private_bars, benefit_bars, external_bars = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
         producer_surplus = fixed(VGroup())
         for q in range(40):
@@ -666,8 +666,8 @@ class C1(ThreeDScene):
         market_reference = fixed(VGroup(
             Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
-            Tex(r'$Q_m=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
-            Tex(r'$P_m=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(0, 4), LEFT, buff=0.20),
+            Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
+            Tex(r'$\hat{P}=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(0, 4), LEFT, buff=0.20),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2)))
         self.remove(head)
         head = fixed(title('Social Welfare'))
