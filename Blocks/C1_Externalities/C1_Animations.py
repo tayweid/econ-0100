@@ -420,9 +420,9 @@ class C1(ThreeDScene):
         self.clear()
         head = fixed(title('Negative externalities'))
         negative_context = fixed(subtitle(head, 'A cost paid by others outside the market.'))
-        PAIR_BASE, PAIR_SCALE, PAIR_WIDTH = -1.65, 0.58, 0.95
-        # Exact averages for the representative market interval 29–30.
-        PAIR_MB, PAIR_MC = 6.1, 3.475
+        PAIR_BASE, PAIR_SCALE, PAIR_WIDTH = -1.65, 0.44, 0.95
+        PAIR_Q = 20
+        PAIR_MB, PAIR_MC = 12 - PAIR_Q / 5, 2 + PAIR_Q / 20
         pair_bars, pair_people, pair_words = fixed(VGroup()), fixed(Group()), fixed(VGroup())
         for left, value, color, name, person_x, term in [
             (-4.55, PAIR_MB, DEMAND, 'Gary', -4.9, 'MB'),
@@ -562,7 +562,7 @@ class C1(ThreeDScene):
             external_bars.add(fixed(Polygon(right_ax.c2p(l, 0), right_ax.c2p(r, 0),
                 right_ax.c2p(r, 2), right_ax.c2p(l, 2),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
-        q = 29
+        q = PAIR_Q - 1
         left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
         landing_pair = fixed(VGroup(
             Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
@@ -592,7 +592,7 @@ class C1(ThreeDScene):
         self.play(LaggedStart(*[
             AnimationGroup(FadeIn(private_bars[q]), FadeIn(benefit_bars[q]),
                            FadeIn(producer_surplus[q]), FadeIn(external_bars[q]))
-            for q in range(40) if q != 29], lag_ratio=0.12), run_time=4)
+            for q in range(40) if q != PAIR_Q - 1], lag_ratio=0.12), run_time=4)
         self.remove(*list(private_bars), *list(benefit_bars), *list(producer_surplus), *list(external_bars))
         self.add(private_bars, benefit_bars, producer_surplus, external_bars)
         self.remove(right_axis_words)
