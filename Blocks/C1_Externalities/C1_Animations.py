@@ -893,11 +893,24 @@ class C1(ThreeDScene):
         self.play(FadeIn(removed_social_labels[6]), FadeIn(unit_bystander_word), run_time=0.4)
         self.play(FadeIn(external_labels))
         self.pause('3.e.costs')
-        self.play(FadeIn(social_gap), FadeIn(conclusion))
+        # Carry this ton's loss, rather than its whole external cost, back to the market.
+        removed_dwl_bar = fixed(Polygon(
+            [0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+            [1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+            [1.16, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0],
+            [0.06, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0],
+            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
+        left, right = COMPARE_LOW + BAR_GAP / 2, COMPARE_LOW + 1 - BAR_GAP / 2
+        removed_dwl_market = fixed(Polygon(
+            left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+            left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
+            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
+        self.play(FadeIn(removed_dwl_bar), FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.e')
         self.remove(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
-                  Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), FadeIn(welfare_context), run_time=1.6)
+                  Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), FadeIn(welfare_context),
+                  Transform(removed_dwl_bar, removed_dwl_market), run_time=1.6)
         self.play(FadeOut(removed_social_pair))
         self.pause('3.e.return')
 
@@ -933,12 +946,15 @@ class C1(ThreeDScene):
         self.play(FadeIn(head))
         loss_slices = fixed(VGroup())
         for q in range(32, 40):
+            if q == COMPARE_LOW:
+                loss_slices.add(removed_dwl_bar)
+                continue
             loss_slices.add(fixed(Polygon(left_ax.c2p(q, 12 - q / 5), left_ax.c2p(q + 1, 12 - (q + 1) / 5),
                 left_ax.c2p(q + 1, 4 + (q + 1) / 20), left_ax.c2p(q, 4 + q / 20),
                 stroke_width=1, stroke_color=BG, fill_color=DWL, fill_opacity=0.8)))
         self.remove(condition)
         self.play(external_bars.animate.set_fill(opacity=0.18),
-                  LaggedStart(*[FadeIn(bar) for bar in loss_slices], lag_ratio=0.18), run_time=2)
+                  LaggedStart(*[FadeIn(bar) for bar in loss_slices if bar is not removed_dwl_bar], lag_ratio=0.18), run_time=2)
         dwl_triangle = fixed(Polygon(left_ax.c2p(32, 5.6), left_ax.c2p(40, 4), left_ax.c2p(40, 6),
             stroke_width=0, fill_color=DWL, fill_opacity=0.8))
         self.play(Transform(loss_slices, fixed(VGroup(dwl_triangle))), run_time=0.8)
