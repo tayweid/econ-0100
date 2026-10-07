@@ -170,8 +170,8 @@ but note `BLUE`'s *value* is a deep teal.
 
 | Token | Value | Market (B–E) | Part A | Games | Consumer (F) |
 |---|---|---|---|---|---|
-| `BLUE` | `#128A9B` (deep teal) | `DEMAND` (also MPB, MSB); CS fill | `MOLLY` | `COL_PLAYER` (them / Player 2) | `GOOD_A` (x-axis), `INDIFFERENCE` (one color for all indifference curves — F1's three-color set is out of spec); optimum dot is `FOCUS` with `MUTED` dashed drop-lines |
-| `ORANGE` | `#E2803A` | `SUPPLY` (also MPC, MSC, MC); PS fill | `CARROTS` | — | — |
+| `BLUE` | `#128A9B` (deep teal) | `DEMAND` (MB, also MSB when needed); CS fill | `MOLLY` | `COL_PLAYER` (them / Player 2) | `GOOD_A` (x-axis), `INDIFFERENCE` (one color for all indifference curves — F1's three-color set is out of spec); optimum dot is `FOCUS` with `MUTED` dashed drop-lines |
+| `ORANGE` | `#E2803A` | `SUPPLY` (MC, also MSC); PS fill | `CARROTS` | — | — |
 | `GREEN` | `#34B57A` | `GOV` (tax revenue / subsidy cost / "expenditure") | `SPINACH` | `EFFICIENT` cell box | `GOOD_B` (y-axis) |
 | `RED` | `#C63944` | `GUIDE`: dashed P\*/Q\* lines, equilibrium dot, readouts. One accent, always red. | `ANDREW` | `NASH` cell box | `INCOME`, `BUDGET` |
 | `PURPLE` | `#A99CF2` | `TOTAL` (total surplus as one region) | `CO_OP` (renamed from `GUILD` 2026-09-02 with the prose; `GUILD` stays in `style.py` as a deprecated alias until pre-rename episode code migrates) | — | — |
@@ -222,7 +222,7 @@ Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for
 contrast. Place CS/PS labels immediately beside their regions, as in B3, without
-connector lines. Put MB immediately left of its hard value line and MC/MPC immediately right
+connector lines. Put MB immediately left of its hard value line and MC immediately right
 of its hard value line, at exactly the line’s height. Do not center value
 labels beside the filled region. The canonical exchange close-up retains the
 Part B buyer/seller spheres and their shadows: teal buyer, orange seller, with
@@ -300,7 +300,7 @@ matching metrics.
   | Competitive equilibrium | A market without externalities | What happens if we increase quantity by one? |
   | Competitive equilibrium | A market without externalities | One fewer trade removes more benefit than cost. |
   | Negative externalities | One buyer and one seller | One trade can impose small costs on many other people. |
-  | Marginal social cost | — | Marginal social cost = private cost + external cost. |
+  | Marginal social cost | — | MSC = MC + Ext. |
 
   These C1 examples illustrate the roles; they are not mandatory wording for other episodes.
 
@@ -320,7 +320,7 @@ matching metrics.
 - **Axis-label positioning is the same across all graphs: vertical label LEFT of its axis, horizontal label BELOW its axis.** For P, use `next_to(ax.c2p(0,y_max), LEFT, buff=.25)`; for Q, use `next_to(ax.c2p(x_max,0), DOWN, buff=.35)`, replacing zero with the corresponding axis-origin coordinate when nonzero. Axis names are plain white `P` and `Q`; red `Q_d`/`Q_s` identify selected quantities, not the axis itself. Unit captions may sit beside those names; keep them clear of ticks, titles, and readouts.
 - **Graph beside calculations**: use a subtle grey vertical divider, centered vertically and tall enough to cover the graph and its horizontal labels (B2 uses six units). Put it to the right of the entire horizontal-label group, including units such as “tons per year,” with a 0.35-unit gap. Center the math block in the remaining space between divider and right safe margin; multi-step algebra may remain left-aligned internally. Fade the divider in and out with the calculation sequence. (Approved 2026-09-15.)
 - Curves: `axes.plot` for functions; **polyline (`set_points_as_corners`) inside `always_redraw`** for anything driven by a tracker or data — never `Transform` between two rebuilt plots (the wobble).
-- Labels ride the curve end: short (`D`, `S`, `MC`, `ATC`, `MPB`), `INK`, `next_to` the right end. In C–E demand is relabeled `MPB` and supply `MPC` once externalities enter, and stays relabeled. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
+- Labels ride the curve end: short (`D`, `S`, `MB`, `MC`, `ATC`), `INK`, `next_to` the right end. Keep demand labeled `MB` and supply `MC` when externalities enter. Introduce `MSC = MC + Ext.` for total marginal cost; `Ext.` means external cost per unit. Keep `MB` for benefit when there is no external benefit, as in C1; introduce `MSB` only when external benefits need a separate curve. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
 - Put the standing curve equation above the curve in open graph space. Use the separate math area for the worked substitution, not for a second unrelated text stack.
 - Areas use the token's fill opacity. Explicit `Polygon` slices are appropriate for the editable, bar-by-bar sequences below; use axis coordinates for every boundary so bars and curves align.
 - Equilibrium: `GUIDE` dot + two dashed `GUIDE` drop-lines (`get_horizontal_line` / `get_vertical_line`, `dashed_ratio 0.85`, opacity 0.3 for the lines, 1.0 for the dot). Star the labels: `P^*`, `Q^*`.
@@ -450,9 +450,9 @@ available space.
 | S&D (spinach) | `S: P = 2Q/5`, `D: P = 8 − Q/5`, `Q* = 40/3`, `P* = 16/3`; Q in thousands of lb/month |
 | S&D (generic, C) | `D: P = 10 − Q/10`, `S: P = 2 + Q/10`, eq (40, 6), axes 0–100 × 0–10 |
 | Tax | wedge is a vertical segment parked **left of the axes**, slid in from the left until it "gets stuck between the curves"; `p_B` label above-left, `p_S` below-left; incidence stacked off-axis, buyer share `DEMAND`, seller share `SUPPLY` |
-| Externality | built at **one quantity first** (MPC segment, EXT on top, label MSC), then swept |
+| Externality | built at **one quantity first** (MC segment, EXT on top, label MSC), then swept |
 | Costs | production function **left**, cost graph **right**; FC first as a horizontal line; MC through the minima of ATC and AVC with `FOCUS` dots |
-| Monopoly | four curves `MC ATC MPB MR`, each readout dashed in its own curve's color; MR ends at half MPB's Q-extent; profit box `Q × (P − ATC)` |
+| Monopoly | four curves `MC ATC MB MR`, each readout dashed in its own curve's color; MR ends at half MB's Q-extent; profit box `Q × (P − ATC)` |
 | Payoff matrix | `Table`, row player first in each cell; walk **column headers, then row headers**, then cells in VO order |
 | Consumer | tangency shown as the ratchet (nudge point → bump curve → repeat) |
 

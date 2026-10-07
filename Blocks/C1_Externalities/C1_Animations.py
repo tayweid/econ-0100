@@ -426,7 +426,7 @@ class C1(ThreeDScene):
         pair_bars, pair_people, pair_words = fixed(VGroup()), fixed(Group()), fixed(VGroup())
         for left, value, color, name, person_x, term in [
             (-4.55, PAIR_MB, DEMAND, 'Gary', -4.9, 'MB'),
-            (-3.48, PAIR_MC, SUPPLY, 'Molly', -2.15, 'MPC')]:
+            (-3.48, PAIR_MC, SUPPLY, 'Molly', -2.15, 'MC')]:
             pair_bars.add(fixed(Polygon([left, PAIR_BASE, 0], [left + PAIR_WIDTH, PAIR_BASE, 0],
                 [left + PAIR_WIDTH, PAIR_BASE + min(value, MARKET_P) * PAIR_SCALE, 0],
                 [left, PAIR_BASE + min(value, MARKET_P) * PAIR_SCALE, 0],
@@ -560,7 +560,7 @@ class C1(ThreeDScene):
                 [left, base + value * PAIR_SCALE * 0.66, 0], [right, base + value * PAIR_SCALE * 0.66, 0],
                 color=color, stroke_width=3)))
         second_words = second_pair[2]
-        for index, text_value in [(0, 'Buyer'), (1, r'MB $\$5.90$'), (2, 'Seller'), (3, r'MPC $\$3.525$')]:
+        for index, text_value in [(0, 'Buyer'), (1, r'MB $\$5.90$'), (2, 'Seller'), (3, r'MC $\$3.525$')]:
             replacement = fixed(Tex(text_value, color=INK if index % 2 == 0 else (DEMAND if index == 1 else SUPPLY))
                                 .scale((0.7 if index % 2 == 0 else 0.65) * 0.66).move_to(second_words[index]))
             second_words[index].become(replacement)
@@ -596,8 +596,8 @@ class C1(ThreeDScene):
         left_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         left_supply = fixed(Line(left_ax.c2p(0, 2), left_ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
         left_curve_words = fixed(VGroup(
-            Tex('MPB', color=INK).scale(0.7).next_to(left_ax.c2p(8, 10.4), UR, buff=0.1),
-            Tex('MPC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 5), RIGHT, buff=0.12)))
+            Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(8, 10.4), UR, buff=0.1),
+            Tex('MC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 5), RIGHT, buff=0.12)))
         left_eq = fixed(VGroup(
             Dot(left_ax.c2p(40, 4), radius=0.06, color=GUIDE),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
@@ -680,7 +680,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
         social_cost = fixed(DashedLine(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
-        cost_definition = fixed(Tex('Marginal social cost $=$ private cost $+$ external cost.', color=DEFINITION)
+        cost_definition = fixed(Tex('MSC $=$ MC $+$ Ext.', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(cost_question)
         self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
@@ -696,7 +696,7 @@ class C1(ThreeDScene):
         self.play(cost_graph.animate.scale(1.15, about_point=left_ax.c2p(30, 6.5)), run_time=0.8)
         # Keep the axes' numerical mappings live after the group moves.
         full_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
-        demand_word = fixed(Tex('MPB = MSB', color=INK).scale(0.7).next_to(left_ax.c2p(7, 10.6), UR, buff=0.12))
+        demand_word = fixed(Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(7, 10.6), UR, buff=0.12))
         market_reference = fixed(VGroup(
             Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
@@ -712,7 +712,7 @@ class C1(ThreeDScene):
         self.add(social_graph)
         self.pause('3.c')
 
-        # ---- 3.d · Revisit the same added ton, with external cost stacked on MPC.
+        # ---- 3.d · Revisit the same added ton, with external cost stacked on MC.
         left, right = COMPARE_HIGH - 1 + BAR_GAP / 2, COMPARE_HIGH - BAR_GAP / 2
         extra_social_pair = fixed(VGroup(
             Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
@@ -744,8 +744,8 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(extra_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MSB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MPC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex(r'MB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$6.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
@@ -787,7 +787,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(extra_social_pair))
         self.pause('3.d.return')
 
-        # ---- 3.e · Revisit the same removed ton, with external cost stacked on MPC.
+        # ---- 3.e · Revisit the same removed ton, with external cost stacked on MC.
         removed_social_pair = fixed(VGroup(
             Polygon(*private_bars[COMPARE_LOW].get_vertices()[:2],
                 left_ax.c2p(COMPARE_LOW + 1 - BAR_GAP / 2, 12 - (COMPARE_LOW + 1 - BAR_GAP / 2) / 5),
@@ -814,8 +814,8 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(removed_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MSB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MPC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
@@ -878,7 +878,7 @@ class C1(ThreeDScene):
         efficient_word = fixed(Tex(r'$Q_e=32$', color=FOCUS).scale(0.7)
                                .next_to(left_ax.c2p(32, 0), DOWN, buff=0.78))
         # Vertically stagger quantity labels so 32 and 40 are both readable.
-        condition = fixed(Tex('Social welfare is maximized where MSB $=$ MSC.', color=DEFINITION)
+        condition = fixed(Tex('Social welfare is maximized where MB $=$ MSC.', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(efficient_dot), FadeIn(efficient_word), FadeIn(condition), FadeOut(marginal_gap))
         self.pause('4.a')
@@ -912,7 +912,7 @@ class C1(ThreeDScene):
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(evaluation_q.animate.set_value(24), FadeIn(conclusion), run_time=1.8)
         benefit_gap = fixed(Line(left_ax.c2p(24, 5.2), left_ax.c2p(24, 7.2), color=TOTAL, stroke_width=7))
-        benefit_word = fixed(Tex('MSB $>$ MSC', color=TOTAL).scale(0.72).next_to(benefit_gap, LEFT, buff=0.25))
+        benefit_word = fixed(Tex('MB $>$ MSC', color=TOTAL).scale(0.72).next_to(benefit_gap, LEFT, buff=0.25))
         self.play(FadeIn(benefit_gap), FadeIn(benefit_word))
         self.pause('4.c.beneficial')
         self.play(FadeOut(benefit_gap), FadeOut(benefit_word), evaluation_q.animate.set_value(32), run_time=1.8)
