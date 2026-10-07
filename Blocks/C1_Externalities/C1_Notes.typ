@@ -173,7 +173,7 @@
 ]
 
 #quote(block: true)[
-  5.b · Fade the definition and divider, recenter and enlarge the graph, and mark the efficient quantity where MSB meets MC: Q-star = 48. Preserve the red private market equilibrium at Q-hat = 40 and P-hat = 4. Stagger the quantity labels vertically so both remain readable. Bottom: Q-hat < Q-star. Pause. Keep the Positive Externalities title and its subtitle.
+  5.b · Fade the definition and divider, recenter and enlarge the graph, and mark the efficient quantity where MSB meets MC: Q-star = 48. Preserve the red private market equilibrium at Q-hat = 40 and P-hat = 4. Stagger the quantity labels vertically so both remain readable. Show Q-hat < Q-star prominently in the upper right at scale 1.3, matching the negative-externality comparison: Q-hat red, Q-star yellow, and the comparison sign white. Place grey Market quantity and Efficient quantity labels beneath their respective symbols on one aligned row. Keep the bottom strip clear. Pause. Keep the Positive Externalities title and its subtitle.
 
 ]
 

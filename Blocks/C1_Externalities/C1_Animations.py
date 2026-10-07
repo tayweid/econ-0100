@@ -1102,8 +1102,15 @@ class C1(ThreeDScene):
             Dot(positive_ax.c2p(48, 4.4), radius=0.085, color=FOCUS),
             Line(positive_ax.c2p(48, 0), positive_ax.c2p(48, 4.4), color=FOCUS, stroke_width=2),
             Tex(r'$Q^*=48$', color=FOCUS).scale(0.7).next_to(positive_ax.c2p(48, 0), DOWN, buff=0.78)))
-        positive_comparison = fixed(Tex(r'$\hat{Q}<Q^*$', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        positive_quantity_result = fixed(VGroup(
+            Tex(r'$\hat{Q}$', color=GUIDE), Tex('$<$', color=INK),
+            Tex(r'$Q^*$', color=FOCUS)).scale(1.3)
+            .arrange(RIGHT, buff=1.0).move_to([3.5, 1.9, 0]))
+        positive_comparison = fixed(VGroup(positive_quantity_result,
+            Tex('Market quantity', color=CAPTION).scale(0.7)
+                .next_to(positive_quantity_result, DOWN, buff=0.22).set_x(positive_quantity_result[0].get_x()),
+            Tex('Efficient quantity', color=CAPTION).scale(0.7)
+                .next_to(positive_quantity_result, DOWN, buff=0.22).set_x(positive_quantity_result[2].get_x())))
         self.play(FadeIn(positive_efficient), FadeIn(positive_comparison))
         self.pause('5.b')
 
