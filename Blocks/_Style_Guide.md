@@ -218,8 +218,14 @@ outside fills in their semantic colors, or use white inside stronger fills for
 contrast. Place CS/PS labels immediately beside their regions, as in B3, without
 connector lines. Put MB immediately left of its hard value line and MC/MPC immediately right
 of its hard value line, at exactly the line’s height. Do not center value
-labels beside the filled region. Keep buyer/seller spheres in exchange
-close-ups, with Buyer and Seller labels beneath the respective spheres. Anchor these labels to the live bars so
+labels beside the filled region. The canonical exchange close-up retains the
+Part B buyer/seller spheres and their shadows: teal buyer, orange seller, with
+Buyer and Seller beneath the respective spheres. This applies to the first
+exchange, the MB = MC equilibrium exchange, and both quantity comparisons,
+including their externality versions. Reveal the spheres with the initial
+values and keep them visible through price, surplus, and welfare reveals;
+fade them only when leaving the close-up. Text labels never replace the spheres.
+Anchor the MB/MC labels to the live bars so
 they follow movement, including while fading during a return zoom; grouped
 bar/label transforms should preserve that relationship.
 Establish units and quantity changes on the market graph. Omit grey
