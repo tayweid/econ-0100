@@ -96,9 +96,9 @@ class C1(ThreeDScene):
                     [left, INTRO_BASE + value * INTRO_SCALE, 0],
                     stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
                 values_pair[index + 1].set_opacity(0)
-            values_pair[-1].set_opacity(0)  # Price is revealed only after discussion.
-            value_words = fixed(VGroup(*[intro_words[i].copy() for i in [0, 1]],
-                *[word.copy() for word in list(intro_words)[-2:]]))
+            values_pair[-1].set_opacity(0)  # Values first, then the established market price.
+            value_words = fixed(VGroup(*[intro_words[i] for i in [0, 1]],
+                *list(intro_words)[-2:]))
             intro_value_states.append((values_pair, value_words))
 
         # ---- 1.a · Start with the full market and its surplus regions.
@@ -187,19 +187,23 @@ class C1(ThreeDScene):
                   Transform(intro_pair, intro_value_states[0][0]), run_time=1.6)
         value_words = intro_value_states[0][1]
         # Bind visible values to the live bars, including during the return zoom.
-        for words in (value_words, intro_words):
-            words[0].bars = words[1].bars = intro_pair
-            words[0].add_updater(lambda m:
-                m.next_to(m.bars[2], LEFT, buff=0.22))
-            words[1].add_updater(lambda m:
-                m.next_to(m.bars[5], RIGHT, buff=0.22))
-        value_question = fixed(Tex('What price would make both people willing to trade?', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(value_words), FadeIn(intro_people), FadeIn(value_question))
+        intro_words[0].bars = intro_words[1].bars = intro_pair
+        intro_words[0].add_updater(lambda m:
+            m.next_to(m.bars[2], LEFT, buff=0.22))
+        intro_words[1].add_updater(lambda m:
+            m.next_to(m.bars[5], RIGHT, buff=0.22))
+        self.play(FadeIn(value_words), FadeIn(intro_people))
         self.pause('1.a.first.values')
-        self.play(FadeOut(value_words), FadeOut(value_question))
-        self.play(Transform(intro_pair, intro_states[0][0]), run_time=0.8)
-        self.play(FadeIn(intro_words), FadeIn(intro_message))
+        # Split the faint buyer fill at price without changing its appearance.
+        intro_pair[0].become(intro_states[0][0][0])
+        intro_pair[1].set_fill(opacity=BASE_OPACITY)
+        self.play(intro_pair[-1].animate.set_opacity(1), FadeIn(intro_words[2]))
+        surplus_labels = fixed(VGroup(intro_words[3], intro_words[4]))
+        self.play(intro_pair[1].animate.set_fill(opacity=SURPLUS_OPACITY),
+                  intro_pair[4].animate.set_fill(opacity=SURPLUS_OPACITY),
+                  FadeIn(surplus_labels), FadeIn(intro_message))
+        self.remove(value_words, intro_words[2], surplus_labels)
+        self.add(intro_words)
         self.pause('1.a.first')
 
         # ---- 1.a.first.return · Restore the same pair to the same market location.
@@ -217,19 +221,17 @@ class C1(ThreeDScene):
                   Transform(intro_pair, intro_value_states[1][0]), run_time=1.6)
         value_words = intro_value_states[1][1]
         # Bind visible values to the live bars, including during the return zoom.
-        for words in (value_words, intro_words):
-            words[0].bars = words[1].bars = intro_pair
-            words[0].add_updater(lambda m:
-                m.next_to(m.bars[2], LEFT, buff=0.22))
-            words[1].add_updater(lambda m:
-                m.next_to(m.bars[5], RIGHT, buff=0.22))
-        value_question = fixed(Tex('What price would make this exchange possible?', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(value_words), FadeIn(intro_people), FadeIn(value_question))
+        intro_words[0].bars = intro_words[1].bars = intro_pair
+        intro_words[0].add_updater(lambda m:
+            m.next_to(m.bars[2], LEFT, buff=0.22))
+        intro_words[1].add_updater(lambda m:
+            m.next_to(m.bars[5], RIGHT, buff=0.22))
+        self.play(FadeIn(value_words), FadeIn(intro_people))
         self.pause('1.a.last.values')
-        self.play(FadeOut(value_words), FadeOut(value_question))
-        self.play(Transform(intro_pair, intro_states[1][0]), run_time=0.8)
-        self.play(FadeIn(intro_words), FadeIn(intro_message))
+        self.play(intro_pair[-1].animate.set_opacity(1), FadeIn(intro_words[2]))
+        self.play(FadeIn(intro_message))
+        self.remove(value_words, intro_words[2])
+        self.add(intro_words)
         self.pause('1.a.last')
 
         # ---- 1.a.last.return · Full market again before asking about the next lot.

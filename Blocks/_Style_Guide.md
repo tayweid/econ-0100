@@ -241,7 +241,12 @@ two offset half-width bars in the market. Distinguish an exact marginal value at
 average over a finite lot. A close-up does not need a subtitle when its labels
 and yellow teaching line supply the needed context.
 At each close-up, first reveal the faint full MB/MC bars, their hard value edges,
-and their values; pause with the question. Reveal price and CS/PS afterward.
+and their values. Keep MB/MC labels and the people visible as later information
+is added; do not fade and recreate them between reveals. In the C1 opening
+review, the market price is already known: show MB/MC, then the price line and
+label, then fade in the CS/PS regions and labels. Omit price-discovery questions
+in both the first-exchange and MB = MC close-ups. At MB = MC, show the price and
+equality takeaway without adding surplus regions.
 For a welfare comparison, withhold the surplus gap, inequality, and conclusion
 until after the values-only pause. With externalities, reveal private values
 first, then external/social cost, then the welfare result, with discussion
