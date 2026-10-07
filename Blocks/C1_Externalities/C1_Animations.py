@@ -176,10 +176,12 @@ class C1(ThreeDScene):
         # ---- 1.a.first · Carry the first selected pair out of the market.
         intro_pair = intro_homes[0].copy()
         intro_words, intro_message = intro_states[0][1:]
+        # Outline both full value bars on their existing slice, with no offset guide.
         first_selection = fixed(VGroup(
-            Line(ax.c2p(0, 0), ax.c2p(0, 12), color=FOCUS, stroke_width=2),
-            Dot(ax.c2p(0, 12), radius=0.06, color=DEMAND),
-            Dot(ax.c2p(0, 2), radius=0.06, color=SUPPLY)))
+            Polygon(intro_pair[0].get_corner(DL), intro_pair[0].get_corner(DR),
+                intro_pair[2].get_end(), intro_pair[2].get_start(),
+                fill_opacity=0, stroke_color=DEMAND, stroke_width=3),
+            intro_pair[3].copy().set_fill(opacity=0).set_stroke(SUPPLY, width=3)))
         self.play(FadeIn(first_selection), FadeIn(intro_pair))
         self.play(FadeOut(market), FadeOut(first_selection),
                   Transform(intro_pair, intro_value_states[0][0]), run_time=1.6)

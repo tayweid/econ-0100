@@ -209,7 +209,9 @@ region and PS above that boundary. Keep price as a red divider. On the combined
 market graph, show faint orange cost below MC, stronger orange PS up to price,
 and stronger teal CS above price. Use the short white labels CS and PS inside
 their respective surplus regions, placed at each triangle’s centroid. In the
-C1 market opening, reveal PS first, then CS, each with its label.
+C1 market opening, reveal PS first, then CS, each with its label. Select the
+first exchange by highlighting both full value bars on their existing edges,
+using their own colors; omit a separate yellow vertical line and offset dots.
 Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for
