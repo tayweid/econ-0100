@@ -531,7 +531,8 @@ class C1(ThreeDScene):
         left_words = fixed(VGroup(
             Tex(r'\textsf{\$/ton}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(0, 13), UP, buff=0.16),
             Tex('Q', color=INK).scale(0.7).next_to(left_ax.c2p(60, 0), DOWN, buff=0.18),
-            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(60, 0), DOWN, buff=0.7)))
+            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(60, 0), DOWN, buff=0.7),
+            Tex('$2$', color=SUPPLY).scale(0.65).next_to(left_ax.c2p(0, 2), LEFT, buff=0.15)))
         right_words = fixed(VGroup(
             Tex('Externalized cost per ton', color=CAPTION).scale(0.65)
                 .next_to(right_ax.c2p(0, 13), UP, buff=0.16, aligned_edge=LEFT),
