@@ -218,7 +218,11 @@ bar/label transforms should preserve that relationship.
 Establish units on the axes; omit repeated “average values”
 captions from close-ups. When zooming from the market to an exchange, carry the selected bars
 into the close-up and back to the same market location; keep a common scale
-across close-ups. Distinguish an exact marginal value at equilibrium from the
+across close-ups. Separate buyer/seller columns only in the close-up. In the
+market, both use identical horizontal bounds for the selected quantity slice
+or interval, with the actual curve slopes restored. Match the cost/CS/PS
+regions and fade the buyer expenditure base as the columns merge; do not leave
+two offset half-width bars in the market. Distinguish an exact marginal value at equilibrium from the
 average over a finite lot. A close-up does not need a subtitle when its labels
 and yellow teaching line supply the needed context.
 At each close-up, first reveal the faint full MB/MC bars, their hard value edges,

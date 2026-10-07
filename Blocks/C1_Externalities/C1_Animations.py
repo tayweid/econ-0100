@@ -139,28 +139,30 @@ class C1(ThreeDScene):
         self.add(market, head)
         self.pause('1.a')
 
-        # Two selected pairs in market coordinates, matching the close-up pieces.
-        # The last pair visualizes the point Q=40, not an average over a quantity interval.
+        # Market pieces share one quantity slice; only the close-up separates them.
+        # At Q=40 both values converge on the exact equilibrium point.
         intro_homes = []
-        for q, mb, mc in [(0, 12, 2), (40, 4, 4)]:
-            home_pair = fixed(VGroup())
-            start = 0.04 if q == 0 else MARKET_Q - 0.46
-            for left, value, color, lower, upper in [
-                (start, mb, DEMAND, MARKET_P, mb),
-                (start + 0.49, mc, SUPPLY, mc, MARKET_P)]:
-                right = left + 0.43
-                home_pair.add(fixed(Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
-                    ax.c2p(right, lower), ax.c2p(left, lower),
-                    stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-                home_pair.add(fixed(Polygon(ax.c2p(left, lower), ax.c2p(right, lower),
-                    ax.c2p(right, upper), ax.c2p(left, upper),
-                    stroke_width=0, fill_color=color,
-                    fill_opacity=SURPLUS_OPACITY if upper > lower else 0)))
-                home_pair.add(fixed(Line(ax.c2p(left, value), ax.c2p(right, value),
-                    color=color, stroke_width=3)))
-            home_pair.add(fixed(Line(ax.c2p(start, 0), ax.c2p(start + 0.92, 0), color=MUTED)))
-            home_pair.add(fixed(Line(ax.c2p(start, MARKET_P), ax.c2p(start + 0.92, MARKET_P),
-                color=GUIDE, stroke_width=2)))
+        for q in [0, MARKET_Q]:
+            left, right = (BAR_GAP / 2, 1 - BAR_GAP / 2) if q == 0 else (q - 0.0001, q + 0.0001)
+            mb_left, mb_right = (12 - left / 5, 12 - right / 5) if q == 0 else (4, 4)
+            mc_left, mc_right = (2 + left / 20, 2 + right / 20) if q == 0 else (4, 4)
+            home_pair = fixed(VGroup(
+                # Expenditure disappears as the buyer and seller columns merge.
+                Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 4), ax.c2p(left, 4),
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+                Polygon(ax.c2p(left, 4), ax.c2p(right, 4),
+                    ax.c2p(right, mb_right), ax.c2p(left, mb_left),
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY if q == 0 else 0),
+                Line(ax.c2p(left, mb_left), ax.c2p(right, mb_right), color=DEMAND, stroke_width=3),
+                Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                    ax.c2p(right, mc_right), ax.c2p(left, mc_left),
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
+                Polygon(ax.c2p(left, mc_left), ax.c2p(right, mc_right),
+                    ax.c2p(right, 4), ax.c2p(left, 4),
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY if q == 0 else 0),
+                Line(ax.c2p(left, mc_left), ax.c2p(right, mc_right), color=SUPPLY, stroke_width=3),
+                Line(ax.c2p(left, 0), ax.c2p(right, 0), color=MUTED),
+                Line(ax.c2p(left, 4), ax.c2p(right, 4), color=GUIDE, stroke_width=2)))
             intro_homes.append(home_pair)
 
         # ---- 1.a.first · Carry the first selected pair out of the market.
@@ -230,9 +232,11 @@ class C1(ThreeDScene):
         extra_loss = fixed(Polygon(ax.c2p(40, 4), ax.c2p(48, 2.4), ax.c2p(48, 4.4),
             stroke_width=0, fill_color=DWL, fill_opacity=DWL_OPACITY))
         extra_pair = fixed(VGroup(
-            Polygon(ax.c2p(40.16, 0), ax.c2p(43.76, 0), ax.c2p(43.76, 3.2), ax.c2p(40.16, 3.2),
+            Polygon(ax.c2p(40, 0), ax.c2p(48, 0),
+                ax.c2p(48, 12 - 48 / 5), ax.c2p(40, 12 - 40 / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(ax.c2p(44.24, 0), ax.c2p(47.84, 0), ax.c2p(47.84, 4.2), ax.c2p(44.24, 4.2),
+            Polygon(ax.c2p(40, 0), ax.c2p(48, 0),
+                ax.c2p(48, 2 + 48 / 20), ax.c2p(40, 2 + 40 / 20),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY)))
         extra_home = extra_pair.copy()
         question = fixed(Tex('What happens if we increase quantity?', color=DEFINITION)
@@ -299,9 +303,11 @@ class C1(ThreeDScene):
         lost_gain = fixed(Polygon(ax.c2p(32, 3.6), ax.c2p(40, 4), ax.c2p(32, 5.6),
             stroke_width=0, fill_color=DWL, fill_opacity=DWL_OPACITY))
         removed_pair = fixed(VGroup(
-            Polygon(ax.c2p(32.16, 0), ax.c2p(35.76, 0), ax.c2p(35.76, 4.8), ax.c2p(32.16, 4.8),
+            Polygon(ax.c2p(32, 0), ax.c2p(40, 0),
+                ax.c2p(40, 12 - 40 / 5), ax.c2p(32, 12 - 32 / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(ax.c2p(36.24, 0), ax.c2p(39.84, 0), ax.c2p(39.84, 3.8), ax.c2p(36.24, 3.8),
+            Polygon(ax.c2p(32, 0), ax.c2p(40, 0),
+                ax.c2p(40, 2 + 40 / 20), ax.c2p(32, 2 + 32 / 20),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY)))
         removed_home = removed_pair.copy()
         question = fixed(Tex('What happens if we decrease quantity?', color=DEFINITION)
@@ -560,13 +566,17 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         landing_pairs = []
         for q in [29, 30]:
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            # Match all six pieces to the existing stacked market geometry.
             landing_pairs.append(fixed(VGroup(
-                Polygon(left_ax.c2p(q + 0.04, 0), left_ax.c2p(q + 0.47, 0),
-                    left_ax.c2p(q + 0.47, 12 - (q + 0.5) / 5), left_ax.c2p(q + 0.04, 12 - (q + 0.5) / 5),
-                    stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-                Polygon(left_ax.c2p(q + 0.53, 0), left_ax.c2p(q + 0.96, 0),
-                    left_ax.c2p(q + 0.96, 2 + (q + 0.5) / 20), left_ax.c2p(q + 0.53, 2 + (q + 0.5) / 20),
-                    stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY))))
+                Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                    left_ax.c2p(right, 4), left_ax.c2p(left, 4),
+                    stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+                private_bars[q].copy(), benefit_bars[q].copy(), producer_surplus[q].copy(),
+                Line(left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+                    color=DEMAND, stroke_width=3),
+                Line(left_ax.c2p(left, 2 + left / 20), left_ax.c2p(right, 2 + right / 20),
+                    color=SUPPLY, stroke_width=3))))
         # Separate bars from their departing people so the bars survive the pullback.
         first_flying, second_flying = pair[0].copy(), second_pair[0].copy()
         self.add(first_flying, second_flying)
@@ -646,14 +656,14 @@ class C1(ThreeDScene):
 
         # ---- 3.d · The added 8 tons, with external cost stacked on MPC.
         extra_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(40.16, 0), left_ax.c2p(43.76, 0),
-                left_ax.c2p(43.76, 3.2), left_ax.c2p(40.16, 3.2),
+            Polygon(left_ax.c2p(40, 0), left_ax.c2p(48, 0),
+                left_ax.c2p(48, 12 - 48 / 5), left_ax.c2p(40, 12 - 40 / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(44.24, 0), left_ax.c2p(47.84, 0),
-                left_ax.c2p(47.84, 4.2), left_ax.c2p(44.24, 4.2),
+            Polygon(left_ax.c2p(40, 0), left_ax.c2p(48, 0),
+                left_ax.c2p(48, 2 + 48 / 20), left_ax.c2p(40, 2 + 40 / 20),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(44.24, 4.2), left_ax.c2p(47.84, 4.2),
-                left_ax.c2p(47.84, 6.2), left_ax.c2p(44.24, 6.2),
+            Polygon(left_ax.c2p(40, 2 + 40 / 20), left_ax.c2p(48, 2 + 48 / 20),
+                left_ax.c2p(48, 4 + 48 / 20), left_ax.c2p(40, 4 + 40 / 20),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         extra_social_home = extra_social_pair.copy()
         selection_word = fixed(Tex('Increase: 40 to 48 tons', color=DEFINITION)
@@ -718,14 +728,14 @@ class C1(ThreeDScene):
 
         # ---- 3.e · The removed 8 tons, with external cost stacked on MPC.
         removed_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(32.16, 0), left_ax.c2p(35.76, 0),
-                left_ax.c2p(35.76, 4.8), left_ax.c2p(32.16, 4.8),
+            Polygon(left_ax.c2p(32, 0), left_ax.c2p(40, 0),
+                left_ax.c2p(40, 12 - 40 / 5), left_ax.c2p(32, 12 - 32 / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(36.24, 0), left_ax.c2p(39.84, 0),
-                left_ax.c2p(39.84, 3.8), left_ax.c2p(36.24, 3.8),
+            Polygon(left_ax.c2p(32, 0), left_ax.c2p(40, 0),
+                left_ax.c2p(40, 2 + 40 / 20), left_ax.c2p(32, 2 + 32 / 20),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(36.24, 3.8), left_ax.c2p(39.84, 3.8),
-                left_ax.c2p(39.84, 5.8), left_ax.c2p(36.24, 5.8),
+            Polygon(left_ax.c2p(32, 2 + 32 / 20), left_ax.c2p(40, 2 + 40 / 20),
+                left_ax.c2p(40, 4 + 40 / 20), left_ax.c2p(32, 4 + 32 / 20),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         removed_social_home = removed_social_pair.copy()
         selection_word = fixed(Tex('Decrease: 40 to 32 tons', color=DEFINITION)

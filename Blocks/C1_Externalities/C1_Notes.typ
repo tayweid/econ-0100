@@ -52,7 +52,7 @@
 ]
 
 #quote(block: true)[
-  1.a.first.return · Fade the close-up labels and bottom text; carry the same pair back to its original rank as the full market reappears. Remove the selected pair overlay and pause on the complete market.
+  1.a.first.return · Fade the close-up labels and bottom text; carry the same pair back to its original rank as the full market reappears. Merge both columns onto the same full-width market slice, with exact sloping CS/PS/cost boundaries. Fade out the buyer expenditure base as the columns merge. Remove the selected pair overlay and pause on the complete market.
 
 ]
 
@@ -62,7 +62,7 @@
 ]
 
 #quote(block: true)[
-  1.a.last.return · Fade the close-up labels and bottom text; carry the equal-value pair back to the equilibrium point as the full market reappears. Remove the overlay and pause on the full market before asking about the next exchange.
+  1.a.last.return · Fade the close-up labels and bottom text; carry the equal-value pair back to the same equilibrium point as the full market reappears, with both columns sharing exactly the same horizontal position. Remove the overlay and pause on the full market before asking about the next exchange.
 
 ]
 
@@ -77,7 +77,7 @@
 ]
 
 #quote(block: true)[
-  1.d · Return the bars to their original interval and zoom back out. Restore Q = 40.
+  1.d · Return both bars to the same full quantity interval, restoring its exact sloping curve boundaries, and zoom back out. Restore Q = 40.
 
 ]
 
@@ -124,7 +124,7 @@
 ]
 
 #quote(block: true)[
-  2.f · Keep the existing Negative externalities title on screen throughout the zoom-out; do not fade it in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80 dollars.
+  2.f · Keep the existing Negative externalities title on screen throughout the zoom-out; do not fade it in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Each trade’s buyer and seller pieces share the full width of its market slice and match its cost, CS, and PS regions exactly; fade the buyer expenditure base during the merge. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80 dollars.
 
 ]
 
