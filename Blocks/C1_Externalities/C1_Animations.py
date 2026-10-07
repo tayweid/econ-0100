@@ -1,6 +1,6 @@
 # maniml C1_Animations.py C1
 # Storyboard: C1_Notes.typ. All lesson choreography stays in construct().
-# Part B's continuous spinach market; one Q step is a 1,000-pound lot.
+# Part B's continuous market shape, with Q in tons and values in dollars per ton.
 # Quantity comparisons use exact interval averages; opening close-ups use the Q=0 and Q=40 boundaries.
 
 from manim import *
@@ -27,8 +27,7 @@ class C1(ThreeDScene):
         BODY_MID = (BODY_TOP + BODY_BOTTOM) / 2
         DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         MARKET_Q, MARKET_P, EXTERNAL_COST, EFFICIENT_Q = 40, 4, 2, 32
-        LOT_POUNDS = 1000
-        COMPARE_LOW, COMPARE_HIGH = 32, 48  # Compare an 8,000-pound change, not one lot.
+        COMPARE_LOW, COMPARE_HIGH = 32, 48  # Compare an 8-ton change, not one lot.
         BAR_GAP = 0.08
         DETAIL_BASE, DETAIL_SCALE = -2.05, 0.68
 
@@ -71,24 +70,16 @@ class C1(ThreeDScene):
                     .move_to([3.0, INTRO_BASE + mc * INTRO_SCALE - 0.3, 0]),
                 Tex(r'Price $\$4$', color=GUIDE).scale(0.7).move_to([-3.0, INTRO_BASE + 4 * INTRO_SCALE, 0]),
                 Tex(rf'CS $\${mb - 4:g}$', color=DEMAND).scale(0.7)
-                    .move_to([-3.0, INTRO_BASE + (4 + mb) / 2 * INTRO_SCALE + (0.65 if q else 0), 0]),
+                    .next_to(next_pair[1], LEFT, buff=0.22),
                 Tex(rf'PS $\${4 - mc:g}$', color=SUPPLY).scale(0.7)
-                    .move_to([3.0, INTRO_BASE + (mc + 4) / 2 * INTRO_SCALE + 0.65, 0]),
-                Line([-1.3, INTRO_BASE + (4 + mb) / 2 * INTRO_SCALE, 0],
-                    [-2.05, INTRO_BASE + (4 + mb) / 2 * INTRO_SCALE + (0.65 if q else 0), 0],
-                    color=DEMAND, stroke_width=1.5),
-                Line([1.3, INTRO_BASE + (mc + 4) / 2 * INTRO_SCALE, 0],
-                    [2.05, INTRO_BASE + (mc + 4) / 2 * INTRO_SCALE + 0.65, 0],
-                    color=SUPPLY, stroke_width=1.5),
+                    .next_to(next_pair[4], RIGHT, buff=0.22),
                 Tex('Buyer', color=INK).scale(0.7).move_to([-0.725, -2.4, 0]),
-                Tex('Seller', color=INK).scale(0.7).move_to([0.725, -2.4, 0]),
-                Tex(r'Values per pound at $Q=0$' if q == 0 else r'Values per pound at $Q=40$',
-                    color=CAPTION).scale(0.65).move_to([0, -3.0, 0])))
+                Tex('Seller', color=INK).scale(0.7).move_to([0.725, -2.4, 0])))
             intro_message = fixed(Tex(message, color=DEFINITION)
                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-            # No surplus area or surplus leaders at the exact MB=MC boundary.
+            # No surplus area or surplus labels at the exact MB=MC boundary.
             if q == MARKET_Q:
-                intro_words.remove(*list(intro_words)[3:7])
+                intro_words.remove(*list(intro_words)[3:5])
             intro_states.append((next_pair, intro_words, intro_message))
             values_pair = next_pair.copy()
             for index, left, value, color in [(0, -1.3, mb, DEMAND), (3, 0.15, mc, SUPPLY)]:
@@ -100,7 +91,7 @@ class C1(ThreeDScene):
                 values_pair[index + 1].set_opacity(0)
             values_pair[-1].set_opacity(0)  # Price is revealed only after discussion.
             value_words = fixed(VGroup(*[intro_words[i].copy() for i in [0, 1]],
-                *[word.copy() for word in list(intro_words)[-3:]]))
+                *[word.copy() for word in list(intro_words)[-2:]]))
             intro_value_states.append((values_pair, value_words))
 
         # ---- 1.a · Start with the full market and its surplus regions.
@@ -109,9 +100,9 @@ class C1(ThreeDScene):
         fixed(ax)
         axis_words = fixed(VGroup(
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.23),
-            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, 13), UP, buff=0.18),
+            Tex(r'\textsf{\$/ton}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, 13), UP, buff=0.18),
             Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.55).next_to(ax.c2p(60, 0), DOWN, buff=0.73)))
+            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(ax.c2p(60, 0), DOWN, buff=0.73)))
         demand = fixed(Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         supply = fixed(Line(ax.c2p(0, 2), ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
         curve_words = fixed(VGroup(
@@ -257,25 +248,24 @@ class C1(ThreeDScene):
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_target[0], UP, buff=0.2).shift(LEFT * 0.3),
             Tex(r'MC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_target[1], UP, buff=0.2).shift(RIGHT * 0.4),
-            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([0, 2.3, 0]),
-            Tex('Increase: 40,000 to 48,000 pounds', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
+            Tex('Increase: 40 to 48 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
             DashedLine([-0.06, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
                 [2.1, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             DashedLine([1.16, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
                 [2.1, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             Line([2.1, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
                 color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$8{,}000$', color=TOTAL).scale(0.8)
+            Tex(r'TS $=-\$8$', color=TOTAL).scale(0.8)
                 .next_to([2.1, DETAIL_BASE + 3.7 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
             Tex(r'MC $>$ MB', color=INK).scale(0.8).move_to([4.3, -0.2, 0])))
         conclusion = fixed(Tex('Increasing quantity adds more cost than benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('Can any price make these added trades worthwhile?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(extra_detail[:7]), FadeIn(detail_people), FadeIn(value_question))
+        self.play(FadeIn(extra_detail[:6]), FadeIn(detail_people), FadeIn(value_question))
         self.pause('1.c.values')
         self.play(FadeOut(value_question))
-        self.play(FadeIn(extra_detail[7:]), FadeIn(conclusion))
+        self.play(FadeIn(extra_detail[6:]), FadeIn(conclusion))
         self.pause('1.c')
 
         # ---- 1.d · Return the exact same pair to its original quantity interval.
@@ -317,26 +307,25 @@ class C1(ThreeDScene):
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_target[0], UP, buff=0.2).shift(LEFT * 0.3),
             Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_target[1], UP, buff=0.2).shift(RIGHT * 0.4),
-            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([0, 2.3, 0]),
-            Tex('Decrease: 40,000 to 32,000 pounds', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
+            Tex('Decrease: 40 to 32 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
             DashedLine([-0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 [2.1, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             DashedLine([1.16, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0],
                 [2.1, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             Line([2.1, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 color=TOTAL, stroke_width=3),
-            Tex(r'TS $=+\$8{,}000$', color=TOTAL).scale(0.8)
+            Tex(r'TS $=+\$8$', color=TOTAL).scale(0.8)
                 .next_to([2.1, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
             Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, -0.1, 0]),
-            Tex(r'Removing them loses $\$8{,}000$.', color=CAPTION).scale(0.7).move_to([4.3, -0.75, 0])))
+            Tex(r'Removing them loses $\$8$.', color=CAPTION).scale(0.7).move_to([4.3, -0.75, 0])))
         conclusion = fixed(Tex('Decreasing quantity removes more benefit than cost.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('Would removing these trades improve welfare?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(removed_detail[:7]), FadeIn(detail_people), FadeIn(value_question))
+        self.play(FadeIn(removed_detail[:6]), FadeIn(detail_people), FadeIn(value_question))
         self.pause('1.f.values')
         self.play(FadeOut(value_question))
-        self.play(FadeIn(removed_detail[7:]), FadeIn(conclusion))
+        self.play(FadeIn(removed_detail[6:]), FadeIn(conclusion))
         self.pause('1.f')
 
         # ---- 1.g · The exact marginal boundary, rather than an average bar height.
@@ -400,7 +389,7 @@ class C1(ThreeDScene):
             Line([-4.7, PAIR_BASE + 4 * PAIR_SCALE, 0], [-2.38, PAIR_BASE + 4 * PAIR_SCALE, 0], color=GUIDE, stroke_width=2.5),
             Tex(r'Price $\$4$', color=GUIDE).scale(0.65).move_to([-5.7, PAIR_BASE + 4 * PAIR_SCALE, 0])))
         pair_baseline = fixed(Line([-4.7, PAIR_BASE, 0], [-2.38, PAIR_BASE, 0], color=MUTED))
-        pair_units = fixed(Tex('One 1,000-pound trade', color=CAPTION).scale(0.65).move_to([-3.6, -3.18, 0]))
+        pair_units = fixed(Tex('One ton', color=CAPTION).scale(0.65).move_to([-3.6, -3.18, 0]))
         pair = fixed(Group(pair_bars, pair_people, pair_words, pair_price, pair_baseline, pair_units))
         # Keep sphere front faces in front; fixed() disables depth for flat labels.
         for mob in pair_people.get_family():
@@ -427,7 +416,7 @@ class C1(ThreeDScene):
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
         bystander_word = fixed(Tex('A bystander', color=CAPTION).scale(0.7).move_to([2.0, -2.8, 0]))
         small_cost = external_stack[0].copy().move_to([1.4, PAIR_BASE + 0.125 * PAIR_SCALE, 0])
-        small_word = fixed(Tex(r'External cost: $\$0.25$/lb', color=EXT).scale(0.7).move_to([3.7, 0.55, 0]))
+        small_word = fixed(Tex(r'External cost: $\$0.25$/ton', color=EXT).scale(0.7).move_to([3.7, 0.55, 0]))
         self.play(FadeIn(bystanders[0]), FadeIn(bystander_word), FadeIn(small_cost), FadeIn(small_word))
         self.pause('2.b')
 
@@ -442,7 +431,7 @@ class C1(ThreeDScene):
             self.remove(incoming)
             self.add(external_stack[i])
         self.remove(small_word, bystander_word, bystander_question)
-        stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/lb', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
+        stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/ton', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
         many_word = fixed(Tex('People outside the trade', color=CAPTION).scale(0.7).move_to([3.55, -2.8, 0]))
         conclusion = fixed(Tex('One trade can impose small costs on many other people.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -453,10 +442,10 @@ class C1(ThreeDScene):
         ext_ax = fixed(style_axes([0, 2.5, 1], [0, 3, 1], x_length=4.3, y_length=2.2))
         ext_ax.shift(np.array([1.3, -1.5, 0]) - ext_ax.c2p(0, 0))
         ext_words = fixed(VGroup(
-            Tex('External cost per pound', color=CAPTION).scale(0.65).next_to(ext_ax, UP, buff=0.20),
+            Tex('External cost per ton', color=CAPTION).scale(0.65).next_to(ext_ax, UP, buff=0.20),
             Tex(r'$\$2$', color=EXT).scale(0.7).next_to(ext_ax.c2p(0, 2), LEFT, buff=0.15),
             Tex('1', color=GUIDE).scale(0.7).next_to(ext_ax.c2p(1, 0), DOWN, buff=0.18),
-            Tex('1,000-pound trades', color=CAPTION).scale(0.60).next_to(ext_ax, DOWN, buff=0.65)))
+            Tex('Tons', color=CAPTION).scale(0.60).next_to(ext_ax, DOWN, buff=0.65)))
         ext_parts = fixed(VGroup())
         for i in range(8):
             ext_parts.add(fixed(Polygon(ext_ax.c2p(0, i * 0.25), ext_ax.c2p(1, i * 0.25),
@@ -465,7 +454,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(stack_word), FadeOut(many_word), FadeOut(conclusion),
                   bystanders.animate.scale(0.8).move_to([3.45, -2.85, 0]), FadeIn(ext_ax), FadeIn(ext_words),
                   *[Transform(external_stack[i], ext_parts[i]) for i in range(8)], run_time=1.5)
-        ext_area_word = fixed(Tex(r'$\$2{,}000$', color=INK).scale(0.8).move_to(ext_ax.c2p(0.5, 1)))
+        ext_area_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(0.5, 1)))
         self.play(FadeIn(ext_area_word))
         self.pause('2.d')
 
@@ -494,7 +483,7 @@ class C1(ThreeDScene):
             second_words[index].become(replacement)
         second_ext = fixed(Polygon(ext_ax.c2p(1, 0), ext_ax.c2p(2, 0), ext_ax.c2p(2, 2), ext_ax.c2p(1, 2),
             stroke_width=1.5, stroke_color=BG, fill_color=EXT, fill_opacity=0.65))
-        second_ext_word = fixed(Tex(r'$\$2{,}000$', color=INK).scale(0.8).move_to(ext_ax.c2p(1.5, 1)))
+        second_ext_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(1.5, 1)))
         second_tick = fixed(Tex('2', color=GUIDE).scale(0.7).next_to(ext_ax.c2p(2, 0), DOWN, buff=0.18))
         self.play(Transform(pair, first_small), FadeIn(second_pair), FadeIn(second_ext),
                   FadeIn(second_ext_word), FadeIn(second_tick), run_time=1.6)
@@ -506,14 +495,14 @@ class C1(ThreeDScene):
         right_ax = fixed(style_axes([0, 60, 10], [0, 13, 2], x_length=5.5, y_length=3.9))
         right_ax.shift(np.array([1.25, -2.15, 0]) - right_ax.c2p(0, 0))
         left_words = fixed(VGroup(
-            Tex(r'\textsf{\$/lb}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(0, 13), UP, buff=0.16),
+            Tex(r'\textsf{\$/ton}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(0, 13), UP, buff=0.16),
             Tex('Q', color=INK).scale(0.7).next_to(left_ax.c2p(60, 0), DOWN, buff=0.18),
-            Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(45, 0), DOWN, buff=0.7)))
+            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(left_ax.c2p(45, 0), DOWN, buff=0.7)))
         right_words = fixed(VGroup(
-            Tex('External cost per pound', color=CAPTION).scale(0.65).next_to(right_ax.c2p(30, 13), UP, buff=0.16),
+            Tex('External cost per ton', color=CAPTION).scale(0.65).next_to(right_ax.c2p(30, 13), UP, buff=0.16),
             Tex(r'$\$2$', color=EXT).scale(0.65).next_to(right_ax.c2p(0, 2), LEFT, buff=0.15),
             Tex('Q', color=INK).scale(0.7).next_to(right_ax.c2p(60, 0), DOWN, buff=0.18),
-            Tex(r'\textsf{1,000 lb}', color=CAPTION).scale(0.55).next_to(right_ax.c2p(45, 0), DOWN, buff=0.7),
+            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(right_ax.c2p(45, 0), DOWN, buff=0.7),
             Tex(r'$Q=40$', color=GUIDE).scale(0.65).next_to(right_ax.c2p(40, 0), DOWN, buff=0.18)))
         left_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         left_supply = fixed(Line(left_ax.c2p(0, 2), left_ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
@@ -564,7 +553,7 @@ class C1(ThreeDScene):
         self.play(FadeIn(private_bars), FadeIn(benefit_bars), FadeIn(producer_surplus),
                   LaggedStart(*[FadeIn(bar) for bar in external_bars], lag_ratio=0.02), run_time=1.4)
         self.remove(first_flying, second_flying, external_stack, second_ext)
-        ext_total_word = fixed(Tex(r'Total external cost: $\$80{,}000$', color=EXT).scale(0.75)
+        ext_total_word = fixed(Tex(r'Total external cost: $\$80$', color=EXT).scale(0.75)
                                .move_to([3.9, 0.3, 0]))
         self.play(FadeIn(ext_total_word))
         self.pause('2.f')
@@ -627,7 +616,7 @@ class C1(ThreeDScene):
         self.add(social_graph)
         self.pause('3.c')
 
-        # ---- 3.d · The added 8,000 pounds, with external cost stacked on MPC.
+        # ---- 3.d · The added 8 tons, with external cost stacked on MPC.
         extra_social_pair = fixed(VGroup(
             Polygon(left_ax.c2p(40.16, 0), left_ax.c2p(43.76, 0),
                 left_ax.c2p(43.76, 3.2), left_ax.c2p(40.16, 3.2),
@@ -639,7 +628,7 @@ class C1(ThreeDScene):
                 left_ax.c2p(47.84, 6.2), left_ax.c2p(44.24, 6.2),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         extra_social_home = extra_social_pair.copy()
-        selection_word = fixed(Tex('Increase: 40,000 to 48,000 pounds', color=DEFINITION)
+        selection_word = fixed(Tex('Increase: 40 to 48 tons', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(question)
         self.play(FadeIn(extra_social_pair), FadeIn(selection_word))
@@ -663,8 +652,7 @@ class C1(ThreeDScene):
             Tex(r'MPC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1], RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$6.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2], UP, buff=0.18),
-            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([-4.2, 2.45, 0]),
-            Tex('Increase: 40,000 to 48,000 pounds', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
+            Tex('Increase: 40 to 48 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
         social_gap = fixed(VGroup(
             DashedLine([-1.16, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
                 [-2.0, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
@@ -672,13 +660,13 @@ class C1(ThreeDScene):
                 [-2.0, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             Line([-2.0, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
                 [-2.0, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$24{,}000$', color=TOTAL).scale(0.8)
+            Tex(r'TS $=-\$24$', color=TOTAL).scale(0.8)
                 .next_to([-2.0, DETAIL_BASE + 4.7 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
         conclusion = fixed(Tex('Increasing quantity reduces social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5, 8, 9]]))
+        private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5, 8]]))
         external_labels = fixed(VGroup(*[extra_social_labels[i] for i in [2, 6, 7]]))
         self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
         self.pause('3.d.values')
@@ -695,7 +683,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(extra_social_pair))
         self.pause('3.d.return')
 
-        # ---- 3.e · The removed 8,000 pounds, with external cost stacked on MPC.
+        # ---- 3.e · The removed 8 tons, with external cost stacked on MPC.
         removed_social_pair = fixed(VGroup(
             Polygon(left_ax.c2p(32.16, 0), left_ax.c2p(35.76, 0),
                 left_ax.c2p(35.76, 4.8), left_ax.c2p(32.16, 4.8),
@@ -707,7 +695,7 @@ class C1(ThreeDScene):
                 left_ax.c2p(39.84, 5.8), left_ax.c2p(36.24, 5.8),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         removed_social_home = removed_social_pair.copy()
-        selection_word = fixed(Tex('Decrease: 40,000 to 32,000 pounds', color=DEFINITION)
+        selection_word = fixed(Tex('Decrease: 40 to 32 tons', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(question)
         self.play(FadeIn(removed_social_pair), FadeIn(selection_word))
@@ -731,8 +719,7 @@ class C1(ThreeDScene):
             Tex(r'MPC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1], RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2], UP, buff=0.18),
-            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([-4.2, 2.45, 0]),
-            Tex('Decrease: 40,000 to 32,000 pounds', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
+            Tex('Decrease: 40 to 32 tons', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
         social_gap = fixed(VGroup(
             DashedLine([-1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 [-2.0, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
@@ -740,13 +727,13 @@ class C1(ThreeDScene):
                 [-2.0, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
             Line([-2.0, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
                 [-2.0, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$8{,}000$', color=TOTAL).scale(0.8)
+            Tex(r'TS $=-\$8$', color=TOTAL).scale(0.8)
                 .next_to([-2.0, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
         conclusion = fixed(Tex('Decreasing quantity increases social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5, 8, 9]]))
+        private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5, 8]]))
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
         self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
         self.pause('3.e.values')

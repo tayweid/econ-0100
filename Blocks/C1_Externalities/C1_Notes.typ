@@ -33,20 +33,21 @@
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
 // | Bar revision 2026-10-07: start with the full market, carry the first exchange into a close-up and back, then carry the exact marginal exchange at Q = 40 into a close-up and back. No subtitles on these close-ups. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
+// | Unit revision 2026-10-07: Q is tons; all prices, benefits, and costs are dollars per ton. Keep the simple numerical curves as a rescaled teaching example rather than converting the old physical dataset. Remove the values/average captions. CS/PS labels sit beside their regions without leaders; retain purple TS gap guides.
 // | Reveal revision 2026-10-07: each close-up pauses on MB and MC before price, surplus, or a welfare answer. Externality comparisons first show private values, then external/social cost, then the welfare result. Ask about increasing/decreasing quantity, not changing it by one.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
-// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Quantity comparisons use exact averages over Q = 40 to 48 and Q = 32 to 40 (8,000 pounds each). The opening close-ups use the boundary values at Q = 0 (MB 12, MC 2) and Q = 40 (MB = MC = 4).
+// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per ton. Qm = 40; Qefficient = 32. Quantity comparisons use exact averages over Q = 40 to 48 and Q = 32 to 40 (8 tons each). The opening close-ups use the boundary values at Q = 0 (MB 12, MC 2) and Q = 40 (MB = MC = 4).
 // /plass:comment
 
 === 1 | Equilibrium and the First Welfare Theorem
 
 #quote(block: true)[
-  1.a · Title: Competitive equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in thousands of pounds, P in dollars per pound. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then consumer surplus in teal and producer surplus in orange (opacity 0.65). The curves form the hard value boundaries. Use white labels inside the stronger fills for contrast. Continuous curves and exact sloping slices retain the B5 model.
+  1.a · Title: Competitive equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in tons, P in dollars per ton. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then consumer surplus in teal and producer surplus in orange (opacity 0.65). The curves form the hard value boundaries. Use white labels inside the stronger fills for contrast. Continuous curves and exact sloping slices retain the B5 model.
 
 ]
 
 #quote(block: true)[
-  1.a.first.values → 1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the starting exchange at Q = 0 and carry its buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, party labels, and values per pound at Q = 0. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: What price would make both people willing to trade? Pause. Then reveal price 4, stronger teal CS 8 and orange PS 2 above the respective faint bases. Bottom: First exchange: both the buyer and seller gain. Pause again.
+  1.a.first.values → 1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the starting exchange at Q = 0 and carry its buyer/seller pair into a close-up as the market fades. Show faint full-height bars with hard MB = 12 and MC = 2 edges, and party labels. Omit the extra values/average caption. Withhold the price line, CS/PS fills, and surplus labels. Bottom question: What price would make both people willing to trade? Pause. Then reveal price 4, stronger teal CS 8 and orange PS 2 above the respective faint bases. Put the CS/PS labels immediately beside the corresponding regions, with no connector lines. Bottom: First exchange: both the buyer and seller gain. Pause again.
 
 ]
 
@@ -56,7 +57,7 @@
 ]
 
 #quote(block: true)[
-  1.a.last.values → 1.a.last · Keep title: Competitive equilibrium; no subtitle. Select the exact intersection at Q = 40 and carry its marginal buyer/seller pair into the close-up on the same scale. First show only MB = MC = 4 dollars per pound, faint bars, and hard value edges. Withhold price and the conclusion. Bottom question: What price would make this exchange possible? Pause. Then reveal price 4 and the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
+  1.a.last.values → 1.a.last · Keep title: Competitive equilibrium; no subtitle. Select the exact intersection at Q = 40 and carry its marginal buyer/seller pair into the close-up on the same scale. First show only MB = MC = 4 dollars per ton, faint bars, and hard value edges. Withhold price and the conclusion. Bottom question: What price would make this exchange possible? Pause. Then reveal price 4 and the yellow conclusion: At equilibrium, MB = MC = 4 dollars. There is no surplus area. These are exact boundary values, not an average over a finite interval.
 
 ]
 
@@ -71,7 +72,7 @@
 ]
 
 #quote(block: true)[
-  1.c.values → 1.c · Carry the selected pair into the close-up, fading the market. First show only the full faint bars, solid value edges, average MB 3.20 and MC 4.20 dollars per pound, and the quantity change 40,000 to 48,000 pounds. Bottom question: Can any price make these added trades worthwhile? Pause before any purple gap, TS value, inequality, or answer. Then connect the bar tops to a purple gap labeled TS = −8,000 dollars for the full increase. Show MC \> MB. Bottom: Increasing quantity adds more cost than benefit.
+  1.c.values → 1.c · Carry the selected pair into the close-up, fading the market. First show only the full faint bars, solid value edges, average MB 3.20 and MC 4.20 dollars per ton, and the quantity change 40 to 48 tons. Bottom question: Can any price make these added trades worthwhile? Pause before any purple gap, TS value, inequality, or answer. Then connect the bar tops to a purple gap labeled TS = −8 dollars for the full increase. Show MC \> MB. Bottom: Increasing quantity adds more cost than benefit.
 
 ]
 
@@ -86,7 +87,7 @@
 ]
 
 #quote(block: true)[
-  1.f.values → 1.f · Carry that same pair into the close-up. First show only average MB 4.80 and MC 3.80 dollars per pound, the faint bars with hard value edges, and the decrease from 40,000 to 32,000 pounds. Bottom question: Would removing these trades improve welfare? Pause. Then reveal MB \> MC, the purple gap labeled TS = +8,000 dollars for these trades, and the fact that removing them loses 8,000 dollars. Bottom: Decreasing quantity removes more benefit than cost.
+  1.f.values → 1.f · Carry that same pair into the close-up. First show only average MB 4.80 and MC 3.80 dollars per ton, the faint bars with hard value edges, and the decrease from 40 to 32 tons. Bottom question: Would removing these trades improve welfare? Pause. Then reveal MB \> MC, the purple gap labeled TS = +8 dollars for these trades, and the fact that removing them loses 8 dollars. Bottom: Decreasing quantity removes more benefit than cost.
 
 ]
 
@@ -98,22 +99,22 @@
 === 2 | Gary, Molly, and the people outside the trade
 
 #quote(block: true)[
-  2.a · Title: Negative externalities. Bottom: Who else is affected by this trade? Keep this question through the first bystander reveal, then replace it with the takeaway in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means 1,000 pounds.
+  2.a · Title: Negative externalities. Bottom: Who else is affected by this trade? Keep this question through the first bystander reveal, then replace it with the takeaway in 2.c. Enter the familiar Part B head-on deliberation: Gary at left, Molly beside him, spheres and shadows under the adjacent teal benefit and orange cost bars. This representative lot uses the averages over Q = 29 to 30: MB 6.10 and MPC 3.475, at price 4. Preserve the prior bar-pair geometry, adapted to leave the right side empty. Carry forward faint bases, strong CS/PS regions, and solid MB/MPC edges; the seller column reaches price above its MC boundary. One lot means one ton.
 
 ]
 
 #quote(block: true)[
-  2.b · One small grey bystander appears off to the right. Reveal a pink external-cost piece above that person: 0.25 dollars per pound. Gary and Molly’s bars and price do not move.
+  2.b · One small grey bystander appears off to the right. Reveal a pink external-cost piece above that person: 0.25 dollars per ton. Gary and Molly’s bars and price do not move.
 
 ]
 
 #quote(block: true)[
-  2.c · Reveal seven more small grey bystanders, each bearing another 0.25 dollars per pound from this same trade. Move each new piece into the same stack; eight pieces total 2 dollars per pound. All eight people remain below the stack. Bottom: One trade can impose small costs on many other people.
+  2.c · Reveal seven more small grey bystanders, each bearing another 0.25 dollars per ton from this same trade. Move each new piece into the same stack; eight pieces total 2 dollars per ton. All eight people remain below the stack. Bottom: One trade can impose small costs on many other people.
 
 ]
 
 #quote(block: true)[
-  2.d · Fade in a separate external-cost graph on the right, with quantity horizontal and external cost per pound vertical. Carry the eight pieces into a single one-lot rectangle of height 2, retaining seams between the pieces. Label the area: 2,000 dollars of external cost. This is total harm from one trade, not deadweight loss.
+  2.d · Fade in a separate external-cost graph on the right, with quantity horizontal and external cost per ton vertical. Carry the eight pieces into a single one-lot rectangle of height 2, retaining seams between the pieces. Label the area: 2 dollars of external cost. This is total harm from one trade, not deadweight loss.
 
 ]
 
@@ -123,7 +124,7 @@
 ]
 
 #quote(block: true)[
-  2.f · Keep the existing Negative externalities title on screen throughout the zoom-out; do not fade it in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80,000 dollars.
+  2.f · Keep the existing Negative externalities title on screen throughout the zoom-out; do not fade it in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80 dollars.
 
 ]
 
@@ -145,12 +146,12 @@
 ]
 
 #quote(block: true)[
-  3.d.select → 3.d.values → 3.d.costs → 3.d · Select the increase from Q = 40 to 48 and carry the average-value bars forward. First reveal only average MSB 3.20 and MPC 4.20 dollars per pound, with no pink cap or welfare answer. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.20. Bottom: What changes when we count the external cost? Pause again. Finally show the purple gap and TS = −24,000 dollars for the added 8,000 pounds. Bottom: Increasing quantity reduces social welfare. Return to the same graph.
+  3.d.select → 3.d.values → 3.d.costs → 3.d · Select the increase from Q = 40 to 48 and carry the average-value bars forward. First reveal only average MSB 3.20 and MPC 4.20 dollars per ton, with no pink cap or welfare answer. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.20. Bottom: What changes when we count the external cost? Pause again. Finally show the purple gap and TS = −24 dollars for the added 8 tons. Bottom: Increasing quantity reduces social welfare. Return to the same graph.
 
 ]
 
 #quote(block: true)[
-  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the decrease from Q = 40 to 32 and carry the removed interval’s average-value bars forward. First reveal only average MSB 4.80 and MPC 3.80 dollars per pound. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally show the purple gap labeled TS = −8,000 dollars for these trades; removing them increases welfare by 8,000 dollars. Bottom: Decreasing quantity increases social welfare. Return to the same graph.
+  3.e.select → 3.e.values → 3.e.costs → 3.e · Select the decrease from Q = 40 to 32 and carry the removed interval’s average-value bars forward. First reveal only average MSB 4.80 and MPC 3.80 dollars per ton. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 and MSC 5.80. Bottom: What changes when we count the external cost? Pause. Finally show the purple gap labeled TS = −8 dollars for these trades; removing them increases welfare by 8 dollars. Bottom: Decreasing quantity increases social welfare. Return to the same graph.
 
 ]
 
