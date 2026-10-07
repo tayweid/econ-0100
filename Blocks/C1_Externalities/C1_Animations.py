@@ -890,6 +890,55 @@ class C1(ThreeDScene):
         self.play(FadeIn(efficient_dot), FadeIn(efficient_word), FadeIn(condition), FadeOut(marginal_gap))
         self.pause('4.a')
 
+        # ---- 4.a.exchange · Zoom into the last unit at the efficient quantity.
+        left, right = EFFICIENT_Q - 1 + BAR_GAP / 2, EFFICIENT_Q - BAR_GAP / 2
+        efficient_pair = fixed(VGroup(
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            private_bars[EFFICIENT_Q - 1].copy(), external_bars[EFFICIENT_Q - 1].copy()))
+        efficient_home = efficient_pair.copy()
+        efficient_selection = fixed(SurroundingRectangle(efficient_pair,
+            color=FOCUS, buff=0.025, stroke_width=2))
+        self.remove(condition)
+        self.play(FadeIn(efficient_pair), FadeIn(efficient_selection),
+                  FadeOut(evaluation_line), FadeOut(efficient_dot))
+        self.pause('4.a.select')
+        efficient_target = fixed(VGroup())
+        for left, low, high, color in [(-1.16, 0, 5.6, DEMAND), (0.06, 0, 3.6, SUPPLY),
+                                      (0.06, 3.6, 5.6, EXT)]:
+            efficient_target.add(fixed(Polygon(
+                [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
+                [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
+                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
+        self.play(FadeOut(social_graph), FadeOut(efficient_word),
+                  FadeOut(removed_dwl_bar), FadeOut(efficient_selection),
+                  Transform(efficient_pair, efficient_target), run_time=1.6)
+        efficient_labels = fixed(VGroup(
+            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
+              for bar, color in zip(efficient_target, [DEMAND, SUPPLY, SUPPLY])],
+            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
+            Tex(r'MB $\$5.60$', color=DEMAND).scale(0.72).next_to(efficient_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$3.60$', color=SUPPLY).scale(0.72).next_to(efficient_target[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(efficient_target[2], RIGHT, buff=0.25),
+            Tex(r'MSC $\$5.60$', color=SUPPLY).scale(0.72).next_to(efficient_target[2].get_corner(UR), RIGHT, buff=0.25)))
+        efficient_context = fixed(subtitle(head, 'The 32nd unit: the efficient quantity.'))
+        efficient_result = fixed(VGroup(Tex(r'TS $=\$0$', color=TOTAL), Tex(r'DWL $=\$0$', color=INK))
+            .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8).move_to([4.5, 0.4, 0]))
+        efficient_note = fixed(Tex(r'For this exchange, MB $=$ MSC and there is no deadweight loss.', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(efficient_labels), FadeIn(efficient_context))
+        self.play(FadeIn(efficient_result), FadeIn(efficient_note))
+        self.pause('4.a.exchange')
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeOut(efficient_labels), FadeOut(efficient_context), FadeOut(efficient_result),
+                  FadeOut(efficient_note), run_time=0.4)
+        self.play(Transform(efficient_pair, efficient_home), FadeIn(social_graph), FadeIn(evaluation_line),
+                  FadeIn(efficient_dot), FadeIn(efficient_word), FadeIn(removed_dwl_bar), run_time=1.6)
+        self.play(FadeOut(efficient_pair), FadeIn(condition))
+        self.pause('4.a.return')
+
         # ---- 4.b · The losses from excessive trades; not all external damage.
         self.remove(head)
         head = fixed(title('Deadweight Loss'))
