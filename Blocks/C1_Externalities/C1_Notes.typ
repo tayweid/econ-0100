@@ -32,6 +32,7 @@
 // plass:comment
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
+// | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
 // | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Exact continuous interval areas; close-up bar heights are interval averages.
 // /plass:comment
 
@@ -48,7 +49,7 @@
 ]
 
 #quote(block: true)[
-  1.c · Carry those same two bars into the B4 close-up, fading the market. Their heights are the interval averages: MB 3.90 and MC 4.025 dollars per pound. A grey strip spans MC minus MB. Bottom: One more trade adds more cost than benefit. The 1,000-pound lot loses 125 dollars; do not confuse the average heights with the exact boundary values.
+  1.c · Carry those same two bars into the B4 close-up, fading the market. Their heights are the interval averages: MB 3.90 and MC 4.025 dollars per pound. Thin purple horizontal guides connect both bar tops to a purple vertical gap labeled TS = −125 dollars for the full lot. Bottom: One more trade adds more cost than benefit. The 1,000-pound lot loses 125 dollars; do not confuse the average heights with the exact boundary values.
 
 ]
 
@@ -63,7 +64,7 @@
 ]
 
 #quote(block: true)[
-  1.f · Carry that same pair forward. Average MB is 4.10, average MC is 3.975; the removed trade had positive surplus of 125 dollars per 1,000-pound lot. Bottom: One fewer trade removes more benefit than cost.
+  1.f · Carry that same pair forward. Average MB is 4.10, average MC is 3.975; the removed trade had positive surplus of 125 dollars per 1,000-pound lot. Connect both bar tops to the purple gap labeled TS = +125 dollars; below it, state that removing the trade loses 125 dollars. Bottom: One fewer trade removes more benefit than cost.
 
 ]
 
@@ -122,12 +123,12 @@
 ]
 
 #quote(block: true)[
-  3.d · Select the added lot from 40 to 41, then carry the bar pair forward. Average MSB 3.90; private cost 4.025 with the pink external cost of 2 stacked above it. MSC 6.025 exceeds MSB. Bottom: One more trade reduces social welfare. Return to the same graph.
+  3.d · Select the added lot from 40 to 41, then carry the bar pair forward. Average MSB 3.90; private cost 4.025 with the pink external cost of 2 stacked above it. MSC 6.025 exceeds MSB. Purple guides connect both bar tops to the purple gap, labeled TS = −2,125 dollars for the lot. Bottom: One more trade reduces social welfare. Return to the same graph.
 
 ]
 
 #quote(block: true)[
-  3.e · Select the removed lot from 39 to 40 and bring it forward. Average MSB 4.10; private cost 3.975 plus external cost 2 gives MSC 5.975. The private gain is smaller than the harm to bystanders. Bottom: One fewer trade increases social welfare. Return to the graph.
+  3.e · Select the removed lot from 39 to 40 and bring it forward. Average MSB 4.10; private cost 3.975 plus external cost 2 gives MSC 5.975. The private gain is smaller than the harm to bystanders. Purple guides connect both bar tops to the purple gap, labeled TS = −1,875 dollars for the lot; removing this negative-surplus trade improves welfare. Bottom: One fewer trade increases social welfare. Return to the graph.
 
 ]
 

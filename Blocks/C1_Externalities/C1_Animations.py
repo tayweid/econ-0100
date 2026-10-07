@@ -102,18 +102,24 @@ class C1(ThreeDScene):
         for x, color in [(-1.45, DEMAND), (1.45, SUPPLY)]:
             detail_people.add(fixed(Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=color, fill_opacity=0.28)
                 .move_to([x, DETAIL_BASE - 0.60, 0])))
-            detail_people.add(fixed(Sphere(radius=0.18, color=color, resolution=(12, 8))
-                .move_to([x, DETAIL_BASE - 0.35, 0])))
+            detail_people.add(fixed(Sphere(radius=0.18, color=color, resolution=(32, 24))
+                .move_to([x, DETAIL_BASE - 0.35, 0])).apply_depth_test())
         extra_detail = fixed(VGroup(
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$3.90$', color=DEMAND).scale(0.72).next_to(extra_target[0], UP, buff=0.2).shift(LEFT * 0.3),
             Tex(r'MC $\$4.025$', color=SUPPLY).scale(0.72).next_to(extra_target[1], UP, buff=0.2).shift(RIGHT * 0.4),
             Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([0, 1.75, 0]),
             Tex('One additional 1,000-pound lot', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
-            Line([2.1, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.025 * DETAIL_SCALE, 0], color=DWL, stroke_width=9),
-            Tex(r'MC $>$ MB', color=INK).scale(0.8).move_to([4.3, 0.45, 0]),
-            Tex(r'Surplus falls by $\$125$.', color=CAPTION).scale(0.7).move_to([4.3, -0.2, 0])))
-        conclusion = fixed(Tex('One more trade adds more cost than benefit.', color=INK)
+            DashedLine([-0.06, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0],
+                [2.1, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([1.16, DETAIL_BASE + 4.025 * DETAIL_SCALE, 0],
+                [2.1, DETAIL_BASE + 4.025 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([2.1, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.025 * DETAIL_SCALE, 0],
+                color=TOTAL, stroke_width=3),
+            Tex(r'TS $=-\$125$', color=TOTAL).scale(0.8)
+                .next_to([2.1, DETAIL_BASE + 3.9625 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
+            Tex(r'MC $>$ MB', color=INK).scale(0.8).move_to([4.3, -0.2, 0])))
+        conclusion = fixed(Tex('One more trade adds more cost than benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(extra_detail), FadeIn(detail_people), FadeIn(conclusion))
         self.pause('1.c')
@@ -160,10 +166,17 @@ class C1(ThreeDScene):
             Tex(r'MC $\$3.975$', color=SUPPLY).scale(0.72).next_to(removed_target[1], UP, buff=0.2).shift(RIGHT * 0.4),
             Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([0, 1.75, 0]),
             Tex('One removed 1,000-pound lot', color=CAPTION).scale(0.65).move_to([0, -3.05, 0]),
-            Line([2.1, DETAIL_BASE + 3.975 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=9),
-            Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, 0.45, 0]),
-            Tex(r'Surplus falls by $\$125$.', color=CAPTION).scale(0.7).move_to([4.3, -0.2, 0])))
-        conclusion = fixed(Tex('One fewer trade removes more benefit than cost.', color=INK)
+            DashedLine([-0.06, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0],
+                [2.1, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([1.16, DETAIL_BASE + 3.975 * DETAIL_SCALE, 0],
+                [2.1, DETAIL_BASE + 3.975 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([2.1, DETAIL_BASE + 3.975 * DETAIL_SCALE, 0], [2.1, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0],
+                color=TOTAL, stroke_width=3),
+            Tex(r'TS $=+\$125$', color=TOTAL).scale(0.8)
+                .next_to([2.1, DETAIL_BASE + 4.0375 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
+            Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, -0.1, 0]),
+            Tex(r'Removing it loses $\$125$.', color=CAPTION).scale(0.7).move_to([4.3, -0.75, 0])))
+        conclusion = fixed(Tex('One fewer trade removes more benefit than cost.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(removed_detail), FadeIn(detail_people), FadeIn(conclusion))
         self.pause('1.f')
@@ -184,7 +197,7 @@ class C1(ThreeDScene):
         head = fixed(title('The First Welfare Theorem'))
         theorem = fixed(VGroup(
             Tex('Competitive equilibrium maximizes total surplus.', color=DEFINITION).scale(DEFINITION_SCALE),
-            Tex('All benefits and costs must be counted.', color=CAPTION).scale(DEFINITION_SCALE))
+            Tex('All benefits and costs must be counted.', color=DEFINITION).scale(DEFINITION_SCALE))
             .arrange(DOWN, buff=0.12).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(theorem))
         self.pause('1.g')
@@ -205,7 +218,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=color, fill_opacity=0.65)))
             pair_people.add(fixed(Ellipse(width=0.48, height=0.06, stroke_width=0, fill_color=color, fill_opacity=0.28)
                 .move_to([person_x, PAIR_BASE - 0.70, 0])))
-            pair_people.add(fixed(Sphere(radius=0.23, color=color, resolution=(16, 10))
+            pair_people.add(fixed(Sphere(radius=0.23, color=color, resolution=(32, 24))
                 .move_to([person_x, PAIR_BASE - 0.40, 0])))
             pair_words.add(fixed(Tex(name, color=INK).scale(0.7).move_to([person_x, PAIR_BASE - 1.05, 0])))
             pair_words.add(fixed(Tex(rf'{term} $\${value:g}$', color=color).scale(0.65)
@@ -218,6 +231,10 @@ class C1(ThreeDScene):
         pair_baseline = fixed(Line([-4.7, PAIR_BASE, 0], [-2.38, PAIR_BASE, 0], color=MUTED))
         pair_units = fixed(Tex('One 1,000-pound trade', color=CAPTION).scale(0.65).move_to([-3.6, -3.18, 0]))
         pair = fixed(Group(pair_bars, pair_people, pair_words, pair_price, pair_baseline, pair_units))
+        # Keep sphere front faces in front; fixed() disables depth for flat labels.
+        for mob in pair_people.get_family():
+            if isinstance(mob, Sphere):
+                mob.apply_depth_test()
         self.play(FadeIn(head), FadeIn(pair))
         self.pause('2.a')
 
@@ -228,7 +245,8 @@ class C1(ThreeDScene):
             x = 1.4 + i * 0.61
             person = fixed(Group(
                 Ellipse(width=0.27, height=0.04, stroke_width=0, fill_color=MUTED, fill_opacity=0.35).move_to([x, -2.28, 0]),
-                Sphere(radius=0.12, color=MUTED, resolution=(12, 8)).move_to([x, -2.10, 0])))
+                Sphere(radius=0.12, color=MUTED, resolution=(24, 16)).move_to([x, -2.10, 0])))
+            person[1].apply_depth_test()
             bystanders.add(person)
             lower = PAIR_BASE + i * 0.25 * PAIR_SCALE
             external_stack.add(fixed(Polygon([3.05, lower, 0], [4.35, lower, 0],
@@ -253,7 +271,7 @@ class C1(ThreeDScene):
         self.remove(small_word, bystander_word)
         stack_word = fixed(Tex(r'$8\times\$0.25=\$2$/lb', color=EXT).scale(0.8).move_to([3.7, 0.55, 0]))
         many_word = fixed(Tex('People outside the trade', color=CAPTION).scale(0.7).move_to([3.55, -2.8, 0]))
-        conclusion = fixed(Tex('One trade can impose small costs on many other people.', color=INK)
+        conclusion = fixed(Tex('One trade can impose small costs on many other people.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(stack_word), FadeIn(many_word), FadeIn(conclusion))
         self.pause('2.c')
@@ -388,7 +406,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
         social_cost = fixed(DashedLine(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
-        cost_definition = fixed(Tex('Marginal social cost $=$ private cost $+$ external cost.', color=INK)
+        cost_definition = fixed(Tex('Marginal social cost $=$ private cost $+$ external cost.', color=DEFINITION)
                                .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
                   FadeIn(social_cost), FadeIn(social_word), FadeIn(cost_definition))
@@ -451,11 +469,18 @@ class C1(ThreeDScene):
             Tex(r'MPC $\$4.025$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1], RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$6.025$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2], UP, buff=0.18),
-            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([-3.9, 1.8, 0]),
+            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([-4.2, 2.45, 0]),
             Tex('One added 1,000-pound lot', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
-        social_gap = fixed(Line([-2.0, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0],
-            [-2.0, DETAIL_BASE + 6.025 * DETAIL_SCALE, 0], color=DWL, stroke_width=8))
-        conclusion = fixed(Tex('One more trade reduces social welfare.', color=INK)
+        social_gap = fixed(VGroup(
+            DashedLine([-1.16, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0],
+                [-2.0, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([0.06, DETAIL_BASE + 6.025 * DETAIL_SCALE, 0],
+                [-2.0, DETAIL_BASE + 6.025 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([-2.0, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0],
+                [-2.0, DETAIL_BASE + 6.025 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
+            Tex(r'TS $=-\$2{,}125$', color=TOTAL).scale(0.8)
+                .next_to([-2.0, DETAIL_BASE + 4.9625 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
+        conclusion = fixed(Tex('One more trade reduces social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(extra_social_labels), FadeIn(detail_people), FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.d')
@@ -496,11 +521,18 @@ class C1(ThreeDScene):
             Tex(r'MPC $\$3.975$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1], RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$5.975$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2], UP, buff=0.18),
-            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([-3.9, 1.8, 0]),
+            Tex('Average values per pound', color=CAPTION).scale(0.6).move_to([-4.2, 2.45, 0]),
             Tex('One removed 1,000-pound lot', color=CAPTION).scale(0.65).move_to([0, -3.05, 0])))
-        social_gap = fixed(Line([-2.0, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0],
-            [-2.0, DETAIL_BASE + 5.975 * DETAIL_SCALE, 0], color=DWL, stroke_width=8))
-        conclusion = fixed(Tex('One fewer trade increases social welfare.', color=INK)
+        social_gap = fixed(VGroup(
+            DashedLine([-1.16, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0],
+                [-2.0, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([0.06, DETAIL_BASE + 5.975 * DETAIL_SCALE, 0],
+                [-2.0, DETAIL_BASE + 5.975 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([-2.0, DETAIL_BASE + 4.1 * DETAIL_SCALE, 0],
+                [-2.0, DETAIL_BASE + 5.975 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
+            Tex(r'TS $=-\$1{,}875$', color=TOTAL).scale(0.8)
+                .next_to([-2.0, DETAIL_BASE + 5.0375 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
+        conclusion = fixed(Tex('One fewer trade increases social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(removed_social_labels), FadeIn(detail_people), FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.e')
@@ -548,14 +580,14 @@ class C1(ThreeDScene):
             stroke_width=0, fill_color=DWL, fill_opacity=0.8))
         self.play(Transform(loss_slices, fixed(VGroup(dwl_triangle))), run_time=0.8)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
-        conclusion = fixed(Tex('These trades cost society more than they benefit society.', color=INK)
+        conclusion = fixed(Tex('These trades cost society more than they benefit society.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(dwl_word), FadeIn(conclusion))
         self.pause('4.b')
 
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
         self.remove(conclusion)
-        conclusion = fixed(Tex('Some production is worthwhile even when it causes harm.', color=INK)
+        conclusion = fixed(Tex('Some production is worthwhile even when it causes harm.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(evaluation_q.animate.set_value(24), FadeIn(conclusion), run_time=1.8)
         benefit_gap = fixed(Line(left_ax.c2p(24, 5.2), left_ax.c2p(24, 7.2), color=TOTAL, stroke_width=7))
