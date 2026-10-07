@@ -868,7 +868,7 @@ class C1(ThreeDScene):
         self.remove(head, welfare_context)
         head = fixed(title('Efficient Quantity'))
         evaluation_q = ValueTracker(40)
-        evaluation_line = fixed(Line(left_ax.c2p(40, 0), left_ax.c2p(40, 6), color=FOCUS, stroke_width=2))
+        evaluation_line = fixed(DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 6), color=FOCUS, stroke_width=2))
         evaluation_line.axes, evaluation_line.quantity = left_ax, evaluation_q
         evaluation_line.add_updater(lambda m: m.put_start_and_end_on(
             m.axes.c2p(m.quantity.get_value(), 0),
@@ -901,8 +901,7 @@ class C1(ThreeDScene):
         efficient_selection = fixed(SurroundingRectangle(efficient_pair,
             color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(condition)
-        self.play(FadeIn(efficient_pair), FadeIn(efficient_selection),
-                  FadeOut(evaluation_line), FadeOut(efficient_dot))
+        self.play(FadeIn(efficient_pair), FadeIn(efficient_selection))
         self.pause('4.a.select')
         efficient_target = fixed(VGroup())
         for left, low, high, color in [(-1.16, 0, 5.6, DEMAND), (0.06, 0, 3.6, SUPPLY),
@@ -911,7 +910,7 @@ class C1(ThreeDScene):
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
-        self.play(FadeOut(social_graph), FadeOut(efficient_word),
+        self.play(FadeOut(social_graph), FadeOut(efficient_word), FadeOut(evaluation_line), FadeOut(efficient_dot),
                   FadeOut(removed_dwl_bar), FadeOut(efficient_selection),
                   Transform(efficient_pair, efficient_target), run_time=1.6)
         efficient_labels = fixed(VGroup(
@@ -978,7 +977,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(quantity_comparison), run_time=0.4)
         conclusion = fixed(Tex('Are some exchanges worthwhile even with externalities on others?', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(evaluation_q.animate.set_value(24), FadeIn(conclusion), run_time=1.8)
+        self.play(FadeIn(conclusion))
         left, right = 23 + BAR_GAP / 2, 24 - BAR_GAP / 2
         beneficial_pair = fixed(VGroup(
             Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
@@ -988,7 +987,7 @@ class C1(ThreeDScene):
         beneficial_home = beneficial_pair.copy()
         beneficial_selection = fixed(SurroundingRectangle(beneficial_pair,
             color=FOCUS, buff=0.025, stroke_width=2))
-        self.play(FadeIn(beneficial_pair), FadeIn(beneficial_selection), FadeOut(evaluation_line))
+        self.play(FadeIn(beneficial_pair), FadeIn(beneficial_selection))
         self.pause('4.c.beneficial')
         # Keep the higher MB bar below the subtitle while retaining a common value scale.
         BENEFICIAL_SCALE = 0.55
@@ -1002,7 +1001,7 @@ class C1(ThreeDScene):
         self.remove(*list(loss_slices))
         self.add(loss_slices)
         self.play(FadeOut(social_graph), FadeOut(loss_slices), FadeOut(dwl_word),
-                  FadeOut(efficient_dot), FadeOut(efficient_word), FadeOut(beneficial_selection),
+                  FadeOut(evaluation_line), FadeOut(efficient_dot), FadeOut(efficient_word), FadeOut(beneficial_selection),
                   Transform(beneficial_pair, beneficial_target), run_time=1.6)
         beneficial_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -1028,9 +1027,8 @@ class C1(ThreeDScene):
         self.play(FadeOut(beneficial_labels), FadeOut(beneficial_context), FadeOut(beneficial_surplus),
                   FadeOut(beneficial_result), run_time=0.4)
         self.play(Transform(beneficial_pair, beneficial_home), FadeIn(social_graph), FadeIn(loss_slices),
-                  FadeIn(dwl_word), FadeIn(efficient_dot), FadeIn(efficient_word), run_time=1.6)
-        self.play(FadeOut(beneficial_pair), FadeIn(evaluation_line))
-        self.play(evaluation_q.animate.set_value(32), run_time=1.8)
+                  FadeIn(dwl_word), FadeIn(evaluation_line), FadeIn(efficient_dot), FadeIn(efficient_word), run_time=1.6)
+        self.play(FadeOut(beneficial_pair))
         self.pause('4.c')
 
         # ---- 5.a · Positive externalities add benefits above MB, leaving MC unchanged.
@@ -1100,7 +1098,7 @@ class C1(ThreeDScene):
         self.play(positive_graph.animate.scale(1.15, about_point=positive_ax.c2p(30, 7.5)), run_time=0.7)
         positive_efficient = fixed(VGroup(
             Dot(positive_ax.c2p(48, 4.4), radius=0.085, color=FOCUS),
-            Line(positive_ax.c2p(48, 0), positive_ax.c2p(48, 4.4), color=FOCUS, stroke_width=2),
+            DashedLine(positive_ax.c2p(48, 0), positive_ax.c2p(48, 4.4), color=FOCUS, stroke_width=2),
             Tex(r'$Q^*=48$', color=FOCUS).scale(0.7).next_to(positive_ax.c2p(48, 0), DOWN, buff=0.78)))
         positive_quantity_result = fixed(VGroup(
             Tex(r'$\hat{Q}$', color=GUIDE), Tex('$<$', color=INK),
