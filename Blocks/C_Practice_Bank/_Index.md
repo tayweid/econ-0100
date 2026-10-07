@@ -10,7 +10,7 @@ Every Part C practice set and Demo C now hold Taylor's existing text, placed ver
 
 | | old C1 Trade & Tariffs | C1 Externalities | C2 Taxes & Subsidies | C3 Corrective Policy |
 |---|---|---|---|---|
-| Exercises (Smoked Toffee) | *gap* (title only) | market equilibrium (MiniExam C 23F) | tax equilibrium, welfare (MiniExam 2) | the residents (moved from C1 on 2026-10-06), Policy Proposal, DWL intuition |
+| Exercises (Smoked Toffee) | *gap* (title only) | one toffee at a time (new, proposed), market equilibrium (MiniExam C 23F), Yard Flowers (proposed 2026-10-07) | tax equilibrium, welfare (MiniExam 2) | the residents (moved from C1 on 2026-10-06), Policy Proposal, DWL intuition |
 | Vignettes (pumpkin pasties) | B6's trade, Intl Pasties tariff and export subsidy | 24F Demo C equilibrium | Somethin's Up With Pumpkins tax | Policy Proposal, DWL intuition |
 | Homework (butterbeer) | B6's trade, tariff (revenue and backlash framings) | Malodorous Byproducts | The Butterbeer Tax | odor remedy, DWL intuition |
 | Demo C (Glittering Gum) | *gap* | market equilibrium | *gap* | Policy Proposal, DWL intuition |
@@ -28,7 +28,7 @@ Still open in every series: **C2.2 Subsidies** and **C1.2 Positive Externalities
 | C2.2 Subsidies | **The Cauldron Conundrum** | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf) Q1, `Homework_C_demo_cauldron-conundrum_F22` (+pdf); also Q2 of `Vignette_B3_butterbeer-odor_F24`, `Checkpoints/C/24Fb_Demo_C2` Q2, `24F_Demo_C4` Q1, and the stem `C1.2_cauldron-conundrum-subsidy` | `Classwork_C2_cauldron-yard-flowers_sols.pdf`, `_sols_2.pdf`, `Homework_C_demo_cauldron-conundrum_sols_F22.pdf` |
 | C2.2 Subsidies | **Subsidizing Bludgers** | `Homework_C_bludger-subsidy_F22`; `Checkpoints/C/24F_Demo_C3` Q2, `24Fb_Demo_C3` (+pdf), the stem `C1.2_bludger-subsidy` | — |
 | C2.2 (price support) | **Government Cheese** | `Vignette_B11_government-cheese_F24`; `Checkpoints/C/24F_Demo_X2` (+pdf), the stem `C1.2_government-cheese` | `Checkpoints/C/Demo_X2_sols.pdf` |
-| C1.2 Positive | **Yard Flowers** | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf), `Vignette_C2_yard-flowers_F24` (+pdf), `Vignette_C3_yard-flowers-miniexam_F22`; `Checkpoints/C/MiniExam_C_v1`, `v2` (+pdf, the 22F MiniExam C), `24F_Demo_C1` (+pdf), the stems `C3.2_yard-flowers`, `C4.1_yard-flowers` | `Classwork_C2_…_sols.pdf`, `Checkpoints/C/Demo_C1_sols.pdf` |
+| C1.2 Positive | **Yard Flowers** (proposed for Exercise C1 Q3 on 2026-10-07, from the F24 Classwork Q2, with supply changed to ½ Q; not archived, since Classwork Q1 and Q3 are unused) | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf), `Vignette_C2_yard-flowers_F24` (+pdf), `Vignette_C3_yard-flowers-miniexam_F22`; `Checkpoints/C/MiniExam_C_v1`, `v2` (+pdf, the 22F MiniExam C), `24F_Demo_C1` (+pdf), the stems `C3.2_yard-flowers`, `C4.1_yard-flowers` | `Classwork_C2_…_sols.pdf`, `Checkpoints/C/Demo_C1_sols.pdf` |
 | C1.2 Positive | **The Covid vaccine** | `Vignette_5_covid-vaccine_F21` (+pdf), `Vignette_C_covid-vaccine_F22` (+pdf), `Vignette_C2_covid-vaccine_F23` (+pdf) | — |
 | C1.2 Positive | **Selling Out To Big Chocolate?** | `Vignette_C2_big-chocolate_F22` (+pdf) | — |
 
