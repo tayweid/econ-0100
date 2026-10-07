@@ -36,7 +36,7 @@
 // | Unit revision 2026-10-07: Q is tons; all prices, benefits, and costs are dollars per ton. Keep the simple numerical curves as a rescaled teaching example rather than converting the old physical dataset. Remove grey explanatory captions from exchange close-ups: no average-values note, quantity-change footer, one-ton footer, or prose repeating the surplus result. Keep units on the axes and the active question/takeaway in yellow. CS/PS labels sit beside their regions without leaders; retain purple TS gap guides. MB sits directly left of the MB value line, and MC/MPC directly right of the MC value line, at the same height as that line. Restore the buyer/seller spheres and keep Buyer and Seller beneath their respective spheres in both opening close-ups. Keep value labels attached to the live bars through movement and return zooms.
 // | Reveal revision 2026-10-07: each close-up pauses on MB and MC before price, surplus, or a welfare answer. Externality comparisons first show private values, then external/social cost, then the welfare result. Ask about increasing/decreasing quantity, not changing it by one.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
-// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per ton. Qm = 40; Qefficient = 32. Each comparison selects one one-ton exchange, with unit values evaluated at its rank on the curves. Add four individual bars through ton 44, then select ton 44: MB 3.20, MC 4.20, TS −1. Reduce quantity to 35 and select removed ton 36: MB 4.80, MC 3.80, TS +1. With external cost 2 per ton, those same units have social TS −3 and −1. Never use an eight-ton average or multiply the displayed gap by a batch size. The opening close-ups use the boundary values at Q = 0 (MB 12, MC 2) and Q = 40 (MB = MC = 4).
+// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per ton. Qm = 40; Qefficient = 32. Each comparison selects one one-ton exchange, with unit values evaluated at its rank on the curves. Add eight individual bars through ton 48, then select ton 48: MB 2.40, MC 4.40, TS −2. Reduce quantity to 35 and select removed ton 36: MB 4.80, MC 3.80, TS +1. With external cost 2 per ton, those same units have social TS −4 and −1. Never use an eight-ton average or multiply the displayed gap by a batch size. The opening close-ups use the boundary values at Q = 0 (MB 12, MC 2) and Q = 40 (MB = MC = 4).
 // /plass:comment
 
 === 1 | Equilibrium and the First Welfare Theorem
@@ -67,17 +67,17 @@
 ]
 
 #quote(block: true)[
-  1.b → 1.b.select · Ask: What happens if we increase quantity? Add four separate one-ton bars, one after another, beyond Q = 40 through Q = 44. Then highlight the last actual bar, ton 44, and pause. Bottom: Look at this one added ton. Only this selected one-ton exchange moves into the close-up.
+  1.b → 1.b.select · Ask: What happens if we increase quantity? Add eight separate one-ton bars, one after another, beyond Q = 40 through Q = 48. Then highlight the last actual bar, ton 48, and pause. Bottom: Look at this one added ton. Only this selected one-ton exchange moves into the close-up.
 
 ]
 
 #quote(block: true)[
-  1.c.values → 1.c · Carry the selected one-ton pair into the close-up, fading the market. First show only faint bars, solid value edges, MB 3.20 and MC 4.20, with each value label at its line. Bottom question: Can any price make this trade worthwhile? Pause. Then reveal the purple gap labeled TS = −1 dollar, which is exactly MB minus MC for this one ton. Show MC \> MB. Bottom: This added ton costs more than it benefits. No grey captions or aggregate totals.
+  1.c.values → 1.c · Carry the selected one-ton pair into the close-up, fading the market. Under the topic title, show the subtitle: The 48th unit: a quantity larger than in equilibrium. First show only faint bars, solid value edges, MB 2.40 and MC 4.40, with each value label at its line. Bottom question: Can any price make this trade worthwhile? Pause. Then reveal the purple gap labeled TS = −2 dollars, which is exactly MB minus MC for this one ton. Show MC \> MB. Bottom: This added ton costs more than it benefits. Keep the context subtitle through the answer, then fade it on the return to the market. No grey footers or aggregate totals.
 
 ]
 
 #quote(block: true)[
-  1.d · Return this same one-ton pair to its bar at rank 44, with both columns sharing the same horizontal bounds. Restore the full market and remove the four added bars to return to Q = 40.
+  1.d · Return this same one-ton pair to its bar at rank 48, with both columns sharing the same horizontal bounds. Restore the full market and remove the eight added bars to return to Q = 40.
 
 ]
 
@@ -146,7 +146,7 @@
 ]
 
 #quote(block: true)[
-  3.d.select → 3.d.values → 3.d.costs → 3.d · Select the same one added ton at rank 44. Bottom: Look at the same one added ton. Carry its one-unit-wide pair into the close-up. First reveal only MSB 3.20 and MPC 4.20 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.20 at its line. Bottom: What changes when we count the external cost? Pause again. Finally reveal TS = −3 dollars for this one ton. Bottom: Adding this ton reduces social welfare. Return to the same one-ton market slice.
+  3.d.select → 3.d.values → 3.d.costs → 3.d · Select the same one added ton at rank 48. Bottom: Look at the same one added ton. Carry its one-unit-wide pair into the close-up. Repeat the subtitle: The 48th unit: a quantity larger than in equilibrium. First reveal only MSB 2.40 and MPC 4.40 beside their value lines. Bottom: What do the buyer and seller count? Pause. Then reveal external cost 2 stacked above MPC and label MSC 6.40 at its line. Bottom: What changes when we count the external cost? Pause again. Finally reveal TS = −4 dollars for this one ton. Bottom: Adding this ton reduces social welfare. Fade the subtitle when returning to the same one-ton market slice.
 
 ]
 

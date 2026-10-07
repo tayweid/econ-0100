@@ -27,7 +27,7 @@ class C1(ThreeDScene):
         BODY_MID = (BODY_TOP + BODY_BOTTOM) / 2
         DEFINITION_SCALE, DEFINITION_BOTTOM = 0.7443, 0.05
         MARKET_Q, MARKET_P, EXTERNAL_COST, EFFICIENT_Q = 40, 4, 2, 32
-        COMPARE_LOW, COMPARE_HIGH = 35, 44  # Select ton 36 when reducing, ton 44 when increasing.
+        COMPARE_LOW, COMPARE_HIGH = 35, 48  # Select ton 36 when reducing, ton 48 when increasing.
         BAR_GAP = 0.08
         DETAIL_BASE, DETAIL_SCALE = -2.05, 0.68
 
@@ -238,7 +238,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(intro_pair))
         self.pause('1.a.last.return')
 
-        # ---- 1.b · Add separate one-ton exchanges, then select ton 44.
+        # ---- 1.b · Add separate one-ton exchanges, then select ton 48.
         extra_lots = fixed(VGroup())
         for q in range(MARKET_Q, COMPARE_HIGH):
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
@@ -254,8 +254,8 @@ class C1(ThreeDScene):
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(question))
         self.play(LaggedStart(*[FadeIn(lot) for lot in extra_lots], lag_ratio=0.4),
-                  Transform(quantity_guide, fixed(DashedLine(ax.c2p(44, 0), ax.c2p(44, 4.2), color=GUIDE))),
-                  Transform(quantity_label, fixed(Tex(r'$Q=44$', color=GUIDE).scale(0.7).next_to(ax.c2p(44, 0), DOWN, buff=0.20))),
+                  Transform(quantity_guide, fixed(DashedLine(ax.c2p(48, 0), ax.c2p(48, 4.4), color=GUIDE))),
+                  Transform(quantity_label, fixed(Tex(r'$Q=48$', color=GUIDE).scale(0.7).next_to(ax.c2p(48, 0), DOWN, buff=0.20))),
                   run_time=2)
         self.pause('1.b')
         extra_pair = fixed(VGroup(*list(extra_lots[-1])[:2]))
@@ -271,7 +271,7 @@ class C1(ThreeDScene):
 
         # ---- 1.c · Carry the selected pair into B4's head-on bar comparison.
         extra_target = fixed(VGroup())
-        for left, value, color in [(-1.16, 3.2, DEMAND), (0.06, 4.2, SUPPLY)]:
+        for left, value, color in [(-1.16, 2.4, DEMAND), (0.06, 4.4, SUPPLY)]:
             extra_target.add(fixed(Polygon([left, DETAIL_BASE, 0], [left + 1.1, DETAIL_BASE, 0],
                 [left + 1.1, DETAIL_BASE + value * DETAIL_SCALE, 0], [left, DETAIL_BASE + value * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
@@ -289,17 +289,18 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(extra_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_pair[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_pair[1].get_corner(UR), RIGHT, buff=0.25),
-            DashedLine([-0.06, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            DashedLine([3.25, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
+            Tex(r'MB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_pair[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_pair[1].get_corner(UR), RIGHT, buff=0.25),
+            DashedLine([-0.06, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
+                [3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([3.25, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0],
+                [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0],
                 color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$1$', color=TOTAL).scale(0.8)
-                .next_to([3.8, DETAIL_BASE + 3.7 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
-            Tex(r'MC $>$ MB', color=INK).scale(0.8).move_to([4.3, -0.2, 0])))
+            Tex(r'TS $=-\$2$', color=TOTAL).scale(0.8)
+                .next_to([3.8, DETAIL_BASE + 3.4 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
+            Tex(r'MC $>$ MB', color=INK).scale(0.8)))
+        extra_detail[-1].next_to(extra_detail[-2], DOWN, buff=0.2)
         conclusion = fixed(Tex('This added ton costs more than it benefits.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('Can any price make this trade worthwhile?', color=DEFINITION)
@@ -309,14 +310,16 @@ class C1(ThreeDScene):
             m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
         extra_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
-        self.play(FadeIn(extra_detail[:5]), FadeIn(detail_people), FadeIn(value_question))
+        unit_context = fixed(subtitle(head,
+            'The 48th unit: a quantity larger than in equilibrium.', book=True))
+        self.play(FadeIn(extra_detail[:5]), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.c.values')
         self.play(FadeOut(value_question))
         self.play(FadeIn(extra_detail[5:]), FadeIn(conclusion))
         self.pause('1.c')
 
         # ---- 1.d · Return the exact same pair to its original quantity interval.
-        self.play(FadeOut(extra_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion),
+        self.play(FadeOut(extra_detail, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_pair, extra_home), FadeIn(market), FadeIn(extra_lots), run_time=1.6)
         self.play(FadeOut(extra_pair), FadeOut(extra_lots),
                   Transform(quantity_guide, fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE))),
@@ -681,14 +684,14 @@ class C1(ThreeDScene):
 
         # ---- 3.d · Revisit the same added ton, with external cost stacked on MPC.
         extra_social_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(43.04, 0), left_ax.c2p(43.96, 0),
-                left_ax.c2p(43.96, 3.2), left_ax.c2p(43.04, 3.2),
+            Polygon(left_ax.c2p(47.04, 0), left_ax.c2p(47.96, 0),
+                left_ax.c2p(47.96, 2.4), left_ax.c2p(47.04, 2.4),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-            Polygon(left_ax.c2p(43.04, 0), left_ax.c2p(43.96, 0),
-                left_ax.c2p(43.96, 4.2), left_ax.c2p(43.04, 4.2),
+            Polygon(left_ax.c2p(47.04, 0), left_ax.c2p(47.96, 0),
+                left_ax.c2p(47.96, 4.4), left_ax.c2p(47.04, 4.4),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
-            Polygon(left_ax.c2p(43.04, 4.2), left_ax.c2p(43.96, 4.2),
-                left_ax.c2p(43.96, 6.2), left_ax.c2p(43.04, 6.2),
+            Polygon(left_ax.c2p(47.04, 4.4), left_ax.c2p(47.96, 4.4),
+                left_ax.c2p(47.96, 6.4), left_ax.c2p(47.04, 6.4),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
         extra_social_home = extra_social_pair.copy()
         selection_word = fixed(Tex('Look at the same one added ton.', color=DEFINITION)
@@ -697,8 +700,8 @@ class C1(ThreeDScene):
         self.play(FadeIn(extra_social_pair), FadeIn(selection_word))
         self.pause('3.d.select')
         extra_social_target = fixed(VGroup())
-        for left, low, high, color in [(-1.16, 0, 3.2, DEMAND), (0.06, 0, 4.2, SUPPLY),
-                                      (0.06, 4.2, 6.2, EXT)]:
+        for left, low, high, color in [(-1.16, 0, 2.4, DEMAND), (0.06, 0, 4.4, SUPPLY),
+                                      (0.06, 4.4, 6.4, EXT)]:
             extra_social_target.add(fixed(Polygon(
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
@@ -711,19 +714,19 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(extra_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MSB $\$3.20$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MPC $\$4.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex(r'MSB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_social_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MPC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(extra_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$6.20$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
+            Tex(r'MSC $\$6.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
-            DashedLine([-3.55, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            DashedLine([0.06, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([-3.8, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 6.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$3$', color=TOTAL).scale(0.8)
-                .next_to([-3.8, DETAIL_BASE + 4.7 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
+            DashedLine([-3.55, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            DashedLine([0.06, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+            Line([-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
+                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
+            Tex(r'TS $=-\$4$', color=TOTAL).scale(0.8)
+                .next_to([-3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
         conclusion = fixed(Tex('Adding this ton reduces social welfare.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
@@ -735,7 +738,9 @@ class C1(ThreeDScene):
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[extra_social_labels[i] for i in [2, 6, 7]]))
-        self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question))
+        unit_context = fixed(subtitle(head,
+            'The 48th unit: a quantity larger than in equilibrium.', book=True))
+        self.play(FadeIn(private_labels), FadeIn(detail_people), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.d.values')
         self.remove(value_question)
         value_question = fixed(Tex('What changes when we count the external cost?', color=DEFINITION)
@@ -745,7 +750,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(value_question))
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.d')
-        self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(social_gap), FadeOut(conclusion),
+        self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(detail_people), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), run_time=1.6)
         self.play(FadeOut(extra_social_pair))
         self.pause('3.d.return')
