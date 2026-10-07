@@ -470,10 +470,11 @@ class C1(ThreeDScene):
         self.pause('2.a')
 
         # ---- 2.b · A single external-cost piece belongs to one grey bystander.
+        BYSTANDER_CENTER, BYSTANDER_GAP = 3.7, 0.61
         bystanders = fixed(Group())
         individual_costs, external_stack = fixed(VGroup()), fixed(VGroup())
         for i in range(8):
-            x = 1.4 + i * 0.61
+            x = BYSTANDER_CENTER
             person = fixed(Group(
                 Ellipse(width=0.27, height=0.04, stroke_width=0, fill_color=MUTED, fill_opacity=0.35).move_to([x, -2.28, 0]),
                 Sphere(radius=0.12, color=MUTED, opacity=1, resolution=(24, 16)).move_to([x, -2.10, 0])))
@@ -485,19 +486,25 @@ class C1(ThreeDScene):
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
             individual_costs.add(external_stack[-1].copy().stretch_to_fit_width(0.46)
                 .move_to([x, PAIR_BASE + 0.125 * PAIR_SCALE, 0]))
-        bystander_word = fixed(Tex('A bystander', color=CAPTION).scale(0.7).move_to([2.0, -2.8, 0]))
-        small_word = fixed(Tex(r'External cost: $\$0.25$/ton', color=EXT).scale(0.7).move_to([3.7, 0.55, 0]))
+        bystander_word = fixed(Tex('Bystander', color=CAPTION).scale(0.7).move_to([BYSTANDER_CENTER, -2.8, 0]))
+        small_word = fixed(Tex(r'External cost: $\$0.25$/ton', color=EXT).scale(0.7).move_to([BYSTANDER_CENTER, 0.55, 0]))
         self.add(bystanders[0])
         self.play(FadeIn(bystander_word), FadeIn(individual_costs[0]), FadeIn(small_word))
         self.pause('2.b')
 
         # ---- 2.c.people · Each person's cost stays above them until all eight appear.
-        self.play(FadeOut(bystander_word))
         for i in range(1, 8):
+            x = BYSTANDER_CENTER + i * BYSTANDER_GAP / 2
+            bystanders[i].set_x(x)
+            individual_costs[i].set_x(x)
             self.add(bystanders[i])
-            self.play(FadeIn(individual_costs[i]), run_time=0.35)
-        many_word = fixed(Tex('People outside the trade', color=CAPTION).scale(0.7).move_to([3.55, -2.8, 0]))
-        self.play(FadeIn(many_word))
+            additions = [FadeIn(individual_costs[i]),
+                *[bystanders[j].animate.set_x(BYSTANDER_CENTER + (j - i / 2) * BYSTANDER_GAP) for j in range(i)],
+                *[individual_costs[j].animate.set_x(BYSTANDER_CENTER + (j - i / 2) * BYSTANDER_GAP) for j in range(i)]]
+            if i == 1:
+                additions.append(Transform(bystander_word,
+                    fixed(Tex('Bystanders', color=CAPTION).scale(0.7).move_to(bystander_word))))
+            self.play(*additions, run_time=0.5)
         self.pause('2.c.people')
 
         # ---- 2.c · Only now combine those eight costs into one stack.
@@ -527,7 +534,7 @@ class C1(ThreeDScene):
             ext_parts.add(fixed(Polygon(ext_ax.c2p(0, i * 0.25), ext_ax.c2p(1, i * 0.25),
                 ext_ax.c2p(1, (i + 1) * 0.25), ext_ax.c2p(0, (i + 1) * 0.25),
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
-        self.play(FadeOut(stack_word), FadeOut(many_word), FadeOut(conclusion),
+        self.play(FadeOut(stack_word), FadeOut(bystander_word), FadeOut(conclusion),
                   bystanders.animate.scale(0.8).move_to([3.45, -2.85, 0]), FadeIn(ext_ax), FadeIn(ext_words),
                   *[Transform(external_stack[i], ext_parts[i]) for i in range(8)], run_time=1.5)
         ext_area_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(0.5, 1)))

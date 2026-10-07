@@ -105,12 +105,12 @@
 ]
 
 #quote(block: true)[
-  2.b · One small grey bystander appears off to the right with a narrow pink external-cost bar directly above them: 0.25 dollars per ton. Keep that cost above the person as the other people arrive. No yellow prompt. Gary and Molly’s bars and price do not move.
+  2.b · One small grey bystander appears centered beneath the purple external-cost text, with a narrow pink cost bar directly above them: 0.25 dollars per ton. Center the label Bystander beneath the sphere. Keep that cost above the person as the other people arrive. No yellow prompt. Gary and Molly’s bars and price do not move.
 
 ]
 
 #quote(block: true)[
-  2.c.people → 2.c · Reveal seven more small grey bystanders, each with a separate narrow pink cost bar directly above them. Keep all eight bars above their respective people, with matching heights and no overlap, and pause. Leave the bottom text empty. Only after all eight people and their bars are visible, move the eight costs into one stack totaling 2 dollars per ton. All eight people remain below. Then show the yellow takeaway across two lines: Exchanges between buyer and seller in the market can impose a cost on others.
+  2.c.people → 2.c · Reveal seven more small grey bystanders, each with a separate narrow pink cost bar directly above them. When the second person appears, change Bystander to Bystanders. Recenter the growing row beneath the purple text after every addition; move each person and their cost bar together. Keep the Bystanders label centered below the row through stacking. Keep all eight bars above their respective people, with matching heights and no overlap, and pause. Leave the bottom text empty. Only after all eight people and their bars are visible, move the eight costs into one stack totaling 2 dollars per ton. All eight people remain below. Then show the yellow takeaway across two lines: Exchanges between buyer and seller in the market can impose a cost on others.
 
 ]
 
