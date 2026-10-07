@@ -704,11 +704,8 @@ class C1(ThreeDScene):
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
-        extra_social_target[2].set_fill(opacity=0).set_stroke(EXT, width=2.5)
-        private_target = extra_social_target.copy()
-        private_target[2].set_opacity(0)
         self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(selected_ton),
-                  Transform(extra_social_pair, private_target), run_time=1.6)
+                  Transform(extra_social_pair, extra_social_target), run_time=1.6)
         extra_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(extra_social_target, [DEMAND, SUPPLY, SUPPLY])],
@@ -729,7 +726,7 @@ class C1(ThreeDScene):
                 .next_to([-3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
         conclusion = fixed(Tex(r'Adding this ton creates $\$4$ of deadweight loss.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
+        private_note = fixed(Tex('Buyers and sellers only consider their private costs and benefits.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         extra_social_labels[4].bars = extra_social_labels[5].bars = extra_social_pair
         extra_social_labels[4].add_updater(lambda m:
@@ -739,35 +736,36 @@ class C1(ThreeDScene):
         private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         unit_context = fixed(subtitle(head,
             'The 48th unit: a quantity larger than in equilibrium.'))
-        self.add(detail_people)
-        self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
+        unit_bystander = fixed(Group(
+            Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=MUTED, fill_opacity=0.28)
+                .move_to([0, DETAIL_BASE - 0.60, 0]),
+            Sphere(radius=0.18, color=MUTED, opacity=1, resolution=(32, 24))
+                .move_to([0, DETAIL_BASE - 0.35, 0])))
+        unit_bystander[1].apply_depth_test()
+        unit_bystander_word = fixed(Tex('Bystanders', color=CAPTION).scale(0.65)
+            .move_to([0, DETAIL_BASE - 0.94, 0]))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(private_labels), FadeIn(extra_social_labels[6]), FadeIn(unit_context))
         self.pause('3.d.values')
 
-        # ---- 3.d.external · Recall the eight costs before adding them to MC.
-        self.play(FadeOut(value_question))
+        # ---- 3.d.external · Move the already-visible cost outside the private decision.
         unit_cost_heading = fixed(Tex('Externalized cost per ton', color=CAPTION).scale(0.65)
             .move_to([4.7, 1.45, 0]))
-        unit_cost_math = fixed(Tex(r'$8\times\$0.25=\$2$', color=EXT).scale(0.75)
-            .move_to([4.7, 0.85, 0]))
-        unit_cost_stack = fixed(VGroup())
-        for i in range(8):
-            low = -1.4 + i * 0.25 * DETAIL_SCALE
-            unit_cost_stack.add(fixed(Polygon(
-                [4.15, low, 0], [5.25, low, 0],
-                [5.25, low + 0.25 * DETAIL_SCALE, 0], [4.15, low + 0.25 * DETAIL_SCALE, 0],
-                stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
-        unit_bystanders = bystanders.copy().scale(0.8).move_to([4.7, -2.2, 0])
-        self.add(unit_bystanders)
-        self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_math), FadeIn(unit_cost_stack))
+        unit_cost_number = fixed(Tex(r'$\$2$', color=EXT).scale(0.75).move_to([4.7, 0.85, 0]))
+        self.play(FadeOut(extra_social_labels[6]), FadeOut(unit_bystander_word), run_time=0.3)
+        self.play(Transform(extra_social_pair[2], extra_social_pair[2].copy().move_to([4.7, -0.72, 0]),
+                            path_arc=-2 * PI / 3),
+                  Transform(unit_bystander, unit_bystander.copy().shift(RIGHT * 4.7), path_arc=PI / 3),
+                  FadeIn(private_note), run_time=1.4)
+        unit_bystander_word.shift(RIGHT * 4.7)
+        self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_number), FadeIn(unit_bystander_word), run_time=0.4)
         self.pause('3.d.external')
-        unit_cost_outline = extra_social_target[2].copy().move_to(unit_cost_stack)
-        self.play(Transform(unit_cost_stack, fixed(VGroup(unit_cost_outline))), run_time=0.8)
-        self.play(Transform(unit_cost_stack, fixed(VGroup(extra_social_target[2].copy()))),
-                  unit_bystanders.animate.move_to([detail_people.get_x(), -3.4, 0]),
-                  FadeOut(unit_cost_heading), FadeOut(unit_cost_math), run_time=1.4)
-        self.remove(unit_cost_stack)
-        extra_social_pair[2].become(extra_social_target[2])
-        self.play(FadeIn(extra_social_labels[6]))
+        self.play(FadeOut(unit_cost_heading), FadeOut(unit_cost_number), FadeOut(unit_bystander_word),
+                  FadeOut(private_note), run_time=0.3)
+        self.play(Transform(extra_social_pair[2], extra_social_target[2], path_arc=2 * PI / 3),
+                  Transform(unit_bystander, unit_bystander.copy().shift(LEFT * 4.7), path_arc=-PI / 3), run_time=1.4)
+        unit_bystander_word.shift(LEFT * 4.7)
+        self.play(FadeIn(extra_social_labels[6]), FadeIn(unit_bystander_word), run_time=0.4)
         self.pause('3.d.extension')
 
         # ---- 3.d.math · Copy the known values into the equation, then simplify.
@@ -799,7 +797,7 @@ class C1(ThreeDScene):
         self.pause('3.d.costs')
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.d')
-        self.remove(detail_people, unit_bystanders)
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeOut(extra_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_social_pair, extra_social_home), FadeIn(social_graph), FadeIn(welfare_context), run_time=1.6)
         self.play(FadeOut(extra_social_pair))
@@ -824,17 +822,15 @@ class C1(ThreeDScene):
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=0.65 if color == EXT else BASE_OPACITY)))
-        private_target = removed_social_target.copy()
-        private_target[2].set_opacity(0)
         self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(selected_ton),
-                  Transform(removed_social_pair, private_target), run_time=1.6)
+                  Transform(removed_social_pair, removed_social_target), run_time=1.6)
         removed_social_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(removed_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
             Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
-            Tex(r'External cost $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
+            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
             Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
             DashedLine([-3.55, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
@@ -848,7 +844,7 @@ class C1(ThreeDScene):
                 .next_to([-3.8, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
         conclusion = fixed(Tex(r'Removing this ton eliminates $\$1$ of deadweight loss.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
+        private_note = fixed(Tex('Buyers and sellers only consider their private costs and benefits.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         removed_social_labels[4].bars = removed_social_labels[5].bars = removed_social_pair
         removed_social_labels[4].add_updater(lambda m:
@@ -856,21 +852,31 @@ class C1(ThreeDScene):
         removed_social_labels[5].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
-        external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
+        external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 7]]))
         unit_context = fixed(subtitle(head,
             'The 36th unit: a quantity exchanged in equilibrium.'))
-        self.add(detail_people)
-        self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(private_labels), FadeIn(removed_social_labels[6]), FadeIn(unit_context))
         self.pause('3.e.values')
-        self.remove(value_question)
-        value_question = fixed(Tex('What changes when we count the external cost?', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(Transform(removed_social_pair, removed_social_target), FadeIn(external_labels), FadeIn(value_question))
+        self.play(FadeOut(removed_social_labels[6]), FadeOut(unit_bystander_word), run_time=0.3)
+        self.play(Transform(removed_social_pair[2], removed_social_pair[2].copy().move_to([4.7, -0.72, 0]),
+                            path_arc=-2 * PI / 3),
+                  Transform(unit_bystander, unit_bystander.copy().shift(RIGHT * 4.7), path_arc=PI / 3),
+                  FadeIn(private_note), run_time=1.4)
+        unit_bystander_word.shift(RIGHT * 4.7)
+        self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_number), FadeIn(unit_bystander_word), run_time=0.4)
+        self.pause('3.e.external')
+        self.play(FadeOut(unit_cost_heading), FadeOut(unit_cost_number), FadeOut(unit_bystander_word),
+                  FadeOut(private_note), run_time=0.3)
+        self.play(Transform(removed_social_pair[2], removed_social_target[2], path_arc=2 * PI / 3),
+                  Transform(unit_bystander, unit_bystander.copy().shift(LEFT * 4.7), path_arc=-PI / 3), run_time=1.4)
+        unit_bystander_word.shift(LEFT * 4.7)
+        self.play(FadeIn(removed_social_labels[6]), FadeIn(unit_bystander_word), run_time=0.4)
+        self.play(FadeIn(external_labels))
         self.pause('3.e.costs')
-        self.play(FadeOut(value_question))
         self.play(FadeIn(social_gap), FadeIn(conclusion))
         self.pause('3.e')
-        self.remove(detail_people)
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), FadeIn(welfare_context), run_time=1.6)
         self.play(FadeOut(removed_social_pair))

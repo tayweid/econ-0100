@@ -259,9 +259,16 @@ with the initial values, then fade that question as price appears. Omit a
 price question at the MB = MC close-up. At MB = MC, show the price and
 equality takeaway without adding surplus regions.
 For a welfare comparison, withhold the surplus gap, inequality, and conclusion
-until after the values-only pause. With externalities, reveal private values
-first, then external/social cost, then the welfare result, with discussion
-pauses between those steps. For a quantity experiment, add or remove individual one-ton bars until a
+until after the values-only pause. In C1’s social-welfare comparisons, carry
+the filled EXT region into the close-up with MC: it is already present in
+the market. Move that same rectangle aside when explaining the private
+decision, then return it filled above MC before the MSC and welfare reveals.
+Use one grey sphere labeled Bystanders; move it with EXT to the side and back
+to the middle between Buyer and Seller, keeping their sphere and label
+baselines aligned. The detached bar gets just its dollar amount, with no
+repeated bystander arithmetic. Preserve the earlier many-person buildup in
+the initial Negative Externalities scene. Keep discussion pauses between
+the private decision, social cost, and welfare result. For a quantity experiment, add or remove individual one-ton bars until a
 convenient example is available, then select one actual bar for the close-up.
 Added market bars use the same sloping curve boundaries, spacing, and fill
 treatment as the existing bars. Do not add horizontal value caps or a
