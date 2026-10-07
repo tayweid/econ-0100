@@ -882,7 +882,7 @@ class C1(ThreeDScene):
         self.play(FadeIn(head), FadeIn(evaluation_line), FadeIn(marginal_gap))
         self.play(evaluation_q.animate.set_value(EFFICIENT_Q), run_time=2.4, rate_func=smooth)
         efficient_dot = fixed(Dot(left_ax.c2p(32, 5.6), radius=0.085, color=FOCUS))
-        efficient_word = fixed(Tex(r'$Q_e=32$', color=FOCUS).scale(0.7)
+        efficient_word = fixed(Tex(r'$Q^*=32$', color=FOCUS).scale(0.7)
                                .next_to(left_ax.c2p(32, 0), DOWN, buff=0.78))
         # Vertically stagger quantity labels so 32 and 40 are both readable.
         condition = fixed(Tex('Social welfare is maximized where MB $=$ MSC.', color=DEFINITION)
@@ -964,7 +964,11 @@ class C1(ThreeDScene):
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
         self.remove(head, conclusion)
         head = fixed(title('Efficient Quantity'))
-        self.play(FadeIn(head))
+        quantity_comparison = fixed(Tex(r'$Q^* < \hat{Q}$', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(head), FadeIn(quantity_comparison))
+        self.pause('4.c.comparison')
+        self.play(FadeOut(quantity_comparison), run_time=0.4)
         conclusion = fixed(Tex('Are some exchanges worthwhile even with externalities on others?', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(evaluation_q.animate.set_value(24), FadeIn(conclusion), run_time=1.8)
