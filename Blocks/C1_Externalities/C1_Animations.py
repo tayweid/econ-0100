@@ -523,64 +523,7 @@ class C1(ThreeDScene):
         self.play(FadeIn(stack_word), FadeIn(conclusion))
         self.pause('2.c')
 
-        # ---- 2.d · The stack becomes the external-cost area of one trade.
-        ext_ax = fixed(style_axes([0, 2.5, 1], [0, 3, 1], x_length=4.3, y_length=2.2))
-        ext_ax.shift(np.array([1.3, -1.5, 0]) - ext_ax.c2p(0, 0))
-        ext_words = fixed(VGroup(
-            Tex('Externalized cost per ton', color=CAPTION).scale(0.65).next_to(ext_ax, UP, buff=0.20),
-            Tex(r'$\$2$', color=EXT).scale(0.7).next_to(ext_ax.c2p(0, 2), LEFT, buff=0.15),
-            Tex('1', color=GUIDE).scale(0.7).next_to(ext_ax.c2p(1, 0), DOWN, buff=0.18),
-            Tex('Tons', color=CAPTION).scale(0.60).next_to(ext_ax, DOWN, buff=0.65)))
-        ext_parts = fixed(VGroup())
-        for i in range(8):
-            ext_parts.add(fixed(Polygon(ext_ax.c2p(0, i * 0.25), ext_ax.c2p(1, i * 0.25),
-                ext_ax.c2p(1, (i + 1) * 0.25), ext_ax.c2p(0, (i + 1) * 0.25),
-                stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
-        self.play(FadeOut(stack_word), FadeOut(cost_heading), FadeOut(bystander_word), FadeOut(conclusion),
-                  bystanders.animate.scale(0.8).move_to([3.45, -2.85, 0]), FadeIn(ext_ax), FadeIn(ext_words),
-                  *[Transform(external_stack[i], ext_parts[i]) for i in range(8)], run_time=1.5)
-        ext_area_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(0.5, 1)))
-        self.play(FadeIn(ext_area_word))
-        self.pause('2.d')
-
-        # ---- 2.e · Two actual bar pairs, two external-cost rectangles.
-        first_small = pair.copy().scale(0.66).move_to([-5.25, BODY_MID, 0])
-        second_pair = first_small.copy().shift(RIGHT * 2.9)
-        # Same geometry and units, next market interval 30–31.
-        second_bars = second_pair[0]
-        for index, value, color in [(0, 5.9, DEMAND), (1, 3.525, SUPPLY)]:
-            left = second_bars[index].get_left()[0]
-            right = second_bars[index].get_right()[0]
-            base = second_bars[index].get_bottom()[1]
-            lower, upper = (MARKET_P, value) if index == 0 else (value, MARKET_P)
-            second_bars[index].stretch_to_fit_height(PAIR_SCALE * 0.66 * lower, about_edge=DOWN)
-            second_bars[index + 2].become(fixed(Polygon(
-                [left, base + lower * PAIR_SCALE * 0.66, 0], [right, base + lower * PAIR_SCALE * 0.66, 0],
-                [right, base + upper * PAIR_SCALE * 0.66, 0], [left, base + upper * PAIR_SCALE * 0.66, 0],
-                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY)))
-            second_bars[index + 4].become(fixed(Line(
-                [left, base + value * PAIR_SCALE * 0.66, 0], [right, base + value * PAIR_SCALE * 0.66, 0],
-                color=color, stroke_width=3)))
-        second_words = second_pair[2]
-        for index, text_value in [(0, 'Buyer'), (1, r'MB $\$5.90$'), (2, 'Seller'), (3, r'MC $\$3.525$')]:
-            replacement = fixed(Tex(text_value, color=INK if index % 2 == 0 else (DEMAND if index == 1 else SUPPLY))
-                                .scale((0.7 if index % 2 == 0 else 0.65) * 0.66).move_to(second_words[index]))
-            second_words[index].become(replacement)
-        second_words[1].next_to(second_bars[4], LEFT, buff=0.22 * 0.66)
-        second_words[3].next_to(second_bars[5], RIGHT, buff=0.22 * 0.66)
-        second_ext = fixed(Polygon(ext_ax.c2p(1, 0), ext_ax.c2p(2, 0), ext_ax.c2p(2, 2), ext_ax.c2p(1, 2),
-            stroke_width=1.5, stroke_color=BG, fill_color=EXT, fill_opacity=0.65))
-        second_ext_word = fixed(Tex(r'$\$2$', color=INK).scale(0.8).move_to(ext_ax.c2p(1.5, 1)))
-        second_tick = fixed(Tex('2', color=GUIDE).scale(0.7).next_to(ext_ax.c2p(2, 0), DOWN, buff=0.18))
-        second_material = fixed(Group(second_pair[0], *list(second_pair)[2:]))
-        self.add(second_pair[1])
-        self.play(Transform(pair, first_small), FadeIn(second_material), FadeIn(second_ext),
-                  FadeIn(second_ext_word), FadeIn(second_tick), run_time=1.6)
-        self.remove(second_pair[1], second_material)
-        self.add(second_pair)
-        self.pause('2.e')
-
-        # ---- 2.f · Both trades land at their own ranks in the complete market.
+        # ---- 2.d · Carry Gary and Molly directly into the two full-market graphs.
         left_ax = fixed(style_axes([0, 60, 10], [0, 13, 2], x_length=5.5, y_length=3.9))
         left_ax.shift(np.array([-6.45, -2.15, 0]) - left_ax.c2p(0, 0))
         right_ax = fixed(style_axes([0, 60, 10], [0, 13, 2], x_length=5.5, y_length=3.9))
@@ -621,36 +564,41 @@ class C1(ThreeDScene):
             external_bars.add(fixed(Polygon(right_ax.c2p(l, 0), right_ax.c2p(r, 0),
                 right_ax.c2p(r, 2), right_ax.c2p(l, 2),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
-        landing_pairs = []
-        for q in [29, 30]:
-            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
-            # Match all six pieces to the existing stacked market geometry.
-            landing_pairs.append(fixed(VGroup(
-                Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
-                    left_ax.c2p(right, 4), left_ax.c2p(left, 4),
-                    stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-                private_bars[q].copy(), benefit_bars[q].copy(), producer_surplus[q].copy(),
-                Line(left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
-                    color=DEMAND, stroke_width=3),
-                Line(left_ax.c2p(left, 2 + left / 20), left_ax.c2p(right, 2 + right / 20),
-                    color=SUPPLY, stroke_width=3))))
-        # Separate bars from their departing people so the bars survive the pullback.
-        first_flying, second_flying = pair[0].copy(), second_pair[0].copy()
-        self.add(first_flying, second_flying)
-        # The topic is unchanged as the two trades become the full market.
-        pair_material = fixed(Group(pair[0], *list(pair)[2:]))
-        self.remove(pair, second_pair, bystanders)
-        self.add(pair_material, second_material)
-        self.play(FadeOut(pair_material), FadeOut(second_material),
-                  FadeOut(ext_ax), FadeOut(ext_words), FadeOut(ext_area_word), FadeOut(second_ext_word), FadeOut(second_tick),
-                  Transform(first_flying, landing_pairs[0]), Transform(second_flying, landing_pairs[1]),
-                  Transform(external_stack, fixed(VGroup(external_bars[29].copy()))),
-                  Transform(second_ext, external_bars[30]),
-                  FadeIn(left_ax), FadeIn(right_ax), FadeIn(left_words), FadeIn(right_words),
+        q = 29
+        left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+        landing_pair = fixed(VGroup(
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 4), left_ax.c2p(left, 4),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            private_bars[q].copy(), benefit_bars[q].copy(), producer_surplus[q].copy(),
+            Line(left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+                color=DEMAND, stroke_width=3),
+            Line(left_ax.c2p(left, 2 + left / 20), left_ax.c2p(right, 2 + right / 20),
+                color=SUPPLY, stroke_width=3)))
+        first_flying = pair_bars.copy()
+        pair_annotations = fixed(VGroup(pair_words, pair_price, pair_baseline))
+        right_axis_words = fixed(VGroup(*list(right_words)[:4]))
+        self.remove(pair, *list(bystanders))
+        self.add(first_flying, pair_annotations)
+        self.play(FadeOut(pair_annotations), FadeOut(stack_word), FadeOut(cost_heading),
+                  FadeOut(bystander_word), FadeOut(conclusion),
+                  Transform(first_flying, landing_pair),
+                  Transform(external_stack, fixed(VGroup(external_bars[q].copy()))),
+                  FadeIn(left_ax), FadeIn(right_ax), FadeIn(left_words), FadeIn(right_axis_words),
                   FadeIn(left_demand), FadeIn(left_supply), FadeIn(left_curve_words), FadeIn(left_eq), run_time=2)
-        self.play(FadeIn(private_bars), FadeIn(benefit_bars), FadeIn(producer_surplus),
-                  LaggedStart(*[FadeIn(bar) for bar in external_bars], lag_ratio=0.02), run_time=1.4)
-        self.remove(first_flying, second_flying, external_stack, second_ext)
+        self.remove(first_flying, external_stack)
+        self.add(private_bars[q], benefit_bars[q], producer_surplus[q], external_bars[q])
+        self.pause('2.d')
+
+        # ---- 2.f · Sweep across corresponding exchanges and their external costs.
+        self.play(LaggedStart(*[
+            AnimationGroup(FadeIn(private_bars[q]), FadeIn(benefit_bars[q]),
+                           FadeIn(producer_surplus[q]), FadeIn(external_bars[q]))
+            for q in range(40) if q != 29], lag_ratio=0.12), run_time=4)
+        self.remove(*list(private_bars), *list(benefit_bars), *list(producer_surplus), *list(external_bars))
+        self.add(private_bars, benefit_bars, producer_surplus, external_bars)
+        self.remove(right_axis_words)
+        self.add(right_words)
         ext_total_word = fixed(Tex(r'Total external cost: $\$80$', color=EXT).scale(0.75)
                                .move_to([3.9, 0.3, 0]))
         self.play(FadeIn(ext_total_word))
@@ -789,7 +737,7 @@ class C1(ThreeDScene):
                 [4.15, low, 0], [5.25, low, 0],
                 [5.25, low + 0.25 * DETAIL_SCALE, 0], [4.15, low + 0.25 * DETAIL_SCALE, 0],
                 stroke_width=1, stroke_color=BG, fill_color=EXT, fill_opacity=0.65)))
-        unit_bystanders = bystanders.copy().move_to([4.7, -2.2, 0])
+        unit_bystanders = bystanders.copy().scale(0.8).move_to([4.7, -2.2, 0])
         self.add(unit_bystanders)
         self.play(FadeIn(unit_cost_heading), FadeIn(unit_cost_math), FadeIn(unit_cost_stack))
         self.pause('3.d.external')

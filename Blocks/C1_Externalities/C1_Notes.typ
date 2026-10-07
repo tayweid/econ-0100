@@ -116,17 +116,12 @@
 ]
 
 #quote(block: true)[
-  2.d · Fade in a separate external-cost graph on the right, with quantity horizontal and external cost per ton vertical. Carry the eight pieces into a single one-lot rectangle of height 2, retaining seams between the pieces. Label the area: 2 dollars of external cost. This is total harm from one trade, not deadweight loss.
+  2.d · Keep the Negative externalities title and A cost paid by others outside the market. subtitle visible. Go directly from Gary and Molly with the stacked bystander costs to the two full-market graphs: the market’s MB, MC, and equilibrium on the left, and externalized cost per ton on the right. Omit the small one-trade external-cost graph and the second buyer–seller example. Carry Gary and Molly’s bars into their original Q = 29 to 30 slice, sharing its full width and matching the sloping cost, CS, and PS boundaries. Fade the buyer expenditure base during the merge. Carry the pink stack into the same quantity interval on the right. Remove the people and close-up labels during the pullback. Both graphs use Q = 0 to 60 with matching horizontal scales. Pause with only Gary and Molly’s exchange and its matching external-cost rectangle filled; keep the other exchanges unfilled.
 
 ]
 
 #quote(block: true)[
-  2.e · Zoom the Gary–Molly pair down and reveal a second pair for the next lot, Q = 30 to 31: average MB 5.90, MC 3.525. Add a second equal rectangle to the external-cost graph. Update the second pair’s CS, PS, and hard value edges to its own values. Its two parts correspond to two separate trades; the same bystanders can be affected by both.
-
-]
-
-#quote(block: true)[
-  2.f · Keep the existing Negative externalities title and A cost paid by others outside the market. subtitle on screen throughout the zoom-out; do not fade them in again. Pull back to the full market on the left and the full external-cost graph on the right. The two representative trades land at their own ranks, Q = 29 to 31, as the other lots appear. Each trade’s buyer and seller pieces share the full width of its market slice and match its cost, CS, and PS regions exactly; fade the buyer expenditure base during the merge. Retain faint production costs and stronger CS/PS on the market graph, with no overlapping expenditure fill. Both graphs use Q = 0 to 60 with matching horizontal scales. External-cost rectangles cover Q = 0 to 40 at height 2; total external cost is 80 dollars.
+  2.f · Sweep from left to right across the other equilibrium exchanges. Reveal each exchange’s faint orange production cost and stronger orange PS and teal CS together with its matching pink external-cost bar on the right. Keep the existing Gary–Molly slice visible throughout the sweep. The completed external-cost rectangles cover Q = 0 to 40 at height 2. Show Q = 40 and total external cost of 80 dollars, then pause. No extra yellow narration during the sweep.
 
 ]
 
