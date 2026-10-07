@@ -270,6 +270,16 @@ That pair represents one ton, and TS is its own benefit minus cost. Do not
 replace it with an average over several units or multiply the gap by a batch
 size. Choose the unit to get readable numbers.
 
+**Name surplus losses as deadweight loss (DWL).** Introduce it as “a reduction
+in total surplus.” In an exchange close-up, retain the signed TS value in
+`TOTAL` purple and label the positive lost amount as `DWL` in `INK` beside the
+same grey `DWL` gap. An undertaken exchange with negative TS creates DWL;
+removing it eliminates that loss. Forgoing an exchange with positive TS also
+creates DWL, equal to the forgone surplus. State which action creates or
+eliminates the loss in the yellow teaching line. Keep external costs pink:
+external damage is not itself DWL, and neither is an ordinary payment or
+cost. Aggregate DWL is the surplus forgone relative to the efficient quantity.
+
 ## 3. Typography
 
 **Everything is LaTeX.** `Tex` for everything on screen; `MathTex` only for

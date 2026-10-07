@@ -296,16 +296,17 @@ class C1(ThreeDScene):
             Tex(r'MB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_pair[0].get_corner(UL), LEFT, buff=0.25),
             Tex(r'MC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_pair[1].get_corner(UR), RIGHT, buff=0.25),
             DashedLine([-0.06, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             DashedLine([3.25, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             Line([3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0],
-                color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$2$', color=TOTAL).scale(0.8)
+                color=DWL, stroke_width=3),
+            VGroup(Tex(r'TS $=-\$2$', color=TOTAL), Tex(r'DWL $=\$2$', color=INK))
+                .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8)
                 .next_to([3.8, DETAIL_BASE + 3.4 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
             Tex(r'MC $>$ MB', color=INK).scale(0.8)))
         extra_detail[-1].next_to(extra_detail[-2], DOWN, buff=0.2)
-        conclusion = fixed(Tex('This added ton costs more than it benefits.', color=DEFINITION)
+        conclusion = fixed(Tex('Negative TS means deadweight loss: a reduction in total surplus.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('Can any price make this trade worthwhile?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -367,15 +368,16 @@ class C1(ThreeDScene):
             Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72).next_to(removed_pair[0].get_corner(UL), LEFT, buff=0.25),
             Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).next_to(removed_pair[1].get_corner(UR), RIGHT, buff=0.25),
             DashedLine([-0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             DashedLine([3.25, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [3.8, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             Line([3.8, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                color=TOTAL, stroke_width=3),
-            Tex(r'TS $=+\$1$', color=TOTAL).scale(0.8)
+                color=DWL, stroke_width=3),
+            VGroup(Tex(r'TS $=+\$1$', color=TOTAL), Tex(r'DWL $=\$1$', color=INK))
+                .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8)
                 .next_to([3.8, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
             Tex(r'MB $>$ MC', color=INK).scale(0.8).move_to([4.3, -0.1, 0])))
-        conclusion = fixed(Tex('Removing this ton loses more benefit than it saves in cost.', color=DEFINITION)
+        conclusion = fixed(Tex(r'Removing this ton creates $\$1$ of deadweight loss.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('Would removing this ton improve welfare?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -717,14 +719,15 @@ class C1(ThreeDScene):
             Tex(r'MSC $\$6.40$', color=SUPPLY).scale(0.72).next_to(extra_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
             DashedLine([-3.55, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             DashedLine([0.06, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             Line([-3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$4$', color=TOTAL).scale(0.8)
+                [-3.8, DETAIL_BASE + 6.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=3),
+            VGroup(Tex(r'TS $=-\$4$', color=TOTAL), Tex(r'DWL $=\$4$', color=INK))
+                .arrange(DOWN, buff=0.16, aligned_edge=RIGHT).scale(0.8)
                 .next_to([-3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
-        conclusion = fixed(Tex('Adding this ton reduces social welfare.', color=DEFINITION)
+        conclusion = fixed(Tex(r'Adding this ton creates $\$4$ of deadweight loss.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -835,14 +838,15 @@ class C1(ThreeDScene):
             Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
         social_gap = fixed(VGroup(
             DashedLine([-3.55, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [-3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             DashedLine([0.06, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
+                [-3.8, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
             Line([-3.8, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
-                [-3.8, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            Tex(r'TS $=-\$1$', color=TOTAL).scale(0.8)
+                [-3.8, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=3),
+            VGroup(Tex(r'TS $=-\$1$', color=TOTAL), Tex(r'DWL $=\$1$', color=INK))
+                .arrange(DOWN, buff=0.16, aligned_edge=RIGHT).scale(0.8)
                 .next_to([-3.8, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], LEFT, buff=0.3)))
-        conclusion = fixed(Tex('Removing this ton increases social welfare.', color=DEFINITION)
+        conclusion = fixed(Tex(r'Removing this ton eliminates $\$1$ of deadweight loss.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         value_question = fixed(Tex('What do the buyer and seller count?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -914,7 +918,7 @@ class C1(ThreeDScene):
             stroke_width=0, fill_color=DWL, fill_opacity=0.8))
         self.play(Transform(loss_slices, fixed(VGroup(dwl_triangle))), run_time=0.8)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
-        conclusion = fixed(Tex('These trades cost society more than they benefit society.', color=DEFINITION)
+        conclusion = fixed(Tex('These trades create deadweight loss because social cost exceeds benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(dwl_word), FadeIn(conclusion))
         self.pause('4.b')
