@@ -315,7 +315,7 @@ class C1(ThreeDScene):
         extra_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         unit_context = fixed(subtitle(head,
-            'The 48th unit: a quantity larger than in equilibrium.', book=True))
+            'The 48th unit: a quantity larger than in equilibrium.'))
         self.add(detail_people)
         self.play(FadeIn(extra_detail[:5]), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.c.values')
@@ -385,7 +385,7 @@ class C1(ThreeDScene):
         removed_detail[4].add_updater(lambda m:
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         unit_context = fixed(subtitle(head,
-            'The 36th unit: a quantity exchanged in equilibrium.', book=True))
+            'The 36th unit: a quantity exchanged in equilibrium.'))
         self.add(detail_people)
         self.play(FadeIn(removed_detail[:5]), FadeIn(value_question), FadeIn(unit_context))
         self.pause('1.f.values')
@@ -419,7 +419,7 @@ class C1(ThreeDScene):
         self.play(*[FadeOut(m) for m in self.mobjects])
         self.clear()
         head = fixed(title('Negative externalities'))
-        negative_context = fixed(subtitle(head, 'A cost paid by others outside the market.', book=True))
+        negative_context = fixed(subtitle(head, 'A cost paid by others outside the market.'))
         PAIR_BASE, PAIR_SCALE, PAIR_WIDTH = -1.65, 0.58, 0.95
         # Exact averages for the representative market interval 29–30.
         PAIR_MB, PAIR_MC = 6.1, 3.475
@@ -719,7 +719,7 @@ class C1(ThreeDScene):
             m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
         private_labels = fixed(VGroup(*[extra_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         unit_context = fixed(subtitle(head,
-            'The 48th unit: a quantity larger than in equilibrium.', book=True))
+            'The 48th unit: a quantity larger than in equilibrium.'))
         self.add(detail_people)
         self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.d.values')
@@ -838,7 +838,7 @@ class C1(ThreeDScene):
         private_labels = fixed(VGroup(*[removed_social_labels[i] for i in [0, 1, 3, 4, 5]]))
         external_labels = fixed(VGroup(*[removed_social_labels[i] for i in [2, 6, 7]]))
         unit_context = fixed(subtitle(head,
-            'The 36th unit: a quantity exchanged in equilibrium.', book=True))
+            'The 36th unit: a quantity exchanged in equilibrium.'))
         self.add(detail_people)
         self.play(FadeIn(private_labels), FadeIn(value_question), FadeIn(unit_context))
         self.pause('3.e.values')

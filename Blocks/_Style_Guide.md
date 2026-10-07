@@ -281,7 +281,9 @@ labels, calculations, recap descriptions, and the entire exercise card. Use one
 consistent face across the graph and its math. Taylor rejected broad sans-serif
 explanatory text as cluttered, then explicitly approved **small CMU Sans axis-unit
 captions**, such as “dollars per ton” and “tons per year.” Keep those captions clear
-of titles, tick numerals, and moving readouts. This narrows the older blanket
+of titles, tick numerals, and moving readouts. **Prose subtitles are also CMU
+Sans**, in `CAPTION` grey, close beneath the title; they are an explicit exception
+to the serif teaching-content default. This narrows the older blanket
 “narrator prose is sans” rule. Existing helpers may still apply `NARRATOR_SANS`;
 their default is not a reason to restyle approved serif content.
 
@@ -292,7 +294,7 @@ matching metrics.
 - Sizes by role, not ad-hoc scale: **episode head** 1.5 · **title** 1.2 · **body** 1.0 · **caption** 0.8 · **tick numbers** 0.7 · **part card** 3.0. Nothing below 0.7 — CMU's thin hairlines shimmer under projection and YouTube compression at small sizes; the scale floor and the 2160×1080 render are the defense.
 - **Page titles** (`style.title`): `TITLE` azure, **flush left**, small top margin (buff 0.4, left 0.6). Every screen has one; figures don't get their own title — units go in a `CAPTION` **axis caption** beside the axis (`axis_caption`), e.g. title *Unemployment*, caption *rate (%)*.
 - **Titles name the main topic**, such as “Competitive equilibrium,” “Consumer surplus,” or “Marginal social cost.” Keep the title stable while the animation explores that topic; change it when the topic changes, not whenever quantity changes or a new question is asked. A title is not the current question, action, or conclusion. “Last time…” and production cards may keep their established labels.
-- **Subtitles give context only when needed**: the example, assumptions, or scope, such as “A market without externalities.” Use `CAPTION`, caption scale, stacked under the title and left-aligned with it. Omit a subtitle when it adds nothing; do not repeat the title or use this space for the current prompt. Previously established results may remain as quiet context when needed for the next step.
+- **Subtitles give context only when needed**: the example, assumptions, or scope, such as “A market without externalities.” Use **CMU Sans** (`\textsf` through `subtitle(head, text)`), `CAPTION` grey, and caption scale 0.8. Place the subtitle **0.10 units below the title**, left-aligned with it; keep this a tight title–subtitle pair. Use the shared helper's defaults, not `book=True` for prose. Only actual stored equations retain the serif `book=True` exception. Omit a subtitle when it adds nothing; do not repeat the title or use this space for the current prompt. Previously established results may remain as quiet context when needed for the next step.
 - **Yellow text states the specific thing going on**: the current action, question, definition, or takeaway. Use `DEFINITION` for the whole teaching line in the reserved bottom strip, at the fixed bottom-text size and position below. Change this line as the beat changes: ask “What happens if we increase quantity by one?”, then replace it with “One more trade adds more cost than benefit.” Keep one primary teaching message at a time; do not repeat it in the title or subtitle. On-model labels retain their semantic colors.
 
   | Topic title (`TITLE`) | Optional context (`CAPTION`) | Current-beat text (`DEFINITION`) |
@@ -611,6 +613,13 @@ the September instruction to make section titles questions. §§0, 2, 3, 7, and
 audit text roles when those sequences are next edited rather than copying their
 headings as a style reference.
 
+The same C1 review reaffirmed that prose subtitles are **CMU Sans** with a tight
+**0.10-unit gap** beneath the serif title, in `CAPTION` grey at scale 0.8.
+This applies to all prose context subtitles, including unit comparisons and
+externality definitions. The serif teaching-content default does not apply to
+these subtitles. `subtitle()` implements this spacing; `book=True` is reserved
+for actual stored equations.
+
 ### Preferences from the B1/B2 session (2026-09-15; titles superseded above)
 
 The rules in §§1–8 above are the consolidated record. They cover the first
@@ -653,7 +662,7 @@ Settled 2026-08-25/26 (the Graphite pass — see the design document for evidenc
 - **Definition gold is a text token, never a curve.** The later B1/B2 measurement idiom permits temporary `FOCUS` yellow height/base marks (§2).
 - **`CAPTION #9E9E9E` splits from `MUTED #696969`.** Words vs lines. Muted *text* was at 3.0:1 — below the accessibility floor and fragile under compression.
 - **`BG` = `#212121` everywhere**, unified with the websites.
-- **Historical Narrator rule**: the August pass applied CMU Sans to general narrator prose through `NARRATOR_SANS`. The B1/B2 review supersedes that default with serif teaching content and small sans-serif unit captions (§3). Any stage sans remains CMU Sans, never Source Sans.
+- **Historical Narrator rule**: the August pass applied CMU Sans to general narrator prose through `NARRATOR_SANS`. The B1/B2 review supersedes that default with serif teaching content and small sans-serif unit captions; the C1 review explicitly retains sans-serif prose subtitles (§3). Any stage sans remains CMU Sans, never Source Sans.
 - **Tick numerals never take good colors; axis captions do.**
 - **One system, three surfaces**: the same tokens back `style.py` and `course.css`; thumbnails are stage frames with the raster mark; the raster mark is the channel identity.
 

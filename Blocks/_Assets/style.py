@@ -147,13 +147,14 @@ def title(text, scale=SCALE_TITLE, align=LEFT):
     return t
 
 
-def subtitle(under, text, buff=0.25, align=None, book=False):
+def subtitle(under, text, buff=0.10, align=None, book=False):
     """Muted caption line under a title (the guide's subtitle idiom: CAPTION,
     caption scale, left-aligned with the title — CAPTION, not MUTED: words get
     the text token, lines get the geometry one). `under` is what it stacks
     below; pass `align` when that differs from what it left-aligns to.
-    Narrator voice by default; pass book=True for a line that is or becomes
-    math (a stored OC result) so it stays serif."""
+    Prose subtitles use CMU Sans, with a tight 0.10-unit title gap. Reserve
+    book=True for actual stored equations; prose context stays sans even
+    when the surrounding teaching content is serif."""
     s = (Tex(text if book else narration(text)).scale(SCALE_CAPTION)
          .set_color(CAPTION).next_to(under, DOWN, buff=buff))
     return s.align_to(under if align is None else align, LEFT)
