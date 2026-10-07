@@ -32,25 +32,35 @@
 // plass:comment
 // | Animation storyboard for C1_Animations.py, scene C1. New introduction requested 2026-10-06. Taylor is writing the spoken notes; the quote blocks below are animation directions, not replacement prose.
 // | References: B4_Animation.py welfare and head-on deliberation; B5_Animation.py continuous market; C3_Corrective_Policy/03_Code.py legacy externalities scenes.
-// | Bar revision 2026-10-07: start with the first exchange, then the last exchange at equilibrium on the same scale, before building the full market. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
+// | Bar revision 2026-10-07: start with the full market, carry the first exchange into a close-up and back, then carry the exact marginal exchange at Q = 40 into a close-up and back. No subtitles on these close-ups. MB and MC have hard value edges; base regions use opacity 0.16, CS/PS use 0.65. Buyer column ends at MB, seller column ends at price/revenue with MC marked inside. No green payment fill. Topic titles stay stable while yellow teaching lines change.
 // | Visual revision 2026-10-07: all bottom teaching text is yellow (DEFINITION). Spheres keep depth testing enabled with smoother meshes, so their rear faces do not show through. Unit-surplus comparisons use purple (TOTAL) guides from both bar tops to a labeled vertical gap.
-// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Exact continuous interval areas; close-up bar heights are interval averages.
+// | Model: MB = 12 − Q/5, MPC = 2 + Q/20, constant external cost 2 dollars per pound. Qm = 40; Qefficient = 32. Exact continuous interval areas; lot-comparison bar heights are interval averages. The introductory marginal-exchange close-up uses the exact boundary at Q = 40, where MB = MC = 4.
 // /plass:comment
 
 === 1 | Equilibrium and the First Welfare Theorem
 
 #quote(block: true)[
-  1.a.first · Title: Competitive equilibrium. Subtitle: First exchange · one 1,000-pound lot. Begin with just one buyer/seller pair at price 4, using exact averages over Q = 0 to 1: MB 11.90 and MC 2.025 dollars per pound. The buyer has a faint teal base below price and stronger teal CS above it; the seller has faint orange cost below MC and stronger orange PS up to price. Solid teal/orange edges mark MB/MC; a red line marks price. Label CS 7.90 and PS 1.975 dollars per pound beside their regions. Bottom: Both the buyer and seller gain from this exchange.
+  1.a · Title: Competitive equilibrium. Start with the full Part B spinach market: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in thousands of pounds, P in dollars per pound. Show equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then consumer surplus in teal and producer surplus in orange (opacity 0.65). The curves form the hard value boundaries. Use white labels inside the stronger fills for contrast. Continuous curves and exact sloping slices retain the B5 model.
 
 ]
 
 #quote(block: true)[
-  1.a.last · Keep the title and price; change the subtitle to Last exchange at equilibrium · one 1,000-pound lot. Transform the same pair on the same scale to the averages over Q = 39 to 40: MB 4.10 and MC 3.975. CS is 0.10 and PS 0.025 dollars per pound. Use leader lines to the true thin surplus regions; do not exaggerate their heights. Bottom: The last exchange adds only a small surplus. This whole lot still gains 125 dollars; exact MB = MC is reserved for the boundary later.
+  1.a.first · Keep title: Competitive equilibrium; no subtitle. Select the first lot on the market graph, then carry that buyer/seller pair into a close-up as the market fades. Use the exact averages over Q = 0 to 1: MB 11.90 and MC 2.025 dollars per pound, at price 4. The buyer has a faint teal base below price and stronger teal CS above it; the seller has faint orange cost below MC and stronger orange PS up to price. Solid teal/orange edges mark MB/MC; a red line marks price. Label CS 7.90 and PS 1.975 dollars per pound beside their regions. Bottom: First exchange: both the buyer and seller gain.
 
 ]
 
 #quote(block: true)[
-  1.a · Keep title: Competitive equilibrium. Fade the close-up and build the full market. Reuse the Part B spinach model: demand P = 12 − Q/5, supply P = 2 + Q/20, Q in thousands of pounds, P in dollars per pound. Show market equilibrium Q = 40, P = 4. Show faint orange production costs below MC (opacity 0.16), then consumer surplus in teal and producer surplus in orange (opacity 0.65). The curves form the hard value boundaries. Use white labels inside the stronger fills for contrast. Continuous curves and exact sloping slices retain the B5 model; each quantity step is one 1,000-pound lot.
+  1.a.first.return · Fade the close-up labels and bottom text; carry the same pair back to its original rank as the full market reappears. Remove the selected pair overlay and pause on the complete market.
+
+]
+
+#quote(block: true)[
+  1.a.last · Keep title: Competitive equilibrium; no subtitle. Select the exact intersection at Q = 40, P = 4, then carry its marginal buyer/seller pair into the close-up on the same scale as the first example. Both MB and MC are exactly 4 dollars per pound. Both faint bars end at price; there is no CS/PS region or surplus leader. Label the values per pound at Q = 40. Bottom: At equilibrium, MB = MC = 4 dollars. These are marginal boundary values, not averages over the whole 39–40 lot used later in the removal experiment.
+
+]
+
+#quote(block: true)[
+  1.a.last.return · Fade the close-up labels and bottom text; carry the equal-value pair back to the equilibrium point as the full market reappears. Remove the overlay and pause on the full market before asking about the next exchange.
 
 ]
 

@@ -210,8 +210,11 @@ market graph, show faint orange cost below MC, stronger orange PS up to price,
 and stronger teal CS above price. Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for
-contrast. Introduce this treatment with one exchange before filling the market;
-keep the same scale when comparing the first and last exchanges.
+contrast. When zooming from the market to an exchange, carry the selected bars
+into the close-up and back to the same market location; keep a common scale
+across close-ups. Distinguish an exact marginal value at equilibrium from the
+average over a finite lot. A close-up does not need a subtitle when its labels
+and yellow teaching line supply the needed context.
 
 ## 3. Typography
 

@@ -1,7 +1,7 @@
 # maniml C1_Animations.py C1
 # Storyboard: C1_Notes.typ. All lesson choreography stays in construct().
 # Part B's continuous spinach market; one Q step is a 1,000-pound lot.
-# Close-up MB/MC rectangles use exact interval averages, not endpoint samples.
+# Lot comparisons use exact interval averages; the equilibrium close-up uses the exact Q=40 boundary.
 
 from manim import *
 import numpy as np
@@ -33,15 +33,13 @@ class C1(ThreeDScene):
 
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
 
-        # ---- 1.a.first / 1.a.last · Read one exchange before building the market.
+        # Prepare the first lot and the exact marginal boundary on a common scale.
         head = fixed(title('Competitive equilibrium'))
-        self.play(FadeIn(head))
         INTRO_BASE, INTRO_SCALE, INTRO_WIDTH = -2.0, 0.34, 1.15
         intro_states = []
-        for q, lot_name, message in [
-            (0, 'First exchange', 'Both the buyer and seller gain from this exchange.'),
-            (39, 'Last exchange at equilibrium', 'The last exchange adds only a small surplus.')]:
-            mb, mc = 12 - (q + 0.5) / 5, 2 + (q + 0.5) / 20
+        for q, mb, mc, message in [
+            (0, 11.9, 2.025, 'First exchange: both the buyer and seller gain.'),
+            (40, 4, 4, r'At equilibrium, MB $=$ MC $=\$4$.')]:
             next_pair = fixed(VGroup())
             for left, value, color, lower, upper in [
                 (-1.3, mb, DEMAND, MARKET_P, mb),
@@ -57,7 +55,7 @@ class C1(ThreeDScene):
                     [left + INTRO_WIDTH, INTRO_BASE + lower * INTRO_SCALE, 0],
                     [left + INTRO_WIDTH, INTRO_BASE + upper * INTRO_SCALE, 0],
                     [left, INTRO_BASE + upper * INTRO_SCALE, 0],
-                    stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY)))
+                    stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if upper > lower else 0)))
                 next_pair.add(fixed(Line(
                     [left, INTRO_BASE + value * INTRO_SCALE, 0],
                     [left + INTRO_WIDTH, INTRO_BASE + value * INTRO_SCALE, 0],
@@ -65,12 +63,10 @@ class C1(ThreeDScene):
             next_pair.add(fixed(Line([-1.45, INTRO_BASE, 0], [1.45, INTRO_BASE, 0], color=MUTED)))
             next_pair.add(fixed(Line([-1.45, INTRO_BASE + 4 * INTRO_SCALE, 0],
                 [1.45, INTRO_BASE + 4 * INTRO_SCALE, 0], color=GUIDE, stroke_width=2)))
-            intro_context = fixed(Tex(lot_name + ' · one 1,000-pound lot', color=CAPTION)
-                .scale(0.7).next_to(head, DOWN, buff=0.22).align_to(head, LEFT))
             intro_words = fixed(VGroup(
                 Tex(rf'MB $\${mb:.2f}$', color=DEMAND).scale(0.7)
                     .move_to([-0.725, INTRO_BASE + mb * INTRO_SCALE + 0.28, 0]),
-                Tex(rf'MC $\${mc:.3f}$', color=SUPPLY).scale(0.7)
+                Tex(rf'MC $\${mc:g}$', color=SUPPLY).scale(0.7)
                     .move_to([3.0, INTRO_BASE + mc * INTRO_SCALE - 0.3, 0]),
                 Tex(r'Price $\$4$', color=GUIDE).scale(0.7).move_to([-3.0, INTRO_BASE + 4 * INTRO_SCALE, 0]),
                 Tex(rf'CS $\${mb - 4:.2f}$', color=DEMAND).scale(0.7)
@@ -85,22 +81,16 @@ class C1(ThreeDScene):
                     color=SUPPLY, stroke_width=1.5),
                 Tex('Buyer', color=INK).scale(0.7).move_to([-0.725, -2.4, 0]),
                 Tex('Seller', color=INK).scale(0.7).move_to([0.725, -2.4, 0]),
-                Tex('Average values per pound', color=CAPTION).scale(0.65).move_to([0, -3.0, 0])))
+                Tex('Average values per pound' if q == 0 else r'Values per pound at $Q=40$',
+                    color=CAPTION).scale(0.65).move_to([0, -3.0, 0])))
             intro_message = fixed(Tex(message, color=DEFINITION)
                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-            intro_states.append((next_pair, intro_context, intro_words, intro_message))
+            # No surplus area or surplus leaders at the exact MB=MC boundary.
+            if q == MARKET_Q:
+                intro_words.remove(*list(intro_words)[3:7])
+            intro_states.append((next_pair, intro_words, intro_message))
 
-        intro_pair, intro_context, intro_words, intro_message = intro_states[0]
-        self.play(FadeIn(intro_pair), FadeIn(intro_context), FadeIn(intro_words), FadeIn(intro_message))
-        self.pause('1.a.first')
-        self.play(FadeOut(intro_words), FadeOut(intro_context), FadeOut(intro_message))
-        self.play(Transform(intro_pair, intro_states[1][0]), run_time=1.6)
-        intro_context, intro_words, intro_message = intro_states[1][1:]
-        self.play(FadeIn(intro_context), FadeIn(intro_words), FadeIn(intro_message))
-        self.pause('1.a.last')
-
-        # ---- 1.a · All exchanges: faint costs, stronger CS/PS, hard curve edges.
-        self.play(FadeOut(intro_pair), FadeOut(intro_words), FadeOut(intro_context), FadeOut(intro_message))
+        # ---- 1.a · Start with the full market and its surplus regions.
         ax = style_axes([0, 60, 10], [0, 13, 2], x_length=10, y_length=4.6)
         ax.shift(np.array([-5, BODY_MID - 2.15, 0]) - ax.c2p(0, 0))
         fixed(ax)
@@ -135,7 +125,7 @@ class C1(ThreeDScene):
         surplus_words = fixed(VGroup(
             Tex('Consumer surplus', color=INK).scale(0.72).move_to(ax.c2p(13, 6.3)),
             Tex('Producer surplus', color=INK).scale(0.72).move_to(ax.c2p(14, 3.25))))
-        self.play(FadeIn(costs), FadeIn(ax), FadeIn(axis_words), FadeIn(demand), FadeIn(supply),
+        self.play(FadeIn(head), FadeIn(costs), FadeIn(ax), FadeIn(axis_words), FadeIn(demand), FadeIn(supply),
                   FadeIn(curve_words), FadeIn(equilibrium), FadeIn(quantity_guide), FadeIn(quantity_label))
         self.play(FadeIn(cs), FadeIn(surplus_words[0]))
         self.play(FadeIn(ps), FadeIn(surplus_words[1]))
@@ -144,6 +134,65 @@ class C1(ThreeDScene):
         self.remove(*[m for m in self.mobjects if m is not head])
         self.add(market, head)
         self.pause('1.a')
+
+        # Two selected pairs in market coordinates, matching the close-up pieces.
+        # The last pair visualizes the point Q=40, not the average of lot 39–40.
+        intro_homes = []
+        for q, mb, mc in [(0, 11.9, 2.025), (40, 4, 4)]:
+            home_pair = fixed(VGroup())
+            start = 0.04 if q == 0 else MARKET_Q - 0.46
+            for left, value, color, lower, upper in [
+                (start, mb, DEMAND, MARKET_P, mb),
+                (start + 0.49, mc, SUPPLY, mc, MARKET_P)]:
+                right = left + 0.43
+                home_pair.add(fixed(Polygon(ax.c2p(left, 0), ax.c2p(right, 0),
+                    ax.c2p(right, lower), ax.c2p(left, lower),
+                    stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
+                home_pair.add(fixed(Polygon(ax.c2p(left, lower), ax.c2p(right, lower),
+                    ax.c2p(right, upper), ax.c2p(left, upper),
+                    stroke_width=0, fill_color=color,
+                    fill_opacity=SURPLUS_OPACITY if upper > lower else 0)))
+                home_pair.add(fixed(Line(ax.c2p(left, value), ax.c2p(right, value),
+                    color=color, stroke_width=3)))
+            home_pair.add(fixed(Line(ax.c2p(start, 0), ax.c2p(start + 0.92, 0), color=MUTED)))
+            home_pair.add(fixed(Line(ax.c2p(start, MARKET_P), ax.c2p(start + 0.92, MARKET_P),
+                color=GUIDE, stroke_width=2)))
+            intro_homes.append(home_pair)
+
+        # ---- 1.a.first · Carry the first selected pair out of the market.
+        intro_pair = intro_homes[0].copy()
+        intro_words, intro_message = intro_states[0][1:]
+        first_selection = fixed(VGroup(
+            Line(ax.c2p(0.5, 0), ax.c2p(0.5, 11.9), color=FOCUS, stroke_width=2),
+            Dot(ax.c2p(0.5, 11.9), radius=0.06, color=DEMAND),
+            Dot(ax.c2p(0.5, 2.025), radius=0.06, color=SUPPLY)))
+        self.play(FadeIn(first_selection), FadeIn(intro_pair))
+        self.play(FadeOut(market), FadeOut(first_selection),
+                  Transform(intro_pair, intro_states[0][0]), run_time=1.6)
+        self.play(FadeIn(intro_words), FadeIn(intro_message))
+        self.pause('1.a.first')
+
+        # ---- 1.a.first.return · Restore the same pair to the same market location.
+        self.play(FadeOut(intro_words), FadeOut(intro_message),
+                  Transform(intro_pair, intro_homes[0]), FadeIn(market), run_time=1.6)
+        self.play(FadeOut(intro_pair))
+        self.pause('1.a.first.return')
+
+        # ---- 1.a.last · The exact marginal exchange at the intersection.
+        intro_pair = intro_homes[1].copy()
+        intro_words, intro_message = intro_states[1][1:]
+        marginal_selection = fixed(Dot(ax.c2p(MARKET_Q, MARKET_P), radius=0.10, color=FOCUS))
+        self.play(FadeIn(marginal_selection), FadeIn(intro_pair))
+        self.play(FadeOut(market), FadeOut(marginal_selection),
+                  Transform(intro_pair, intro_states[1][0]), run_time=1.6)
+        self.play(FadeIn(intro_words), FadeIn(intro_message))
+        self.pause('1.a.last')
+
+        # ---- 1.a.last.return · Full market again before asking about the next lot.
+        self.play(FadeOut(intro_words), FadeOut(intro_message),
+                  Transform(intro_pair, intro_homes[1]), FadeIn(market), run_time=1.6)
+        self.play(FadeOut(intro_pair))
+        self.pause('1.a.last.return')
 
         # ---- 1.b · Add one full interval, 40–41. This is a quantity experiment.
         extra_loss = fixed(Polygon(ax.c2p(40, 4), ax.c2p(41, 3.8), ax.c2p(41, 4.05),
