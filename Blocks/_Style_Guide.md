@@ -211,7 +211,11 @@ and stronger teal CS above price. Do not overlay buyer expenditure on the same
 regions. Use green only when the payment itself is being taught. Put labels
 outside fills in their semantic colors, or use white inside stronger fills for
 contrast. Place CS/PS labels immediately beside their regions, as in B3, without
-connector lines. Establish units on the axes; omit repeated “average values”
+connector lines. Put MB immediately left of the full benefit bar and MC/MPC
+immediately right of the cost region. Anchor these labels to the live bars so
+they follow movement, including while fading during a return zoom; grouped
+bar/label transforms should preserve that relationship.
+Establish units on the axes; omit repeated “average values”
 captions from close-ups. When zooming from the market to an exchange, carry the selected bars
 into the close-up and back to the same market location; keep a common scale
 across close-ups. Distinguish an exact marginal value at equilibrium from the
