@@ -160,8 +160,9 @@ parts:
           homework: '2026-09-06'
 
       - checkpoint:
-          reattempt: sign up on Canvas
-          reattempt_when: Thu Oct 8, 2:30–4:30 PM, room TBA
+          reattempt: Scaife Hall 3785
+          reattempt_date: '2026-10-08'
+          reattempt_when: Thu Oct 8, 2:30–4:30 PM
           date: '2026-09-09'
           links:
             - {label: Solutions V1, file: Blocks/A_MiniExam/Checkpoint_A_1_sols.pdf}
