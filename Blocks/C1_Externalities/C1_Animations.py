@@ -110,7 +110,9 @@ class C1(ThreeDScene):
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.23),
             Tex(r'\textsf{\$/ton}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, 13), UP, buff=0.18),
             Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(ax.c2p(60, 0), DOWN, buff=0.73)))
+            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(ax.c2p(60, 0), DOWN, buff=0.73),
+            Tex('$2$', color=SUPPLY).scale(0.65).next_to(ax.c2p(0, 2), LEFT, buff=0.15),
+            Tex('$12$', color=DEMAND).scale(0.65).next_to(ax.c2p(0, 12), LEFT, buff=0.15)))
         demand = fixed(Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         supply = fixed(Line(ax.c2p(0, 2), ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
         curve_words = fixed(VGroup(
@@ -541,6 +543,8 @@ class C1(ThreeDScene):
             Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(right_ax.c2p(60, 0), DOWN, buff=0.7),
             Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.65).next_to(right_ax.c2p(40, 0), DOWN, buff=0.18)))
         left_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
+        left_demand_intercept = fixed(Tex('$12$', color=DEMAND).scale(0.65)
+            .next_to(left_ax.c2p(0, 12), LEFT, buff=0.15))
         left_supply = fixed(Line(left_ax.c2p(0, 2), left_ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
         left_curve_words = fixed(VGroup(
             Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(8, 10.4), UR, buff=0.1),
@@ -587,7 +591,7 @@ class C1(ThreeDScene):
                   Transform(first_flying, landing_pair),
                   Transform(external_stack, fixed(VGroup(external_bars[q].copy()))),
                   FadeIn(left_ax), FadeIn(right_ax), FadeIn(left_words), FadeIn(right_axis_words),
-                  FadeIn(left_demand), FadeIn(left_supply), FadeIn(left_curve_words), FadeIn(left_eq), run_time=2)
+                  FadeIn(left_demand), FadeIn(left_demand_intercept), FadeIn(left_supply), FadeIn(left_curve_words), FadeIn(left_eq), run_time=2)
         self.remove(first_flying, external_stack)
         self.add(private_bars[q], benefit_bars[q], producer_surplus[q], external_bars[q])
         self.pause('2.d')
@@ -612,7 +616,7 @@ class C1(ThreeDScene):
         cost_question = fixed(Tex('What is the full cost of a trade?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(cost_question), FadeOut(left_demand), FadeOut(benefit_bars), FadeOut(producer_surplus),
-                  FadeOut(left_curve_words[0]), FadeOut(left_eq), FadeOut(ext_total_word))
+                  FadeOut(left_demand_intercept), FadeOut(left_curve_words[0]), FadeOut(left_eq), FadeOut(ext_total_word))
         self.pause('3.a')
 
         # ---- 3.b · Transfer the actual external-cost strips onto private cost.
@@ -631,6 +635,8 @@ class C1(ThreeDScene):
                 left_ax.c2p(r, 4 + r / 20), left_ax.c2p(l, 4 + l / 20),
                 stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
         social_cost = fixed(Line(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
+        social_cost_intercept = fixed(Tex('$4$', color=SUPPLY).scale(0.65)
+            .next_to(left_ax.c2p(0, 4), LEFT, buff=0.15))
         social_word = fixed(Tex('MSC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 7), RIGHT, buff=0.12))
         cost_terms = fixed(VGroup(
             Tex('Marginal social cost', color=SUPPLY), Tex('$=$', color=INK),
@@ -646,7 +652,7 @@ class C1(ThreeDScene):
                                  stroke_width=1, stroke_opacity=0.45))
         self.remove(cost_question)
         self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
-                  FadeIn(social_cost), FadeIn(social_word))
+                  FadeIn(social_cost), FadeIn(social_cost_intercept), FadeIn(social_word))
         self.play(FadeIn(cost_terms), FadeIn(cost_divider))
         self.pause('3.b.words')
         self.play(ReplacementTransform(cost_terms, cost_definition), run_time=1.2)
@@ -655,19 +661,21 @@ class C1(ThreeDScene):
         # ---- 3.c · Recenter, restore demand, and mark the unchanged market outcome.
         self.play(FadeOut(cost_definition), FadeOut(cost_divider))
         cost_graph = fixed(VGroup(left_ax, left_words, private_bars, external_bars, potential_ext,
-                                 left_supply, left_curve_words[1], social_cost, social_word))
+                                 left_supply, left_curve_words[1], social_cost, social_cost_intercept, social_word))
         self.remove(*[m for m in self.mobjects if m is not head])
         self.add(cost_graph, head)
         self.play(cost_graph.animate.shift(RIGHT * 3.7), run_time=1.1)
         self.play(cost_graph.animate.scale(1.15, about_point=left_ax.c2p(30, 6.5)), run_time=0.8)
         # Keep the axes' numerical mappings live after the group moves.
         full_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
+        demand_intercept = fixed(Tex('$12$', color=DEMAND).scale(0.65 * 1.15)
+            .next_to(left_ax.c2p(0, 12), LEFT, buff=0.15 * 1.15))
         demand_word = fixed(Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(7, 10.6), UR, buff=0.12))
         market_reference = fixed(VGroup(
             Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
-            Tex(r'$\hat{P}=4$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(0, 4), LEFT, buff=0.20),
+            Tex(r'$\hat{P}=$', color=GUIDE).scale(0.7).next_to(social_cost_intercept, LEFT, buff=0.12),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2)))
         self.remove(head)
         head = fixed(title('Social Welfare'))
@@ -676,9 +684,9 @@ class C1(ThreeDScene):
         question = fixed(Tex('Would reducing quantity improve welfare?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(welfare_context), FadeIn(full_demand),
-                  FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
-        social_graph = fixed(VGroup(cost_graph, full_demand, demand_word, market_reference))
-        self.remove(cost_graph, full_demand, demand_word, market_reference)
+                  FadeIn(demand_intercept), FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
+        social_graph = fixed(VGroup(cost_graph, full_demand, demand_intercept, demand_word, market_reference))
+        self.remove(cost_graph, full_demand, demand_intercept, demand_word, market_reference)
         self.add(social_graph)
         self.pause('3.c')
 
@@ -1041,10 +1049,13 @@ class C1(ThreeDScene):
             Tex(r'\textsf{\$/ton}', color=CAPTION).scale(0.55).next_to(positive_ax.c2p(0, 15), UP, buff=0.16),
             Tex('Q', color=INK).scale(0.7).next_to(positive_ax.c2p(60, 0), DOWN, buff=0.18),
             Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(positive_ax.c2p(60, 0), DOWN, buff=0.7),
-            Tex('$2$', color=SUPPLY).scale(0.65).next_to(positive_ax.c2p(0, 2), LEFT, buff=0.15)))
+            Tex('$2$', color=SUPPLY).scale(0.65).next_to(positive_ax.c2p(0, 2), LEFT, buff=0.15),
+            Tex('$12$', color=DEMAND).scale(0.65).next_to(positive_ax.c2p(0, 12), LEFT, buff=0.15)))
         positive_demand = fixed(Line(positive_ax.c2p(0, 12), positive_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         positive_supply = fixed(Line(positive_ax.c2p(0, 2), positive_ax.c2p(60, 5), color=SUPPLY, stroke_width=3))
         positive_social_benefit = fixed(Line(positive_ax.c2p(0, 14), positive_ax.c2p(60, 2), color=DEMAND, stroke_width=3))
+        social_benefit_intercept = fixed(Tex('$14$', color=DEMAND).scale(0.65)
+            .next_to(positive_ax.c2p(0, 14), LEFT, buff=0.15))
         positive_curve_words = fixed(VGroup(
             Tex('MB', color=INK).scale(0.7).next_to(positive_ax.c2p(8, 10.4), DOWN, buff=0.14),
             Tex('MC', color=INK).scale(0.7).next_to(positive_ax.c2p(60, 5), RIGHT, buff=0.12),
@@ -1070,7 +1081,7 @@ class C1(ThreeDScene):
                   FadeIn(positive_cost_bars), FadeIn(positive_demand), FadeIn(positive_supply),
                   FadeIn(positive_curve_words[:2]), FadeIn(positive_market))
         self.play(LaggedStart(*[FadeIn(bar) for bar in positive_ext_bars], lag_ratio=0.035),
-                  FadeIn(positive_social_benefit), FadeIn(positive_curve_words[2]), run_time=1.8)
+                  FadeIn(positive_social_benefit), FadeIn(social_benefit_intercept), FadeIn(positive_curve_words[2]), run_time=1.8)
         benefit_terms = fixed(VGroup(
             Tex('Marginal social benefit', color=DEMAND), Tex('$=$', color=INK),
             Tex('Marginal benefit', color=DEMAND), Tex('$+$', color=INK),
@@ -1091,7 +1102,7 @@ class C1(ThreeDScene):
         # ---- 5.b · Private equilibrium is unchanged; efficiency requires more exchanges.
         self.play(FadeOut(benefit_definition), FadeOut(benefit_divider))
         positive_graph = fixed(VGroup(positive_ax, positive_axis_words, positive_cost_bars, positive_ext_bars,
-            positive_demand, positive_supply, positive_social_benefit, positive_curve_words, positive_market))
+            positive_demand, positive_supply, positive_social_benefit, social_benefit_intercept, positive_curve_words, positive_market))
         self.remove(*[m for m in self.mobjects if m not in (head, positive_context)])
         self.add(positive_graph)
         self.play(positive_graph.animate.shift(RIGHT * 3.7), run_time=1)
