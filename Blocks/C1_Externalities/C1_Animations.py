@@ -1097,7 +1097,7 @@ class C1(ThreeDScene):
         self.remove(head, welfare_context)
         head = fixed(title('Negative Externality: Efficiency'))
         evaluation_q = ValueTracker(40)
-        evaluation_line = fixed(DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 6), color=FOCUS, stroke_width=2))
+        evaluation_line = fixed(DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 6), color=FOCUS, stroke_width=2).set_z_index(2))
         evaluation_line.axes, evaluation_line.quantity = left_ax, evaluation_q
         evaluation_line.add_updater(lambda m: m.put_start_and_end_on(
             m.axes.c2p(m.quantity.get_value(), 0),
@@ -1108,8 +1108,28 @@ class C1(ThreeDScene):
         marginal_gap.add_updater(lambda m: m.put_start_and_end_on(
             m.axes.c2p(m.quantity.get_value(), 12 - m.quantity.get_value() / 5),
             m.axes.c2p(m.quantity.get_value(), 4 + m.quantity.get_value() / 20 + 1e-6)))
+        # Reveal each remaining loss slice as the guide passes its actual width.
+        loss_slices = fixed(VGroup())
+        for q in range(EFFICIENT_Q, MARKET_Q):
+            if q in inspected_losses:
+                loss_slices.add(inspected_losses[q])
+                continue
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            loss_bar = fixed(Polygon(
+                left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+                left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
+                stroke_width=0, fill_color=DWL, fill_opacity=0).set_z_index(1))
+            loss_bar.quantity = evaluation_q
+            loss_bar.slice_left, loss_bar.slice_right = left, right
+            loss_bar.add_updater(lambda m: m.set_fill(opacity=0.8 * np.clip(
+                (m.slice_right - m.quantity.get_value()) / (m.slice_right - m.slice_left), 0, 1)))
+            loss_slices.add(loss_bar)
+        social_graph.remove(*inspected_losses.values())
+        social_graph.add(loss_slices)
         self.play(FadeIn(head), FadeIn(evaluation_line), FadeIn(marginal_gap))
         self.play(evaluation_q.animate.set_value(EFFICIENT_Q), run_time=2.4, rate_func=smooth)
+        for loss_bar in loss_slices:
+            loss_bar.clear_updaters()
         efficient_dot = fixed(Dot(left_ax.c2p(32, 5.6), radius=0.085, color=FOCUS))
         # Compact symbol/value stacks share a row, centered on their own guides.
         efficient_word = fixed(VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('$32$', color=FOCUS))
@@ -1195,20 +1215,10 @@ class C1(ThreeDScene):
         dwl_context = fixed(subtitle(head,
             'Overproduction of goods that are too costly to society.'))
         self.play(FadeIn(head), FadeIn(dwl_context))
-        social_graph.remove(*inspected_losses.values())
-        self.add(*inspected_losses.values())
-        loss_slices = fixed(VGroup())
-        for q in range(32, 40):
-            if q in inspected_losses:
-                loss_slices.add(inspected_losses[q])
-                continue
-            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
-            loss_slices.add(fixed(Polygon(left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
-                left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
-                stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
+        # The sweep already revealed all eight bars; keep them for the DWL explanation.
+        social_graph.remove(loss_slices)
+        self.add(loss_slices)
         self.remove(condition)
-        self.play(LaggedStart(*[FadeIn(bar) for q, bar in zip(range(32, 40), loss_slices)
-                               if q not in inspected_losses], lag_ratio=0.18), run_time=2)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
         conclusion = fixed(Tex('These trades create deadweight loss because social cost exceeds benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
