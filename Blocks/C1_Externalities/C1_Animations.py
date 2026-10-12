@@ -878,6 +878,134 @@ class C1(ThreeDScene):
         self.play(FadeOut(removed_social_pair), FadeOut(removed_dwl_bar))
         self.pause('3.e.return')
 
+
+        # ---- 3.f.40 · Inspect another exchanged unit with MSC above MB.
+        left, right = 40 - 1 + BAR_GAP / 2, 40 - BAR_GAP / 2
+        dwl_example_pair = fixed(VGroup(
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            private_bars[40 - 1].copy(), external_bars[40 - 1].copy()))
+        dwl_example_home = dwl_example_pair.copy()
+        dwl_selection = fixed(SurroundingRectangle(dwl_example_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        self.play(FadeIn(dwl_example_pair), FadeIn(dwl_selection), run_time=0.5)
+        self.pause('3.f.40.select')
+        dwl_example_target = fixed(VGroup())
+        for x, low, high, color in [(-1.16, 0, 4.0, DEMAND), (0.06, 0, 4.0, SUPPLY),
+                                   (0.06, 4.0, 6.0, EXT)]:
+            dwl_example_target.add(fixed(Polygon(
+                [x, DETAIL_BASE + low * DETAIL_SCALE, 0], [x + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
+                [x + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [x, DETAIL_BASE + high * DETAIL_SCALE, 0],
+                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
+        self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(dwl_selection),
+                  Transform(dwl_example_pair, dwl_example_target), run_time=1.0)
+        dwl_example_context = fixed(subtitle(head, 'The 40th unit: an exchange with MSC above MB.'))
+        dwl_example_labels = fixed(VGroup(
+            Tex(r'MB $\$4.00$', color=DEMAND).scale(0.72),
+            Tex(r'MSC $\$6.00$', color=SUPPLY).scale(0.72),
+            Tex(r'MC $\$4.00$', color=SUPPLY).scale(0.72).set_opacity(0.25),
+            Tex(r'EXT $\$2$', color=EXT).scale(0.72).set_opacity(0.25)))
+        for label in dwl_example_labels:
+            label.bars = dwl_example_pair
+        dwl_example_labels[0].add_updater(lambda m: m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
+        dwl_example_labels[1].add_updater(lambda m: m.next_to(m.bars[2].get_corner(UR), RIGHT, buff=0.25))
+        dwl_example_labels[2].add_updater(lambda m: m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
+        dwl_example_labels[3].add_updater(lambda m: m.next_to(m.bars[2], RIGHT, buff=0.25))
+        dwl_example_edges = fixed(VGroup(
+            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
+              for bar, color in zip(dwl_example_target, [DEMAND, SUPPLY, SUPPLY])],
+            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED)))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(dwl_example_labels), FadeIn(dwl_example_edges), FadeIn(dwl_example_context), run_time=0.4)
+        self.pause('3.f.40.values')
+        dwl_example_loss = fixed(Polygon(
+            [0.06, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], [1.16, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0],
+            [1.16, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], [0.06, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0],
+            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
+        dwl_example_result = fixed(VGroup(
+            Tex(r'MSC $>$ MB', color=INK), Tex(r'DWL $=\$2$', color=INK))
+            .arrange(DOWN, buff=0.16).scale(0.8).move_to([4.5, 0.4, 0]))
+        dwl_example_note = fixed(Tex(r'Every unit exchanged where MSC $>$ MB carries DWL.', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(dwl_example_loss), FadeIn(dwl_example_result), FadeIn(dwl_example_note), run_time=0.5)
+        self.pause('3.f.40.loss')
+        dwl_example_loss_home = fixed(Polygon(
+            left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+            left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
+            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeOut(dwl_example_result), FadeOut(dwl_example_edges), FadeOut(dwl_example_context),
+                  FadeOut(dwl_example_note), FadeOut(dwl_example_labels, suspend_mobject_updating=False),
+                  Transform(dwl_example_pair, dwl_example_home), Transform(dwl_example_loss, dwl_example_loss_home),
+                  FadeIn(social_graph), FadeIn(welfare_context), run_time=1.0)
+        self.play(FadeOut(dwl_example_pair), FadeOut(dwl_example_loss), FadeIn(dwl_selection), run_time=0.4)
+        self.pause('3.f.40.return')
+
+        # ---- 3.f.36 · Inspect another exchanged unit with MSC above MB.
+        left, right = 36 - 1 + BAR_GAP / 2, 36 - BAR_GAP / 2
+        dwl_example_pair = fixed(VGroup(
+            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
+                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            private_bars[36 - 1].copy(), external_bars[36 - 1].copy()))
+        dwl_example_home = dwl_example_pair.copy()
+        next_dwl_selection = fixed(SurroundingRectangle(dwl_example_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        self.play(Transform(dwl_selection, next_dwl_selection), run_time=0.8)
+        self.play(FadeIn(dwl_example_pair), run_time=0.3)
+        self.pause('3.f.36.select')
+        dwl_example_target = fixed(VGroup())
+        for x, low, high, color in [(-1.16, 0, 4.8, DEMAND), (0.06, 0, 3.8, SUPPLY),
+                                   (0.06, 3.8, 5.8, EXT)]:
+            dwl_example_target.add(fixed(Polygon(
+                [x, DETAIL_BASE + low * DETAIL_SCALE, 0], [x + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
+                [x + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [x, DETAIL_BASE + high * DETAIL_SCALE, 0],
+                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
+        self.play(FadeOut(social_graph), FadeOut(welfare_context), FadeOut(dwl_selection),
+                  Transform(dwl_example_pair, dwl_example_target), run_time=1.0)
+        dwl_example_context = fixed(subtitle(head, 'The 36th unit: an exchange with MSC above MB.'))
+        dwl_example_labels = fixed(VGroup(
+            Tex(r'MB $\$4.80$', color=DEMAND).scale(0.72),
+            Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.72),
+            Tex(r'MC $\$3.80$', color=SUPPLY).scale(0.72).set_opacity(0.25),
+            Tex(r'EXT $\$2$', color=EXT).scale(0.72).set_opacity(0.25)))
+        for label in dwl_example_labels:
+            label.bars = dwl_example_pair
+        dwl_example_labels[0].add_updater(lambda m: m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
+        dwl_example_labels[1].add_updater(lambda m: m.next_to(m.bars[2].get_corner(UR), RIGHT, buff=0.25))
+        dwl_example_labels[2].add_updater(lambda m: m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
+        dwl_example_labels[3].add_updater(lambda m: m.next_to(m.bars[2], RIGHT, buff=0.25))
+        dwl_example_edges = fixed(VGroup(
+            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
+              for bar, color in zip(dwl_example_target, [DEMAND, SUPPLY, SUPPLY])],
+            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED)))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(dwl_example_labels), FadeIn(dwl_example_edges), FadeIn(dwl_example_context), run_time=0.4)
+        self.pause('3.f.36.values')
+        dwl_example_loss = fixed(Polygon(
+            [0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], [1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+            [1.16, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], [0.06, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0],
+            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
+        dwl_example_result = fixed(VGroup(
+            Tex(r'MSC $>$ MB', color=INK), Tex(r'DWL $=\$1$', color=INK))
+            .arrange(DOWN, buff=0.16).scale(0.8).move_to([4.5, 0.4, 0]))
+        dwl_example_note = fixed(Tex(r'Every unit exchanged where MSC $>$ MB carries DWL.', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(dwl_example_loss), FadeIn(dwl_example_result), FadeIn(dwl_example_note), run_time=0.5)
+        self.pause('3.f.36.loss')
+        dwl_example_loss_home = fixed(Polygon(
+            left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
+            left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
+            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeOut(dwl_example_result), FadeOut(dwl_example_edges), FadeOut(dwl_example_context),
+                  FadeOut(dwl_example_note), FadeOut(dwl_example_labels, suspend_mobject_updating=False),
+                  Transform(dwl_example_pair, dwl_example_home), Transform(dwl_example_loss, dwl_example_loss_home),
+                  FadeIn(social_graph), FadeIn(welfare_context), run_time=1.0)
+        self.play(FadeOut(dwl_example_pair), FadeOut(dwl_example_loss), FadeIn(dwl_selection), run_time=0.4)
+        self.pause('3.f.36.return')
+
+        self.play(FadeOut(dwl_selection), run_time=0.3)
+
         # ---- 4.a · Legacy social-planner sequence: change the evaluated Q only.
         self.remove(head, welfare_context)
         head = fixed(title('Negative Externality: Efficiency'))

@@ -149,6 +149,11 @@
 
 ]
 
+#quote(block: true)[
+  3.f.40.select → 3.f.40.values → 3.f.40.loss → 3.f.40.return → 3.f.36.select → 3.f.36.values → 3.f.36.loss → 3.f.36.return · After the 36th-unit worked example returns, show two quick additional inspections under Social Welfare. Start with the 40th-unit slice at the market equilibrium, then move the same selection outline left to the 36th-unit slice. For each: pause on the outline with no bottom note, carry the actual bars into the canonical close-up, show the buyer, pink bystanders, and seller, then pause on MB and MSC before revealing loss. The 40th unit has MB 4, MC 4, MSC 6, DWL 2; the 36th has MB 4.80, MC 3.80, MSC 5.80, DWL 1. Keep MC and EXT labels at 25% opacity. Reveal the grey region between MB and MSC, the numerical DWL result at right, and the yellow line: Every unit exchanged where MSC > MB carries DWL. Pause briefly for explanation, then carry the bars and loss back into the same market slice. Fade the temporary loss before each market hold so no isolated grey bar remains. Keep the selection outline on the market for the move from 40 toward 36; clear it after the second return before finding the efficient quantity. Keep both zooms quick and omit further algebra.
+
+]
+
 === 4 | Efficient quantity and deadweight loss
 
 #quote(block: true)[
