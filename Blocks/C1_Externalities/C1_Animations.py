@@ -1084,11 +1084,12 @@ class C1(ThreeDScene):
         self.pause('4.a.return')
 
         # ---- 4.b · The losses from excessive trades; not all external damage.
-        self.remove(head)
-        head = fixed(title('Negative Externality: DWL'))
-        dwl_context = fixed(subtitle(head,
+        # Retitle: only ': DWL' fades in; the words that stay, stay put.
+        new_head = fixed(title('Negative Externality: DWL'))
+        dwl_context = fixed(subtitle(new_head,
             'Overproduction of goods that are too costly to society.'))
-        self.play(FadeIn(head), FadeIn(dwl_context))
+        self.play(TransformMatchingTex(head, new_head), FadeIn(dwl_context))
+        head = new_head
         # The sweep already revealed all eight bars; keep them for the DWL explanation.
         social_graph.remove(loss_slices)
         self.add(loss_slices)
@@ -1100,12 +1101,13 @@ class C1(ThreeDScene):
         self.pause('4.b')
 
         # ---- 4.c · Final comparison: the market produces too much.
-        self.remove(head, conclusion, dwl_context)
-        head = fixed(title('Negative Externality'))
+        self.remove(conclusion, dwl_context)
+        new_head = fixed(title('Negative Externality'))   # retitle: only ': DWL' fades out
         evaluation_line.clear_updaters()
         final_market = fixed(VGroup(social_graph, loss_slices, dwl_word,
                                     evaluation_line, efficient_dot, efficient_word))
-        self.play(FadeIn(head), final_market.animate.shift(LEFT * 2.5), run_time=1.2)
+        self.play(TransformMatchingTex(head, new_head), final_market.animate.shift(LEFT * 2.5), run_time=1.2)
+        head = new_head
         quantity_result = fixed(VGroup(
             Tex(r'$Q^*$', color=FOCUS), Tex('$<$', color=INK),
             Tex(r'$\hat{Q}$', color=GUIDE)).scale(1.3)
