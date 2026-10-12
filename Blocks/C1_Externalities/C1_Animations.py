@@ -473,15 +473,15 @@ class C1(ThreeDScene):
         self.add(pair)
         self.pause('2.a')
 
-        # ---- 2.b · A single external-cost piece belongs to one grey bystander.
+        # ---- 2.b · A single external-cost piece belongs to one pink bystander.
         BYSTANDER_CENTER, BYSTANDER_GAP = 3.7, 0.61
         bystanders = fixed(Group())
         individual_costs, external_stack = fixed(VGroup()), fixed(VGroup())
         for i in range(8):
             x = BYSTANDER_CENTER
             person = fixed(Group(
-                Ellipse(width=0.27, height=0.04, stroke_width=0, fill_color=MUTED, fill_opacity=0.35).move_to([x, -2.28, 0]),
-                Sphere(radius=0.12, color=MUTED, opacity=1, resolution=(24, 16)).move_to([x, -2.10, 0])))
+                Ellipse(width=0.27, height=0.04, stroke_width=0, fill_color=EXT, fill_opacity=0.35).move_to([x, -2.28, 0]),
+                Sphere(radius=0.12, color=EXT, opacity=1, resolution=(24, 16)).move_to([x, -2.10, 0])))
             person[1].apply_depth_test()
             bystanders.add(person)
             lower = PAIR_BASE + i * 0.25 * PAIR_SCALE
@@ -745,9 +745,9 @@ class C1(ThreeDScene):
         unit_context = fixed(subtitle(head,
             'The 36th unit: a quantity exchanged in equilibrium.'))
         unit_bystander = fixed(Group(
-            Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=MUTED, fill_opacity=0.28)
+            Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=EXT, fill_opacity=0.28)
                 .move_to([0, DETAIL_BASE - 0.60, 0]),
-            Sphere(radius=0.18, color=MUTED, opacity=1, resolution=(32, 24))
+            Sphere(radius=0.18, color=EXT, opacity=1, resolution=(32, 24))
                 .move_to([0, DETAIL_BASE - 0.35, 0])))
         unit_bystander[1].apply_depth_test()
         unit_bystander_word = fixed(Tex('Bystanders', color=CAPTION).scale(0.65)
