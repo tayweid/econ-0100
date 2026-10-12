@@ -1097,7 +1097,7 @@ class C1(ThreeDScene):
             efficient_target.add(fixed(Polygon(
                 [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
-                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
+                stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
         self.play(FadeOut(social_graph), FadeOut(efficient_word), FadeOut(evaluation_line), FadeOut(efficient_dot),
                   FadeOut(efficient_selection),
                   Transform(efficient_pair, efficient_target), run_time=1.6)
@@ -1107,19 +1107,26 @@ class C1(ThreeDScene):
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
             Tex(r'MB $\$5.60$', color=DEMAND).scale(0.72).next_to(efficient_target[0].get_corner(UL), LEFT, buff=0.25),
             Tex(r'MC $\$3.60$', color=SUPPLY).scale(0.72).next_to(efficient_target[1].get_corner(UR), RIGHT, buff=0.25),
-            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(efficient_target[2], RIGHT, buff=0.25),
+            Tex(r'$\$2$', color=EXT).scale(0.72).move_to(efficient_target[2]),
             Tex(r'MSC $\$5.60$', color=SUPPLY).scale(0.72).next_to(efficient_target[2].get_corner(UR), RIGHT, buff=0.25)))
         efficient_context = fixed(subtitle(head, 'The 32nd unit: the efficient quantity.'))
+        # MB and MSC coincide: one shared guide represents a zero-height gap.
+        efficient_guides = fixed(VGroup(
+            DashedLine([-0.06, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0],
+                       [0.06, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine(efficient_labels[7].get_right() + RIGHT * 0.12,
+                       [3.65, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4)))
         efficient_result = fixed(VGroup(Tex(r'TS $=\$0$', color=TOTAL), Tex(r'DWL $=\$0$', color=INK))
-            .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8).move_to([4.5, 0.4, 0]))
+            .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8)
+            .next_to([3.65, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0], RIGHT, buff=0.25))
         efficient_note = fixed(Tex(r'For this exchange, MB $=$ MSC and there is no deadweight loss.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.add(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeIn(efficient_labels), FadeIn(efficient_context))
-        self.play(FadeIn(efficient_result), FadeIn(efficient_note))
+        self.play(FadeIn(efficient_guides), FadeIn(efficient_result), FadeIn(efficient_note))
         self.pause('4.a.exchange')
         self.remove(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeOut(efficient_labels), FadeOut(efficient_context), FadeOut(efficient_result),
+        self.play(FadeOut(efficient_guides), FadeOut(efficient_labels), FadeOut(efficient_context), FadeOut(efficient_result),
                   FadeOut(efficient_note), run_time=0.4)
         self.play(Transform(efficient_pair, efficient_home), FadeIn(social_graph), FadeIn(evaluation_line),
                   FadeIn(efficient_dot), FadeIn(efficient_word), run_time=1.6)
