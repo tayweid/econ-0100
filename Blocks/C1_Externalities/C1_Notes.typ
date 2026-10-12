@@ -92,7 +92,7 @@
 ]
 
 #quote(block: true)[
-  1.f.values → 1.f.private.compare → 1.f.private → 1.f.social.compare → 1.f · Apply the same compact layout to unit 36. MB 4.80 exceeds MC 3.80. Reveal each dashed measurement, pause, then a green check. Show only TS 1 dollar beside the social check. Bottom: Removing this trade loses 1 dollar of surplus. Keep both questions in the lower corners and clear all comparison objects on return.
+  1.f.values → 1.f.private.compare → 1.f.private → 1.f.social.compare → 1.f · Apply the same compact layout to unit 36. MB 4.80 exceeds MC 3.80. Reveal each dashed measurement, pause, then a green check. Show only TS 1 dollar beside the social check. Bottom: This trade generates 1 dollar in total surplus. Keep both questions in the lower corners and clear all comparison objects on return.
 
 
 ]

@@ -361,7 +361,7 @@ class C1(ThreeDScene):
         self.play(FadeIn(removed_pair), FadeIn(selected_ton))
         self.pause('1.e.select')
 
-        # ---- 1.f · The same bar-pair zoom, now examining a forgone gain.
+        # ---- 1.f · The same bar-pair zoom, now examining the surplus this trade generates.
         removed_target = fixed(VGroup())
         for left, value, color in [(-1.16, 4.8, DEMAND), (0.06, 3.8, SUPPLY)]:
             removed_target.add(fixed(Polygon([left, DETAIL_BASE, 0], [left + 1.1, DETAIL_BASE, 0],
@@ -392,7 +392,7 @@ class C1(ThreeDScene):
             Line([3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
         removed_social_answer = fixed(VGroup(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'TS $\$1$', color=TOTAL)).arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([3.65, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
-        conclusion = fixed(Tex(r'Removing this trade loses $\$1$ of surplus.', color=DEFINITION)
+        conclusion = fixed(Tex(r'This trade generates $\$1$ in total surplus.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         unit_context = fixed(subtitle(head, 'The 36th unit: an exchange made in equilibrium.'))
         self.add(detail_people)
