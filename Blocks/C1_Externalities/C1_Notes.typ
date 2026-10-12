@@ -205,3 +205,5 @@ The negative-externality section ends at 4.c.comparison, combining the completed
 ]
 
 Graph externality bars use opacity 0.8 and appear only for units actually exchanged (Q ≤ 40 in these markets), matching the extent of the seller cost bars. Keep that opacity through the negative-externality efficiency and DWL sequences; do not dim it when revealing DWL. Curves still extend across the full quantity axis. Close-up fill opacities remain independently specified.
+
+Two-decision pacing: both question headings are yellow. Reveal each set of dashed measurement guides and its MB comparison first, then pause at .private.compare or .social.compare before revealing the answer. Use a green check mark in place of Yes on either side. Keep Indifferent, Neutral, and No for their existing cases. Reveal the social TS/DWL values and welfare shading with the social answer after its pause. The existing answer holds remain.

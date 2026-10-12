@@ -897,14 +897,14 @@ class C1(ThreeDScene):
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
         # Private willingness and social value are separate comparisons.
         exchange_questions = fixed(VGroup(
-            Tex('Will they exchange?', color=INK).scale(0.65).move_to([-5.0, 2.45, 0]),
-            Tex('Is it good for society?', color=INK).scale(0.65).move_to([5.0, 2.45, 0])))
+            Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5.0, 2.45, 0]),
+            Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5.0, 2.45, 0])))
         exchange_private_guides = fixed(VGroup(
             DashedLine(removed_social_labels[4].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             DashedLine([0.06, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             Line([-3.65, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
         exchange_private_answer = fixed(VGroup(
-            Tex('Yes', color=INK), Tex(r'MB $>$ MC', color=TOTAL))
+            VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'MB $>$ MC', color=TOTAL))
             .arrange(DOWN, buff=0.12).scale(0.65)
             .next_to([-3.65, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], LEFT, buff=0.3))
         exchange_social_guides = fixed(VGroup(
@@ -919,10 +919,14 @@ class C1(ThreeDScene):
             .arrange(DOWN, buff=0.10, aligned_edge=LEFT).scale(0.60)
             .next_to([3.65, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
         self.play(FadeIn(exchange_questions))
-        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer))
+        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer[1:]))
+        self.pause('3.e.private.compare')
+        self.play(FadeIn(exchange_private_answer[0]))
         self.pause('3.e.private')
-        self.play(FadeIn(removed_dwl_bar), FadeIn(exchange_social_guides),
-                  FadeIn(exchange_social_answer), FadeIn(conclusion))
+        self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer[1]))
+        self.pause('3.e.social.compare')
+        self.play(FadeIn(removed_dwl_bar),
+                  FadeIn(exchange_social_answer[0]), FadeIn(exchange_social_answer[2:]), FadeIn(conclusion))
         self.pause('3.e')
         self.remove(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeOut(compact_external_labels), FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(exchange_questions), FadeOut(exchange_private_guides), FadeOut(exchange_private_answer),
@@ -1000,8 +1004,8 @@ class C1(ThreeDScene):
         self.play(FadeIn(compact_external_labels), FadeIn(dwl_example_labels), FadeIn(dwl_example_edges), FadeIn(dwl_example_context), run_time=0.4)
         # Private willingness and social value are separate comparisons.
         exchange_questions = fixed(VGroup(
-            Tex('Will they exchange?', color=INK).scale(0.65).move_to([-5.0, 2.45, 0]),
-            Tex('Is it good for society?', color=INK).scale(0.65).move_to([5.0, 2.45, 0])))
+            Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5.0, 2.45, 0]),
+            Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5.0, 2.45, 0])))
         exchange_private_guides = fixed(VGroup(
             DashedLine(dwl_example_labels[0].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4)))
         exchange_private_answer = fixed(VGroup(
@@ -1021,7 +1025,9 @@ class C1(ThreeDScene):
             .next_to([3.65, DETAIL_BASE + 5.0 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
         self.play(FadeIn(exchange_questions))
         self.pause('3.f.40.values')
-        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer))
+        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer[1:]))
+        self.pause('3.f.40.private.compare')
+        self.play(FadeIn(exchange_private_answer[0]))
         self.pause('3.f.40.private')
         dwl_example_loss = fixed(Polygon(
             [0.06, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], [1.16, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0],
@@ -1029,7 +1035,9 @@ class C1(ThreeDScene):
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
         dwl_example_note = fixed(Tex(r'Every unit exchanged where MSC $>$ MB carries DWL.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(dwl_example_loss), FadeIn(exchange_social_guides), FadeIn(exchange_social_answer), FadeIn(dwl_example_note), run_time=0.5)
+        self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer[1]))
+        self.pause('3.f.40.social.compare')
+        self.play(FadeIn(dwl_example_loss), FadeIn(exchange_social_answer[0]), FadeIn(exchange_social_answer[2:]), FadeIn(dwl_example_note), run_time=0.5)
         self.pause('3.f.40.loss')
         dwl_example_loss_home = fixed(Polygon(
             left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
@@ -1114,14 +1122,14 @@ class C1(ThreeDScene):
         self.play(FadeIn(compact_external_labels), FadeIn(dwl_example_labels), FadeIn(dwl_example_edges), FadeIn(dwl_example_context), run_time=0.4)
         # Private willingness and social value are separate comparisons.
         exchange_questions = fixed(VGroup(
-            Tex('Will they exchange?', color=INK).scale(0.65).move_to([-5.0, 2.45, 0]),
-            Tex('Is it good for society?', color=INK).scale(0.65).move_to([5.0, 2.45, 0])))
+            Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5.0, 2.45, 0]),
+            Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5.0, 2.45, 0])))
         exchange_private_guides = fixed(VGroup(
             DashedLine(dwl_example_labels[0].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             DashedLine([0.06, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             Line([-3.65, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
         exchange_private_answer = fixed(VGroup(
-            Tex('Yes', color=INK), Tex(r'MB $>$ MC', color=TOTAL))
+            VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'MB $>$ MC', color=TOTAL))
             .arrange(DOWN, buff=0.12).scale(0.65)
             .next_to([-3.65, DETAIL_BASE + 4.3 * DETAIL_SCALE, 0], LEFT, buff=0.3))
         exchange_social_guides = fixed(VGroup(
@@ -1137,7 +1145,9 @@ class C1(ThreeDScene):
             .next_to([3.65, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
         self.play(FadeIn(exchange_questions))
         self.pause('3.f.36.values')
-        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer))
+        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer[1:]))
+        self.pause('3.f.36.private.compare')
+        self.play(FadeIn(exchange_private_answer[0]))
         self.pause('3.f.36.private')
         dwl_example_loss = fixed(Polygon(
             [0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], [1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
@@ -1145,7 +1155,9 @@ class C1(ThreeDScene):
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
         dwl_example_note = fixed(Tex(r'Every unit exchanged where MSC $>$ MB carries DWL.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(dwl_example_loss), FadeIn(exchange_social_guides), FadeIn(exchange_social_answer), FadeIn(dwl_example_note), run_time=0.5)
+        self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer[1]))
+        self.pause('3.f.36.social.compare')
+        self.play(FadeIn(dwl_example_loss), FadeIn(exchange_social_answer[0]), FadeIn(exchange_social_answer[2:]), FadeIn(dwl_example_note), run_time=0.5)
         self.pause('3.f.36.loss')
         dwl_example_loss_home = fixed(Polygon(
             left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
@@ -1275,14 +1287,14 @@ class C1(ThreeDScene):
         self.play(FadeIn(compact_external_labels), FadeIn(efficient_labels), FadeIn(efficient_context))
         # Private willingness and social value are separate comparisons.
         exchange_questions = fixed(VGroup(
-            Tex('Will they exchange?', color=INK).scale(0.65).move_to([-5.0, 2.45, 0]),
-            Tex('Is it good for society?', color=INK).scale(0.65).move_to([5.0, 2.45, 0])))
+            Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5.0, 2.45, 0]),
+            Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5.0, 2.45, 0])))
         exchange_private_guides = fixed(VGroup(
             DashedLine(efficient_labels[4].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             DashedLine([0.06, DETAIL_BASE + 3.6 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 3.6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             Line([-3.65, DETAIL_BASE + 3.6 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
         exchange_private_answer = fixed(VGroup(
-            Tex('Yes', color=INK), Tex(r'MB $>$ MC', color=TOTAL))
+            VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'MB $>$ MC', color=TOTAL))
             .arrange(DOWN, buff=0.12).scale(0.65)
             .next_to([-3.65, DETAIL_BASE + 4.6 * DETAIL_SCALE, 0], LEFT, buff=0.3))
         exchange_social_guides = fixed(VGroup(
@@ -1294,9 +1306,13 @@ class C1(ThreeDScene):
             .arrange(DOWN, buff=0.10, aligned_edge=LEFT).scale(0.60)
             .next_to([3.65, DETAIL_BASE + 5.6 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
         self.play(FadeIn(exchange_questions))
-        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer))
+        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer[1:]))
+        self.pause('4.a.private.compare')
+        self.play(FadeIn(exchange_private_answer[0]))
         self.pause('4.a.private')
-        self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer), FadeIn(efficient_note))
+        self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer[1]))
+        self.pause('4.a.social.compare')
+        self.play(FadeIn(exchange_social_answer[0]), FadeIn(exchange_social_answer[2:]), FadeIn(efficient_note))
         self.pause('4.a.exchange')
         self.remove(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeOut(compact_external_labels), FadeOut(efficient_labels), FadeOut(efficient_context), FadeOut(exchange_questions), FadeOut(exchange_private_guides), FadeOut(exchange_private_answer),
@@ -1411,14 +1427,14 @@ class C1(ThreeDScene):
             self.play(FadeIn(compact_external_labels), FadeIn(beneficial_labels), FadeIn(beneficial_context))
             # Private willingness and social value are separate comparisons.
             exchange_questions = fixed(VGroup(
-                Tex('Will they exchange?', color=INK).scale(0.65).move_to([-5.0, 2.45, 0]),
-                Tex('Is it good for society?', color=INK).scale(0.65).move_to([5.0, 2.45, 0])))
+                Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5.0, 2.45, 0]),
+                Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5.0, 2.45, 0])))
             exchange_private_guides = fixed(VGroup(
                 DashedLine(beneficial_labels[4].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], color=TOTAL, stroke_width=1.4),
                 DashedLine([0.06, DETAIL_BASE + 3.2 * BENEFICIAL_SCALE, 0], [-3.65, DETAIL_BASE + 3.2 * BENEFICIAL_SCALE, 0], color=TOTAL, stroke_width=1.4),
                 Line([-3.65, DETAIL_BASE + 3.2 * BENEFICIAL_SCALE, 0], [-3.65, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], color=TOTAL, stroke_width=3)))
             exchange_private_answer = fixed(VGroup(
-                Tex('Yes', color=INK), Tex(r'MB $>$ MC', color=TOTAL))
+                VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'MB $>$ MC', color=TOTAL))
                 .arrange(DOWN, buff=0.12).scale(0.65)
                 .next_to([-3.65, DETAIL_BASE + 5.2 * BENEFICIAL_SCALE, 0], LEFT, buff=0.3))
             exchange_social_guides = fixed(VGroup(
@@ -1426,19 +1442,23 @@ class C1(ThreeDScene):
                 DashedLine([-0.06, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], [3.65, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], color=TOTAL, stroke_width=1.4),
                 Line([3.65, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], [3.65, DETAIL_BASE + 5.2 * BENEFICIAL_SCALE, 0], color=TOTAL, stroke_width=3)))
             exchange_social_answer = fixed(VGroup(
-                Tex('Yes', color=INK), Tex(r'MB $>$ MSC', color=TOTAL),
+                VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'MB $>$ MSC', color=TOTAL),
                 Tex(r'TS $=\$2$', color=TOTAL), Tex(r'DWL $=\$0$', color=INK))
                 .arrange(DOWN, buff=0.10, aligned_edge=LEFT).scale(0.60)
                 .next_to([3.65, DETAIL_BASE + 6.2 * BENEFICIAL_SCALE, 0], RIGHT, buff=0.3))
             self.play(FadeIn(exchange_questions))
             self.pause('4.c.values')
-            self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer))
+            self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer[1:]))
+            self.pause('4.c.private.compare')
+            self.play(FadeIn(exchange_private_answer[0]))
             self.pause('4.c.private')
             beneficial_surplus = fixed(Polygon(
                 [-1.16, DETAIL_BASE + 5.2 * BENEFICIAL_SCALE, 0], [-0.06, DETAIL_BASE + 5.2 * BENEFICIAL_SCALE, 0],
                 [-0.06, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0], [-1.16, DETAIL_BASE + 7.2 * BENEFICIAL_SCALE, 0],
                 stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY))
-            self.play(FadeIn(beneficial_surplus), FadeIn(exchange_social_guides), FadeIn(exchange_social_answer))
+            self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer[1]))
+            self.pause('4.c.social.compare')
+            self.play(FadeIn(beneficial_surplus), FadeIn(exchange_social_answer[0]), FadeIn(exchange_social_answer[2:]))
             self.pause('4.c.exchange')
             self.remove(detail_people, unit_bystander, unit_bystander_word)
             self.play(FadeOut(compact_external_labels), FadeOut(beneficial_labels), FadeOut(beneficial_context), FadeOut(beneficial_surplus),
