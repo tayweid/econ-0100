@@ -1,4 +1,4 @@
-// Exported from Plass
+// Exported from Plass — exact on typst 0.14.2
 #set page(paper: "us-letter", margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in), numbering: "1", number-align: center)
 #set par(justify: true, leading: 10.215pt, spacing: 21.465pt)
 #set list(spacing: 13.340pt)
@@ -25,9 +25,9 @@
 #show raw.where(block: false): set text(font: "DejaVu Sans Mono", size: 10.000pt)
 #show math.equation.where(block: true): set block(above: 21.490pt, below: 23.702pt)
 #set text(size: 12.5pt, font: "New Computer Modern", hyphenate: true)
-#import "@preview/mitex:0.2.5": mi, mitex
+#import "@preview/mitex:0.2.7": mi, mitex
 
-= ECON 0100 | Homework C2 | Taxes
+= ECON 0100 | Homework C2 | Taxes + Subsidies
 
 _Due: TBD_
 

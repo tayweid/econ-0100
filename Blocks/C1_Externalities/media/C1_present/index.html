@@ -29,6 +29,7 @@
     --ink: #252428;
     --dim: #969199;
     --accent: #58c4dd;
+    --frame: #17161a;
     --shadow: 0 11px 32px rgba(0, 0, 0, 0.28);
     --glass-light: rgba(235, 232, 225, 0.94);
   }
@@ -114,8 +115,7 @@
   #navbar > * { position: relative; }
   #navbar > *:hover, #navbar > *:focus-within { z-index: 20; }
   .transport-pod { padding: 0 5px; }
-  .rail-pod { flex: 1 1 auto; max-width: 620px; min-width: 0;
-    gap: 12px; padding: 0 12px 0 13px; }
+  .rail-pod { flex: 0 1 auto; min-width: 0; padding: 0 6px; }
   .view-pod { padding: 0 5px; }
 
   #position {
@@ -129,53 +129,73 @@
   body.fullscreen .fs-enter { display: none; }
   body.fullscreen .fs-exit { display: block; }
 
-  /* ---- the rail (copied from the viewer, verbatim) ---- */
+  /* ---- the rail (copied from the viewer, verbatim, but its box: the
+     bundle keeps the floating bar, so the rail is a pod's, as long as
+     its marks ask) ---- */
   #rail {
-    flex: 1; min-width: 0; height: 30px;
-    display: flex; align-items: center; overflow-x: auto;
-    padding: 5px 2px; scrollbar-width: none;
+    position: relative; flex: 0 1 auto; min-width: 80px; height: 20px;
+    width: clamp(240px, calc(var(--marks, 2) * 26px), 640px); cursor: pointer;
+    touch-action: none; user-select: none; -webkit-user-select: none;
   }
-  #rail::-webkit-scrollbar { display: none; }
-  .link {
-    position: relative; flex: 1 1 26px; min-width: 13px; height: 1px;
-    margin: 0 5px; background: var(--line-strong);
+  .rail-span { position: absolute; inset: 0 4px; }
+  /* A press dragged along the rail scrubs (rail.js). */
+  #rail.scrubbing { cursor: ew-resize; }
+  /* The timeline: every mark at its place by --f, never moving as the
+     head does. A pausepoint is a 5 px dot (2.5 px where the scene is
+     crowded), the start and the end upright dashes, a play step a faint
+     tick (none where crowded), what has not run grey. */
+  .mark {
+    position: absolute; top: 50%; padding: 0; border: 0; border-radius: 50%;
+    transform: translate(-50%, -50%); pointer-events: none;
+    background: rgba(240, 238, 233, 0.42);
   }
-  .link.past { background: #77727a; }
-  .link.future { background: none; border-top: 1px dashed #5e5a62; }
-  .link .fill {
-    position: absolute; left: 0; right: 0; top: -1px; height: 3px;
-    border-radius: 2px; background: var(--accent);
-    box-shadow: 0 0 9px rgba(88,196,221,.45);
-    transform: scaleX(0); transform-origin: left center;
-    transition: transform 200ms ease, opacity 200ms ease; opacity: 0;
+  .rail-timeline .mark { left: calc(var(--f, 0) * 100%); }
+  .mark.dot { width: 5px; height: 5px; }
+  .mark.dot.small { width: 2.5px; height: 2.5px; }
+  .mark.tick { width: 1px; height: 5px; border-radius: 1px; background: rgba(240, 238, 233, 0.16); }
+  .mark.start, .mark.end {
+    width: 1.5px; height: 11px; border-radius: 1px; background: rgba(240, 238, 233, 0.6);
   }
-  .link.lit .fill { transform: scaleX(1); opacity: 1; }
-  .link.lit.back .fill { transform-origin: right center; }
-  .link.mid .fill { transform: scaleX(1); opacity: 1; }
-  .chip {
-    position: relative; z-index: 1; width: 11px; height: 11px; padding: 0;
-    border-radius: 50%; flex: none; background: var(--glass-solid);
-    border: 1px solid #5e5a62; cursor: pointer;
-    transition: transform 120ms ease, border-color 120ms ease, background 120ms ease,
-      box-shadow 200ms ease;
+  .mark.future { background: rgba(150, 145, 153, 0.5); }
+  /* A unit that may hold several pausepoints until it runs (a loop, a
+     branch): a fainter dot behind it, so the rail does not claim a count
+     it does not have. */
+  .mark.many { box-shadow: 4px 0 0 -0.5px rgba(150, 145, 153, 0.32); }
+  /* The lens: Plass's band, squared as his is, made a magnifier — opaque,
+     so the timeline under it is hidden, and holding the marks round the
+     head opened up (rail.js places them), every play step's dash
+     included. */
+  .rail-lens {
+    position: absolute; top: 3px; bottom: 3px; overflow: hidden;
+    border-radius: 4px; background: #242327;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.13);
+    cursor: grab; transition: box-shadow 200ms ease;
   }
-  .chip:hover, .chip:focus-visible { transform: scale(1.35); outline: none; }
-  .chip.past { background: #77727a; border-color: #77727a; }
-  .chip.current { background: var(--accent); border-color: var(--accent);
-    transform: scale(1.35); box-shadow: 0 0 0 4px rgba(88,196,221,.12); }
-  .chip.future { background: var(--glass-solid); border-style: dashed; border-color: #5e5a62; }
-  .chip.many {
-    box-shadow: 4px 0 0 -1px var(--glass-solid), 4px 0 0 0 rgba(94,90,98,.6),
-                8px 0 0 -2px var(--glass-solid), 8px 0 0 -1px rgba(94,90,98,.38);
-    margin-right: 9px;
+  #rail.scrubbing .rail-lens { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24); cursor: ew-resize; }
+  .rail-lens .mark.dot { background: rgba(240, 238, 233, 0.78); }
+  .rail-lens .mark.tick { background: rgba(240, 238, 233, 0.32); }
+  .rail-lens .mark.future { background: rgba(150, 145, 153, 0.6); }
+  .rail-lens .mark.current { background: var(--accent); box-shadow: 0 0 5px rgba(88,196,221,.6); }
+  .mark.hot { background: #fff; transform: translate(-50%, -50%) scale(1.45); }
+  .rail-lens .mark.current.hot { background: var(--accent); }
+  .mark:focus { outline: none; }
+  .mark:focus-visible { box-shadow: 0 0 0 1.5px var(--frame), 0 0 0 3px #9db8d6; }
+  /* The bubble: the stretch being crossed, lit in the accent — a move's
+     (live, the engine says which and not how far along), or the one round
+     the head while it scrubs or glides. */
+  .rail-bubble {
+    position: absolute; top: 2px; bottom: 2px; border-radius: 3px;
+    background: rgba(88, 196, 221, 0.16); box-shadow: inset 0 0 0 1px rgba(88, 196, 221, 0.5);
+    opacity: 0; transition: opacity 200ms ease; pointer-events: none;
   }
-  body.moving .chip.current {
-    box-shadow: none; transform: scale(1);
-    background: #77727a; border-color: #77727a;
-  }
-  @keyframes chip-working { 0%, 100% { transform: scale(1.1); } 50% { transform: scale(1.45); } }
-  body.moving .chip.working {
-    animation: chip-working 900ms ease-in-out infinite;
+  .rail-bubble.lit { opacity: 1; }
+  /* The head: the position, a precise point — a tall dash in the accent at
+     its true place on the timeline and the lens's centre, standing out of
+     the lens above and below. */
+  .rail-head {
+    position: absolute; top: 1px; bottom: 1px; width: 2px; margin-left: -1px;
+    border-radius: 1px; background: var(--accent); box-shadow: 0 0 6px rgba(88,196,221,.55);
+    pointer-events: none;
   }
 
   /* ---- the preview card (copied from the viewer) ---- */
@@ -258,6 +278,7 @@
       current: index, count: cps.length,
       lines: cps.map((c) => c.line),
       units: cps.map((c) => c.chip_unit),
+      times: cps.map((c) => c.time),
       stops: cps.map((c) => !!c.stop),
       names: cps.map((c) => c.name || null),
       future: [],
@@ -272,6 +293,12 @@
     env: () => {},
     onChipClick: (index) => ManimlPresentation.seekCheckpoint(index),
     onFutureChipClick: () => {},   // a baked table has no future units
+    // The recording can be scrubbed with the mouse (rail.js, Scrubbing).
+    scrub: {
+      enabled: () => true,
+      to: (time) => ManimlPresentation.scrubTo(time),
+      end: (time, index) => ManimlPresentation.seekCheckpoint(index),
+    },
   });
   const presenter = rail.presenter;
   // Hovering a pausepoint: its frame from the recording, its name, its line.
@@ -290,7 +317,18 @@
       }
     },
     onRest: (index) => presenter.moveEnded(synthState(index)),
+    onTime: (time) => presenter.time(time),
   });
+  new ResizeObserver(() => rail.relayout()).observe(document.getElementById("rail"));
+  // A sideways two-finger slide anywhere over the page scrubs the rail
+  // (rail.js wheel). Taken only when it is mostly sideways; taking it
+  // also keeps the browser's swipe-to-go-back off the page.
+  window.addEventListener("wheel", (e) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    if (e.target && e.target.closest && e.target.closest(".rail-preview")) return;
+    const dx = e.deltaX * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+    if (rail.wheel(dx)) e.preventDefault();
+  }, { passive: false });
 
   document.getElementById("start").onclick =
     () => ManimlPresentation.seekCheckpoint(0);

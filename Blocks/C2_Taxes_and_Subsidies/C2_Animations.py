@@ -483,7 +483,11 @@ class C2(ThreeDScene):
                  ax.c2p(AXIS_Q, SELLER_PRICE) + RIGHT * 0.09 * comparison_scale, color=GOV, stroke_width=3 * comparison_scale),
             Line(ax.c2p(AXIS_Q, BUYER_PRICE) + LEFT * 0.09 * comparison_scale,
                  ax.c2p(AXIS_Q, BUYER_PRICE) + RIGHT * 0.09 * comparison_scale, color=GOV, stroke_width=3 * comparison_scale))).set_z_index(2)
-        sliding_word = fixed(Tex(r'\$2 tax', color=GOV).scale(0.6).next_to(axis_wedge, LEFT, buff=0.15))
+        # The label carries a rolling number so section 7 can drive it in place, without a crossfade.
+        sliding_word = fixed(VGroup(Tex(r'\$', color=GOV).scale(0.6), DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6),
+            Tex('tax', color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
+        sliding_word[2].shift(RIGHT * 0.08)
+        sliding_word.next_to(axis_wedge, LEFT, buff=0.15)
         sliding_word.scale(comparison_scale).next_to(axis_wedge, LEFT, buff=0.15 * comparison_scale)
         seller_axis_wedge = axis_wedge.copy().shift(RIGHT * 8)
         seller_sliding_word = sliding_word.copy().shift(RIGHT * 8)
@@ -841,78 +845,94 @@ class C2(ThreeDScene):
         self.play(FadeIn(dwl_word), FadeIn(removed_note))
         self.pause('6.d')
 
-        # ---- 7.a · Changing the tax: one tracker drives the wedge, the regions, and every readout.
+        # ---- 7.a · Change the tax in the same bar-by-bar market, with its existing labels and axis wedge.
         self.remove(head, context, removed_note)
         head = fixed(title('Changing The Tax'))
-        self.remove(welfare_market)
-        self.add(market, sliding_wedge, sliding_word, wedge_marks, ps_taxed, tax_bars, cs_taxed, welfare_words)
+        self.remove(welfare_market, welfare_words, wedge_marks, axis_wedge)
+        self.add(market, sliding_wedge, sliding_word, ps_taxed, tax_bars, cs_taxed)
         tax, d_slope, s_slope = ValueTracker(TAX), ValueTracker(0.2), ValueTracker(0.05)
-        cost_region = fixed(Polygon(ax.c2p(0, 0), ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(0, 2),
-            stroke_width=0, fill_color=SUPPLY, fill_opacity=0))
-        ps_region = fixed(Polygon(ax.c2p(0, 2), ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(0, SELLER_PRICE),
-            stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY))
-        tax_region = fixed(Polygon(ax.c2p(0, SELLER_PRICE), ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), ax.c2p(0, BUYER_PRICE),
-            stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY))
-        cs_region = fixed(Polygon(ax.c2p(0, BUYER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), ax.c2p(0, 12),
-            stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY))
-        dwl_region = fixed(Polygon(ax.c2p(TAX_Q, BUYER_PRICE), ax.c2p(MARKET_Q, MARKET_P), ax.c2p(TAX_Q, SELLER_PRICE),
-            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
-        wedge = fixed(VGroup(
-            Line(ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), color=GOV, stroke_width=6),
-            Line(ax.c2p(TAX_Q, SELLER_PRICE) + LEFT * 0.09, ax.c2p(TAX_Q, SELLER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
-            Line(ax.c2p(TAX_Q, BUYER_PRICE) + LEFT * 0.09, ax.c2p(TAX_Q, BUYER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
-            Dot(ax.c2p(TAX_Q, BUYER_PRICE), radius=0.07, color=GUIDE),
-            Dot(ax.c2p(TAX_Q, SELLER_PRICE), radius=0.07, color=GUIDE),
-            DashedLine(ax.c2p(0, BUYER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), color=GUIDE, stroke_width=2),
-            DashedLine(ax.c2p(0, SELLER_PRICE), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
-            DashedLine(ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2)))
-        wedge.set_z_index(2)
+        cost_region = fixed(VGroup())  # MC base fills remain hidden.
+        ps_region, tax_region, cs_region, dwl_region = ps_taxed, tax_bars, cs_taxed, dwl_bars
+        # Keep the displayed bars themselves. Hidden slots let individual units enter and leave smoothly.
+        for bars in (ps_region, tax_region, cs_region):
+            for q in range(TAX_Q, MARKET_Q):
+                bars.add(bars[0].copy().set_fill(opacity=0))
+        dwl_region.set_submobjects([dwl_bars[0].copy().set_fill(opacity=0)
+                                   for q in range(TAX_Q)] + list(dwl_bars))
+
+        def update_tax_bars(bars):
+            quantity, buyer_price, seller_price = wedge_state(bars.tax.get_value(), bars.d.get_value(), bars.s.get_value())
+            for q, bar in enumerate(bars):
+                left, right = q + bars.gap / 2, q + 1 - bars.gap / 2
+                if bars.kind == 'dwl':
+                    left = max(left, quantity)
+                else:
+                    right = min(right, quantity)
+                if right <= left:
+                    bar.set_fill(opacity=0)
+                    continue
+                if bars.kind == 'ps':
+                    low_left, low_right, high_left, high_right = 2 + left / 20, 2 + right / 20, seller_price, seller_price
+                elif bars.kind == 'tax':
+                    low_left = low_right = seller_price
+                    high_left = high_right = buyer_price
+                elif bars.kind == 'cs':
+                    low_left = low_right = buyer_price
+                    high_left, high_right = 12 - left / 5, 12 - right / 5
+                else:
+                    low_left, low_right = 2 + left / 20, 2 + right / 20
+                    high_left, high_right = 12 - left / 5, 12 - right / 5
+                bar.set_points_as_corners([
+                    bars.axes.c2p(left, low_left), bars.axes.c2p(right, low_right),
+                    bars.axes.c2p(right, high_right), bars.axes.c2p(left, high_left), bars.axes.c2p(left, low_left)])
+                bar.set_fill(opacity=bars.bar_opacity if high_left > low_left or high_right > low_right else 0)
+
+        for bars, kind in [(ps_region, 'ps'), (tax_region, 'tax'), (cs_region, 'cs'), (dwl_region, 'dwl')]:
+            bars.axes, bars.tax, bars.d, bars.s = ax, tax, d_slope, s_slope
+            bars.kind, bars.gap, bars.bar_opacity = kind, BAR_GAP, 0.8 if kind == 'dwl' else SURPLUS_OPACITY
+            bars.add_updater(update_tax_bars)
+
+        # Retain the filled wedge at the quantity and the separate measurement on the price axis.
+        wedge = fixed(VGroup(sliding_wedge, wedge_marks[0], wedge_marks[1],
+                             wedge_marks[2], wedge_marks[3], wedge_marks[4], axis_wedge))
         wedge_word = fixed(VGroup(Tex(r'\$', color=GOV).scale(0.6), DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6),
-            Tex('tax', color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06).next_to(ax.c2p(TAX_Q, BUYER_PRICE), UR, buff=0.12))
+            Tex('tax', color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
+        wedge_word.set_height(sliding_word.get_height()).move_to(sliding_word)
         buyer_price_readout = fixed(VGroup(Tex('$P_b=$', color=GUIDE).scale(0.7),
             DecimalNumber(BUYER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
         seller_price_readout = fixed(VGroup(Tex('$P_s=$', color=GUIDE).scale(0.7),
             DecimalNumber(SELLER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
         quantity_readout = fixed(VGroup(Tex('$Q^{tax}=$', color=GUIDE).scale(0.7),
             DecimalNumber(TAX_Q, num_decimal_places=0, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
-        cs_label = fixed(VGroup(Tex(r'CS \$', color=INK).scale(0.62),
-            DecimalNumber(102.4, num_decimal_places=2, color=INK).scale(0.62)).arrange(RIGHT, buff=0.05))
-        ps_label = fixed(VGroup(Tex(r'PS \$', color=INK).scale(0.62),
-            DecimalNumber(25.6, num_decimal_places=2, color=INK).scale(0.62)).arrange(RIGHT, buff=0.05))
-        tax_label = fixed(VGroup(Tex(r'Tax \$', color=INK).scale(0.62),
-            DecimalNumber(64, num_decimal_places=2, color=INK).scale(0.62)).arrange(RIGHT, buff=0.05))
-        dwl_label = fixed(VGroup(Tex(r'DWL \$', color=INK).scale(0.62),
-            DecimalNumber(8, num_decimal_places=2, color=INK).scale(0.62)).arrange(RIGHT, buff=0.05))
-        driven = [cost_region, ps_region, tax_region, cs_region, dwl_region, *wedge, wedge_word,
-                  buyer_price_readout, seller_price_readout, quantity_readout, cs_label, ps_label, tax_label, dwl_label]
+        ps_label, tax_label, cs_label = welfare_words
+        dwl_label = dwl_word
+        driven = [*wedge, wedge_word, buyer_price_readout, seller_price_readout, quantity_readout,
+                  cs_label, ps_label, tax_label, dwl_label]
         for m in driven:
             m.axes, m.tax, m.d, m.s = ax, tax, d_slope, s_slope
-        cost_region.add_updater(lambda m: m.set_points_as_corners([m.axes.c2p(0, 0), m.axes.c2p(state(m)[0], 0),
-            m.axes.c2p(state(m)[0], state(m)[2]), m.axes.c2p(0, 2), m.axes.c2p(0, 0)]))
-        ps_region.add_updater(lambda m: m.set_points_as_corners([m.axes.c2p(0, 2), m.axes.c2p(state(m)[0], state(m)[2]),
-            m.axes.c2p(0, state(m)[2]), m.axes.c2p(0, 2)]))
-        tax_region.add_updater(lambda m: m.set_points_as_corners([m.axes.c2p(0, state(m)[2]), m.axes.c2p(state(m)[0], state(m)[2]),
-            m.axes.c2p(state(m)[0], state(m)[1]), m.axes.c2p(0, state(m)[1]), m.axes.c2p(0, state(m)[2])]))
-        cs_region.add_updater(lambda m: m.set_points_as_corners([m.axes.c2p(0, state(m)[1]), m.axes.c2p(state(m)[0], state(m)[1]),
-            m.axes.c2p(0, 12), m.axes.c2p(0, state(m)[1])]))
-        dwl_region.add_updater(lambda m: m.set_points_as_corners([m.axes.c2p(state(m)[0], state(m)[1]), m.axes.c2p(40, 4),
-            m.axes.c2p(state(m)[0], state(m)[2]), m.axes.c2p(state(m)[0], state(m)[1])]))
-        wedge[0].add_updater(lambda m: m.put_start_and_end_on(
-            m.axes.c2p(state(m)[0], state(m)[2]), m.axes.c2p(state(m)[0], state(m)[1]) + UP * 1e-6))
-        wedge[1].add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0], state(m)[2])))
-        wedge[2].add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0], state(m)[1])))
-        wedge[3].add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0], state(m)[1])))
-        wedge[4].add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0], state(m)[2])))
-        wedge[5].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(0, state(m)[1]),
-            m.axes.c2p(state(m)[0], state(m)[1]) + RIGHT * 1e-6, color=GUIDE, stroke_width=2))))
-        wedge[6].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(0, state(m)[2]),
-            m.axes.c2p(state(m)[0], state(m)[2]) + RIGHT * 1e-6, color=GUIDE, stroke_width=2))))
-        wedge[7].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(state(m)[0], 0),
-            m.axes.c2p(state(m)[0], state(m)[2]) + UP * 1e-6, color=GUIDE, stroke_width=2))))
+        wedge[0].gap = BAR_GAP
+        wedge[0].add_updater(lambda m: m.set_points_as_corners([
+            m.axes.c2p(state(m)[0] - 1 + m.gap / 2, state(m)[2]),
+            m.axes.c2p(state(m)[0] - m.gap / 2, state(m)[2]),
+            m.axes.c2p(state(m)[0] - m.gap / 2, state(m)[1]),
+            m.axes.c2p(state(m)[0] - 1 + m.gap / 2, state(m)[1]),
+            m.axes.c2p(state(m)[0] - 1 + m.gap / 2, state(m)[2])]))
+        wedge[1].add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0], state(m)[1])))
+        wedge[2].add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0], state(m)[2])))
+        wedge[3].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(0, state(m)[1]),
+            m.axes.c2p(state(m)[0], state(m)[1]), color=GUIDE, stroke_width=2))).set_z_index(2))
+        wedge[4].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(0, state(m)[2]),
+            m.axes.c2p(state(m)[0], state(m)[2]), color=GUIDE, stroke_width=2))).set_z_index(2))
+        wedge[5].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(state(m)[0], 0),
+            m.axes.c2p(state(m)[0], state(m)[1]), color=GUIDE, stroke_width=2))).set_z_index(2))
+        wedge[6].axis_q = AXIS_Q
+        wedge[6].add_updater(lambda m: (
+            m[0].put_start_and_end_on(m.axes.c2p(m.axis_q, state(m)[2]), m.axes.c2p(m.axis_q, state(m)[1]) + UP * 1e-6),
+            m[1].move_to(m.axes.c2p(m.axis_q, state(m)[2])), m[2].move_to(m.axes.c2p(m.axis_q, state(m)[1]))))
+        wedge_word.axis_q = AXIS_Q
         wedge_word.add_updater(lambda m: (m[1].set_value(abs(m.tax.get_value())), fixed(m), m.arrange(RIGHT, buff=0.06),
-            m[2].shift(RIGHT * 0.08), m.next_to(m.axes.c2p(state(m)[0], state(m)[1]), UR, buff=0.12)))
-        # The readouts part vertically only when the wedge is nearly closed, so they never overprint: at zero tax
-        # they sit 0.54 apart, clear of each other's subscripts.
+            m[2].shift(RIGHT * 0.08), m.next_to(m.axes.c2p(m.axis_q, (state(m)[1] + state(m)[2]) / 2), LEFT, buff=0.24)))
+        # Separate only the readouts when the two prices approach one another.
         buyer_price_readout.add_updater(lambda m: (m[1].set_value(state(m)[1]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(0, state(m)[1]), LEFT, buff=0.2)
             .shift(UP * 0.27 * max(0, 1 - (state(m)[1] - state(m)[2]) / 1.2))))
@@ -921,41 +941,20 @@ class C2(ThreeDScene):
             .shift(DOWN * 0.27 * max(0, 1 - (state(m)[1] - state(m)[2]) / 1.2))))
         quantity_readout.add_updater(lambda m: (m[1].set_value(state(m)[0]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(state(m)[0], 0), DOWN, buff=0.2)))
-        cs_label.add_updater(lambda m: (m[1].set_value(state(m)[0] * (12 - state(m)[1]) / 2), fixed(m),
-            m.arrange(RIGHT, buff=0.05), m.move_to(m.axes.c2p(state(m)[0] / 3, (12 + 2 * state(m)[1]) / 3))))
-        # Supply is the flatter curve, so the PS triangle thins fastest as the tax grows: its label shrinks with the
-        # region's height at the centroid, never past its natural size and never under 0.18 (about 70% of natural,
-        # still readable). It keeps 0.03 clear of the P_s guide above; when its right end would then cross the MC
-        # edge it slides toward the axis, where the triangle is tallest, instead of shrinking further (at a $5 tax
-        # it sits against the axis), and only gives up the P_s clearance for whatever deficit remains there.
-        ps_label.natural_height = ps_label.get_height()
-        ps_label.add_updater(lambda m: (m[1].set_value(state(m)[0] * (state(m)[2] - 2) / 2), fixed(m),
-            m.arrange(RIGHT, buff=0.05 * m.get_height() / m.natural_height)
-            .set_height(min(m.natural_height, max(0.18,
-                0.6 * (m.axes.c2p(0, state(m)[2])[1] - m.axes.c2p(0, 2 + state(m)[0] / 60)[1]))))
-            .move_to(m.axes.c2p(state(m)[0] / 3, (2 + 2 * state(m)[2]) / 3)),
-            m.shift(DOWN * max(0, m.get_top()[1] + 0.03 - m.axes.c2p(0, state(m)[2])[1])),
-            m.shift(LEFT * max(0, min(m.get_left()[0] - m.axes.c2p(0.4, 0)[0],
-                max(0, m.axes.c2p(0, 2 + m.axes.p2c(m.get_right())[0] / 20)[1] + 0.03 - m.get_bottom()[1])
-                * 20 * (m.axes.c2p(1, 0)[0] - m.axes.c2p(0, 0)[0]) / (m.axes.c2p(0, 1)[1] - m.axes.c2p(0, 0)[1])))),
-            m.shift(UP * max(0, m.axes.c2p(0, 2 + m.axes.p2c(m.get_right())[0] / 20)[1] + 0.03 - m.get_bottom()[1]))))
-        # The tax label fades as its band closes, so no 'Tax $0.00' sits on the single price at zero tax.
-        tax_label.add_updater(lambda m: (m[1].set_value(m.tax.get_value() * state(m)[0]), fixed(m),
-            m.arrange(RIGHT, buff=0.05), m.move_to(m.axes.c2p(state(m)[0] / 2, (state(m)[1] + state(m)[2]) / 2)),
-            m.set_opacity(min(1, abs(m.tax.get_value()) / 0.8))))
-        # The DWL readout keeps one height beside the apex: level with the wedge's midpoint it sat on S / MC,
-        # and at zero tax it would meet the tax word.
-        dwl_label.add_updater(lambda m: (m[1].set_value(m.tax.get_value() * (40 - state(m)[0]) / 2), fixed(m),
-            m.arrange(RIGHT, buff=0.05), m.next_to(m.axes.c2p(40.5, 5.7), RIGHT, buff=0.2)))
+        cs_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 3, (12 + 2 * state(m)[1]) / 3)))
+        ps_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 3, (2 + 2 * state(m)[2]) / 3)))
+        tax_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 2, (state(m)[1] + state(m)[2]) / 2))
+            .set_opacity(min(1, abs(m.tax.get_value()) / 0.8)))
+        dwl_label.add_updater(lambda m: m.set_opacity(min(1, abs(m.tax.get_value()) / 0.8)))
         change_question = fixed(Tex('What happens as the tax changes?', color=DEFINITION)
                                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        # Crossfade the one-ton bars into the same shapes as continuous regions.
-        self.play(FadeIn(head), FadeIn(change_question),
-                  FadeOut(ps_taxed), FadeOut(tax_bars), FadeOut(cs_taxed), FadeOut(dwl_bars), FadeOut(welfare_words), FadeOut(dwl_word),
-                  FadeOut(sliding_wedge), FadeOut(sliding_word), FadeOut(wedge_marks), costs.animate.set_fill(opacity=0),
-                  FadeIn(cost_region), FadeIn(ps_region), FadeIn(tax_region), FadeIn(cs_region), FadeIn(dwl_region),
-                  FadeIn(wedge), FadeIn(wedge_word), FadeIn(buyer_price_readout), FadeIn(seller_price_readout),
-                  FadeIn(quantity_readout), FadeIn(cs_label), FadeIn(ps_label), FadeIn(tax_label), FadeIn(dwl_label), run_time=1.2)
+        # Hand off to live geometry without fading or replacing the bar fills or their labels.
+        self.remove(sliding_wedge, sliding_word)
+        self.add(wedge, wedge_word, buyer_price_readout, seller_price_readout, quantity_readout,
+                 ps_label, tax_label, cs_label, dwl_label)
+        for m in [ps_region, tax_region, cs_region, dwl_region, *driven]:
+            m.update()
+        self.play(FadeIn(head), FadeIn(change_question), run_time=1.2)
         self.play(tax.animate.set_value(0), run_time=2.2, rate_func=smooth)
         zero_note = fixed(Tex('No tax: one price, the untaxed equilibrium.', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))

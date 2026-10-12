@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Re-render the graphs in the solution guides.
 
-Each solution guide (Blocks/<block>/<kind>/<Name>_sols.typ, Recitations/
+Each solution guide (Blocks/<block>/<kind>/<Name>_sols.typ or _sols.md, Recitations/
 Week_N_sols.typ) is one self-contained Plass file. Its graphs are embedded as
 base64 SVG data URLs in #image(...) calls, and the Typst that draws them sits
-at the end of the same file inside a Plass comment frame (// plass:comment ...
+at the end of the same file inside a Plass comment frame (// plass:comment ... in a .typ,
+an HTML comment <!-- ... --> in a .md; a .md embeds its graphs as ![alt](data:...) images;
+any .md given on the command line works, not only guides)
 // /plass:comment), which Plass shows as a note in the editor and leaves out of
 the PDF. The frame imports Blocks/_Assets/sols.typ and draws one graph per
 page, in the order the #image calls appear. This script compiles each guide's
@@ -20,10 +22,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 HELPERS = '#import "/Blocks/_Assets/sols.typ"'
 IMAGE = re.compile(r'#image\("[^"]*"')
+# Plass Markdown: a plain image whose source is an SVG data URL (empty until rendered).
+MD_IMAGE = re.compile(r'!\[([^\]]*)\]\(data:image/svg\+xml;base64,[^)]*\)')
 
 
 def figure_frame(text):
     """The payload of the comment frame that imports the figure helpers."""
+    for m in re.finditer(r'<!--\n(.*?)\n-->', text, re.S):  # Plass Markdown comment
+        if HELPERS in m.group(1):
+            return m.group(1)
     for m in re.finditer(r'^// plass:comment\n(.*?)^// /plass:comment$', text, re.S | re.M):
         payload = '\n'.join(re.sub(r'^// \|( |$)', '', line) for line in m.group(1).splitlines())
         if HELPERS in payload:
@@ -33,7 +40,8 @@ def figure_frame(text):
 
 def render(guide):
     text = guide.read_text()
-    slots = IMAGE.findall(text)
+    image = MD_IMAGE if guide.suffix == '.md' else IMAGE
+    slots = image.findall(text)
     frame = figure_frame(text)
     if frame is None:
         if slots:
@@ -50,13 +58,16 @@ def render(guide):
         if len(pages) != len(slots):
             sys.exit(f'{guide}: {len(slots)} #image slot(s) but {len(pages)} rendered page(s)')
         data = iter([base64.b64encode(p.read_bytes()).decode() for p in pages])
-    new = IMAGE.sub(lambda m: f'#image("data:image/svg+xml;base64,{next(data)}"', text)
+    if guide.suffix == '.md':
+        new = image.sub(lambda m: f'![{m.group(1)}](data:image/svg+xml;base64,{next(data)})', text)
+    else:
+        new = image.sub(lambda m: f'#image("data:image/svg+xml;base64,{next(data)}"', text)
     if new != text:
         guide.write_text(new)
     print(f'{guide.relative_to(ROOT)}: {len(pages)} figure(s){"" if new != text else " (unchanged)"}')
 
 
 guides = [Path(a).resolve() for a in sys.argv[1:]] or sorted(
-    [*ROOT.glob('Blocks/*/*/*_sols.typ'), *ROOT.glob('Recitations/*_sols.typ')])
+    [*ROOT.glob('Blocks/*/*/*_sols.typ'), *ROOT.glob('Blocks/*/*/*_sols.md'), *ROOT.glob('Recitations/*_sols.typ')])
 for g in guides:
     render(g)

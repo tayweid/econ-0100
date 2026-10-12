@@ -48,6 +48,9 @@ const LENS_PX = 176;
 const LENS_GAP = 14;
 const LENS_MIN = 1.6;
 const LENS_MAX = 16;
+// A two-finger slide on a trackpad scrubs too; it has no end event, so
+// it ends when no slide has come for this long (momentum included).
+const WHEEL_REST_MS = 180;
 // The head's glide to a new rest: ms per px travelled, within bounds.
 const GLIDE_MS_PER_PX = 6;
 const GLIDE_MIN_MS = 180;
@@ -111,9 +114,13 @@ function create(config) {
       this.pending = null;
       if (landing) handleState(landing);
     },
-    // A recording's clock, while it moves: the head rides it.
+    // The clock while it moves — a recording's, or the live engine's
+    // through retained history: the head rides it. Not toward a
+    // destination that has not run yet: the timeline has no place for
+    // its time, so the head holds at the start of the stretch.
     time(t) {
       if (!this.moving || scrubbed !== null) return;
+      if (move && shown && move.to >= shown.count) return;
       playhead = t;
       stopGlide();
       headT = t;
@@ -285,6 +292,7 @@ function create(config) {
       back.hidden = bare && spec.kind === "tick";
       setVar(back, "--f", fmt(spec.f));
       label(back, spec);
+      back.onclick = () => activate(spec);
       updateLensMark(lensMarks[k], spec);
     });
     // The rail's length follows what it holds, where the page lets it.
@@ -319,24 +327,27 @@ function create(config) {
   function updateLensMark(mark, spec) {
     mark.className = markClass(spec) + (mark === hot ? " hot" : "");
     const detail = label(mark, spec);
+    // A click parks browser focus on the button, and the mark survives
+    // every redraw, so drop it: position feedback is the presenter's job.
+    mark.onclick = () => { if (mark.blur) mark.blur(); activate(spec); };
     if (spec.kind === "tick") {
       // A play step is seen in the lens, and reached with UP/DOWN.
       mark.tabIndex = -1;
       mark.setAttribute("aria-hidden", "true");
-      mark.onclick = () => config.onChipClick(spec.index);
       return;
     }
     mark.removeAttribute("aria-hidden");
     mark.removeAttribute("tabindex");
     const name = spec.index !== undefined ? names[spec.index] : null;
     mark.setAttribute("aria-label", name ? name + " — " + detail : detail);
-    // A click parks browser focus on the button, and the mark survives
-    // every redraw, so drop it: position feedback is the presenter's job.
-    mark.onclick = () => {
-      if (mark.blur) mark.blur();
-      if (spec.kind === "future") config.onFutureChipClick(spec.unit);
-      else config.onChipClick(spec.index);
-    };
+  }
+
+  // What a mark does when it is taken: a pausepoint or a play step is
+  // jumped to, a unit not yet run is run to. One rule for the lens's
+  // marks and the timeline's (the pointer lands on either, markNear).
+  function activate(spec) {
+    if (spec.kind === "future") config.onFutureChipClick(spec.unit);
+    else config.onChipClick(spec.index);
   }
 
   function describeSpec(spec) {
@@ -555,6 +566,7 @@ function create(config) {
         if (!press.dragging && Math.abs(e.clientX - press.x) >= DRAG
             && scrub && scrub.enabled() && shown.count > 1) {
           press.dragging = true;
+          clearTimeout(wheelRest);
           railEl.setPointerCapture(press.id);
           railEl.classList.add("scrubbing");
           setHot(null);
@@ -592,6 +604,46 @@ function create(config) {
     });
   }
 
+  // -- The trackpad --
+  // A sideways two-finger slide anywhere over the page scrubs (Taylor,
+  // 2026-10-08), the page handing over each slide's dx (wheel()): the
+  // fingers drag the head, which moves with them one for one along the
+  // timeline, as the lens does under a drag (Taylor, 2026-10-11: there is
+  // no surface to slide about under the head, so the head is what the
+  // fingers hold). A wheel's dx is the scroll's, which under natural
+  // scrolling runs against the fingers, so the head takes its negative.
+  // It is a scrub like a drag, shown and ended the same way: the slide
+  // stopping (WHEEL_REST_MS with nothing) is the release.
+  let wheelRest = null;
+  function wheel(dx) {
+    if (!shown || !scrub || !scrub.enabled() || shown.count < 2) return false;
+    if (press && press.dragging) return true;
+    if (scrubbed === null) {
+      stopGlide();
+      scrubbed = headT;
+      railEl.classList.add("scrubbing");
+      setHot(null);
+    }
+    const s = scale();
+    scrubbed = s.time(s.at(scrubbed) - dx / s.W);
+    headT = scrubbed;
+    scrub.to(scrubbed, nearestStop(scrubbed));
+    drawLens();
+    clearTimeout(wheelRest);
+    wheelRest = setTimeout(endWheel, WHEEL_REST_MS);
+    return true;
+  }
+  function endWheel() {
+    wheelRest = null;
+    if (scrubbed === null || (press && press.dragging)) return;
+    railEl.classList.remove("scrubbing");
+    const index = nearestStop(scrubbed);
+    const t = scrubbed;
+    scrubbed = null;
+    scrub.end(t, index);
+    setHead(shown.times[index], true);
+  }
+
   // What the preview card says about a mark: the checkpoint it rests on
   // (null for a unit not yet run), its pause('Title') name, the serial
   // that identifies this run of it, and the rail's own words for it.
@@ -613,6 +665,8 @@ function create(config) {
     // The track changed length (a resize): every place is read again.
     relayout() { if (shown) { drawMarks(); drawLens(); } },
     onHot(listener) { hotListeners.push(listener); },
+    // A sideways trackpad slide's dx, in px: true when the rail took it.
+    wheel,
   };
 }
 
