@@ -1,7 +1,7 @@
 # maniml C2_Animations.py C2
 # Storyboard: C2_Notes.typ. All lesson choreography stays in construct().
-# C1's spinach market, MB = 12 - Q/5 and MC = 2 + Q/20, Q in tons and values in dollars per ton.
-# A $2 tax lands on C1's 32nd ton and a $2 subsidy on its 48th; the 36th ton is the exchange the tax removes, the 44th the one the subsidy adds.
+# C1's spinach market, MB = 12 - Q/5 and MC = 2 + Q/20, Q in units and values in dollars per unit.
+# A $2 tax lands on C1's 32nd unit and a $2 subsidy on its 48th; the 36th unit is the exchange the tax removes, the 44th the one the subsidy adds.
 
 from manim import *
 import numpy as np
@@ -36,12 +36,12 @@ class C2(ThreeDScene):
         MARKET_Q, MARKET_P = 40, 4
         TAX, TAX_Q, BUYER_PRICE, SELLER_PRICE = 2, 32, 5.6, 3.6
         SUBSIDY_Q, SUBSIDY_BUYER, SUBSIDY_SELLER = 48, 2.4, 4.4
-        LOST_TON, ADDED_TON = 35, 43  # Ton 36 is the exchange the tax removes; ton 44 is one the subsidy adds.
+        LOST_TON, ADDED_TON = 35, 43  # Unit 36 is the exchange the tax removes; unit 44 is one the subsidy adds.
         BAR_GAP = 0.08
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
         STRIP_OPACITY = 1.0  # The tax is introduced opaque; from section 6 on its revenue takes SURPLUS_OPACITY like CS and PS.
         TAX_INTRO_OPACITY = 1.0  # The close-up tax bar while the tax is introduced (2.b-4.a); from 6.a on it takes SURPLUS_OPACITY.
-        # Close-ups: the first ton at 0.35 per dollar, C1's detail tons at 0.68 per dollar.
+        # Close-ups: the first unit at 0.35 per dollar, C1's detail units at 0.68 per dollar.
         DETAIL_BASE, DETAIL_SCALE, FIRST_SCALE = -2.05, 0.68, 0.35
         # Spread layout: the buyer column, a narrower tax bar in the middle, the seller column.
         BUYER_LEFT, SELLER_LEFT, BAR_WIDTH = -1.76, 0.66, 1.1
@@ -71,9 +71,9 @@ class C2(ThreeDScene):
         # The unit caption sits beside P, as in B5, so the subtitles above the market never touch it.
         axis_words = fixed(VGroup(
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 13), LEFT, buff=0.23),
-            Tex(r'\textsf{\$/ton}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, 13), RIGHT, buff=0.22),
+            Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, 13), RIGHT, buff=0.22),
             Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(60, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{tons}', color=CAPTION).scale(0.55).next_to(ax.c2p(60, 0), DOWN, buff=0.73)))
+            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(ax.c2p(60, 0), DOWN, buff=0.73)))
         intercepts = fixed(VGroup(
             Tex('$2$', color=SUPPLY).scale(0.65).next_to(ax.c2p(0, 2), LEFT, buff=0.15),
             Tex('$12$', color=DEMAND).scale(0.65).next_to(ax.c2p(0, 12), LEFT, buff=0.15)))
@@ -127,7 +127,7 @@ class C2(ThreeDScene):
         # ---- 2.a.select · A per-unit tax, asked of the first exchange.
         self.remove(head, context)
         head = fixed(title('A Per-Unit Tax'))
-        context = fixed(subtitle(head, r'The government collects \$2 on each ton exchanged.'))
+        context = fixed(subtitle(head, r'The government collects \$2 on each unit exchanged.'))
         l0, r0 = BAR_GAP / 2, 1 - BAR_GAP / 2
         # Market slice and close-up share one structure: buyer base, CS, MB edge, cost, PS, MC edge, baseline.
         first_home = fixed(VGroup(
@@ -252,10 +252,10 @@ class C2(ThreeDScene):
         # ---- 3.a · A tax on sellers: the market returns with a $2 strip on every cost bar and supply shifted up.
         self.remove(head, context)
         head = fixed(title('A Tax On Sellers'))
-        context = fixed(subtitle(head, r'Sellers hand \$2 per ton to the government.'))
-        seller_note = fixed(Tex(r'A \$2 higher cost on every ton.', color=DEFINITION)
+        context = fixed(subtitle(head, r'Sellers hand \$2 per unit to the government.'))
+        seller_note = fixed(Tex(r'A \$2 higher cost on every unit.', color=DEFINITION)
                             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        # Strips only on the 40 exchanged tons, under the curves (z -1) so the solid S / MC stays whole over them;
+        # Strips only on the 40 exchanged units, under the curves (z -1) so the solid S / MC stays whole over them;
         # beyond the market the dashed curve alone carries the taxed supply.
         seller_strips = fixed(VGroup()).set_z_index(-1)
         for q in range(MARKET_Q):
@@ -292,12 +292,12 @@ class C2(ThreeDScene):
             Tex(r'$Q^{tax}=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(TAX_Q, 0), DOWN, buff=0.20))).set_z_index(2)
         self.remove(seller_note)
         self.play(FadeIn(seller_question))
-        # Tons 33-40 leave the picture entirely: no bars beyond the taxed quantity.
+        # Units 33-40 leave the picture entirely: no bars beyond the taxed quantity.
         self.play(FadeIn(taxed_point),
                   *[bar.animate.set_fill(opacity=0) for bar in list(costs)[TAX_Q:] + list(seller_strips)[TAX_Q:]])
         self.pause('3.b')
 
-        # ---- 3.c · The new price, then the seller's price after the tax: a second dot on MC at the same ton.
+        # ---- 3.c · The new price, then the seller's price after the tax: a second dot on MC at the same unit.
         # Readouts sit at buff 0.55 from the axis, leaving room for the tax to stand beside the axis from 5.a on.
         collect_note = fixed(Tex(r'Sellers collect \$5.60, hand over \$2, keep \$3.60.', color=DEFINITION)
                              .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
@@ -318,7 +318,7 @@ class C2(ThreeDScene):
         # ---- 4.a.select · A tax on buyers: back to the first exchange, its strip on its cost bar.
         self.remove(head, context, collect_note)
         head = fixed(title('A Tax On Buyers'))
-        context = fixed(subtitle(head, r'Buyers hand \$2 per ton to the government.'))
+        context = fixed(subtitle(head, r'Buyers hand \$2 per unit to the government.'))
         # The slice as the market shows it now: no surplus fills, the cost bar, and the strip the tax bar becomes again.
         second_pair = first_home.copy()
         second_pair[1].set_fill(opacity=0)
@@ -348,7 +348,7 @@ class C2(ThreeDScene):
         buyer_strip_home = fixed(Polygon(ax.c2p(l0, 10 - l0 / 5), ax.c2p(r0, 10 - r0 / 5),
             ax.c2p(r0, 12 - r0 / 5), ax.c2p(l0, 12 - l0 / 5),
             stroke_width=0, fill_color=GOV, fill_opacity=0)).set_z_index(-1)
-        market_buyer_note = fixed(Tex(r'A \$2 lower benefit on every ton.', color=DEFINITION)
+        market_buyer_note = fixed(Tex(r'A \$2 lower benefit on every unit.', color=DEFINITION)
                                   .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         # Each buyer strip takes its seller strip's opacity: opaque to 32, hidden for 33-40, so the flight shows
         # nothing beyond the taxed quantity; past the market the dashed curve alone carries the taxed demand.
@@ -393,7 +393,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(buyer_point))
         self.pause('4.c')
 
-        # ---- 4.d · The new price, then the buyer's price after the tax: a second dot on MB at the same ton.
+        # ---- 4.d · The new price, then the buyer's price after the tax: a second dot on MB at the same unit.
         pay_note = fixed(Tex(r'Buyers pay \$3.60 plus \$2: \$5.60. Sellers keep \$3.60.', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         buyer_prices = fixed(VGroup(
@@ -417,7 +417,7 @@ class C2(ThreeDScene):
         self.remove(pay_note)
         self.play(FadeOut(plus_tax_readout), FadeOut(new_price_readout), FadeIn(buyer_readout), FadeIn(seller_readout))
         seller_comparison_head = fixed(title('A Tax On Sellers', align=RIGHT))
-        seller_comparison_context = fixed(subtitle(seller_comparison_head, r'Sellers hand \$2 per ton to the government.')
+        seller_comparison_context = fixed(subtitle(seller_comparison_head, r'Sellers hand \$2 per unit to the government.')
                                           .align_to(seller_comparison_head, RIGHT).set_y(context.get_y()))
         # Keep the buyer graph intact: both panels use the opening square plot, uniformly scaled.
         buyer_comparison_graph = fixed(VGroup(market, buyer_strips, taxed_demand, taxed_demand_word,
@@ -503,7 +503,7 @@ class C2(ThreeDScene):
         # ---- 5.b · Slide one filled tax strip into each model, stopping between MB and MC at Q = 32.
         moving_tax_bars = []
         for graph_ax in (ax, seller_ax):
-            # Match the width, color and fill of the one-ton strips from the two tax models.
+            # Match the width, color and fill of the one-unit strips from the two tax models.
             left, right = AXIS_Q - 1 + BAR_GAP / 2, AXIS_Q - BAR_GAP / 2
             moving_tax_bars.append(fixed(Polygon(
                 graph_ax.c2p(left, SELLER_PRICE), graph_ax.c2p(right, SELLER_PRICE),
@@ -580,7 +580,7 @@ class C2(ThreeDScene):
         # ---- 6.a.select · Welfare with a tax, starting from the first exchange again.
         self.remove(head, context)
         head = fixed(title('Welfare With A Tax'))
-        context = fixed(subtitle(head, r'32 tons exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
+        context = fixed(subtitle(head, r'32 units exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
         # Market slice and close-up share one structure: buyer base, tax band, CS, MB edge, cost, PS, MC edge, baseline.
         taxed_first_home = fixed(VGroup(
             Polygon(ax.c2p(l0, 0), ax.c2p(r0, 0), ax.c2p(r0, 12 - r0 / 5), ax.c2p(l0, 12 - l0 / 5),
@@ -654,7 +654,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(taxed_first_prices), FadeIn(taxed_first_price_words))
         self.pause('6.a.prices')
 
-        # ---- 6.a · The ton's surplus splits three ways and the exchange survives.
+        # ---- 6.a · The unit's surplus splits three ways and the exchange survives.
         split_note = fixed(Tex(r'Still exchanged: MB above $P_b$, MC below $P_s$.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(taxed_first_pair[5].animate.set_fill(opacity=SURPLUS_OPACITY), FadeIn(taxed_first_labels[0]))
@@ -663,7 +663,7 @@ class C2(ThreeDScene):
                   FadeIn(split_note))
         self.pause('6.a')
 
-        # ---- 6.b · Back to the market: every exchanged ton splits the same way.
+        # ---- 6.b · Back to the market: every exchanged unit splits the same way.
         ps_taxed, tax_bars, cs_taxed = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
         for q in range(TAX_Q):
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
@@ -680,7 +680,7 @@ class C2(ThreeDScene):
             Tex('PS', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 3, (2 + 2 * SELLER_PRICE) / 3)),
             Tex('Tax revenue', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 2, (BUYER_PRICE + SELLER_PRICE) / 2)),
             Tex('CS', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 3, (12 + 2 * BUYER_PRICE) / 3))))
-        revenue_note = fixed(Tex(r'Tax revenue: \$2 $\times$ 32 tons $=$ \$64.', color=DEFINITION)
+        revenue_note = fixed(Tex(r'Tax revenue: \$2 $\times$ 32 units $=$ \$64.', color=DEFINITION)
                              .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(people, government)
         self.play(FadeOut(taxed_first_values), FadeOut(taxed_first_prices), FadeOut(taxed_first_price_words),
@@ -698,8 +698,8 @@ class C2(ThreeDScene):
         self.play(FadeIn(welfare_words), FadeIn(revenue_note))
         self.pause('6.b')
 
-        # ---- 6.c.question · The tons the tax removes.
-        lost_question = fixed(Tex('What about the tons no longer exchanged?', color=DEFINITION)
+        # ---- 6.c.question · The units the tax removes.
+        lost_question = fixed(Tex('What about the units no longer exchanged?', color=DEFINITION)
                               .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         left, right = LOST_TON + BAR_GAP / 2, LOST_TON + 1 - BAR_GAP / 2
         lost_pair = fixed(VGroup(
@@ -713,12 +713,12 @@ class C2(ThreeDScene):
         self.play(FadeIn(lost_question))
         self.pause('6.c.question')
 
-        # ---- 6.c.select · Pick ton 36 from the existing bars.
+        # ---- 6.c.select · Pick unit 36 from the existing bars.
         self.remove(lost_question)
         self.play(FadeIn(lost_pair), FadeIn(lost_selection))
         self.pause('6.c.select')
 
-        # ---- 6.c.values · C1's 36th ton in the compact close-up, with C1's two questions.
+        # ---- 6.c.values · C1's 36th unit in the compact close-up, with C1's two questions.
         lost_target = fixed(VGroup())
         for bar_left, value, color in [(BUYER_LEFT, 4.8, DEMAND), (SELLER_LEFT, 3.8, SUPPLY)]:
             lost_target.add(fixed(Polygon([bar_left, detail_y(0), 0], [bar_left + BAR_WIDTH, detail_y(0), 0],
@@ -748,7 +748,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(lost_questions))
         self.pause('6.c.values')
 
-        # ---- 6.c.private.compare · The tax's two prices around the ton, then each side against its own price.
+        # ---- 6.c.private.compare · The tax's two prices around the unit, then each side against its own price.
         lost_prices = fixed(VGroup(
             Line([-2.6, detail_y(BUYER_PRICE), 0], [1.9, detail_y(BUYER_PRICE), 0], color=GUIDE, stroke_width=2),
             Line([-2.6, detail_y(SELLER_PRICE), 0], [1.9, detail_y(SELLER_PRICE), 0], color=GUIDE, stroke_width=2))).set_z_index(2)
@@ -803,7 +803,7 @@ class C2(ThreeDScene):
         self.play(FadeOut(lost_tax), FadeIn(lost_social_guides))
         self.pause('6.c.social.compare')
 
-        # ---- 6.c.loss · Yes for society: the surplus this ton would have made is deadweight loss.
+        # ---- 6.c.loss · Yes for society: the surplus this unit would have made is deadweight loss.
         lost_dwl_bar = fixed(Polygon([BUYER_LEFT, detail_y(3.8), 0], [BUYER_LEFT + BAR_WIDTH, detail_y(3.8), 0],
             [BUYER_LEFT + BAR_WIDTH, detail_y(4.8), 0], [BUYER_LEFT, detail_y(4.8), 0],
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
@@ -812,7 +812,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(lost_dwl_bar), FadeIn(lost_social_answer), FadeIn(lost_note), run_time=0.5)
         self.pause('6.c.loss')
 
-        # ---- 6.c.return · The ton and its loss carry back to the 36th slice.
+        # ---- 6.c.return · The unit and its loss carry back to the 36th slice.
         lost_dwl_market = fixed(Polygon(ax.c2p(left, 2 + left / 20), ax.c2p(right, 2 + right / 20),
             ax.c2p(right, 12 - right / 5), ax.c2p(left, 12 - left / 5),
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
@@ -820,13 +820,13 @@ class C2(ThreeDScene):
         self.play(FadeOut(lost_edges), FadeOut(lost_values), FadeOut(lost_questions), FadeOut(lost_prices), FadeOut(lost_price_words),
                   FadeOut(lost_private_guides), FadeOut(lost_private_answer),
                   FadeOut(lost_social_guides), FadeOut(lost_social_answer), FadeOut(lost_note), FadeOut(context), run_time=0.4)
-        context = fixed(subtitle(head, r'32 tons exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
+        context = fixed(subtitle(head, r'32 units exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
         self.play(Transform(lost_pair, lost_home), Transform(lost_dwl_bar, lost_dwl_market),
                   FadeIn(welfare_market), FadeIn(context), run_time=1.6)
         self.play(FadeOut(lost_pair))
         self.pause('6.c.return')
 
-        # ---- 6.d · The other seven removed tons.
+        # ---- 6.d · The other seven removed units.
         dwl_bars = fixed(VGroup())
         for q in range(TAX_Q, MARKET_Q):
             if q == LOST_TON:
@@ -837,7 +837,7 @@ class C2(ThreeDScene):
                 ax.c2p(right, 12 - right / 5), ax.c2p(left, 12 - left / 5),
                 stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(ax.c2p(40, 5.1), RIGHT, buff=0.25))  # Clear of S / MC.
-        removed_note = fixed(Tex('Deadweight loss: the surplus of the tons no longer exchanged.', color=DEFINITION)
+        removed_note = fixed(Tex('Deadweight loss: the surplus of the units no longer exchanged.', color=DEFINITION)
                              .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(LaggedStart(*[FadeIn(bar) for bar in dwl_bars if bar is not lost_dwl_bar], lag_ratio=0.18), run_time=1.6)
         self.remove(*[bar for bar in dwl_bars])
@@ -1121,7 +1121,7 @@ class C2(ThreeDScene):
         # ---- 9.a · A per-unit subsidy: the wedge reverses and slides in from the right.
         self.remove(head, context, burden_note)
         head = fixed(title('A Per-Unit Subsidy'))
-        context = fixed(subtitle(head, r'The government pays \$2 on each ton exchanged.'))
+        context = fixed(subtitle(head, r'The government pays \$2 on each unit exchanged.'))
         subsidy_slide = ValueTracker(66)
         subsidy_wedge = fixed(VGroup(
             Line(ax.c2p(66, SUBSIDY_BUYER), ax.c2p(66, SUBSIDY_SELLER), color=GOV, stroke_width=6),
@@ -1150,7 +1150,7 @@ class C2(ThreeDScene):
         self.play(subsidy_slide.animate.set_value(SUBSIDY_Q), run_time=2.6, rate_func=smooth)
         self.pause('9.a')
 
-        # ---- 9.b · Stuck at 48 tons: sellers' price above buyers' price; invisible slices locate later close-ups.
+        # ---- 9.b · Stuck at 48 units: sellers' price above buyers' price; invisible slices locate later close-ups.
         subsidy_wedge.clear_updaters()
         subsidy_word.clear_updaters()
         subsidy_marks = fixed(VGroup(
@@ -1227,17 +1227,17 @@ class C2(ThreeDScene):
         self.remove(subsidy_block)
         self.add(market, subsidy_wedge, subsidy_word, subsidy_marks, added_lots)
 
-        # ---- 9.c · The government pays the gap on every one of the 48 tons.
+        # ---- 9.c · The government pays the gap on every one of the 48 units.
         subsidy_cost = fixed(VGroup(
             Polygon(ax.c2p(0, SUBSIDY_BUYER), ax.c2p(SUBSIDY_Q, SUBSIDY_BUYER), ax.c2p(SUBSIDY_Q, SUBSIDY_SELLER), ax.c2p(0, SUBSIDY_SELLER),
                 stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY),
             Tex('Subsidy cost', color=INK).scale(0.72).move_to(ax.c2p(16, 3.8))))  # Above MC, which bisects the rectangle.
-        cost_note = fixed(Tex(r'Government cost: \$2 $\times$ 48 tons $=$ \$96.', color=DEFINITION)
+        cost_note = fixed(Tex(r'Government cost: \$2 $\times$ 48 units $=$ \$96.', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(subsidy_cost), FadeIn(cost_note))
         self.pause('9.c')
 
-        # ---- 9.d.select · The 44th ton, exchanged only because of the subsidy.
+        # ---- 9.d.select · The 44th unit, exchanged only because of the subsidy.
         added_lot = added_lots[ADDED_TON - MARKET_Q]
         added_pair = fixed(VGroup(*list(added_lot)))
         added_lot.remove(*list(added_pair))
@@ -1248,7 +1248,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(added_selection))
         self.pause('9.d.select')
 
-        # ---- 9.d.values · C1's 44th ton: MB below MC, with C1's two questions.
+        # ---- 9.d.values · C1's 44th unit: MB below MC, with C1's two questions.
         added_target = fixed(VGroup())
         for bar_left, value, color in [(BUYER_LEFT, 3.2, DEMAND), (SELLER_LEFT, 4.2, SUPPLY)]:
             added_target.add(fixed(Polygon([bar_left, detail_y(0), 0], [bar_left + BAR_WIDTH, detail_y(0), 0],
@@ -1277,7 +1277,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(added_questions))
         self.pause('9.d.values')
 
-        # ---- 9.d.private.compare · The subsidy's two prices around the ton, then each side against its own price.
+        # ---- 9.d.private.compare · The subsidy's two prices around the unit, then each side against its own price.
         added_prices = fixed(VGroup(
             Line([-2.6, detail_y(SUBSIDY_BUYER), 0], [1.9, detail_y(SUBSIDY_BUYER), 0], color=GUIDE, stroke_width=2),
             Line([-2.6, detail_y(SUBSIDY_SELLER), 0], [1.9, detail_y(SUBSIDY_SELLER), 0], color=GUIDE, stroke_width=2))).set_z_index(2)
@@ -1332,7 +1332,7 @@ class C2(ThreeDScene):
         self.play(FadeOut(added_subsidy), FadeIn(added_social_guides))
         self.pause('9.d.social.compare')
 
-        # ---- 9.d.loss · No for society: the cost above the ton's value is deadweight loss.
+        # ---- 9.d.loss · No for society: the cost above the unit's value is deadweight loss.
         added_dwl_bar = fixed(Polygon([SELLER_LEFT, detail_y(3.2), 0], [SELLER_LEFT + BAR_WIDTH, detail_y(3.2), 0],
             [SELLER_LEFT + BAR_WIDTH, detail_y(4.2), 0], [SELLER_LEFT, detail_y(4.2), 0],
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
@@ -1341,7 +1341,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(added_dwl_bar), FadeIn(added_social_answer), FadeIn(added_note), run_time=0.5)
         self.pause('9.d.loss')
 
-        # ---- 9.d.return · The ton and its loss carry back to the 44th slice.
+        # ---- 9.d.return · The unit and its loss carry back to the 44th slice.
         left, right = ADDED_TON + BAR_GAP / 2, ADDED_TON + 1 - BAR_GAP / 2
         added_dwl_market = fixed(Polygon(ax.c2p(left, 12 - left / 5), ax.c2p(right, 12 - right / 5),
             ax.c2p(right, 2 + right / 20), ax.c2p(left, 2 + left / 20),
@@ -1350,7 +1350,7 @@ class C2(ThreeDScene):
         self.play(FadeOut(added_edges), FadeOut(added_values), FadeOut(added_questions), FadeOut(added_prices), FadeOut(added_price_words),
                   FadeOut(added_private_guides), FadeOut(added_private_answer),
                   FadeOut(added_social_guides), FadeOut(added_social_answer), FadeOut(added_note), FadeOut(context), run_time=0.4)
-        context = fixed(subtitle(head, r'The government pays \$2 on each ton exchanged.'))
+        context = fixed(subtitle(head, r'The government pays \$2 on each unit exchanged.'))
         self.play(Transform(added_pair, added_home), Transform(added_dwl_bar, added_dwl_market),
                   FadeIn(subsidy_market), FadeIn(context), run_time=1.6)
         # The 44th lot rejoins its group so its faint cost bar stays with the other seven.
@@ -1358,7 +1358,7 @@ class C2(ThreeDScene):
         added_lot.add(*list(added_home))
         self.pause('9.d.return')
 
-        # ---- 9.e · The other seven added tons.
+        # ---- 9.e · The other seven added units.
         subsidy_losses = fixed(VGroup())
         for q in range(MARKET_Q, SUBSIDY_Q):
             if q == ADDED_TON:
@@ -1369,7 +1369,7 @@ class C2(ThreeDScene):
                 ax.c2p(right, 2 + right / 20), ax.c2p(left, 2 + left / 20),
                 stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
         subsidy_dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(ax.c2p(44, 4.6), UP, buff=0.18))
-        subsidy_loss_note = fixed(Tex('Deadweight loss: the added tons cost more than they are worth.', color=DEFINITION)
+        subsidy_loss_note = fixed(Tex('Deadweight loss: the added units cost more than they are worth.', color=DEFINITION)
                                   .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(LaggedStart(*[FadeIn(bar) for bar in subsidy_losses if bar is not added_dwl_bar], lag_ratio=0.18), run_time=1.6)
         self.remove(*[bar for bar in subsidy_losses])
@@ -1380,7 +1380,7 @@ class C2(ThreeDScene):
         # ---- 10.a · Next time: the $2 tax lands on C1's efficient quantity.
         self.remove(head, context, subsidy_loss_note)
         head = fixed(title('Next Time'))
-        context = fixed(subtitle(head, r'Last time, a \$2 external cost made 32 tons the efficient quantity.'))
+        context = fixed(subtitle(head, r'Last time, a \$2 external cost made 32 units the efficient quantity.'))
         self.remove(subsidy_market)
         self.add(market, subsidy_wedge, subsidy_word, subsidy_marks, added_lots, subsidy_cost)
         closing_wedge = fixed(VGroup(
