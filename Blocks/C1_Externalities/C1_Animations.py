@@ -869,7 +869,8 @@ class C1(ThreeDScene):
         self.play(FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(social_gap), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(removed_social_pair, removed_social_home), FadeIn(social_graph), FadeIn(welfare_context),
                   Transform(removed_dwl_bar, removed_dwl_market), run_time=1.6)
-        self.play(FadeOut(removed_social_pair))
+        # Clear the selected ton's loss before holding on the full market.
+        self.play(FadeOut(removed_social_pair), FadeOut(removed_dwl_bar))
         self.pause('3.e.return')
 
         # ---- 4.a · Legacy social-planner sequence: change the evaluated Q only.
@@ -919,7 +920,7 @@ class C1(ThreeDScene):
                 [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
                 stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
         self.play(FadeOut(social_graph), FadeOut(efficient_word), FadeOut(evaluation_line), FadeOut(efficient_dot),
-                  FadeOut(removed_dwl_bar), FadeOut(efficient_selection),
+                  FadeOut(efficient_selection),
                   Transform(efficient_pair, efficient_target), run_time=1.6)
         efficient_labels = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -942,7 +943,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(efficient_labels), FadeOut(efficient_context), FadeOut(efficient_result),
                   FadeOut(efficient_note), run_time=0.4)
         self.play(Transform(efficient_pair, efficient_home), FadeIn(social_graph), FadeIn(evaluation_line),
-                  FadeIn(efficient_dot), FadeIn(efficient_word), FadeIn(removed_dwl_bar), run_time=1.6)
+                  FadeIn(efficient_dot), FadeIn(efficient_word), run_time=1.6)
         self.play(FadeOut(efficient_pair), FadeIn(condition))
         self.pause('4.a.return')
 
@@ -961,7 +962,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
         self.remove(condition)
         self.play(external_bars.animate.set_fill(opacity=0.18),
-                  LaggedStart(*[FadeIn(bar) for bar in loss_slices if bar is not removed_dwl_bar], lag_ratio=0.18), run_time=2)
+                  LaggedStart(*[FadeIn(bar) for bar in loss_slices], lag_ratio=0.18), run_time=2)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
         conclusion = fixed(Tex('These trades create deadweight loss because social cost exceeds benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
