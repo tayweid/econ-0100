@@ -814,7 +814,11 @@ class C1(ThreeDScene):
                   Transform(unit_bystander, unit_bystander.copy().shift(LEFT * (CALCULATION_X - EXCHANGE_X)),
                             path_arc=-PI / 4), run_time=1.4)
         unit_bystander_word.shift(LEFT * (CALCULATION_X - EXCHANGE_X))
-        self.play(FadeIn(removed_social_labels[6]), FadeIn(unit_bystander_word), run_time=0.4)
+        social_cost_note = fixed(Tex(
+            'Society cares about both production costs and costs to bystanders.', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(removed_social_labels[6]), FadeIn(unit_bystander_word),
+                  FadeIn(social_cost_note), run_time=0.4)
         self.pause('3.e.extension')
 
         # ---- 3.e.math · Copy the known values into the equation, then simplify.
@@ -847,7 +851,7 @@ class C1(ThreeDScene):
         self.remove(msc_result)
         self.pause('3.e.costs')
         # Recenter the completed exchange once the calculation area is cleared.
-        self.play(FadeOut(calculation_divider),
+        self.play(FadeOut(calculation_divider), FadeOut(social_cost_note),
                   removed_social_pair.animate.shift(LEFT * EXCHANGE_X),
                   removed_social_labels.animate.shift(LEFT * EXCHANGE_X),
                   detail_people.animate.shift(LEFT * EXCHANGE_X),
