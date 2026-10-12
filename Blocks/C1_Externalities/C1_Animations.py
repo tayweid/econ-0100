@@ -795,20 +795,36 @@ class C1(ThreeDScene):
             [EXCHANGE_X + 1.16, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0],
             [EXCHANGE_X + 0.06, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0],
             stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY))
-        private_cs_word = fixed(Tex(r'CS $\$0.80$', color=DEMAND).scale(0.58)
-            .next_to(private_cs, LEFT, buff=0.25))
-        # The PS strip is only 20 cents high; keep its label clear of the MC label.
-        private_ps_word = fixed(Tex(r'PS $\$0.20$', color=SUPPLY).scale(0.58)
-            .next_to(private_ps, RIGHT, buff=0.25).shift(UP * 0.38))
-        private_ps_pointer = fixed(Line(private_ps.get_right(), private_ps_word.get_corner(DL),
-            color=SUPPLY, stroke_width=1.2))
+        # Measure both gains in the open space to the right, clear of MB/MC and price.
+        PRIVATE_GAP_X = 0.8
+        private_cs_guides = fixed(VGroup(
+            DashedLine([EXCHANGE_X - 0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                       [PRIVATE_GAP_X, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=DEMAND, stroke_width=1.4),
+            DashedLine([EXCHANGE_X + 1.3, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0],
+                       [PRIVATE_GAP_X, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0], color=DEMAND, stroke_width=1.4),
+            Line([PRIVATE_GAP_X, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0],
+                 [PRIVATE_GAP_X, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=DEMAND, stroke_width=2.5)))
+        private_ps_guides = fixed(VGroup(
+            DashedLine([EXCHANGE_X + 1.3, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0],
+                       [PRIVATE_GAP_X, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0], color=SUPPLY, stroke_width=1.4),
+            # Leave the existing MC value label unobstructed, as in the TS/DWL gap guides.
+            DashedLine(removed_social_labels[5].get_right() + RIGHT * 0.12,
+                       [PRIVATE_GAP_X, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0], color=SUPPLY, stroke_width=1.4),
+            Line([PRIVATE_GAP_X, DETAIL_BASE + 3.8 * DETAIL_SCALE, 0],
+                 [PRIVATE_GAP_X, DETAIL_BASE + MARKET_P * DETAIL_SCALE, 0], color=SUPPLY, stroke_width=2.5)))
+        private_cs_word = fixed(Tex(r'CS $\$0.80$', color=DEMAND).scale(0.62)
+            .next_to([PRIVATE_GAP_X, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], RIGHT, buff=0.25))
+        private_ps_word = fixed(Tex(r'PS $\$0.20$', color=SUPPLY).scale(0.62)
+            .next_to([PRIVATE_GAP_X, DETAIL_BASE + 3.9 * DETAIL_SCALE, 0], RIGHT, buff=0.25))
         self.play(FadeIn(private_price))
         self.pause('3.e.price')
-        self.play(FadeIn(private_ps), FadeIn(private_ps_word), FadeIn(private_ps_pointer))
-        self.play(FadeIn(private_cs), FadeIn(private_cs_word))
+        self.play(FadeIn(private_ps), FadeIn(private_ps_word), FadeIn(private_ps_guides))
+        # Both gaps share the price boundary; draw that guide only once.
+        self.play(FadeIn(private_cs), FadeIn(private_cs_word),
+                  FadeOut(private_ps_guides[0]), FadeIn(private_cs_guides))
         self.pause('3.e.surplus')
-        self.play(FadeOut(private_price), FadeOut(private_cs), FadeOut(private_cs_word),
-                  FadeOut(private_ps), FadeOut(private_ps_word), FadeOut(private_ps_pointer))
+        self.play(FadeOut(private_price), FadeOut(private_cs), FadeOut(private_cs_word), FadeOut(private_cs_guides),
+                  FadeOut(private_ps), FadeOut(private_ps_word), FadeOut(private_ps_guides[1:]))
         self.play(FadeOut(unit_cost_heading), FadeOut(unit_cost_number), FadeOut(unit_bystander_word),
                   FadeOut(private_note), run_time=0.3)
         self.play(Transform(removed_social_pair[2], removed_social_target[2], path_arc=PI / 2),
