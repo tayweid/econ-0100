@@ -339,6 +339,7 @@ parts:
         description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
         episode:
           video: uxPoYbtzYbM
+          links: [{label: Animations, file: Blocks/C1_Externalities/media/C1_present/, icon: fa fa-desktop}]
           description: "*Externalities*"
         reading:
           chapter: 12
@@ -369,6 +370,7 @@ parts:
         description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
         episode:
           video: R2NctbU80y0
+          links: [{label: Animations, file: Blocks/C2_Taxes_and_Subsidies/media/C2_present/, icon: fa fa-desktop}]
           description: "*Taxes and Welfare*"
         reading:
           chapter: 5
@@ -393,6 +395,7 @@ parts:
         description: Pigouvian taxes can internalize externalities and restore market efficiency by aligning private and social costs.
         episode:
           video: W0eAtssLxmk
+          links: [{label: Animations, file: Blocks/C3_Corrective_Policy/media/C3_present/, icon: fa fa-desktop}]
           description: "*Corrective Taxes*"
         reading:
           chapter: 12
