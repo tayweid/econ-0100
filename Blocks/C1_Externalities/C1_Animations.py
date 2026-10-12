@@ -613,9 +613,11 @@ class C1(ThreeDScene):
         # ---- 3.a · Strip away benefit to account for every cost.
         self.remove(head, negative_context)
         head = fixed(title('Marginal Social Cost'))
+        social_cost_context = fixed(subtitle(head,
+            'All the costs to society of one more unit of the good.'))
         cost_question = fixed(Tex('What is the full cost of a trade?', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(head), FadeIn(cost_question), FadeOut(left_demand), FadeOut(benefit_bars), FadeOut(producer_surplus),
+        self.play(FadeIn(head), FadeIn(social_cost_context), FadeIn(cost_question), FadeOut(left_demand), FadeOut(benefit_bars), FadeOut(producer_surplus),
                   FadeOut(left_demand_intercept), FadeOut(left_curve_words[0]), FadeOut(left_eq), FadeOut(ext_total_word))
         self.pause('3.a')
 
@@ -662,7 +664,7 @@ class C1(ThreeDScene):
         self.play(FadeOut(cost_definition), FadeOut(cost_divider))
         cost_graph = fixed(VGroup(left_ax, left_words, private_bars, external_bars, potential_ext,
                                  left_supply, left_curve_words[1], social_cost, social_cost_intercept, social_word))
-        self.remove(*[m for m in self.mobjects if m is not head])
+        self.remove(*[m for m in self.mobjects if m is not head and m is not social_cost_context])
         self.add(cost_graph, head)
         self.play(cost_graph.animate.shift(RIGHT * 3.7), run_time=1.1)
         self.play(cost_graph.animate.scale(1.15, about_point=left_ax.c2p(30, 6.5)), run_time=0.8)
@@ -677,7 +679,7 @@ class C1(ThreeDScene):
             Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
             Tex(r'$\hat{P}=$', color=GUIDE).scale(0.7).next_to(social_cost_intercept, LEFT, buff=0.12),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2)))
-        self.remove(head)
+        self.remove(head, social_cost_context)
         head = fixed(title('Social Welfare'))
         welfare_context = fixed(subtitle(head,
             'The welfare of everyone, not just buyers and sellers in the market.'))

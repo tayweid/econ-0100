@@ -130,7 +130,7 @@
 === 3 | Constructing marginal social cost
 
 #quote(block: true)[
-  3.a · Remove the Negative Externalities subtitle when changing the title to Marginal Social Cost. Bottom: What is the full cost of a trade? Clear the question before showing the equation at right in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MC curve on the left and the externality rectangles on the right.
+  3.a · Remove the Negative Externalities subtitle when changing the title to Marginal Social Cost. Add the grey CMU Sans subtitle: All the costs to society of one more unit of the good. Keep it through the cost construction and equation, then remove it with the title when switching to Social Welfare. Bottom: What is the full cost of a trade? Clear the question before showing the equation at right in 3.b. Fade the demand curve, benefit bars, surplus labels, and equilibrium annotations. Keep the private cost bars and MC curve on the left and the externality rectangles on the right.
 
 ]
 
