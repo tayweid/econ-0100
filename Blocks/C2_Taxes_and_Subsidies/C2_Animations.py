@@ -415,7 +415,6 @@ class C2(ThreeDScene):
         # Keep the buyer graph intact: both panels use the opening square plot, uniformly scaled.
         buyer_comparison_graph = fixed(VGroup(market, buyer_strips, taxed_demand, taxed_demand_word,
                                               buyer_point, buyer_prices, buyer_readout, seller_readout))
-        buyer_comparison_home = buyer_comparison_graph.copy()
         # The old seller strips became buyer strips in 4.b; rebuild only that distinct tax model.
         seller_comparison_strips = fixed(VGroup()).set_z_index(-1)
         for q in range(TAX_Q):
@@ -427,7 +426,8 @@ class C2(ThreeDScene):
         seller_comparison_marks = fixed(VGroup(
             buyer_prices[1].copy(), buyer_point[0].copy(), buyer_prices[2].copy(), buyer_prices[0].copy(),
             buyer_point[1].copy(), buyer_readout.copy(), seller_readout.copy(), buyer_point[2].copy()))
-        seller_comparison_graph = fixed(VGroup(market.copy(), seller_comparison_strips,
+        # Deep-copy the axes too, so their c2p lookup follows this panel when it moves.
+        seller_comparison_graph = fixed(VGroup(market.copy(deep=True), seller_comparison_strips,
             taxed_supply.copy(), taxed_supply_word.copy(), seller_comparison_marks))
         # A shared bounding box gives the plots identical sizes and aligned axes despite different labels.
         comparison_bounds = VGroup(buyer_comparison_graph, seller_comparison_graph)
@@ -447,72 +447,87 @@ class C2(ThreeDScene):
                     for index in (0, 1, 2)], run_time=0.5)
         self.pause('4.e')
 
-        # Restore the same hierarchy and its original geometry before the tax-wedge explanation.
-        self.play(FadeOut(seller_comparison_graph), FadeOut(seller_comparison_head), FadeOut(seller_comparison_context),
-                  Transform(buyer_comparison_graph, buyer_comparison_home), run_time=1.2)
-        self.remove(buyer_comparison_graph)
-        self.add(*buyer_comparison_graph)
-
-        # ---- 5.a · The tax wedge: the $2 gap stands beside the price axis, between the two readouts.
+        # ---- 5.a · Keep both models while introducing the same $2 wedge on each price axis.
         self.remove(head, context, either_note)
         head = fixed(title('The Tax Wedge'))
         context = fixed(subtitle(head, 'What buyers pay and what sellers receive.'))
-        # The marks as 4.d left them, regrouped so every later beat carries them as one: dots, guides, readouts, Q = 32.
+        # Ungroup the panels without moving their contents; later beats retain the original buyer objects.
+        self.remove(buyer_comparison_graph, seller_comparison_graph)
+        self.add(*buyer_comparison_graph, *seller_comparison_graph)
+        seller_market = seller_comparison_graph[0]
+        seller_ax = seller_market[0]
+        seller_taxed_supply, seller_taxed_supply_word = seller_comparison_graph[2:4]
         wedge_marks = fixed(VGroup(
-            Dot(ax.c2p(TAX_Q, BUYER_PRICE), radius=0.07, color=GUIDE),
-            Dot(ax.c2p(TAX_Q, SELLER_PRICE), radius=0.07, color=GUIDE),
-            DashedLine(ax.c2p(0, BUYER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), color=GUIDE, stroke_width=2),
-            DashedLine(ax.c2p(0, SELLER_PRICE), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
-            DashedLine(ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
-            Tex(r'$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.55),
-            Tex(r'$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.55),
-            Tex(r'$Q^{tax}=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(TAX_Q, 0), DOWN, buff=0.20)))
-        wedge_marks.set_z_index(2)
+            buyer_prices[1], buyer_point[0], buyer_prices[2], buyer_prices[0],
+            buyer_point[1], buyer_readout, seller_readout, buyer_point[2]))
         self.remove(buyer_point, buyer_prices, buyer_readout, seller_readout)
         self.add(wedge_marks)
-        # The axis-side wedge: the tax as a $2 gap on the price axis, standing just left of it with its label to the
-        # left, between the readouts. It stays there from now on; the in-graph copy below carries no label of its own.
+        for marks in (wedge_marks, seller_comparison_marks):
+            marks[0].set_z_index(10)
+            marks[1].set_z_index(10)
+        quantity_guides = [fixed(DashedLine(graph_ax.c2p(TAX_Q, 0), graph_ax.c2p(TAX_Q, BUYER_PRICE),
+                           color=GUIDE, stroke_width=2 * comparison_scale)).set_z_index(2)
+                           for graph_ax in (ax, seller_ax)]
+        # Each axis keeps its labeled wedge; an unlabeled copy will slide between the original curves.
         AXIS_Q = -1.2
         axis_wedge = fixed(VGroup(
-            Line(ax.c2p(AXIS_Q, SELLER_PRICE), ax.c2p(AXIS_Q, BUYER_PRICE), color=GOV, stroke_width=6),
-            Line(ax.c2p(AXIS_Q, SELLER_PRICE) + LEFT * 0.09, ax.c2p(AXIS_Q, SELLER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
-            Line(ax.c2p(AXIS_Q, BUYER_PRICE) + LEFT * 0.09, ax.c2p(AXIS_Q, BUYER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3))).set_z_index(2)
+            Line(ax.c2p(AXIS_Q, SELLER_PRICE), ax.c2p(AXIS_Q, BUYER_PRICE), color=GOV, stroke_width=6 * comparison_scale),
+            Line(ax.c2p(AXIS_Q, SELLER_PRICE) + LEFT * 0.09 * comparison_scale,
+                 ax.c2p(AXIS_Q, SELLER_PRICE) + RIGHT * 0.09 * comparison_scale, color=GOV, stroke_width=3 * comparison_scale),
+            Line(ax.c2p(AXIS_Q, BUYER_PRICE) + LEFT * 0.09 * comparison_scale,
+                 ax.c2p(AXIS_Q, BUYER_PRICE) + RIGHT * 0.09 * comparison_scale, color=GOV, stroke_width=3 * comparison_scale))).set_z_index(2)
         sliding_word = fixed(Tex(r'\$2 tax', color=GOV).scale(0.6).next_to(axis_wedge, LEFT, buff=0.15))
+        sliding_word.scale(comparison_scale).next_to(axis_wedge, LEFT, buff=0.15 * comparison_scale)
+        seller_axis_wedge = axis_wedge.copy().shift(RIGHT * 8)
+        seller_sliding_word = sliding_word.copy().shift(RIGHT * 8)
         wedge_definition = fixed(Tex("The tax wedge: the buyers' price minus the sellers' price equals the tax.", color=DEFINITION)
                                  .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(head), FadeIn(context), FadeOut(buyer_strips), FadeOut(taxed_demand), FadeOut(taxed_demand_word),
-                  FadeIn(axis_wedge), FadeIn(sliding_word), FadeIn(wedge_definition))
+        self.play(FadeIn(head), FadeIn(context), FadeOut(seller_comparison_head), FadeOut(seller_comparison_context),
+                  FadeOut(buyer_strips), FadeOut(seller_comparison_strips),
+                  Transform(wedge_marks[4], quantity_guides[0]), Transform(seller_comparison_marks[4], quantity_guides[1]),
+                  FadeIn(axis_wedge), FadeIn(sliding_word), FadeIn(seller_axis_wedge), FadeIn(seller_sliding_word),
+                  FadeIn(wedge_definition))
         self.pause('5.a')
 
-        # ---- 5.b · A copy slides in from the axis until it gets stuck between the curves at the 32nd ton.
+        # ---- 5.b · The same tracker slides a copy into both models, stopping between MB and MC at Q = 32.
         slide_q = ValueTracker(AXIS_Q)
-        sliding_wedge = fixed(VGroup(
-            Line(ax.c2p(AXIS_Q, SELLER_PRICE), ax.c2p(AXIS_Q, BUYER_PRICE), color=GOV, stroke_width=6),
-            Line(ax.c2p(AXIS_Q, SELLER_PRICE) + LEFT * 0.09, ax.c2p(AXIS_Q, SELLER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
-            Line(ax.c2p(AXIS_Q, BUYER_PRICE) + LEFT * 0.09, ax.c2p(AXIS_Q, BUYER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3))).set_z_index(2)
-        for part in sliding_wedge:
-            part.axes, part.quantity = ax, slide_q
-        sliding_wedge[0].add_updater(lambda m: m.put_start_and_end_on(
-            m.axes.c2p(m.quantity.get_value(), SELLER_PRICE), m.axes.c2p(m.quantity.get_value(), BUYER_PRICE)))
-        sliding_wedge[1].add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), SELLER_PRICE)))
-        sliding_wedge[2].add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), BUYER_PRICE)))
+        sliding_wedge, seller_sliding_wedge = axis_wedge.copy(), seller_axis_wedge.copy()
+        for moving_wedge, graph_ax in [(sliding_wedge, ax), (seller_sliding_wedge, seller_ax)]:
+            for part in moving_wedge:
+                part.axes, part.quantity = graph_ax, slide_q
+            moving_wedge[0].add_updater(lambda m: m.put_start_and_end_on(
+                m.axes.c2p(m.quantity.get_value(), SELLER_PRICE), m.axes.c2p(m.quantity.get_value(), BUYER_PRICE)))
+            moving_wedge[1].add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), SELLER_PRICE)))
+            moving_wedge[2].add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), BUYER_PRICE)))
         slide_note = fixed(Tex('Slide the tax in from the left until it gets stuck between the curves.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(wedge_definition)
-        self.add(sliding_wedge)  # On top of the axis-side wedge: nothing changes until it moves.
+        self.add(sliding_wedge, seller_sliding_wedge)
         self.play(FadeIn(slide_note))
         self.play(slide_q.animate.set_value(TAX_Q), run_time=2.6, rate_func=smooth)
         sliding_wedge.clear_updaters()
+        seller_sliding_wedge.clear_updaters()
+        # The adjusted curves have done their job only once both wedges are stuck in place.
+        self.play(FadeOut(taxed_demand), FadeOut(taxed_demand_word),
+                  FadeOut(seller_taxed_supply), FadeOut(seller_taxed_supply_word), run_time=0.5)
         self.pause('5.b')
 
-        # ---- 5.c.wedge · Make room, then solve in two labeled steps: the quantity, then the prices.
+        # ---- 5.c.wedge · Keep the buyer graph intact as the duplicate gives way to the shared calculation.
         graph_block = fixed(VGroup(market, sliding_wedge, axis_wedge, sliding_word, wedge_marks))
         self.remove(market, sliding_wedge, axis_wedge, sliding_word, wedge_marks)
         self.add(graph_block)
+        seller_wedge_graph = fixed(VGroup(seller_market, seller_comparison_marks,
+                                         seller_axis_wedge, seller_sliding_word, seller_sliding_wedge))
+        self.remove(*seller_wedge_graph)
+        self.add(seller_wedge_graph)
+        # Undo the panel's uniform transform, then apply the established algebra layout in one motion.
+        algebra_graph_target = graph_block.copy(deep=True).shift(-comparison_shift - LEFT * 4)
+        algebra_graph_target.scale(1 / comparison_scale, about_point=comparison_anchor)
+        algebra_graph_target.scale(0.72, about_point=algebra_graph_target[0][0].c2p(0, 0)).shift(LEFT * 1.0)
         solve_note = fixed(Tex('Use the wedge equation and the two curves to solve for the quantity.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(slide_note)
-        self.play(graph_block.animate.scale(0.72, about_point=ax.c2p(0, 0)).shift(LEFT * 1.0), run_time=1.1)
+        self.play(Transform(graph_block, algebra_graph_target), FadeOut(seller_wedge_graph), run_time=1.1)
         divider = fixed(Line([2.45, -3.0, 0], [2.45, 2.3, 0], color=MUTED, stroke_width=1.5))
         wedge_line = fixed(VGroup(Tex('$P_b$', color=GUIDE), Tex('$-$', color=INK), Tex('$P_s$', color=GUIDE),
             Tex('$=$', color=INK), Tex('$2$', color=GOV)).arrange(RIGHT, buff=0.14).scale(0.78))
