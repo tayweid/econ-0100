@@ -1378,7 +1378,100 @@ class C1(ThreeDScene):
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.add(positive_losses)
         self.play(FadeIn(positive_guide), FadeIn(positive_note))
-        self.play(positive_q.animate.set_value(48), run_time=2.4, rate_func=smooth)
+        self.play(positive_q.animate.set_value(44), run_time=1.2, rate_func=smooth)
+        # Freeze the four revealed losses so they can fade and return with the market.
+        positive_guide.clear_updaters()
+        for loss_bar in positive_losses:
+            loss_bar.clear_updaters()
+
+        # ---- 5.d.44 · A private loss can still be a social gain.
+        # This unit is unproduced: its market-home bars remain unfilled.
+        left, right = 43 + BAR_GAP / 2, 44 - BAR_GAP / 2
+        missed_home = fixed(VGroup(
+            Polygon(positive_ax.c2p(left, 0), positive_ax.c2p(right, 0),
+                positive_ax.c2p(right, 12 - right / 5), positive_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            positive_cost_bars[43].copy(), positive_ext_bars[43].copy()))
+        missed_pair = missed_home.copy()
+        missed_selection = fixed(SurroundingRectangle(missed_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        self.play(FadeIn(missed_selection), FadeOut(positive_note))
+        self.pause('5.d.44.select')
+        missed_target = fixed(VGroup())
+        for x, low, high, color in [(-1.16, 0, 3.2, DEMAND), (0.06, 0, 4.2, SUPPLY), (-1.16, 3.2, 5.2, EXT)]:
+            missed_target.add(fixed(Polygon(
+                [x, DETAIL_BASE + low * DETAIL_SCALE, 0], [x + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
+                [x + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [x, DETAIL_BASE + high * DETAIL_SCALE, 0],
+                stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
+        self.play(FadeOut(positive_graph), FadeOut(positive_losses), FadeOut(positive_guide),
+                  FadeOut(positive_context), FadeOut(missed_selection),
+                  Transform(missed_pair, missed_target), run_time=1.4)
+        missed_edges = fixed(VGroup(
+            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
+              for bar, color in zip(missed_target, [DEMAND, SUPPLY, DEMAND])],
+            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED)))
+        missed_names = fixed(VGroup(
+            Tex('MB', color=DEMAND).scale(0.58).next_to(missed_target[0].get_top(), DOWN, buff=0.1),
+            Tex('MC', color=SUPPLY).scale(0.58).next_to(missed_target[1].get_top(), DOWN, buff=0.1),
+            Tex('MSB', color=DEMAND).scale(0.58).next_to(missed_target[2].get_top(), UP, buff=0.1),
+            Tex('EXT', color=EXT).scale(0.58).move_to(missed_target[2])))
+        missed_numbers = fixed(VGroup(
+            Tex(r'$\$3.20$', color=DEMAND).scale(0.72).next_to([-1.16, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], LEFT, buff=0.45),
+            Tex(r'$\$5.20$', color=DEMAND).scale(0.72).next_to([-1.16, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], LEFT, buff=0.45),
+            Tex(r'$\$4.20$', color=SUPPLY).scale(0.72).next_to([1.16, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], RIGHT, buff=0.25),
+            DashedLine([-1.35, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], [-1.35, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], color=EXT, stroke_width=2.5),
+            Tex(r'$\$2$', color=EXT).scale(0.72).next_to([-1.35, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], LEFT, buff=0.25)))
+        missed_context = fixed(subtitle(head, 'The 44th unit: beyond the market quantity.'))
+        missed_note = fixed(Tex(r'This trade would generate $\$1$ in total surplus.', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.add(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeIn(missed_edges), FadeIn(missed_names), FadeIn(missed_numbers),
+                  FadeIn(benefit_questions), FadeIn(missed_context))
+        self.pause('5.d.44.values')
+        missed_private_guides = fixed(VGroup(
+            DashedLine(missed_numbers[0].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            # Break the MC projection around EXT and its $2 label.
+            DashedLine([0.06, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], [-0.06, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine([-1.16, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], [-1.35, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine(missed_numbers[4].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            Line([-3.65, DETAIL_BASE + 3.2 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
+        missed_private_answer = fixed(VGroup(
+            Line([-0.22, -0.22, 0], [0.22, 0.22, 0], color=GUIDE, stroke_width=5),
+            Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)).scale(0.85)
+            .next_to([-3.65, DETAIL_BASE + 3.7 * DETAIL_SCALE, 0], LEFT, buff=0.3))
+        self.play(FadeIn(missed_private_guides))
+        self.pause('5.d.44.private.compare')
+        self.play(FadeIn(missed_private_answer))
+        self.pause('5.d.44.private')
+        missed_social_guides = fixed(VGroup(
+            DashedLine([-0.06, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine(missed_numbers[2].get_right() + RIGHT * 0.12, [3.65, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            Line([3.65, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
+        missed_social_answer = fixed(VGroup(
+            VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]),
+            Tex(r'TS $\$1$', color=TOTAL)).arrange(DOWN, buff=0.16).scale(0.70)
+            .next_to([3.65, DETAIL_BASE + 4.7 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
+        self.play(FadeIn(missed_social_guides))
+        self.pause('5.d.44.social.compare')
+        self.play(FadeIn(missed_social_answer), FadeIn(missed_note))
+        self.pause('5.d.44.social')
+        self.remove(detail_people, unit_bystander, unit_bystander_word)
+        self.play(FadeOut(missed_edges), FadeOut(missed_names), FadeOut(missed_numbers),
+                  FadeOut(benefit_questions), FadeOut(missed_context), FadeOut(missed_note),
+                  FadeOut(missed_private_guides), FadeOut(missed_private_answer),
+                  FadeOut(missed_social_guides), FadeOut(missed_social_answer),
+                  Transform(missed_pair, missed_home), FadeIn(positive_graph), FadeIn(positive_context),
+                  FadeIn(positive_losses), FadeIn(positive_guide), run_time=1.4)
+        self.remove(missed_pair)
+        self.pause('5.d.44.return')
+
+        # Resume from 44 with the same four grey slices, then reveal the rest up to 48.
+        positive_guide.add_updater(lambda m: m.put_start_and_end_on(
+            m.axes.c2p(m.quantity.get_value(), 0), m.axes.c2p(m.quantity.get_value(), 14 - m.quantity.get_value() / 5)))
+        for loss_bar in positive_losses:
+            loss_bar.add_updater(lambda m: m.set_fill(opacity=0.8 * np.clip(
+                (m.quantity.get_value() - m.slice_left) / (m.slice_right - m.slice_left), 0, 1)))
+        self.play(FadeIn(positive_note))
+        self.play(positive_q.animate.set_value(48), run_time=1.2, rate_func=smooth)
         positive_guide.clear_updaters()
         for loss_bar in positive_losses:
             loss_bar.clear_updaters()
