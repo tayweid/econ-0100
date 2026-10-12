@@ -197,3 +197,5 @@ The negative-externality section ends at 4.c.comparison, combining the completed
 Graph externality bars use base opacity 0.16, matching the teal MB and orange cost bars, and appear only for units actually exchanged (Q ≤ 40 in these markets), matching the extent of the seller cost bars. Keep that opacity through the negative-externality efficiency and DWL sequences; do not dim it when revealing DWL. Curves still extend across the full quantity axis. Close-up fill opacities remain independently specified.
 
 Two-decision pacing: show the measurements, pause, then show the compact verdict. Questions stay in the lower corners, clear of the title and the separate takeaway. Use green checks consistently for affirmative answers; no written Yes labels remain. Keep only the single relevant social welfare measure, with no repeated comparison text.
+
+Keep every red market-equilibrium dot and yellow efficient-quantity dot on the highest graph layer (z-index 10), above curves, bar fills, DWL, selection outlines, and dashed guides. Preserve that layer through grouping, zoom returns, sweeps, and the final graph shifts.

@@ -33,6 +33,7 @@ class C1(ThreeDScene):
 
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
         GRAPH_EXT_OPACITY = BASE_OPACITY
+        EQUILIBRIUM_Z_INDEX = 10  # Red/yellow points stay above curves, fills, and guides.
 
         # Prepare the first lot and the exact marginal boundary on a common scale.
         head = fixed(title('Competitive Equilibrium'))
@@ -120,7 +121,7 @@ class C1(ThreeDScene):
             Tex('D / MB', color=INK).scale(0.7).next_to(ax.c2p(8, 10.4), UR, buff=0.12),
             Tex('S / MC', color=INK).scale(0.7).next_to(ax.c2p(60, 5), RIGHT, buff=0.15)))
         equilibrium = fixed(VGroup(
-            Dot(ax.c2p(40, 4), radius=0.07, color=GUIDE),
+            Dot(ax.c2p(40, 4), radius=0.07, color=GUIDE).set_z_index(EQUILIBRIUM_Z_INDEX),
             DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             Tex(r'$P^*=4$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 4), LEFT, buff=0.2)))
         quantity_guide = fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2))
@@ -560,7 +561,7 @@ class C1(ThreeDScene):
             Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(8, 10.4), UR, buff=0.1),
             Tex('MC', color=INK).scale(0.7).next_to(left_ax.c2p(60, 5), RIGHT, buff=0.12)))
         left_eq = fixed(VGroup(
-            Dot(left_ax.c2p(40, 4), radius=0.06, color=GUIDE),
+            Dot(left_ax.c2p(40, 4), radius=0.06, color=GUIDE).set_z_index(EQUILIBRIUM_Z_INDEX),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
             Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.65).next_to(left_ax.c2p(40, 0), DOWN, buff=0.18)))
@@ -687,7 +688,7 @@ class C1(ThreeDScene):
             .next_to(left_ax.c2p(0, 12), LEFT, buff=0.15 * 1.15))
         demand_word = fixed(Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(7, 10.6), UR, buff=0.12))
         market_reference = fixed(VGroup(
-            Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE),
+            Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE).set_z_index(EQUILIBRIUM_Z_INDEX),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('$40$', color=GUIDE))
                 .arrange(DOWN, buff=0.06).scale(0.65).next_to(left_ax.c2p(40, 0), DOWN, buff=0.18),
@@ -979,7 +980,7 @@ class C1(ThreeDScene):
         self.play(evaluation_q.animate.set_value(EFFICIENT_Q), run_time=1.2, rate_func=smooth)
         for loss_bar in loss_slices:
             loss_bar.clear_updaters()
-        efficient_dot = fixed(Dot(left_ax.c2p(32, 5.6), radius=0.085, color=FOCUS))
+        efficient_dot = fixed(Dot(left_ax.c2p(32, 5.6), radius=0.085, color=FOCUS).set_z_index(EQUILIBRIUM_Z_INDEX))
         # Compact symbol/value stacks share a row, centered on their own guides.
         efficient_word = fixed(VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('$32$', color=FOCUS))
             .arrange(DOWN, buff=0.06).scale(0.65).next_to(left_ax.c2p(32, 0), DOWN, buff=0.18))
@@ -1290,7 +1291,7 @@ class C1(ThreeDScene):
                 positive_ax.c2p(right, 14 - right / 5), positive_ax.c2p(left, 14 - left / 5),
                 stroke_width=0, fill_color=EXT, fill_opacity=GRAPH_EXT_OPACITY if q < MARKET_Q else 0)))
         positive_market = fixed(VGroup(
-            Dot(positive_ax.c2p(40, 4), radius=0.06, color=GUIDE),
+            Dot(positive_ax.c2p(40, 4), radius=0.06, color=GUIDE).set_z_index(EQUILIBRIUM_Z_INDEX),
             DashedLine(positive_ax.c2p(40, 0), positive_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
             VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('$40$', color=GUIDE)).arrange(DOWN, buff=0.06).scale(0.65).next_to(positive_ax.c2p(40, 0), DOWN, buff=0.20),
             Tex(r'$\hat{P}=4$', color=GUIDE).scale(0.65).next_to(positive_ax.c2p(0, 4), LEFT, buff=0.20),
@@ -1381,7 +1382,7 @@ class C1(ThreeDScene):
         positive_guide.clear_updaters()
         for loss_bar in positive_losses:
             loss_bar.clear_updaters()
-        positive_efficient = fixed(VGroup(Dot(positive_ax.c2p(48, 4.4), radius=0.085, color=FOCUS),
+        positive_efficient = fixed(VGroup(Dot(positive_ax.c2p(48, 4.4), radius=0.085, color=FOCUS).set_z_index(EQUILIBRIUM_Z_INDEX),
             VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('$48$', color=FOCUS)).arrange(DOWN, buff=0.06).scale(0.65)
                 .next_to(positive_ax.c2p(48, 0), DOWN, buff=0.20)))
         positive_efficient[1][1].set_y(positive_market[2][1].get_y())
