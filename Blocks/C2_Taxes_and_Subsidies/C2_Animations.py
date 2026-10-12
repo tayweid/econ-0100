@@ -1014,8 +1014,9 @@ class C2(ThreeDScene):
                        DashedLine(small_ax.c2p(0, BUYER_PRICE), small_ax.c2p(TAX_Q, BUYER_PRICE), color=GUIDE, stroke_width=2),
                        DashedLine(small_ax.c2p(0, SELLER_PRICE), small_ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
                        DashedLine(small_ax.c2p(TAX_Q, 0), small_ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2)).set_z_index(2),
-                # The tax word hangs under the sellers' dot: above the buyers' dot it would sit on the demand ghost in 8.b.
-                Tex(r'\$2 tax', color=GOV).scale(0.6).next_to(small_ax.c2p(TAX_Q, SELLER_PRICE), DR, buff=0.12),
+                # Keep the label left of the wedge; its background clears the grey price reference behind it.
+                Tex(r'\$2 tax', color=GOV).scale(0.6).add_background_rectangle(color=BG, opacity=1, buff=0.04)
+                    .next_to(small_ax.c2p(TAX_Q, (BUYER_PRICE + SELLER_PRICE) / 2), LEFT, buff=0.18).set_z_index(3),
                 VGroup(Tex('$P_b=$', color=GUIDE).scale(0.6), DecimalNumber(BUYER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.6))
                     .arrange(RIGHT, buff=0.06).next_to(small_ax.c2p(0, BUYER_PRICE), LEFT, buff=0.2),
                 VGroup(Tex('$P_s=$', color=GUIDE).scale(0.6), DecimalNumber(SELLER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.6))
@@ -1060,7 +1061,8 @@ class C2(ThreeDScene):
             m.axes.c2p(state(m)[0], state(m)[2]) + RIGHT * 1e-6, color=GUIDE, stroke_width=2))))
         right_wedge[7].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(state(m)[0], 0),
             m.axes.c2p(state(m)[0], state(m)[2]) + UP * 1e-6, color=GUIDE, stroke_width=2))))
-        right_tax_word.add_updater(lambda m: m.next_to(m.axes.c2p(state(m)[0], state(m)[2]), DR, buff=0.12))
+        right_tax_word.add_updater(lambda m: m.next_to(
+            m.axes.c2p(state(m)[0], (state(m)[1] + state(m)[2]) / 2), LEFT, buff=0.18))
         right_buyer_readout.add_updater(lambda m: (m[1].set_value(state(m)[1]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(0, state(m)[1]), LEFT, buff=0.2)))
         right_seller_readout.add_updater(lambda m: (m[1].set_value(state(m)[2]), fixed(m), m.arrange(RIGHT, buff=0.06),
