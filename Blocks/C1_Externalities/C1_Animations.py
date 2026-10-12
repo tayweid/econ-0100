@@ -1091,7 +1091,6 @@ class C1(ThreeDScene):
             color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(condition)
         self.play(FadeIn(efficient_pair), FadeIn(efficient_selection))
-        self.pause('4.a.select')
         efficient_target = fixed(VGroup())
         for left, low, high, color in [(-1.16, 0, 5.6, DEMAND), (0.06, 0, 3.6, SUPPLY),
                                       (0.06, 3.6, 5.6, EXT)]:
