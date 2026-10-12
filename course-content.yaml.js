@@ -646,7 +646,8 @@ parts:
 
       - checkpoint:
           reattempt: TBA
-          when: Final Exam Period
+          date: '2026-12-11'
+          when: 'Fri Dec 11, during the Final Exam Period: 8 AM for the Noon section, 9 AM for the 1 PM section'
           description: >-
             You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
