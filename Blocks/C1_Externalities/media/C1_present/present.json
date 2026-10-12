@@ -2,15 +2,15 @@
  "format": 1,
  "scene": "C1",
  "fps": 15,
- "duration": 136.26666666666404,
+ "duration": 146.06666666666348,
  "resolution": [
   2160,
   1080
  ],
  "source": {
   "file": "C1_Animations.py",
-  "mtime": 1791811226.4141417,
-  "hash": "2895563f26252bf429ebcefdae04b69c"
+  "mtime": 1791812801.659352,
+  "hash": "779d6e9232a2a8d47d02a9e673419832"
  },
  "pause_anchored": true,
  "checkpoints": [
@@ -1876,7 +1876,7 @@
   },
   {
    "index": 186,
-   "time": 133.06666666666422,
+   "time": 131.8666666666643,
    "line": 1381,
    "unit": 179,
    "chip_unit": 181,
@@ -1886,8 +1886,8 @@
   },
   {
    "index": 187,
-   "time": 134.06666666666416,
-   "line": 1390,
+   "time": 132.86666666666423,
+   "line": 1397,
    "unit": 180,
    "chip_unit": 181,
    "name": null,
@@ -1896,18 +1896,18 @@
   },
   {
    "index": 188,
-   "time": 134.06666666666416,
-   "line": 1391,
+   "time": 132.86666666666423,
+   "line": 1398,
    "unit": 181,
    "chip_unit": 181,
-   "name": "5.d",
+   "name": "5.d.44.select",
    "stop": true,
    "loop": false
   },
   {
    "index": 189,
-   "time": 135.2666666666641,
-   "line": 1393,
+   "time": 134.26666666666415,
+   "line": 1407,
    "unit": 182,
    "chip_unit": 184,
    "name": null,
@@ -1916,8 +1916,8 @@
   },
   {
    "index": 190,
-   "time": 136.26666666666404,
-   "line": 1401,
+   "time": 135.2666666666641,
+   "line": 1428,
    "unit": 183,
    "chip_unit": 184,
    "name": null,
@@ -1926,10 +1926,180 @@
   },
   {
    "index": 191,
-   "time": 136.26666666666404,
-   "line": 1402,
+   "time": 135.2666666666641,
+   "line": 1429,
    "unit": 184,
    "chip_unit": 184,
+   "name": "5.d.44.values",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 192,
+   "time": 136.26666666666404,
+   "line": 1441,
+   "unit": 185,
+   "chip_unit": 186,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 193,
+   "time": 136.26666666666404,
+   "line": 1442,
+   "unit": 186,
+   "chip_unit": 186,
+   "name": "5.d.44.private.compare",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 194,
+   "time": 137.26666666666398,
+   "line": 1443,
+   "unit": 187,
+   "chip_unit": 188,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 195,
+   "time": 137.26666666666398,
+   "line": 1444,
+   "unit": 188,
+   "chip_unit": 188,
+   "name": "5.d.44.private",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 196,
+   "time": 138.26666666666392,
+   "line": 1453,
+   "unit": 189,
+   "chip_unit": 190,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 197,
+   "time": 138.26666666666392,
+   "line": 1454,
+   "unit": 190,
+   "chip_unit": 190,
+   "name": "5.d.44.social.compare",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 198,
+   "time": 139.26666666666387,
+   "line": 1455,
+   "unit": 191,
+   "chip_unit": 192,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 199,
+   "time": 139.26666666666387,
+   "line": 1456,
+   "unit": 192,
+   "chip_unit": 192,
+   "name": "5.d.44.social",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 200,
+   "time": 140.6666666666638,
+   "line": 1463,
+   "unit": 193,
+   "chip_unit": 194,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 201,
+   "time": 140.6666666666638,
+   "line": 1465,
+   "unit": 194,
+   "chip_unit": 194,
+   "name": "5.d.44.return",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 202,
+   "time": 141.66666666666373,
+   "line": 1473,
+   "unit": 195,
+   "chip_unit": 198,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 203,
+   "time": 142.86666666666366,
+   "line": 1474,
+   "unit": 196,
+   "chip_unit": 198,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 204,
+   "time": 143.8666666666636,
+   "line": 1483,
+   "unit": 197,
+   "chip_unit": 198,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 205,
+   "time": 143.8666666666636,
+   "line": 1484,
+   "unit": 198,
+   "chip_unit": 198,
+   "name": "5.d",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 206,
+   "time": 145.06666666666354,
+   "line": 1486,
+   "unit": 199,
+   "chip_unit": 201,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 207,
+   "time": 146.06666666666348,
+   "line": 1494,
+   "unit": 200,
+   "chip_unit": 201,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 208,
+   "time": 146.06666666666348,
+   "line": 1495,
+   "unit": 201,
+   "chip_unit": 201,
    "name": "5.conclusion",
    "stop": true,
    "loop": false
