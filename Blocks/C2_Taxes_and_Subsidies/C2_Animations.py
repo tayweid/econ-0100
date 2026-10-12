@@ -468,7 +468,7 @@ class C2(ThreeDScene):
         quantity_guides = [fixed(DashedLine(graph_ax.c2p(TAX_Q, 0), graph_ax.c2p(TAX_Q, BUYER_PRICE),
                            color=GUIDE, stroke_width=2 * comparison_scale)).set_z_index(2)
                            for graph_ax in (ax, seller_ax)]
-        # Each axis keeps its labeled wedge; an unlabeled copy will slide between the original curves.
+        # Each axis keeps its labeled measurement; a filled tax strip will slide between the original curves.
         AXIS_Q = -1.2
         axis_wedge = fixed(VGroup(
             Line(ax.c2p(AXIS_Q, SELLER_PRICE), ax.c2p(AXIS_Q, BUYER_PRICE), color=GOV, stroke_width=6 * comparison_scale),
@@ -489,24 +489,23 @@ class C2(ThreeDScene):
                   FadeIn(wedge_definition))
         self.pause('5.a')
 
-        # ---- 5.b · The same tracker slides a copy into both models, stopping between MB and MC at Q = 32.
-        slide_q = ValueTracker(AXIS_Q)
-        sliding_wedge, seller_sliding_wedge = axis_wedge.copy(), seller_axis_wedge.copy()
-        for moving_wedge, graph_ax in [(sliding_wedge, ax), (seller_sliding_wedge, seller_ax)]:
-            for part in moving_wedge:
-                part.axes, part.quantity = graph_ax, slide_q
-            moving_wedge[0].add_updater(lambda m: m.put_start_and_end_on(
-                m.axes.c2p(m.quantity.get_value(), SELLER_PRICE), m.axes.c2p(m.quantity.get_value(), BUYER_PRICE)))
-            moving_wedge[1].add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), SELLER_PRICE)))
-            moving_wedge[2].add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), BUYER_PRICE)))
+        # ---- 5.b · Slide one filled tax strip into each model, stopping between MB and MC at Q = 32.
+        moving_tax_bars = []
+        for graph_ax in (ax, seller_ax):
+            # Match the width, color and fill of the one-ton strips from the two tax models.
+            left, right = AXIS_Q - 1 + BAR_GAP / 2, AXIS_Q - BAR_GAP / 2
+            moving_tax_bars.append(fixed(Polygon(
+                graph_ax.c2p(left, SELLER_PRICE), graph_ax.c2p(right, SELLER_PRICE),
+                graph_ax.c2p(right, BUYER_PRICE), graph_ax.c2p(left, BUYER_PRICE),
+                stroke_width=0, fill_color=GOV, fill_opacity=STRIP_OPACITY)).set_z_index(2))
+        sliding_wedge, seller_sliding_wedge = moving_tax_bars
         slide_note = fixed(Tex('Slide the tax in from the left until it gets stuck between the curves.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(wedge_definition)
-        self.add(sliding_wedge, seller_sliding_wedge)
-        self.play(FadeIn(slide_note))
-        self.play(slide_q.animate.set_value(TAX_Q), run_time=2.6, rate_func=smooth)
-        sliding_wedge.clear_updaters()
-        seller_sliding_wedge.clear_updaters()
+        self.play(FadeIn(slide_note), FadeIn(sliding_wedge), FadeIn(seller_sliding_wedge))
+        self.play(sliding_wedge.animate.shift(ax.c2p(TAX_Q, 0) - ax.c2p(AXIS_Q, 0)),
+                  seller_sliding_wedge.animate.shift(seller_ax.c2p(TAX_Q, 0) - seller_ax.c2p(AXIS_Q, 0)),
+                  run_time=2.6, rate_func=smooth)
         # The adjusted curves have done their job only once both wedges are stuck in place.
         self.play(FadeOut(taxed_demand), FadeOut(taxed_demand_word),
                   FadeOut(seller_taxed_supply), FadeOut(seller_taxed_supply_word), run_time=0.5)
@@ -568,7 +567,7 @@ class C2(ThreeDScene):
         self.add(market, sliding_wedge, axis_wedge, sliding_word, wedge_marks)
 
         # ---- 6.a.select · Welfare with a tax, starting from the first exchange again.
-        self.remove(head)
+        self.remove(head, context)
         head = fixed(title('Welfare With A Tax'))
         context = fixed(subtitle(head, r'32 tons exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
         # Market slice and close-up share one structure: buyer base, tax band, CS, MB edge, cost, PS, MC edge, baseline.

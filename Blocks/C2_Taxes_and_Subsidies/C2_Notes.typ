@@ -112,7 +112,7 @@
 ]
 
 #quote(block: true)[
-  5.b · Bottom: Slide the tax in from the left until it gets stuck between the curves. An unlabeled copy of each axis wedge slides right, in sync under one eased quantity tracker (2.6 s), until both are stuck between the original demand and supply curves at Q = 32. Keep the tax-adjusted dashed curves and labels throughout the slide. Only after both wedges arrive, fade the two adjusted curves and their labels (0.5 s). Both graphs now show the same original curves, stuck wedge, red prices and full-height quantity guide. The labeled axis wedges remain. Pause.
+  5.b · Bottom: Slide the tax in from the left until it gets stuck between the curves. On each graph, an unlabeled filled green bar fades in beside the axis measurement, matching the one-ton tax strips in width (1 − BAR_GAP), GOV color and full opacity, with no outline or end caps. Both bars slide right in sync (2.6 s, eased), until both are stuck between the original demand and supply curves at Q = 32. Keep the tax-adjusted dashed curves and labels throughout the slide. Only after both wedges arrive, fade the two adjusted curves and their labels (0.5 s). Both graphs now show the same original curves, stuck wedge, red prices and full-height quantity guide. The labeled axis measurements remain as capped lines, visually distinct from the filled bars. Pause.
 ]
 
 #quote(block: true)[
