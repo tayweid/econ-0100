@@ -1100,14 +1100,22 @@ class C2(ThreeDScene):
         self.play(FadeIn(demand_note))
         self.pause('8.b')
 
-        # ---- 8.c · Steeper supply on the right: the result mirrors the left graph.
-        supply_question = fixed(Tex('What if sellers are less responsive to price?', color=DEFINITION)
+        # Return to the original market before changing the other side.
+        self.remove(demand_note)
+        reset_note = fixed(Tex('Back to the original market.', color=DEFINITION)
+                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(reset_note), right_d.animate.set_value(0.2), run_time=2.4, rate_func=smooth)
+        self.play(FadeOut(demand_ghost), FadeIn(right_intercepts))
+        self.pause('8.b.reset')
+
+        # ---- 8.c · Flatter supply on the right, with demand back at its original slope.
+        supply_question = fixed(Tex('What if sellers are more responsive to price?', color=DEFINITION)
                                 .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         supply_ghost = fixed(DashedLine(right_ax.c2p(0, 2), right_ax.c2p(60, 5), color=MUTED, stroke_width=2)).set_z_index(-1)
-        self.remove(demand_note)
-        self.play(FadeOut(demand_ghost), FadeIn(supply_question), FadeIn(supply_ghost))
-        self.play(right_s.animate.set_value(0.2), run_time=2.4, rate_func=smooth)
-        supply_note = fixed(Tex('Sellers less responsive to price bear more of the tax.', color=DEFINITION)
+        self.remove(reset_note)
+        self.play(FadeOut(right_intercepts), FadeIn(supply_question), FadeIn(supply_ghost))
+        self.play(right_s.animate.set_value(1 / 45), run_time=2.4, rate_func=smooth)
+        supply_note = fixed(Tex('Sellers more responsive to price bear less of the tax.', color=DEFINITION)
                             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(supply_question)
         self.play(FadeIn(supply_note))
