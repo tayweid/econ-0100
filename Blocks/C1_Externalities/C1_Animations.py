@@ -32,6 +32,7 @@ class C1(ThreeDScene):
         DETAIL_BASE, DETAIL_SCALE = -2.05, 0.68
 
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
+        GRAPH_EXT_OPACITY = 0.8
 
         # Prepare the first lot and the exact marginal boundary on a common scale.
         head = fixed(title('Competitive Equilibrium'))
@@ -569,7 +570,7 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY)))
             external_bars.add(fixed(Polygon(right_ax.c2p(l, 0), right_ax.c2p(r, 0),
                 right_ax.c2p(r, 2), right_ax.c2p(l, 2),
-                stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
+                stroke_width=0, fill_color=EXT, fill_opacity=GRAPH_EXT_OPACITY)))
         q = PAIR_Q - 1
         left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
         landing_pair = fixed(VGroup(
@@ -627,15 +628,9 @@ class C1(ThreeDScene):
             l, r = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
             stacked_targets.add(fixed(Polygon(left_ax.c2p(l, 2 + l / 20), left_ax.c2p(r, 2 + r / 20),
                 left_ax.c2p(r, 4 + r / 20), left_ax.c2p(l, 4 + l / 20),
-                stroke_width=0, fill_color=EXT, fill_opacity=0.65)))
+                stroke_width=0, fill_color=EXT, fill_opacity=GRAPH_EXT_OPACITY)))
         self.play(LaggedStart(*[Transform(external_bars[q], stacked_targets[q]) for q in range(40)],
                             lag_ratio=0.045), run_time=3)
-        potential_ext = fixed(VGroup())
-        for q in range(40, 60):
-            l, r = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
-            potential_ext.add(fixed(Polygon(left_ax.c2p(l, 2 + l / 20), left_ax.c2p(r, 2 + r / 20),
-                left_ax.c2p(r, 4 + r / 20), left_ax.c2p(l, 4 + l / 20),
-                stroke_width=0, fill_color=EXT, fill_opacity=0.12)))
         social_cost = fixed(Line(left_ax.c2p(0, 4), left_ax.c2p(60, 7), color=SUPPLY, stroke_width=3))
         social_cost_intercept = fixed(Tex('$4$', color=SUPPLY).scale(0.65)
             .next_to(left_ax.c2p(0, 4), LEFT, buff=0.15))
@@ -653,7 +648,7 @@ class C1(ThreeDScene):
         cost_divider = fixed(Line([0.25, -3, 0], [0.25, 2, 0], color=MUTED,
                                  stroke_width=1, stroke_opacity=0.45))
         self.remove(cost_question)
-        self.play(FadeOut(right_ax), FadeOut(right_words), FadeIn(potential_ext),
+        self.play(FadeOut(right_ax), FadeOut(right_words),
                   FadeIn(social_cost), FadeIn(social_cost_intercept), FadeIn(social_word))
         self.play(FadeIn(cost_terms), FadeIn(cost_divider))
         self.pause('3.b.words')
@@ -662,7 +657,7 @@ class C1(ThreeDScene):
 
         # ---- 3.c · Recenter, restore demand, and mark the unchanged market outcome.
         self.play(FadeOut(cost_definition), FadeOut(cost_divider))
-        cost_graph = fixed(VGroup(left_ax, left_words, private_bars, external_bars, potential_ext,
+        cost_graph = fixed(VGroup(left_ax, left_words, private_bars, external_bars,
                                  left_supply, left_curve_words[1], social_cost, social_cost_intercept, social_word))
         self.remove(*[m for m in self.mobjects if m is not head and m is not social_cost_context])
         self.add(cost_graph, head)
@@ -1212,8 +1207,7 @@ class C1(ThreeDScene):
                 left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
                 stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
         self.remove(condition)
-        self.play(external_bars.animate.set_fill(opacity=0.18),
-                  LaggedStart(*[FadeIn(bar) for q, bar in zip(range(32, 40), loss_slices)
+        self.play(LaggedStart(*[FadeIn(bar) for q, bar in zip(range(32, 40), loss_slices)
                                if q not in inspected_losses], lag_ratio=0.18), run_time=2)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
         conclusion = fixed(Tex('These trades create deadweight loss because social cost exceeds benefit.', color=DEFINITION)
@@ -1342,11 +1336,11 @@ class C1(ThreeDScene):
             positive_cost_bars.add(fixed(Polygon(
                 positive_ax.c2p(left, 0), positive_ax.c2p(right, 0),
                 positive_ax.c2p(right, 2 + right / 20), positive_ax.c2p(left, 2 + left / 20),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY if q < 40 else 0.04)))
+                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY if q < MARKET_Q else 0)))
             positive_ext_bars.add(fixed(Polygon(
                 positive_ax.c2p(left, 12 - left / 5), positive_ax.c2p(right, 12 - right / 5),
                 positive_ax.c2p(right, 14 - right / 5), positive_ax.c2p(left, 14 - left / 5),
-                stroke_width=0, fill_color=EXT, fill_opacity=SURPLUS_OPACITY if q < 40 else 0.12)))
+                stroke_width=0, fill_color=EXT, fill_opacity=GRAPH_EXT_OPACITY if q < MARKET_Q else 0)))
         positive_market = fixed(VGroup(
             Dot(positive_ax.c2p(40, 4), radius=0.06, color=GUIDE),
             DashedLine(positive_ax.c2p(40, 0), positive_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
