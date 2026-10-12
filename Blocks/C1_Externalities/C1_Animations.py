@@ -895,6 +895,8 @@ class C1(ThreeDScene):
         self.pause('3.e.return')
 
 
+        inspected_losses = {}
+
         # ---- 3.f.40 · Inspect another exchanged unit with MSC above MB.
         left, right = 40 - 1 + BAR_GAP / 2, 40 - BAR_GAP / 2
         dwl_example_pair = fixed(VGroup(
@@ -954,7 +956,12 @@ class C1(ThreeDScene):
                   FadeOut(dwl_example_note), FadeOut(dwl_example_labels, suspend_mobject_updating=False),
                   Transform(dwl_example_pair, dwl_example_home), Transform(dwl_example_loss, dwl_example_loss_home),
                   FadeIn(social_graph), FadeIn(welfare_context), run_time=1.0)
-        self.play(FadeOut(dwl_example_pair), FadeOut(dwl_example_loss), FadeIn(dwl_selection), run_time=0.4)
+        # Keep the returned loss with the market through later close-ups.
+        self.remove(dwl_example_loss)
+        social_graph.add(dwl_example_loss)
+        self.add(social_graph)
+        inspected_losses[39] = dwl_example_loss
+        self.play(FadeOut(dwl_example_pair), FadeIn(dwl_selection), run_time=0.4)
         self.pause('3.f.40.return')
 
         # ---- 3.f.36 · Inspect another exchanged unit with MSC above MB.
@@ -1017,7 +1024,12 @@ class C1(ThreeDScene):
                   FadeOut(dwl_example_note), FadeOut(dwl_example_labels, suspend_mobject_updating=False),
                   Transform(dwl_example_pair, dwl_example_home), Transform(dwl_example_loss, dwl_example_loss_home),
                   FadeIn(social_graph), FadeIn(welfare_context), run_time=1.0)
-        self.play(FadeOut(dwl_example_pair), FadeOut(dwl_example_loss), FadeIn(dwl_selection), run_time=0.4)
+        # Keep the returned loss with the market through later close-ups.
+        self.remove(dwl_example_loss)
+        social_graph.add(dwl_example_loss)
+        self.add(social_graph)
+        inspected_losses[35] = dwl_example_loss
+        self.play(FadeOut(dwl_example_pair), FadeIn(dwl_selection), run_time=0.4)
         self.pause('3.f.36.return')
 
         self.play(FadeOut(dwl_selection), run_time=0.3)
@@ -1103,10 +1115,12 @@ class C1(ThreeDScene):
         dwl_context = fixed(subtitle(head,
             'Overproduction of goods that are too costly to society.'))
         self.play(FadeIn(head), FadeIn(dwl_context))
+        social_graph.remove(*inspected_losses.values())
+        self.add(*inspected_losses.values())
         loss_slices = fixed(VGroup())
         for q in range(32, 40):
-            if q == COMPARE_LOW:
-                loss_slices.add(removed_dwl_bar)
+            if q in inspected_losses:
+                loss_slices.add(inspected_losses[q])
                 continue
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
             loss_slices.add(fixed(Polygon(left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
@@ -1114,7 +1128,8 @@ class C1(ThreeDScene):
                 stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
         self.remove(condition)
         self.play(external_bars.animate.set_fill(opacity=0.18),
-                  LaggedStart(*[FadeIn(bar) for bar in loss_slices], lag_ratio=0.18), run_time=2)
+                  LaggedStart(*[FadeIn(bar) for q, bar in zip(range(32, 40), loss_slices)
+                               if q not in inspected_losses], lag_ratio=0.18), run_time=2)
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(left_ax.c2p(40, 5.4), RIGHT, buff=0.3))
         conclusion = fixed(Tex('These trades create deadweight loss because social cost exceeds benefit.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
