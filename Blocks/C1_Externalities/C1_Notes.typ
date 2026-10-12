@@ -162,7 +162,7 @@
 ]
 
 #quote(block: true)[
-  4.b · Title: Negative Externality: DWL. Reveal all eight grey social-loss bars between 32 and 40 together in the sweep, including the 36th-unit bar. Keep all eight as separate one-ton bars, matching the widths and gaps of the existing exchange bars and following the sloping MSC and MB boundaries. Do not merge them into a triangle. Retain the separate bars through the remaining Negative Externality: Efficiency scenes. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades create deadweight loss because social cost exceeds benefit.
+  4.b · Title: Negative Externality: DWL. Add the grey CMU Sans subtitle: Overproduction of goods that are too costly to society. Keep it through this DWL sequence and remove it when returning to the Efficiency title. Reveal all eight grey social-loss bars between 32 and 40 together in the sweep, including the 36th-unit bar. Keep all eight as separate one-ton bars, matching the widths and gaps of the existing exchange bars and following the sloping MSC and MB boundaries. Do not merge them into a triangle. Retain the separate bars through the remaining Negative Externality: Efficiency scenes. Label DWL. Keep the pink external-cost strips visually distinct: total external damage is not DWL. Bottom: These trades create deadweight loss because social cost exceeds benefit.
 
 ]
 

@@ -1084,7 +1084,9 @@ class C1(ThreeDScene):
         # ---- 4.b · The losses from excessive trades; not all external damage.
         self.remove(head)
         head = fixed(title('Negative Externality: DWL'))
-        self.play(FadeIn(head))
+        dwl_context = fixed(subtitle(head,
+            'Overproduction of goods that are too costly to society.'))
+        self.play(FadeIn(head), FadeIn(dwl_context))
         loss_slices = fixed(VGroup())
         for q in range(32, 40):
             if q == COMPARE_LOW:
@@ -1104,7 +1106,7 @@ class C1(ThreeDScene):
         self.pause('4.b')
 
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
-        self.remove(head, conclusion)
+        self.remove(head, conclusion, dwl_context)
         head = fixed(title('Negative Externality: Efficiency'))
         quantity_result = fixed(VGroup(
             Tex(r'$Q^*$', color=FOCUS), Tex('$<$', color=INK),
