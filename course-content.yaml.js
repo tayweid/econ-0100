@@ -345,7 +345,7 @@ parts:
           video: xKK5JBPXGsg
           description: "*Externalities practice problems*"
         homework:
-          practice: hwc
+          file: C1
           post: now
         extras:
           - name: Planet Money
