@@ -722,14 +722,14 @@ class C1(ThreeDScene):
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
               for bar, color in zip(removed_social_target, [DEMAND, SUPPLY, SUPPLY])],
             Line([EXCHANGE_X - 1.3, DETAIL_BASE, 0], [EXCHANGE_X + 1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$4.00$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MC $\$4.00$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex(r'MB $\$4$', color=DEMAND).scale(0.72).next_to(removed_social_target[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'MC $\$4$', color=SUPPLY).scale(0.72).next_to(removed_social_target[1].get_corner(UR), RIGHT, buff=0.25),
             Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(removed_social_target[2], RIGHT, buff=0.25),
-            Tex(r'MSC $\$6.00$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
-        conclusion = fixed(Tex(r'Removing this ton eliminates $\$2$ of deadweight loss.', color=DEFINITION)
+            Tex(r'MSC $\$6$', color=SUPPLY).scale(0.72).next_to(removed_social_target[2].get_corner(UR), RIGHT, buff=0.25)))
+        conclusion = fixed(Tex(r'This trade creates $\$2$ of deadweight loss.', color=DEFINITION)
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         unit_context = fixed(subtitle(head,
-            'The 40th unit: a quantity exchanged in equilibrium.'))
+            'The 40th unit: market equilibrium.'))
         unit_bystander = fixed(Group(
             Ellipse(width=0.42, height=0.05, stroke_width=0, fill_color=EXT, fill_opacity=0.28)
                 .move_to([0, DETAIL_BASE - 0.60, 0]),
@@ -745,11 +745,11 @@ class C1(ThreeDScene):
         # Compact externality labels: names on bars, numbers at boundary heights.
         for label in [removed_social_labels[4], removed_social_labels[5], removed_social_labels[6], removed_social_labels[7]]:
             label.clear_updaters()
-        removed_social_labels[4].become(fixed(Tex(r'$\$4.00$', color=DEMAND).scale(0.72)
+        removed_social_labels[4].become(fixed(Tex(r'$\$4$', color=DEMAND).scale(0.72)
             .next_to([-1.16, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], LEFT, buff=0.25)))
-        removed_social_labels[5].become(fixed(Tex(r'$\$4.00$', color=SUPPLY).scale(0.72)
+        removed_social_labels[5].become(fixed(Tex(r'$\$4$', color=SUPPLY).scale(0.72)
             .next_to([1.16, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], RIGHT, buff=0.45)))
-        removed_social_labels[7].become(fixed(Tex(r'$\$6.00$', color=SUPPLY).scale(0.72)
+        removed_social_labels[7].become(fixed(Tex(r'$\$6$', color=SUPPLY).scale(0.72)
             .next_to([1.16, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], RIGHT, buff=0.45)))
         removed_social_labels[6].set_opacity(0)
         compact_external_labels = fixed(VGroup(
@@ -786,9 +786,7 @@ class C1(ThreeDScene):
         exchange_private_guides = fixed(VGroup(
             DashedLine(removed_social_labels[4].get_left() + LEFT * 0.12,
                        [-3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4)))
-        exchange_private_answer = fixed(VGroup(
-            Tex('Indifferent', color=INK), Tex(r'MB $=$ MC', color=TOTAL))
-            .arrange(DOWN, buff=0.12).scale(0.65)
+        exchange_private_answer = fixed(Tex('$=$', color=TOTAL).scale(1.0)
             .next_to([-3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], LEFT, buff=0.3))
         exchange_social_guides = fixed(VGroup(
             DashedLine(removed_social_labels[7].get_right() + RIGHT * 0.12, [3.65, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
@@ -797,20 +795,21 @@ class C1(ThreeDScene):
             DashedLine([3.3, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
             Line([3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
         exchange_social_answer = fixed(VGroup(
-            Tex('No', color=INK), Tex(r'MB $<$ MSC', color=TOTAL),
-            Tex(r'TS $=-\$2$', color=TOTAL), Tex(r'DWL $=\$2$', color=INK))
-            .arrange(DOWN, buff=0.10, aligned_edge=LEFT).scale(0.60)
+            VGroup(Line([-0.22, -0.22, 0], [0.22, 0.22, 0], color=GUIDE, stroke_width=5),
+                   Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)),
+            Tex(r'DWL $\$2$', color=INK))
+            .arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([3.65, DETAIL_BASE + 5.0 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
         self.play(FadeIn(exchange_questions))
         self.pause('3.e.values')
-        self.play(FadeIn(exchange_private_guides), FadeIn(exchange_private_answer[1:]))
+        self.play(FadeIn(exchange_private_guides))
         self.pause('3.e.private.compare')
-        self.play(FadeIn(exchange_private_answer[0]))
+        self.play(FadeIn(exchange_private_answer))
         self.pause('3.e.private')
-        self.play(FadeIn(exchange_social_guides), FadeIn(exchange_social_answer[1]))
+        self.play(FadeIn(exchange_social_guides))
         self.pause('3.e.social.compare')
         self.play(FadeIn(removed_dwl_bar),
-                  FadeIn(exchange_social_answer[0]), FadeIn(exchange_social_answer[2:]), FadeIn(conclusion))
+                  FadeIn(exchange_social_answer), FadeIn(conclusion))
         self.pause('3.e')
         self.remove(detail_people, unit_bystander, unit_bystander_word)
         self.play(FadeOut(compact_external_labels), FadeOut(removed_social_labels, suspend_mobject_updating=False), FadeOut(exchange_questions), FadeOut(exchange_private_guides), FadeOut(exchange_private_answer),
