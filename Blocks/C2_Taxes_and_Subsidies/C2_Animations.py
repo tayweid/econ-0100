@@ -942,8 +942,14 @@ class C2(ThreeDScene):
         quantity_readout.add_updater(lambda m: (m[1].set_value(state(m)[0]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(state(m)[0], 0), DOWN, buff=0.2)))
         cs_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 3, (12 + 2 * state(m)[1]) / 3)))
-        ps_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 3, (2 + 2 * state(m)[2]) / 3)))
-        tax_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 2, (state(m)[1] + state(m)[2]) / 2))
+        ps_label.natural_height = ps_label.get_height()
+        ps_label.add_updater(lambda m: m.set_height(min(m.natural_height,
+            0.55 * (m.axes.c2p(0, state(m)[2])[1] - m.axes.c2p(0, 2 + state(m)[0] / 60)[1])))
+            .move_to(m.axes.c2p(state(m)[0] / 3, (2 + 2 * state(m)[2]) / 3)))
+        tax_label.natural_width = tax_label.get_width()
+        tax_label.add_updater(lambda m: m.set_width(min(m.natural_width,
+            0.85 * (m.axes.c2p(state(m)[0], 0)[0] - m.axes.c2p(0, 0)[0])))
+            .move_to(m.axes.c2p(state(m)[0] / 2, (state(m)[1] + state(m)[2]) / 2))
             .set_opacity(min(1, abs(m.tax.get_value()) / 0.8)))
         dwl_label.add_updater(lambda m: m.set_opacity(min(1, abs(m.tax.get_value()) / 0.8)))
         change_question = fixed(Tex('What happens as the tax changes?', color=DEFINITION)
