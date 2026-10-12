@@ -676,7 +676,8 @@ class C1(ThreeDScene):
         market_reference = fixed(VGroup(
             Dot(left_ax.c2p(40, 4), radius=0.065, color=GUIDE),
             DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2),
-            Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.7).next_to(left_ax.c2p(40, 0), DOWN, buff=0.20),
+            VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('$40$', color=GUIDE))
+                .arrange(DOWN, buff=0.06).scale(0.65).next_to(left_ax.c2p(40, 0), DOWN, buff=0.18),
             Tex(r'$\hat{P}=$', color=GUIDE).scale(0.7).next_to(social_cost_intercept, LEFT, buff=0.12),
             DashedLine(left_ax.c2p(0, 4), left_ax.c2p(40, 4), color=GUIDE, stroke_width=2)))
         self.remove(head, social_cost_context)
@@ -895,9 +896,10 @@ class C1(ThreeDScene):
         self.play(FadeIn(head), FadeIn(evaluation_line), FadeIn(marginal_gap))
         self.play(evaluation_q.animate.set_value(EFFICIENT_Q), run_time=2.4, rate_func=smooth)
         efficient_dot = fixed(Dot(left_ax.c2p(32, 5.6), radius=0.085, color=FOCUS))
-        efficient_word = fixed(Tex(r'$Q^*=32$', color=FOCUS).scale(0.7)
-                               .next_to(left_ax.c2p(32, 0), DOWN, buff=0.78))
-        # Vertically stagger quantity labels so 32 and 40 are both readable.
+        # Compact symbol/value stacks share a row, centered on their own guides.
+        efficient_word = fixed(VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('$32$', color=FOCUS))
+            .arrange(DOWN, buff=0.06).scale(0.65).next_to(left_ax.c2p(32, 0), DOWN, buff=0.18))
+        efficient_word[1].set_y(market_reference[2][1].get_y())
         condition = fixed(Tex('Social welfare is maximized where MB $=$ MSC.', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(efficient_dot), FadeIn(efficient_word), FadeIn(condition), FadeOut(marginal_gap))
