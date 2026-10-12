@@ -65,8 +65,8 @@ class C2(ThreeDScene):
         # ---- 1.a · Last time: the full market with its surplus regions.
         head = fixed(title('Competitive Equilibrium'))
         context = fixed(subtitle(head, 'A market without externalities.'))
-        ax = style_axes([0, 60, 10], [0, 13, 2], x_length=10, y_length=4.6)
-        ax.shift(np.array([-5, BODY_MID - 2.15, 0]) - ax.c2p(0, 0))
+        ax = style_axes([0, 60, 10], [0, 13, 2], x_length=4.6, y_length=4.6)
+        ax.shift(np.array([-2.3, BODY_MID - 2.15, 0]) - ax.c2p(0, 0))
         fixed(ax)
         # The unit caption sits beside P, as in B5, so the subtitles above the market never touch it.
         axis_words = fixed(VGroup(
@@ -402,17 +402,56 @@ class C2(ThreeDScene):
         self.add(buyer_prices)
         self.pause('4.d')
 
-        # ---- 4.e · It does not matter who hands it over: the two prices get their names, and the quantity never moved.
+        # ---- 4.e · Both ways to model the tax, with the same two prices and quantity side by side.
         buyer_readout = fixed(Tex(r'$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.55))
         seller_readout = fixed(Tex(r'$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.55))
         either_note = fixed(Tex(r'Either way: buyers pay \$5.60, sellers receive \$3.60.', color=DEFINITION)
                             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(pay_note)
-        self.play(FadeOut(plus_tax_readout), FadeOut(new_price_readout), FadeIn(buyer_readout), FadeIn(seller_readout),
-                  FadeIn(either_note))
-        self.play(Indicate(buyer_point[0], color=FOCUS, scale_factor=1.4), Indicate(buyer_prices[1], color=FOCUS, scale_factor=1.4),
-                  Indicate(buyer_point[2], color=FOCUS, scale_factor=1.2), run_time=0.5)
+        self.play(FadeOut(plus_tax_readout), FadeOut(new_price_readout), FadeIn(buyer_readout), FadeIn(seller_readout))
+        seller_comparison_head = fixed(title('A Tax On Sellers', align=RIGHT))
+        seller_comparison_context = fixed(subtitle(seller_comparison_head, r'Sellers hand \$2 per ton to the government.')
+                                          .align_to(seller_comparison_head, RIGHT).set_y(context.get_y()))
+        # Keep the buyer graph intact: both panels use the opening square plot, uniformly scaled.
+        buyer_comparison_graph = fixed(VGroup(market, buyer_strips, taxed_demand, taxed_demand_word,
+                                              buyer_point, buyer_prices, buyer_readout, seller_readout))
+        buyer_comparison_home = buyer_comparison_graph.copy()
+        # The old seller strips became buyer strips in 4.b; rebuild only that distinct tax model.
+        seller_comparison_strips = fixed(VGroup()).set_z_index(-1)
+        for q in range(TAX_Q):
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            seller_comparison_strips.add(fixed(Polygon(
+                ax.c2p(left, 2 + left / 20), ax.c2p(right, 2 + right / 20),
+                ax.c2p(right, 2 + right / 20 + TAX), ax.c2p(left, 2 + left / 20 + TAX),
+                stroke_width=0, fill_color=GOV, fill_opacity=STRIP_OPACITY).set_z_index(-1)))
+        seller_comparison_marks = fixed(VGroup(
+            buyer_prices[1].copy(), buyer_point[0].copy(), buyer_prices[2].copy(), buyer_prices[0].copy(),
+            buyer_point[1].copy(), buyer_readout.copy(), seller_readout.copy(), buyer_point[2].copy()))
+        seller_comparison_graph = fixed(VGroup(market.copy(), seller_comparison_strips,
+            taxed_supply.copy(), taxed_supply_word.copy(), seller_comparison_marks))
+        # A shared bounding box gives the plots identical sizes and aligned axes despite different labels.
+        comparison_bounds = VGroup(buyer_comparison_graph, seller_comparison_graph)
+        comparison_anchor = comparison_bounds.get_center()
+        comparison_scale = min(0.88, 7.2 / comparison_bounds.width)
+        comparison_shift = np.array([0, BODY_MID, 0]) - comparison_anchor
+        seller_comparison_graph.scale(comparison_scale, about_point=comparison_anchor).shift(comparison_shift + RIGHT * 4)
+        self.remove(*buyer_comparison_graph)
+        self.add(buyer_comparison_graph)
+        self.play(buyer_comparison_graph.animate.scale(comparison_scale, about_point=comparison_anchor)
+                      .shift(comparison_shift + LEFT * 4),
+                  FadeIn(seller_comparison_graph), FadeIn(seller_comparison_head), FadeIn(seller_comparison_context),
+                  FadeIn(either_note), run_time=1.4)
+        self.play(*[Indicate(marks[index], color=FOCUS, scale_factor=1.4 if index < 2 else 1.2)
+                    for marks in [(buyer_prices[1], buyer_point[0], buyer_point[2]),
+                                  (seller_comparison_marks[0], seller_comparison_marks[1], seller_comparison_marks[7])]
+                    for index in (0, 1, 2)], run_time=0.5)
         self.pause('4.e')
+
+        # Restore the same hierarchy and its original geometry before the tax-wedge explanation.
+        self.play(FadeOut(seller_comparison_graph), FadeOut(seller_comparison_head), FadeOut(seller_comparison_context),
+                  Transform(buyer_comparison_graph, buyer_comparison_home), run_time=1.2)
+        self.remove(buyer_comparison_graph)
+        self.add(*buyer_comparison_graph)
 
         # ---- 5.a · The tax wedge: the $2 gap stands beside the price axis, between the two readouts.
         self.remove(head, context, either_note)

@@ -51,7 +51,7 @@
 === 1 | Last time: the market
 
 #quote(block: true)[
-  1.a · Title: Competitive Equilibrium. Subtitle: A market without externalities. The C1 opening market, unchanged: axes 0–60 tons by 0–13 dollars, P and \$/ton beside the top of the vertical axis, Q and tons under the end of the horizontal, D / MB from 12 and S / MC from 2 with their intercept numerals, the red equilibrium dot at (40, 4) with dashed guides, P\* = 4 on the axis and Q = 40 below, faint orange cost bars under MC for the 40 tons. Then PS with its label, then CS with its label, both short white labels at their triangles’ centroids. Pause. From here one group carries the whole market out of and back into every close-up.
+  1.a · Title: Competitive Equilibrium. Subtitle: A market without externalities. The C1 opening market on a square 4.6 by 4.6 plot: axes 0–60 tons by 0–13 dollars, P and \$/ton beside the top of the vertical axis, Q and tons under the end of the horizontal, D / MB from 12 and S / MC from 2 with their intercept numerals, the red equilibrium dot at (40, 4) with dashed guides, P\* = 4 on the axis and Q = 40 below, faint orange cost bars under MC for the 40 tons. Then PS with its label, then CS with its label, both short white labels at their triangles’ centroids. Pause. From here one group carries the whole market out of and back into every close-up.
 
 ]
 
@@ -99,6 +99,10 @@
 #quote(block: true)[
   4.b · The marks never moved. The bottom line leaves. A 0.5 s yellow (FOCUS) pulse on the two red dots (scale 1.4) and the Q = 32 readout (scale 1.2): the one visual that says these stayed. Bottom: Same 32 tons, same two prices. Pause.
 
+]
+
+#quote(block: true)[
+  4.e · Side-by-side comparison. The buyer graph's prices take their names P\_b = 5.60 and P\_s = 3.60. Keep A Tax On Buyers and Buyers hand \$2 per ton to the government at the upper left. In a 1.4 s play the intact buyer graph uniformly resizes and moves into the left panel while the seller graph fades into the right panel, with A Tax On Sellers and Sellers hand \$2 per ton to the government flush right at the upper-right margin. Both graphs use uniformly scaled copies of the opening square axes (0–60 by 0–13, originally 4.6 by 4.6 units), the same curves, and no MC base fills. The buyer graph keeps every object in its existing hierarchy throughout the move; nothing changes shape or transforms into a different object. The buyer graph has green strips under MB and the dashed MB − tax curve; the seller graph has green strips above MC and the dashed MC + tax curve. Strips stop at Q = 32. Both show red dots and guides for P\_b = 5.60, P\_s = 3.60, and Q^tax = 32; pulse the matching dots and quantities together (0.5 s). Bottom: Either way: buyers pay \$5.60, sellers receive \$3.60. Pause. Then fade the right title, subtitle and graph while the buyer graph returns to its original full-size layout (1.2 s, no extra pause), ready for The Tax Wedge.
 ]
 
 === 5 | The tax wedge
