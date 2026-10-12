@@ -285,7 +285,7 @@ class C2(ThreeDScene):
             Tex(r'$Q^{tax}=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(TAX_Q, 0), DOWN, buff=0.20))).set_z_index(2)
         self.remove(seller_note)
         self.play(FadeIn(seller_question))
-        # Tons 33-40 leave the picture entirely: no bars beyond the taxed quantity until the wedge section restores them.
+        # Tons 33-40 leave the picture entirely: no bars beyond the taxed quantity.
         self.play(FadeIn(taxed_point),
                   *[bar.animate.set_fill(opacity=0) for bar in list(costs)[TAX_Q:] + list(seller_strips)[TAX_Q:]])
         self.pause('3.b')
@@ -358,6 +358,9 @@ class C2(ThreeDScene):
         self.remove(people, government)
         self.play(FadeOut(first_values), FadeOut(stack_word), FadeOut(buyer_edge), FadeOut(measure), FadeOut(measure_word),
                   FadeOut(buyer_note), run_time=0.4)
+        # From this market return onward, MC is carried by its curve alone. Close-up cost columns stay faint.
+        costs.set_fill(opacity=0)
+        second_home[3].set_fill(opacity=0)
         # The seller strips come back where they were and fly in the same play as the zoom-out.
         self.add(*seller_strips)
         self.play(Transform(second_pair, second_home), Transform(tax_bar, buyer_strip_home), FadeIn(market),
@@ -439,7 +442,6 @@ class C2(ThreeDScene):
         wedge_definition = fixed(Tex("The tax wedge: the buyers' price minus the sellers' price equals the tax.", color=DEFINITION)
                                  .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(context), FadeOut(buyer_strips), FadeOut(taxed_demand), FadeOut(taxed_demand_word),
-                  *[bar.animate.set_fill(opacity=BASE_OPACITY) for bar in list(costs)[TAX_Q:]],
                   FadeIn(axis_wedge), FadeIn(sliding_word), FadeIn(wedge_definition))
         self.pause('5.a')
 
@@ -462,7 +464,6 @@ class C2(ThreeDScene):
         self.play(FadeIn(slide_note))
         self.play(slide_q.animate.set_value(TAX_Q), run_time=2.6, rate_func=smooth)
         sliding_wedge.clear_updaters()
-        self.play(*[bar.animate.set_fill(opacity=0) for bar in list(costs)[TAX_Q:]])
         self.pause('5.b')
 
         # ---- 5.c.wedge · Make room, then solve in two labeled steps: the quantity, then the prices.
@@ -526,7 +527,7 @@ class C2(ThreeDScene):
                 stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY),
             Line(ax.c2p(l0, 12 - l0 / 5), ax.c2p(r0, 12 - r0 / 5), color=DEMAND, stroke_width=3),
             Polygon(ax.c2p(l0, 0), ax.c2p(r0, 0), ax.c2p(r0, 2 + r0 / 20), ax.c2p(l0, 2 + l0 / 20),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY),
+                stroke_width=0, fill_color=SUPPLY, fill_opacity=0),
             Polygon(ax.c2p(l0, 2 + l0 / 20), ax.c2p(r0, 2 + r0 / 20), ax.c2p(r0, SELLER_PRICE), ax.c2p(l0, SELLER_PRICE),
                 stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY),
             Line(ax.c2p(l0, 2 + l0 / 20), ax.c2p(r0, 2 + r0 / 20), color=SUPPLY, stroke_width=3),
@@ -641,7 +642,7 @@ class C2(ThreeDScene):
             Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 12 - right / 5), ax.c2p(left, 12 - left / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
             Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 2 + right / 20), ax.c2p(left, 2 + left / 20),
-                stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY)))
+                stroke_width=0, fill_color=SUPPLY, fill_opacity=0)))
         lost_home = lost_pair.copy()
         lost_selection = fixed(SurroundingRectangle(lost_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(revenue_note)
@@ -787,7 +788,7 @@ class C2(ThreeDScene):
         self.add(market, sliding_wedge, sliding_word, wedge_marks, ps_taxed, tax_bars, cs_taxed, welfare_words)
         tax, d_slope, s_slope = ValueTracker(TAX), ValueTracker(0.2), ValueTracker(0.05)
         cost_region = fixed(Polygon(ax.c2p(0, 0), ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(0, 2),
-            stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY))
+            stroke_width=0, fill_color=SUPPLY, fill_opacity=0))
         ps_region = fixed(Polygon(ax.c2p(0, 2), ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(0, SELLER_PRICE),
             stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY))
         tax_region = fixed(Polygon(ax.c2p(0, SELLER_PRICE), ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), ax.c2p(0, BUYER_PRICE),
@@ -1077,14 +1078,13 @@ class C2(ThreeDScene):
                   right_seller_readout, right_quantity_readout, right_buyer_share, right_seller_share,
                   right_buyer_number, right_seller_number]:
             m.clear_updaters()
-        costs.set_fill(opacity=BASE_OPACITY)
         self.play(FadeIn(head), FadeIn(context), FadeIn(subsidy_note),
                   FadeOut(left_graph), FadeOut(right_graph), FadeIn(market))
         self.play(FadeIn(subsidy_wedge), FadeIn(subsidy_word))
         self.play(subsidy_slide.animate.set_value(SUBSIDY_Q), run_time=2.6, rate_func=smooth)
         self.pause('9.a')
 
-        # ---- 9.b · Stuck at 48 tons: sellers' price above buyers' price, eight new one-ton bars.
+        # ---- 9.b · Stuck at 48 tons: sellers' price above buyers' price; invisible slices locate later close-ups.
         subsidy_wedge.clear_updaters()
         subsidy_word.clear_updaters()
         subsidy_marks = fixed(VGroup(
@@ -1105,7 +1105,7 @@ class C2(ThreeDScene):
                 Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 12 - right / 5), ax.c2p(left, 12 - left / 5),
                     stroke_width=0, fill_color=DEMAND, fill_opacity=0),
                 Polygon(ax.c2p(left, 0), ax.c2p(right, 0), ax.c2p(right, 2 + right / 20), ax.c2p(left, 2 + left / 20),
-                    stroke_width=0, fill_color=SUPPLY, fill_opacity=BASE_OPACITY))))
+                    stroke_width=0, fill_color=SUPPLY, fill_opacity=0))))
         subsidy_definition = fixed(Tex("Subsidy wedge: the sellers' price minus the buyers' price equals the subsidy.", color=DEFINITION)
                                    .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(subsidy_note)
