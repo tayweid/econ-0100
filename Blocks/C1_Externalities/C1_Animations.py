@@ -1224,6 +1224,8 @@ class C1(ThreeDScene):
                            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(dwl_word), FadeIn(conclusion))
         self.pause('4.b')
+        # End on the market's accumulated DWL; retain later material below for future use.
+        return
 
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
         self.remove(head, conclusion, dwl_context)
