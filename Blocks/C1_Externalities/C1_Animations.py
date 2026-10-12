@@ -32,7 +32,7 @@ class C1(ThreeDScene):
         DETAIL_BASE, DETAIL_SCALE = -2.05, 0.68
 
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
-        GRAPH_EXT_OPACITY = 0.8
+        GRAPH_EXT_OPACITY = BASE_OPACITY
 
         # Prepare the first lot and the exact marginal boundary on a common scale.
         head = fixed(title('Competitive Equilibrium'))
@@ -674,6 +674,15 @@ class C1(ThreeDScene):
         self.play(cost_graph.animate.scale(1.15, about_point=left_ax.c2p(30, 6.5)), run_time=0.8)
         # Keep the axes' numerical mappings live after the group moves.
         full_demand = fixed(Line(left_ax.c2p(0, 12), left_ax.c2p(60, 0), color=DEMAND, stroke_width=3))
+        # Restore MB bars with demand; above MC on the shared graph, full-height in close-ups.
+        # Leave the orange cost base clear rather than blending teal over it.
+        # Keep them in the market group so every return zoom carries them back.
+        mb_bars = fixed(VGroup())
+        for q in range(MARKET_Q):
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            mb_bars.add(fixed(Polygon(left_ax.c2p(left, 2 + left / 20), left_ax.c2p(right, 2 + right / 20),
+                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY).set_z_index(-1)))
         demand_intercept = fixed(Tex('$12$', color=DEMAND).scale(0.65 * 1.15)
             .next_to(left_ax.c2p(0, 12), LEFT, buff=0.15 * 1.15))
         demand_word = fixed(Tex('MB', color=INK).scale(0.7).next_to(left_ax.c2p(7, 10.6), UR, buff=0.12))
@@ -690,24 +699,22 @@ class C1(ThreeDScene):
             'The welfare of everyone, not just buyers and sellers in the market.'))
         question = fixed(Tex('Would reducing quantity improve welfare?', color=DEFINITION)
                          .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(head), FadeIn(welfare_context), FadeIn(full_demand),
+        self.play(FadeIn(head), FadeIn(welfare_context), FadeIn(full_demand), FadeIn(mb_bars),
                   FadeIn(demand_intercept), FadeIn(demand_word), FadeIn(market_reference), FadeIn(question))
-        social_graph = fixed(VGroup(cost_graph, full_demand, demand_intercept, demand_word, market_reference))
-        self.remove(cost_graph, full_demand, demand_intercept, demand_word, market_reference)
+        social_graph = fixed(VGroup(mb_bars, cost_graph, full_demand, demand_intercept, demand_word, market_reference))
+        self.remove(mb_bars, cost_graph, full_demand, demand_intercept, demand_word, market_reference)
         self.add(social_graph)
         self.pause('3.c')
 
         # ---- 3.e · Work through one traded ton, including external cost and deadweight loss.
         removed_social_pair = fixed(VGroup(
-            Polygon(*private_bars[(MARKET_Q - 1)].get_vertices()[:2],
-                left_ax.c2p((MARKET_Q - 1) + 1 - BAR_GAP / 2, 12 - ((MARKET_Q - 1) + 1 - BAR_GAP / 2) / 5),
-                left_ax.c2p((MARKET_Q - 1) + BAR_GAP / 2, 12 - ((MARKET_Q - 1) + BAR_GAP / 2) / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            mb_bars[MARKET_Q - 1].copy(),
             private_bars[(MARKET_Q - 1)].copy(), external_bars[(MARKET_Q - 1)].copy()))
         removed_social_home = removed_social_pair.copy()
         selected_ton = fixed(SurroundingRectangle(removed_social_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(question)
-        self.play(FadeIn(removed_social_pair), FadeIn(selected_ton))
+        # Add the bar copy only when zooming, avoiding doubled translucent fills in the hold.
+        self.play(FadeIn(selected_ton))
         self.pause('3.e.select')
         # Keep the exchange centered between the two decisions.
         EXCHANGE_X = 0
@@ -858,15 +865,12 @@ class C1(ThreeDScene):
         # ---- 3.f.36 · Inspect another exchanged unit with MSC above MB.
         left, right = 36 - 1 + BAR_GAP / 2, 36 - BAR_GAP / 2
         dwl_example_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
-                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            mb_bars[36 - 1].copy(),
             private_bars[36 - 1].copy(), external_bars[36 - 1].copy()))
         dwl_example_home = dwl_example_pair.copy()
         next_dwl_selection = fixed(SurroundingRectangle(dwl_example_pair, color=FOCUS, buff=0.025, stroke_width=2))
         dwl_selection = next_dwl_selection
         self.play(FadeIn(dwl_selection), run_time=0.3)
-        self.play(FadeIn(dwl_example_pair), run_time=0.3)
         self.pause('3.f.36.select')
         dwl_example_target = fixed(VGroup())
         for x, low, high, color in [(-1.16, 0, 4.8, DEMAND), (0.06, 0, 3.8, SUPPLY),
@@ -988,15 +992,13 @@ class C1(ThreeDScene):
         # ---- 4.a.exchange · Zoom into the last unit at the efficient quantity.
         left, right = EFFICIENT_Q - 1 + BAR_GAP / 2, EFFICIENT_Q - BAR_GAP / 2
         efficient_pair = fixed(VGroup(
-            Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
-                left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            mb_bars[EFFICIENT_Q - 1].copy(),
             private_bars[EFFICIENT_Q - 1].copy(), external_bars[EFFICIENT_Q - 1].copy()))
         efficient_home = efficient_pair.copy()
         efficient_selection = fixed(SurroundingRectangle(efficient_pair,
             color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(condition)
-        self.play(FadeIn(efficient_pair), FadeIn(efficient_selection))
+        self.play(FadeIn(efficient_selection))
         efficient_target = fixed(VGroup())
         for left, low, high, color in [(-1.16, 0, 5.6, DEMAND), (0.06, 0, 3.6, SUPPLY),
                                       (0.06, 3.6, 5.6, EXT)]:
@@ -1123,14 +1125,12 @@ class C1(ThreeDScene):
             self.play(FadeIn(conclusion))
             left, right = 23 + BAR_GAP / 2, 24 - BAR_GAP / 2
             beneficial_pair = fixed(VGroup(
-                Polygon(left_ax.c2p(left, 0), left_ax.c2p(right, 0),
-                    left_ax.c2p(right, 12 - right / 5), left_ax.c2p(left, 12 - left / 5),
-                    stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+                mb_bars[23].copy(),
                 private_bars[23].copy(), external_bars[23].copy()))
             beneficial_home = beneficial_pair.copy()
             beneficial_selection = fixed(SurroundingRectangle(beneficial_pair,
                 color=FOCUS, buff=0.025, stroke_width=2))
-            self.play(FadeIn(beneficial_pair), FadeIn(beneficial_selection))
+            self.play(FadeIn(beneficial_selection))
             self.pause('4.c.beneficial')
             # Keep the higher MB bar below the subtitle while retaining a common value scale.
             BENEFICIAL_SCALE = 0.55
@@ -1274,9 +1274,13 @@ class C1(ThreeDScene):
             Tex('MB', color=INK).scale(0.7).next_to(positive_ax.c2p(8, 10.4), DOWN, buff=0.14),
             Tex('MC', color=INK).scale(0.7).next_to(positive_ax.c2p(60, 5), RIGHT, buff=0.12),
             Tex('MSB', color=INK).scale(0.7).next_to(positive_ax.c2p(8, 12.4), UR, buff=0.10)))
-        positive_cost_bars, positive_ext_bars = fixed(VGroup()), fixed(VGroup())
+        positive_mb_bars, positive_cost_bars, positive_ext_bars = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
         for q in range(60):
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            positive_mb_bars.add(fixed(Polygon(
+                positive_ax.c2p(left, 2 + left / 20), positive_ax.c2p(right, 2 + right / 20),
+                positive_ax.c2p(right, 12 - right / 5), positive_ax.c2p(left, 12 - left / 5),
+                stroke_width=0, fill_color=DEMAND, fill_opacity=BASE_OPACITY if q < MARKET_Q else 0).set_z_index(-1)))
             positive_cost_bars.add(fixed(Polygon(
                 positive_ax.c2p(left, 0), positive_ax.c2p(right, 0),
                 positive_ax.c2p(right, 2 + right / 20), positive_ax.c2p(left, 2 + left / 20),
@@ -1292,15 +1296,13 @@ class C1(ThreeDScene):
             Tex(r'$\hat{P}=4$', color=GUIDE).scale(0.65).next_to(positive_ax.c2p(0, 4), LEFT, buff=0.20),
             DashedLine(positive_ax.c2p(0, 4), positive_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5)))
         # ---- 5.b · The same benefit appears above MB across the market.
-        positive_graph = fixed(VGroup(positive_ax, positive_axis_words, positive_cost_bars, positive_ext_bars,
+        positive_graph = fixed(VGroup(positive_ax, positive_axis_words, positive_mb_bars, positive_cost_bars, positive_ext_bars,
             positive_demand, positive_supply, positive_social_benefit, social_benefit_intercept, positive_curve_words, positive_market))
         positive_graph.shift(RIGHT * 3.7)
         positive_graph.scale(1.15, about_point=positive_ax.c2p(30, 7.5))
         left, right = 39 + BAR_GAP / 2, 40 - BAR_GAP / 2
         benefit_home = fixed(VGroup(
-            Polygon(positive_ax.c2p(left, 0), positive_ax.c2p(right, 0),
-                positive_ax.c2p(right, 12 - right / 5), positive_ax.c2p(left, 12 - left / 5),
-                stroke_width=0, fill_color=DEMAND, fill_opacity=0),
+            positive_mb_bars[39].copy(),
             positive_cost_bars[39].copy(), positive_ext_bars[39].copy()))
         self.play(FadeOut(benefit_edges), FadeOut(benefit_names), FadeOut(detached_name),
                   FadeOut(benefit_top), FadeOut(benefit_top_name), FadeOut(benefit_definition),
@@ -1312,7 +1314,7 @@ class C1(ThreeDScene):
         # ---- 5.c · Inspect private equilibrium with the two compact decisions.
         benefit_pair = benefit_home.copy()
         benefit_selection = fixed(SurroundingRectangle(benefit_pair, color=FOCUS, buff=0.025, stroke_width=2))
-        self.play(FadeIn(benefit_pair), FadeIn(benefit_selection))
+        self.play(FadeIn(benefit_selection))
         self.play(FadeOut(positive_graph), FadeOut(positive_context), FadeOut(benefit_selection),
                   Transform(benefit_pair, benefit_target), run_time=1.4)
         benefit_context = fixed(subtitle(head, 'The 40th unit: the market equilibrium.'))
