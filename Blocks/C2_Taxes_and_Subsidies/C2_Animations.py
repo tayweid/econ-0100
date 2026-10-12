@@ -268,6 +268,13 @@ class C2(ThreeDScene):
         # The surplus fills rest while the curves move; welfare returns in section 6. The market was off screen, so
         # its marker and surplus words simply leave the group before it comes back.
         market.remove(equilibrium, surplus_words)
+        # Keep the untaxed price and quantity as unlabeled references in every later market view.
+        # Traveling with market preserves them through panel copies, resizes and close-up returns.
+        original_guides = fixed(VGroup(
+            DashedLine(ax.c2p(0, MARKET_P), ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
+            DashedLine(ax.c2p(MARKET_Q, 0), ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2)
+        )).set_z_index(1.5)
+        market.add(original_guides)
         cs.set_fill(opacity=0)
         ps.set_fill(opacity=0)
         self.play(FadeIn(head), FadeIn(context), Transform(first_pair, first_home), Transform(tax_bar, first_strip_home),
@@ -976,8 +983,8 @@ class C2(ThreeDScene):
         for m in [cost_region, ps_region, tax_region, cs_region, dwl_region, *wedge, wedge_word,
                   buyer_price_readout, seller_price_readout, quantity_readout, cs_label, ps_label, tax_label, dwl_label]:
             m.clear_updaters()
-        # Both graphs start identical: curves, intercepts, the wedge with its readouts, the untaxed price as a grey
-        # reference, and the incidence stack off the axis (buyers' share above 4, sellers' share below).
+        # Both graphs keep unlabeled grey guides at the untaxed price and quantity, alongside the wedge
+        # and the incidence stack off the axis (buyers' share above 4, sellers' share below).
         STACK_Q = -20
         incidence_graphs = fixed(VGroup())
         for origin_x in (-5.3, 2.5):
@@ -991,8 +998,9 @@ class C2(ThreeDScene):
                        Tex('S / MC', color=INK).scale(0.65).next_to(small_ax.c2p(60, 5), UP, buff=0.10, aligned_edge=RIGHT)),
                 VGroup(Tex('$2$', color=SUPPLY).scale(0.65).next_to(small_ax.c2p(0, 2), LEFT, buff=0.15),
                        Tex('$12$', color=DEMAND).scale(0.65).next_to(small_ax.c2p(0, 12), LEFT, buff=0.15)),
-                VGroup(DashedLine(small_ax.c2p(0, 4), small_ax.c2p(40, 4), color=MUTED, stroke_width=2),
-                       Dot(small_ax.c2p(40, 4), radius=0.06, color=MUTED)),
+                VGroup(DashedLine(small_ax.c2p(0, MARKET_P), small_ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
+                       DashedLine(small_ax.c2p(MARKET_Q, 0), small_ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
+                       Dot(small_ax.c2p(MARKET_Q, MARKET_P), radius=0.06, color=MUTED)).set_z_index(1.5),
                 VGroup(Line(small_ax.c2p(TAX_Q, SELLER_PRICE), small_ax.c2p(TAX_Q, BUYER_PRICE), color=GOV, stroke_width=6),
                        Line(small_ax.c2p(TAX_Q, SELLER_PRICE) + LEFT * 0.09, small_ax.c2p(TAX_Q, SELLER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
                        Line(small_ax.c2p(TAX_Q, BUYER_PRICE) + LEFT * 0.09, small_ax.c2p(TAX_Q, BUYER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
