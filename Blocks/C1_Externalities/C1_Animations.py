@@ -940,19 +940,28 @@ class C1(ThreeDScene):
             [0.06, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], [1.16, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0],
             [1.16, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], [0.06, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0],
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
-        dwl_example_result = fixed(VGroup(
-            Tex(r'MSC $>$ MB', color=INK), Tex(r'DWL $=\$2$', color=INK))
-            .arrange(DOWN, buff=0.16).scale(0.8).move_to([4.5, 0.4, 0]))
+        # Project MB and MSC to a measured loss gap, leaving value labels clear.
+        dwl_example_guides = fixed(VGroup(
+            DashedLine([-0.06, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0],
+                       [1.3, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.4),
+            DashedLine([3.3, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0],
+                       [3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.4),
+            DashedLine(dwl_example_labels[1].get_right() + RIGHT * 0.12,
+                       [3.65, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.4),
+            Line([3.65, DETAIL_BASE + 4.0 * DETAIL_SCALE, 0],
+                 [3.65, DETAIL_BASE + 6.0 * DETAIL_SCALE, 0], color=DWL, stroke_width=3)))
+        dwl_example_result = fixed(Tex(r'DWL $=\$2$', color=INK).scale(0.8)
+            .next_to([3.65, DETAIL_BASE + 5.0 * DETAIL_SCALE, 0], RIGHT, buff=0.25))
         dwl_example_note = fixed(Tex(r'Every unit exchanged where MSC $>$ MB carries DWL.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(dwl_example_loss), FadeIn(dwl_example_result), FadeIn(dwl_example_note), run_time=0.5)
+        self.play(FadeIn(dwl_example_loss), FadeIn(dwl_example_guides), FadeIn(dwl_example_result), FadeIn(dwl_example_note), run_time=0.5)
         self.pause('3.f.40.loss')
         dwl_example_loss_home = fixed(Polygon(
             left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
             left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
         self.remove(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeOut(dwl_example_result), FadeOut(dwl_example_edges), FadeOut(dwl_example_context),
+        self.play(FadeOut(dwl_example_guides), FadeOut(dwl_example_result), FadeOut(dwl_example_edges), FadeOut(dwl_example_context),
                   FadeOut(dwl_example_note), FadeOut(dwl_example_labels, suspend_mobject_updating=False),
                   Transform(dwl_example_pair, dwl_example_home), Transform(dwl_example_loss, dwl_example_loss_home),
                   FadeIn(social_graph), FadeIn(welfare_context), run_time=1.0)
@@ -1008,19 +1017,28 @@ class C1(ThreeDScene):
             [0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], [1.16, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
             [1.16, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], [0.06, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0],
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
-        dwl_example_result = fixed(VGroup(
-            Tex(r'MSC $>$ MB', color=INK), Tex(r'DWL $=\$1$', color=INK))
-            .arrange(DOWN, buff=0.16).scale(0.8).move_to([4.5, 0.4, 0]))
+        # Project MB and MSC to a measured loss gap, leaving value labels clear.
+        dwl_example_guides = fixed(VGroup(
+            DashedLine([-0.06, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                       [1.3, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.4),
+            DashedLine([3.3, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                       [3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.4),
+            DashedLine(dwl_example_labels[1].get_right() + RIGHT * 0.12,
+                       [3.65, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.4),
+            Line([3.65, DETAIL_BASE + 4.8 * DETAIL_SCALE, 0],
+                 [3.65, DETAIL_BASE + 5.8 * DETAIL_SCALE, 0], color=DWL, stroke_width=3)))
+        dwl_example_result = fixed(Tex(r'DWL $=\$1$', color=INK).scale(0.8)
+            .next_to([3.65, DETAIL_BASE + 5.3 * DETAIL_SCALE, 0], RIGHT, buff=0.25))
         dwl_example_note = fixed(Tex(r'Every unit exchanged where MSC $>$ MB carries DWL.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(dwl_example_loss), FadeIn(dwl_example_result), FadeIn(dwl_example_note), run_time=0.5)
+        self.play(FadeIn(dwl_example_loss), FadeIn(dwl_example_guides), FadeIn(dwl_example_result), FadeIn(dwl_example_note), run_time=0.5)
         self.pause('3.f.36.loss')
         dwl_example_loss_home = fixed(Polygon(
             left_ax.c2p(left, 12 - left / 5), left_ax.c2p(right, 12 - right / 5),
             left_ax.c2p(right, 4 + right / 20), left_ax.c2p(left, 4 + left / 20),
             stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
         self.remove(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeOut(dwl_example_result), FadeOut(dwl_example_edges), FadeOut(dwl_example_context),
+        self.play(FadeOut(dwl_example_guides), FadeOut(dwl_example_result), FadeOut(dwl_example_edges), FadeOut(dwl_example_context),
                   FadeOut(dwl_example_note), FadeOut(dwl_example_labels, suspend_mobject_updating=False),
                   Transform(dwl_example_pair, dwl_example_home), Transform(dwl_example_loss, dwl_example_loss_home),
                   FadeIn(social_graph), FadeIn(welfare_context), run_time=1.0)
