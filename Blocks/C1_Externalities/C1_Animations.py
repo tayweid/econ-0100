@@ -821,37 +821,35 @@ class C1(ThreeDScene):
                   FadeIn(social_cost_note), run_time=0.4)
         self.pause('3.e.extension')
 
-        # ---- 3.e.math · Copy the known values into the equation, then simplify.
-        calculation_divider = fixed(Line([0.7, 2.1, 0], [0.7, -3.1, 0],
-            color=MUTED, stroke_width=1.5))
-        msc_formula = fixed(VGroup(
-            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex('MC', color=SUPPLY),
-            Tex('$+$', color=INK), Tex('EXT', color=EXT))
-            .arrange(RIGHT, buff=0.16).scale(0.75).move_to([CALCULATION_X, 0.1, 0]))
-        msc_substitution = fixed(VGroup(
-            Tex('MSC', color=SUPPLY), Tex('$=$', color=INK), Tex(r'$\$3.80$', color=SUPPLY),
-            Tex('$+$', color=INK), Tex(r'$\$2$', color=EXT))
-            .arrange(RIGHT, buff=0.16).scale(0.75).next_to(msc_formula, DOWN, buff=0.4))
-        self.play(FadeIn(calculation_divider), FadeIn(msc_formula))
-        self.pause('3.e.formula')
-        self.play(*[TransformFromCopy(msc_formula[i], msc_substitution[i]) for i in (0, 1, 3)])
-        self.play(TransformFromCopy(removed_social_labels[5], msc_substitution[2]), run_time=0.9)
-        self.play(TransformFromCopy(removed_social_labels[6], msc_substitution[4]), run_time=0.9)
-        self.remove(*list(msc_substitution))
-        self.add(msc_substitution)
+        # ---- 3.e.math · Lift the two known values into one quick sum.
+        msc_sum = fixed(VGroup(
+            Tex(r'$\$3.80$', color=SUPPLY), Tex('$+$', color=INK),
+            Tex(r'$\$2$', color=EXT)).arrange(RIGHT, buff=0.16).scale(0.75)
+            .move_to([CALCULATION_X, 0.1, 0]))
+        cost_value = fixed(Tex(r'$\$3.80$', color=SUPPLY).scale(0.72)
+            .move_to(removed_social_labels[5], aligned_edge=RIGHT))
+        external_value = fixed(Tex(r'$\$2$', color=EXT).scale(0.72)
+            .move_to(removed_social_labels[6], aligned_edge=RIGHT))
+        self.remove(removed_social_labels[5], removed_social_labels[6])
+        self.add(cost_value, external_value)
+        self.play(ReplacementTransform(cost_value, msc_sum[0]),
+                  ReplacementTransform(external_value, msc_sum[2]),
+                  FadeIn(msc_sum[1]), run_time=1.0)
+        self.remove(*list(msc_sum))
+        self.add(msc_sum)
         self.pause('3.e.substitution')
-        msc_result = fixed(VGroup(Tex('MSC', color=SUPPLY), Tex('$=$', color=INK),
-            Tex(r'$\$5.80$', color=SUPPLY)).arrange(RIGHT, buff=0.16).scale(0.75)
-            .move_to(msc_substitution))
-        self.play(ReplacementTransform(msc_substitution, msc_result), run_time=1)
-        self.pause('3.e.result')
-        self.play(FadeOut(msc_formula), FadeOut(msc_result[1]),
-                  ReplacementTransform(fixed(VGroup(msc_result[0], msc_result[2])), removed_social_labels[7]),
-                  FadeIn(removed_social_labels[2]), run_time=1.4)
-        self.remove(msc_result)
+        msc_result = fixed(Tex(r'MSC $\$5.80$', color=SUPPLY).scale(0.75)
+            .move_to(msc_sum))
+        self.play(ReplacementTransform(msc_sum, msc_result), run_time=0.7)
+        # Keep the components as quiet references once the social total is known.
+        removed_social_labels[5].set_opacity(0.25)
+        removed_social_labels[6].set_opacity(0.25)
+        self.play(ReplacementTransform(msc_result, removed_social_labels[7]),
+                  FadeIn(removed_social_labels[2]), FadeIn(removed_social_labels[5]),
+                  FadeIn(removed_social_labels[6]), run_time=1.0)
         self.pause('3.e.costs')
         # Recenter the completed exchange once the calculation area is cleared.
-        self.play(FadeOut(calculation_divider), FadeOut(social_cost_note),
+        self.play(FadeOut(social_cost_note),
                   removed_social_pair.animate.shift(LEFT * EXCHANGE_X),
                   removed_social_labels.animate.shift(LEFT * EXCHANGE_X),
                   detail_people.animate.shift(LEFT * EXCHANGE_X),
