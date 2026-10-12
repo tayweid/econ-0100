@@ -346,6 +346,7 @@ parts:
           description: "*Externalities practice problems*"
         homework:
           practice: hwc
+          post: now
         extras:
           - name: Planet Money
             description: Tax carbon, fix the climate

@@ -6,7 +6,7 @@ plass:
 
 # ECON 0100 | Homework C1 | Externalities
 
-*Due: Sunday, Oct. 18*
+*Due: Wednesday, Oct. 14*
 
 Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Answer clearly and completely, and show your work so you can later understand your thought process. You are welcomed and encouraged to work in groups as long as your work is your own. Submit your answers on Gradescope when you’re finished: each answer there is a selection.
 
@@ -21,10 +21,6 @@ D: P_B = 100 - \frac{1}{2} Q_D \qquad\qquad S: P_S = 20 + \frac{1}{2} Q_S
 $$
 
 Prices are in galleons and quantity is in bottles. The odor imposes a cost of 20 galleons per bottle on everyone nearby.
-
- 
-
- 
 
  
 
@@ -62,13 +58,13 @@ Deadweight Loss region (letter): \_\_\_\_\_\_\_\_\_\_
 
 Why does the market provide too few vaccinations?
 
-A\) Each vaccination costs society more to produce than it costs the seller.
-
-B\) Each vaccination is worth more to society than to the person buying it, so at the market quantity marginal social benefit is still above marginal cost.
-
-C\) Buyers value each vaccination less than sellers’ marginal cost, so too few buyers enter the market.
-
-D\) The market quantity is already socially efficient, so no vaccinations are missing.
+> a\) Each vaccination costs society more to produce than it costs the seller.
+>
+> b\) Each vaccination is worth more to society than to the person buying it, so at the market quantity marginal social benefit is still above marginal cost.
+>
+> c\) Buyers value each vaccination less than sellers’ marginal cost, so too few buyers enter the market.
+>
+> d\) The market quantity is already socially efficient, so no vaccinations are missing.
 
 <!--
 // GRAPH CODE: keep this note. It draws the graphs above; delete it and they can't be redrawn.
