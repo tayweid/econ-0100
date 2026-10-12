@@ -311,6 +311,9 @@ parts:
           description: Globalization and protectionism
         vignette:
           description: "*International trade practice problems*"
+        homework:
+          file: B6
+          post: now
 
       - checkpoint:
           reattempt: In Recitation
@@ -375,6 +378,9 @@ parts:
           description: "*Taxes practice problems*"
           files: C2
           solutions: false
+        homework:
+          file: C2
+          post: now
         dates:
           class: '2026-10-12'
           recitation: '2026-10-16'
@@ -394,6 +400,9 @@ parts:
           video: prohFxS0E1I
         vignette:
           description: "*Corrective taxes practice problems*"
+        homework:
+          file: C3
+          post: now
         dates:
           class: '2026-10-14'
           recitation: '2026-10-16'
