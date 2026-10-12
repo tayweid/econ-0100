@@ -294,42 +294,48 @@ class C1(ThreeDScene):
                 .scale(0.65).move_to([x, DETAIL_BASE - 0.94, 0])))
         extra_detail = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
-              for bar, color in zip(extra_target, [DEMAND, SUPPLY, SUPPLY])],
+              for bar, color in zip(extra_target, [DEMAND, SUPPLY])],
             Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$2.40$', color=DEMAND).scale(0.72).next_to(extra_pair[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MC $\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_pair[1].get_corner(UR), RIGHT, buff=0.25),
-            DashedLine([-0.06, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
-            DashedLine([3.25, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=DWL, stroke_width=1.6),
-            Line([3.8, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], [3.8, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0],
-                color=DWL, stroke_width=3),
-            VGroup(Tex(r'TS $=-\$2$', color=TOTAL), Tex(r'DWL $=\$2$', color=INK))
-                .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8)
-                .next_to([3.8, DETAIL_BASE + 3.4 * DETAIL_SCALE, 0], RIGHT, buff=0.3),
-            Tex(r'MC $>$ MB', color=INK).scale(0.8)))
-        extra_detail[-1].next_to(extra_detail[-2], DOWN, buff=0.2)
-        conclusion = fixed(Tex('Negative TS means deadweight loss: a reduction in total surplus.', color=DEFINITION)
-                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        value_question = fixed(Tex('Can any price make this trade worthwhile?', color=DEFINITION)
+            Tex(r'$\$2.40$', color=DEMAND).scale(0.72).next_to(extra_pair[0].get_corner(UL), LEFT, buff=0.25),
+            Tex(r'$\$4.40$', color=SUPPLY).scale(0.72).next_to(extra_pair[1].get_corner(UR), RIGHT, buff=0.25),
+            Tex('MB', color=DEMAND).scale(0.58).next_to(extra_pair[0].get_top(), DOWN, buff=0.1),
+            Tex('MC', color=SUPPLY).scale(0.58).next_to(extra_pair[1].get_top(), DOWN, buff=0.1)))
+        extra_questions = fixed(VGroup(
+            Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5, 2.45, 0]),
+            Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5, 2.45, 0])))
+        extra_private_guides = fixed(VGroup(
+            DashedLine(extra_detail[3].get_left() + LEFT * 0.12, [-3.65, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine([0.06, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            Line([-3.65, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], [-3.65, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
+        extra_private_answer = fixed(VGroup(Tex('No', color=INK), Tex(r'MB $<$ MC', color=TOTAL))
+            .arrange(DOWN, buff=0.12).scale(0.65).next_to([-3.65, DETAIL_BASE + 3.4 * DETAIL_SCALE, 0], LEFT, buff=0.3))
+        extra_social_guides = fixed(VGroup(
+            DashedLine([-0.06, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine(extra_detail[4].get_right() + RIGHT * 0.12, [3.65, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            Line([3.65, DETAIL_BASE + 2.4 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 4.4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
+        extra_social_answer = fixed(VGroup(Tex('No', color=INK), Tex(r'MB $<$ MC', color=TOTAL),
+            Tex('If traded:', color=CAPTION), Tex(r'TS $=-\$2$', color=TOTAL), Tex(r'DWL $=\$2$', color=INK))
+            .arrange(DOWN, buff=0.10, aligned_edge=LEFT).scale(0.60)
+            .next_to([3.65, DETAIL_BASE + 3.4 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
+        conclusion = fixed(Tex(r'Both decisions agree: this trade would destroy $\$2$ of surplus.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        extra_detail[3].bars = extra_detail[4].bars = extra_pair
-        extra_detail[3].add_updater(lambda m:
-            m.next_to(m.bars[0].get_corner(UL), LEFT, buff=0.25))
-        extra_detail[4].add_updater(lambda m:
-            m.next_to(m.bars[1].get_corner(UR), RIGHT, buff=0.25))
-        unit_context = fixed(subtitle(head,
-            'The 48th unit: a quantity larger than in equilibrium.'))
+        unit_context = fixed(subtitle(head, 'The 48th unit: a quantity larger than in equilibrium.'))
         self.add(detail_people)
-        self.play(FadeIn(extra_detail[:5]), FadeIn(value_question), FadeIn(unit_context))
+        self.play(FadeIn(extra_detail), FadeIn(extra_questions), FadeIn(unit_context))
         self.pause('1.c.values')
-        self.play(FadeOut(value_question))
-        self.play(FadeIn(extra_detail[5:]), FadeIn(conclusion))
+        self.play(FadeIn(extra_private_guides), FadeIn(extra_private_answer[1]))
+        self.pause('1.c.private.compare')
+        self.play(FadeIn(extra_private_answer[0]))
+        self.pause('1.c.private')
+        self.play(FadeIn(extra_social_guides), FadeIn(extra_social_answer[1]))
+        self.pause('1.c.social.compare')
+        self.play(FadeIn(extra_social_answer[0]), FadeIn(extra_social_answer[2:]), FadeIn(conclusion))
         self.pause('1.c')
 
         # ---- 1.d · Return the exact same pair to its original quantity interval.
         self.remove(detail_people)
-        self.play(FadeOut(extra_detail, suspend_mobject_updating=False), FadeOut(conclusion), FadeOut(unit_context),
+        self.play(FadeOut(extra_detail), FadeOut(extra_questions), FadeOut(extra_private_guides), FadeOut(extra_private_answer),
+                  FadeOut(extra_social_guides), FadeOut(extra_social_answer), FadeOut(conclusion), FadeOut(unit_context),
                   Transform(extra_pair, extra_home), FadeIn(market), FadeIn(extra_lots), run_time=1.6)
         self.play(FadeOut(extra_pair), FadeOut(extra_lots),
                   Transform(quantity_guide, fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE))),
