@@ -1231,10 +1231,43 @@ class C1(ThreeDScene):
             self.play(FadeOut(beneficial_pair))
             self.pause('4.c')
 
-        # ---- 5.a · Positive externalities add benefits above MB, leaving MC unchanged.
+        # ---- 5.a · Bystander benefits join the buyer's private benefit.
         self.play(*[FadeOut(m) for m in list(self.mobjects)], run_time=0.7)
         head = fixed(title('Positive Externalities'))
         positive_context = fixed(subtitle(head, 'A benefit received by others outside the market.'))
+        benefit_pair = fixed(VGroup())
+        for x, low, high, color in [(-1.16, 0, 4, DEMAND), (0.06, 0, 4, SUPPLY), (-1.16, 4, 6, EXT)]:
+            benefit_pair.add(fixed(Polygon(
+                [x, DETAIL_BASE + low * DETAIL_SCALE, 0], [x + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
+                [x + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [x, DETAIL_BASE + high * DETAIL_SCALE, 0],
+                stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
+        benefit_target = benefit_pair.copy()
+        benefit_pair[2].move_to([3.8, -0.6, 0]).set_fill(opacity=SURPLUS_OPACITY)
+        benefit_edges = fixed(VGroup(
+            Line(benefit_pair[0].get_corner(UL), benefit_pair[0].get_corner(UR), color=DEMAND, stroke_width=3),
+            Line(benefit_pair[1].get_corner(UL), benefit_pair[1].get_corner(UR), color=SUPPLY, stroke_width=3),
+            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED)))
+        benefit_names = fixed(VGroup(
+            Tex('MB', color=DEMAND).scale(0.58).next_to(benefit_pair[0].get_top(), DOWN, buff=0.1),
+            Tex('MC', color=SUPPLY).scale(0.58).next_to(benefit_pair[1].get_top(), DOWN, buff=0.1)))
+        detached_name = fixed(Tex('EXT', color=EXT).scale(0.58).move_to(benefit_pair[2]))
+        unit_bystander.move_to([3.8, DETAIL_BASE - 0.42, 0])
+        unit_bystander_word.set_x(3.8)
+        self.play(FadeIn(head), FadeIn(positive_context), FadeIn(benefit_pair), FadeIn(benefit_edges),
+                  FadeIn(benefit_names), FadeIn(detached_name), FadeIn(detail_people),
+                  FadeIn(unit_bystander), FadeIn(unit_bystander_word))
+        self.pause('5.a.bystanders')
+        self.play(Transform(benefit_pair[2], benefit_target[2], path_arc=PI / 2),
+                  detached_name.animate.move_to(benefit_target[2]),
+                  unit_bystander.animate.set_x(0), unit_bystander_word.animate.set_x(0), run_time=1.4)
+        benefit_top = fixed(Line(benefit_target[2].get_corner(UL), benefit_target[2].get_corner(UR), color=DEMAND, stroke_width=3))
+        benefit_top_name = fixed(Tex('MSB', color=DEMAND).scale(0.58).next_to(benefit_target[2].get_top(), UP, buff=0.1))
+        benefit_definition = fixed(VGroup(Tex('MSB', color=DEMAND), Tex('$=$', color=INK),
+            Tex('MB', color=DEMAND), Tex('$+$', color=INK), Tex('EXT', color=EXT))
+            .arrange(RIGHT, buff=0.16).scale(0.8).move_to([3.8, 0.7, 0]))
+        self.play(FadeIn(benefit_top), FadeIn(benefit_top_name), FadeIn(benefit_definition))
+        self.pause('5.a')
+
         positive_ax = fixed(style_axes([0, 60, 10], [0, 15, 2], x_length=5.5, y_length=3.9))
         positive_ax.shift(np.array([-6.45, -2.15, 0]) - positive_ax.c2p(0, 0))
         positive_axis_words = fixed(VGroup(
@@ -1266,135 +1299,115 @@ class C1(ThreeDScene):
         positive_market = fixed(VGroup(
             Dot(positive_ax.c2p(40, 4), radius=0.06, color=GUIDE),
             DashedLine(positive_ax.c2p(40, 0), positive_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5),
-            Tex(r'$\hat{Q}=40$', color=GUIDE).scale(0.65).next_to(positive_ax.c2p(40, 0), DOWN, buff=0.20),
+            VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('$40$', color=GUIDE)).arrange(DOWN, buff=0.06).scale(0.65).next_to(positive_ax.c2p(40, 0), DOWN, buff=0.20),
             Tex(r'$\hat{P}=4$', color=GUIDE).scale(0.65).next_to(positive_ax.c2p(0, 4), LEFT, buff=0.20),
             DashedLine(positive_ax.c2p(0, 4), positive_ax.c2p(40, 4), color=GUIDE, stroke_width=1.5)))
-        self.play(FadeIn(head), FadeIn(positive_context), FadeIn(positive_ax), FadeIn(positive_axis_words),
-                  FadeIn(positive_cost_bars), FadeIn(positive_demand), FadeIn(positive_supply),
-                  FadeIn(positive_curve_words[:2]), FadeIn(positive_market))
-        self.play(LaggedStart(*[FadeIn(bar) for bar in positive_ext_bars], lag_ratio=0.035),
-                  FadeIn(positive_social_benefit), FadeIn(social_benefit_intercept), FadeIn(positive_curve_words[2]), run_time=1.8)
-        benefit_terms = fixed(VGroup(
-            Tex('Marginal social benefit', color=DEMAND), Tex('$=$', color=INK),
-            Tex('Marginal benefit', color=DEMAND), Tex('$+$', color=INK),
-            Tex('External benefit', color=EXT)).scale(0.7))
-        benefit_terms[0].move_to([3.8, 0.65, 0])
-        VGroup(*list(benefit_terms)[1:]).arrange(RIGHT, buff=0.16).next_to(benefit_terms[0], DOWN, buff=0.25)
-        benefit_definition = fixed(VGroup(
-            Tex('MSB', color=DEMAND), Tex('$=$', color=INK), Tex('MB', color=DEMAND),
-            Tex('$+$', color=INK), Tex('EXT', color=EXT))
-            .arrange(RIGHT, buff=0.16).scale(0.8).move_to(benefit_terms))
-        benefit_divider = fixed(Line([0.25, -3, 0], [0.25, 2, 0], color=MUTED,
-                                    stroke_width=1, stroke_opacity=0.45))
-        self.play(FadeIn(benefit_terms), FadeIn(benefit_divider))
-        self.pause('5.a.words')
-        self.play(ReplacementTransform(benefit_terms, benefit_definition), run_time=1)
-        self.pause('5.a')
-
-        # ---- 5.b · Private equilibrium is unchanged; efficiency requires more exchanges.
-        self.play(FadeOut(benefit_definition), FadeOut(benefit_divider))
+        # ---- 5.b · The same benefit appears above MB across the market.
         positive_graph = fixed(VGroup(positive_ax, positive_axis_words, positive_cost_bars, positive_ext_bars,
             positive_demand, positive_supply, positive_social_benefit, social_benefit_intercept, positive_curve_words, positive_market))
-        self.remove(*[m for m in self.mobjects if m not in (head, positive_context)])
-        self.add(positive_graph)
-        self.play(positive_graph.animate.shift(RIGHT * 3.7), run_time=1)
-        self.play(positive_graph.animate.scale(1.15, about_point=positive_ax.c2p(30, 7.5)), run_time=0.7)
-        positive_efficient = fixed(VGroup(
-            Dot(positive_ax.c2p(48, 4.4), radius=0.085, color=FOCUS),
-            DashedLine(positive_ax.c2p(48, 0), positive_ax.c2p(48, 4.4), color=FOCUS, stroke_width=2),
-            Tex(r'$Q^*=48$', color=FOCUS).scale(0.7).next_to(positive_ax.c2p(48, 0), DOWN, buff=0.78)))
-        positive_quantity_result = fixed(VGroup(
-            Tex(r'$\hat{Q}$', color=GUIDE), Tex('$<$', color=INK),
-            Tex(r'$Q^*$', color=FOCUS)).scale(1.3)
-            .arrange(RIGHT, buff=1.0).move_to([3.5, 1.9, 0]))
-        positive_comparison = fixed(VGroup(positive_quantity_result,
-            Tex('Market quantity', color=CAPTION).scale(0.7)
-                .next_to(positive_quantity_result, DOWN, buff=0.22).set_x(positive_quantity_result[0].get_x()),
-            Tex('Efficient quantity', color=CAPTION).scale(0.7)
-                .next_to(positive_quantity_result, DOWN, buff=0.22).set_x(positive_quantity_result[2].get_x())))
-        self.play(FadeIn(positive_efficient), FadeIn(positive_comparison))
-        self.pause('5.b')
-
-        # ---- 5.c · One omitted exchange has private MB below MC but social benefit above MC.
-        left, right = 43 + BAR_GAP / 2, 44 - BAR_GAP / 2
-        omitted_pair = fixed(VGroup(
+        positive_graph.shift(RIGHT * 3.7)
+        positive_graph.scale(1.15, about_point=positive_ax.c2p(30, 7.5))
+        left, right = 39 + BAR_GAP / 2, 40 - BAR_GAP / 2
+        benefit_home = fixed(VGroup(
             Polygon(positive_ax.c2p(left, 0), positive_ax.c2p(right, 0),
                 positive_ax.c2p(right, 12 - right / 5), positive_ax.c2p(left, 12 - left / 5),
                 stroke_width=0, fill_color=DEMAND, fill_opacity=0),
-            positive_cost_bars[43].copy(), positive_ext_bars[43].copy()))
-        omitted_home = omitted_pair.copy()
-        omitted_selection = fixed(SurroundingRectangle(omitted_pair, color=FOCUS, buff=0.025, stroke_width=2))
-        self.remove(positive_comparison)
-        self.play(FadeIn(omitted_pair), FadeIn(omitted_selection))
-        self.pause('5.c.select')
-        omitted_target = fixed(VGroup())
-        for left, low, high, color in [(-1.16, 0, 3.2, DEMAND), (0.06, 0, 4.2, SUPPLY),
-                                      (-1.16, 3.2, 5.2, EXT)]:
-            omitted_target.add(fixed(Polygon(
-                [left, DETAIL_BASE + low * DETAIL_SCALE, 0], [left + 1.1, DETAIL_BASE + low * DETAIL_SCALE, 0],
-                [left + 1.1, DETAIL_BASE + high * DETAIL_SCALE, 0], [left, DETAIL_BASE + high * DETAIL_SCALE, 0],
-                stroke_width=0, fill_color=color, fill_opacity=SURPLUS_OPACITY if color == EXT else BASE_OPACITY)))
-        self.play(FadeOut(positive_graph), FadeOut(positive_efficient), FadeOut(positive_context),
-                  FadeOut(omitted_selection), Transform(omitted_pair, omitted_target), run_time=1.6)
-        omitted_labels = fixed(VGroup(
-            *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
-              for bar, color in zip(omitted_target, [DEMAND, SUPPLY, DEMAND])],
-            Line([-1.3, DETAIL_BASE, 0], [1.3, DETAIL_BASE, 0], color=MUTED),
-            Tex(r'MB $\$3.20$', color=DEMAND).scale(0.72).next_to(omitted_target[0].get_corner(UL), LEFT, buff=0.25),
-            Tex(r'MC $\$4.20$', color=SUPPLY).scale(0.72).next_to(omitted_target[1].get_corner(UR), RIGHT, buff=0.25),
-            Tex(r'EXT $\$2$', color=EXT).scale(0.72).next_to(omitted_target[2], LEFT, buff=0.25),
-            Tex(r'MSB $\$5.20$', color=DEMAND).scale(0.72).next_to(omitted_target[2].get_corner(UL), LEFT, buff=0.25)))
-        omitted_context = fixed(subtitle(head, 'The 44th unit: an exchange the market leaves out.'))
-        omitted_question = fixed(Tex('What does society lose when this exchange is left out?', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.add(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeIn(omitted_labels), FadeIn(omitted_context), FadeIn(omitted_question))
-        self.pause('5.c.values')
-        omitted_dwl_bar = fixed(Polygon(
-            [-1.16, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], [-0.06, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
-            [-0.06, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], [-1.16, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0],
-            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
-        omitted_gap = fixed(VGroup(
-            DashedLine([-0.06, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            DashedLine([3.55, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.6),
-            Line([3.8, DETAIL_BASE + 4.2 * DETAIL_SCALE, 0],
-                [3.8, DETAIL_BASE + 5.2 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3),
-            VGroup(Tex(r'TS $=+\$1$', color=TOTAL), Tex(r'DWL $=\$1$', color=INK))
-                .arrange(DOWN, buff=0.16, aligned_edge=LEFT).scale(0.8)
-                .next_to([3.8, DETAIL_BASE + 4.7 * DETAIL_SCALE, 0], RIGHT, buff=0.3)))
-        positive_note = fixed(Tex(r'Leaving out this exchange creates $\$1$ of deadweight loss.', color=DEFINITION)
-            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.remove(omitted_question)
-        self.play(FadeIn(omitted_dwl_bar), FadeIn(omitted_gap), FadeIn(positive_note))
-        self.pause('5.c.loss')
+            positive_cost_bars[39].copy(), positive_ext_bars[39].copy()))
+        self.play(FadeOut(benefit_edges), FadeOut(benefit_names), FadeOut(detached_name),
+                  FadeOut(benefit_top), FadeOut(benefit_top_name), FadeOut(benefit_definition),
+                  FadeOut(detail_people), FadeOut(unit_bystander), FadeOut(unit_bystander_word),
+                  Transform(benefit_pair, benefit_home), FadeIn(positive_graph), run_time=1.6)
+        self.remove(benefit_pair)
+        self.pause('5.b')
 
-        # ---- 5.d · Carry the forgone surplus back, then show all omitted worthwhile exchanges.
-        left, right = 43 + BAR_GAP / 2, 44 - BAR_GAP / 2
-        omitted_dwl_market = fixed(Polygon(
-            positive_ax.c2p(left, 2 + left / 20), positive_ax.c2p(right, 2 + right / 20),
-            positive_ax.c2p(right, 14 - right / 5), positive_ax.c2p(left, 14 - left / 5),
-            stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1))
-        self.remove(detail_people, unit_bystander, unit_bystander_word)
-        self.play(FadeOut(omitted_labels), FadeOut(omitted_context), FadeOut(omitted_gap),
-                  FadeOut(positive_note), run_time=0.4)
-        self.play(Transform(omitted_pair, omitted_home), Transform(omitted_dwl_bar, omitted_dwl_market),
-                  FadeIn(positive_graph), FadeIn(positive_efficient), FadeIn(positive_context), run_time=1.6)
-        self.play(FadeOut(omitted_pair))
+        # ---- 5.c · Inspect private equilibrium with the two compact decisions.
+        benefit_pair = benefit_home.copy()
+        benefit_selection = fixed(SurroundingRectangle(benefit_pair, color=FOCUS, buff=0.025, stroke_width=2))
+        self.play(FadeIn(benefit_pair), FadeIn(benefit_selection))
+        self.play(FadeOut(positive_graph), FadeOut(positive_context), FadeOut(benefit_selection),
+                  Transform(benefit_pair, benefit_target), run_time=1.4)
+        benefit_context = fixed(subtitle(head, 'The 40th unit: the market equilibrium.'))
+        benefit_numbers = fixed(VGroup(
+            Tex(r'$\$4$', color=DEMAND).scale(0.72).next_to([-1.16, DETAIL_BASE + 4 * DETAIL_SCALE, 0], LEFT, buff=0.45),
+            Tex(r'$\$6$', color=DEMAND).scale(0.72).next_to([-1.16, DETAIL_BASE + 6 * DETAIL_SCALE, 0], LEFT, buff=0.45),
+            Tex(r'$\$4$', color=SUPPLY).scale(0.72).next_to([1.16, DETAIL_BASE + 4 * DETAIL_SCALE, 0], RIGHT, buff=0.25),
+            DashedLine([-1.35, DETAIL_BASE + 4 * DETAIL_SCALE, 0], [-1.35, DETAIL_BASE + 6 * DETAIL_SCALE, 0], color=EXT, stroke_width=2.5),
+            Tex(r'$\$2$', color=EXT).scale(0.72).next_to([-1.35, DETAIL_BASE + 5 * DETAIL_SCALE, 0], LEFT, buff=0.25)))
+        detached_name.move_to(benefit_target[2])
+        benefit_questions = fixed(VGroup(
+            Tex('Will they exchange?', color=DEFINITION).scale(0.65).move_to([-5, 2.45, 0]),
+            Tex('Is it good for society?', color=DEFINITION).scale(0.65).move_to([5, 2.45, 0])))
+        self.play(FadeIn(benefit_edges), FadeIn(benefit_names), FadeIn(benefit_top), FadeIn(benefit_top_name),
+                  FadeIn(detached_name), FadeIn(benefit_numbers), FadeIn(benefit_questions), FadeIn(benefit_context),
+                  FadeIn(detail_people), FadeIn(unit_bystander), FadeIn(unit_bystander_word))
+        self.pause('5.c.values')
+        benefit_private_guides = fixed(DashedLine(benefit_numbers[0].get_left() + LEFT * 0.12,
+            [-3.65, DETAIL_BASE + 4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4))
+        benefit_private_answer = fixed(VGroup(Tex('Indifferent', color=INK), Tex(r'MB $=$ MC', color=TOTAL))
+            .arrange(DOWN, buff=0.12).scale(0.65).next_to([-3.65, DETAIL_BASE + 4 * DETAIL_SCALE, 0], LEFT, buff=0.3))
+        self.play(FadeIn(benefit_private_guides), FadeIn(benefit_private_answer[1]))
+        self.pause('5.c.private.compare')
+        self.play(FadeIn(benefit_private_answer[0]))
+        self.pause('5.c.private')
+        benefit_social_guides = fixed(VGroup(
+            DashedLine([-0.06, DETAIL_BASE + 6 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            DashedLine(benefit_numbers[2].get_right() + RIGHT * 0.12, [3.65, DETAIL_BASE + 4 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=1.4),
+            Line([3.65, DETAIL_BASE + 4 * DETAIL_SCALE, 0], [3.65, DETAIL_BASE + 6 * DETAIL_SCALE, 0], color=TOTAL, stroke_width=3)))
+        benefit_social_answer = fixed(VGroup(
+            VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]),
+            Tex(r'MSB $>$ MC', color=TOTAL), Tex(r'TS $=\$2$', color=TOTAL), Tex(r'DWL $=\$0$', color=INK))
+            .arrange(DOWN, buff=0.1, aligned_edge=LEFT).scale(0.60)
+            .next_to([3.65, DETAIL_BASE + 5 * DETAIL_SCALE, 0], RIGHT, buff=0.3))
+        self.play(FadeIn(benefit_social_guides), FadeIn(benefit_social_answer[1]))
+        self.pause('5.c.social.compare')
+        self.play(FadeIn(benefit_social_answer[0]), FadeIn(benefit_social_answer[2:]))
+        self.pause('5.c.social')
+        self.play(FadeOut(benefit_edges), FadeOut(benefit_names), FadeOut(benefit_top), FadeOut(benefit_top_name),
+                  FadeOut(detached_name), FadeOut(benefit_numbers), FadeOut(benefit_questions), FadeOut(benefit_context),
+                  FadeOut(benefit_private_guides), FadeOut(benefit_private_answer), FadeOut(benefit_social_guides), FadeOut(benefit_social_answer),
+                  FadeOut(detail_people), FadeOut(unit_bystander), FadeOut(unit_bystander_word),
+                  Transform(benefit_pair, benefit_home), FadeIn(positive_graph), FadeIn(positive_context), run_time=1.4)
+        self.remove(benefit_pair)
+
+        # ---- 5.d · Sweep through forgone social gains, then conclude with quantities.
+        positive_q = ValueTracker(40)
+        positive_guide = fixed(DashedLine(positive_ax.c2p(40, 0), positive_ax.c2p(40, 6), color=FOCUS, stroke_width=2).set_z_index(2))
+        positive_guide.axes, positive_guide.quantity = positive_ax, positive_q
+        positive_guide.add_updater(lambda m: m.put_start_and_end_on(
+            m.axes.c2p(m.quantity.get_value(), 0), m.axes.c2p(m.quantity.get_value(), 14 - m.quantity.get_value() / 5)))
         positive_losses = fixed(VGroup())
         for q in range(40, 48):
-            if q == 43:
-                positive_losses.add(omitted_dwl_bar)
-                continue
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
-            positive_losses.add(fixed(Polygon(
-                positive_ax.c2p(left, 2 + left / 20), positive_ax.c2p(right, 2 + right / 20),
+            loss_bar = fixed(Polygon(positive_ax.c2p(left, 2 + left / 20), positive_ax.c2p(right, 2 + right / 20),
                 positive_ax.c2p(right, 14 - right / 5), positive_ax.c2p(left, 14 - left / 5),
-                stroke_width=0, fill_color=DWL, fill_opacity=0.8).set_z_index(1)))
-        positive_dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(positive_losses, UP, buff=0.16))
+                stroke_width=0, fill_color=DWL, fill_opacity=0).set_z_index(1))
+            loss_bar.quantity, loss_bar.slice_left, loss_bar.slice_right = positive_q, left, right
+            loss_bar.add_updater(lambda m: m.set_fill(opacity=0.8 * np.clip(
+                (m.quantity.get_value() - m.slice_left) / (m.slice_right - m.slice_left), 0, 1)))
+            positive_losses.add(loss_bar)
         positive_note = fixed(Tex('The market leaves out worthwhile exchanges, creating deadweight loss.', color=DEFINITION)
             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(LaggedStart(*[FadeIn(bar) for bar in positive_losses if bar is not omitted_dwl_bar], lag_ratio=0.12), run_time=1.4)
-        self.play(FadeIn(positive_dwl_word), FadeIn(positive_note))
+        self.add(positive_losses)
+        self.play(FadeIn(positive_guide), FadeIn(positive_note))
+        self.play(positive_q.animate.set_value(48), run_time=2.4, rate_func=smooth)
+        positive_guide.clear_updaters()
+        for loss_bar in positive_losses:
+            loss_bar.clear_updaters()
+        positive_efficient = fixed(VGroup(Dot(positive_ax.c2p(48, 4.4), radius=0.085, color=FOCUS),
+            VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('$48$', color=FOCUS)).arrange(DOWN, buff=0.06).scale(0.65)
+                .next_to(positive_ax.c2p(48, 0), DOWN, buff=0.20)))
+        positive_efficient[1][1].set_y(positive_market[2][1].get_y())
+        positive_dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(positive_losses, UP, buff=0.16))
+        self.play(FadeIn(positive_efficient), FadeIn(positive_dwl_word))
         self.pause('5.d')
+        positive_final_graph = fixed(VGroup(positive_graph, positive_losses, positive_guide, positive_efficient, positive_dwl_word))
+        self.play(positive_final_graph.animate.shift(LEFT * 2.5), FadeOut(positive_note), run_time=1.2)
+        positive_quantity_result = fixed(VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('$<$', color=INK), Tex(r'$Q^*$', color=FOCUS))
+            .scale(1.3).arrange(RIGHT, buff=1.0).move_to([3.5, 1.9, 0]))
+        positive_comparison = fixed(VGroup(positive_quantity_result,
+            Tex('Market quantity', color=CAPTION).scale(0.7).next_to(positive_quantity_result, DOWN, buff=0.22).set_x(positive_quantity_result[0].get_x()),
+            Tex('Efficient quantity', color=CAPTION).scale(0.7).next_to(positive_quantity_result, DOWN, buff=0.22).set_x(positive_quantity_result[2].get_x())))
+        positive_conclusion = fixed(Tex('Markets for goods with positive externalities produce too little.', color=DEFINITION)
+            .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
+        self.play(FadeIn(positive_comparison), FadeIn(positive_conclusion))
+        self.pause('5.conclusion')

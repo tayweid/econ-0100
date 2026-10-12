@@ -182,28 +182,13 @@ The negative-externality section ends at 4.c.comparison, combining the completed
 === 5 | Positive externalities
 
 #quote(block: true)[
-  5.a.words → 5.a · Title: Positive Externalities. Subtitle: A benefit received by others outside the market. Use the smaller grey CMU Sans subtitle, scale 0.6, left-aligned 0.10 units beneath the title. Transition directly from the completed negative-externality example to the same private market, with MB = 12 − Q/5 and MC = 2 + Q/20. Retain Q-hat = 40 and P-hat = 4, with the price on the vertical axis. Skip the crowd, cost stacking, and repeated arithmetic. Add a constant external benefit of 2 above MB, never above MC. Pink one-ton strips follow the demand slope, at opacity 0.8 through the market quantity and invisible beyond it, matching the extent of the production-cost bars; MC remains unchanged. Draw a solid teal MSB boundary at 14 − Q/5 and retain MB below it. On the right of a subtle grey divider, introduce Marginal social benefit = Marginal benefit + External benefit, with benefit terms teal, external benefit pink, and operators white. Pause, then transform to MSB = MB + EXT and pause. Keep the bottom teaching strip empty during this definition.
+  5.a.bystanders → 5.a · Begin with the buyer and seller bars and a separate pink external-benefit bar and Bystanders sphere on the right. Move the external benefit onto the buyer's MB bar, and move the bystander between buyer and seller. Introduce the teal MSB boundary above the pink region and show MSB = MB + EXT at right. Keep MC unchanged. Pause on the completed sum.
 
-]
+  5.b · Carry this exchange back into its market slice and reveal the full market. MSB = 14 − Q/5 lies above MB = 12 − Q/5; MC = 2 + Q/20 is unchanged. The private equilibrium remains Q-hat = 40 and P-hat = 4. Pink benefit strips and production costs appear only through the quantity actually exchanged. Do not reveal the efficient quantity or final inequality yet.
 
-#quote(block: true)[
-  5.b · Fade the definition and divider, recenter and enlarge the graph, and mark the efficient quantity where MSB meets MC: Q-star = 48, with a dashed yellow vertical guide. Preserve the red private market equilibrium at Q-hat = 40 and P-hat = 4. Stagger the quantity labels vertically so both remain readable. Show Q-hat < Q-star prominently in the upper right at scale 1.3, matching the negative-externality comparison: Q-hat red, Q-star yellow, and the comparison sign white. Place grey Market quantity and Efficient quantity labels beneath their respective symbols on one aligned row. Keep the bottom strip clear. Pause. Keep the Positive Externalities title and its subtitle.
+  5.c.values → 5.c.private.compare → 5.c.private → 5.c.social.compare → 5.c.social · Select the equilibrium unit and zoom into the centered compact two-decision layout. Show MB 4, MC 4, MSB 6. Put names on the bars, values beside their boundary heights, EXT inside the faint pink benefit bar, and a pink dashed 2-dollar measure beside it. Keep both yellow questions visible. Project MB and MC left, pause, then answer Indifferent. Project MSB and MC right, pause, then reveal a green check and TS = 2, DWL = 0. This unit is exchanged; the subsequent grey sweep measures the gains on units the market omits. Return cleanly to the market.
 
-]
-
-#quote(block: true)[
-  5.c.select → 5.c.values · Clear the bottom comparison and put one thin yellow box around the existing 44th-unit slice, using the same one-ton width and gaps. Pause, then carry that slice into the canonical buyer–seller close-up while the market fades. The subtitle becomes: The 44th unit: an exchange the market leaves out. Keep the teal Buyer and orange Seller spheres, with one pink Bystanders sphere between them and all labels beneath. Show MB 3.20 on the buyer side and MC 4.20 on the seller side. The filled pink EXT 2 region sits above the buyer's MB, reaching MSB 5.20; there is no external cost added to MC. Place each value label beside its exact edge, and EXT beside the pink region. Use the same common vertical scale as the preceding social-welfare close-ups. Bottom: What does society lose when this exchange is left out? Pause on these values before showing the welfare result. The values establish that private MB is less than MC, while social benefit exceeds MC.
-
-]
-
-#quote(block: true)[
-  5.c.loss · Shade the buyer-side region between MC 4.20 and MSB 5.20 in grey. Show the one-dollar gap with purple guides and two labels at right: signed TS = +1 in purple and DWL = 1 in white. TS is the surplus the exchange would create; DWL is that surplus forgone because the exchange does not occur. Bottom: Leaving out this exchange creates 1 dollar of deadweight loss. Keep the pink benefit visible below the grey region and retain all three people and their labels. Pause.
-
-]
-
-#quote(block: true)[
-  5.d · Remove the people and close-up labels, and carry the same grey loss region back onto the 44th-unit market slice, bounded by MC below and MSB above. Restore the market and its quantity markers and context subtitle. Add the other grey one-ton DWL bars between Q-hat = 40 and Q-star = 48, retaining the 44th-unit bar. Keep all eight bars separate, with the existing widths, gaps, and exact sloping boundaries; never merge them into a triangle. Label DWL above the grey bars. Bottom: The market leaves out worthwhile exchanges, creating deadweight loss. Stop here; no further arithmetic, repeated equilibrium close-up, or corrective policy in this short extension.
-
+  5.d → 5.conclusion · Sweep the dashed yellow guide rightward from 40 to 48. Reveal each separate grey forgone-surplus slice between MC and MSB only as the guide passes its width. Keep production and external-benefit bars limited to actual market exchanges. At MSB = MC, mark Q-star = 48. Use aligned compact symbol/value stacks for 40 and 48. Label the grey region DWL and explain that worthwhile exchanges are left out. Then shift the whole graph left, show Q-hat < Q-star at right with Market quantity and Efficient quantity captions, and end with the yellow takeaway: Markets for goods with positive externalities produce too little.
 ]
 
 Graph externality bars use opacity 0.8 and appear only for units actually exchanged (Q ≤ 40 in these markets), matching the extent of the seller cost bars. Keep that opacity through the negative-externality efficiency and DWL sequences; do not dim it when revealing DWL. Curves still extend across the full quantity axis. Close-up fill opacities remain independently specified.
