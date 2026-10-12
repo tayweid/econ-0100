@@ -874,7 +874,7 @@ class C1(ThreeDScene):
 
         # ---- 4.a · Legacy social-planner sequence: change the evaluated Q only.
         self.remove(head, welfare_context)
-        head = fixed(title('Efficient Quantity'))
+        head = fixed(title('Negative Externality: Efficiency'))
         evaluation_q = ValueTracker(40)
         evaluation_line = fixed(DashedLine(left_ax.c2p(40, 0), left_ax.c2p(40, 6), color=FOCUS, stroke_width=2))
         evaluation_line.axes, evaluation_line.quantity = left_ax, evaluation_q
@@ -948,7 +948,7 @@ class C1(ThreeDScene):
 
         # ---- 4.b · The losses from excessive trades; not all external damage.
         self.remove(head)
-        head = fixed(title('Deadweight Loss'))
+        head = fixed(title('Negative Externality: DWL'))
         self.play(FadeIn(head))
         loss_slices = fixed(VGroup())
         for q in range(32, 40):
@@ -970,7 +970,7 @@ class C1(ThreeDScene):
 
         # ---- 4.c · The efficient quantity is positive despite the remaining harm.
         self.remove(head, conclusion)
-        head = fixed(title('Efficient Quantity'))
+        head = fixed(title('Negative Externality: Efficiency'))
         quantity_result = fixed(VGroup(
             Tex(r'$Q^*$', color=FOCUS), Tex('$<$', color=INK),
             Tex(r'$\hat{Q}$', color=GUIDE)).scale(1.3)
