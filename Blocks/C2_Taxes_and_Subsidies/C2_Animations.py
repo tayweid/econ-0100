@@ -1238,13 +1238,21 @@ class C2(ThreeDScene):
         self.add(market, subsidy_wedge, subsidy_word, subsidy_marks, added_lots)
 
         # ---- 9.c · The government pays the gap on every one of the 48 units.
-        subsidy_cost = fixed(VGroup(
-            Polygon(ax.c2p(0, SUBSIDY_BUYER), ax.c2p(SUBSIDY_Q, SUBSIDY_BUYER), ax.c2p(SUBSIDY_Q, SUBSIDY_SELLER), ax.c2p(0, SUBSIDY_SELLER),
-                stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY),
-            Tex('Subsidy cost', color=INK).scale(0.72).move_to(ax.c2p(16, 3.8))))  # Above MC, which bisects the rectangle.
+        subsidy_bars = fixed(VGroup())
+        for q in range(SUBSIDY_Q):
+            left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
+            subsidy_bars.add(fixed(Polygon(
+                ax.c2p(left, SUBSIDY_BUYER), ax.c2p(right, SUBSIDY_BUYER),
+                ax.c2p(right, SUBSIDY_SELLER), ax.c2p(left, SUBSIDY_SELLER),
+                stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY)))
+        subsidy_cost_word = fixed(Tex('Subsidy cost', color=INK).scale(0.72).move_to(ax.c2p(16, 3.8)))
+        subsidy_cost = fixed(VGroup(subsidy_bars, subsidy_cost_word))
         cost_note = fixed(Tex(r'Government cost: \$2 $\times$ 48 units $=$ \$96.', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
-        self.play(FadeIn(subsidy_cost), FadeIn(cost_note))
+        self.play(LaggedStart(*[FadeIn(bar) for bar in subsidy_bars], lag_ratio=0.025),
+                  FadeIn(subsidy_cost_word), FadeIn(cost_note), run_time=1.6)
+        self.remove(*list(subsidy_bars), subsidy_cost_word)
+        self.add(subsidy_cost)
         self.pause('9.c')
 
         # ---- 9.d.select · The 44th unit, exchanged only because of the subsidy.
@@ -1361,6 +1369,8 @@ class C2(ThreeDScene):
                   FadeOut(added_private_guides), FadeOut(added_private_answer),
                   FadeOut(added_social_guides), FadeOut(added_social_answer), FadeOut(added_note), FadeOut(context), run_time=0.4)
         context = fixed(subtitle(head, r'The government pays \$2 on each unit exchanged.'))
+        # The subsidy bars have explained spending; keep the returning DWL view clear.
+        subsidy_market.remove(subsidy_cost)
         self.play(Transform(added_pair, added_home), Transform(added_dwl_bar, added_dwl_market),
                   FadeIn(subsidy_market), FadeIn(context), run_time=1.6)
         # The 44th lot rejoins its group so its faint cost bar stays with the other seven.
@@ -1392,7 +1402,7 @@ class C2(ThreeDScene):
         head = fixed(title('Next Time'))
         context = fixed(subtitle(head, r'Last time, a \$2 external cost made 32 units the efficient quantity.'))
         self.remove(subsidy_market)
-        self.add(market, subsidy_wedge, subsidy_word, subsidy_marks, added_lots, subsidy_cost)
+        self.add(market, subsidy_wedge, subsidy_word, subsidy_marks, added_lots)
         closing_wedge = fixed(VGroup(
             Line(ax.c2p(TAX_Q, SELLER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), color=GOV, stroke_width=6),
             Line(ax.c2p(TAX_Q, SELLER_PRICE) + LEFT * 0.09, ax.c2p(TAX_Q, SELLER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
@@ -1410,7 +1420,7 @@ class C2(ThreeDScene):
         next_note = fixed(Tex('Next time: can a tax correct an externality?', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.play(FadeIn(head), FadeIn(context), FadeOut(subsidy_wedge), FadeOut(subsidy_word), FadeOut(subsidy_marks),
-                  FadeOut(added_lots), FadeOut(subsidy_cost), FadeOut(subsidy_losses), FadeOut(subsidy_dwl_word),
+                  FadeOut(added_lots), FadeOut(subsidy_losses), FadeOut(subsidy_dwl_word),
                   intercepts[0].animate.set_opacity(1),
                   *[bar.animate.set_fill(opacity=0) for bar in list(costs)[TAX_Q:]])
         self.play(FadeIn(closing_wedge), FadeIn(next_note))
