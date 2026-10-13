@@ -1,6 +1,6 @@
 # maniml B4_Animation.py B4
 # Complete B4 lesson, used in class Sep 23. Opens with the B3 review in seven stages.
-# Storyboard: comment frames in B3_Notes_new.typ and B4_Notes_new.typ. Full record: _archive/B4_Storyboard_2026-09-23.md.
+# Storyboard: comment frames in B3_Notes_new.typ and B4_Notes_new.md. Full record: _archive/B4_Storyboard_2026-09-23.md.
 
 from manim import *
 import numpy as np

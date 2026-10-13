@@ -1,5 +1,5 @@
 # maniml C2_Animations.py C2
-# Storyboard: C2_Notes.typ. All lesson choreography stays in construct().
+# Storyboard: C2_Notes.md. All lesson choreography stays in construct().
 # C1's spinach market, MB = 12 - Q/5 and MC = 2 + Q/20, Q in units and values in dollars per unit.
 # A $2 tax lands on C1's 32nd unit and a $2 subsidy on its 48th; the 36th unit is the exchange the tax removes, the 44th the one the subsidy adds.
 

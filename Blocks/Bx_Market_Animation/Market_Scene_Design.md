@@ -12,7 +12,7 @@ The first deliverable should be small: one buyer on a plane, a value indicator a
 
 ## What the existing work gives us
 
-- [The earlier simulation outline](Bx_Equilibrium_Video.typ) is the strongest design source. Lines 24–104 already describe marginal-unit bars, ordering people into curves, visiting posted prices, switching sellers, multiple units, and links to the standard market graph. Preserve that progression.
+- [The earlier simulation outline](Bx_Equilibrium_Video.md) is the strongest design source. Lines 5–85 already describe marginal-unit bars, ordering people into curves, visiting posted prices, switching sellers, multiple units, and links to the standard market graph. Preserve that progression.
 - [The main Maxine experiment](Bx_Equilibrium_Video_Maxine_3D.py) contains the useful visual ingredients: a plane, a participant represented by a disk, and a floating bar. Its bar is an illustration, not yet a quantity bound to an economic model.
 - [The 2D prototype](Bx_Equilibrium_Video_Market_2D_Prototype.py) contains useful distinctions between reservation values and offers, but it does not parse as written: the first indentation error is at line 28. Its bargaining loop at lines 96–121 reads economic prices from mobject coordinates. Moving or scaling the drawing can therefore change the supposed economics. Extract ideas rather than adopting this as the shared engine.
 - The Simple/Experiments files explore text visibility but are not a reusable label system. In the currently installed ManimL source, ordinary `Text` inherits a `StringMobject.apply_depth_test(recurse=True)` override. The experiments' `anti_alias_width=0` keyword is incompatible with that override. This is a source-level finding; these scenes were not rendered during this review.

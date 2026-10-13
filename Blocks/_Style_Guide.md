@@ -529,9 +529,9 @@ available space.
 
 ## 8. Storyboard and code conventions
 
-- **File names (2026-09-27).** A block's files carry the block code first and the kind second, with no numbers: `B3_Notes.typ`, `B3_Animation.py`, `B3_Outline.typ`. The names are then unique across the repo, so a file is identifiable in an editor tab or a search without its folder. There is no separate storyboard file. **The storyboard lives inside the notes as Plass comments**: one comment at the top of the notes says which animation file and scene the beats belong to, and one comment at the top of each section lists that section's beats in playback order, one line each, as `dotted ID · what is on screen`, quoting titles and bottom text exactly. Beats that the notes call for and the animation lacks are listed in the same comment as `Not built:`. For B3 and B4 the long storyboard, with camera, layout, and color detail, is archived at `B4_Efficiency/_archive/B4_Storyboard_2026-09-23.md`. A version being prepared for next time takes `_new` on the end (`B3_Notes_new.typ`, `B3_Animation_new.py`) and sits beside the version that was used in class. `_archive/` holds superseded material under dated names. **B3 and B4 follow this convention now.** Every other block keeps `01_Notes`, `02_Storyboard.md`, and `03_Code.py` until it is next worked on, and converts then. Where this guide says `01_Notes.md`, `02_Storyboard.md`, or `03_Code.py`, read the block's Notes file, the comments inside it, and its Animation file. Exercise, Vignette, and Homework files keep their names, which the course site depends on.
-- **Writing a Plass comment or quote by hand (2026-09-27).** In a `.typ` file a comment is a frame of line comments: `// plass:comment` alone on a line, then each line of the comment prefixed `// | `, then `// /plass:comment` alone on a line. Plass shows it as a note, keeps it in the file, and leaves it out of the PDF. Any other `//` comment is deleted on save. A quote block must be in the form Plass writes, with `#quote(block: true)[` alone on its line, the content on the following lines indented two spaces, and `]` alone on its line; written on one line it becomes a grey raw-code block. Before handing Taylor a `.typ` that was written or edited outside Plass, run it through Plass's own reader and writer from the `~/Projects/plass` checkout (`typToDoc` in `src/typ-parser.ts`, `docToTyp` in `src/typ-serializer.ts`): it must produce no `kept as raw Typst` warnings, and saving what the writer returns means his first save in Plass changes nothing.
-- **Notes format (2026-09-25).** The notes for A0–A3 and C0–F3 are now Plass `.typ` files (`01_Notes.typ`), converted from Markdown with Plass's own reader and writer so they carry the handout page setup (half-inch sides, heading toward half pages). B3 and B4 moved to `.typ` on 2026-09-27 as clean copies, with struck text and editor comments left behind in the archived Markdown, which is what made the conversion lossless. The other Part B notes (`B0`–`B2`, `B5`, `B6`, plus `A1/01_Notes_new.md`) stay Markdown until Plass converts them without loss: a paragraph that opens with a `~~cut~~` becomes a raw `#strike[` island, `<!-- ED: … -->` comments become code blocks, math inside an italic stage direction loses its backslashes and underscores, and links lose their URLs. Where this guide says `01_Notes.md`, read the episode's notes file in whichever format it has.
+- **File names (2026-09-27).** A block's files carry the block code first and the kind second, with no numbers: `B3_Notes.md`, `B3_Animation.py`, `B3_Outline.md`. The names are then unique across the repo, so a file is identifiable in an editor tab or a search without its folder. There is no separate storyboard file. **The storyboard lives inside the notes as Plass comments**: one comment at the top of the notes says which animation file and scene the beats belong to, and one comment at the top of each section lists that section's beats in playback order, one line each, as `dotted ID · what is on screen`, quoting titles and bottom text exactly. Beats that the notes call for and the animation lacks are listed in the same comment as `Not built:`. For B3 and B4 the long storyboard, with camera, layout, and color detail, is archived at `B4_Efficiency/_archive/B4_Storyboard_2026-09-23.md`. A version being prepared for next time takes `_new` on the end (`B3_Notes_new.md`, `B3_Animation_new.py`) and sits beside the version that was used in class. `_archive/` holds superseded material under dated names. **B3 and B4 follow this convention now.** Every other block keeps `01_Notes`, `02_Storyboard.md`, and `03_Code.py` until it is next worked on, and converts then. Where this guide says `01_Notes.md`, `02_Storyboard.md`, or `03_Code.py`, read the block's Notes file, the comments inside it, and its Animation file. Exercise, Vignette, and Homework files keep their names, which the course site depends on.
+- **Writing a Plass comment or quote by hand (2026-09-27; Markdown since 2026-10-12).** A Plass document is a `.md` file in Pandoc Markdown (spec: `~/Projects/plass/docs/MARKDOWN-FORMAT.md`). A comment is an HTML comment, `<!--` … `-->`, on lines of its own with a blank line before and after; Plass shows it as a note, keeps it in the file, and leaves it out of the PDF. A comment cannot contain `-->`. A quote is `> ` lines, a cut is `~~…~~`, and a proposed addition is `{++ … ++}`. Before handing Taylor a `.md` that was written or edited outside Plass, run it through Plass's own reader and writer from the `~/Projects/plass` checkout (`mdToDoc` in `src/md-parser.ts`, `docToMd` in `src/md-serializer.ts`): the reader must give no warnings, and `docToMd(mdToDoc(src).doc)` must equal the file, which means his first save in Plass changes nothing. The Typst forms (a `// plass:comment` frame, `#quote(block: true)[`) belong to the archived `.typ` files and to the few files still in Typst.
+- **Notes format (2026-09-25).** The notes for A0–A3 and C0–F3 are now Plass `.typ` files (`01_Notes.typ`), converted from Markdown with Plass's own reader and writer so they carry the handout page setup (half-inch sides, heading toward half pages). B3 and B4 moved to `.typ` on 2026-09-27 as clean copies, with struck text and editor comments left behind in the archived Markdown, which is what made the conversion lossless. The other Part B notes (`B0`–`B2`, `B5`, `B6`, plus `A1/01_Notes_new.md`) stay Markdown until Plass converts them without loss: a paragraph that opens with a `~~cut~~` becomes a raw `#strike[` island, `<!-- ED: … -->` comments become code blocks, math inside an italic stage direction loses its backslashes and underscores, and links lose their URLs. Where this guide says `01_Notes.md`, read the episode's notes file in whichever format it has. Since 2026-10-12 the Plass notes files are Plass Markdown (`01_Notes.md`, `B3_Notes.md`, `C1_Notes.md`, …), converted from their `.typ` with Plass's own reader and writer and checked to print the same; the `.typ` sources are in each block's `_archive/`.
 - **The notes are the instructions.** Read the current `01_Notes.md` (or the episode's existing notes filename), including its quoted beat directions and editorial cuts. Taylor uses Markdown **quote blocks** for animation directions; ordinary emphasized terms in prose are not stage directions. Preserve that format. Older templates describe linked beats; retain existing links where present, but do not insert them, convert quote blocks, or rewrite notes merely to conform to an older template. The notes belong to the author, who may be editing them while animation work proceeds.
 - Storyboard = Markdown beat sheet: one heading per stable dotted ID followed by its concrete, ordered actions, for example `## 3.f · Read marginal cost`. Preserve the teaching order from the notes, not lexical ID order. Keep exact on-screen wording, math, positioning, reveal order, and final visible state explicit enough to implement without a second interpretation. Brief shared layout conventions can sit at the top, as in B2; do not bury the beat actions in metadata or a large table.
 - Production-only intro beats use `0.a`, `0.b`, and so on in storyboard and code. They do not appear in `01_Notes.md`. Student-facing beats begin at `1.*`; storyboard and code share the exact dotted ID and follow the notes' order. Where notes already contain beat links, preserve the matching IDs without requiring IDs to be added to quote-block directions.
@@ -742,75 +742,78 @@ Settled 2026-09-17 while bringing Parts A and B onto one style. These are
 the practice files under each block's `Homework/`, `Exercise/`, and `Vignette/`
 folders; the Practice Bank archives keep whatever form they were in.
 
-- **The `.typ` is the source.** Each handout is one Typst file edited in Plass
-  plus the PDF Plass exports from it, the same way the syllabus and schedule
-  work. There is no `.md` handout: Plass's Markdown export prints fenced
-  `typst` blocks as literal text instead of running them, so page margins and
-  page breaks cannot be set from Markdown. The Markdown handouts were
-  converted and removed on 2026-09-17. One source per handout, never both.
-- **Page setup lives in the file's preamble**: US letter, **1-inch top and
-  bottom margins and half-inch left and right margins**, 12.5pt New Computer
-  Modern, level-one heading at 23.75pt and level-two at 14.375pt, and
-  nothing else. Plass shows any other `#` code as a grey block. Copy the
-  preamble from any current handout when starting a new one. The 1.25in
-  margin Plass used for Markdown left a 6in line, and the longer titles
-  ("ECON 0100 | Homework A2 | Advantages") wrapped; 1in cleared them, and
-  since 2026-09-25 the half-inch sides give a 7.5in line with more room to
-  write and graph (Taylor wants the same for notes, heading toward half
-  pages). Write the margin with all four sides named in inches,
-  `margin: (top: 1in, right: 0.5in, bottom: 1in, left: 0.5in)`: that is
-  the form Plass reads and writes, and it turns the Typst shorthand
-  `(x: 0.5in, y: 1in)` into a 1.25in margin on save. A full-width graph on
-  a handout page is `width: 85%`, about its size under the old margins.
-  Keep the heading size; do not shorten topic words to make a title fit.
+- **The `.md` is the source (since 2026-10-12).** Each handout is one Plass
+  Markdown file (Pandoc Markdown; the spec is
+  `~/Projects/plass/docs/MARKDOWN-FORMAT.md`) edited in Plass, plus the PDF
+  Plass exports from it, the same way the syllabus and schedule work. One
+  source per handout, never both. From 2026-09-17 to 2026-10-12 the source
+  was Typst: on 2026-10-12 every Plass `.typ` was converted with Plass's own
+  reader and writer (`typToDoc`, then `docToMd`), checked to give the same
+  Typst export and the same PDF, and moved to its block's `_archive/`. Files
+  holding Typst that Plass cannot read (Skillsheets A and C and their
+  drafts, Demo A, and the trade checkpoint in
+  `B6_International_Trade/From_C1_Tariffs/`) stay `.typ` until they are
+  converted by hand.
+- **Page setup lives in the front matter**: US letter, **1-inch top and
+  bottom margins and half-inch left and right margins**, written with all
+  four sides, `margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}`,
+  and Plass's own 12.5pt New Computer Modern. Copy the front matter from any
+  current handout when starting a new one. The 1.25in default margin left a
+  6in line, and the longer titles ("ECON 0100 | Homework A2 | Advantages")
+  wrapped; 1in cleared them, and since 2026-09-25 the half-inch sides give a
+  7.5in line with more room to write and graph (Taylor wants the same for
+  notes, heading toward half pages). A full-width graph on a handout page is
+  `{width=85%}`, about its size under the old margins. Keep the heading
+  size; do not shorten topic words to make a title fit.
 - **Title**: a level-one heading, course first, no semester, topic last:
-  `= ECON 0100 | Homework B2 | Supply`. Same form for Exercise and Vignette.
+  `# ECON 0100 | Homework B2 | Supply`. Same form for Exercise and Vignette.
   The topic word is the block's short name (PPF, Advantages, Trade, Demand,
-  Supply, …). Homework carries an italic `_Due: …_` line and the standard
+  Supply, …). Homework carries an italic `*Due: …*` line and the standard
   instructions paragraph beneath the title; exercises and vignettes go
   straight to the setup.
-- **Sections** are level-two headings, `== Q1 | Quantity Demanded`, with a
-  story heading like `== Butterbeer` before the questions on homework.
-  Sub-parts are `a)`, `b)`, `c)`. Display math is `$ P_d = 100 - 1/2 Q_d $`.
-- **Blanks** are a space and ten escaped underscores, exactly as in Markdown:
-  `galleons: \_\_\_\_\_\_\_\_\_\_`. No helpers or `#let` definitions.
-- **Page breaks** are `#pagebreak()`. Homework uses one before Q2 so the
-  graph has a full page.
-- **Solution guides** (`*_sols.typ`, settled 2026-09-17) are one self-contained
-  Plass-native Typst file per assignment, so they open, edit, and export in
-  Plass with no grey islands and no companion files: the same preamble (minus
-  equation numbering), the title with `| Solutions` appended, the handout's
-  own question text and blanks, and after each question a Plass solution
-  block, which is exactly
-  `#block(width: 100%, stroke: (left: 2pt + rgb("#c00000")), inset: (left: 1em))[`
-  with `#set text(fill: rgb("#c00000"))` as its first line. Its first
-  paragraph states the short answers (`*a)* $120$ bottles.`), then the
-  working. Side-by-side layouts are Plass grids: fraction columns and one
-  em gutter only (`#grid(columns: (1fr, 1fr), gutter: 1em, [...], [...])`);
-  tables are `#align(center, table(columns: 3, align: (...), table.header(...), ...))`,
-  and a table cell never styles math (`[*Frogs* ($F$)]`, not
-  `[*Frogs ($F$)*]`, which Plass cannot export). Math is LaTeX, `$...$`
-  inline and `#mitex(\`...\`)` display, as in the handouts. Graphs cannot be
-  drawn in Plass, so each one is embedded as a base64 SVG data URL,
-  `#image("data:image/svg+xml;base64,...", width: 100%)`, inside a grid
-  cell, and the Typst that draws them sits at the end of the same file in a
-  Plass comment frame (`// plass:comment`, `// | ` before each line,
-  `// /plass:comment`), which Plass shows as a note in the editor, keeps in
-  the file, and leaves out of the PDF. The frame imports
-  `Blocks/_Assets/sols.typ` and draws one graph per page in the order the
-  `#image` calls appear; `scripts/render-sols-figures` compiles it and
-  re-embeds the pages. Plass round-trips embedded images and the frame
-  verbatim, so no image or figure files live on disk and a guide opens
-  correctly as a lone file, with no project folder. (A file path like
-  `figures/x.svg` only resolves inside a project folder opened with the
-  Project button, and `..` never resolves.) No `#let`, `#import` of local
-  files, `#include`, or custom helpers outside the frame. The recitation
-  guide `Recitations/Week_N_sols.typ` is the same kind of file holding the
-  week's vignette guides one per page, since Plass cannot follow `#include`;
-  it is a copy, so a change to a vignette guide is made there too. To check
-  a file before opening it, Plass's importer (`src/typ-parser.ts` in
-  github.com/tayweid/plass) must produce no `kept as raw Typst` warnings and
-  its serializer (`docToTyp`) must accept the document.
+- **Sections** are level-two headings, `## Q1 | Quantity Demanded`, with a
+  story heading like `## Butterbeer` before the questions on homework.
+  Sub-parts are `a)`, `b)`, `c)`, which Plass writes `a\)` so that pandoc
+  does not read a list. Display math is LaTeX between `$$` lines.
+- **Blanks** are a space and ten escaped underscores:
+  `galleons: \_\_\_\_\_\_\_\_\_\_`. No helpers.
+- **Writing room** is a run of paragraphs that each hold one non-breaking
+  space (U+00A0) and nothing else; each prints one blank line. An empty
+  paragraph typed in Plass shows the same gap, but Plass's Markdown writer
+  (as of 2026-10-12) saves nothing for it, so the gap is gone after a save.
+- **Page breaks** are `\newpage` on a line of its own. Homework uses one
+  before Q2 so the graph has a full page.
+- **Solution guides** (`*_sols.md`; Typst from 2026-09-17, Markdown since
+  2026-10-12) are one self-contained Plass file per assignment, so they
+  open, edit, and export in Plass with no companion files: the handout's
+  front matter with `number-equations: false` under `plass:`, the handout's
+  own question text and blanks, and after each question a solution block,
+  `::: solution` … `:::`, which Plass prints in red with a red rule. Its
+  first paragraph states the short answers (`**a)** $120$ bottles.`), then
+  the working. Side-by-side layouts are Plass grids, one
+  `:::: {.columns gutter=1em}` div per row holding `::: column` cells (a
+  later row of the same grid also carries `.continued`); tables are pipe
+  tables inside `::: {.table style=grid}`, and a table cell never styles
+  math (`**Frogs** ($F$)`, not `**Frogs ($F$)**`). Math is LaTeX, `$...$`
+  inline and `$$` display, as in the handouts. Graphs cannot be drawn in
+  Plass, so each one is embedded as a base64 SVG data URL,
+  `![](data:image/svg+xml;base64,...){width=100%}`, inside a grid cell, and
+  the Typst that draws them sits at the end of the same file in an HTML
+  comment (`<!--` … `-->`), which Plass shows as a note, keeps in the file,
+  and leaves out of the PDF. The comment imports `Blocks/_Assets/sols.typ`
+  (the helpers stay Typst) and draws one graph per page in the order the
+  images appear; `scripts/render-sols-figures` compiles it and re-embeds the
+  pages, and leaves `_archive/` alone. No image or figure files live on
+  disk, so a guide opens correctly as a lone file, with no project folder.
+  (A file path like `figures/x.svg` only resolves inside a project folder
+  opened with the Project button, and `..` never resolves.) No raw Typst
+  outside the comment. The recitation guide `Recitations/Week_N_sols.md` is
+  the same kind of file holding the week's vignette guides one per page; it
+  is a copy, so a change to a vignette guide is made there too. To check a
+  file before opening it, run Plass's Markdown reader and writer from the
+  `~/Projects/plass` checkout: `mdToDoc` (`src/md-parser.ts`) must give no
+  warnings, and `docToMd(mdToDoc(src).doc)` (`src/md-serializer.ts`) must
+  equal the file, so his first save changes nothing.
 - **Gradescope sheets** (`*_gradescope.md`) stay Markdown and follow the
   econ-0150 format: title `# Homework B1 | Gradescope`, the standard
   instruction preamble, then `## QN: \`Title\`` parent questions whose fenced

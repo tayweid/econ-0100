@@ -3,7 +3,7 @@
 # dependencies = ["seaborn==0.13.2"]
 # ///
 # Pit market instructions for the live class simulation after Checkpoint B.
-# New scene reconstructed from B3_Equilibrium/B3_Notes.typ, "Pit Market",
+# New scene reconstructed from B3_Equilibrium/B3_Notes.md, "Pit Market",
 # and https://en.wikiversity.org/wiki/Economic_Classroom_Experiments/Pit_Market
 # (the earlier instruction animation could not be located).
 # Run: maniml B0_Animate.py PitMarket

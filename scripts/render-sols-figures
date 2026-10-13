@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Re-render the graphs in the solution guides.
 
-Each solution guide (Blocks/<block>/<kind>/<Name>_sols.typ or _sols.md, Recitations/
-Week_N_sols.typ) is one self-contained Plass file. Its graphs are embedded as
+Each solution guide (Blocks/<block>/<kind>/<Name>_sols.md, Recitations/
+Week_N_sols.md, or an older _sols.typ) is one self-contained Plass file. Its graphs are embedded as
 base64 SVG data URLs in #image(...) calls, and the Typst that draws them sits
 at the end of the same file inside a Plass comment frame (// plass:comment ... in a .typ,
 an HTML comment <!-- ... --> in a .md; a .md embeds its graphs as ![alt](data:...) images;
@@ -14,7 +14,7 @@ frame and replaces the n-th #image with the n-th page. Needs the typst CLI
 (brew install typst). Run it after editing a frame:
 
     scripts/render-sols-figures                  # every guide
-    scripts/render-sols-figures path/to/X_sols.typ
+    scripts/render-sols-figures path/to/X_sols.md
 """
 import base64, re, subprocess, sys, tempfile
 from pathlib import Path
@@ -68,6 +68,8 @@ def render(guide):
 
 
 guides = [Path(a).resolve() for a in sys.argv[1:]] or sorted(
-    [*ROOT.glob('Blocks/*/*/*_sols.typ'), *ROOT.glob('Blocks/*/*/*_sols.md'), *ROOT.glob('Recitations/*_sols.typ')])
+    g for g in [*ROOT.glob('Blocks/*/*/*_sols.typ'), *ROOT.glob('Blocks/*/*/*_sols.md'),
+                *ROOT.glob('Recitations/*_sols.typ'), *ROOT.glob('Recitations/*_sols.md')]
+    if '_archive' not in g.parts)  # an archived guide stays as it was
 for g in guides:
     render(g)

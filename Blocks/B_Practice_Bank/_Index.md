@@ -11,7 +11,7 @@ Every Part B practice handout from past semesters has now been placed (2026-09-2
 | Enchanted broomsticks | `Exercises_Broomstick/`, a future Exercise series B1–B6, and Fall 2026's Exercise B6 wording | `Classwork_C1_broomsticks_F24` (+pdf, sols), moved here from Part C's bank |
 | Lemon tarts (UK imports, Egypt exports) | Fall 2026 Vignette B6 | `Vignette_B4_lemon-tarts_F24` (+pdf), moved here from Part C's bank |
 | Pandemic food market | `Vignettes_Pandemic/`, a future alternate Vignette series B3–B5 | `Classwork_B2_pandemic_F24`, `Vignette_B3_pandemic_F23`/`_F24`/`-cents_F24` |
-| Dragontear | **Demo B** (`Blocks/B_MiniExam/Demo_B.typ`) | `Homework_B1_dragontear_F24`, `Homework_2_dragontear_F24` |
+| Dragontear | **Demo B** (`Blocks/B_Checkpoint/Demo_B.md`) | `Homework_B1_dragontear_F24`, `Homework_2_dragontear_F24` |
 | Carrots, and the generic P = 10 − Q demo | Demo B's gap questions (quantity at a price, elasticity, CS/PS as the price rises, the price floor) | `Homework_2_demo_carrots_F22`, `Homework_3_demo_F22` (its tax and tariff parts are Part C) |
 | Dragon's Blood | Reattempt B round 2 (`ECON_0100/Checkpoints/B/Reattempt_B_7`, `_8`) | `Homework_B_dragons-blood_F24` |
 | Big Chocolate | Reattempt B round 1 (`Reattempt_B_5`, `_6`) | `Vignette_B10_chocolate_F24` |

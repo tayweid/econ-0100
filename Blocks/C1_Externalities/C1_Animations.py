@@ -1,5 +1,5 @@
 # maniml C1_Animations.py C1
-# Storyboard: C1_Notes.typ. All lesson choreography stays in construct().
+# Storyboard: C1_Notes.md. All lesson choreography stays in construct().
 # Part B's continuous market shape, with Q in tons and values in dollars per ton.
 # Each comparison selects one one-ton exchange; its marginal values come from its quantity rank.
 
