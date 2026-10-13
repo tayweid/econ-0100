@@ -350,6 +350,7 @@ parts:
           description: "*Externalities practice problems*"
         homework:
           file: C1
+          due: Friday, Oct. 16 at 5PM
           post: now
         extras:
           - name: Planet Money
@@ -361,7 +362,7 @@ parts:
         dates:
           class: '2026-10-07'
           recitation: '2026-10-16'
-          homework: '2026-10-14'
+          homework: '2026-10-16'
 
       - block: C2
         folder: C2_Taxes_and_Subsidies
