@@ -8,7 +8,7 @@ be finished at home in a new session. Delete this file when done.
 The solution guides for the A and B assignments were rewritten as Plass-native
 Typst, one self-contained `.typ` per assignment (Taylor: "i want one file per
 solution guide with everything in it, one per assignment"). The design is
-recorded in the "Solution guides" bullet of `Blocks/_Style_Guide.md` (section
+recorded in the "Solution guides" bullet of `_Style_Guide.md` (section
 11); read that first.
 
 ## State of the working tree
@@ -16,19 +16,19 @@ recorded in the "Solution guides" bullet of `Blocks/_Style_Guide.md` (section
 All of this is UNCOMMITTED in the main checkout. Commit and push with GitHub
 Desktop, then pull at home.
 
-Modified: the nine guides, `Blocks/_Assets/sols.typ`, `Blocks/_Style_Guide.md`.
+Modified: the nine guides, `_Assets/sols.typ`, `_Style_Guide.md`.
 New: `scripts/render-sols-figures`.
 
 The guides:
 
-- `Blocks/A1_The_PPF/Vignette/Vignette_A1_sols.typ`
-- `Blocks/A2_Advantage/Homework/Homework_A2_sols.typ`
-- `Blocks/A2_Advantage/Vignette/Vignette_A2_sols.typ` (no graphs)
-- `Blocks/A3_Trade/Homework/Homework_A3_sols.typ`
-- `Blocks/A3_Trade/Vignette/Vignette_A3_sols.typ`
-- `Blocks/B1_Demand/Homework/Homework_B1_sols.typ`
-- `Blocks/B2_Supply/Homework/Homework_B2_sols.typ`
-- `Blocks/B2_Supply/Vignette/Vignette_B2_sols.typ`
+- `Part_A/A1_The_PPF/Vignette/Vignette_A1_sols.typ`
+- `Part_A/A2_Advantage/Homework/Homework_A2_sols.typ`
+- `Part_A/A2_Advantage/Vignette/Vignette_A2_sols.typ` (no graphs)
+- `Part_A/A3_Trade/Homework/Homework_A3_sols.typ`
+- `Part_A/A3_Trade/Vignette/Vignette_A3_sols.typ`
+- `Part_B/B1_Demand/Homework/Homework_B1_sols.typ`
+- `Part_B/B2_Supply/Homework/Homework_B2_sols.typ`
+- `Part_B/B2_Supply/Vignette/Vignette_B2_sols.typ`
 - `Recitations/Week_2_sols.typ` (the three A vignettes, one per page)
 
 Each guide: handout preamble (no equation numbering), title with
@@ -37,7 +37,7 @@ a red Plass solution block. Graphs are embedded as base64 SVG data URLs in
 `#image(...)`. The Typst that draws the graphs sits at the END of the same file
 in a Plass comment frame (`// plass:comment` ... `// | line` ...
 `// /plass:comment`), which Plass shows as a note and leaves out of the PDF.
-The frame imports `Blocks/_Assets/sols.typ` (graph, seg, pt, shade, lbl,
+The frame imports `_Assets/sols.typ` (graph, seg, pt, shade, lbl,
 sol-color) and draws one graph per page in `#image` order.
 
 `scripts/render-sols-figures` (Python, needs `typst` on PATH) extracts each
@@ -54,7 +54,7 @@ Removed this session (they were untracked, so nothing to revert): the seven
    standalone copy of the three vignette guides with its own frame (A1 and A3
    graphs). A change to a vignette guide has to be made there too. If you
    would rather have it assembled, a small script is easy to restore.
-2. The graph helpers stay shared in `Blocks/_Assets/sols.typ` rather than
+2. The graph helpers stay shared in `_Assets/sols.typ` rather than
    being copied into each frame. Plass never compiles the frame, so each
    guide still opens and exports alone.
 
@@ -82,7 +82,7 @@ git clone --depth 1 https://github.com/tayweid/plass && cd plass && npm ci --ign
 Save the script below as `verify-guides.ts` in the clone, then:
 
 ```bash
-npx tsx verify-guides.ts /path/to/econ-0100/Blocks/*/*/*_sols.typ /path/to/econ-0100/Recitations/Week_2_sols.typ
+npx tsx verify-guides.ts /path/to/econ-0100/Part_*/*/*/*_sols.md /path/to/econ-0100/Recitations/Week_2_sols.typ
 ```
 
 A clean guide prints `OK` with warnings=0, islands=0, inline=0, both round

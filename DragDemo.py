@@ -29,7 +29,7 @@ import numpy as np
 import os
 import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'Blocks/_Assets'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '_Assets'))
 from style import *
 from style import axes as style_axes
 

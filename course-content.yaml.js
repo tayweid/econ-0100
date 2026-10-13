@@ -13,13 +13,13 @@ window.COURSE_CONTENT_YAML = String.raw`
 # home. Titles, thumbnails, icons, navigation anchors, and conventional
 # filenames are generated automatically.
 #
-# Per block (folder is required once the block has a directory under Blocks/):
-#   folder: A1_The_PPF     # the block's directory under Blocks/. It is the one thing a
+# Per block (folder is required once the block has a directory):
+#   folder: Part_A/A1_The_PPF   # the block's directory, relative to materials:. It is the one thing a
 #                          # browser cannot work out for itself, and the runtime pages
 #                          # build conventional paths from it:
-#                          #   Blocks/<folder>/Exercise/Exercise_<BLOCK>.pdf
-#                          #   Blocks/<folder>/Vignette/Vignette_<BLOCK>.pdf
-#                          #   Blocks/<folder>/Homework/Homework_<BLOCK>.pdf
+#                          #   <folder>/Exercise/Exercise_<BLOCK>.pdf
+#                          #   <folder>/Vignette/Vignette_<BLOCK>.pdf
+#                          #   <folder>/Homework/Homework_<BLOCK>.pdf
 #                          # Drop a conventionally named PDF in and it appears on its own;
 #                          # its ..._sols.pdf appears the day after the step's date (course
 #                          # post: and solutions: below; a step's own post: or solutions:
@@ -40,7 +40,7 @@ window.COURSE_CONTENT_YAML = String.raw`
 #     - name: A podcast    # no video: give it links, and an image for the thumbnail,
 #       description: one short line under the name
 #       links: [{label: Episode, file: https://...}]   # which opens the first link
-#       image: https://... or Blocks/<folder>/media/<file>
+#       image: https://... or <folder>/media/<file>
 
 course:
   code: ECON 0100
@@ -59,7 +59,7 @@ course:
       button: true
   checkpoint: Checkpoint
   reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
-  materials: Blocks               # conventional PDFs live under Blocks/<folder>/
+  materials: .                    # conventional PDFs live under <folder>/ (e.g. Part_A/A1_The_PPF)
   post:                           # when a pushed PDF appears, by kind; a block's own post: wins
     exercise: on_date             #   Exercise_<BLOCK>.pdf on the class date
     vignette: after_date          #   Vignette_<BLOCK>.pdf the day after recitation
@@ -70,12 +70,12 @@ parts:
   A:
     title: The Core Economic Idea
     tagline: better choices can benefit everyone
-    links: [{label: Skillsheet, file: Blocks/A_Skillsheet.pdf}]
+    links: [{label: Skillsheet, file: Part_A/A_Skillsheet.pdf}]
     introduction: >-
       Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. To show this, we’ll build the models that show the invisible forces that make civilization possible.
     sections:
       - block: A0
-        folder: A0_Welcome
+        folder: Part_A/A0_Welcome
         nav: Econ
         steps:
           - name: Syllabus Quiz
@@ -87,20 +87,20 @@ parts:
           Microeconomics is about how we make decisions under constraints that arise from having both preferences and scarcity.
         episode:
           video: qMDU1QYKYss
-          links: [{label: Animations, file: Blocks/A0_Welcome/media/EpisodeA0_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_A/A0_Welcome/media/EpisodeA0_present/, icon: fa fa-desktop}]
           description: Economics is not *about* money.
         reading:
           chapter: 1
           topic: Welcome to economics
 
       - block: A1
-        folder: A1_The_PPF
+        folder: Part_A/A1_The_PPF
         nav: PPF
         title: The production possibility frontier
         description: The PPF shows us what's attainable as individuals and as a society.
         episode:
           video: po4kip5m_QY
-          links: [{label: Animations, file: Blocks/A1_The_PPF/media/EpisodeA1_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_A/A1_The_PPF/media/EpisodeA1_present/, icon: fa fa-desktop}]
           description: The landscape of what's possible
         reading:
           chapter: 2
@@ -116,14 +116,14 @@ parts:
           homework: '2026-08-30'
 
       - block: A2
-        folder: A2_Advantage
+        folder: Part_A/A2_Advantage
         nav: Specialization
         title: Comparative advantage and specialization
         description: >-
           Minimizing opportunity cost by specializing in one's comparative advantage can bend out the PPF.
         episode:
           video: nclNGfY-3eA
-          links: [{label: Animations, file: Blocks/A2_Advantage/media/EpisodeA2_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_A/A2_Advantage/media/EpisodeA2_present/, icon: fa fa-desktop}]
           description: Specialization
         reading:
           chapter: 19
@@ -139,13 +139,13 @@ parts:
           homework: '2026-09-06'
 
       - block: A3
-        folder: A3_Trade
+        folder: Part_A/A3_Trade
         nav: Trade
         title: Trade
         description: Trade based on comparative advantage makes both parties better off simultaneously.
         episode:
           video: v_s4dO1AD5Y
-          links: [{label: Animations, file: Blocks/A3_Trade/media/EpisodeA3_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_A/A3_Trade/media/EpisodeA3_present/, icon: fa fa-desktop}]
           description: Trade can make both parities better off.
         reading:
           name: Reading A3
@@ -165,10 +165,10 @@ parts:
           reattempt_when: Thu Oct 8, 2:30–4:30 PM
           date: '2026-09-09'
           links:
-            - {label: Solutions V1, file: Blocks/A_MiniExam/Checkpoint_A_1_sols.pdf}
-            - {label: Solutions V2, file: Blocks/A_MiniExam/Checkpoint_A_2_sols.pdf}
-            - {label: Solutions V3, file: Blocks/A_MiniExam/Checkpoint_A_3_sols.pdf}
-            - {label: Solutions V4, file: Blocks/A_MiniExam/Checkpoint_A_4_sols.pdf}
+            - {label: Solutions V1, file: Part_A/A_MiniExam/Checkpoint_A_1_sols.pdf}
+            - {label: Solutions V2, file: Part_A/A_MiniExam/Checkpoint_A_2_sols.pdf}
+            - {label: Solutions V3, file: Part_A/A_MiniExam/Checkpoint_A_3_sols.pdf}
+            - {label: Solutions V4, file: Part_A/A_MiniExam/Checkpoint_A_4_sols.pdf}
           description: >-
             Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
@@ -176,23 +176,23 @@ parts:
             video: KH0MkPxWsig
             description: >-
               Attempt Demo A first, then walk through with me. The video is the Fall 2024 Demo A, with the same story and numbers. It walks through the first parts of each question; the later parts are new this year and use the same skills. Where the video answers "attainable? yes" in Q2, this year's sheet asks you to say "inefficient."
-            links: [{label: Demo A, file: Blocks/A_MiniExam/Demo_A.pdf}]
+            links: [{label: Demo A, file: Part_A/A_MiniExam/Demo_A.pdf}]
 
   B:
     title: How Competitive Markets Work
     tagline: prices can coordinate buyers and sellers
-    links: [{label: Skillsheet, file: Blocks/B_Skillsheet.pdf}]
+    links: [{label: Skillsheet, file: Part_B/B_Skillsheet.pdf}]
     introduction: >-
       In Part A we set up the landscape of what’s possible but didn’t choose *which* point is best. Part B introduces preferences within competitive markets as a coordination device, allowing large groups to efficiently produce and distribute the things we want. This efficiency is amazing, but as we’ll show in Part C, it doesn’t work in every environment.
     sections:
       - block: B1
-        folder: B1_Demand
+        folder: Part_B/B1_Demand
         nav: Demand
         title: Demand
         description: Demand curves show how much consumers are willing to buy at each price.
         episode:
           video: 9HUh9qWDSr4
-          links: [{label: Animations, file: Blocks/B1_Demand/media/EpisodeB1_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_B/B1_Demand/media/EpisodeB1_present/, icon: fa fa-desktop}]
           description: "*This video introduces the demand curve as a way of organizing buyers' preferences.*"
         reading:
           chapter: 3
@@ -208,13 +208,13 @@ parts:
           homework: '2026-09-20'
 
       - block: B2
-        folder: B2_Supply
+        folder: Part_B/B2_Supply
         nav: Supply
         title: Supply
         description: Supply curves show how much producers are willing to sell at each price.
         episode:
           video: 0WoBKpFMLwo
-          links: [{label: Animations, file: Blocks/B2_Supply/media/EpisodeB2_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_B/B2_Supply/media/EpisodeB2_present/, icon: fa fa-desktop}]
           description: "*This video introduces the supply curve and how it helps answer Part B's questions.*"
         reading:
           name: Chapter (continued)
@@ -230,13 +230,13 @@ parts:
           homework: '2026-09-20'
 
       - block: B3
-        folder: B3_Equilibrium
+        folder: Part_B/B3_Equilibrium
         nav: Equilibrium
         title: Equilibrium
         description: Markets find the equilibrium price where quantity supplied equals quantity demanded.
         episode:
           video: 8CQ3D2Kv2i0
-          links: [{label: Animations, file: Blocks/B3_Equilibrium/media/EpisodeB3_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_B/B3_Equilibrium/media/EpisodeB3_present/, icon: fa fa-desktop}]
           description: >-
             *This video introduces shortage and surplus and the incentives of buyers and sellers to move prices toward equilibrium.*
         reading:
@@ -257,13 +257,13 @@ parts:
           homework: '2026-09-28'
 
       - block: B4
-        folder: B4_Efficiency
+        folder: Part_B/B4_Efficiency
         nav: Efficiency
         title: Efficiency
         description: Competitive markets maximize total surplus, achieving social efficiency.
         episode:
           video: RC9vcoqQm-U
-          links: [{label: Animations, file: Blocks/B4_Efficiency/media/B4_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_B/B4_Efficiency/media/B4_present/, icon: fa fa-desktop}]
           description: >-
             *This video introduces government price controls to show that the market maximizes total surplus in some environments.*
         reading:
@@ -279,14 +279,14 @@ parts:
           homework: '2026-09-28'
 
       - block: B5
-        folder: B5_Changes
+        folder: Part_B/B5_Changes
         nav: Changes
         title: Market Changes
         description: >-
           Elasticity measures how responsive quantity is to changes in price, income, or other factors. Comparative statics analyzes how equilibrium changes when supply or demand conditions shift.
         episode:
           description: "*How markets respond to changes*"
-          links: [{label: Animations, file: Blocks/B5_Changes/media/B5_present/}]
+          links: [{label: Animations, file: Part_B/B5_Changes/media/B5_present/}]
         reading:
           name: Reading B5
         vignette:
@@ -299,7 +299,7 @@ parts:
           homework: '2026-10-04'
 
     # - block: B6
-    #   folder: B6_International_Trade
+    #   folder: Part_B/B6_International_Trade
     #   nav: Trade
     #   title: International Trade and Tariffs
     #   description: 'International trade improves welfare but also creates winners and losers, which can lead to political pressure for protectionist policies like tariffs, a tax on imports.'
@@ -323,7 +323,7 @@ parts:
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: xMhI4kJC-mA
-            links: [{label: Demo B, file: Blocks/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Blocks/B_Checkpoint/Demo_B_sols.pdf}]
+            links: [{label: Demo B, file: Part_B/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Part_B/B_Checkpoint/Demo_B_sols.pdf}]
             description: 'Start by trying the Demo on your own. Then check your work with a friend using the Solutions. Then follow me in this video for my process.'
 
   C:
@@ -333,13 +333,13 @@ parts:
       In Part A we set up the landscape of what’s possible and in Part B we introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. But not every market is competitive or without externalities. Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. We’ll build the models to show how pollution, taxes, and corrective policies can either harm or correct market behavior.
     sections:
       - block: C1
-        folder: C1_Externalities
+        folder: Part_C/C1_Externalities
         nav: Externalities
         title: Externalities
         description: When private costs don't equal social costs, markets produce too much or too little, creating inefficiency.
         episode:
           video: uxPoYbtzYbM
-          links: [{label: Animations, file: Blocks/C1_Externalities/media/C1_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_C/C1_Externalities/media/C1_present/, icon: fa fa-desktop}]
           description: "*Externalities*"
         reading:
           chapter: 12
@@ -365,13 +365,13 @@ parts:
           homework: '2026-10-16'
 
       - block: C2
-        folder: C2_Taxes_and_Subsidies
+        folder: Part_C/C2_Taxes_and_Subsidies
         nav: Taxes
         title: Taxes
         description: Taxes create deadweight loss by driving a wedge between what buyers pay and sellers receive, reducing total surplus.
         episode:
           video: R2NctbU80y0
-          links: [{label: Animations, file: Blocks/C2_Taxes_and_Subsidies/media/C2_present/, icon: fa fa-desktop}]
+          links: [{label: Animations, file: Part_C/C2_Taxes_and_Subsidies/media/C2_present/, icon: fa fa-desktop}]
           description: "*Taxes and Welfare*"
         reading:
           chapter: 5
@@ -390,20 +390,20 @@ parts:
           homework: '2026-10-18'
 
       - block: C3
-        folder: C3_Corrective_Policy
-        nav: Corrective Taxes
-        title: Corrective Taxes
+        folder: Part_C/C3_Corrective_Policy
+        nav: Corrective Policies
+        title: Corrective Policies
         description: Pigouvian taxes can internalize externalities and restore market efficiency by aligning private and social costs.
         episode:
           video: W0eAtssLxmk
-          links: [{label: Animations, file: Blocks/C3_Corrective_Policy/media/C3_present/, icon: fa fa-desktop}]
-          description: "*Corrective Taxes*"
+          links: [{label: Animations, file: Part_C/C3_Corrective_Policy/media/C3_present/, icon: fa fa-desktop}]
+          description: "*Corrective Policies*"
         reading:
           chapter: 12
           topic: Environmental protection and negative externalities
           video: prohFxS0E1I
         vignette:
-          description: "*Corrective taxes practice problems*"
+          description: "*Corrective policies practice problems*"
         homework:
           file: C3
           post: now
@@ -428,7 +428,7 @@ parts:
       Part A set up the landscape of what’s possible. Part B introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. And Part C showed that externalities break the efficiency of markets. In Part D we take this idea even further, into settings with strategic interaction, which we call game theory.
     sections:
       - block: D1
-        folder: D1_Games
+        folder: Part_D/D1_Games
         nav: Common Resources
         title: Common Resources
         description: >-
@@ -448,7 +448,7 @@ parts:
           homework: '2026-10-25'
 
       - block: D2
-        folder: D2_The_Commons
+        folder: Part_D/D2_The_Commons
         nav: Public Goods
         title: Public Goods
         description: >-
@@ -468,7 +468,7 @@ parts:
           homework: '2026-10-25'
 
       - block: D3
-        folder: D3_Public_Goods_and_Voting
+        folder: Part_D/D3_Public_Goods_and_Voting
         nav: Game Theory
         title: Game Theory
         description: >-
@@ -490,7 +490,7 @@ parts:
           - name: Veritasium Game Theory
             video: mScpHTIi-kM
       - block: D4
-        folder: D4_Sequential_Games
+        folder: Part_D/D4_Sequential_Games
         nav: Voting
         title: Voting
         description: >-
@@ -524,7 +524,7 @@ parts:
       In Part A through Part D we’ve explored why we would want to coordinate and how to make coordination possible. Markets can organize economic activity efficiently in some contexts and fail in other contexts. In Part E build a model of sellers that shows how markets are not efficient when sellers have Market Power, the ability to impact the market for their own gain. 
     sections:
       - block: E1
-        folder: E1_Costs
+        folder: Part_E/E1_Costs
         nav: Costs
         title: Costs of Production
         description: Firms transform inputs into outputs through production functions and minimize costs to determine their supply decisions.
@@ -543,7 +543,7 @@ parts:
           homework: '2026-11-08'
 
       - block: E2
-        folder: E2_Competition
+        folder: Part_E/E2_Competition
         nav: Competition
         title: Competitive Firms
         description: Perfect competition emerges when firms are price-takers with no individual market power over the equilibrium price.
@@ -562,7 +562,7 @@ parts:
           homework: '2026-11-08'
 
       - block: E3
-        folder: E3_Monopoly
+        folder: Part_E/E3_Monopoly
         nav: Monopoly
         title: Monopoly
         description: Market power allows firms to influence prices and capture profits at the expense of consumer welfare and economic efficiency.
@@ -580,7 +580,7 @@ parts:
           homework: '2026-11-15'
 
       - block: E4
-        folder: E4_Duopoly
+        folder: Part_E/E4_Duopoly
         nav: Market Structures
         title: Market Structures
         description: Comparing perfect competition, monopolistic competition, oligopoly, and monopoly reveals how market structure determines economic outcomes.
@@ -589,7 +589,7 @@ parts:
           description: "*Comparing market structures*"
           links:
             - label: Notes
-              file: Blocks/E4_Duopoly/04_Handwritten.pdf
+              file: Part_E/E4_Duopoly/04_Handwritten.pdf
         reading:
           chapter: 10
           topic: Monopolistic competition and oligopoly
@@ -620,7 +620,7 @@ parts:
       Part F brings us full circle, exploring what to do when we can’t have everything. We start by connecting Factor Markets and the Labor Market to buyer’s income in Final Goods markets, which shapes their Budget Constraint. To understand choices within this constraint, we rank preferences using Utility and map Indifference Curves. The Consumer’s Problem is solved at the highest attainable indifference curve within the budget constraint, where the Marginal Rate of Substitution equals the Marginal Rate of Transformation. 
     sections:
       - block: F1
-        folder: F1_The_Consumers_Problem
+        folder: Part_F/F1_The_Consumers_Problem
         nav: Factor Markets
         title: Factor Markets
         description: Factor markets determine the income that households earn from selling their labor and capital, which becomes the budget constraint for consumer choice.
@@ -639,7 +639,7 @@ parts:
           homework: '2026-12-06'
 
       - block: F2
-        folder: F2_Factor_Markets
+        folder: Part_F/F2_Factor_Markets
         nav: Consumer Choice
         title: Consumer Choice
         description: Given their budget constraint from factor markets, consumers maximize utility by choosing the optimal combination of goods where marginal utility per dollar is equal across all goods.

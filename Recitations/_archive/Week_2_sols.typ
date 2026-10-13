@@ -267,7 +267,7 @@ New opportunity cost of 1C: \_\_\_\_\_\_\_\_\_\_
 // | // GRAPH CODE: keep this note. It draws the graphs above; delete it and they can't be redrawn.
 // | // Each #image above is one page of this code, in order. To change a graph, edit it here and
 // | // run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
-// | #import "/Blocks/_Assets/sols.typ": *
+// | #import "/_Assets/sols.typ": *
 // | #set page(width: auto, height: auto, margin: 2pt)
 // | #set text(font: "New Computer Modern", size: 10pt)
 // |

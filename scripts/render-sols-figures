@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Re-render the graphs in the solution guides.
 
-Each solution guide (Blocks/<block>/<kind>/<Name>_sols.md, Recitations/
+Each solution guide (Part_<X>/<block>/<kind>/<Name>_sols.md, Recitations/
 Week_N_sols.md, or an older _sols.typ) is one self-contained Plass file. Its graphs are embedded as
 base64 SVG data URLs in #image(...) calls, and the Typst that draws them sits
 at the end of the same file inside a Plass comment frame (// plass:comment ... in a .typ,
 an HTML comment <!-- ... --> in a .md; a .md embeds its graphs as ![alt](data:...) images;
 any .md given on the command line works, not only guides)
 // /plass:comment), which Plass shows as a note in the editor and leaves out of
-the PDF. The frame imports Blocks/_Assets/sols.typ and draws one graph per
+the PDF. The frame imports _Assets/sols.typ and draws one graph per
 page, in the order the #image calls appear. This script compiles each guide's
 frame and replaces the n-th #image with the n-th page. Needs the typst CLI
 (brew install typst). Run it after editing a frame:
@@ -20,7 +20,7 @@ import base64, re, subprocess, sys, tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-HELPERS = '#import "/Blocks/_Assets/sols.typ"'
+HELPERS = '#import "/_Assets/sols.typ"'
 IMAGE = re.compile(r'#image\("[^"]*"')
 # Plass Markdown: a plain image whose source is an SVG data URL (empty until rendered).
 MD_IMAGE = re.compile(r'!\[([^\]]*)\]\(data:image/svg\+xml;base64,[^)]*\)')
@@ -68,7 +68,7 @@ def render(guide):
 
 
 guides = [Path(a).resolve() for a in sys.argv[1:]] or sorted(
-    g for g in [*ROOT.glob('Blocks/*/*/*_sols.typ'), *ROOT.glob('Blocks/*/*/*_sols.md'),
+    g for g in [*ROOT.glob('Part_[A-F]/*/*/*_sols.typ'), *ROOT.glob('Part_[A-F]/*/*/*_sols.md'),
                 *ROOT.glob('Recitations/*_sols.typ'), *ROOT.glob('Recitations/*_sols.md')]
     if '_archive' not in g.parts)  # an archived guide stays as it was
 for g in guides:
