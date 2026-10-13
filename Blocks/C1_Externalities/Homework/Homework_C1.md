@@ -6,7 +6,7 @@ plass:
 
 # ECON 0100 | Homework C1 | Externalities
 
-*Due: Wednesday, Oct. 14*
+*Due: Friday, Oct. 16*
 
 Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Answer clearly and completely, and show your work so you can later understand your thought process. You are welcomed and encouraged to work in groups as long as your work is your own. Submit your answers on Gradescope when you’re finished: each answer there is a selection.
 
