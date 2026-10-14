@@ -67,6 +67,9 @@ class C3(ThreeDScene):
         # show one number until there is room for both on the same axis row.
         quantity_label_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 18) / 8, 0, 1))
         seller_quantity_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 5) / 3, 0, 1))
+        # Reveal the fixed 40 first; policy symbols need more room beside Q-hat.
+        original_quantity_opacity = lambda q: smooth(np.clip((abs(q - MARKET_Q) - 3.8) / 0.2, 0, 1))
+        policy_quantity_label_opacity = lambda q: smooth(np.clip(abs(q - MARKET_Q) - 7, 0, 1))
         taxed_quantity = lambda t: 40 - 4 * t       # MB - MC = t  ->  10 - Q/4 = t.
 
         # The two object factories used throughout: the yellow bottom line and one one-unit slice.
@@ -294,7 +297,14 @@ class C3(ThreeDScene):
         intro_tax_q_number.add_updater(lambda m: fixed(m.set_value(round(intro_tax_q(), 4)))
             .move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         intro_tax_q_label = fixed(Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
-        intro_tax_q_label.add_updater(lambda m: m.move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        intro_tax_q_label.add_updater(lambda m: m.move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+            .set_opacity(policy_quantity_label_opacity(intro_tax_q())))
+        tax_original_quantity = fixed(VGroup(
+            Tex('40', color=CAPTION).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            Tex(r'$\hat{Q}$', color=CAPTION).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)))
+        tax_original_quantity.add_updater(lambda m: m.set_opacity(original_quantity_opacity(intro_tax_q())))
         tax_prices = fixed(VGroup(intro_tax_top_dot, intro_tax_bottom_dot,
             intro_tax_buyer_line, intro_tax_buyer_number, intro_tax_buyer_prefix,
             intro_tax_seller_line, intro_tax_seller_number, intro_tax_seller_prefix,
@@ -312,8 +322,9 @@ class C3(ThreeDScene):
             .next_to(ax.c2p((MARKET_Q + EFFICIENT_Q) / 2, msc(MARKET_Q)), UP, buff=0.3))
         intro_tax_dwl_word.add_updater(lambda m: m.set_opacity(
             smooth(np.clip((intro_tax_q() - EFFICIENT_Q) / 2, 0, 1))))
-        for m in (tax_prices, intro_tax_dwl, intro_tax_dwl_word, intro_tax_initial_price):
+        for m in (tax_prices, intro_tax_dwl, intro_tax_dwl_word, intro_tax_initial_price, tax_original_quantity):
             m.update()
+        self.add(tax_original_quantity)
         takeaway = teaching('Start at the market equilibrium, with no tax.')
         self.play(FadeIn(tax_prices), FadeIn(intro_tax_initial_price),
                   FadeIn(intro_tax_dwl), FadeIn(intro_tax_dwl_word), FadeIn(takeaway))
@@ -324,13 +335,11 @@ class C3(ThreeDScene):
         takeaway = teaching('As the tax rises, prices separate and deadweight loss shrinks.')
         self.play(FadeIn(takeaway))
         self.play(intro_tax.animate.set_value(EXTERNAL), run_time=3.6, rate_func=smooth)
-        for m in (tax_prices, intro_tax_dwl, intro_tax_dwl_word, intro_tax_initial_price):
+        for m in (tax_prices, intro_tax_dwl, intro_tax_dwl_word, intro_tax_initial_price, tax_original_quantity):
             m.clear_updaters()
         self.remove(intro_tax_dwl, *list(intro_tax_dwl), intro_tax_dwl_word, intro_tax_initial_price, takeaway)
-        intro_tax_q_equality = fixed(Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
-            .move_to(ax.c2p(EFFICIENT_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))
         takeaway = teaching(r'A \$2 tax brings quantity to 32 and eliminates deadweight loss.')
-        self.play(Transform(intro_tax_q_label, intro_tax_q_equality), FadeIn(takeaway))
+        self.play(FadeIn(takeaway))
         self.pause('3.a.prices')
 
         # ---- 3.a · Slide a dashed measurement to the price axis to explain the resulting gap.
@@ -404,7 +413,7 @@ class C3(ThreeDScene):
         self.pause('3.d')
         # From here the market fades and returns as one group around the close-ups.
         market = fixed(VGroup(ax, axis_words, demand, supply, social_cost, curve_words, original_guides,
-                             market_dot, efficient_marker, wedge, wedge_word, tax_axis_gap, tax_prices,
+                             market_dot, tax_original_quantity, efficient_marker, wedge, wedge_word, tax_axis_gap, tax_prices,
                              ps_fill, cs_fill, gov_fill, welfare_words))
         self.remove(*[m for m in self.mobjects if m not in (head, context, takeaway)])
         self.add(market)
@@ -703,6 +712,7 @@ class C3(ThreeDScene):
         self.add(context)
         tax = ValueTracker(EXTERNAL)
         taxed_q = lambda: taxed_quantity(tax.get_value())
+        tax_original_quantity.add_updater(lambda m: m.set_opacity(original_quantity_opacity(taxed_q())))
         buyer_pays = lambda: mb(taxed_quantity(tax.get_value()))
         seller_gets = lambda: mc(taxed_quantity(tax.get_value()))
         wedge.add_updater(lambda m: m.become(fixed(Polygon(
@@ -748,7 +758,8 @@ class C3(ThreeDScene):
         live_q_number.add_updater(lambda m: fixed(m.set_value(round(taxed_q(), 4)))
                                   .move_to(ax.c2p(taxed_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         live_q_label = fixed(Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
-        live_q_label.add_updater(lambda m: m.move_to(ax.c2p(taxed_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        live_q_label.add_updater(lambda m: m.move_to(ax.c2p(taxed_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+            .set_opacity(policy_quantity_label_opacity(taxed_q())))
         # Fills follow the traded units, including a partial last unit while the tax rolls.
         live_ps, live_cs, live_gov = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
         for q in range(MARKET_Q):
@@ -1048,8 +1059,15 @@ class C3(ThreeDScene):
         subsidy_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
         subsidy_q_number.add_updater(lambda m: fixed(m.set_value(round(subsidized_q(), 4)))
             .move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        subsidy_q_label = fixed(Tex(r'$Q^{subsidy}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
-        subsidy_q_label.add_updater(lambda m: m.move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        subsidy_q_label = fixed(Tex(r'$Q^{subsidy}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE).set_max_width(0.86))
+        subsidy_q_label.add_updater(lambda m: m.move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+            .set_opacity(policy_quantity_label_opacity(subsidized_q())))
+        subsidy_original_quantity = fixed(VGroup(
+            Tex('40', color=CAPTION).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(pax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            Tex(r'$\hat{Q}$', color=CAPTION).scale(QUANTITY_LABEL_SCALE)
+                .move_to(pax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)))
+        subsidy_original_quantity.add_updater(lambda m: m.set_opacity(original_quantity_opacity(subsidized_q())))
         subsidy_prices = fixed(VGroup(subsidy_top_dot, subsidy_bottom_dot,
             subsidy_seller_line, subsidy_seller_number, subsidy_seller_prefix,
             subsidy_buyer_line, subsidy_buyer_number, subsidy_buyer_prefix,
@@ -1067,8 +1085,9 @@ class C3(ThreeDScene):
             .next_to(pax.c2p((MARKET_Q + POSITIVE_Q) / 2, msb(MARKET_Q)), UP, buff=0.3))
         subsidy_dwl_word.add_updater(lambda m: m.set_opacity(
             smooth(np.clip((POSITIVE_Q - subsidized_q()) / 2, 0, 1))))
-        for m in (subsidy_prices, subsidy_dwl, subsidy_dwl_word, subsidy_initial_price):
+        for m in (subsidy_prices, subsidy_dwl, subsidy_dwl_word, subsidy_initial_price, subsidy_original_quantity):
             m.update()
+        self.add(subsidy_original_quantity)
         takeaway = teaching('Start at the market equilibrium, with no subsidy.')
         self.play(FadeIn(subsidy_prices), FadeIn(subsidy_initial_price),
                   FadeIn(subsidy_dwl), FadeIn(subsidy_dwl_word), FadeIn(takeaway))
@@ -1079,13 +1098,11 @@ class C3(ThreeDScene):
         takeaway = teaching('As the subsidy rises, prices separate and deadweight loss shrinks.')
         self.play(FadeIn(takeaway))
         self.play(subsidy.animate.set_value(EXTERNAL), run_time=3.6, rate_func=smooth)
-        for m in (subsidy_prices, subsidy_dwl, subsidy_dwl_word, subsidy_initial_price):
+        for m in (subsidy_prices, subsidy_dwl, subsidy_dwl_word, subsidy_initial_price, subsidy_original_quantity):
             m.clear_updaters()
         self.remove(subsidy_dwl, *list(subsidy_dwl), subsidy_dwl_word, subsidy_initial_price, takeaway)
-        subsidy_q_equality = fixed(Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
-            .move_to(pax.c2p(POSITIVE_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))
         takeaway = teaching(r'A \$2 subsidy brings quantity to 48 and eliminates deadweight loss.')
-        self.play(Transform(subsidy_q_label, subsidy_q_equality), FadeIn(takeaway))
+        self.play(FadeIn(takeaway))
         self.pause('4.g.prices')
 
         # ---- 4.g · Extract a dashed measurement to the right, then leave it at the price axis.
@@ -1143,7 +1160,7 @@ class C3(ThreeDScene):
         # Group the unchanged market before carrying its selected unit out and back.
         positive_market = fixed(VGroup(pax, positive_axis_words, positive_demand, positive_supply,
             social_benefit, positive_curve_words, positive_original_guides, positive_dot,
-            positive_efficient, subsidy_wedge, subsidy_word, subsidy_axis_gap, subsidy_prices))
+            positive_efficient, subsidy_original_quantity, subsidy_wedge, subsidy_word, subsidy_axis_gap, subsidy_prices))
         self.remove(*[m for m in self.mobjects if m not in (head, context, takeaway)])
         self.add(positive_market)
         # ---- 4.h.select · Carry the same unit into C2's spread welfare layout.
