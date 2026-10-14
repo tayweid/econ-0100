@@ -112,7 +112,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.f.** “The $2 gap between the prices is the external benefit per unit.”
 
-> **4.g.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” A narrow filled green subsidy bar slides from the right into the MC–MB gap at Q = 48, label to its left. The quantity drop reaches Ps, the upper dot. Place 48 nearest the axis, with Qˢᵘᵇˢⁱᵈʸ = Q* on the label row below it. “The wedge gets stuck at 48 units, the efficient quantity.”
+> **4.g.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” A narrow filled green subsidy bar slides from the right into the MC–MB gap at Q = 48, with “$2 subsidy” to its left. Keep the solid wedge between the curves; slide a dashed green copy of its height left to the price axis while moving the label just to the left of that axis. Reveal the price guides during this projection. The dashed measure spans $2.40–$4.40 and travels with the graph through later close-ups and the conclusion. The quantity drop reaches Ps, the upper dot. Place 48 nearest the axis, with Qˢᵘᵇˢⁱᵈʸ = Q* on the label row below it. “The wedge gets stuck at 48 units, the efficient quantity.”
 
 > **4.h.** Sequentially remove the grey lost-surplus slices from 40 to 48. “The subsidy enables worthwhile trades that the market leaves out.”
 

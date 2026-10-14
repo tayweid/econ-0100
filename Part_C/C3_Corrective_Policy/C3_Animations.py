@@ -874,7 +874,7 @@ class C3(ThreeDScene):
         self.play(Indicate(gap_mark, color=FOCUS, scale_factor=1.25), FadeIn(takeaway), run_time=0.8)
         self.pause('4.f')
 
-        # ---- 4.g · A $2 subsidy: the wedge slides in from the right, as in C2, and is stuck at 48.
+        # ---- 4.g · Slide the subsidy in from the right, then project its height to the price axis.
         self.remove(head, context, takeaway)
         head = fixed(title('Corrective Subsidies'))
         context = fixed(subtitle(head, 'A subsidy equal to the external benefit per unit.'))
@@ -886,8 +886,7 @@ class C3(ThreeDScene):
             stroke_width=0, fill_color=GOV, fill_opacity=GOV_OPACITY).set_z_index(12))
         subsidy_wedge.quantity, subsidy_wedge.axes = wedge_x, pax
         subsidy_wedge.add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), 3.4)))
-        subsidy_word = fixed(Tex(r'\$2 subsidy', color=GOV).scale(0.6)
-            .add_background_rectangle(color=BG, opacity=1, buff=0.04).set_z_index(13))
+        subsidy_word = fixed(Tex(r'\$2 subsidy', color=GOV).scale(0.6).set_z_index(13))
         subsidy_word.wedge = subsidy_wedge
         subsidy_word.add_updater(lambda m: m.next_to(m.wedge, LEFT, buff=0.15))
         subsidy_wedge.update(); subsidy_word.update()
@@ -895,6 +894,10 @@ class C3(ThreeDScene):
         self.play(FadeIn(subsidy_wedge), FadeIn(subsidy_word), FadeIn(takeaway))
         self.play(wedge_x.animate.set_value(POSITIVE_Q), run_time=2.8, rate_func=smooth)
         subsidy_wedge.clear_updaters(); subsidy_word.clear_updaters()
+        subsidy_axis_gap = fixed(DashedLine(pax.c2p(POSITIVE_Q, 2.4), pax.c2p(POSITIVE_Q, 4.4),
+            color=GOV, stroke_width=3)
+            .put_start_and_end_on(pax.c2p(POSITIVE_Q, 2.4), pax.c2p(POSITIVE_Q, 4.4)).set_z_index(11))
+        self.add(subsidy_axis_gap)   # Start beneath the solid wedge, which stays between the curves.
         subsidy_prices = fixed(VGroup(
             Dot(pax.c2p(48, 4.4), radius=0.07, color=GUIDE),
             Dot(pax.c2p(48, 2.4), radius=0.07, color=GUIDE),
@@ -912,7 +915,10 @@ class C3(ThreeDScene):
         for dot in subsidy_prices[:2]:
             dot.set_z_index(DOT_LAYER)
         takeaway = teaching('The wedge gets stuck at 48 units, the efficient quantity.')
-        self.play(FadeIn(subsidy_prices), FadeIn(takeaway))
+        self.play(
+            subsidy_axis_gap.animate.shift(pax.c2p(0, 0) - pax.c2p(POSITIVE_Q, 0)),
+            subsidy_word.animate.next_to(pax.c2p(0, 3.4), LEFT, buff=0.2),
+            FadeIn(subsidy_prices), FadeIn(takeaway), run_time=1.4)
         self.pause('4.g')
 
         # ---- 4.h · Units 41 to 48 now happen, and their deadweight loss is gone.
@@ -926,7 +932,7 @@ class C3(ThreeDScene):
         # ---- 4.h.select · The 44th unit is worthwhile but would be missed without the subsidy.
         positive_market = fixed(VGroup(pax, positive_axis_words, positive_demand, positive_supply,
             social_benefit, positive_curve_words, positive_original_guides, positive_dot,
-            positive_efficient, subsidy_wedge, subsidy_word, subsidy_prices))
+            positive_efficient, subsidy_wedge, subsidy_word, subsidy_axis_gap, subsidy_prices))
         self.remove(*[m for m in self.mobjects if m not in (head, context, takeaway)])
         self.add(positive_market)
         added_pair = fixed(VGroup(
