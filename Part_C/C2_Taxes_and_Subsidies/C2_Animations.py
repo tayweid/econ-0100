@@ -731,8 +731,7 @@ class C2(ThreeDScene):
         self.play(FadeIn(lost_question))
         self.pause('6.c.question')
 
-        # ---- 6.c.select · Pick unit 36 from the existing bars.
-        self.remove(lost_question)
+        # ---- 6.c.select · Pick unit 36, keeping the question visible through the highlight.
         self.play(FadeIn(lost_pair), FadeIn(lost_selection))
         self.pause('6.c.select')
 
@@ -745,7 +744,8 @@ class C2(ThreeDScene):
         welfare_market = fixed(VGroup(market, ps_taxed, tax_bars, cs_taxed, welfare_words, sliding_wedge, axis_wedge, sliding_word, wedge_marks))
         self.remove(market, sliding_wedge, axis_wedge, sliding_word, wedge_marks, ps_taxed, tax_bars, cs_taxed, welfare_words)
         self.add(welfare_market)
-        self.play(FadeOut(welfare_market), FadeOut(lost_selection), FadeOut(context), Transform(lost_pair, lost_target), run_time=1.6)
+        self.play(FadeOut(welfare_market), FadeOut(lost_selection), FadeOut(lost_question), FadeOut(context),
+                  Transform(lost_pair, lost_target), run_time=1.6)
         context = fixed(subtitle(head, 'The 36th unit: exchanged before the tax.'))
         lost_edges = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
