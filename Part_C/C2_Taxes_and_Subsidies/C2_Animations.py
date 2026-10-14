@@ -298,15 +298,15 @@ class C2(ThreeDScene):
         self.pause('3.b')
 
         # ---- 3.c · The new price, then the seller's price after the tax: a second dot on MC at the same unit.
-        # Readouts sit at buff 0.55 from the axis, leaving room for the tax to stand beside the axis from 5.a on.
+        # Price readouts sit close to the axis, aligned with the tax measurement label introduced in 5.a.
         collect_note = fixed(Tex(r'Sellers collect \$5.60, hand over \$2, keep \$3.60.', color=DEFINITION)
                              .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         taxed_prices = fixed(VGroup(
             DashedLine(ax.c2p(0, BUYER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), color=GUIDE, stroke_width=2),
             Dot(ax.c2p(TAX_Q, SELLER_PRICE), radius=0.07, color=GUIDE),
             DashedLine(ax.c2p(0, SELLER_PRICE), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2))).set_z_index(2)
-        price_readout = fixed(Tex(r'$P=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.55))
-        after_tax_readout = fixed(Tex(r'$P-\mathrm{tax}=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.55))
+        price_readout = fixed(Tex(r'$P=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.2))
+        after_tax_readout = fixed(Tex(r'$P-\mathrm{tax}=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.2))
         self.remove(seller_question)
         self.play(FadeIn(taxed_prices[0]), FadeIn(price_readout), FadeIn(collect_note))
         self.play(FadeIn(taxed_prices[1]), FadeIn(taxed_prices[2]), FadeIn(after_tax_readout))
@@ -403,8 +403,8 @@ class C2(ThreeDScene):
             DashedLine(ax.c2p(0, SELLER_PRICE), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
             Dot(ax.c2p(TAX_Q, BUYER_PRICE), radius=0.07, color=GUIDE),
             DashedLine(ax.c2p(0, BUYER_PRICE), ax.c2p(TAX_Q, BUYER_PRICE), color=GUIDE, stroke_width=2))).set_z_index(2)
-        new_price_readout = fixed(Tex(r'$P=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.55))
-        plus_tax_readout = fixed(Tex(r'$P+\mathrm{tax}=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.55))
+        new_price_readout = fixed(Tex(r'$P=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.2))
+        plus_tax_readout = fixed(Tex(r'$P+\mathrm{tax}=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.2))
         self.remove(quantity_note)
         self.play(FadeIn(buyer_prices[0]), FadeIn(new_price_readout), FadeIn(pay_note))
         self.play(FadeIn(buyer_prices[1]), FadeIn(buyer_prices[2]), FadeIn(plus_tax_readout))
@@ -413,8 +413,8 @@ class C2(ThreeDScene):
         self.pause('4.d')
 
         # ---- 4.e · Both ways to model the tax, with the same two prices and quantity side by side.
-        buyer_readout = fixed(Tex(r'$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.55))
-        seller_readout = fixed(Tex(r'$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.55))
+        buyer_readout = fixed(Tex(r'$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.2))
+        seller_readout = fixed(Tex(r'$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.2))
         either_note = fixed(Tex(r'Either way: buyers pay \$5.60, sellers receive \$3.60.', color=DEFINITION)
                             .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
         self.remove(pay_note)
@@ -485,11 +485,10 @@ class C2(ThreeDScene):
             color=GOV, stroke_width=2.5 * comparison_scale,
             dash_length=0.045 * comparison_scale)).set_z_index(2)
         # The label carries a rolling number so section 7 can drive it in place, without a crossfade.
-        sliding_word = fixed(VGroup(Tex(r'\$', color=GOV).scale(0.6), DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6),
-            Tex('tax', color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
-        sliding_word[2].shift(RIGHT * 0.08)
-        sliding_word.next_to(axis_wedge, LEFT, buff=0.15)
-        sliding_word.scale(comparison_scale).next_to(axis_wedge, LEFT, buff=0.15 * comparison_scale)
+        sliding_word = fixed(VGroup(Tex(r'Tax $=$ \$', color=GOV).scale(0.6),
+            DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
+        sliding_word.next_to(axis_wedge, LEFT, buff=0.10)
+        sliding_word.scale(comparison_scale).next_to(axis_wedge, LEFT, buff=0.10 * comparison_scale)
         seller_axis_wedge = axis_wedge.copy().shift(RIGHT * 8)
         seller_sliding_word = sliding_word.copy().shift(RIGHT * 8)
         wedge_definition = fixed(Tex("The tax wedge: the buyers' price minus the sellers' price equals the tax.", color=DEFINITION)
@@ -912,8 +911,8 @@ class C2(ThreeDScene):
         # Retain the filled wedge at the quantity and the separate measurement on the price axis.
         wedge = fixed(VGroup(sliding_wedge, wedge_marks[0], wedge_marks[1],
                              wedge_marks[2], wedge_marks[3], wedge_marks[4], axis_wedge))
-        wedge_word = fixed(VGroup(Tex(r'\$', color=GOV).scale(0.6), DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6),
-            Tex('tax', color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
+        wedge_word = fixed(VGroup(Tex(r'Tax $=$ \$', color=GOV).scale(0.6),
+            DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
         wedge_word.set_height(sliding_word.get_height()).move_to(sliding_word)
         buyer_price_readout = fixed(VGroup(Tex('$P_b=$', color=GUIDE).scale(0.7),
             DecimalNumber(BUYER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
@@ -949,7 +948,7 @@ class C2(ThreeDScene):
             .set_z_index(2).set_opacity(1 if abs(m.tax.get_value()) > 1e-5 else 0))
         wedge_word.axis_q = AXIS_Q
         wedge_word.add_updater(lambda m: (m[1].set_value(abs(m.tax.get_value())), fixed(m), m.arrange(RIGHT, buff=0.06),
-            m[2].shift(RIGHT * 0.08), m.next_to(m.axes.c2p(m.axis_q, (state(m)[1] + state(m)[2]) / 2), LEFT, buff=0.24)))
+            m.next_to(m.axes.c2p(m.axis_q, (state(m)[1] + state(m)[2]) / 2), LEFT, buff=0.10)))
         # Separate only the readouts when the two prices approach one another.
         buyer_price_readout.add_updater(lambda m: (m[1].set_value(state(m)[1]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(0, state(m)[1]), LEFT, buff=0.2)
