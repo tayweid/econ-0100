@@ -480,12 +480,10 @@ class C2(ThreeDScene):
                            for graph_ax in (ax, seller_ax)]
         # Each axis keeps its labeled measurement; a filled tax strip will slide between the original curves.
         AXIS_Q = -1.2
-        axis_wedge = fixed(VGroup(
-            Line(ax.c2p(AXIS_Q, SELLER_PRICE), ax.c2p(AXIS_Q, BUYER_PRICE), color=GOV, stroke_width=6 * comparison_scale),
-            Line(ax.c2p(AXIS_Q, SELLER_PRICE) + LEFT * 0.09 * comparison_scale,
-                 ax.c2p(AXIS_Q, SELLER_PRICE) + RIGHT * 0.09 * comparison_scale, color=GOV, stroke_width=3 * comparison_scale),
-            Line(ax.c2p(AXIS_Q, BUYER_PRICE) + LEFT * 0.09 * comparison_scale,
-                 ax.c2p(AXIS_Q, BUYER_PRICE) + RIGHT * 0.09 * comparison_scale, color=GOV, stroke_width=3 * comparison_scale))).set_z_index(2)
+        axis_wedge = fixed(DashedLine(
+            ax.c2p(AXIS_Q, SELLER_PRICE), ax.c2p(AXIS_Q, BUYER_PRICE),
+            color=GOV, stroke_width=2.5 * comparison_scale,
+            dash_length=0.045 * comparison_scale)).set_z_index(2)
         # The label carries a rolling number so section 7 can drive it in place, without a crossfade.
         sliding_word = fixed(VGroup(Tex(r'\$', color=GOV).scale(0.6), DecimalNumber(TAX, num_decimal_places=0, color=GOV).scale(0.6),
             Tex('tax', color=GOV).scale(0.6)).arrange(RIGHT, buff=0.06))
@@ -932,9 +930,10 @@ class C2(ThreeDScene):
         wedge[5].add_updater(lambda m: fixed(m.become(DashedLine(m.axes.c2p(state(m)[0], 0),
             m.axes.c2p(state(m)[0], state(m)[1]), color=GUIDE, stroke_width=2))).set_z_index(2))
         wedge[6].axis_q = AXIS_Q
-        wedge[6].add_updater(lambda m: (
-            m[0].put_start_and_end_on(m.axes.c2p(m.axis_q, state(m)[2]), m.axes.c2p(m.axis_q, state(m)[1]) + UP * 1e-6),
-            m[1].move_to(m.axes.c2p(m.axis_q, state(m)[2])), m[2].move_to(m.axes.c2p(m.axis_q, state(m)[1]))))
+        wedge[6].add_updater(lambda m: fixed(m.become(DashedLine(
+            m.axes.c2p(m.axis_q, state(m)[2]), m.axes.c2p(m.axis_q, state(m)[1]) + UP * 1e-6,
+            color=GOV, stroke_width=2.5, dash_length=0.045)))
+            .set_z_index(2).set_opacity(1 if abs(m.tax.get_value()) > 1e-5 else 0))
         wedge_word.axis_q = AXIS_Q
         wedge_word.add_updater(lambda m: (m[1].set_value(abs(m.tax.get_value())), fixed(m), m.arrange(RIGHT, buff=0.06),
             m[2].shift(RIGHT * 0.08), m.next_to(m.axes.c2p(m.axis_q, (state(m)[1] + state(m)[2]) / 2), LEFT, buff=0.24)))
