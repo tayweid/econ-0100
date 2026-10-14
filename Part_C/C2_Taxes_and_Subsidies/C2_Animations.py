@@ -127,7 +127,7 @@ class C2(ThreeDScene):
         # ---- 2.a.select · A per-unit tax, asked of the first exchange.
         self.remove(head, context)
         head = fixed(title('A Per-Unit Tax'))
-        context = fixed(subtitle(head, r'The government collects \$2 on each unit exchanged.'))
+        context = fixed(subtitle(head, 'The first unit: introducing a per-unit tax.'))
         l0, r0 = BAR_GAP / 2, 1 - BAR_GAP / 2
         # Market slice and close-up share one structure: buyer base, CS, MB edge, cost, PS, MC edge, baseline.
         first_home = fixed(VGroup(
@@ -318,7 +318,7 @@ class C2(ThreeDScene):
         # ---- 4.a.select · A tax on buyers: back to the first exchange, its strip on its cost bar.
         self.remove(head, context, collect_note)
         head = fixed(title('A Tax On Buyers'))
-        context = fixed(subtitle(head, r'Buyers hand \$2 per unit to the government.'))
+        context = fixed(subtitle(head, 'The first unit: the same tax paid by the buyer.'))
         # The slice as the market shows it now: no surplus fills, the cost bar, and the strip the tax bar becomes again.
         second_pair = first_home.copy()
         second_pair[1].set_fill(opacity=0)
@@ -365,6 +365,9 @@ class C2(ThreeDScene):
         self.remove(people, government)
         self.play(FadeOut(first_values), FadeOut(stack_word), FadeOut(buyer_edge), FadeOut(measure), FadeOut(measure_word),
                   FadeOut(buyer_note), run_time=0.4)
+        self.remove(context)
+        context = fixed(subtitle(head, r'Buyers hand \$2 per unit to the government.'))
+        self.add(context)
         # From this market return onward, MC is carried by its curve alone. Close-up cost columns stay faint.
         costs.set_fill(opacity=0)
         second_home[3].set_fill(opacity=0)
@@ -580,7 +583,7 @@ class C2(ThreeDScene):
         # ---- 6.a.select · Welfare with a tax, starting from the first exchange again.
         self.remove(head, context)
         head = fixed(title('Welfare With A Tax'))
-        context = fixed(subtitle(head, r'32 units exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
+        context = fixed(subtitle(head, 'The first unit: still exchanged with the tax.'))
         # Market slice and close-up share one structure: buyer base, tax band, CS, MB edge, cost, PS, MC edge, baseline.
         taxed_first_home = fixed(VGroup(
             Polygon(ax.c2p(l0, 0), ax.c2p(r0, 0), ax.c2p(r0, 12 - r0 / 5), ax.c2p(l0, 12 - l0 / 5),
@@ -634,10 +637,10 @@ class C2(ThreeDScene):
             Tex(r'$P_s$', color=GUIDE).scale(0.58).next_to([-2.25, first_y(SELLER_PRICE), 0], DOWN, buff=0.06),
             Tex(r'$\$3.60$', color=GUIDE).scale(0.72).next_to([-2.6, first_y(SELLER_PRICE), 0], LEFT, buff=0.15))).set_z_index(3)
         taxed_first_labels = fixed(VGroup(
-            Tex(r'PS \$1.60', color=INK).scale(0.58).move_to([1.21, first_y((2 + SELLER_PRICE) / 2), 0]),
-            VGroup(Tex('tax', color=INK), Tex(r'\$2', color=INK)).arrange(DOWN, buff=0.06).scale(0.55)
+            Tex('PS', color=INK).scale(0.58).move_to([1.21, first_y((2 + SELLER_PRICE) / 2), 0]),
+            Tex('tax', color=INK).scale(0.55)
                 .move_to([TAX_LEFT + TAX_WIDTH / 2, first_y((SELLER_PRICE + BUYER_PRICE) / 2), 0]),
-            Tex(r'CS \$6.40', color=INK).scale(0.58).move_to([-1.21, first_y((BUYER_PRICE + 12) / 2), 0]))).set_z_index(3)
+            Tex('CS', color=INK).scale(0.58).move_to([-1.21, first_y((BUYER_PRICE + 12) / 2), 0]))).set_z_index(3)
         # The selected slice shows no split yet: the fills stay hidden until the close-up reveals them.
         taxed_first_pair = taxed_first_home.copy()
         for index in (1, 2, 5):
@@ -685,6 +688,9 @@ class C2(ThreeDScene):
         self.remove(people, government)
         self.play(FadeOut(taxed_first_values), FadeOut(taxed_first_prices), FadeOut(taxed_first_price_words),
                   FadeOut(taxed_first_labels), FadeOut(split_note), run_time=0.4)
+        self.remove(context)
+        context = fixed(subtitle(head, '32 units exchanged with the tax.'))
+        self.add(context)
         self.play(Transform(taxed_first_pair, taxed_first_home),
                   FadeIn(market), FadeIn(sliding_wedge), FadeIn(axis_wedge), FadeIn(sliding_word), FadeIn(wedge_marks), run_time=1.6)
         # Fills sit under the guides and dots: re-add the marks after every batch of bars.
@@ -764,7 +770,7 @@ class C2(ThreeDScene):
             Polygon([TAX_LEFT, detail_y(SELLER_PRICE), 0], [TAX_LEFT + TAX_WIDTH, detail_y(SELLER_PRICE), 0],
                 [TAX_LEFT + TAX_WIDTH, detail_y(BUYER_PRICE), 0], [TAX_LEFT, detail_y(BUYER_PRICE), 0],
                 stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY),
-            VGroup(Tex('tax', color=INK), Tex(r'\$2', color=INK)).arrange(DOWN, buff=0.06).scale(0.55))).set_z_index(1)
+            Tex('tax', color=INK).scale(0.55))).set_z_index(1)
         lost_tax[1].move_to(lost_tax[0]).set_z_index(3)
         # Buyer pair: MB against P_b. Seller pair: MC projected leftward across the gap and the buyer column against P_s,
         # in segments that skip the tax bar (0.12 clear on either side) and the P_s number, which sits at nearly the same height.
@@ -797,8 +803,8 @@ class C2(ThreeDScene):
             DashedLine([SELLER_LEFT + BAR_WIDTH, detail_y(4.8), 0], [4.25, detail_y(4.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(lost_values[2].get_right() + RIGHT * 0.12, [4.25, detail_y(3.8), 0], color=TOTAL, stroke_width=1.4),
             Line([4.25, detail_y(3.8), 0], [4.25, detail_y(4.8), 0], color=TOTAL, stroke_width=3)))
-        # Society's answer: a green check over the one welfare value, as in C1's 1.f.
-        lost_social_answer = fixed(VGroup(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex(r'TS $\$1$', color=TOTAL)).arrange(DOWN, buff=0.16).scale(0.70)
+        # Society's answer: a green check over the TS label.
+        lost_social_answer = fixed(VGroup(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex('TS', color=TOTAL)).arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([4.25, detail_y((3.8 + 4.8) / 2), 0], RIGHT, buff=0.3))
         self.play(FadeOut(lost_tax), FadeIn(lost_social_guides))
         self.pause('6.c.social.compare')
@@ -820,7 +826,7 @@ class C2(ThreeDScene):
         self.play(FadeOut(lost_edges), FadeOut(lost_values), FadeOut(lost_questions), FadeOut(lost_prices), FadeOut(lost_price_words),
                   FadeOut(lost_private_guides), FadeOut(lost_private_answer),
                   FadeOut(lost_social_guides), FadeOut(lost_social_answer), FadeOut(lost_note), FadeOut(context), run_time=0.4)
-        context = fixed(subtitle(head, r'32 units exchanged: buyers pay \$5.60 and sellers receive \$3.60.'))
+        context = fixed(subtitle(head, '32 units exchanged with the tax.'))
         self.play(Transform(lost_pair, lost_home), Transform(lost_dwl_bar, lost_dwl_market),
                   FadeIn(welfare_market), FadeIn(context), run_time=1.6)
         self.play(FadeOut(lost_pair))
@@ -1311,7 +1317,7 @@ class C2(ThreeDScene):
             Polygon([TAX_LEFT, detail_y(SUBSIDY_BUYER), 0], [TAX_LEFT + TAX_WIDTH, detail_y(SUBSIDY_BUYER), 0],
                 [TAX_LEFT + TAX_WIDTH, detail_y(SUBSIDY_SELLER), 0], [TAX_LEFT, detail_y(SUBSIDY_SELLER), 0],
                 stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY),
-            VGroup(Tex('subsidy', color=INK), Tex(r'\$2', color=INK)).arrange(DOWN, buff=0.06).scale(0.55))).set_z_index(1)
+            Tex('subsidy', color=INK).scale(0.55))).set_z_index(1)
         added_subsidy[1].move_to(added_subsidy[0]).set_z_index(3)
         # Buyer pair: MB against P_b. Seller pair: MC projected leftward across the gap and the buyer column against P_s,
         # in segments that skip the subsidy bar (0.12 clear on either side) and the P_s number, which sits at nearly the same height.
@@ -1344,8 +1350,8 @@ class C2(ThreeDScene):
             DashedLine([SELLER_LEFT + BAR_WIDTH, detail_y(3.2), 0], [4.25, detail_y(3.2), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(added_values[2].get_right() + RIGHT * 0.12, [4.25, detail_y(4.2), 0], color=TOTAL, stroke_width=1.4),
             Line([4.25, detail_y(3.2), 0], [4.25, detail_y(4.2), 0], color=TOTAL, stroke_width=3)))
-        # Society's answer: a red cross over the one welfare value, as in C1's 1.c.
-        added_social_answer = fixed(VGroup(VGroup(Line([-0.22, -0.22, 0], [0.22, 0.22, 0], color=GUIDE, stroke_width=5), Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)), Tex(r'DWL $\$1$', color=INK)).arrange(DOWN, buff=0.16).scale(0.70)
+        # Society's answer: a red cross over the DWL label.
+        added_social_answer = fixed(VGroup(VGroup(Line([-0.22, -0.22, 0], [0.22, 0.22, 0], color=GUIDE, stroke_width=5), Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)), Tex('DWL', color=INK)).arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([4.25, detail_y((3.2 + 4.2) / 2), 0], RIGHT, buff=0.3))
         self.play(FadeOut(added_subsidy), FadeIn(added_social_guides))
         self.pause('9.d.social.compare')
