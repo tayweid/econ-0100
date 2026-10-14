@@ -47,8 +47,9 @@ class C3(ThreeDScene):
         detail_y = lambda value: DETAIL_BASE + DETAIL_SCALE * value
         ORIGIN_X, ORIGIN_Y = -3.2, -2.15
         DOT_LAYER = 30
-        QUANTITY_LABEL_OFFSET = 0.34
-        QUANTITY_GAP_CAPTION_OFFSET = 0.65
+        QUANTITY_NUMBER_OFFSET, QUANTITY_LABEL_OFFSET = 0.32, 0.72
+        QUANTITY_NUMBER_SCALE, QUANTITY_LABEL_SCALE = 0.64, 0.60
+        QUANTITY_GAP_CAPTION_OFFSET = 1.02
 
         # The model, as one-line functions of quantity or price.
         mb = lambda q: 12 - q / 5
@@ -59,9 +60,10 @@ class C3(ThreeDScene):
         quantity_demanded = lambda p: (12 - p) * 5
         quantity_supplied = lambda p: (p - 2) * 20
         quantity_gap = lambda p: abs(quantity_demanded(p) - quantity_supplied(p))
+        # Numbers sit nearest the axis; quantity names use a separate fixed row below.
         # Keep only the numbers when the two quantities are close; at their crossing,
         # show one number until there is room for both on the same axis row.
-        quantity_prefix_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 18) / 8, 0, 1))
+        quantity_label_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 18) / 8, 0, 1))
         seller_quantity_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 5) / 3, 0, 1))
         taxed_quantity = lambda t: 40 - 4 * t       # MB - MC = t  ->  10 - Q/4 = t.
 
@@ -118,7 +120,11 @@ class C3(ThreeDScene):
         market_dot = fixed(Dot(ax.c2p(40, 4), radius=0.065, color=GUIDE).set_z_index(DOT_LAYER))
         market_quantity = fixed(VGroup(
             DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2),
-            VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('40', color=GUIDE)).arrange(DOWN, buff=0.08).scale(0.64).next_to(ax.c2p(40, 0), DOWN, buff=0.20)).set_z_index(10))
+            VGroup(
+                Tex('40', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                    .move_to(ax.c2p(40, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$\hat{Q}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                    .move_to(ax.c2p(40, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(10))
         market_price = fixed(VGroup(
             Tex(r'$\hat{P}=$', color=GUIDE).scale(0.7).next_to(msc_intercept, LEFT, buff=0.12),
             DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2)).set_z_index(10))
@@ -126,7 +132,11 @@ class C3(ThreeDScene):
             DashedLine(ax.c2p(32, 0), ax.c2p(32, 5.6), color=FOCUS, stroke_width=2),
             Dot(ax.c2p(32, 5.6), radius=0.085, color=FOCUS).set_z_index(DOT_LAYER + 1)).set_z_index(11))
         efficient_marker[1].set_z_index(DOT_LAYER + 1)
-        efficient_word = fixed(VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('32', color=FOCUS)).arrange(DOWN, buff=0.08).scale(0.64).next_to(ax.c2p(32, 0), DOWN, buff=0.20))
+        efficient_word = fixed(VGroup(
+            Tex('32', color=FOCUS).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(32, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            Tex(r'$Q^*$', color=FOCUS).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(32, 0) + DOWN * QUANTITY_LABEL_OFFSET)))
         dwl_bars = fixed(VGroup(*[unit_slice(ax, q, mb, msc, DWL, 0.8) for q in range(EFFICIENT_Q, MARKET_Q)]).set_z_index(1))
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(ax.c2p(40, 5.4), RIGHT, buff=0.3))
         recap = teaching('Last time: the market exchanges 40 units, but only 32 are efficient.')
@@ -179,21 +189,21 @@ class C3(ThreeDScene):
         gap_line.add_updater(lambda m: m.put_start_and_end_on(
             ax.c2p(quantity_demanded(price.get_value()), 0),
             ax.c2p(quantity_supplied(price.get_value()) + 1e-6, 0)))
-        buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
+        buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
         buyer_number.add_updater(lambda m: fixed(m.set_value(round(quantity_demanded(price.get_value()), 4)))
-                                 .move_to(ax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET))
-        buyer_prefix = fixed(Tex('$Q_d=$', color=GUIDE).scale(0.65))
-        buyer_prefix.add_updater(lambda m: m.next_to(buyer_number, LEFT, buff=0.1)
-                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
-        seller_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
+                                 .move_to(ax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        buyer_quantity_label = fixed(Tex('$Q_d$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        buyer_quantity_label.add_updater(lambda m: m.move_to(ax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                 .set_opacity(quantity_label_opacity(price.get_value())))
+        seller_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
         seller_number.add_updater(lambda m: fixed(m.set_value(round(quantity_supplied(price.get_value()), 4)))
-                                  .move_to(ax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                  .move_to(ax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_NUMBER_OFFSET)
                                   .set_opacity(seller_quantity_opacity(price.get_value())))
-        seller_prefix = fixed(Tex('$Q_s=$', color=GUIDE).scale(0.65))
-        seller_prefix.add_updater(lambda m: m.next_to(seller_number, LEFT, buff=0.1)
-                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
+        seller_quantity_label = fixed(Tex('$Q_s$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        seller_quantity_label.add_updater(lambda m: m.move_to(ax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                 .set_opacity(quantity_label_opacity(price.get_value())))
         trial = [trial_line, trial_number, trial_prefix, buyer_dot, seller_dot, buyer_drop, seller_drop, gap_line]
-        readouts = [buyer_number, buyer_prefix, seller_number, seller_prefix]
+        readouts = [buyer_number, buyer_quantity_label, seller_number, seller_quantity_label]
         for m in trial + readouts:
             m.update()
         self.remove(market_dot)
@@ -204,7 +214,7 @@ class C3(ThreeDScene):
             m.update()   # Digits must already match before a number fades in.
         self.remove(question)
         question = teaching('The price that works for buyers creates excess supply.')
-        self.play(FadeIn(buyer_number), FadeIn(buyer_prefix), FadeIn(seller_number), FadeIn(seller_prefix),
+        self.play(FadeIn(buyer_number), FadeIn(buyer_quantity_label), FadeIn(seller_number), FadeIn(seller_quantity_label),
                   FadeIn(gap_word), FadeIn(question))
         self.pause('2.b')
 
@@ -231,8 +241,8 @@ class C3(ThreeDScene):
             Tex(r'$\$2$', color=FOCUS).scale(0.7).next_to(ax.c2p(0, 4.6), LEFT, buff=0.2)).set_z_index(13))
         takeaway = teaching('One price cannot get both sides to the efficient quantity.')
         self.play(FadeOut(buyer_dot), FadeOut(seller_dot), FadeOut(buyer_drop), FadeOut(seller_drop),
-                  FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_prefix),
-                  FadeOut(seller_number), FadeOut(seller_prefix), FadeOut(trial_number), FadeOut(trial_prefix),
+                  FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_quantity_label),
+                  FadeOut(seller_number), FadeOut(seller_quantity_label), FadeOut(trial_number), FadeOut(trial_prefix),
                   FadeOut(trial_line),
                   FadeIn(seller_price), FadeIn(buyer_price), FadeIn(market_dot),
                   FadeIn(gap_mark), FadeIn(takeaway))
@@ -275,7 +285,11 @@ class C3(ThreeDScene):
             DashedLine(ax.c2p(0, 3.6), ax.c2p(32, 3.6), color=GUIDE, stroke_width=2),
             Tex('$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 3.6), LEFT, buff=0.2),
             DashedLine(ax.c2p(32, 0), ax.c2p(32, 5.6), color=GUIDE, stroke_width=2),
-            VGroup(Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(0.60), Tex('32', color=GUIDE).scale(0.64)).arrange(DOWN, buff=0.08).next_to(ax.c2p(32, 0), DOWN, buff=0.20)).set_z_index(10))
+            VGroup(
+                Tex('32', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                    .move_to(ax.c2p(32, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                    .move_to(ax.c2p(32, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(10))
         for dot in tax_prices[:2]:
             dot.set_z_index(DOT_LAYER)
         efficient_marker[1].set_z_index(DOT_LAYER + 1)
@@ -594,10 +608,11 @@ class C3(ThreeDScene):
         live_seller_number.add_updater(lambda m: fixed(m.set_value(seller_gets())).next_to(ax.c2p(0, seller_gets()), LEFT, buff=0.2))
         live_seller_prefix = fixed(Tex('$P_s=$', color=GUIDE).scale(0.7))
         live_seller_prefix.add_updater(lambda m: m.next_to(live_seller_number, LEFT, buff=0.1))
-        live_q_number = fixed(DecimalNumber(32, num_decimal_places=0, color=GUIDE).scale(0.7))
-        live_q_number.add_updater(lambda m: fixed(m.set_value(round(taxed_q(), 4))).next_to(ax.c2p(taxed_q(), 0), DOWN, buff=0.2).shift(RIGHT * 0.33))
-        live_q_prefix = fixed(Tex('$Q=$', color=GUIDE).scale(0.7))
-        live_q_prefix.add_updater(lambda m: m.next_to(live_q_number, LEFT, buff=0.1))
+        live_q_number = fixed(DecimalNumber(32, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
+        live_q_number.add_updater(lambda m: fixed(m.set_value(round(taxed_q(), 4)))
+                                  .move_to(ax.c2p(taxed_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        live_q_label = fixed(Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        live_q_label.add_updater(lambda m: m.move_to(ax.c2p(taxed_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
         # Fills follow the traded units, including a partial last unit while the tax rolls.
         live_ps, live_cs, live_gov = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
         for q in range(MARKET_Q):
@@ -635,7 +650,7 @@ class C3(ThreeDScene):
         live = [wedge, live_top_dot, live_bottom_dot, live_tax_number, live_tax_prefix, live_tax_suffix, live_tax_background,
                 live_buyer_line, live_seller_line, live_drop,
                 live_buyer_number, live_buyer_prefix, live_seller_number, live_seller_prefix,
-                live_q_number, live_q_prefix, live_ps, live_cs, live_gov, live_dwl, live_dwl_word]
+                live_q_number, live_q_label, live_ps, live_cs, live_gov, live_dwl, live_dwl_word]
         for m in live:
             m.update()
         market.remove(wedge, wedge_word, tax_prices, ps_fill, cs_fill, gov_fill)
@@ -712,7 +727,7 @@ class C3(ThreeDScene):
             Tex('$14$', color=DEMAND).scale(0.65).next_to(pax.c2p(0, 14), LEFT, buff=0.15)))
         positive_demand = fixed(Line(pax.c2p(0, 12), pax.c2p(60, 0), color=DEMAND, stroke_width=3))
         positive_supply = fixed(Line(pax.c2p(0, 2), pax.c2p(80, 6), color=SUPPLY, stroke_width=3))
-        social_benefit = fixed(Line(pax.c2p(0, 14), pax.c2p(70, 0), color=DEMAND, stroke_width=3))
+        social_benefit = fixed(DashedLine(pax.c2p(0, 14), pax.c2p(70, 0), color=DEMAND, stroke_width=3))
         positive_curve_words = fixed(VGroup(
             Tex('MB', color=INK).scale(0.7).next_to(pax.c2p(8, 10.4), DOWN, buff=0.14),
             Tex('MC', color=INK).scale(0.7).next_to(pax.c2p(80, 6), RIGHT, buff=0.12),
@@ -725,7 +740,11 @@ class C3(ThreeDScene):
         positive_dot = fixed(Dot(pax.c2p(40, 4), radius=0.065, color=GUIDE).set_z_index(DOT_LAYER))
         positive_quantity = fixed(VGroup(
             DashedLine(pax.c2p(40, 0), pax.c2p(40, 4), color=GUIDE, stroke_width=2),
-            VGroup(Tex(r'$\hat{Q}$', color=GUIDE), Tex('40', color=GUIDE)).arrange(DOWN, buff=0.08).scale(0.64).next_to(pax.c2p(40, 0), DOWN, buff=0.20)).set_z_index(10))
+            VGroup(
+                Tex('40', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                    .move_to(pax.c2p(40, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$\hat{Q}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                    .move_to(pax.c2p(40, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(10))
         positive_price = fixed(VGroup(
             Tex(r'$\hat{P}=4$', color=GUIDE).scale(0.7).next_to(pax.c2p(0, 4), LEFT, buff=0.2),
             DashedLine(pax.c2p(0, 4), pax.c2p(40, 4), color=GUIDE, stroke_width=2)).set_z_index(10))
@@ -733,7 +752,11 @@ class C3(ThreeDScene):
             DashedLine(pax.c2p(48, 0), pax.c2p(48, 4.4), color=FOCUS, stroke_width=2),
             Dot(pax.c2p(48, 4.4), radius=0.085, color=FOCUS)).set_z_index(11))
         positive_efficient[1].set_z_index(DOT_LAYER + 1)
-        positive_efficient_word = fixed(VGroup(Tex(r'$Q^*$', color=FOCUS), Tex('48', color=FOCUS)).arrange(DOWN, buff=0.08).scale(0.64).next_to(pax.c2p(48, 0), DOWN, buff=0.20))
+        positive_efficient_word = fixed(VGroup(
+            Tex('48', color=FOCUS).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(pax.c2p(48, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            Tex(r'$Q^*$', color=FOCUS).scale(QUANTITY_LABEL_SCALE)
+                .move_to(pax.c2p(48, 0) + DOWN * QUANTITY_LABEL_OFFSET)))
         positive_dwl = fixed(VGroup(*[unit_slice(pax, q, mc, msb, DWL, 0.8) for q in range(MARKET_Q, POSITIVE_Q)]).set_z_index(1))
         positive_dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(positive_dwl, UP, buff=0.16))
         recap = teaching('Last time: the market exchanges 40 units, but 48 are efficient.')
@@ -786,21 +809,21 @@ class C3(ThreeDScene):
         gap_line.add_updater(lambda m: m.put_start_and_end_on(
             pax.c2p(quantity_demanded(price.get_value()), 0),
             pax.c2p(quantity_supplied(price.get_value()) + 1e-6, 0)))
-        buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
+        buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
         buyer_number.add_updater(lambda m: fixed(m.set_value(round(quantity_demanded(price.get_value()), 4)))
-                                 .move_to(pax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET))
-        buyer_prefix = fixed(Tex('$Q_d=$', color=GUIDE).scale(0.65))
-        buyer_prefix.add_updater(lambda m: m.next_to(buyer_number, LEFT, buff=0.1)
-                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
-        seller_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
+                                 .move_to(pax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        buyer_quantity_label = fixed(Tex('$Q_d$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        buyer_quantity_label.add_updater(lambda m: m.move_to(pax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                 .set_opacity(quantity_label_opacity(price.get_value())))
+        seller_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
         seller_number.add_updater(lambda m: fixed(m.set_value(round(quantity_supplied(price.get_value()), 4)))
-                                  .move_to(pax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                  .move_to(pax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_NUMBER_OFFSET)
                                   .set_opacity(seller_quantity_opacity(price.get_value())))
-        seller_prefix = fixed(Tex('$Q_s=$', color=GUIDE).scale(0.65))
-        seller_prefix.add_updater(lambda m: m.next_to(seller_number, LEFT, buff=0.1)
-                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
+        seller_quantity_label = fixed(Tex('$Q_s$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        seller_quantity_label.add_updater(lambda m: m.move_to(pax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                 .set_opacity(quantity_label_opacity(price.get_value())))
         trial = [trial_line, trial_number, trial_prefix, buyer_dot, seller_dot, buyer_drop, seller_drop, gap_line]
-        readouts = [buyer_number, buyer_prefix, seller_number, seller_prefix]
+        readouts = [buyer_number, buyer_quantity_label, seller_number, seller_quantity_label]
         for m in trial + readouts:
             m.update()
         self.remove(positive_dot)
@@ -811,7 +834,7 @@ class C3(ThreeDScene):
             m.update()
         self.remove(question)
         question = teaching('The price that works for buyers creates a shortage.')
-        self.play(FadeIn(buyer_number), FadeIn(buyer_prefix), FadeIn(seller_number), FadeIn(seller_prefix),
+        self.play(FadeIn(buyer_number), FadeIn(buyer_quantity_label), FadeIn(seller_number), FadeIn(seller_quantity_label),
                   FadeIn(gap_word), FadeIn(question))
         self.pause('4.c')
 
@@ -838,8 +861,8 @@ class C3(ThreeDScene):
             Tex(r'$\$2$', color=FOCUS).scale(0.7).next_to(pax.c2p(0, 3.4), LEFT, buff=0.2)).set_z_index(13))
         takeaway = teaching('One price cannot get both sides to the efficient quantity.')
         self.play(FadeOut(buyer_dot), FadeOut(seller_dot), FadeOut(buyer_drop), FadeOut(seller_drop),
-                  FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_prefix),
-                  FadeOut(seller_number), FadeOut(seller_prefix), FadeOut(trial_number), FadeOut(trial_prefix),
+                  FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_quantity_label),
+                  FadeOut(seller_number), FadeOut(seller_quantity_label), FadeOut(trial_number), FadeOut(trial_prefix),
                   FadeOut(trial_line),
                   FadeIn(seller_price), FadeIn(buyer_price), FadeIn(positive_dot),
                   FadeIn(gap_mark), FadeIn(takeaway))
@@ -880,7 +903,11 @@ class C3(ThreeDScene):
             DashedLine(pax.c2p(0, 2.4), pax.c2p(48, 2.4), color=GUIDE, stroke_width=2),
             Tex('$P_b=2.40$', color=GUIDE).scale(0.7).next_to(pax.c2p(0, 2.4), LEFT, buff=0.2),
             DashedLine(pax.c2p(48, 0), pax.c2p(48, 4.4), color=GUIDE, stroke_width=2),
-            VGroup(Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(0.60), Tex('48', color=GUIDE).scale(0.64)).arrange(DOWN, buff=0.08).next_to(pax.c2p(48, 0), DOWN, buff=0.20)).set_z_index(10))
+            VGroup(
+                Tex('48', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                    .move_to(pax.c2p(48, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                    .move_to(pax.c2p(48, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(10))
         self.remove(takeaway)
         for dot in subsidy_prices[:2]:
             dot.set_z_index(DOT_LAYER)

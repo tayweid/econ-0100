@@ -30,7 +30,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Model.** MB = 12 − Q/5; MC = 2 + Q/20; externality = $2 per unit. The unregulated market exchanges 40 units at $4. Negative externalities: MSC = MC + 2 and Q* = 32. Positive externalities: MSB = MB + 2 and Q* = 48.
 
-**Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve throughout the negative-externality graphs; MC remains solid orange. Place price-gap measurements on the vertical axis and quantity-gap measurements on the horizontal axis, with their numeric captions outside the plot. Grey unlabeled guides retain the original price and quantity. Red price dots and yellow efficient dots sit above fills and guides. Base MB, MC and EXT bars use 0.16 opacity and appear only on exchanged quantities. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
+**Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve and MSB a dashed teal curve throughout; private MC and MB remain solid. On every market graph, center quantity numbers on a fixed row immediately below the horizontal axis, with their quantity symbols on a separate aligned row underneath. Symbol height and superscripts never determine the number position; use the same rows for recap markers, planner readouts, policy quantities, the tax dial, and closing graphs. Place price-gap measurements on the vertical axis and quantity-gap measurements on the horizontal axis, with their numeric captions outside the plot. Grey unlabeled guides retain the original price and quantity. Red price dots and yellow efficient dots sit above fills and guides. Base MB, MC and EXT bars use 0.16 opacity and appear only on exchanged quantities. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
 
 **Close-ups.** Carry the selected MB/MC/EXT slices into the same compact columns each time, then back to the exact source slice. No unmatched group transforms or leftover grey highlight. Names live on the bars: MB/MC below their edges, MSC/MSB above, EXT inside the pink portion. Numeric values sit beside their corresponding levels. A dashed pink height measure gives the $2 externality. Yellow questions remain along the bottom left and right. Purple dashed projections measure the relevant comparison; pause before revealing a green check or red cross. Show only one social amount, TS or potential DWL. Government transfers occupy the middle gap, distinct from external cost or benefit.
 
@@ -44,7 +44,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 2 | The planner's price problem
 
-**Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd = and Qs = only when the quantities are well separated; fade those prefixes away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate. Measure excess or shortage with a grey segment on the horizontal axis between the two quantity guides. Center its caption below the quantity-number row, clear of both numbers and the bottom teaching line; no gap indicator remains at the trial-price height.
+**Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd and Qs on the row beneath their numbers only when the quantities are well separated; fade those labels away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate. Measure excess or shortage with a grey segment on the horizontal axis between the two quantity guides. Center its caption below both quantity rows, clear of the labels and the bottom teaching line; no gap indicator remains at the trial-price height.
 
 > **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old labeled market guides. Retain the efficient marker and DWL geometry; add grey original-equilibrium guides. Ask: “What price gets buyers and sellers to exchange 32 units?”
 
@@ -58,7 +58,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 3 | Corrective tax
 
-> **3.a.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” Start a narrow filled green $2 bar on the price axis with “$2 tax” just to its left. Slide only the solid bar into the MB–MC gap at Q = 32, leaving the label and a dashed green vertical measure of the same height at the price axis. Both price dots and dashed guides appear; the quantity drop reaches the upper price. Stack Qᵗᵃˣ = Q* over 32 below the axis. Bottom: “The wedge gets stuck at 32 units, the efficient quantity.”
+> **3.a.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” Start a narrow filled green $2 bar on the price axis with “$2 tax” just to its left. Slide only the solid bar into the MB–MC gap at Q = 32, leaving the label and a dashed green vertical measure of the same height at the price axis. Both price dots and dashed guides appear; the quantity drop reaches the upper price. Place 32 nearest the axis, with Qᵗᵃˣ = Q* on the label row below it. Bottom: “The wedge gets stuck at 32 units, the efficient quantity.”
 
 > **3.b.** Sequentially fade the harmful grey slices from Q = 40 back to 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” Remove the whole DWL group and its children.
 
@@ -112,7 +112,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.f.** “The $2 gap between the prices is the external benefit per unit.”
 
-> **4.g.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” A narrow filled green subsidy bar slides from the right into the MC–MB gap at Q = 48, label to its left. The quantity drop reaches Ps, the upper dot. Stack Qˢᵘᵇˢⁱᵈʸ = Q* over 48. “The wedge gets stuck at 48 units, the efficient quantity.”
+> **4.g.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” A narrow filled green subsidy bar slides from the right into the MC–MB gap at Q = 48, label to its left. The quantity drop reaches Ps, the upper dot. Place 48 nearest the axis, with Qˢᵘᵇˢⁱᵈʸ = Q* on the label row below it. “The wedge gets stuck at 48 units, the efficient quantity.”
 
 > **4.h.** Sequentially remove the grey lost-surplus slices from 40 to 48. “The subsidy enables worthwhile trades that the market leaves out.”
 
