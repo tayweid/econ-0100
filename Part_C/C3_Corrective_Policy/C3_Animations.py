@@ -93,7 +93,7 @@ class C3(ThreeDScene):
 
         # ---- 1.a · Last time: the negative-externality market and its deadweight loss.
         head = fixed(title('Negative Externalities'))
-        context = fixed(subtitle(head, 'A cost paid by others outside the market.'))
+        context = fixed(subtitle(head, "Maximize society's total welfare."))
         ax = style_axes([0, 80, 10], [0, 13, 2], x_length=6.4, y_length=4.6)
         ax.shift(np.array([ORIGIN_X, ORIGIN_Y, 0]) - ax.c2p(0, 0))
         fixed(ax)
@@ -113,12 +113,6 @@ class C3(ThreeDScene):
             Tex('MB', color=INK).scale(0.7).next_to(ax.c2p(7, 10.6), UR, buff=0.12),
             Tex('MC', color=INK).scale(0.7).next_to(ax.c2p(80, 6), RIGHT, buff=0.12),
             Tex('MSC', color=INK).scale(0.7).next_to(ax.c2p(80, 8), RIGHT, buff=0.12)))
-        benefit_bars, cost_bars, ext_bars = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
-        for q in range(MARKET_Q):
-            benefit_bars.add(unit_slice(ax, q, zero, mb, DEMAND, BASE_OPACITY))
-            cost_bars.add(unit_slice(ax, q, zero, mc, SUPPLY, BASE_OPACITY))
-        for q in range(60):
-            ext_bars.add(unit_slice(ax, q, mc, msc, EXT, BASE_OPACITY if q < MARKET_Q else 0))
         market_dot = fixed(Dot(ax.c2p(40, 4), radius=0.065, color=MUTED).set_z_index(DOT_LAYER))
         market_quantity = fixed(VGroup(
             DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2),
@@ -143,7 +137,7 @@ class C3(ThreeDScene):
         dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(ax.c2p(40, 5.4), RIGHT, buff=0.3))
         recap = teaching('Last time: the market exchanges 40 units, but only 32 are efficient.')
         self.play(FadeIn(head), FadeIn(context), FadeIn(ax), FadeIn(axis_words), FadeIn(msc_intercept),
-                  FadeIn(benefit_bars), FadeIn(cost_bars), FadeIn(ext_bars), FadeIn(demand), FadeIn(supply), FadeIn(social_cost),
+                  FadeIn(demand), FadeIn(supply), FadeIn(social_cost),
                   FadeIn(curve_words), FadeIn(market_dot), FadeIn(market_quantity), FadeIn(market_price))
         self.play(FadeIn(efficient_marker), FadeIn(efficient_word), FadeIn(dwl_bars), FadeIn(dwl_word), FadeIn(recap))
         self.pause('1.a')
@@ -155,11 +149,10 @@ class C3(ThreeDScene):
         # ---- 2.a · The planner wants 32 units; which price gets both sides there?
         self.remove(head, context, recap)
         head = fixed(title('The Social Planner'))
-        context = fixed(subtitle(head, 'Someone who wants the efficient quantity, 32 units.'))
+        context = fixed(subtitle(head, "Maximize society's total welfare."))
         question = teaching('What price gets buyers and sellers to exchange 32 units?')
         self.play(FadeIn(head), FadeIn(context), FadeIn(question), FadeOut(market_price), FadeOut(msc_intercept),
-                  FadeOut(market_quantity[0]), FadeOut(dwl_bars), FadeOut(dwl_word),
-                  FadeOut(benefit_bars), FadeOut(cost_bars), FadeOut(ext_bars), FadeIn(original_guides))
+                  FadeOut(market_quantity[0]), FadeOut(dwl_bars), FadeOut(dwl_word), FadeIn(original_guides))
         self.pause('2.a')
 
         # ---- 2.b · Set the price at the buyers' willingness to pay for unit 32: an excess.
@@ -860,7 +853,7 @@ class C3(ThreeDScene):
         self.play(*[FadeOut(m) for m in list(self.mobjects)], run_time=0.7)
         self.clear()
         head = fixed(title('Positive Externalities'))
-        context = fixed(subtitle(head, 'A benefit received by others outside the market.'))
+        context = fixed(subtitle(head, "Maximize society's total welfare."))
         pax = style_axes([0, 80, 10], [0, 15, 2], x_length=6.4, y_length=4.6)
         pax.shift(np.array([ORIGIN_X, ORIGIN_Y, 0]) - pax.c2p(0, 0))
         fixed(pax)
@@ -879,11 +872,6 @@ class C3(ThreeDScene):
             Tex('MB', color=INK).scale(0.7).next_to(pax.c2p(8, 10.4), DOWN, buff=0.14),
             Tex('MC', color=INK).scale(0.7).next_to(pax.c2p(80, 6), RIGHT, buff=0.12),
             Tex('MSB', color=INK).scale(0.7).next_to(pax.c2p(8, 12.4), UR, buff=0.10)).set_z_index(6))
-        positive_benefit_bars, positive_cost_bars, positive_ext_bars = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
-        for q in range(60):
-            positive_benefit_bars.add(unit_slice(pax, q, zero, mb, DEMAND, BASE_OPACITY if q < MARKET_Q else 0))
-            positive_cost_bars.add(unit_slice(pax, q, zero, mc, SUPPLY, BASE_OPACITY if q < MARKET_Q else 0))
-            positive_ext_bars.add(unit_slice(pax, q, mb, msb, EXT, BASE_OPACITY if q < MARKET_Q else 0))
         positive_dot = fixed(Dot(pax.c2p(40, 4), radius=0.065, color=MUTED).set_z_index(DOT_LAYER))
         positive_quantity = fixed(VGroup(
             DashedLine(pax.c2p(40, 0), pax.c2p(40, 4), color=GUIDE, stroke_width=2),
@@ -907,8 +895,8 @@ class C3(ThreeDScene):
         positive_dwl = fixed(VGroup(*[unit_slice(pax, q, mc, msb, DWL, 0.8) for q in range(MARKET_Q, POSITIVE_Q)]).set_z_index(1))
         positive_dwl_word = fixed(Tex('DWL', color=INK).scale(0.8).next_to(positive_dwl, UP, buff=0.16))
         recap = teaching('Last time: the market exchanges 40 units, but 48 are efficient.')
-        self.play(FadeIn(head), FadeIn(context), FadeIn(pax), FadeIn(positive_axis_words), FadeIn(positive_benefit_bars), FadeIn(positive_cost_bars),
-                  FadeIn(positive_ext_bars), FadeIn(positive_demand), FadeIn(positive_supply), FadeIn(social_benefit),
+        self.play(FadeIn(head), FadeIn(context), FadeIn(pax), FadeIn(positive_axis_words),
+                  FadeIn(positive_demand), FadeIn(positive_supply), FadeIn(social_benefit),
                   FadeIn(positive_curve_words), FadeIn(positive_dot), FadeIn(positive_quantity), FadeIn(positive_price))
         self.play(FadeIn(positive_efficient), FadeIn(positive_efficient_word), FadeIn(positive_dwl), FadeIn(positive_dwl_word), FadeIn(recap))
         self.pause('4.a')
@@ -920,11 +908,10 @@ class C3(ThreeDScene):
         # ---- 4.b · The planner wants 48 units.
         self.remove(head, context, recap)
         head = fixed(title('The Social Planner'))
-        context = fixed(subtitle(head, 'Someone who wants the efficient quantity, 48 units.'))
+        context = fixed(subtitle(head, "Maximize society's total welfare."))
         question = teaching('What price gets buyers and sellers to exchange 48 units?')
         self.play(FadeIn(head), FadeIn(context), FadeIn(question), FadeOut(positive_price), FadeOut(positive_axis_words[4]),
-                  FadeOut(positive_quantity[0]), FadeOut(positive_dwl), FadeOut(positive_dwl_word),
-                  FadeOut(positive_benefit_bars), FadeOut(positive_cost_bars), FadeOut(positive_ext_bars), FadeIn(positive_original_guides))
+                  FadeOut(positive_quantity[0]), FadeOut(positive_dwl), FadeOut(positive_dwl_word), FadeIn(positive_original_guides))
         positive_axis_words.remove(positive_axis_words[4])
         self.pause('4.b')
 
