@@ -333,27 +333,22 @@ class C3(ThreeDScene):
         self.play(Transform(intro_tax_q_label, intro_tax_q_equality), FadeIn(takeaway))
         self.pause('3.a.prices')
 
-        # ---- 3.a.wedge · Extract a copy to the price axis on the left to explain the resulting price gap.
+        # ---- 3.a · Slide a dashed measurement to the price axis to explain the resulting gap.
         self.remove(takeaway)
         wedge = fixed(Polygon(
             ax.c2p(EFFICIENT_Q - 0.42, 3.6), ax.c2p(EFFICIENT_Q + 0.42, 3.6),
             ax.c2p(EFFICIENT_Q + 0.42, 5.6), ax.c2p(EFFICIENT_Q - 0.42, 5.6),
             stroke_width=0, fill_color=GOV, fill_opacity=GOV_OPACITY).set_z_index(12))
         self.play(FadeIn(wedge), run_time=0.6)
-        tax_wedge_copy = wedge.copy()
-        self.add(tax_wedge_copy)
-        self.play(tax_wedge_copy.animate.shift(ax.c2p(AXIS_GAP_Q, 0) - ax.c2p(EFFICIENT_Q, 0)), run_time=1.6)
+        tax_axis_gap = fixed(DashedLine(ax.c2p(EFFICIENT_Q, 3.6), ax.c2p(EFFICIENT_Q, 5.6),
+            color=GOV, stroke_width=2.5, dash_length=0.045)
+            .put_start_and_end_on(ax.c2p(EFFICIENT_Q, 3.6), ax.c2p(EFFICIENT_Q, 5.6)).set_z_index(11))
+        self.add(tax_axis_gap)
+        self.play(tax_axis_gap.animate.shift(ax.c2p(AXIS_GAP_Q, 0) - ax.c2p(EFFICIENT_Q, 0)), run_time=1.6)
         wedge_word = fixed(Tex(r'Tax $=$ \$2', color=GOV).scale(0.6)
             .next_to(ax.c2p(0, 4.6), LEFT, buff=0.2).set_z_index(13))
         takeaway = teaching(r"The tax is the \$2 gap between the buyers' and sellers' prices.")
         self.play(FadeIn(wedge_word), FadeIn(takeaway))
-        self.pause('3.a.wedge')
-
-        # ---- 3.a · Keep the lasting measurement beside the price axis.
-        tax_axis_gap = fixed(DashedLine(ax.c2p(AXIS_GAP_Q, 3.6), ax.c2p(AXIS_GAP_Q, 5.6),
-            color=GOV, stroke_width=2.5, dash_length=0.045)
-            .put_start_and_end_on(ax.c2p(AXIS_GAP_Q, 3.6), ax.c2p(AXIS_GAP_Q, 5.6)).set_z_index(11))
-        self.play(FadeOut(tax_wedge_copy), FadeIn(tax_axis_gap))
         self.pause('3.a')
 
         # ---- 3.a.curve · The same tax also raises private cost onto social cost.
@@ -1093,23 +1088,22 @@ class C3(ThreeDScene):
         self.play(Transform(subsidy_q_label, subsidy_q_equality), FadeIn(takeaway))
         self.pause('4.g.prices')
 
-        # ---- 4.g.wedge · Extract a copy to the right to explain the resulting price gap.
+        # ---- 4.g · Extract a dashed measurement to the right, then leave it at the price axis.
         self.remove(takeaway)
         subsidy_wedge = fixed(Polygon(
             pax.c2p(POSITIVE_Q - 0.42, 2.4), pax.c2p(POSITIVE_Q + 0.42, 2.4),
             pax.c2p(POSITIVE_Q + 0.42, 4.4), pax.c2p(POSITIVE_Q - 0.42, 4.4),
             stroke_width=0, fill_color=GOV, fill_opacity=GOV_OPACITY).set_z_index(12))
         self.play(FadeIn(subsidy_wedge), run_time=0.6)
-        subsidy_wedge_copy = subsidy_wedge.copy()
+        subsidy_wedge_copy = fixed(DashedLine(pax.c2p(POSITIVE_Q, 2.4), pax.c2p(POSITIVE_Q, 4.4),
+            color=GOV, stroke_width=2.5, dash_length=0.045)
+            .put_start_and_end_on(pax.c2p(POSITIVE_Q, 2.4), pax.c2p(POSITIVE_Q, 4.4)).set_z_index(11))
         self.add(subsidy_wedge_copy)
         self.play(subsidy_wedge_copy.animate.shift(pax.c2p(88, 0) - pax.c2p(POSITIVE_Q, 0)), run_time=1.6)
         subsidy_wedge_caption = fixed(Tex(r'\$2 subsidy', color=GOV).scale(0.6)
             .next_to(subsidy_wedge_copy, RIGHT, buff=0.18).set_z_index(13))
         takeaway = teaching(r"The subsidy is the \$2 gap between the sellers' and buyers' prices.")
         self.play(FadeIn(subsidy_wedge_caption), FadeIn(takeaway))
-        self.pause('4.g.wedge')
-
-        # ---- 4.g · Keep the lasting measurement beside the price axis.
         subsidy_axis_gap = fixed(DashedLine(pax.c2p(AXIS_GAP_Q, 2.4), pax.c2p(AXIS_GAP_Q, 4.4),
             color=GOV, stroke_width=2.5, dash_length=0.045)
             .put_start_and_end_on(pax.c2p(AXIS_GAP_Q, 2.4), pax.c2p(AXIS_GAP_Q, 4.4)).set_z_index(11))
