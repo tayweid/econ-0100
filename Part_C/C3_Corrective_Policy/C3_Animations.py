@@ -51,6 +51,7 @@ class C3(ThreeDScene):
         DOT_LAYER = 30
         QUANTITY_NUMBER_OFFSET, QUANTITY_LABEL_OFFSET = 0.32, 0.72
         QUANTITY_NUMBER_SCALE, QUANTITY_LABEL_SCALE = 0.64, 0.60
+        POLICY_QUANTITY_NUMBER_SCALE = 0.52  # Leave space between 36 and the fixed 40.
         QUANTITY_GAP_BAR_OFFSET, QUANTITY_GAP_CAPTION_BUFF = 1.0, 0.10
 
         # The model, as one-line functions of quantity or price.
@@ -293,14 +294,14 @@ class C3(ThreeDScene):
         intro_tax_seller_prefix = fixed(Tex('$P_s=$', color=GUIDE).scale(0.7))
         intro_tax_seller_prefix.add_updater(lambda m: m.next_to(intro_tax_seller_number, LEFT, buff=0.1)
             .set_opacity(intro_tax_price_opacity()))
-        intro_tax_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
+        intro_tax_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(POLICY_QUANTITY_NUMBER_SCALE))
         intro_tax_q_number.add_updater(lambda m: fixed(m.set_value(round(intro_tax_q(), 4)))
             .move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         intro_tax_q_label = fixed(Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
         intro_tax_q_label.add_updater(lambda m: m.move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET)
             .set_opacity(policy_quantity_label_opacity(intro_tax_q())))
         tax_original_quantity = fixed(VGroup(
-            Tex('40', color=CAPTION).scale(QUANTITY_NUMBER_SCALE)
+            Tex('40', color=CAPTION).scale(POLICY_QUANTITY_NUMBER_SCALE)
                 .move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
             Tex(r'$\hat{Q}$', color=CAPTION).scale(QUANTITY_LABEL_SCALE)
                 .move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)))
@@ -754,7 +755,7 @@ class C3(ThreeDScene):
         live_seller_number.add_updater(lambda m: fixed(m.set_value(seller_gets())).next_to(ax.c2p(0, seller_gets()), LEFT, buff=0.2))
         live_seller_prefix = fixed(Tex('$P_s=$', color=GUIDE).scale(0.7))
         live_seller_prefix.add_updater(lambda m: m.next_to(live_seller_number, LEFT, buff=0.1))
-        live_q_number = fixed(DecimalNumber(32, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
+        live_q_number = fixed(DecimalNumber(32, num_decimal_places=0, color=GUIDE).scale(POLICY_QUANTITY_NUMBER_SCALE))
         live_q_number.add_updater(lambda m: fixed(m.set_value(round(taxed_q(), 4)))
                                   .move_to(ax.c2p(taxed_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         live_q_label = fixed(Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
@@ -1056,14 +1057,14 @@ class C3(ThreeDScene):
         subsidy_buyer_prefix = fixed(Tex('$P_b=$', color=GUIDE).scale(0.7))
         subsidy_buyer_prefix.add_updater(lambda m: m.next_to(subsidy_buyer_number, LEFT, buff=0.1)
             .set_opacity(subsidy_price_opacity()))
-        subsidy_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
+        subsidy_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(POLICY_QUANTITY_NUMBER_SCALE))
         subsidy_q_number.add_updater(lambda m: fixed(m.set_value(round(subsidized_q(), 4)))
             .move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         subsidy_q_label = fixed(Tex(r'$Q^{subsidy}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE).set_max_width(0.86))
         subsidy_q_label.add_updater(lambda m: m.move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET)
             .set_opacity(policy_quantity_label_opacity(subsidized_q())))
         subsidy_original_quantity = fixed(VGroup(
-            Tex('40', color=CAPTION).scale(QUANTITY_NUMBER_SCALE)
+            Tex('40', color=CAPTION).scale(POLICY_QUANTITY_NUMBER_SCALE)
                 .move_to(pax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
             Tex(r'$\hat{Q}$', color=CAPTION).scale(QUANTITY_LABEL_SCALE)
                 .move_to(pax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)))
