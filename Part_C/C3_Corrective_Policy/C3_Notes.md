@@ -58,11 +58,11 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 3 | Corrective tax
 
-> **3.a.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” A narrow filled green $2 bar slides from the left into the MB–MC gap at Q = 32. Its label is on the left. Both price dots and dashed guides appear; the quantity drop reaches the upper price. Stack Qᵗᵃˣ = Q* over 32 below the axis. Bottom: “The wedge gets stuck at 32 units, the efficient quantity.”
+> **3.a.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” Start a narrow filled green $2 bar on the price axis with “$2 tax” just to its left. Slide only the solid bar into the MB–MC gap at Q = 32, leaving the label and a dashed green vertical measure of the same height at the price axis. Both price dots and dashed guides appear; the quantity drop reaches the upper price. Stack Qᵗᵃˣ = Q* over 32 below the axis. Bottom: “The wedge gets stuck at 32 units, the efficient quantity.”
 
 > **3.b.** Sequentially fade the harmful grey slices from Q = 40 back to 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” Remove the whole DWL group and its children.
 
-> **3.c.** At the existing graph coordinates, build orange PS strips, then teal CS strips, then green government-revenue strips through Q = 32. The redundant $2 wedge label leaves before the area labels enter. Bottom: “Buyers pay $5.60, sellers receive $3.60, and the government collects $2 per unit.”
+> **3.c.** At the existing graph coordinates, build orange PS strips, then teal CS strips, then green government-revenue strips through Q = 32. The axis tax label and its dashed height measure leave together before the area labels enter. Bottom: “Buyers pay $5.60, sellers receive $3.60, and the government collects $2 per unit.”
 
 > **3.d.** “With a tax equal to the external cost, there is no deadweight loss.”
 

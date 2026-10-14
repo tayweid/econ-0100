@@ -244,27 +244,29 @@ class C3(ThreeDScene):
         self.play(Indicate(gap_mark, color=FOCUS, scale_factor=1.25), FadeIn(takeaway), run_time=0.8)
         self.pause('2.e')
 
-        # ---- 3.a · A $2 tax: the wedge slides in from the left until it is stuck between MC and MB.
+        # ---- 3.a · Slide the solid wedge off the price axis; leave its dashed measure and label behind.
         self.remove(head, context, takeaway)
         head = fixed(title('Corrective Taxes'))
         context = fixed(subtitle(head, 'A tax equal to the external cost per unit.'))
         self.play(FadeIn(head), FadeIn(context), FadeOut(seller_price), FadeOut(buyer_price), FadeOut(gap_mark))
-        wedge_x = ValueTracker(-14)
+        wedge_x = ValueTracker(0)
         wedge = fixed(Polygon(
-            ax.c2p(-14 - 0.42, 3.6), ax.c2p(-14 + 0.42, 3.6),
-            ax.c2p(-14 + 0.42, 5.6), ax.c2p(-14 - 0.42, 5.6),
+            ax.c2p(-0.42, 3.6), ax.c2p(0.42, 3.6),
+            ax.c2p(0.42, 5.6), ax.c2p(-0.42, 5.6),
             stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY).set_z_index(12))
         wedge.quantity, wedge.axes = wedge_x, ax
         wedge.add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), 4.6)))
         wedge_word = fixed(Tex(r'\$2 tax', color=GOV).scale(0.6)
-            .add_background_rectangle(color=BG, opacity=1, buff=0.04).set_z_index(13))
-        wedge_word.wedge = wedge
-        wedge_word.add_updater(lambda m: m.next_to(m.wedge, LEFT, buff=0.15))
-        wedge.update(); wedge_word.update()
+            .next_to(ax.c2p(0, 4.6), LEFT, buff=0.2).set_z_index(13))
+        tax_axis_gap = fixed(DashedLine(ax.c2p(0, 3.6), ax.c2p(0, 5.6),
+            color=GOV, stroke_width=3)
+            .put_start_and_end_on(ax.c2p(0, 3.6), ax.c2p(0, 5.6)).set_z_index(11))
+        wedge.update()
         takeaway = teaching(r"A $\$2$ tax separates the buyers' price from the sellers' price by $\$2$.")
         self.play(FadeIn(wedge), FadeIn(wedge_word), FadeIn(takeaway))
+        self.add(tax_axis_gap)   # The solid bar covers this until it starts to slide.
         self.play(wedge_x.animate.set_value(EFFICIENT_Q), run_time=2.6, rate_func=smooth)
-        wedge.clear_updaters(); wedge_word.clear_updaters()
+        wedge.clear_updaters()
         tax_prices = fixed(VGroup(
             Dot(ax.c2p(32, 5.6), radius=0.07, color=GUIDE),
             Dot(ax.c2p(32, 3.6), radius=0.07, color=GUIDE),
@@ -301,7 +303,7 @@ class C3(ThreeDScene):
             Tex('PS', color=INK).scale(0.50).move_to(ax.c2p(EFFICIENT_Q / 3, (2 + 3.6 + 3.6) / 3)),
             Tex('CS', color=INK).scale(0.72).move_to(ax.c2p(EFFICIENT_Q / 3, (12 + 5.6 + 5.6) / 3)),
             Tex('Tax revenue', color=INK).scale(0.58).move_to(ax.c2p(EFFICIENT_Q / 2, 4.6))).set_z_index(5))
-        self.play(FadeIn(question), FadeOut(wedge_word))
+        self.play(FadeIn(question), FadeOut(wedge_word), FadeOut(tax_axis_gap))
         self.play(FadeIn(ps_fill), FadeIn(welfare_words[0]))
         self.play(FadeIn(cs_fill), FadeIn(welfare_words[1]))
         self.remove(question)
