@@ -673,17 +673,23 @@ class C3(ThreeDScene):
         self.remove(takeaway, context)
         context = fixed(subtitle(head, 'A tax equal to the external cost per unit.'))
         self.add(context)
+        # The conclusion replaces the moving tax label, including its backing rectangle.
+        for m in (live_tax_number, live_tax_prefix, live_tax_suffix, live_tax_background):
+            self.remove(m)
+            live.remove(m)
         negative_conclusion_graph = fixed(VGroup(market, *live, welfare_words))
         self.remove(market, *live, welfare_words)
         self.add(negative_conclusion_graph)
         self.play(negative_conclusion_graph.animate.shift(LEFT * 2.0), run_time=1.2)
         negative_equality = fixed(VGroup(
-            Tex(r'$Q^{tax}=Q^*$', color=FOCUS).scale(1.10),
-            Tex('32 units', color=CAPTION).scale(0.65),
-            Tex('Tax = external cost', color=INK).scale(0.68)
-        ).arrange(DOWN, buff=0.28).move_to([4.2, 0.7, 0]))
-        takeaway = teaching('A corrective tax prevents harmful trades and preserves worthwhile ones.')
-        self.play(FadeIn(negative_equality), FadeIn(takeaway))
+            Tex(r'$\mathrm{Tax}=\mathrm{EXT}$', color=DEFINITION).scale(1.10),
+            Tex(r'$\Downarrow$', color=DEFINITION).scale(0.85),
+            Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(1.10),
+            Tex('32 units', color=CAPTION).scale(0.65)
+        ).arrange(DOWN, buff=0.22).move_to([4.2, 0.7, 0]))
+        takeaway = teaching('A corrective tax prevents costly exchanges and preserves worthwhile ones.')
+        self.play(FadeIn(negative_equality[0]))
+        self.play(FadeIn(negative_equality[1:]), FadeIn(takeaway))
         self.pause('3.g.summary')
 
         # ---- 4.a · Last time: the positive-externality market and its deadweight loss.

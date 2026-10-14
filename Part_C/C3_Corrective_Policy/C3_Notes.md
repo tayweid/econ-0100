@@ -96,7 +96,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **3.g.** Return tax 4 → 2. “The corrective tax equals the external cost: $2 per unit.”
 
-> **3.g.summary.** Clear updaters and move the existing graph left, keeping its geometry. On the right: Qᵗᵃˣ = Q*, 32 units, and “Tax = external cost.” Bottom: “A corrective tax prevents harmful trades and preserves worthwhile ones.”
+> **3.g.summary.** Clear updaters, remove the moving tax label and its backing rectangle, and move the existing graph left, keeping its geometry. On the right, first show yellow “Tax = EXT”; below it, reveal a yellow downward implication arrow leading to red Qᵗᵃˣ = Q*, with “32 units” in muted grey underneath. Bottom: “A corrective tax prevents costly exchanges and preserves worthwhile ones.”
 
 ### 4 | Corrective subsidy
 
