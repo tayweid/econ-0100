@@ -759,7 +759,7 @@ class C2(ThreeDScene):
             Tex('MC', color=SUPPLY).scale(0.58).next_to([1.21, detail_y(3.8), 0], UP, buff=0.10))).set_z_index(3)
         # Private willingness and social value are separate questions.
         lost_questions = fixed(VGroup(
-            Tex('Will the buyer buy?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
+            Tex('Will they exchange?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
             Tex('Is it good for society?', color=DEFINITION).scale(0.60).move_to([4.8, -3.05, 0])))
         self.add(people, government)
         self.play(FadeIn(lost_edges), FadeIn(lost_values), FadeIn(context), run_time=0.4)
@@ -797,28 +797,28 @@ class C2(ThreeDScene):
                        color=TOTAL, stroke_width=1.4),
             DashedLine(lost_price_words[3].get_left() + LEFT * 0.12, [-4.25, detail_y(SELLER_PRICE), 0], color=TOTAL, stroke_width=1.4),
             Line([-4.25, detail_y(SELLER_PRICE), 0], [-4.25, detail_y(3.8), 0], color=SUPPLY, stroke_width=3)))
-        # The market's answer: one red cross, centered in the gap between the two brackets.
-        lost_private_answer = fixed(VGroup(Line([-0.22, -0.22, 0], [0.22, 0.22, 0], color=GUIDE, stroke_width=5), Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)).scale(0.85)
-            .next_to([-4.25, detail_y((3.8 + 4.8) / 2), 0], LEFT, buff=0.3))
+        # Give each side its own verdict, centered beside its colored decision bracket.
+        lost_buyer_answer = fixed(VGroup(Line([-0.22, -0.22, 0], [0.22, 0.22, 0], color=GUIDE, stroke_width=5), Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)).scale(0.85)
+            .next_to(lost_private_guides[2], LEFT, buff=0.3))
+        lost_seller_answer = fixed(lost_buyer_answer.copy().next_to(lost_private_guides[7], LEFT, buff=0.3))
+        lost_private_answer = fixed(VGroup(lost_buyer_answer, lost_seller_answer))
         self.play(FadeIn(lost_prices), FadeIn(lost_price_words), FadeIn(lost_tax))
-        # Read the buyer's decision first, then the seller's, with a separate question and pause.
+        # Keep the same question while answering for the buyer, then the seller.
         lost_buyer_guides = fixed(VGroup(*list(lost_private_guides)[:3]))
         lost_seller_guides = fixed(VGroup(*list(lost_private_guides)[3:]))
         self.play(FadeIn(lost_buyer_guides))
         self.pause('6.c.private.buyer')
-        lost_seller_question = fixed(Tex('Will the seller sell?', color=DEFINITION)
-            .scale(0.60).move_to([-4.8, -3.05, 0]))
-        self.play(FadeOut(lost_questions[0]), FadeIn(lost_seller_question), FadeIn(lost_seller_guides))
-        lost_questions = fixed(VGroup(lost_seller_question, lost_questions[1]))
+        self.play(FadeIn(lost_buyer_answer))
+        self.pause('6.c.private.buyer.answer')
+        self.play(FadeIn(lost_seller_guides))
         self.remove(lost_buyer_guides, lost_seller_guides)
         self.add(lost_private_guides)
         self.pause('6.c.private.compare')
 
-        # ---- 6.c.private · Neither side will: not exchanged.
-        lost_exchange_question = fixed(Tex('Will they exchange?', color=DEFINITION)
-            .scale(0.60).move_to([-4.8, -3.05, 0]))
-        self.play(FadeOut(lost_questions[0]), FadeIn(lost_exchange_question), FadeIn(lost_private_answer))
-        lost_questions = fixed(VGroup(lost_exchange_question, lost_questions[1]))
+        # ---- 6.c.private · Complete the seller's decision; keep both verdicts on screen.
+        self.play(FadeIn(lost_seller_answer))
+        self.remove(lost_buyer_answer, lost_seller_answer)
+        self.add(lost_private_answer)
         self.pause('6.c.private')
 
         # ---- 6.c.social.compare · The tax bar's job is done; society compares MB with MC, as in C1.
@@ -1336,7 +1336,7 @@ class C2(ThreeDScene):
             Tex(r'$\$4.20$', color=SUPPLY).scale(0.72).next_to([SELLER_LEFT + BAR_WIDTH, detail_y(4.2), 0], RIGHT, buff=0.25),
             Tex('MC', color=SUPPLY).scale(0.58).next_to([1.21, detail_y(4.2), 0], DOWN, buff=0.10))).set_z_index(3)
         added_questions = fixed(VGroup(
-            Tex('Will the buyer buy?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
+            Tex('Will they exchange?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
             Tex('Is it good for society?', color=DEFINITION).scale(0.60).move_to([4.8, -3.05, 0])))
         self.add(people, government)
         self.play(FadeIn(added_edges), FadeIn(added_values), FadeIn(context), run_time=0.4)
@@ -1374,28 +1374,28 @@ class C2(ThreeDScene):
                        color=TOTAL, stroke_width=1.4),
             DashedLine(added_price_words[3].get_left() + LEFT * 0.12, [-4.25, detail_y(SUBSIDY_SELLER), 0], color=TOTAL, stroke_width=1.4),
             Line([-4.25, detail_y(4.2), 0], [-4.25, detail_y(SUBSIDY_SELLER), 0], color=SUPPLY, stroke_width=3)))
-        # The market's answer: one green check, centered in the gap between the two brackets.
-        added_private_answer = fixed(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]).scale(0.85)
-            .next_to([-4.25, detail_y((3.2 + 4.2) / 2), 0], LEFT, buff=0.3))
+        # Give each side its own verdict, centered beside its colored decision bracket.
+        added_buyer_answer = fixed(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]).scale(0.85)
+            .next_to(added_private_guides[2], LEFT, buff=0.3))
+        added_seller_answer = fixed(added_buyer_answer.copy().next_to(added_private_guides[7], LEFT, buff=0.3))
+        added_private_answer = fixed(VGroup(added_buyer_answer, added_seller_answer))
         self.play(FadeIn(added_prices), FadeIn(added_price_words), FadeIn(added_subsidy))
-        # Read the buyer's decision first, then the seller's, with a separate question and pause.
+        # Keep the same question while answering for the buyer, then the seller.
         added_buyer_guides = fixed(VGroup(*list(added_private_guides)[:3]))
         added_seller_guides = fixed(VGroup(*list(added_private_guides)[3:]))
         self.play(FadeIn(added_buyer_guides))
         self.pause('9.d.private.buyer')
-        added_seller_question = fixed(Tex('Will the seller sell?', color=DEFINITION)
-            .scale(0.60).move_to([-4.8, -3.05, 0]))
-        self.play(FadeOut(added_questions[0]), FadeIn(added_seller_question), FadeIn(added_seller_guides))
-        added_questions = fixed(VGroup(added_seller_question, added_questions[1]))
+        self.play(FadeIn(added_buyer_answer))
+        self.pause('9.d.private.buyer.answer')
+        self.play(FadeIn(added_seller_guides))
         self.remove(added_buyer_guides, added_seller_guides)
         self.add(added_private_guides)
         self.pause('9.d.private.compare')
 
-        # ---- 9.d.private · Both sides will: exchanged.
-        added_exchange_question = fixed(Tex('Will they exchange?', color=DEFINITION)
-            .scale(0.60).move_to([-4.8, -3.05, 0]))
-        self.play(FadeOut(added_questions[0]), FadeIn(added_exchange_question), FadeIn(added_private_answer))
-        added_questions = fixed(VGroup(added_exchange_question, added_questions[1]))
+        # ---- 9.d.private · Complete the seller's decision; keep both verdicts on screen.
+        self.play(FadeIn(added_seller_answer))
+        self.remove(added_buyer_answer, added_seller_answer)
+        self.add(added_private_answer)
         self.pause('9.d.private')
 
         # ---- 9.d.social.compare · The subsidy bar's job is done; society compares MB with MC, as in C1.
