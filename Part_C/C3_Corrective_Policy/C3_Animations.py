@@ -227,8 +227,8 @@ class C3(ThreeDScene):
             DashedLine(ax.c2p(0, 5.6), ax.c2p(32, 5.6), color=GUIDE, stroke_width=2),
             Tex('$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 5.6), LEFT, buff=0.2)).set_z_index(10))
         gap_mark = fixed(VGroup(
-            Line(ax.c2p(32, 3.6), ax.c2p(32, 5.6), color=FOCUS, stroke_width=4),
-            Tex(r'$\$2$', color=FOCUS).scale(0.7).next_to(ax.c2p(32, 4.6), RIGHT, buff=0.12)).set_z_index(13))
+            Line(ax.c2p(0, 3.6), ax.c2p(0, 5.6), color=FOCUS, stroke_width=4),
+            Tex(r'$\$2$', color=FOCUS).scale(0.7).next_to(ax.c2p(0, 4.6), LEFT, buff=0.2)).set_z_index(13))
         takeaway = teaching('One price cannot get both sides to the efficient quantity.')
         self.play(FadeOut(buyer_dot), FadeOut(seller_dot), FadeOut(buyer_drop), FadeOut(seller_drop),
                   FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_prefix),
@@ -826,8 +826,8 @@ class C3(ThreeDScene):
             DashedLine(pax.c2p(0, 2.4), pax.c2p(48, 2.4), color=GUIDE, stroke_width=2),
             Tex('$P_b=2.40$', color=GUIDE).scale(0.7).next_to(pax.c2p(0, 2.4), LEFT, buff=0.2)).set_z_index(10))
         gap_mark = fixed(VGroup(
-            Line(pax.c2p(48, 2.4), pax.c2p(48, 4.4), color=FOCUS, stroke_width=4),
-            Tex(r'$\$2$', color=FOCUS).scale(0.7).next_to(pax.c2p(48, 3.4), RIGHT, buff=0.12)).set_z_index(13))
+            Line(pax.c2p(0, 2.4), pax.c2p(0, 4.4), color=FOCUS, stroke_width=4),
+            Tex(r'$\$2$', color=FOCUS).scale(0.7).next_to(pax.c2p(0, 3.4), LEFT, buff=0.2)).set_z_index(13))
         takeaway = teaching('One price cannot get both sides to the efficient quantity.')
         self.play(FadeOut(buyer_dot), FadeOut(seller_dot), FadeOut(buyer_drop), FadeOut(seller_drop),
                   FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_prefix),

@@ -30,7 +30,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Model.** MB = 12 − Q/5; MC = 2 + Q/20; externality = $2 per unit. The unregulated market exchanges 40 units at $4. Negative externalities: MSC = MC + 2 and Q* = 32. Positive externalities: MSB = MB + 2 and Q* = 48.
 
-**Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve throughout the negative-externality graphs; MC remains solid orange. Grey unlabeled guides retain the original price and quantity. Red price dots and yellow efficient dots sit above fills and guides. Base MB, MC and EXT bars use 0.16 opacity and appear only on exchanged quantities. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
+**Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve throughout the negative-externality graphs; MC remains solid orange. Place price-gap measurements on the vertical axis and quantity-gap measurements on the horizontal axis, with their numeric captions outside the plot. Grey unlabeled guides retain the original price and quantity. Red price dots and yellow efficient dots sit above fills and guides. Base MB, MC and EXT bars use 0.16 opacity and appear only on exchanged quantities. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
 
 **Close-ups.** Carry the selected MB/MC/EXT slices into the same compact columns each time, then back to the exact source slice. No unmatched group transforms or leftover grey highlight. Names live on the bars: MB/MC below their edges, MSC/MSB above, EXT inside the pink portion. Numeric values sit beside their corresponding levels. A dashed pink height measure gives the $2 externality. Yellow questions remain along the bottom left and right. Purple dashed projections measure the relevant comparison; pause before revealing a green check or red cross. Show only one social amount, TS or potential DWL. Government transfers occupy the middle gap, distinct from external cost or benefit.
 
@@ -52,7 +52,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **2.c.** Roll to $3.60. Qs = 32 and Qd = 42, with a grey “shortage: 10 units.” Bottom: “The price that works for sellers creates a shortage.”
 
-> **2.d.** Remove trial readouts and show both prices at Q = 32: Pb = $5.60 and Ps = $3.60. A yellow $2 height measure separates them. Bottom: “One price cannot get both sides to the efficient quantity.”
+> **2.d.** Remove trial readouts and show both prices at Q = 32: Pb = $5.60 and Ps = $3.60. A yellow height measure spans those two prices on the vertical axis, with $2 just to its left between the price labels. Bottom: “One price cannot get both sides to the efficient quantity.”
 
 > **2.e.** Emphasize the gap: “The $2 gap between the prices is the external cost per unit.”
 
@@ -108,7 +108,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.d.** Roll price 2.40 → 4.40: Qs = 48, Qd = 38, excess 10. “The price that works for sellers creates excess supply.”
 
-> **4.e.** Replace trial readouts with simultaneous Ps = $4.40 and Pb = $2.40 at Q = 48, separated by a yellow $2 measure. “One price cannot get both sides to the efficient quantity.”
+> **4.e.** Replace trial readouts with simultaneous Ps = $4.40 and Pb = $2.40 at Q = 48, with a yellow height measure on the vertical axis and $2 just to its left between the price labels. “One price cannot get both sides to the efficient quantity.”
 
 > **4.f.** “The $2 gap between the prices is the external benefit per unit.”
 
