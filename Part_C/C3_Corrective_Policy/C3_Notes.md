@@ -32,7 +32,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve and MSB a dashed teal curve throughout; private MC and MB remain solid. On every market graph, center quantity numbers on a fixed row immediately below the horizontal axis, with their quantity symbols on a separate aligned row underneath. Symbol height and superscripts never determine the number position; use the same rows for recap markers, planner readouts, policy quantities, the tax dial, and closing graphs. Place price-gap measurements on the vertical axis. Place quantity-gap bars below both quantity readout rows, with their captions underneath, outside the plot. Grey unlabeled guides and a persistent grey dot retain the original equilibrium at (40, 4), including both planner experiments, policy graphs, close-up returns, and conclusions. As either policy moves quantity away from 40, reveal a grey 40 with Q̂ underneath at the original quantity guide. Keep this reference through welfare graphs, close-up returns, the tax dial, and conclusions. Use equally sized, compact policy and reference numbers so 36 and 40 remain distinct during the tax dial. Use compact Qᵗᵃˣ / Qˢᵘᵇˢⁱᵈʸ axis labels, fading those symbols when the quantities are too close; the concluding equations retain the equality with Q*. Red price dots and yellow efficient dots sit above fills and guides. The externality recaps shade only DWL, with no background MB, MC or EXT bars. Close-up base bars use 0.16 opacity. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
 
-**Close-ups (revised spec, 2026-10-14).** Keep C2's spread columns and two red price lines, with the green government bar between the actual corrected-market prices. Use the common 0.68 dollars-to-height scale, faint MB/MC bases, and C1's pink EXT stack with MSC/MSB. Close-up subtitles identify the unit and its role without repeating graph prices. Drop the separate pink $2 measure to avoid crowding prices. Show CS and PS fills with names only; the government bar and social verdict also use names only (tax, subsidy, TS, DWL). Keep numeric boundary values, prices, introductory policy measurements, and explanatory arithmetic. Read the buyer against Pb, pause, then the seller against Ps, pause, then reveal the market check/cross. Only afterward compare MB with MSC (tax) or MSB with MC (subsidy) using C1's purple bracket and icon, with a TS/DWL name only. Clear private welfare fills and dim price annotations and private brackets during the social comparison so a transfer is never counted as a real benefit or cost. Keep “Will they exchange?” unchanged on the left. Reveal the buyer comparison, then its own check/cross and pause before the seller comparison. Reveal the seller’s own check/cross separately; retain both verdicts through the social comparison. Private comparison brackets are teal for buyers and orange for sellers; dashed projections and the social bracket stay purple. Keep the society question on the right, exact source-slice returns, and the existing conclusion layout.
+**Close-ups (C2 review, 2026-10-14).** Keep C2's spread columns and two red price lines, with the green government bar between the actual corrected-market prices. Use the common 0.68 dollars-to-height scale, faint MB/MC bases, and C1's pink EXT stack with MSC/MSB. Subtitles name the specific unit and its exchange context: “The 36th unit: exchanged before the tax.”, “Unit 24: still exchanged.”, and “The 44th unit: not exchanged before the subsidy.” Both questions—“Will they exchange?” on the left and “Is it good for society?” on the right—enter with the values and stay unchanged through the social verdict. Reveal the buyer's teal comparison first, pause, then its own check/cross and pause. Keep that verdict while revealing the seller's orange comparison, pause, then the seller's own check/cross and pause. No bottom teaching note appears during values, prices, either private decision, or the social comparison; reveal the yellow takeaway only with the final social verdict. CS and PS fills, the government bar, and social verdict use names only (CS, PS, tax, subsidy, TS, DWL); retain numeric values and prices. Before the social comparison, fade out the green transfer and its label completely, and clear CS/PS fills and labels. Keep the red prices, both private comparison guides, and both individual verdicts fully visible, as in C2. Then compare MB with MSC (tax) or MSB with MC (subsidy) using C1's purple right-hand bracket and social icon. Keep the pink real externality, exact source-slice returns, and existing conclusion layout.
 
 **Shared C2 market labels.** Price readouts end 0.20 units left of the price axis. Use green “Tax = $2” and “Subsidy = $2” beside the dashed measurements, with their right edges aligned with the prices. Keep the rolling tax number; when the two prices get close, move that measurement's text left far enough to avoid the price readouts. Label the tax-revenue welfare region GOV, including the tax dial; explanatory prose still calls it government revenue.
 
@@ -80,19 +80,19 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 #### Trade the tax prevents
 
-> **3.e.select → 3.e.values.** Select unit 36 with “Let's check an exchange that happened before the tax.” Carry its matching slices into C2's spread layout. MB $4.80; MC $3.80; pink EXT from $3.80 to MSC $5.80. Add the unit subtitle, people and bottom questions; no pink dollar measure.
+> **3.e.select → 3.e.values.** Select unit 36 with “Let's check an exchange that happened before the tax.” Carry its matching slices into C2's spread layout. MB $4.80; MC $3.80; pink EXT from $3.80 to MSC $5.80. Add “The 36th unit: exchanged before the tax.”, people, and both persistent questions; no bottom teaching note or pink dollar measure.
 
 > **3.e.prices.** Reveal Pb $5.60 above Ps $3.60, the named red price lines, and the middle green bar labeled tax spanning those prices.
 
-> **3.e.buyer.** Teal shortfall bracket from MB $4.80 to Pb $5.60. “The buyer: value $4.80 against a price of $5.60.” No CS fill.
+> **3.e.buyer.** Teal shortfall bracket from MB $4.80 to Pb $5.60. No CS fill or bottom teaching note.
 
 > **3.e.buyer.answer.** Reveal a red cross beside the teal buyer bracket and pause before introducing the seller.
 
-> **3.e.seller.** Keep the buyer comparison; reveal the seller's orange shortfall bracket from Ps $3.60 to MC $3.80. “The seller: cost $3.80 against a price of $3.60.” No PS fill.
+> **3.e.seller.** Keep the buyer comparison; reveal the seller's orange shortfall bracket from Ps $3.60 to MC $3.80. No PS fill or bottom teaching note.
 
-> **3.e.private.** Reveal a separate red cross beside the orange seller bracket, retaining the buyer’s cross. “Neither side wants this trade at these prices.”
+> **3.e.private.** Reveal a separate red cross beside the orange seller bracket, retaining the buyer’s cross. No bottom teaching note.
 
-> **3.e.social.compare → 3.e.social.** Dim the prices and transfer, dim private brackets but retain both red crosses, then measure MB–MSC on the right. Pause before the red cross / DWL and grey $4.80–$5.80 interval on the seller's stack, matching C1. “Good: this trade would have cost society $1.” This is potential harm prevented by the tax.
+> **3.e.social.compare → 3.e.social.** Fade out the tax bar and its label completely; retain the red prices, both private brackets, and both crosses at full opacity. Measure MB–MSC on the right through the now-empty middle gap, with no bottom teaching note. Pause before the red cross / DWL and grey $4.80–$5.80 interval on the seller's stack, matching C1. “Good: this trade would have cost society $1.” This is potential harm prevented by the tax.
 
 > **3.e.return.** Remove all close-up annotations and people; return the same slices and restore exactly the preceding market and subtitle.
 
@@ -100,15 +100,15 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **3.f.select → 3.f.values → 3.f.prices.** Select unit 24 with “Let's check an exchange that still happens with the tax.” Same 0.68-scale spread layout, with the shorter subtitle “Unit 24: still exchanged.” to leave the tall value and its left projection clear: MB $7.20, MC $3.20, MSC $5.20; prices Pb $5.60 and Ps $3.60, green bar labeled tax between them. Seller-cost projections skip the Ps name as well as the price number.
 
-> **3.f.buyer.** Grow teal CS from $5.60 to $7.20, labeled CS only; project the gain to a teal bracket on the left. “The buyer: value $7.20 against a price of $5.60.”
+> **3.f.buyer.** Grow teal CS from $5.60 to $7.20, labeled CS only; project the gain to a teal bracket on the left. No bottom teaching note.
 
 > **3.f.buyer.answer.** Reveal a green check beside the teal buyer bracket and pause before introducing the seller.
 
-> **3.f.seller.** Grow orange PS from $3.20 to $3.60, labeled PS only; project the gain to an orange bracket on the left. “The seller: cost $3.20 against a price of $3.60.”
+> **3.f.seller.** Grow orange PS from $3.20 to $3.60, labeled PS only; project the gain to an orange bracket on the left. No bottom teaching note.
 
-> **3.f.private.** Reveal a separate green check beside the orange seller bracket, retaining the buyer’s check. “Both sides want this trade at these prices.”
+> **3.f.private.** Reveal a separate green check beside the orange seller bracket, retaining the buyer’s check. No bottom teaching note.
 
-> **3.f.social.compare → 3.f.social.** Remove the private fills and dim prices; compare MB $7.20 with MSC $5.20 using the purple right-hand bracket. Pause before the green check / TS. “Good: this trade is worth $2 to society.” Do not add the government's transfer to welfare.
+> **3.f.social.compare → 3.f.social.** Fade out the tax bar, its label, and private fills/labels. Keep both red prices, private brackets, and green checks fully visible. Compare MB $7.20 with MSC $5.20 using the purple right-hand bracket, with no bottom teaching note. Pause before the green check / TS. “Good: this trade is worth $2 to society.” Do not add the government's transfer to welfare.
 
 > **3.f.return.** Clear the close-up and restore the exact market and source slices.
 
@@ -150,19 +150,19 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 #### Worthwhile trade the subsidy enables
 
-> **4.h.select → 4.h.values.** Highlight unit 44 with “Let's check an exchange that would not have happened before the subsidy.” Carry its matching slices into the same layout: MB $3.20, pink EXT to MSB $5.20, MC $4.20. Questions and people stay in the same positions as the tax examples.
+> **4.h.select → 4.h.values.** Highlight unit 44 with “Let's check an exchange that would not have happened before the subsidy.” Carry its matching slices into the same layout: MB $3.20, pink EXT to MSB $5.20, MC $4.20. Subtitle: “The 44th unit: not exchanged before the subsidy.” Questions and people stay in the same positions as the tax examples; no bottom teaching note.
 
 > **4.h.prices.** Reveal Ps $4.40 above Pb $2.40 and the middle green bar labeled subsidy between the prices.
 
-> **4.h.buyer.** Grow teal CS $2.40–$3.20, labeled CS; project the gain to a teal bracket on the left. “The buyer: value $3.20 against a price of $2.40.”
+> **4.h.buyer.** Grow teal CS $2.40–$3.20, labeled CS; project the gain to a teal bracket on the left. No bottom teaching note.
 
 > **4.h.buyer.answer.** Reveal a green check beside the teal buyer bracket and pause before introducing the seller.
 
-> **4.h.seller.** Grow orange PS $4.20–$4.40, labeled PS without a dollar amount. Keep this small interval legible with its label immediately above the narrow fill and an orange comparison bracket on the left. “The seller: cost $4.20 against a price of $4.40.”
+> **4.h.seller.** Grow orange PS $4.20–$4.40, labeled PS without a dollar amount. Keep this small interval legible with its label immediately above the narrow fill and an orange comparison bracket on the left. No bottom teaching note.
 
-> **4.h.private.** Reveal the seller’s separate green check, retaining the buyer’s check: “Both sides want this trade at these prices.”
+> **4.h.private.** Reveal the seller’s separate green check, retaining the buyer’s check. No bottom teaching note.
 
-> **4.h.social.compare → 4.h.social.** Remove private fills and dim prices/transfer; compare MSB $5.20 to MC $4.20 using C1's purple bracket. Pause before the green check / TS. “Good: this trade is worth $1 to society.” The $2 subsidy is a transfer, distinct from the pink real benefit.
+> **4.h.social.compare → 4.h.social.** Fade out the subsidy bar, its label, and private fills/labels. Keep both red prices, private brackets, and green checks fully visible. Compare MSB $5.20 to MC $4.20 using C1's purple bracket, with no bottom teaching note. Pause before the green check / TS. “Good: this trade is worth $1 to society.” The $2 subsidy is a transfer, distinct from the pink real benefit.
 
 > **4.h.return.** Remove all close-up objects, return the source slices and restore the same graph and subtitle.
 

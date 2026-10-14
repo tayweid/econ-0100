@@ -462,12 +462,12 @@ class C3(ThreeDScene):
             Tex('MC', color=SUPPLY).scale(0.58).next_to([1.21, detail_y(3.6), 0], DOWN, buff=0.10),
             Tex('MSC', color=SUPPLY).scale(0.58).next_to([1.21, detail_y(5.8), 0], UP, buff=0.10),
             Tex('EXT', color=EXT).scale(0.55).move_to([1.21, detail_y(4.8), 0]))).set_z_index(4)
-        unit_context = fixed(subtitle(head, 'The 36th unit: an exchange the tax stops.'))
+        unit_context = fixed(subtitle(head, 'The 36th unit: exchanged before the tax.'))
         stopped_questions = fixed(VGroup(
             Tex('Will they exchange?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
             Tex('Is it good for society?', color=DEFINITION).scale(0.60).move_to([4.8, -3.05, 0])))
         self.add(detail_people)
-        self.play(FadeIn(stopped_edges), FadeIn(stopped_values), FadeIn(unit_context), FadeIn(stopped_questions[0]), FadeIn(stopped_questions[1]))
+        self.play(FadeIn(stopped_edges), FadeIn(stopped_values), FadeIn(unit_context), FadeIn(stopped_questions))
         self.pause('3.e.values')
 
         # ---- 3.e.prices · Government's transfer spans actual prices, not MB or MC.
@@ -492,8 +492,7 @@ class C3(ThreeDScene):
             DashedLine(stopped_values[0].get_left() + LEFT * 0.12, [-4.25, detail_y(4.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(stopped_price_words[1].get_left() + LEFT * 0.12, [-4.25, detail_y(5.6), 0], color=TOTAL, stroke_width=1.4),
             Line([-4.25, detail_y(4.8), 0], [-4.25, detail_y(5.6), 0], color=DEMAND, stroke_width=3)))
-        takeaway = teaching(r'The buyer: value \$4.80 against a price of \$5.60.')
-        self.play(FadeIn(stopped_buyer_guides), FadeIn(takeaway))
+        self.play(FadeIn(stopped_buyer_guides))
         self.pause('3.e.buyer')
 
         # ---- 3.e.buyer.answer · Finish the buyer's decision before moving to the seller.
@@ -504,33 +503,27 @@ class C3(ThreeDScene):
         self.pause('3.e.buyer.answer')
 
         # ---- 3.e.seller · Then compare the seller's cost with the amount the seller receives.
-        self.remove(takeaway)
         stopped_seller_guides = fixed(VGroup(
             DashedLine([SELLER_LEFT, detail_y(3.8), 0], [TAX_LEFT + TAX_WIDTH + 0.10, detail_y(3.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine([TAX_LEFT - 0.10, detail_y(3.8), 0], [stopped_price_words[3].get_right()[0] + 0.12, detail_y(3.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine([stopped_price_words[3].get_left()[0] - 0.12, detail_y(3.8), 0], [-4.25, detail_y(3.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(stopped_price_words[3].get_left() + LEFT * 0.12, [-4.25, detail_y(3.6), 0], color=TOTAL, stroke_width=1.4),
             Line([-4.25, detail_y(3.6), 0], [-4.25, detail_y(3.8), 0], color=SUPPLY, stroke_width=3)))
-        takeaway = teaching(r'The seller: cost \$3.80 against a price of \$3.60.')
-        self.play(FadeIn(stopped_seller_guides), FadeIn(takeaway))
+        self.play(FadeIn(stopped_seller_guides))
         self.pause('3.e.seller')
 
         # ---- 3.e.private · Complete the seller's decision, keeping both individual verdicts.
-        self.remove(takeaway)
         stopped_seller_answer = fixed(stopped_buyer_answer.copy()
             .next_to(stopped_seller_guides[-1], LEFT, buff=0.3))
         stopped_private_answer = fixed(VGroup(stopped_buyer_answer, stopped_seller_answer))
-        takeaway = teaching('Neither side wants this trade at these prices.')
-        self.play(FadeIn(stopped_seller_answer), FadeIn(takeaway))
+        self.play(FadeIn(stopped_seller_answer))
         self.remove(stopped_buyer_answer, stopped_seller_answer)
         self.add(stopped_private_answer)
         self.pause('3.e.private')
 
         # ---- 3.e.social.compare · C1's real benefit/cost comparison excludes government transfers.
-        self.remove(takeaway)
         stopped_social_guides = fixed(VGroup(
-            DashedLine([BUYER_LEFT + BAR_WIDTH, detail_y(4.8), 0], [TAX_LEFT - 0.12, detail_y(4.8), 0], color=TOTAL, stroke_width=1.4),
-            DashedLine([TAX_LEFT + TAX_WIDTH + 0.12, detail_y(4.8), 0], [SELLER_LEFT, detail_y(4.8), 0], color=TOTAL, stroke_width=1.4),
+            DashedLine([BUYER_LEFT + BAR_WIDTH, detail_y(4.8), 0], [SELLER_LEFT, detail_y(4.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine([SELLER_LEFT + BAR_WIDTH + 0.12, detail_y(4.8), 0], [4.25, detail_y(4.8), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(stopped_values[2].get_right() + RIGHT * 0.12, [4.25, detail_y(5.8), 0], color=TOTAL, stroke_width=1.4),
             Line([4.25, detail_y(4.8), 0], [4.25, detail_y(5.8), 0], color=TOTAL, stroke_width=3)))
@@ -538,9 +531,7 @@ class C3(ThreeDScene):
             Line([-0.22, 0.22, 0], [0.22, -0.22, 0], color=GUIDE, stroke_width=5)), Tex('DWL', color=INK))
             .arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([4.25, detail_y(5.3), 0], RIGHT, buff=0.3))
-        self.play(stopped_transfer.animate.set_opacity(0.20),
-                  stopped_prices.animate.set_opacity(0.25), stopped_price_words.animate.set_opacity(0.25),
-                  stopped_buyer_guides.animate.set_opacity(0.25), stopped_seller_guides.animate.set_opacity(0.25),
+        self.play(FadeOut(stopped_transfer),
                   FadeIn(stopped_social_guides))
         self.pause('3.e.social.compare')
 
@@ -556,7 +547,7 @@ class C3(ThreeDScene):
         # ---- 3.e.return · Remove every annotation and return the same three slices.
         self.remove(detail_people)
         self.play(FadeOut(stopped_edges), FadeOut(stopped_values), FadeOut(stopped_questions),
-                  FadeOut(stopped_prices), FadeOut(stopped_price_words), FadeOut(stopped_transfer),
+                  FadeOut(stopped_prices), FadeOut(stopped_price_words),
                   FadeOut(stopped_buyer_guides), FadeOut(stopped_seller_guides),
                   FadeOut(stopped_private_answer), FadeOut(stopped_social_guides), FadeOut(stopped_social_answer),
                   FadeOut(stopped_welfare),
@@ -603,7 +594,7 @@ class C3(ThreeDScene):
             Tex('Will they exchange?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
             Tex('Is it good for society?', color=DEFINITION).scale(0.60).move_to([4.8, -3.05, 0])))
         self.add(detail_people)
-        self.play(FadeIn(kept_edges), FadeIn(kept_values), FadeIn(unit_context), FadeIn(kept_questions[0]), FadeIn(kept_questions[1]))
+        self.play(FadeIn(kept_edges), FadeIn(kept_values), FadeIn(unit_context), FadeIn(kept_questions))
         self.pause('3.f.values')
 
         # ---- 3.f.prices · Government's transfer spans actual prices, not MB or MC.
@@ -634,8 +625,7 @@ class C3(ThreeDScene):
             stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY).set_z_index(1))
         kept_cs_word = fixed(Tex('CS', color=INK).scale(0.55)
             .move_to([-1.21, detail_y(6.4), 0]).set_z_index(4))
-        takeaway = teaching(r'The buyer: value \$7.20 against a price of \$5.60.')
-        self.play(FadeIn(kept_buyer_guides), GrowFromEdge(kept_cs, DOWN), FadeIn(kept_cs_word), FadeIn(takeaway))
+        self.play(FadeIn(kept_buyer_guides), GrowFromEdge(kept_cs, DOWN), FadeIn(kept_cs_word))
         self.pause('3.f.buyer')
 
         # ---- 3.f.buyer.answer · Finish the buyer's decision before moving to the seller.
@@ -646,7 +636,6 @@ class C3(ThreeDScene):
         self.pause('3.f.buyer.answer')
 
         # ---- 3.f.seller · Then compare the seller's cost with the amount the seller receives.
-        self.remove(takeaway)
         kept_seller_guides = fixed(VGroup(
             DashedLine([SELLER_LEFT, detail_y(3.2), 0], [TAX_LEFT + TAX_WIDTH + 0.10, detail_y(3.2), 0], color=TOTAL, stroke_width=1.4),
             DashedLine([TAX_LEFT - 0.10, detail_y(3.2), 0], [BUYER_LEFT + BAR_WIDTH, detail_y(3.2), 0], color=TOTAL, stroke_width=1.4),
@@ -659,23 +648,19 @@ class C3(ThreeDScene):
             stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY).set_z_index(1))
         kept_ps_word = fixed(Tex('PS', color=INK).scale(0.42)
             .move_to([1.21, detail_y(3.4), 0]).set_z_index(4))
-        takeaway = teaching(r'The seller: cost \$3.20 against a price of \$3.60.')
-        self.play(FadeIn(kept_seller_guides), GrowFromEdge(kept_ps, DOWN), FadeIn(kept_ps_word), FadeIn(takeaway))
+        self.play(FadeIn(kept_seller_guides), GrowFromEdge(kept_ps, DOWN), FadeIn(kept_ps_word))
         self.pause('3.f.seller')
 
         # ---- 3.f.private · Complete the seller's decision, keeping both individual verdicts.
-        self.remove(takeaway)
         kept_seller_answer = fixed(kept_buyer_answer.copy()
             .next_to(kept_seller_guides[-1], LEFT, buff=0.3))
         kept_private_answer = fixed(VGroup(kept_buyer_answer, kept_seller_answer))
-        takeaway = teaching('Both sides want this trade at these prices.')
-        self.play(FadeIn(kept_seller_answer), FadeIn(takeaway))
+        self.play(FadeIn(kept_seller_answer))
         self.remove(kept_buyer_answer, kept_seller_answer)
         self.add(kept_private_answer)
         self.pause('3.f.private')
 
         # ---- 3.f.social.compare · C1's real benefit/cost comparison excludes government transfers.
-        self.remove(takeaway)
         kept_social_guides = fixed(VGroup(
             DashedLine([BUYER_LEFT + BAR_WIDTH, detail_y(7.2), 0], [4.25, detail_y(7.2), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(kept_values[2].get_right() + RIGHT * 0.12, [4.25, detail_y(5.2), 0], color=TOTAL, stroke_width=1.4),
@@ -683,9 +668,7 @@ class C3(ThreeDScene):
         kept_social_answer = fixed(VGroup(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex('TS', color=TOTAL))
             .arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([4.25, detail_y(6.2), 0], RIGHT, buff=0.3))
-        self.play(kept_transfer.animate.set_opacity(0.20),
-                  kept_prices.animate.set_opacity(0.25), kept_price_words.animate.set_opacity(0.25),
-                  kept_buyer_guides.animate.set_opacity(0.25), kept_seller_guides.animate.set_opacity(0.25),
+        self.play(FadeOut(kept_transfer),
                   FadeOut(kept_cs), FadeOut(kept_ps),
                   FadeOut(kept_cs_word), FadeOut(kept_ps_word),
                   FadeIn(kept_social_guides))
@@ -699,7 +682,7 @@ class C3(ThreeDScene):
         # ---- 3.f.return · Remove every annotation and return the same three slices.
         self.remove(detail_people)
         self.play(FadeOut(kept_edges), FadeOut(kept_values), FadeOut(kept_questions),
-                  FadeOut(kept_prices), FadeOut(kept_price_words), FadeOut(kept_transfer),
+                  FadeOut(kept_prices), FadeOut(kept_price_words),
                   FadeOut(kept_buyer_guides), FadeOut(kept_seller_guides),
                   FadeOut(kept_private_answer), FadeOut(kept_social_guides), FadeOut(kept_social_answer),
                   FadeOut(takeaway), FadeOut(unit_context), run_time=0.4)
@@ -1197,12 +1180,12 @@ class C3(ThreeDScene):
             Tex('MSB', color=DEMAND).scale(0.58).next_to([-1.21, detail_y(5.2), 0], UP, buff=0.10),
             Tex('MC', color=SUPPLY).scale(0.58).next_to([1.21, detail_y(4.2), 0], DOWN, buff=0.10),
             Tex('EXT', color=EXT).scale(0.55).move_to([-1.21, detail_y(4.2), 0]))).set_z_index(4)
-        unit_context = fixed(subtitle(head, 'The 44th unit: an exchange the subsidy enables.'))
+        unit_context = fixed(subtitle(head, 'The 44th unit: not exchanged before the subsidy.'))
         added_questions = fixed(VGroup(
             Tex('Will they exchange?', color=DEFINITION).scale(0.60).move_to([-4.8, -3.05, 0]),
             Tex('Is it good for society?', color=DEFINITION).scale(0.60).move_to([4.8, -3.05, 0])))
         self.add(detail_people)
-        self.play(FadeIn(added_edges), FadeIn(added_values), FadeIn(unit_context), FadeIn(added_questions[0]), FadeIn(added_questions[1]))
+        self.play(FadeIn(added_edges), FadeIn(added_values), FadeIn(unit_context), FadeIn(added_questions))
         self.pause('4.h.values')
 
         # ---- 4.h.prices · Government's transfer spans actual prices, not MB or MC.
@@ -1233,8 +1216,7 @@ class C3(ThreeDScene):
             stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY).set_z_index(1))
         added_cs_word = fixed(Tex('CS', color=INK).scale(0.55)
             .move_to([-1.21, detail_y(2.8), 0]).set_z_index(4))
-        takeaway = teaching(r'The buyer: value \$3.20 against a price of \$2.40.')
-        self.play(FadeIn(added_buyer_guides), GrowFromEdge(added_cs, DOWN), FadeIn(added_cs_word), FadeIn(takeaway))
+        self.play(FadeIn(added_buyer_guides), GrowFromEdge(added_cs, DOWN), FadeIn(added_cs_word))
         self.pause('4.h.buyer')
 
         # ---- 4.h.buyer.answer · Finish the buyer's decision before moving to the seller.
@@ -1245,7 +1227,6 @@ class C3(ThreeDScene):
         self.pause('4.h.buyer.answer')
 
         # ---- 4.h.seller · Then compare the seller's cost with the amount the seller receives.
-        self.remove(takeaway)
         added_seller_guides = fixed(VGroup(
             DashedLine([SELLER_LEFT, detail_y(4.2), 0], [TAX_LEFT + TAX_WIDTH + 0.10, detail_y(4.2), 0], color=TOTAL, stroke_width=1.4),
             DashedLine([TAX_LEFT - 0.10, detail_y(4.2), 0], [BUYER_LEFT + BAR_WIDTH, detail_y(4.2), 0], color=TOTAL, stroke_width=1.4),
@@ -1259,23 +1240,19 @@ class C3(ThreeDScene):
             stroke_width=0, fill_color=SUPPLY, fill_opacity=SURPLUS_OPACITY).set_z_index(1))
         added_ps_word = fixed(Tex('PS', color=INK).scale(0.42)
             .next_to([1.21, detail_y(4.4), 0], UP, buff=0.08).set_z_index(4))
-        takeaway = teaching(r'The seller: cost \$4.20 against a price of \$4.40.')
-        self.play(FadeIn(added_seller_guides), GrowFromEdge(added_ps, DOWN), FadeIn(added_ps_word), FadeIn(takeaway))
+        self.play(FadeIn(added_seller_guides), GrowFromEdge(added_ps, DOWN), FadeIn(added_ps_word))
         self.pause('4.h.seller')
 
         # ---- 4.h.private · Complete the seller's decision, keeping both individual verdicts.
-        self.remove(takeaway)
         added_seller_answer = fixed(added_buyer_answer.copy()
             .next_to(added_seller_guides[-1], LEFT, buff=0.3))
         added_private_answer = fixed(VGroup(added_buyer_answer, added_seller_answer))
-        takeaway = teaching('Both sides want this trade at these prices.')
-        self.play(FadeIn(added_seller_answer), FadeIn(takeaway))
+        self.play(FadeIn(added_seller_answer))
         self.remove(added_buyer_answer, added_seller_answer)
         self.add(added_private_answer)
         self.pause('4.h.private')
 
         # ---- 4.h.social.compare · C1's real benefit/cost comparison excludes government transfers.
-        self.remove(takeaway)
         added_social_guides = fixed(VGroup(
             DashedLine([BUYER_LEFT + BAR_WIDTH, detail_y(5.2), 0], [4.25, detail_y(5.2), 0], color=TOTAL, stroke_width=1.4),
             DashedLine(added_values[2].get_right() + RIGHT * 0.12, [4.25, detail_y(4.2), 0], color=TOTAL, stroke_width=1.4),
@@ -1283,9 +1260,7 @@ class C3(ThreeDScene):
         added_social_answer = fixed(VGroup(VMobject(color=EFFICIENT, stroke_width=5).set_points_as_corners([[-0.28, 0, 0], [-0.08, -0.20, 0], [0.32, 0.27, 0]]), Tex('TS', color=TOTAL))
             .arrange(DOWN, buff=0.16).scale(0.70)
             .next_to([4.25, detail_y(4.7), 0], RIGHT, buff=0.3))
-        self.play(added_transfer.animate.set_opacity(0.20),
-                  added_prices.animate.set_opacity(0.25), added_price_words.animate.set_opacity(0.25),
-                  added_buyer_guides.animate.set_opacity(0.25), added_seller_guides.animate.set_opacity(0.25),
+        self.play(FadeOut(added_transfer),
                   FadeOut(added_cs), FadeOut(added_ps),
                   FadeOut(added_cs_word), FadeOut(added_ps_word),
                   FadeIn(added_social_guides))
@@ -1299,7 +1274,7 @@ class C3(ThreeDScene):
         # ---- 4.h.return · Remove every annotation and return the same three slices.
         self.remove(detail_people)
         self.play(FadeOut(added_edges), FadeOut(added_values), FadeOut(added_questions),
-                  FadeOut(added_prices), FadeOut(added_price_words), FadeOut(added_transfer),
+                  FadeOut(added_prices), FadeOut(added_price_words),
                   FadeOut(added_buyer_guides), FadeOut(added_seller_guides),
                   FadeOut(added_private_answer), FadeOut(added_social_guides), FadeOut(added_social_answer),
                   FadeOut(takeaway), FadeOut(unit_context), run_time=0.4)
