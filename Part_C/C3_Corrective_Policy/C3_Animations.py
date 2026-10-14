@@ -1142,10 +1142,12 @@ class C3(ThreeDScene):
         self.add(positive_final_graph)
         self.play(positive_final_graph.animate.shift(LEFT * 2.0), run_time=1.2)
         positive_equality = fixed(VGroup(
-            Tex(r'$Q^{subsidy}=Q^*$', color=FOCUS).scale(1.05),
-            Tex('48 units', color=CAPTION).scale(0.65),
-            Tex('Subsidy = external benefit', color=INK).scale(0.65)
-        ).arrange(DOWN, buff=0.28).move_to([4.2, 0.7, 0]))
-        takeaway = teaching('A corrective subsidy enables worthwhile trades the market would miss.')
-        self.play(FadeIn(positive_equality), FadeIn(takeaway))
+            Tex(r'$\mathrm{Subsidy}=\mathrm{EXT}$', color=DEFINITION).scale(1.10),
+            Tex(r'$\Downarrow$', color=DEFINITION).scale(0.85),
+            Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(1.10),
+            Tex('48 units', color=CAPTION).scale(0.65)
+        ).arrange(DOWN, buff=0.22).move_to([4.2, 0.7, 0]))
+        takeaway = teaching('A corrective subsidy enables worthwhile exchanges the market would miss.')
+        self.play(FadeIn(positive_equality[0]))
+        self.play(FadeIn(positive_equality[1:]), FadeIn(takeaway))
         self.pause('5.a')

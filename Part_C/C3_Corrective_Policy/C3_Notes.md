@@ -142,6 +142,6 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 5 | End on the corrected market
 
-> **5.a.** Move the same clean subsidy graph left. On the right: Qˢᵘᵇˢⁱᵈʸ = Q*, 48 units, and “Subsidy = external benefit.” Bottom: “A corrective subsidy enables worthwhile trades the market would miss.” This mirrors the tax conclusion in 3.g.summary and preserves the planner's central result: the policy aligns the market quantity with the efficient quantity.
+> **5.a.** Move the same clean subsidy graph left. On the right, first show yellow “Subsidy = EXT”; below it, reveal a yellow downward implication arrow leading to red Qˢᵘᵇˢⁱᵈʸ = Q*, with “48 units” in muted grey underneath. Bottom: “A corrective subsidy enables worthwhile exchanges the market would miss.” Match the tax conclusion's spacing and staged reveal in 3.g.summary: the policy equals the externality, implying that the market quantity equals the efficient quantity.
 
 <!-- Validation 2026-10-12: complete scene run produced 153 checkpoint images. Reviewed the graph, planner, close-up, tax-dial, subsidy and conclusion frames. Final targeted renders and backward checkpoint restoration passed; checked price/quantity arithmetic, highest dot layers, fractional strip clipping, zero orphan slices/subtitles after all three returns, and subsidy-spending cleanup. Development viewer navigation also reviewed. Exports remain temporary review artifacts, not the published student bundle. -->
