@@ -124,7 +124,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 #### Worthwhile trade the subsidy enables
 
-> **4.h.select → 4.h.values.** Carry unit 44's matching slices into compact bars: MB = $3.20 and EXT = $2 on the buyer's side, giving MSB = $5.20; MC = $4.20 on the seller's side. Same bottom questions, people, scale and measurement style.
+> **4.h.select → 4.h.values.** Highlight unit 44 and pause with the yellow bottom note “Let's check an exchange that would not have happened before the subsidy.” Fade the note as the zoom begins. Carry unit 44's matching slices into compact bars: MB = $3.20 and EXT = $2 on the buyer's side, giving MSB = $5.20; MC = $4.20 on the seller's side. Same bottom questions, people, scale and measurement style.
 
 > **4.h.question → 4.h.answer.** First compare MB and MC without the subsidy. Pause before revealing the red cross. “Without the subsidy, this trade does not happen.”
 

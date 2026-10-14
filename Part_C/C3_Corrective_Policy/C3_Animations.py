@@ -1000,7 +1000,8 @@ class C3(ThreeDScene):
         added_home = added_pair.copy()
         added_box = fixed(SurroundingRectangle(added_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(takeaway)
-        self.play(FadeIn(added_pair), FadeIn(added_box))
+        takeaway = teaching("Let's check an exchange that would not have happened before the subsidy.")
+        self.play(FadeIn(added_pair), FadeIn(added_box), FadeIn(takeaway))
         self.pause('4.h.select')
 
         added_target = fixed(VGroup())
@@ -1009,7 +1010,7 @@ class C3(ThreeDScene):
             added_target.add(fixed(Polygon([left, detail_y(low), 0], [left + BAR_WIDTH, detail_y(low), 0],
                 [left + BAR_WIDTH, detail_y(high), 0], [left, detail_y(high), 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(positive_market), FadeOut(context), FadeOut(added_box),
+        self.play(FadeOut(positive_market), FadeOut(context), FadeOut(added_box), FadeOut(takeaway),
                   Transform(added_pair, added_target), run_time=1.6)
         added_edges = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
