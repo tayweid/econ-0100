@@ -12,13 +12,13 @@ Homework is designed to both test your knowledge and challenge you to apply fami
 
 ## Q1 | The Butterbeer Tax
 
-The Ministry of Magic was in some financial trouble after their considerable expenditures during the war. They decided to impose a tax of 6 galleons on the sale of butterbeer as a source of funding. The supply and demand curves for butterbeer can be represented by the following equations.
+The Ministry of Magic was in some financial trouble after their considerable expenditures during the war. They decided to impose a tax of 6 galleons on the sale of butterbeer as a source of funding. Use a graph to evaluate the welfare effects the policy had on the market. The supply and demand curves for butterbeer can be represented by the following equations.
 
 $$
 D: P_B = 40 - Q_D \qquad\qquad S: P_S = 10 + \frac{1}{2} Q_S
 $$
 
-Use a graph and algebra to calculate equilibrium before and after the tax. Start with the pre-tax equilibrium. Then use the tax equation ($P_B = \tau + P_S$) to solve for equilibrium quantity and the two prices. Conclude with the remaining relevant components. *Note: I’m looking for a complete description of the impacts on the market.*
+Use a graph and algebra to calculate equilibrium before and after the tax. Start with the pre-tax equilibrium. Then use the tax equation ($P_B = \tau + P_S$) to solve for equilibrium quantity and the two prices. Conclude with the remaining relevant components. *Note: ~~Like Q1,~~ I’m looking for a complete description of the impacts on the market.*
 
 \newpage
 

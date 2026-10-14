@@ -20,9 +20,9 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `One Toffee Exchange`
 
 ```
-Smoked toffee, with demand $$P_B = 20 - \frac{1}{2} Q_D$$ and supply $$P_S = 2 + Q_S$$, in Galleons. The Ministry of Magic imposes a 3 Galleon tax on the sale of smoked toffee.
+Smoked toffee, with demand $$P_B = 100 - Q_D$$ and supply $$P_S = 10 + Q_S$$, in Galleons. The Ministry of Magic imposes a 10 Galleon tax on the sale of smoked toffee.
 
-A buyer values one smoked toffee at 16 Galleons. It costs the seller 12 Galleons to make.
+A buyer values one smoked toffee at 75 Galleons. It costs the seller 50 Galleons to make.
 ```
 
 ### Q1.1: `Without the tax, will the buyer and seller make this exchange?`
@@ -42,36 +42,36 @@ A buyer values one smoked toffee at 16 Galleons. It costs the seller 12 Galleons
 ### Q1.3: `Total Surplus to the buyer and seller, with the tax:`
 
 ```
-( ) $$0$$ Galleons
-(x) $$1$$ Galleons
-( ) $$3$$ Galleons
-( ) $$4$$ Galleons
+( ) $$5$$ Galleons
+(x) $$15$$ Galleons
+( ) $$25$$ Galleons
+( ) $$35$$ Galleons
 ```
 
 ### Q1.4: `Tax paid to the Ministry of Magic:`
 
 ```
-( ) $$0$$ Galleons
-( ) $$1$$ Galleons
-(x) $$3$$ Galleons
-( ) $$4$$ Galleons
+( ) $$5$$ Galleons
+(x) $$10$$ Galleons
+( ) $$15$$ Galleons
+( ) $$25$$ Galleons
 ```
 
 ### Q1.5: `Total Surplus, including the Ministry of Magic:`
 
 ```
-( ) $$1$$ Galleons
-( ) $$3$$ Galleons
-(x) $$4$$ Galleons
-( ) $$7$$ Galleons
+( ) $$10$$ Galleons
+( ) $$15$$ Galleons
+(x) $$25$$ Galleons
+( ) $$35$$ Galleons
 ```
 
 ## Q2: `Another Exchange`
 
 ```
-Smoked toffee, with demand $$P_B = 20 - \frac{1}{2} Q_D$$ and supply $$P_S = 2 + Q_S$$, in Galleons. The Ministry of Magic imposes a 3 Galleon tax on the sale of smoked toffee.
+Smoked toffee, with demand $$P_B = 100 - Q_D$$ and supply $$P_S = 10 + Q_S$$, in Galleons. The Ministry of Magic imposes a 10 Galleon tax on the sale of smoked toffee.
 
-Another buyer values one smoked toffee at 14 Galleons. It costs the seller 12 Galleons to make.
+Another buyer values one smoked toffee at 58 Galleons. It costs the seller 52 Galleons to make.
 ```
 
 ### Q2.1: `Without the tax, will the buyer and seller make this exchange?`
@@ -92,137 +92,137 @@ Another buyer values one smoked toffee at 14 Galleons. It costs the seller 12 Ga
 
 ```
 ( ) $$0$$ Galleons
-( ) $$1$$ Galleons
-(x) $$2$$ Galleons
-( ) $$3$$ Galleons
+( ) $$2$$ Galleons
+(x) $$6$$ Galleons
+( ) $$10$$ Galleons
 ```
 
 ## Q3: `Tax Equilibrium`
 
 ```
-Smoked toffee, with demand $$P_B = 20 - \frac{1}{2} Q_D$$ and supply $$P_S = 2 + Q_S$$, in Galleons. The Ministry of Magic imposes a 3 Galleon tax on the sale of smoked toffee.
+Smoked toffee, with demand $$P_B = 100 - Q_D$$ and supply $$P_S = 10 + Q_S$$, in Galleons. The Ministry of Magic imposes a 10 Galleon tax on the sale of smoked toffee.
 ```
 
 ### Q3.1: `Pre-Tax Price:`
 
 ```
-( ) $$12$$ Galleons
-(x) $$14$$ Galleons
-( ) $$15$$ Galleons
-( ) $$16$$ Galleons
+( ) $$50$$ Galleons
+(x) $$55$$ Galleons
+( ) $$60$$ Galleons
+( ) $$65$$ Galleons
 ```
 
 ### Q3.2: `Pre-Tax Quantity:`
 
 ```
-( ) $$10$$ toffees
-(x) $$12$$ toffees
-( ) $$14$$ toffees
-( ) $$16$$ toffees
+( ) $$35$$ toffees
+( ) $$40$$ toffees
+(x) $$45$$ toffees
+( ) $$50$$ toffees
 ```
 
 ### Q3.3: `Post-Tax Quantity:`
 
 ```
-( ) $$8$$ toffees
-(x) $$10$$ toffees
-( ) $$12$$ toffees
-( ) $$14$$ toffees
+( ) $$35$$ toffees
+(x) $$40$$ toffees
+( ) $$45$$ toffees
+( ) $$50$$ toffees
 ```
 
 ### Q3.4: `DWL:`
 
 ```
-( ) $$1$$ Galleons
-( ) $$2$$ Galleons
-(x) $$3$$ Galleons
-( ) $$4$$ Galleons
+( ) $$5$$ Galleons
+( ) $$10$$ Galleons
+(x) $$25$$ Galleons
+( ) $$50$$ Galleons
 ```
 
 ### Q3.5: `Buyer Price:`
 
 ```
-( ) $$12$$ Galleons
-( ) $$14$$ Galleons
-(x) $$15$$ Galleons
-( ) $$17$$ Galleons
+( ) $$50$$ Galleons
+( ) $$55$$ Galleons
+(x) $$60$$ Galleons
+( ) $$65$$ Galleons
 ```
 
 ### Q3.6: `Seller Price:`
 
 ```
-( ) $$11$$ Galleons
-(x) $$12$$ Galleons
-( ) $$14$$ Galleons
-( ) $$15$$ Galleons
+( ) $$45$$ Galleons
+(x) $$50$$ Galleons
+( ) $$55$$ Galleons
+( ) $$60$$ Galleons
 ```
 
 ### Q3.7: `Tax Incidence on Buyers:`
 
 ```
 ( ) $$0$$ Galleons
-(x) $$1$$ Galleons
-( ) $$2$$ Galleons
-( ) $$3$$ Galleons
+( ) $$2.5$$ Galleons
+(x) $$5$$ Galleons
+( ) $$10$$ Galleons
 ```
 
 ### Q3.8: `Tax Incidence on Sellers:`
 
 ```
-( ) $$1$$ Galleons
-(x) $$2$$ Galleons
-( ) $$3$$ Galleons
-( ) $$4$$ Galleons
+( ) $$0$$ Galleons
+( ) $$2.5$$ Galleons
+(x) $$5$$ Galleons
+( ) $$10$$ Galleons
 ```
 
 ### Q3.9: `Who bears more of the tax?`
 
 ```
 ( ) Buyers
-(x) Sellers
-( ) Equal
+( ) Sellers
+(x) Equal
 ```
 
 ## Q4: `Subsidy Equilibrium`
 
 ```
-Smoked toffee, with demand $$P_B = 20 - \frac{1}{2} Q_D$$ and supply $$P_S = 2 + Q_S$$, in Galleons. There is no tax. Instead, the Ministry of Magic pays a 3 Galleon subsidy on every smoked toffee sold.
+Smoked toffee, with demand $$P_B = 100 - Q_D$$ and supply $$P_S = 10 + Q_S$$, in Galleons. There is no tax. Instead, the Ministry of Magic pays a 10 Galleon subsidy on every smoked toffee sold.
 ```
 
 ### Q4.1: `Post-Subsidy Quantity:`
 
 ```
-( ) $$10$$ toffees
-( ) $$12$$ toffees
-(x) $$14$$ toffees
-( ) $$16$$ toffees
+( ) $$40$$ toffees
+( ) $$45$$ toffees
+(x) $$50$$ toffees
+( ) $$55$$ toffees
 ```
 
 ### Q4.2: `DWL:`
 
 ```
-( ) $$1$$ Galleons
-(x) $$3$$ Galleons
-( ) $$6$$ Galleons
-( ) $$9$$ Galleons
+( ) $$5$$ Galleons
+( ) $$10$$ Galleons
+(x) $$25$$ Galleons
+( ) $$50$$ Galleons
 ```
 
 ### Q4.3: `Buyer Price:`
 
 ```
-( ) $$11$$ Galleons
-( ) $$12$$ Galleons
-(x) $$13$$ Galleons
-( ) $$14$$ Galleons
+( ) $$45$$ Galleons
+(x) $$50$$ Galleons
+( ) $$55$$ Galleons
+( ) $$60$$ Galleons
 ```
 
 ### Q4.4: `Seller Price:`
 
 ```
-( ) $$13$$ Galleons
-( ) $$14$$ Galleons
-(x) $$16$$ Galleons
-( ) $$17$$ Galleons
+( ) $$50$$ Galleons
+( ) $$55$$ Galleons
+(x) $$60$$ Galleons
+( ) $$65$$ Galleons
 ```
 
 ## Q5: `Which concepts?`

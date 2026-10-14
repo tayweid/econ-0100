@@ -30,3 +30,8 @@ Vignette B3–B5 around the pandemic food market, with new clean numbers (S: 2 +
 ## _archive/_duplicates/
 
 Files removed during the 2026-09-28 dedupe that were not byte-identical to a kept file: reissues, pieces of split handouts, PDFs that only render the same, and (in A) the older versions of Fall 2026's stories. Restored here on the same day under the rule to delete only byte-identical copies. Each is named after its old location (`<Block>__<File>`). Nothing here is needed; it is kept so nothing you wrote is lost.
+
+## Moved in from the Part C bank (2026-10-13)
+
+- `Homework_3_pasties-tax_F21` (+pdf): Parts 1–2, pasty consumer and producer surplus at 5 and 10 galleons on P = 17 − Q/6 and P = 2 + 2Q/3 (B1–B2); Part 5, a 2-galleon export tariff at a world price of 12 (B6). Part 4, the pasty tax, was used for Part C's Vignette C2 and has since been renumbered there.
+- **Government Cheese** (moved here 2026-10-13; a price floor held by government purchases of the surplus, B4.2 price controls): `Vignette_B11_government-cheese_F24` (D: P = 20 − Q/10, S: P = Q/100, purchases at 2 per gallon); `24F_Demo_X2` (+pdf, ink key `Demo_X2_sols.pdf`) and the stem `C1.2_government-cheese`, both from `ECON_0100/Checkpoints/C/`. It had been moved from B to C on 2026-09-28; the new Part C checkpoint design (externalities with taxes and subsidies) has no slot for it.
