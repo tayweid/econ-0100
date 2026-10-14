@@ -37,6 +37,8 @@ class C2(ThreeDScene):
         TAX, TAX_Q, BUYER_PRICE, SELLER_PRICE = 2, 32, 5.6, 3.6
         SUBSIDY_Q, SUBSIDY_BUYER, SUBSIDY_SELLER = 48, 2.4, 4.4
         LOST_TON, ADDED_TON = 35, 43  # Unit 36 is the exchange the tax removes; unit 44 is one the subsidy adds.
+        QUANTITY_NUMBER_OFFSET, QUANTITY_LABEL_OFFSET = 0.32, 0.72
+        QUANTITY_NUMBER_SCALE, QUANTITY_LABEL_SCALE = 0.64, 0.60
         BAR_GAP = 0.08
         BASE_OPACITY, SURPLUS_OPACITY = 0.16, 0.65
         STRIP_OPACITY = 1.0  # The tax is introduced opaque; from section 6 on its revenue takes SURPLUS_OPACITY like CS and PS.
@@ -87,7 +89,10 @@ class C2(ThreeDScene):
             DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             Tex(r'$P^*=4$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 4), LEFT, buff=0.2),
-            Tex(r'$Q=40$', color=GUIDE).scale(0.7).next_to(ax.c2p(40, 0), DOWN, buff=0.20)))
+            VGroup(Tex('40', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(40, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(40, 0) + DOWN * QUANTITY_LABEL_OFFSET))))
         costs, cs, ps = fixed(VGroup()), fixed(VGroup()), fixed(VGroup())
         for q in range(MARKET_Q):
             left, right = q + BAR_GAP / 2, q + 1 - BAR_GAP / 2
@@ -268,11 +273,15 @@ class C2(ThreeDScene):
         # The surplus fills rest while the curves move; welfare returns in section 6. The market was off screen, so
         # its marker and surplus words simply leave the group before it comes back.
         market.remove(equilibrium, surplus_words)
-        # Keep the untaxed price and quantity as unlabeled references in every later market view.
+        # Keep the original equilibrium guides and its two-row quantity reference in every later market view.
         # Traveling with market preserves them through panel copies, resizes and close-up returns.
         original_guides = fixed(VGroup(
             DashedLine(ax.c2p(0, MARKET_P), ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
-            DashedLine(ax.c2p(MARKET_Q, 0), ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2)
+            DashedLine(ax.c2p(MARKET_Q, 0), ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
+            VGroup(Tex('40', color=CAPTION).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^*$', color=CAPTION).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))
         )).set_z_index(1.5)
         market.add(original_guides)
         cs.set_fill(opacity=0)
@@ -289,7 +298,10 @@ class C2(ThreeDScene):
         taxed_point = fixed(VGroup(
             Dot(ax.c2p(TAX_Q, BUYER_PRICE), radius=0.07, color=GUIDE),
             DashedLine(ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, BUYER_PRICE), color=GUIDE, stroke_width=2),
-            Tex(r'$Q^{tax}=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(TAX_Q, 0), DOWN, buff=0.20))).set_z_index(2)
+            VGroup(Tex('32', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)))).set_z_index(2)
         self.remove(seller_note)
         self.play(FadeIn(seller_question))
         # Units 33-40 leave the picture entirely: no bars beyond the taxed quantity.
@@ -390,7 +402,10 @@ class C2(ThreeDScene):
         buyer_point = fixed(VGroup(
             Dot(ax.c2p(TAX_Q, SELLER_PRICE), radius=0.07, color=GUIDE),
             DashedLine(ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
-            Tex(r'$Q^{tax}=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(TAX_Q, 0), DOWN, buff=0.20))).set_z_index(2)
+            VGroup(Tex('32', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)))).set_z_index(2)
         self.remove(market_buyer_note)
         self.play(FadeIn(quantity_note))
         self.play(FadeIn(buyer_point))
@@ -918,8 +933,8 @@ class C2(ThreeDScene):
             DecimalNumber(BUYER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
         seller_price_readout = fixed(VGroup(Tex('$P_s=$', color=GUIDE).scale(0.7),
             DecimalNumber(SELLER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
-        quantity_readout = fixed(VGroup(Tex('$Q^{tax}=$', color=GUIDE).scale(0.7),
-            DecimalNumber(TAX_Q, num_decimal_places=0, color=GUIDE).scale(0.7)).arrange(RIGHT, buff=0.06))
+        quantity_readout = fixed(VGroup(DecimalNumber(TAX_Q, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE),
+            Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)))
         ps_label, tax_label, cs_label = welfare_words
         dwl_label = dwl_word
         driven = [*wedge, wedge_word, buyer_price_readout, seller_price_readout, quantity_readout,
@@ -956,8 +971,13 @@ class C2(ThreeDScene):
         seller_price_readout.add_updater(lambda m: (m[1].set_value(state(m)[2]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(0, state(m)[2]), LEFT, buff=0.2)
             .shift(DOWN * 0.27 * max(0, 1 - (state(m)[1] - state(m)[2]) / 1.2))))
-        quantity_readout.add_updater(lambda m: (m[1].set_value(state(m)[0]), fixed(m), m.arrange(RIGHT, buff=0.06),
-            m.next_to(m.axes.c2p(state(m)[0], 0), DOWN, buff=0.2)))
+        # Keep the grey equilibrium readable when the tax quantity approaches it; at zero they share one reference.
+        quantity_readout.add_updater(lambda m: (
+            fixed(m[0].set_value(round(state(m)[0], 4)))
+                .move_to(m.axes.c2p(state(m)[0], 0) + DOWN * QUANTITY_NUMBER_OFFSET)
+                .set_opacity(smooth(np.clip((abs(MARKET_Q - state(m)[0]) - 2) / 2, 0, 1))),
+            m[1].move_to(m.axes.c2p(state(m)[0], 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                .set_opacity(smooth(np.clip((abs(MARKET_Q - state(m)[0]) - 4) / 3, 0, 1)))))
         cs_label.add_updater(lambda m: m.move_to(m.axes.c2p(state(m)[0] / 3, (12 + 2 * state(m)[1]) / 3)))
         ps_label.natural_height = ps_label.get_height()
         ps_label.add_updater(lambda m: m.set_height(min(m.natural_height,
@@ -1005,7 +1025,7 @@ class C2(ThreeDScene):
         for m in [cost_region, ps_region, tax_region, cs_region, dwl_region, *wedge, wedge_word,
                   buyer_price_readout, seller_price_readout, quantity_readout, cs_label, ps_label, tax_label, dwl_label]:
             m.clear_updaters()
-        # Both graphs keep unlabeled grey guides at the untaxed price and quantity, alongside the wedge
+        # Both graphs keep grey equilibrium guides and a two-row quantity reference alongside the wedge
         # and the incidence stack off the axis (buyers' share above 4, sellers' share below).
         STACK_Q = -20
         incidence_graphs = fixed(VGroup())
@@ -1022,7 +1042,11 @@ class C2(ThreeDScene):
                        Tex('$12$', color=DEMAND).scale(0.65).next_to(small_ax.c2p(0, 12), LEFT, buff=0.15)),
                 VGroup(DashedLine(small_ax.c2p(0, MARKET_P), small_ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
                        DashedLine(small_ax.c2p(MARKET_Q, 0), small_ax.c2p(MARKET_Q, MARKET_P), color=MUTED, stroke_width=2),
-                       Dot(small_ax.c2p(MARKET_Q, MARKET_P), radius=0.06, color=MUTED)).set_z_index(1.5),
+                       Dot(small_ax.c2p(MARKET_Q, MARKET_P), radius=0.06, color=MUTED),
+                       VGroup(Tex('40', color=CAPTION).scale(QUANTITY_NUMBER_SCALE)
+                           .move_to(small_ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                           Tex(r'$Q^*$', color=CAPTION).scale(QUANTITY_LABEL_SCALE)
+                           .move_to(small_ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(1.5),
                 VGroup(Line(small_ax.c2p(TAX_Q, SELLER_PRICE), small_ax.c2p(TAX_Q, BUYER_PRICE), color=GOV, stroke_width=6),
                        Line(small_ax.c2p(TAX_Q, SELLER_PRICE) + LEFT * 0.09, small_ax.c2p(TAX_Q, SELLER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
                        Line(small_ax.c2p(TAX_Q, BUYER_PRICE) + LEFT * 0.09, small_ax.c2p(TAX_Q, BUYER_PRICE) + RIGHT * 0.09, color=GOV, stroke_width=3),
@@ -1038,8 +1062,10 @@ class C2(ThreeDScene):
                     .arrange(RIGHT, buff=0.06).next_to(small_ax.c2p(0, BUYER_PRICE), LEFT, buff=0.2),
                 VGroup(Tex('$P_s=$', color=GUIDE).scale(0.6), DecimalNumber(SELLER_PRICE, num_decimal_places=2, color=GUIDE).scale(0.6))
                     .arrange(RIGHT, buff=0.06).next_to(small_ax.c2p(0, SELLER_PRICE), LEFT, buff=0.2),
-                VGroup(Tex('$Q^{tax}=$', color=GUIDE).scale(0.6), DecimalNumber(TAX_Q, num_decimal_places=0, color=GUIDE).scale(0.6))
-                    .arrange(RIGHT, buff=0.06).next_to(small_ax.c2p(TAX_Q, 0), DOWN, buff=0.2),
+                VGroup(DecimalNumber(TAX_Q, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                           .move_to(small_ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                       Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                           .move_to(small_ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)),
                 Line(small_ax.c2p(STACK_Q, 4), small_ax.c2p(STACK_Q, BUYER_PRICE), color=DEMAND, stroke_width=7),
                 Line(small_ax.c2p(STACK_Q, SELLER_PRICE), small_ax.c2p(STACK_Q, 4), color=SUPPLY, stroke_width=7),
                 DecimalNumber(BUYER_PRICE - 4, num_decimal_places=2, color=DEMAND).scale(0.62)
@@ -1084,8 +1110,10 @@ class C2(ThreeDScene):
             m.next_to(m.axes.c2p(0, state(m)[1]), LEFT, buff=0.2)))
         right_seller_readout.add_updater(lambda m: (m[1].set_value(state(m)[2]), fixed(m), m.arrange(RIGHT, buff=0.06),
             m.next_to(m.axes.c2p(0, state(m)[2]), LEFT, buff=0.2)))
-        right_quantity_readout.add_updater(lambda m: (m[1].set_value(round(state(m)[0], 4)), fixed(m), m.arrange(RIGHT, buff=0.06),
-            m.next_to(m.axes.c2p(state(m)[0], 0), DOWN, buff=0.2)))
+        right_quantity_readout.add_updater(lambda m: (
+            fixed(m[0].set_value(round(state(m)[0], 4)))
+                .move_to(m.axes.c2p(state(m)[0], 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            m[1].move_to(m.axes.c2p(state(m)[0], 0) + DOWN * QUANTITY_LABEL_OFFSET)))
         right_buyer_share.add_updater(lambda m: m.put_start_and_end_on(
             m.axes.c2p(STACK_Q, 4), m.axes.c2p(STACK_Q, state(m)[1]) + UP * 1e-6))
         right_seller_share.add_updater(lambda m: m.put_start_and_end_on(
@@ -1188,7 +1216,10 @@ class C2(ThreeDScene):
             DashedLine(ax.c2p(SUBSIDY_Q, 0), ax.c2p(SUBSIDY_Q, SUBSIDY_BUYER), color=GUIDE, stroke_width=2),
             Tex(r'$P_s=4.40$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SUBSIDY_SELLER), LEFT, buff=0.2),
             Tex(r'$P_b=2.40$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SUBSIDY_BUYER), LEFT, buff=0.2),
-            Tex(r'$Q^{subsidy}=48$', color=GUIDE).scale(0.7).next_to(ax.c2p(SUBSIDY_Q, 0), DOWN, buff=0.20)))
+            VGroup(Tex('48', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(SUBSIDY_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^{subsidy}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE * 0.75)
+                .move_to(ax.c2p(SUBSIDY_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))))
         subsidy_marks.set_z_index(2)
         subsidy_wedge.set_z_index(2)
         added_lots = fixed(VGroup())
@@ -1220,7 +1251,7 @@ class C2(ThreeDScene):
             Tex('$(12 - Q/5)$', color=DEMAND), Tex('$=$', color=INK), Tex('$2$', color=GOV)).arrange(RIGHT, buff=0.14).scale(0.78))
         subsidy_simplify_line = fixed(VGroup(Tex('$Q/4 - 10$', color=INK), Tex('$=$', color=INK), Tex('$2$', color=GOV))
             .arrange(RIGHT, buff=0.14).scale(0.78))
-        subsidy_solve_line = fixed(VGroup(Tex('$Q^{tax}$', color=GUIDE), Tex('$=$', color=INK), Tex('$48$', color=GUIDE))
+        subsidy_solve_line = fixed(VGroup(Tex('$Q^{subsidy}$', color=GUIDE), Tex('$=$', color=INK), Tex('$48$', color=GUIDE))
             .arrange(RIGHT, buff=0.14).scale(0.78))
         subsidy_seller_line = fixed(VGroup(Tex('$P_s$', color=GUIDE), Tex('$=$', color=INK), Tex('$2 + 48/20$', color=SUPPLY),
             Tex('$=$', color=INK), Tex('$4.40$', color=GUIDE)).arrange(RIGHT, buff=0.14).scale(0.78))
@@ -1445,7 +1476,10 @@ class C2(ThreeDScene):
             DashedLine(ax.c2p(TAX_Q, 0), ax.c2p(TAX_Q, SELLER_PRICE), color=GUIDE, stroke_width=2),
             Tex(r'$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, BUYER_PRICE), LEFT, buff=0.2),
             Tex(r'$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, SELLER_PRICE), LEFT, buff=0.2),
-            Tex(r'$Q^{tax}=32$', color=GUIDE).scale(0.7).next_to(ax.c2p(TAX_Q, 0), DOWN, buff=0.20)))
+            VGroup(Tex('32', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+                .move_to(ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+                Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+                .move_to(ax.c2p(TAX_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))))
         closing_wedge.set_z_index(2)
         next_note = fixed(Tex('Next time: can a tax correct an externality?', color=DEFINITION)
                           .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
