@@ -44,7 +44,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 2 | The planner's price problem
 
-**Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd = and Qs = only when the quantities are well separated; fade those prefixes away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate.
+**Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd = and Qs = only when the quantities are well separated; fade those prefixes away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate. Measure excess or shortage with a grey segment on the horizontal axis between the two quantity guides. Center its caption below the quantity-number row, clear of both numbers and the bottom teaching line; no gap indicator remains at the trial-price height.
 
 > **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old labeled market guides. Retain the efficient marker and DWL geometry; add grey original-equilibrium guides. Ask: “What price gets buyers and sellers to exchange 32 units?”
 

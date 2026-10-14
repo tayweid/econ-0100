@@ -48,6 +48,7 @@ class C3(ThreeDScene):
         ORIGIN_X, ORIGIN_Y = -3.2, -2.15
         DOT_LAYER = 30
         QUANTITY_LABEL_OFFSET = 0.34
+        QUANTITY_GAP_CAPTION_OFFSET = 0.65
 
         # The model, as one-line functions of quantity or price.
         mb = lambda q: 12 - q / 5
@@ -173,11 +174,11 @@ class C3(ThreeDScene):
         seller_drop.add_updater(lambda m: m.put_start_and_end_on(
             ax.c2p(quantity_supplied(price.get_value()), 0),
             ax.c2p(quantity_supplied(price.get_value()), price.get_value())))
-        # The solid grey stretch between the two dots is the excess or shortage.
-        gap_line = fixed(Line(ax.c2p(40, 4), ax.c2p(40.001, 4), color=MUTED, stroke_width=4).set_z_index(11))
+        # Measure excess or shortage on the quantity axis, between the two drops.
+        gap_line = fixed(Line(ax.c2p(40, 0), ax.c2p(40.001, 0), color=MUTED, stroke_width=4).set_z_index(11))
         gap_line.add_updater(lambda m: m.put_start_and_end_on(
-            ax.c2p(quantity_demanded(price.get_value()), price.get_value()),
-            ax.c2p(quantity_supplied(price.get_value()) + 1e-6, price.get_value())))
+            ax.c2p(quantity_demanded(price.get_value()), 0),
+            ax.c2p(quantity_supplied(price.get_value()) + 1e-6, 0)))
         buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
         buyer_number.add_updater(lambda m: fixed(m.set_value(round(quantity_demanded(price.get_value()), 4)))
                                  .move_to(ax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET))
@@ -198,7 +199,7 @@ class C3(ThreeDScene):
         self.remove(market_dot)
         self.add(*trial)
         self.play(price.animate.set_value(5.6), run_time=2.4, rate_func=smooth)
-        gap_word = fixed(Tex(r'\textsf{excess: 40 units}', color=CAPTION).scale(0.55).next_to(gap_line, UP, buff=0.12))
+        gap_word = fixed(Tex(r'\textsf{excess: 40 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=QUANTITY_GAP_CAPTION_OFFSET))
         for m in readouts:
             m.update()   # Digits must already match before a number fades in.
         self.remove(question)
@@ -210,7 +211,7 @@ class C3(ThreeDScene):
         # ---- 2.c · Set the price at the sellers' willingness to sell unit 32: a shortage.
         self.remove(question, gap_word)
         self.play(price.animate.set_value(3.6), run_time=2.4, rate_func=smooth)
-        gap_word = fixed(Tex(r'\textsf{shortage: 10 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=0.12))
+        gap_word = fixed(Tex(r'\textsf{shortage: 10 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=QUANTITY_GAP_CAPTION_OFFSET))
         question = teaching('The price that works for sellers creates a shortage.')
         self.play(FadeIn(gap_word), FadeIn(question))
         self.pause('2.c')
@@ -773,10 +774,10 @@ class C3(ThreeDScene):
         seller_drop.add_updater(lambda m: m.put_start_and_end_on(
             pax.c2p(quantity_supplied(price.get_value()), 0),
             pax.c2p(quantity_supplied(price.get_value()), price.get_value())))
-        gap_line = fixed(Line(pax.c2p(40, 4), pax.c2p(40.001, 4), color=MUTED, stroke_width=4).set_z_index(11))
+        gap_line = fixed(Line(pax.c2p(40, 0), pax.c2p(40.001, 0), color=MUTED, stroke_width=4).set_z_index(11))
         gap_line.add_updater(lambda m: m.put_start_and_end_on(
-            pax.c2p(quantity_demanded(price.get_value()), price.get_value()),
-            pax.c2p(quantity_supplied(price.get_value()) + 1e-6, price.get_value())))
+            pax.c2p(quantity_demanded(price.get_value()), 0),
+            pax.c2p(quantity_supplied(price.get_value()) + 1e-6, 0)))
         buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
         buyer_number.add_updater(lambda m: fixed(m.set_value(round(quantity_demanded(price.get_value()), 4)))
                                  .move_to(pax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET))
@@ -797,7 +798,7 @@ class C3(ThreeDScene):
         self.remove(positive_dot)
         self.add(*trial)
         self.play(price.animate.set_value(2.4), run_time=2.4, rate_func=smooth)
-        gap_word = fixed(Tex(r'\textsf{shortage: 40 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=0.12))
+        gap_word = fixed(Tex(r'\textsf{shortage: 40 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=QUANTITY_GAP_CAPTION_OFFSET))
         for m in readouts:
             m.update()
         self.remove(question)
@@ -809,7 +810,7 @@ class C3(ThreeDScene):
         # ---- 4.d · The sellers' willingness to sell unit 48: an excess.
         self.remove(question, gap_word)
         self.play(price.animate.set_value(4.4), run_time=2.4, rate_func=smooth)
-        gap_word = fixed(Tex(r'\textsf{excess: 10 units}', color=CAPTION).scale(0.55).next_to(gap_line, UP, buff=0.12))
+        gap_word = fixed(Tex(r'\textsf{excess: 10 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=QUANTITY_GAP_CAPTION_OFFSET))
         question = teaching('The price that works for sellers creates excess supply.')
         self.play(FadeIn(gap_word), FadeIn(question))
         self.pause('4.d')
