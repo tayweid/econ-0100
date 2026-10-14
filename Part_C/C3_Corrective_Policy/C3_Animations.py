@@ -104,7 +104,7 @@ class C3(ThreeDScene):
         msc_intercept = fixed(Tex('$4$', color=SUPPLY).scale(0.65).next_to(ax.c2p(0, 4), LEFT, buff=0.15))
         demand = fixed(Line(ax.c2p(0, 12), ax.c2p(60, 0), color=DEMAND, stroke_width=3))
         supply = fixed(Line(ax.c2p(0, 2), ax.c2p(80, 6), color=SUPPLY, stroke_width=3))
-        social_cost = fixed(Line(ax.c2p(0, 4), ax.c2p(80, 8), color=SUPPLY, stroke_width=3))
+        social_cost = fixed(DashedLine(ax.c2p(0, 4), ax.c2p(80, 8), color=SUPPLY, stroke_width=3))
         curve_words = fixed(VGroup(
             Tex('MB', color=INK).scale(0.7).next_to(ax.c2p(7, 10.6), UR, buff=0.12),
             Tex('MC', color=INK).scale(0.7).next_to(ax.c2p(80, 6), RIGHT, buff=0.12),
