@@ -47,6 +47,7 @@ class C3(ThreeDScene):
         detail_y = lambda value: DETAIL_BASE + DETAIL_SCALE * value
         ORIGIN_X, ORIGIN_Y = -3.2, -2.15
         DOT_LAYER = 30
+        QUANTITY_LABEL_OFFSET = 0.34
 
         # The model, as one-line functions of quantity or price.
         mb = lambda q: 12 - q / 5
@@ -56,6 +57,11 @@ class C3(ThreeDScene):
         zero = lambda q: 0
         quantity_demanded = lambda p: (12 - p) * 5
         quantity_supplied = lambda p: (p - 2) * 20
+        quantity_gap = lambda p: abs(quantity_demanded(p) - quantity_supplied(p))
+        # Keep only the numbers when the two quantities are close; at their crossing,
+        # show one number until there is room for both on the same axis row.
+        quantity_prefix_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 18) / 8, 0, 1))
+        seller_quantity_opacity = lambda p: smooth(np.clip((quantity_gap(p) - 5) / 3, 0, 1))
         taxed_quantity = lambda t: 40 - 4 * t       # MB - MC = t  ->  10 - Q/4 = t.
 
         # The two object factories used throughout: the yellow bottom line and one one-unit slice.
@@ -174,14 +180,17 @@ class C3(ThreeDScene):
             ax.c2p(quantity_supplied(price.get_value()) + 1e-6, price.get_value())))
         buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
         buyer_number.add_updater(lambda m: fixed(m.set_value(round(quantity_demanded(price.get_value()), 4)))
-                                 .next_to(ax.c2p(quantity_demanded(price.get_value()), 0), DOWN, buff=0.2).shift(RIGHT * 0.3))
+                                 .move_to(ax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET))
         buyer_prefix = fixed(Tex('$Q_d=$', color=GUIDE).scale(0.65))
-        buyer_prefix.add_updater(lambda m: m.next_to(buyer_number, LEFT, buff=0.1))
+        buyer_prefix.add_updater(lambda m: m.next_to(buyer_number, LEFT, buff=0.1)
+                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
         seller_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
         seller_number.add_updater(lambda m: fixed(m.set_value(round(quantity_supplied(price.get_value()), 4)))
-                                  .next_to(ax.c2p(quantity_supplied(price.get_value()), 0), DOWN, buff=0.55).shift(RIGHT * 0.3))
+                                  .move_to(ax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                  .set_opacity(seller_quantity_opacity(price.get_value())))
         seller_prefix = fixed(Tex('$Q_s=$', color=GUIDE).scale(0.65))
-        seller_prefix.add_updater(lambda m: m.next_to(seller_number, LEFT, buff=0.1))
+        seller_prefix.add_updater(lambda m: m.next_to(seller_number, LEFT, buff=0.1)
+                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
         trial = [trial_line, trial_number, trial_prefix, buyer_dot, seller_dot, buyer_drop, seller_drop, gap_line]
         readouts = [buyer_number, buyer_prefix, seller_number, seller_prefix]
         for m in trial + readouts:
@@ -770,14 +779,17 @@ class C3(ThreeDScene):
             pax.c2p(quantity_supplied(price.get_value()) + 1e-6, price.get_value())))
         buyer_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
         buyer_number.add_updater(lambda m: fixed(m.set_value(round(quantity_demanded(price.get_value()), 4)))
-                                 .next_to(pax.c2p(quantity_demanded(price.get_value()), 0), DOWN, buff=0.2).shift(RIGHT * 0.3))
+                                 .move_to(pax.c2p(quantity_demanded(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET))
         buyer_prefix = fixed(Tex('$Q_d=$', color=GUIDE).scale(0.65))
-        buyer_prefix.add_updater(lambda m: m.next_to(buyer_number, LEFT, buff=0.1))
+        buyer_prefix.add_updater(lambda m: m.next_to(buyer_number, LEFT, buff=0.1)
+                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
         seller_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(0.65))
         seller_number.add_updater(lambda m: fixed(m.set_value(round(quantity_supplied(price.get_value()), 4)))
-                                  .next_to(pax.c2p(quantity_supplied(price.get_value()), 0), DOWN, buff=0.55).shift(RIGHT * 0.3))
+                                  .move_to(pax.c2p(quantity_supplied(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)
+                                  .set_opacity(seller_quantity_opacity(price.get_value())))
         seller_prefix = fixed(Tex('$Q_s=$', color=GUIDE).scale(0.65))
-        seller_prefix.add_updater(lambda m: m.next_to(seller_number, LEFT, buff=0.1))
+        seller_prefix.add_updater(lambda m: m.next_to(seller_number, LEFT, buff=0.1)
+                                 .set_opacity(quantity_prefix_opacity(price.get_value())))
         trial = [trial_line, trial_number, trial_prefix, buyer_dot, seller_dot, buyer_drop, seller_drop, gap_line]
         readouts = [buyer_number, buyer_prefix, seller_number, seller_prefix]
         for m in trial + readouts:
