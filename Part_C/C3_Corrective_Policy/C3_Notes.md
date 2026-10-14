@@ -46,7 +46,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd and Qs on the row beneath their numbers only when the quantities are well separated; fade those labels away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate. Measure excess or shortage with a grey segment on the horizontal axis between the two quantity guides. Center its caption below both quantity rows, clear of the labels and the bottom teaching line; no gap indicator remains at the trial-price height.
 
-> **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old price label; replace the red market guides with grey original-equilibrium guides. Remove the DWL strips and label for the entire price experiment and wedge setup. Keep the grey equilibrium dot, efficient marker, and aligned quantity readouts 40 / Q̂ and 32 / Q* until the price experiment begins. Ask: “What price gets buyers and sellers to exchange 32 units?”
+> **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old price label; replace the red market guides with grey original-equilibrium guides. Remove the DWL strips and label for the entire single-price experiment. Restore them when the actual tax starts rising from zero. Keep the grey equilibrium dot, efficient marker, and aligned quantity readouts 40 / Q̂ and 32 / Q* until the price experiment begins. Ask: “What price gets buyers and sellers to exchange 32 units?”
 
 > **2.b.** Fade out the Q̂ and Q* readouts as the price starts rolling from $4 to $5.60, before Qd and Qs appear. Keep the grey dot fixed at the original equilibrium throughout. The same buyer and seller dots move on their respective curves. Show Qd = 32, Qs = 72, and a grey excess segment labeled “excess: 40 units.” Bottom: “The price that works for buyers creates excess supply.”
 
@@ -58,17 +58,25 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 3 | Corrective tax
 
-> **3.a.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” Start a narrow filled green $2 bar on the price axis with “$2 tax” just to its left. Slide only the solid bar into the MB–MC gap at Q = 32, leaving the label and a dashed green vertical measure of the same height at the price axis. Both price dots and dashed guides appear; the quantity drop reaches the upper price. Place 32 nearest the axis, with Qᵗᵃˣ = Q* on the label row below it. Bottom: “The wedge gets stuck at 32 units, the efficient quantity.”
+**Policy consistency review.** Both policies use aligned axis numbers with quantity symbols below, dashed social curves, grey original-equilibrium dots and guides, axis-based gap measurements, and a clean planner price experiment. Each actual policy starts at the original equilibrium with DWL, separates prices while shrinking DWL, then extracts the wedge outward (tax left, subsidy right). Selection pauses carry yellow teaching notes; the compact decision scenes await Taylor's separate revision. Tax revenue regions can remain together because they do not overlap; subsidy welfare regions remain sequential because they overlap.
 
-> **3.b.** Keep the clean graph with the wedge at Q = 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” The recap DWL strips have already left; do not reintroduce them for a removal sweep.
+> **3.a.start.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” Clear the planner's target prices and yellow gap measurement. Return to Q = 40, P = $4, with grey DWL strips from 32 to 40 and a DWL label above them. Keep the grey original-equilibrium dot and guides, dashed MSC, and yellow efficient marker. Start with one shared price label. Bottom: “Start at the market equilibrium, with no tax.”
 
-> **3.c.** At the existing graph coordinates, build orange PS strips, then teal CS strips, then green government-revenue strips through Q = 32. The axis tax label and its dashed height measure leave together before the area labels enter. Bottom: “Buyers pay $5.60, sellers receive $3.60, and the government collects $2 per unit.”
+> **3.a.prices.** Raise the tax continuously from $0 to $2: Q = 40 − 4t, Pb = 4 + 0.8t, Ps = 4 − 0.2t. Both red dots follow their curves; price guides and axis numbers follow the tracker. Separate price labels only when there is room; quantity numbers stay on their fixed row. Clip DWL strips continuously at the moving quantity, shrinking the area between 32 and Q to zero. Bottom during motion: “As the tax rises, prices separate and deadweight loss shrinks.” Pause at Pb = $5.60, Ps = $3.60, Q = 32, with Qᵗᵃˣ = Q* below the number. Bottom: “A $2 tax brings quantity to 32 and eliminates deadweight loss.” No green wedge appears before this result.
+
+> **3.a.wedge.** Reveal a narrow green bar between the two prices at Q = 32. Slide a copy OUT to the left, to the price axis, retaining the original bar between the curves. Show “$2 tax” to the left of the extracted bar. Bottom: “The tax is the $2 gap between the buyers' and sellers' prices.” Pause.
+
+> **3.a.** Replace the extracted solid bar with a dashed green height measure on the price axis, retaining its $2 tax label. Keep the solid wedge in the graph. Both axis readouts travel with the market through welfare and close-up returns.
+
+> **3.b.** Keep the clean graph with the wedge at Q = 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” DWL has already shrunk to zero as the tax rose; do not add a separate removal sweep.
+
+> **3.c.** At the existing graph coordinates, build orange PS strips, then teal CS strips, then green government-revenue strips through Q = 32. Retain the tax label and dashed height measure at the price axis, clear of the welfare labels. Bottom: “Buyers pay $5.60, sellers receive $3.60, and the government collects $2 per unit.”
 
 > **3.d.** “With a tax equal to the external cost, there is no deadweight loss.”
 
 #### Trade the tax prevents
 
-> **3.e.select → 3.e.values.** Select unit 36, then move its matching slices into the compact bars: MB = $4.80, MC = $3.80, MSC = $5.80. The unit subtitle replaces the graph subtitle. Reveal the two yellow questions and the $2 external-cost measure.
+> **3.e.select → 3.e.values.** Select unit 36 with the yellow note “Let's check an exchange that happened before the tax.” Fade the note as the zoom begins, then move its matching slices into the compact bars: MB = $4.80, MC = $3.80, MSC = $5.80. The unit subtitle replaces the graph subtitle. Reveal the two yellow questions and the $2 external-cost measure.
 
 > **3.e.tax → 3.e.question → 3.e.answer.** Show Pb = $5.60, Ps = $3.60 and a separate middle green tax transfer. Project MB versus Pb and MC versus Ps to the left. Pause on the measurements; then reveal the red cross.
 
@@ -78,7 +86,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 #### Trade the tax preserves
 
-> **3.f.select → 3.f.values.** Repeat the same geometry and scale for unit 24: MB = $7.20, MC = $3.20, MSC = $5.20.
+> **3.f.select → 3.f.values.** Select unit 24 with the yellow note “Let's check an exchange that still happens with the tax.” Fade the note as the zoom begins. Repeat the same geometry and scale for unit 24: MB = $7.20, MC = $3.20, MSC = $5.20.
 
 > **3.f.tax → 3.f.question → 3.f.answer.** Reveal the actual prices and tax transfer. Measure both participants' private gains and pause before the green check.
 
@@ -88,7 +96,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 #### Tax size
 
-> **3.g.low.** Subtitle “Adjusting the tax around the $2 external cost.” Roll tax 2 → 1. Q = 36, Pb = $4.80, Ps = $3.80. Prices, filled wedge, quantity, individual CS/PS/revenue strips and label positions follow the tracker. Grey DWL grows only over 32–36. Clip partially crossed units while moving. Bottom: “A smaller tax leaves some harmful exchanges in place.”
+> **3.g.low.** Subtitle “Adjusting the tax around the $2 external cost.” Roll tax 2 → 1. Q = 36, Pb = $4.80, Ps = $3.80. Prices, filled wedge, quantity, individual CS/PS/revenue strips and label positions follow the tracker. Keep the green tax amount outside the price labels, at the midpoint of the two prices, with a dashed vertical height measure on the price axis; it must stay clear even at a $1 tax. Grey DWL grows only over 32–36. Clip partially crossed units while moving. Bottom: “A smaller tax leaves some harmful exchanges in place.”
 
 > **3.g.reset.** Return tax 1 → 2 and Q = 32. Bottom: “Back to the corrective tax: $2 per unit.”
 
@@ -96,7 +104,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **3.g.** Return tax 4 → 2. “The corrective tax equals the external cost: $2 per unit.”
 
-> **3.g.summary.** Clear updaters, remove the moving tax label and its backing rectangle, and move the existing graph left, keeping its geometry. On the right, first show yellow “Tax = EXT”; below it, reveal a yellow downward implication arrow leading to red Qᵗᵃˣ = Q*, with “32 units” in muted grey underneath. Bottom: “A corrective tax prevents costly exchanges and preserves worthwhile ones.”
+> **3.g.summary.** Clear updaters, replace the wide moving tax readout with the compact $2 tax label beside the price axis, and move the existing graph left, keeping its geometry and dashed tax height measure. On the right, first show yellow “Tax = EXT”; below it, reveal a yellow downward implication arrow, “32 units” in muted grey, then red Qᵗᵃˣ = Q*. The grey quantity sits between the yellow statement and the red equality. Bottom: “A corrective tax prevents costly exchanges and preserves worthwhile ones.”
 
 ### 4 | Corrective subsidy
 
@@ -142,6 +150,6 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 5 | End on the corrected market
 
-> **5.a.** Move the same clean subsidy graph left. On the right, first show yellow “Subsidy = EXT”; below it, reveal a yellow downward implication arrow leading to red Qˢᵘᵇˢⁱᵈʸ = Q*, with “48 units” in muted grey underneath. Bottom: “A corrective subsidy enables worthwhile exchanges the market would miss.” Match the tax conclusion's spacing and staged reveal in 3.g.summary: the policy equals the externality, implying that the market quantity equals the efficient quantity.
+> **5.a.** Move the same clean subsidy graph left. On the right, first show yellow “Subsidy = EXT”; below it, reveal a yellow downward implication arrow, “48 units” in muted grey, then red Qˢᵘᵇˢⁱᵈʸ = Q*. The grey quantity sits between the yellow statement and the red equality. Bottom: “A corrective subsidy enables worthwhile exchanges the market would miss.” Match the tax conclusion's spacing and staged reveal in 3.g.summary: the policy equals the externality, implying that the market quantity equals the efficient quantity.
 
 <!-- Validation 2026-10-12: complete scene run produced 153 checkpoint images. Reviewed the graph, planner, close-up, tax-dial, subsidy and conclusion frames. Final targeted renders and backward checkpoint restoration passed; checked price/quantity arithmetic, highest dot layers, fractional strip clipping, zero orphan slices/subtitles after all three returns, and subsidy-spending cleanup. Development viewer navigation also reviewed. Exports remain temporary review artifacts, not the published student bundle. -->

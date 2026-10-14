@@ -11,7 +11,7 @@
 # maniml C3_Animations.py C3
 # Storyboard: C3_Notes.md. All lesson choreography stays in construct().
 # C1's market, Q in units and dollars per unit, joined to the tax wedge of the old C2 Taxes animation:
-# the wedge slides in from the left until it is stuck between MC and MB at the efficient quantity.
+# prices separate as policy rises; the resulting wedge is then extracted to explain the gap.
 
 from manim import *
 import numpy as np
@@ -254,48 +254,110 @@ class C3(ThreeDScene):
         self.play(Indicate(gap_mark, color=FOCUS, scale_factor=1.25), FadeIn(takeaway), run_time=0.8)
         self.pause('2.e')
 
-        # ---- 3.a · Slide the solid wedge off the price axis; leave its dashed measure and label behind.
+        # ---- 3.a.start · Return to the market equilibrium before raising the tax.
         self.remove(head, context, takeaway)
         head = fixed(title('Corrective Taxes'))
         context = fixed(subtitle(head, 'A tax equal to the external cost per unit.'))
         self.play(FadeIn(head), FadeIn(context), FadeOut(seller_price), FadeOut(buyer_price), FadeOut(gap_mark))
-        wedge_x = ValueTracker(0)
+        intro_tax = ValueTracker(0)
+        intro_tax_q = lambda: taxed_quantity(intro_tax.get_value())
+        intro_tax_seller_gets = lambda: mc(intro_tax_q())
+        intro_tax_buyer_pays = lambda: mb(intro_tax_q())
+        # One shared price initially; separate axis labels only once the gap is legible.
+        intro_tax_price_opacity = lambda: smooth(np.clip((intro_tax.get_value() - 0.9) / 0.2, 0, 1))
+        intro_tax_initial_price = fixed(Tex('$P=4.00$', color=GUIDE).scale(0.7)
+            .next_to(ax.c2p(0, MARKET_P), LEFT, buff=0.2))
+        intro_tax_initial_price.add_updater(lambda m: m.set_opacity(
+            1 - smooth(np.clip(intro_tax.get_value() / 0.3, 0, 1))))
+        intro_tax_top_dot = fixed(Dot(ax.c2p(40, 4), radius=0.07, color=GUIDE).set_z_index(DOT_LAYER))
+        intro_tax_top_dot.add_updater(lambda m: m.move_to(ax.c2p(intro_tax_q(), intro_tax_buyer_pays())))
+        intro_tax_bottom_dot = fixed(Dot(ax.c2p(40, 4), radius=0.07, color=GUIDE).set_z_index(DOT_LAYER))
+        intro_tax_bottom_dot.add_updater(lambda m: m.move_to(ax.c2p(intro_tax_q(), intro_tax_seller_gets())))
+        intro_tax_buyer_line = fixed(DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2).set_z_index(10))
+        intro_tax_buyer_line.add_updater(lambda m: m.put_start_and_end_on(
+            ax.c2p(0, intro_tax_buyer_pays()), ax.c2p(intro_tax_q(), intro_tax_buyer_pays())))
+        intro_tax_seller_line = fixed(DashedLine(ax.c2p(0, 4), ax.c2p(40, 4), color=GUIDE, stroke_width=2).set_z_index(10))
+        intro_tax_seller_line.add_updater(lambda m: m.put_start_and_end_on(
+            ax.c2p(0, intro_tax_seller_gets()), ax.c2p(intro_tax_q(), intro_tax_seller_gets())))
+        intro_tax_drop = fixed(DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2).set_z_index(10))
+        intro_tax_drop.add_updater(lambda m: m.put_start_and_end_on(
+            ax.c2p(intro_tax_q(), 0), ax.c2p(intro_tax_q(), intro_tax_buyer_pays())))
+        intro_tax_buyer_number = fixed(DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7))
+        intro_tax_buyer_number.add_updater(lambda m: fixed(m.set_value(intro_tax_buyer_pays()))
+            .next_to(ax.c2p(0, intro_tax_buyer_pays()), LEFT, buff=0.2).set_opacity(intro_tax_price_opacity()))
+        intro_tax_buyer_prefix = fixed(Tex('$P_b=$', color=GUIDE).scale(0.7))
+        intro_tax_buyer_prefix.add_updater(lambda m: m.next_to(intro_tax_buyer_number, LEFT, buff=0.1)
+            .set_opacity(intro_tax_price_opacity()))
+        intro_tax_seller_number = fixed(DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7))
+        intro_tax_seller_number.add_updater(lambda m: fixed(m.set_value(intro_tax_seller_gets()))
+            .next_to(ax.c2p(0, intro_tax_seller_gets()), LEFT, buff=0.2).set_opacity(intro_tax_price_opacity()))
+        intro_tax_seller_prefix = fixed(Tex('$P_s=$', color=GUIDE).scale(0.7))
+        intro_tax_seller_prefix.add_updater(lambda m: m.next_to(intro_tax_seller_number, LEFT, buff=0.1)
+            .set_opacity(intro_tax_price_opacity()))
+        intro_tax_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
+        intro_tax_q_number.add_updater(lambda m: fixed(m.set_value(round(intro_tax_q(), 4)))
+            .move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        intro_tax_q_label = fixed(Tex(r'$Q^{tax}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        intro_tax_q_label.add_updater(lambda m: m.move_to(ax.c2p(intro_tax_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        tax_prices = fixed(VGroup(intro_tax_top_dot, intro_tax_bottom_dot,
+            intro_tax_buyer_line, intro_tax_buyer_number, intro_tax_buyer_prefix,
+            intro_tax_seller_line, intro_tax_seller_number, intro_tax_seller_prefix,
+            intro_tax_drop, intro_tax_q_number, intro_tax_q_label))
+        # The costly trades shrink continuously from Q-star to the current quantity.
+        intro_tax_dwl = fixed(VGroup())
+        for q in range(EFFICIENT_Q, MARKET_Q):
+            bar = unit_slice(ax, q, mb, msc, DWL, 0.8).set_z_index(1)
+            bar.add_updater(lambda m, q=q: m.become(unit_slice(
+                ax, q, mb, msc, DWL, 0.8 if q + BAR_GAP / 2 < intro_tax_q() else 0,
+                right=max(q + BAR_GAP / 2 + 1e-6, min(q + 1 - BAR_GAP / 2, intro_tax_q()))
+            ).set_z_index(1)))
+            intro_tax_dwl.add(bar)
+        intro_tax_dwl_word = fixed(Tex('DWL', color=INK).scale(0.7)
+            .next_to(ax.c2p((MARKET_Q + EFFICIENT_Q) / 2, msc(MARKET_Q)), UP, buff=0.3))
+        intro_tax_dwl_word.add_updater(lambda m: m.set_opacity(
+            smooth(np.clip((intro_tax_q() - EFFICIENT_Q) / 2, 0, 1))))
+        for m in (tax_prices, intro_tax_dwl, intro_tax_dwl_word, intro_tax_initial_price):
+            m.update()
+        takeaway = teaching('Start at the market equilibrium, with no tax.')
+        self.play(FadeIn(tax_prices), FadeIn(intro_tax_initial_price),
+                  FadeIn(intro_tax_dwl), FadeIn(intro_tax_dwl_word), FadeIn(takeaway))
+        self.pause('3.a.start')
+
+        # ---- 3.a.prices · Raise the tax; price separation precedes the wedge explanation.
+        self.remove(takeaway)
+        takeaway = teaching('As the tax rises, prices separate and deadweight loss shrinks.')
+        self.play(FadeIn(takeaway))
+        self.play(intro_tax.animate.set_value(EXTERNAL), run_time=3.6, rate_func=smooth)
+        for m in (tax_prices, intro_tax_dwl, intro_tax_dwl_word, intro_tax_initial_price):
+            m.clear_updaters()
+        self.remove(intro_tax_dwl, *list(intro_tax_dwl), intro_tax_dwl_word, intro_tax_initial_price, takeaway)
+        intro_tax_q_equality = fixed(Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+            .move_to(ax.c2p(EFFICIENT_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        takeaway = teaching(r'A \$2 tax brings quantity to 32 and eliminates deadweight loss.')
+        self.play(Transform(intro_tax_q_label, intro_tax_q_equality), FadeIn(takeaway))
+        self.pause('3.a.prices')
+
+        # ---- 3.a.wedge · Extract a copy to the price axis on the left to explain the resulting price gap.
+        self.remove(takeaway)
         wedge = fixed(Polygon(
-            ax.c2p(-0.42, 3.6), ax.c2p(0.42, 3.6),
-            ax.c2p(0.42, 5.6), ax.c2p(-0.42, 5.6),
-            stroke_width=0, fill_color=GOV, fill_opacity=SURPLUS_OPACITY).set_z_index(12))
-        wedge.quantity, wedge.axes = wedge_x, ax
-        wedge.add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), 4.6)))
+            ax.c2p(EFFICIENT_Q - 0.42, 3.6), ax.c2p(EFFICIENT_Q + 0.42, 3.6),
+            ax.c2p(EFFICIENT_Q + 0.42, 5.6), ax.c2p(EFFICIENT_Q - 0.42, 5.6),
+            stroke_width=0, fill_color=GOV, fill_opacity=GOV_OPACITY).set_z_index(12))
+        self.play(FadeIn(wedge), run_time=0.6)
+        tax_wedge_copy = wedge.copy()
+        self.add(tax_wedge_copy)
+        self.play(tax_wedge_copy.animate.shift(ax.c2p(0, 0) - ax.c2p(EFFICIENT_Q, 0)), run_time=1.6)
         wedge_word = fixed(Tex(r'\$2 tax', color=GOV).scale(0.6)
-            .next_to(ax.c2p(0, 4.6), LEFT, buff=0.2).set_z_index(13))
+            .next_to(tax_wedge_copy, LEFT, buff=0.2).set_z_index(13))
+        takeaway = teaching(r"The tax is the \$2 gap between the buyers' and sellers' prices.")
+        self.play(FadeIn(wedge_word), FadeIn(takeaway))
+        self.pause('3.a.wedge')
+
+        # ---- 3.a · Keep the lasting measurement beside the price axis.
         tax_axis_gap = fixed(DashedLine(ax.c2p(0, 3.6), ax.c2p(0, 5.6),
             color=GOV, stroke_width=3)
             .put_start_and_end_on(ax.c2p(0, 3.6), ax.c2p(0, 5.6)).set_z_index(11))
-        wedge.update()
-        takeaway = teaching(r"A $\$2$ tax separates the buyers' price from the sellers' price by $\$2$.")
-        self.play(FadeIn(wedge), FadeIn(wedge_word), FadeIn(takeaway))
-        self.add(tax_axis_gap)   # The solid bar covers this until it starts to slide.
-        self.play(wedge_x.animate.set_value(EFFICIENT_Q), run_time=2.6, rate_func=smooth)
-        wedge.clear_updaters()
-        tax_prices = fixed(VGroup(
-            Dot(ax.c2p(32, 5.6), radius=0.07, color=GUIDE),
-            Dot(ax.c2p(32, 3.6), radius=0.07, color=GUIDE),
-            DashedLine(ax.c2p(0, 5.6), ax.c2p(32, 5.6), color=GUIDE, stroke_width=2),
-            Tex('$P_b=5.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 5.6), LEFT, buff=0.2),
-            DashedLine(ax.c2p(0, 3.6), ax.c2p(32, 3.6), color=GUIDE, stroke_width=2),
-            Tex('$P_s=3.60$', color=GUIDE).scale(0.7).next_to(ax.c2p(0, 3.6), LEFT, buff=0.2),
-            DashedLine(ax.c2p(32, 0), ax.c2p(32, 5.6), color=GUIDE, stroke_width=2),
-            VGroup(
-                Tex('32', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
-                    .move_to(ax.c2p(32, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-                Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
-                    .move_to(ax.c2p(32, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(10))
-        for dot in tax_prices[:2]:
-            dot.set_z_index(DOT_LAYER)
-        efficient_marker[1].set_z_index(DOT_LAYER + 1)
-        self.remove(takeaway)
-        takeaway = teaching('The wedge gets stuck at 32 units, the efficient quantity.')
-        self.play(FadeIn(tax_prices), FadeIn(takeaway))
+        self.play(FadeOut(tax_wedge_copy), FadeIn(tax_axis_gap))
         self.pause('3.a')
 
         # ---- 3.b · The exchanges past 32 stop, and their deadweight loss with them.
@@ -315,7 +377,7 @@ class C3(ThreeDScene):
             Tex('PS', color=INK).scale(0.50).move_to(ax.c2p(EFFICIENT_Q / 3, (2 + 3.6 + 3.6) / 3)),
             Tex('CS', color=INK).scale(0.72).move_to(ax.c2p(EFFICIENT_Q / 3, (12 + 5.6 + 5.6) / 3)),
             Tex('Tax revenue', color=INK).scale(0.58).move_to(ax.c2p(EFFICIENT_Q / 2, 4.6))).set_z_index(5))
-        self.play(FadeIn(question), FadeOut(wedge_word), FadeOut(tax_axis_gap))
+        self.play(FadeIn(question))
         self.play(FadeIn(ps_fill), FadeIn(welfare_words[0]))
         self.play(FadeIn(cs_fill), FadeIn(welfare_words[1]))
         self.remove(question)
@@ -330,7 +392,7 @@ class C3(ThreeDScene):
         self.pause('3.d')
         # From here the market fades and returns as one group around the close-ups.
         market = fixed(VGroup(ax, axis_words, demand, supply, social_cost, curve_words, original_guides,
-                             market_dot, efficient_marker, wedge, tax_prices,
+                             market_dot, efficient_marker, wedge, wedge_word, tax_axis_gap, tax_prices,
                              ps_fill, cs_fill, gov_fill, welfare_words))
         self.remove(*[m for m in self.mobjects if m not in (head, context, takeaway)])
         self.add(market)
@@ -353,7 +415,8 @@ class C3(ThreeDScene):
         stopped_home = stopped_pair.copy()
         stopped_box = fixed(SurroundingRectangle(stopped_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(takeaway)
-        self.play(FadeIn(stopped_pair), FadeIn(stopped_box))
+        takeaway = teaching("Let's check an exchange that happened before the tax.")
+        self.play(FadeIn(stopped_pair), FadeIn(stopped_box), FadeIn(takeaway))
         self.pause('3.e.select')
 
         # ---- 3.e.values · Names on the bars; values at their exact heights.
@@ -363,7 +426,7 @@ class C3(ThreeDScene):
             stopped_target.add(fixed(Polygon([left, detail_y(low), 0], [left + BAR_WIDTH, detail_y(low), 0],
                 [left + BAR_WIDTH, detail_y(high), 0], [left, detail_y(high), 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(market), FadeOut(context), FadeOut(stopped_box),
+        self.play(FadeOut(market), FadeOut(context), FadeOut(stopped_box), FadeOut(takeaway),
                   Transform(stopped_pair, stopped_target), run_time=1.6)
         stopped_edges = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -464,7 +527,8 @@ class C3(ThreeDScene):
         kept_home = kept_pair.copy()
         kept_box = fixed(SurroundingRectangle(kept_pair, color=FOCUS, buff=0.025, stroke_width=2))
         self.remove(takeaway)
-        self.play(FadeIn(kept_pair), FadeIn(kept_box))
+        takeaway = teaching("Let's check an exchange that still happens with the tax.")
+        self.play(FadeIn(kept_pair), FadeIn(kept_box), FadeIn(takeaway))
         self.pause('3.f.select')
 
         # ---- 3.f.values · Names on the bars; values at their exact heights.
@@ -474,7 +538,7 @@ class C3(ThreeDScene):
             kept_target.add(fixed(Polygon([left, detail_y(low), 0], [left + BAR_WIDTH, detail_y(low), 0],
                 [left + BAR_WIDTH, detail_y(high), 0], [left, detail_y(high), 0],
                 stroke_width=0, fill_color=color, fill_opacity=BASE_OPACITY)))
-        self.play(FadeOut(market), FadeOut(context), FadeOut(kept_box),
+        self.play(FadeOut(market), FadeOut(context), FadeOut(kept_box), FadeOut(takeaway),
                   Transform(kept_pair, kept_target), run_time=1.6)
         kept_edges = fixed(VGroup(
             *[Line(bar.get_corner(UL), bar.get_corner(UR), color=color, stroke_width=3)
@@ -583,15 +647,15 @@ class C3(ThreeDScene):
         live_bottom_dot = fixed(Dot(ax.c2p(32, 3.6), radius=0.07, color=GUIDE).set_z_index(DOT_LAYER))
         live_bottom_dot.add_updater(lambda m: m.move_to(ax.c2p(taxed_q(), seller_gets())))
         live_tax_number = fixed(DecimalNumber(EXTERNAL, num_decimal_places=2, color=GOV).scale(0.6).set_z_index(14))
-        live_tax_number.add_updater(lambda m: fixed(m.set_value(tax.get_value())).next_to(ax.c2p(taxed_q(), buyer_pays()), UL, buff=0.18).shift(LEFT * 0.62))
+        live_tax_number.add_updater(lambda m: fixed(m.set_value(tax.get_value())).next_to(ax.c2p(0, (buyer_pays() + seller_gets()) / 2), LEFT, buff=2.7))
         live_tax_prefix = fixed(Tex(r'\$', color=GOV).scale(0.6).set_z_index(14))
         live_tax_prefix.add_updater(lambda m: m.next_to(live_tax_number, LEFT, buff=0.02))
         live_tax_suffix = fixed(Tex('tax', color=GOV).scale(0.6).set_z_index(14))
         live_tax_suffix.add_updater(lambda m: m.next_to(live_tax_number, RIGHT, buff=0.08))
-        live_tax_background = fixed(BackgroundRectangle(VGroup(live_tax_prefix, live_tax_number, live_tax_suffix),
-            color=BG, fill_opacity=1, buff=0.04)).set_z_index(13)
-        live_tax_background.add_updater(lambda m: m.become(fixed(BackgroundRectangle(
-            VGroup(live_tax_prefix, live_tax_number, live_tax_suffix), color=BG, fill_opacity=1, buff=0.04)).set_z_index(13)))
+        live_tax_axis_gap = fixed(DashedLine(ax.c2p(0, 3.6), ax.c2p(0, 5.6),
+            color=GOV, stroke_width=3).set_z_index(11))
+        live_tax_axis_gap.add_updater(lambda m: m.put_start_and_end_on(
+            ax.c2p(0, seller_gets()), ax.c2p(0, buyer_pays())))
         live_buyer_line = fixed(DashedLine(ax.c2p(0, 5.6), ax.c2p(32, 5.6), color=GUIDE, stroke_width=2).set_z_index(10))
         live_buyer_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, buyer_pays()), ax.c2p(taxed_q(), buyer_pays())))
         live_seller_line = fixed(DashedLine(ax.c2p(0, 3.6), ax.c2p(32, 3.6), color=GUIDE, stroke_width=2).set_z_index(10))
@@ -645,14 +709,14 @@ class C3(ThreeDScene):
             ax.c2p(taxed_q() + 1.5, (mb(taxed_q()) + msc(taxed_q())) / 2) if taxed_q() >= EFFICIENT_Q
             else ax.c2p(EFFICIENT_Q, mb(EFFICIENT_Q) + 0.9), RIGHT, buff=0.15)
             .set_opacity(1 if abs(taxed_q() - EFFICIENT_Q) >= 1 else 0))
-        live = [wedge, live_top_dot, live_bottom_dot, live_tax_number, live_tax_prefix, live_tax_suffix, live_tax_background,
+        live = [wedge, live_top_dot, live_bottom_dot, live_tax_number, live_tax_prefix, live_tax_suffix, live_tax_axis_gap,
                 live_buyer_line, live_seller_line, live_drop,
                 live_buyer_number, live_buyer_prefix, live_seller_number, live_seller_prefix,
                 live_q_number, live_q_label, live_ps, live_cs, live_gov, live_dwl, live_dwl_word]
         for m in live:
             m.update()
-        market.remove(wedge, wedge_word, tax_prices, ps_fill, cs_fill, gov_fill)
-        self.remove(wedge_word, tax_prices, ps_fill, cs_fill, gov_fill)
+        market.remove(wedge, wedge_word, tax_axis_gap, tax_prices, ps_fill, cs_fill, gov_fill)
+        self.remove(wedge_word, tax_axis_gap, tax_prices, ps_fill, cs_fill, gov_fill)
         market.remove(welfare_words)
         self.add(*live, welfare_words)
         question = teaching('What if the tax is smaller than the external cost?')
@@ -686,19 +750,19 @@ class C3(ThreeDScene):
         self.remove(takeaway, context)
         context = fixed(subtitle(head, 'A tax equal to the external cost per unit.'))
         self.add(context)
-        # The conclusion replaces the moving tax label, including its backing rectangle.
-        for m in (live_tax_number, live_tax_prefix, live_tax_suffix, live_tax_background):
+        # Return the fixed $2 label to the axis before moving the graph for the conclusion.
+        for m in (live_tax_number, live_tax_prefix, live_tax_suffix):
             self.remove(m)
             live.remove(m)
-        negative_conclusion_graph = fixed(VGroup(market, *live, welfare_words))
+        negative_conclusion_graph = fixed(VGroup(market, *live, welfare_words, wedge_word))
         self.remove(market, *live, welfare_words)
         self.add(negative_conclusion_graph)
         self.play(negative_conclusion_graph.animate.shift(LEFT * 2.0), run_time=1.2)
         negative_equality = fixed(VGroup(
             Tex(r'$\mathrm{Tax}=\mathrm{EXT}$', color=DEFINITION).scale(1.10),
             Tex(r'$\Downarrow$', color=DEFINITION).scale(0.85),
-            Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(1.10),
-            Tex('32 units', color=CAPTION).scale(0.65)
+            Tex('32 units', color=CAPTION).scale(0.65),
+            Tex(r'$Q^{tax}=Q^*$', color=GUIDE).scale(1.10)
         ).arrange(DOWN, buff=0.22).move_to([4.2, 0.7, 0]))
         takeaway = teaching('A corrective tax prevents costly exchanges and preserves worthwhile ones.')
         self.play(FadeIn(negative_equality[0]))
@@ -1144,8 +1208,8 @@ class C3(ThreeDScene):
         positive_equality = fixed(VGroup(
             Tex(r'$\mathrm{Subsidy}=\mathrm{EXT}$', color=DEFINITION).scale(1.10),
             Tex(r'$\Downarrow$', color=DEFINITION).scale(0.85),
-            Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(1.10),
-            Tex('48 units', color=CAPTION).scale(0.65)
+            Tex('48 units', color=CAPTION).scale(0.65),
+            Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(1.10)
         ).arrange(DOWN, buff=0.22).move_to([4.2, 0.7, 0]))
         takeaway = teaching('A corrective subsidy enables worthwhile exchanges the market would miss.')
         self.play(FadeIn(positive_equality[0]))
