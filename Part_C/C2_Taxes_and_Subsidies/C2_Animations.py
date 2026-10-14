@@ -678,7 +678,7 @@ class C2(ThreeDScene):
                 stroke_width=0, fill_color=DEMAND, fill_opacity=SURPLUS_OPACITY)))
         welfare_words = fixed(VGroup(
             Tex('PS', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 3, (2 + 2 * SELLER_PRICE) / 3)),
-            Tex('Tax revenue', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 2, (BUYER_PRICE + SELLER_PRICE) / 2)),
+            Tex('GOV', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 2, (BUYER_PRICE + SELLER_PRICE) / 2)),
             Tex('CS', color=INK).scale(0.72).move_to(ax.c2p(TAX_Q / 3, (12 + 2 * BUYER_PRICE) / 3))))
         revenue_note = fixed(Tex(r'Tax revenue: \$2 $\times$ 32 units $=$ \$64.', color=DEFINITION)
                              .scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM))
