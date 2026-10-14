@@ -25,11 +25,11 @@ Still open in every series: **C2.2 Subsidies** and **C1.2 Positive Externalities
 
 | Skill | Story | Files | Solutions |
 |---|---|---|---|
-| C2.2 Subsidies | **The Cauldron Conundrum** | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf) Q1, `Homework_C_demo_cauldron-conundrum_F22` (+pdf); also Q2 of `Vignette_B3_butterbeer-odor_F24`, `Checkpoints/C/24Fb_Demo_C2` Q2, `24F_Demo_C4` Q1, and the stem `C1.2_cauldron-conundrum-subsidy` | `Classwork_C2_cauldron-yard-flowers_sols.pdf`, `_sols_2.pdf`, `Homework_C_demo_cauldron-conundrum_sols_F22.pdf` |
-| C2.2 Subsidies | **Subsidizing Bludgers** | `Homework_C_bludger-subsidy_F22`; `Checkpoints/C/24F_Demo_C3` Q2, `24Fb_Demo_C3` (+pdf), the stem `C1.2_bludger-subsidy` | — |
-| C2.2 (price support) | **Government Cheese** | `Vignette_B11_government-cheese_F24`; `Checkpoints/C/24F_Demo_X2` (+pdf), the stem `C1.2_government-cheese` | `Checkpoints/C/Demo_X2_sols.pdf` |
-| C1.2 Positive | **Yard Flowers** (proposed for Exercise C1 Q3 on 2026-10-07, from the F24 Classwork Q2, with supply changed to ½ Q; not archived, since Classwork Q1 and Q3 are unused) | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf), `Vignette_C2_yard-flowers_F24` (+pdf), `Vignette_C3_yard-flowers-miniexam_F22`; `Checkpoints/C/MiniExam_C_v1`, `v2` (+pdf, the 22F MiniExam C), `24F_Demo_C1` (+pdf), the stems `C3.2_yard-flowers`, `C4.1_yard-flowers` | `Classwork_C2_…_sols.pdf`, `Checkpoints/C/Demo_C1_sols.pdf` |
-| C1.2 Positive | **The Covid vaccine** | `Vignette_5_covid-vaccine_F21` (+pdf), `Vignette_C_covid-vaccine_F22` (+pdf), `Vignette_C2_covid-vaccine_F23` (+pdf) | — |
+| C2.2 Subsidies | **The Cauldron Conundrum** | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf) Q1, `Checkpoints/C/24Fb_Demo_C2` Q2, `24F_Demo_C4` Q1, and the stem `C1.2_cauldron-conundrum-subsidy` | `Classwork_C2_cauldron-yard-flowers_sols.pdf`, `_sols_2.pdf`, `Homework_C_demo_cauldron-conundrum_sols_F22.pdf` |
+| C2.2 Subsidies | **Subsidizing Bludgers** | `Checkpoints/C/24Fb_Demo_C3` (+pdf) Q2, the stem `C1.2_bludger-subsidy` | — |
+| C2.2 (price support) | **Government Cheese** | moved to `Part_B/B_Practice_Bank/` on 2026-10-13 (B4.2 price controls), with the demo, key and stem from Checkpoints/C | — |
+| C1.2 Positive | **Yard Flowers** (proposed for Exercise C1 Q3 on 2026-10-07, from the F24 Classwork Q2, with supply changed to ½ Q; not archived, since Classwork Q1 and Q3 are unused) | `Classwork_C2_cauldron-yard-flowers_F24` (+pdf), `Vignette_C2_yard-flowers_F24` (+pdf); `24F_Demo_C1` (+pdf), the stems `C3.2_yard-flowers`, `C4.1_yard-flowers` | `Classwork_C2_…_sols.pdf`, `Checkpoints/C/Demo_C1_sols.pdf` |
+| C1.2 Positive | **The Covid vaccine** | `Vignette_5_covid-vaccine_F21` (+pdf), `Vignette_C_covid-vaccine_F22` (+pdf); used in Homework C1 (Fall 26) | — |
 | C1.2 Positive | **Selling Out To Big Chocolate?** | `Vignette_C2_big-chocolate_F22` (+pdf) | — |
 
 Flag: Checkpoint C v1 already uses chocolate's aroma, and Reattempt B round 1 uses the Big Chocolate market.
@@ -50,6 +50,10 @@ Flag: Checkpoint C v1 already uses chocolate's aroma, and Reattempt B round 1 us
 Not yet checked: `Checkpoints/C/MiniExam_C_demo_sols_2.pdf`, probably the key to the archived 22F MiniExam C demo.
 
 `B6_International_Trade/{Vignette,Homework}` (formerly `B6_Trade`) still holds the drafts that were copied into old C1; both now live in that one folder.
+
+## Duplicates archived 2026-10-13
+
+Compared across this bank and `ECON_0100/Checkpoints/C/`; each moved file is the same question as a copy that stays. To `_archive/_duplicates/`: `Vignette_C2_covid-vaccine_F23` (+pdf, a reissue of `Vignette_C_covid-vaccine_F22`), `Homework_C_demo_cauldron-conundrum_F22` (+pdf, the same as `Checkpoints/C/24F_Demo_C4`; its ink key moved there as `Demo_C4_sols_cauldron-conundrum_F22.pdf`), `Homework_C_bludger-subsidy_F22` (= `24Fb_Demo_C3` Q2), `Vignette_B3_butterbeer-odor_F24` (= `24Fb_Demo_C2` without the exam header), `Vignette_C3_yard-flowers-miniexam_F22` (= `24F_Demo_C1`). To `Checkpoints/C/_Archive/`: `24F_Demo_C3` (= `24Fb_Demo_C3`), `MiniExam_C_v1` and `MiniExam_C_v2` (+pdf; the 22F MiniExam C, = `24F_Demo_C1`, which keeps the ink key). Kept although they overlap: the `C1.2_*`/`C3.2_*`/`C4.1_*` stems (a catalog with metadata), Government Cheese (different numbers in each copy), the yard-flowers Classwork and Vignette (different curves), `Homework_C_butterbeer-tax-floo_F23` vs `Homework_C_F24` (reworded, separate ink keys), and `Checkpoint_C_1_key.md`/`.typ` (two formats of one key).
 
 ## _archive/_duplicates/
 
