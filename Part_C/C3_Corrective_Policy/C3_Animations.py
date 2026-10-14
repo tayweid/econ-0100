@@ -872,51 +872,113 @@ class C3(ThreeDScene):
         self.play(Indicate(gap_mark, color=FOCUS, scale_factor=1.25), FadeIn(takeaway), run_time=0.8)
         self.pause('4.f')
 
-        # ---- 4.g · Slide the subsidy in from the right, then project its height to the price axis.
+        # ---- 4.g.start · Return to the market equilibrium before raising the subsidy.
         self.remove(head, context, takeaway)
         head = fixed(title('Corrective Subsidies'))
         context = fixed(subtitle(head, 'A subsidy equal to the external benefit per unit.'))
         self.play(FadeIn(head), FadeIn(context), FadeOut(seller_price), FadeOut(buyer_price), FadeOut(gap_mark))
-        wedge_x = ValueTracker(66)
-        subsidy_wedge = fixed(Polygon(
-            pax.c2p(66 - 0.42, 2.4), pax.c2p(66 + 0.42, 2.4),
-            pax.c2p(66 + 0.42, 4.4), pax.c2p(66 - 0.42, 4.4),
-            stroke_width=0, fill_color=GOV, fill_opacity=GOV_OPACITY).set_z_index(12))
-        subsidy_wedge.quantity, subsidy_wedge.axes = wedge_x, pax
-        subsidy_wedge.add_updater(lambda m: m.move_to(m.axes.c2p(m.quantity.get_value(), 3.4)))
-        subsidy_word = fixed(Tex(r'\$2 subsidy', color=GOV).scale(0.6).set_z_index(13))
-        subsidy_word.wedge = subsidy_wedge
-        subsidy_word.add_updater(lambda m: m.next_to(m.wedge, LEFT, buff=0.15))
-        subsidy_wedge.update(); subsidy_word.update()
-        takeaway = teaching(r"A $\$2$ subsidy puts the sellers' price $\$2$ above the buyers' price.")
-        self.play(FadeIn(subsidy_wedge), FadeIn(subsidy_word), FadeIn(takeaway))
-        self.play(wedge_x.animate.set_value(POSITIVE_Q), run_time=2.8, rate_func=smooth)
-        subsidy_wedge.clear_updaters(); subsidy_word.clear_updaters()
-        subsidy_axis_gap = fixed(DashedLine(pax.c2p(POSITIVE_Q, 2.4), pax.c2p(POSITIVE_Q, 4.4),
-            color=GOV, stroke_width=3)
-            .put_start_and_end_on(pax.c2p(POSITIVE_Q, 2.4), pax.c2p(POSITIVE_Q, 4.4)).set_z_index(11))
-        self.add(subsidy_axis_gap)   # Start beneath the solid wedge, which stays between the curves.
-        subsidy_prices = fixed(VGroup(
-            Dot(pax.c2p(48, 4.4), radius=0.07, color=GUIDE),
-            Dot(pax.c2p(48, 2.4), radius=0.07, color=GUIDE),
-            DashedLine(pax.c2p(0, 4.4), pax.c2p(48, 4.4), color=GUIDE, stroke_width=2),
-            Tex('$P_s=4.40$', color=GUIDE).scale(0.7).next_to(pax.c2p(0, 4.4), LEFT, buff=0.2),
-            DashedLine(pax.c2p(0, 2.4), pax.c2p(48, 2.4), color=GUIDE, stroke_width=2),
-            Tex('$P_b=2.40$', color=GUIDE).scale(0.7).next_to(pax.c2p(0, 2.4), LEFT, buff=0.2),
-            DashedLine(pax.c2p(48, 0), pax.c2p(48, 4.4), color=GUIDE, stroke_width=2),
-            VGroup(
-                Tex('48', color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
-                    .move_to(pax.c2p(48, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-                Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
-                    .move_to(pax.c2p(48, 0) + DOWN * QUANTITY_LABEL_OFFSET))).set_z_index(10))
+        subsidy = ValueTracker(0)
+        subsidized_q = lambda: MARKET_Q + 4 * subsidy.get_value()
+        subsidy_buyer_pays = lambda: mb(subsidized_q())
+        subsidy_seller_gets = lambda: mc(subsidized_q())
+        # One shared price initially; separate axis labels only once the gap is legible.
+        subsidy_price_opacity = lambda: smooth(np.clip((subsidy.get_value() - 0.9) / 0.2, 0, 1))
+        subsidy_initial_price = fixed(Tex('$P=4.00$', color=GUIDE).scale(0.7)
+            .next_to(pax.c2p(0, MARKET_P), LEFT, buff=0.2))
+        subsidy_initial_price.add_updater(lambda m: m.set_opacity(
+            1 - smooth(np.clip(subsidy.get_value() / 0.3, 0, 1))))
+        subsidy_top_dot = fixed(Dot(pax.c2p(40, 4), radius=0.07, color=GUIDE).set_z_index(DOT_LAYER))
+        subsidy_top_dot.add_updater(lambda m: m.move_to(pax.c2p(subsidized_q(), subsidy_seller_gets())))
+        subsidy_bottom_dot = fixed(Dot(pax.c2p(40, 4), radius=0.07, color=GUIDE).set_z_index(DOT_LAYER))
+        subsidy_bottom_dot.add_updater(lambda m: m.move_to(pax.c2p(subsidized_q(), subsidy_buyer_pays())))
+        subsidy_seller_line = fixed(DashedLine(pax.c2p(0, 4), pax.c2p(40, 4), color=GUIDE, stroke_width=2).set_z_index(10))
+        subsidy_seller_line.add_updater(lambda m: m.put_start_and_end_on(
+            pax.c2p(0, subsidy_seller_gets()), pax.c2p(subsidized_q(), subsidy_seller_gets())))
+        subsidy_buyer_line = fixed(DashedLine(pax.c2p(0, 4), pax.c2p(40, 4), color=GUIDE, stroke_width=2).set_z_index(10))
+        subsidy_buyer_line.add_updater(lambda m: m.put_start_and_end_on(
+            pax.c2p(0, subsidy_buyer_pays()), pax.c2p(subsidized_q(), subsidy_buyer_pays())))
+        subsidy_drop = fixed(DashedLine(pax.c2p(40, 0), pax.c2p(40, 4), color=GUIDE, stroke_width=2).set_z_index(10))
+        subsidy_drop.add_updater(lambda m: m.put_start_and_end_on(
+            pax.c2p(subsidized_q(), 0), pax.c2p(subsidized_q(), subsidy_seller_gets())))
+        subsidy_seller_number = fixed(DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7))
+        subsidy_seller_number.add_updater(lambda m: fixed(m.set_value(subsidy_seller_gets()))
+            .next_to(pax.c2p(0, subsidy_seller_gets()), LEFT, buff=0.2).set_opacity(subsidy_price_opacity()))
+        subsidy_seller_prefix = fixed(Tex('$P_s=$', color=GUIDE).scale(0.7))
+        subsidy_seller_prefix.add_updater(lambda m: m.next_to(subsidy_seller_number, LEFT, buff=0.1)
+            .set_opacity(subsidy_price_opacity()))
+        subsidy_buyer_number = fixed(DecimalNumber(4, num_decimal_places=2, color=GUIDE).scale(0.7))
+        subsidy_buyer_number.add_updater(lambda m: fixed(m.set_value(subsidy_buyer_pays()))
+            .next_to(pax.c2p(0, subsidy_buyer_pays()), LEFT, buff=0.2).set_opacity(subsidy_price_opacity()))
+        subsidy_buyer_prefix = fixed(Tex('$P_b=$', color=GUIDE).scale(0.7))
+        subsidy_buyer_prefix.add_updater(lambda m: m.next_to(subsidy_buyer_number, LEFT, buff=0.1)
+            .set_opacity(subsidy_price_opacity()))
+        subsidy_q_number = fixed(DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE))
+        subsidy_q_number.add_updater(lambda m: fixed(m.set_value(round(subsidized_q(), 4)))
+            .move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        subsidy_q_label = fixed(Tex(r'$Q^{subsidy}$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
+        subsidy_q_label.add_updater(lambda m: m.move_to(pax.c2p(subsidized_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        subsidy_prices = fixed(VGroup(subsidy_top_dot, subsidy_bottom_dot,
+            subsidy_seller_line, subsidy_seller_number, subsidy_seller_prefix,
+            subsidy_buyer_line, subsidy_buyer_number, subsidy_buyer_prefix,
+            subsidy_drop, subsidy_q_number, subsidy_q_label))
+        # The lost trades shrink continuously from the current quantity to Q-star.
+        subsidy_dwl = fixed(VGroup())
+        for q in range(MARKET_Q, POSITIVE_Q):
+            bar = unit_slice(pax, q, mc, msb, DWL, 0.8).set_z_index(1)
+            bar.add_updater(lambda m, q=q: m.become(unit_slice(
+                pax, q, mc, msb, DWL, 0.8 if q + 1 - BAR_GAP / 2 > subsidized_q() else 0,
+                left=min(q + 1 - BAR_GAP / 2 - 1e-6, max(q + BAR_GAP / 2, subsidized_q()))
+            ).set_z_index(1)))
+            subsidy_dwl.add(bar)
+        subsidy_dwl_word = fixed(Tex('DWL', color=INK).scale(0.7)
+            .next_to(pax.c2p((MARKET_Q + POSITIVE_Q) / 2, msb(MARKET_Q)), UP, buff=0.3))
+        subsidy_dwl_word.add_updater(lambda m: m.set_opacity(
+            smooth(np.clip((POSITIVE_Q - subsidized_q()) / 2, 0, 1))))
+        for m in (subsidy_prices, subsidy_dwl, subsidy_dwl_word, subsidy_initial_price):
+            m.update()
+        takeaway = teaching('Start at the market equilibrium, with no subsidy.')
+        self.play(FadeIn(subsidy_prices), FadeIn(subsidy_initial_price),
+                  FadeIn(subsidy_dwl), FadeIn(subsidy_dwl_word), FadeIn(takeaway))
+        self.pause('4.g.start')
+
+        # ---- 4.g.prices · Raise the subsidy; price separation precedes the wedge explanation.
         self.remove(takeaway)
-        for dot in subsidy_prices[:2]:
-            dot.set_z_index(DOT_LAYER)
-        takeaway = teaching('The wedge gets stuck at 48 units, the efficient quantity.')
-        self.play(
-            subsidy_axis_gap.animate.shift(pax.c2p(0, 0) - pax.c2p(POSITIVE_Q, 0)),
-            subsidy_word.animate.next_to(pax.c2p(0, 3.4), LEFT, buff=0.2),
-            FadeIn(subsidy_prices), FadeIn(takeaway), run_time=1.4)
+        takeaway = teaching('As the subsidy rises, prices separate and deadweight loss shrinks.')
+        self.play(FadeIn(takeaway))
+        self.play(subsidy.animate.set_value(EXTERNAL), run_time=3.6, rate_func=smooth)
+        for m in (subsidy_prices, subsidy_dwl, subsidy_dwl_word, subsidy_initial_price):
+            m.clear_updaters()
+        self.remove(subsidy_dwl, *list(subsidy_dwl), subsidy_dwl_word, subsidy_initial_price, takeaway)
+        subsidy_q_equality = fixed(Tex(r'$Q^{subsidy}=Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+            .move_to(pax.c2p(POSITIVE_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        takeaway = teaching(r'A \$2 subsidy brings quantity to 48 and eliminates deadweight loss.')
+        self.play(Transform(subsidy_q_label, subsidy_q_equality), FadeIn(takeaway))
+        self.pause('4.g.prices')
+
+        # ---- 4.g.wedge · Extract a copy to the right to explain the resulting price gap.
+        self.remove(takeaway)
+        subsidy_wedge = fixed(Polygon(
+            pax.c2p(POSITIVE_Q - 0.42, 2.4), pax.c2p(POSITIVE_Q + 0.42, 2.4),
+            pax.c2p(POSITIVE_Q + 0.42, 4.4), pax.c2p(POSITIVE_Q - 0.42, 4.4),
+            stroke_width=0, fill_color=GOV, fill_opacity=GOV_OPACITY).set_z_index(12))
+        self.play(FadeIn(subsidy_wedge), run_time=0.6)
+        subsidy_wedge_copy = subsidy_wedge.copy()
+        self.add(subsidy_wedge_copy)
+        self.play(subsidy_wedge_copy.animate.shift(pax.c2p(88, 0) - pax.c2p(POSITIVE_Q, 0)), run_time=1.6)
+        subsidy_wedge_caption = fixed(Tex(r'\$2 subsidy', color=GOV).scale(0.6)
+            .next_to(subsidy_wedge_copy, RIGHT, buff=0.18).set_z_index(13))
+        takeaway = teaching(r"The subsidy is the \$2 gap between the sellers' and buyers' prices.")
+        self.play(FadeIn(subsidy_wedge_caption), FadeIn(takeaway))
+        self.pause('4.g.wedge')
+
+        # ---- 4.g · Keep the lasting measurement beside the price axis.
+        subsidy_axis_gap = fixed(DashedLine(pax.c2p(0, 2.4), pax.c2p(0, 4.4),
+            color=GOV, stroke_width=3)
+            .put_start_and_end_on(pax.c2p(0, 2.4), pax.c2p(0, 4.4)).set_z_index(11))
+        subsidy_word = fixed(Tex(r'\$2 subsidy', color=GOV).scale(0.6)
+            .next_to(pax.c2p(0, 3.4), LEFT, buff=0.2).set_z_index(13))
+        self.play(FadeOut(subsidy_wedge_copy), FadeOut(subsidy_wedge_caption),
+                  FadeIn(subsidy_axis_gap), FadeIn(subsidy_word))
         self.pause('4.g')
 
         # ---- 4.h · Units 41 to 48 now happen, and their deadweight loss is gone.

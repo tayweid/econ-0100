@@ -102,7 +102,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.a.** Positive-externality recap in the same footprint, with price axis to 15. Title “Positive Externalities”; subtitle “A benefit received by others outside the market.” Faint MB, MC and EXT strips only through Q = 40; MB and MSB stay teal, MC orange. Grey original-equilibrium dot at (40,4); yellow efficient dot at (48,4.4). Grey DWL strips represent forgone trades 41–48. Bottom: “Last time: the market exchanges 40 units, but 48 are efficient.”
 
-> **4.b.** Return to “The Social Planner,” asking what price gets both sides to exchange 48 units. Clear the background strips, price label, DWL strips, and DWL label for the entire price experiment and wedge setup; retain the grey original-equilibrium dot and guides. Keep the aligned 40 / Q̂ and 48 / Q* readouts visible until the price experiment begins.
+> **4.b.** Return to “The Social Planner,” asking what price gets both sides to exchange 48 units. Clear the background strips, price label, DWL strips, and DWL label for the entire single-price experiment; retain the grey original-equilibrium dot and guides. Keep the aligned 40 / Q̂ and 48 / Q* readouts visible until the price experiment begins.
 
 > **4.c.** Fade out the Q̂ and Q* readouts as the price starts rolling 4 → 2.40, before Qd and Qs appear. Keep the grey dot fixed at the original equilibrium throughout. Show Qd = 48, Qs = 8, shortage 40. “The price that works for buyers creates a shortage.”
 
@@ -112,9 +112,15 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.f.** “The $2 gap between the prices is the external benefit per unit.”
 
-> **4.g.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” A narrow filled green subsidy bar slides from the right into the MC–MB gap at Q = 48, with “$2 subsidy” to its left. Keep the solid wedge between the curves; slide a dashed green copy of its height left to the price axis while moving the label just to the left of that axis. Reveal the price guides during this projection. The dashed measure spans $2.40–$4.40 and travels with the graph through later close-ups and the conclusion. The quantity drop reaches Ps, the upper dot. Place 48 nearest the axis, with Qˢᵘᵇˢⁱᵈʸ = Q* on the label row below it. “The wedge gets stuck at 48 units, the efficient quantity.”
+> **4.g.start.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” Clear the planner's target-price guides and yellow gap measurement, and return to the actual no-subsidy market at Q = 40, P = $4. Restore eight grey DWL strips from 40 to 48, with the DWL label above them. Retain the original grey equilibrium dot and guides, dashed MSB, and the yellow efficient marker. Show one price label while buyers and sellers pay/receive the same price. Bottom: “Start at the market equilibrium, with no subsidy.”
 
-> **4.h.** Keep the clean graph with the wedge at Q = 48. “The subsidy enables worthwhile trades that the market leaves out.” The recap DWL strips have already left; do not reintroduce them for a removal sweep.
+> **4.g.prices.** Raise one subsidy tracker continuously from $0 to $2: Q = 40 + 4s, Ps = 4 + 0.2s, Pb = 4 − 0.8s. The two red price dots separate along MC and MB; horizontal price guides, axis prices, and the full-height quantity drop move with them. Replace the initial shared price label with separate Pb and Ps labels only when there is room. Keep quantity numbers on the existing axis row, with Qˢᵘᵇˢⁱᵈʸ beneath. Shrink the grey DWL strips from the moving quantity to 48, clipping the partially crossed strip rather than fading whole units. The DWL area is $0.125(48 − Q)², reaching zero at Q = 48. Bottom during motion: “As the subsidy rises, prices separate and deadweight loss shrinks.” Pause at Ps = $4.40, Pb = $2.40, Q = 48; replace the quantity symbol with Qˢᵘᵇˢⁱᵈʸ = Q*. Bottom: “A $2 subsidy brings quantity to 48 and eliminates deadweight loss.” No green wedge appears before this result.
+
+> **4.g.wedge.** Only after the price result, reveal the narrow green bar between the two prices at Q = 48. Slide a copy OUT to the right, beyond the graph at Q-coordinate 88, retaining the original bar between the curves. Reveal “$2 subsidy” beside the extracted bar. Bottom: “The subsidy is the $2 gap between the sellers' and buyers' prices.” Pause so the wedge explains the price separation that has already happened.
+
+> **4.g.** Clear the temporary right-hand illustration. Leave the original green bar at Q = 48, and show a dashed green height measure on the price axis spanning $2.40–$4.40, with “$2 subsidy” just to its left. These final objects travel with the graph through the later close-up and conclusion. Quantity remains 48 on the number row, with Qˢᵘᵇˢⁱᵈʸ = Q* below it.
+
+> **4.h.** Keep the clean graph with the wedge at Q = 48. “The subsidy enables worthwhile trades that the market leaves out.” DWL has already shrunk to zero as the subsidy increased; do not reintroduce the old strips for a separate removal sweep.
 
 #### Worthwhile trade the subsidy enables
 
