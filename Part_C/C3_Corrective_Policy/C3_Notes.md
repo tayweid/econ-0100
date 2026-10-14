@@ -36,7 +36,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Shared C2 market labels.** Price readouts end 0.20 units left of the price axis. Use green “Tax = $2” and “Subsidy = $2” beside the dashed measurements, with their right edges aligned with the prices. Keep the rolling tax number; when the two prices get close, move that measurement's text left far enough to avoid the price readouts. Label the tax-revenue welfare region GOV, including the tax dial; explanatory prose still calls it government revenue.
 
-**Policy-curve explanation.** Add one temporary landing beat after each wedge is established. Green strips cover the externality interval (above MC for tax, above MB for subsidy); the corresponding dashed policy curve coincides with the already-dashed social curve. Merge the curve names by crossfading, then restore the clean graph. Preserve the user's dashed MSC/MSB convention and units throughout. No adjusted-cost/benefit curves enter the close-ups.
+**Policy-curve explanation.** Add one temporary landing beat after each wedge is established. Green strips cover the externality interval (above MC for tax, above MB for subsidy) only through the policy equilibrium quantity: 32 for tax, 48 for subsidy; the corresponding dashed policy curve coincides with the already-dashed social curve. Merge the curve names by crossfading, then restore the clean graph. Preserve the user's dashed MSC/MSB convention and units throughout. No adjusted-cost/benefit curves enter the close-ups.
 
 ### 0 | Bumper
 
@@ -70,7 +70,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **3.a.** Reveal a narrow solid green wedge between the two prices at Q = 32. Slide a dashed green measurement OUT to the left, just beyond the price axis, retaining the solid wedge between the curves. The measurement is dashed from its first appearance: 2.5-width at Q-coordinate −1.2, with “Tax = $2” to its left. Bottom: “The tax is the $2 gap between the buyers' and sellers' prices.” Pause only after this finished axis measurement; there is no intermediate solid-bar stop or solid-to-dashed conversion. The dynamic marker later follows both prices and disappears when they coincide. Both axis readouts travel with the market through welfare and close-up returns.
 
-> **3.a.curve.** Keep the wedge, prices, quantity, grey reference dot/guides, and efficient marker. Sweep opaque green $2 strips over the original 40 cost slices, with the pink externality underneath; fade in the dashed MC + tax curve on MSC. Crossfade their names to MSC = MC + tax. Bottom: “A $2 tax lifts MC onto MSC: private and social costs match.” Restore the original MSC name and remove the temporary strips and policy curve before 3.b.
+> **3.a.curve.** Keep the wedge, prices, quantity, grey reference dot/guides, and efficient marker. Sweep opaque green $2 strips over the 32 exchanged cost slices, stopping at the taxed equilibrium quantity, with the pink externality underneath ending there too; fade in the dashed MC + tax curve on MSC. Crossfade their names to MSC = MC + tax. Bottom: “A $2 tax lifts MC onto MSC: private and social costs match.” Restore the original MSC name and remove the temporary strips and policy curve before 3.b.
 
 > **3.b.** Keep the clean graph with the wedge at Q = 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” DWL has already shrunk to zero as the tax rose; do not add a separate removal sweep.
 

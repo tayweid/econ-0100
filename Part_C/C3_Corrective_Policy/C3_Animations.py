@@ -355,9 +355,9 @@ class C3(ThreeDScene):
         # Keep MSC dashed, as in the rest of C3; only the policy overlay and names are temporary.
         self.remove(takeaway)
         tax_curve_external = fixed(VGroup(*[
-            unit_slice(ax, q, mc, msc, EXT, BASE_OPACITY).set_z_index(-2) for q in range(MARKET_Q)]).set_z_index(-2))
+            unit_slice(ax, q, mc, msc, EXT, BASE_OPACITY).set_z_index(-2) for q in range(EFFICIENT_Q)]).set_z_index(-2))
         tax_curve_strips = fixed(VGroup(*[
-            unit_slice(ax, q, mc, msc, GOV, STRIP_OPACITY).set_z_index(-1) for q in range(MARKET_Q)]).set_z_index(-1))
+            unit_slice(ax, q, mc, msc, GOV, STRIP_OPACITY).set_z_index(-1) for q in range(EFFICIENT_Q)]).set_z_index(-1))
         tax_policy_curve = fixed(DashedLine(ax.c2p(0, 4), ax.c2p(80, 8), color=SUPPLY, stroke_width=3))
         tax_policy_name = fixed(Tex(r'$\mathrm{MC}+\mathrm{tax}$', color=INK).scale(0.7)
             .next_to(ax.c2p(80, 8), UP, buff=0.24))
