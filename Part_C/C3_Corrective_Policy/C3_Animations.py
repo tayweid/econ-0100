@@ -419,14 +419,14 @@ class C3(ThreeDScene):
         self.remove(*[m for m in self.mobjects if m not in (head, context, takeaway)])
         self.add(market)
 
-        # C2's centered columns, with the bystanders represented in pink.
+        # Keep only the buyer and seller beneath C2's centered columns.
         detail_people = fixed(Group())
-        for x, color, name in [(-1.6, DEMAND, 'Buyer'), (0, EXT, 'Bystanders'), (1.6, SUPPLY, 'Seller')]:
+        for x, color, name in [(-1.6, DEMAND, 'Buyer'), (1.6, SUPPLY, 'Seller')]:
             detail_people.add(fixed(Ellipse(width=0.42, height=0.05, stroke_width=0,
                 fill_color=color, fill_opacity=0.28).move_to([x, DETAIL_BASE - 0.60, 0])))
             detail_people.add(fixed(Sphere(radius=0.18, color=color, opacity=1, resolution=(32, 24))
                 .move_to([x, DETAIL_BASE - 0.35, 0])).apply_depth_test())
-            detail_people.add(fixed(Tex(name, color=CAPTION if name == 'Bystanders' else INK)
+            detail_people.add(fixed(Tex(name, color=INK)
                 .scale(0.60).move_to([x, DETAIL_BASE - 0.94, 0])))
 
         # ---- 3.e.select · Carry the same unit into C2's spread welfare layout.
