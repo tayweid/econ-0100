@@ -30,7 +30,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Model.** MB = 12 − Q/5; MC = 2 + Q/20; externality = $2 per unit. The unregulated market exchanges 40 units at $4. Negative externalities: MSC = MC + 2 and Q* = 32. Positive externalities: MSB = MB + 2 and Q* = 48.
 
-**Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve and MSB a dashed teal curve throughout; private MC and MB remain solid. On every market graph, center quantity numbers on a fixed row immediately below the horizontal axis, with their quantity symbols on a separate aligned row underneath. Symbol height and superscripts never determine the number position; use the same rows for recap markers, planner readouts, policy quantities, the tax dial, and closing graphs. Place price-gap measurements on the vertical axis and quantity-gap measurements on the horizontal axis, with their numeric captions outside the plot. Grey unlabeled guides retain the original price and quantity. Red price dots and yellow efficient dots sit above fills and guides. Base MB, MC and EXT bars use 0.16 opacity and appear only on exchanged quantities. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
+**Shared layout.** A stable 6.4 × 4.6 graph, quantity range 0–80 so the planner's excess-supply example fits, and units rather than tons. MSC uses a dashed orange curve and MSB a dashed teal curve throughout; private MC and MB remain solid. On every market graph, center quantity numbers on a fixed row immediately below the horizontal axis, with their quantity symbols on a separate aligned row underneath. Symbol height and superscripts never determine the number position; use the same rows for recap markers, planner readouts, policy quantities, the tax dial, and closing graphs. Place price-gap measurements on the vertical axis and quantity-gap measurements on the horizontal axis, with their numeric captions outside the plot. Grey unlabeled guides and a persistent grey dot retain the original equilibrium at (40, 4), including both planner experiments, policy graphs, close-up returns, and conclusions. Red price dots and yellow efficient dots sit above fills and guides. Base MB, MC and EXT bars use 0.16 opacity and appear only on exchanged quantities. Welfare uses individual unit strips. Topic titles stay blue, contextual subtitles grey, and the current teaching line yellow. Remove old subtitles before a new graph or close-up context enters.
 
 **Close-ups.** Carry the selected MB/MC/EXT slices into the same compact columns each time, then back to the exact source slice. No unmatched group transforms or leftover grey highlight. Names live on the bars: MB/MC below their edges, MSC/MSB above, EXT inside the pink portion. Numeric values sit beside their corresponding levels. A dashed pink height measure gives the $2 externality. Yellow questions remain along the bottom left and right. Purple dashed projections measure the relevant comparison; pause before revealing a green check or red cross. Show only one social amount, TS or potential DWL. Government transfers occupy the middle gap, distinct from external cost or benefit.
 
@@ -40,15 +40,15 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 1 | Negative-externality recap
 
-> **1.a.** Title “Negative Externalities”; subtitle “A cost paid by others outside the market.” MB, MC and MSC with faint benefit/cost/externality strips through Q = 40. Red market dot and Q̂ = 40; yellow efficient dot and Q* = 32. Eight grey DWL strips between MB and MSC, from 32 to 40. Bottom: “Last time: the market exchanges 40 units, but only 32 are efficient.”
+> **1.a.** Title “Negative Externalities”; subtitle “A cost paid by others outside the market.” MB, MC and MSC with faint benefit/cost/externality strips through Q = 40. Grey original-equilibrium dot and red Q̂ = 40; yellow efficient dot and Q* = 32. Eight grey DWL strips between MB and MSC, from 32 to 40. Bottom: “Last time: the market exchanges 40 units, but only 32 are efficient.”
 
 ### 2 | The planner's price problem
 
 **Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd and Qs on the row beneath their numbers only when the quantities are well separated; fade those labels away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate. Measure excess or shortage with a grey segment on the horizontal axis between the two quantity guides. Center its caption below both quantity rows, clear of the labels and the bottom teaching line; no gap indicator remains at the trial-price height.
 
-> **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old labeled market guides. Retain the efficient marker and DWL geometry; add grey original-equilibrium guides. Ask: “What price gets buyers and sellers to exchange 32 units?”
+> **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old price label; replace the red market guides with grey original-equilibrium guides. Keep the grey equilibrium dot, efficient marker, DWL geometry, and aligned quantity readouts 40 / Q̂ and 32 / Q* until the price experiment begins. Ask: “What price gets buyers and sellers to exchange 32 units?”
 
-> **2.b.** Roll the price from $4 to $5.60. The same buyer and seller dots move on their respective curves. Show Qd = 32, Qs = 72, and a grey excess segment labeled “excess: 40 units.” Bottom: “The price that works for buyers creates excess supply.”
+> **2.b.** Fade out the Q̂ and Q* readouts as the price starts rolling from $4 to $5.60, before Qd and Qs appear. Keep the grey dot fixed at the original equilibrium throughout. The same buyer and seller dots move on their respective curves. Show Qd = 32, Qs = 72, and a grey excess segment labeled “excess: 40 units.” Bottom: “The price that works for buyers creates excess supply.”
 
 > **2.c.** Roll to $3.60. Qs = 32 and Qd = 42, with a grey “shortage: 10 units.” Bottom: “The price that works for sellers creates a shortage.”
 
@@ -100,11 +100,11 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 ### 4 | Corrective subsidy
 
-> **4.a.** Positive-externality recap in the same footprint, with price axis to 15. Title “Positive Externalities”; subtitle “A benefit received by others outside the market.” Faint MB, MC and EXT strips only through Q = 40; MB and MSB stay teal, MC orange. Red market dot at (40,4); yellow efficient dot at (48,4.4). Grey DWL strips represent forgone trades 41–48. Bottom: “Last time: the market exchanges 40 units, but 48 are efficient.”
+> **4.a.** Positive-externality recap in the same footprint, with price axis to 15. Title “Positive Externalities”; subtitle “A benefit received by others outside the market.” Faint MB, MC and EXT strips only through Q = 40; MB and MSB stay teal, MC orange. Grey original-equilibrium dot at (40,4); yellow efficient dot at (48,4.4). Grey DWL strips represent forgone trades 41–48. Bottom: “Last time: the market exchanges 40 units, but 48 are efficient.”
 
-> **4.b.** Return to “The Social Planner,” asking what price gets both sides to exchange 48 units. Clear the background strips and old labels; retain grey original-equilibrium guides.
+> **4.b.** Return to “The Social Planner,” asking what price gets both sides to exchange 48 units. Clear the background strips and price label; retain the grey original-equilibrium dot and guides. Keep the aligned 40 / Q̂ and 48 / Q* readouts visible until the price experiment begins.
 
-> **4.c.** Roll price 4 → 2.40: Qd = 48, Qs = 8, shortage 40. “The price that works for buyers creates a shortage.”
+> **4.c.** Fade out the Q̂ and Q* readouts as the price starts rolling 4 → 2.40, before Qd and Qs appear. Keep the grey dot fixed at the original equilibrium throughout. Show Qd = 48, Qs = 8, shortage 40. “The price that works for buyers creates a shortage.”
 
 > **4.d.** Roll price 2.40 → 4.40: Qs = 48, Qd = 38, excess 10. “The price that works for sellers creates excess supply.”
 

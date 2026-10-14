@@ -117,7 +117,7 @@ class C3(ThreeDScene):
             cost_bars.add(unit_slice(ax, q, zero, mc, SUPPLY, BASE_OPACITY))
         for q in range(60):
             ext_bars.add(unit_slice(ax, q, mc, msc, EXT, BASE_OPACITY if q < MARKET_Q else 0))
-        market_dot = fixed(Dot(ax.c2p(40, 4), radius=0.065, color=GUIDE).set_z_index(DOT_LAYER))
+        market_dot = fixed(Dot(ax.c2p(40, 4), radius=0.065, color=MUTED).set_z_index(DOT_LAYER))
         market_quantity = fixed(VGroup(
             DashedLine(ax.c2p(40, 0), ax.c2p(40, 4), color=GUIDE, stroke_width=2),
             VGroup(
@@ -156,7 +156,7 @@ class C3(ThreeDScene):
         context = fixed(subtitle(head, 'Someone who wants the efficient quantity, 32 units.'))
         question = teaching('What price gets buyers and sellers to exchange 32 units?')
         self.play(FadeIn(head), FadeIn(context), FadeIn(question), FadeOut(market_price), FadeOut(msc_intercept),
-                  FadeOut(market_quantity), FadeOut(efficient_word), FadeOut(dwl_word),
+                  FadeOut(market_quantity[0]), FadeOut(dwl_word),
                   FadeOut(benefit_bars), FadeOut(cost_bars), FadeOut(ext_bars), FadeIn(original_guides))
         self.pause('2.a')
 
@@ -206,9 +206,9 @@ class C3(ThreeDScene):
         readouts = [buyer_number, buyer_quantity_label, seller_number, seller_quantity_label]
         for m in trial + readouts:
             m.update()
-        self.remove(market_dot)
         self.add(*trial)
-        self.play(price.animate.set_value(5.6), run_time=2.4, rate_func=smooth)
+        self.play(FadeOut(market_quantity[1]), FadeOut(efficient_word),
+                  price.animate.set_value(5.6), run_time=2.4, rate_func=smooth)
         gap_word = fixed(Tex(r'\textsf{excess: 40 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=QUANTITY_GAP_CAPTION_OFFSET))
         for m in readouts:
             m.update()   # Digits must already match before a number fades in.
@@ -244,7 +244,7 @@ class C3(ThreeDScene):
                   FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_quantity_label),
                   FadeOut(seller_number), FadeOut(seller_quantity_label), FadeOut(trial_number), FadeOut(trial_prefix),
                   FadeOut(trial_line),
-                  FadeIn(seller_price), FadeIn(buyer_price), FadeIn(market_dot),
+                  FadeIn(seller_price), FadeIn(buyer_price),
                   FadeIn(gap_mark), FadeIn(takeaway))
         self.pause('2.d')
 
@@ -737,7 +737,7 @@ class C3(ThreeDScene):
             positive_benefit_bars.add(unit_slice(pax, q, zero, mb, DEMAND, BASE_OPACITY if q < MARKET_Q else 0))
             positive_cost_bars.add(unit_slice(pax, q, zero, mc, SUPPLY, BASE_OPACITY if q < MARKET_Q else 0))
             positive_ext_bars.add(unit_slice(pax, q, mb, msb, EXT, BASE_OPACITY if q < MARKET_Q else 0))
-        positive_dot = fixed(Dot(pax.c2p(40, 4), radius=0.065, color=GUIDE).set_z_index(DOT_LAYER))
+        positive_dot = fixed(Dot(pax.c2p(40, 4), radius=0.065, color=MUTED).set_z_index(DOT_LAYER))
         positive_quantity = fixed(VGroup(
             DashedLine(pax.c2p(40, 0), pax.c2p(40, 4), color=GUIDE, stroke_width=2),
             VGroup(
@@ -776,7 +776,7 @@ class C3(ThreeDScene):
         context = fixed(subtitle(head, 'Someone who wants the efficient quantity, 48 units.'))
         question = teaching('What price gets buyers and sellers to exchange 48 units?')
         self.play(FadeIn(head), FadeIn(context), FadeIn(question), FadeOut(positive_price), FadeOut(positive_axis_words[4]),
-                  FadeOut(positive_quantity), FadeOut(positive_efficient_word), FadeOut(positive_dwl_word),
+                  FadeOut(positive_quantity[0]), FadeOut(positive_dwl_word),
                   FadeOut(positive_benefit_bars), FadeOut(positive_cost_bars), FadeOut(positive_ext_bars), FadeIn(positive_original_guides))
         positive_axis_words.remove(positive_axis_words[4])
         self.pause('4.b')
@@ -826,9 +826,9 @@ class C3(ThreeDScene):
         readouts = [buyer_number, buyer_quantity_label, seller_number, seller_quantity_label]
         for m in trial + readouts:
             m.update()
-        self.remove(positive_dot)
         self.add(*trial)
-        self.play(price.animate.set_value(2.4), run_time=2.4, rate_func=smooth)
+        self.play(FadeOut(positive_quantity[1]), FadeOut(positive_efficient_word),
+                  price.animate.set_value(2.4), run_time=2.4, rate_func=smooth)
         gap_word = fixed(Tex(r'\textsf{shortage: 40 units}', color=CAPTION).scale(0.55).next_to(gap_line, DOWN, buff=QUANTITY_GAP_CAPTION_OFFSET))
         for m in readouts:
             m.update()
@@ -864,7 +864,7 @@ class C3(ThreeDScene):
                   FadeOut(gap_line), FadeOut(gap_word), FadeOut(buyer_number), FadeOut(buyer_quantity_label),
                   FadeOut(seller_number), FadeOut(seller_quantity_label), FadeOut(trial_number), FadeOut(trial_prefix),
                   FadeOut(trial_line),
-                  FadeIn(seller_price), FadeIn(buyer_price), FadeIn(positive_dot),
+                  FadeIn(seller_price), FadeIn(buyer_price),
                   FadeIn(gap_mark), FadeIn(takeaway))
         self.pause('4.e')
 
