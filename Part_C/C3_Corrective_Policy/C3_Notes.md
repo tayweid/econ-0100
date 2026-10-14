@@ -46,7 +46,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 **Quantity readouts (both planner sequences).** Center each number directly beneath its vertical guide on one fixed row below the horizontal axis. Show Qd and Qs on the row beneath their numbers only when the quantities are well separated; fade those labels away as they approach. During the crossing, briefly keep just one number to avoid overlapping digits, then restore both as they separate. Measure excess or shortage with a grey segment on the horizontal axis between the two quantity guides. Center its caption below both quantity rows, clear of the labels and the bottom teaching line; no gap indicator remains at the trial-price height.
 
-> **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old price label; replace the red market guides with grey original-equilibrium guides. Keep the grey equilibrium dot, efficient marker, DWL geometry, and aligned quantity readouts 40 / Q̂ and 32 / Q* until the price experiment begins. Ask: “What price gets buyers and sellers to exchange 32 units?”
+> **2.a.** Title “The Social Planner”; subtitle “Someone who wants the efficient quantity, 32 units.” Clear the background strips and old price label; replace the red market guides with grey original-equilibrium guides. Remove the DWL strips and label for the entire price experiment and wedge setup. Keep the grey equilibrium dot, efficient marker, and aligned quantity readouts 40 / Q̂ and 32 / Q* until the price experiment begins. Ask: “What price gets buyers and sellers to exchange 32 units?”
 
 > **2.b.** Fade out the Q̂ and Q* readouts as the price starts rolling from $4 to $5.60, before Qd and Qs appear. Keep the grey dot fixed at the original equilibrium throughout. The same buyer and seller dots move on their respective curves. Show Qd = 32, Qs = 72, and a grey excess segment labeled “excess: 40 units.” Bottom: “The price that works for buyers creates excess supply.”
 
@@ -60,7 +60,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **3.a.** Title “Corrective Taxes”; subtitle “A tax equal to the external cost per unit.” Start a narrow filled green $2 bar on the price axis with “$2 tax” just to its left. Slide only the solid bar into the MB–MC gap at Q = 32, leaving the label and a dashed green vertical measure of the same height at the price axis. Both price dots and dashed guides appear; the quantity drop reaches the upper price. Place 32 nearest the axis, with Qᵗᵃˣ = Q* on the label row below it. Bottom: “The wedge gets stuck at 32 units, the efficient quantity.”
 
-> **3.b.** Sequentially fade the harmful grey slices from Q = 40 back to 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” Remove the whole DWL group and its children.
+> **3.b.** Keep the clean graph with the wedge at Q = 32. Bottom: “Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.” The recap DWL strips have already left; do not reintroduce them for a removal sweep.
 
 > **3.c.** At the existing graph coordinates, build orange PS strips, then teal CS strips, then green government-revenue strips through Q = 32. The axis tax label and its dashed height measure leave together before the area labels enter. Bottom: “Buyers pay $5.60, sellers receive $3.60, and the government collects $2 per unit.”
 
@@ -102,7 +102,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.a.** Positive-externality recap in the same footprint, with price axis to 15. Title “Positive Externalities”; subtitle “A benefit received by others outside the market.” Faint MB, MC and EXT strips only through Q = 40; MB and MSB stay teal, MC orange. Grey original-equilibrium dot at (40,4); yellow efficient dot at (48,4.4). Grey DWL strips represent forgone trades 41–48. Bottom: “Last time: the market exchanges 40 units, but 48 are efficient.”
 
-> **4.b.** Return to “The Social Planner,” asking what price gets both sides to exchange 48 units. Clear the background strips and price label; retain the grey original-equilibrium dot and guides. Keep the aligned 40 / Q̂ and 48 / Q* readouts visible until the price experiment begins.
+> **4.b.** Return to “The Social Planner,” asking what price gets both sides to exchange 48 units. Clear the background strips, price label, DWL strips, and DWL label for the entire price experiment and wedge setup; retain the grey original-equilibrium dot and guides. Keep the aligned 40 / Q̂ and 48 / Q* readouts visible until the price experiment begins.
 
 > **4.c.** Fade out the Q̂ and Q* readouts as the price starts rolling 4 → 2.40, before Qd and Qs appear. Keep the grey dot fixed at the original equilibrium throughout. Show Qd = 48, Qs = 8, shortage 40. “The price that works for buyers creates a shortage.”
 
@@ -114,7 +114,7 @@ C3 uses C2's compact bars and two-question teaching sequence. Preserve the plann
 
 > **4.g.** Title “Corrective Subsidies”; subtitle “A subsidy equal to the external benefit per unit.” A narrow filled green subsidy bar slides from the right into the MC–MB gap at Q = 48, with “$2 subsidy” to its left. Keep the solid wedge between the curves; slide a dashed green copy of its height left to the price axis while moving the label just to the left of that axis. Reveal the price guides during this projection. The dashed measure spans $2.40–$4.40 and travels with the graph through later close-ups and the conclusion. The quantity drop reaches Ps, the upper dot. Place 48 nearest the axis, with Qˢᵘᵇˢⁱᵈʸ = Q* on the label row below it. “The wedge gets stuck at 48 units, the efficient quantity.”
 
-> **4.h.** Sequentially remove the grey lost-surplus slices from 40 to 48. “The subsidy enables worthwhile trades that the market leaves out.”
+> **4.h.** Keep the clean graph with the wedge at Q = 48. “The subsidy enables worthwhile trades that the market leaves out.” The recap DWL strips have already left; do not reintroduce them for a removal sweep.
 
 #### Worthwhile trade the subsidy enables
 

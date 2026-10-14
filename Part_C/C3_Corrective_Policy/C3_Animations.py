@@ -156,7 +156,7 @@ class C3(ThreeDScene):
         context = fixed(subtitle(head, 'Someone who wants the efficient quantity, 32 units.'))
         question = teaching('What price gets buyers and sellers to exchange 32 units?')
         self.play(FadeIn(head), FadeIn(context), FadeIn(question), FadeOut(market_price), FadeOut(msc_intercept),
-                  FadeOut(market_quantity[0]), FadeOut(dwl_word),
+                  FadeOut(market_quantity[0]), FadeOut(dwl_bars), FadeOut(dwl_word),
                   FadeOut(benefit_bars), FadeOut(cost_bars), FadeOut(ext_bars), FadeIn(original_guides))
         self.pause('2.a')
 
@@ -301,9 +301,7 @@ class C3(ThreeDScene):
         # ---- 3.b · The exchanges past 32 stop, and their deadweight loss with them.
         self.remove(takeaway)
         takeaway = teaching('Exchanges 33 through 40 no longer happen, so their deadweight loss is gone.')
-        self.play(LaggedStart(*[FadeOut(bar) for bar in reversed(list(dwl_bars))], lag_ratio=0.15),
-                  FadeIn(takeaway), run_time=1.6)
-        self.remove(dwl_bars, *list(dwl_bars))
+        self.play(FadeIn(takeaway))
         self.pause('3.b')
 
         # ---- 3.c · Welfare with the tax: PS, then CS, then the government's revenue.
@@ -776,7 +774,7 @@ class C3(ThreeDScene):
         context = fixed(subtitle(head, 'Someone who wants the efficient quantity, 48 units.'))
         question = teaching('What price gets buyers and sellers to exchange 48 units?')
         self.play(FadeIn(head), FadeIn(context), FadeIn(question), FadeOut(positive_price), FadeOut(positive_axis_words[4]),
-                  FadeOut(positive_quantity[0]), FadeOut(positive_dwl_word),
+                  FadeOut(positive_quantity[0]), FadeOut(positive_dwl), FadeOut(positive_dwl_word),
                   FadeOut(positive_benefit_bars), FadeOut(positive_cost_bars), FadeOut(positive_ext_bars), FadeIn(positive_original_guides))
         positive_axis_words.remove(positive_axis_words[4])
         self.pause('4.b')
@@ -924,9 +922,7 @@ class C3(ThreeDScene):
         # ---- 4.h · Units 41 to 48 now happen, and their deadweight loss is gone.
         self.remove(takeaway)
         takeaway = teaching('The subsidy enables worthwhile trades that the market leaves out.')
-        self.play(LaggedStart(*[FadeOut(bar) for bar in positive_dwl], lag_ratio=0.15),
-                  FadeIn(takeaway), run_time=1.6)
-        self.remove(positive_dwl, *list(positive_dwl))
+        self.play(FadeIn(takeaway))
         self.pause('4.h')
 
         # ---- 4.h.select · The 44th unit is worthwhile but would be missed without the subsidy.
