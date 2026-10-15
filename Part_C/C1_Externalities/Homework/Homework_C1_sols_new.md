@@ -168,9 +168,21 @@ The market ignores the odor, so it keeps making bottles past the efficient $14$,
 
 :::
 
+If the marginal cost of a gallon of gas is \$4.00, the negative externality is \$2.50, and the marginal benefit is \$4.50, what is the deadweight loss?
+
+Deadweight Loss: \_\_\_\_\_\_\_\_\_\_
+
+::: solution
+
+Deadweight Loss: \$2.00.
+
+The buyer values the gallon at \$4.50 and it costs the seller \$4.00, so they trade it. But it also costs everyone else \$2.50, so its marginal social cost is $4.00 + 2.50 = 6.50$, more than its \$4.50 benefit. Selling it leaves society $6.50 - 4.50 = 2.00$ worse off; that \$2.00 is the deadweight loss. This is the choice above for one trade: the market makes it because the buyer’s benefit covers the seller’s cost, and society loses on it once the external cost is counted.
+
+:::
+
 <!--
 Editor. Written 2026-10-13 for the Fall 27 Homework C1 (Homework_C1_new.md). In Fall 27 it replaces Homework_C1_sols.md.
-Key: Q1 MSC P = 19 + Q/2, price 20, quantity 20, efficient 14 (P 26), DWL 27; Q2 market 10, efficient 13, DWL region B (worth 9), why (b); Q3 (c).
+Key: Q1 MSC P = 19 + Q/2, price 20, quantity 20, efficient 14 (P 26), DWL 27; Q2 market 10, efficient 13, DWL region B (worth 9), why (b); Q3 (c), and the gallon of gas DWL 2.00 (added 2026-10-15 from Vignette C3 Q2, the Glittering Gum exam's last question; MSC 6.50 above MB 4.50).
 -->
 
 <!--

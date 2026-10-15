@@ -11,13 +11,21 @@ Every Part C practice set and Demo C now hold Taylor's existing text, placed ver
 | | old C1 Trade & Tariffs | C1 Externalities | C2 Taxes & Subsidies | C3 Corrective Policy |
 |---|---|---|---|---|
 | Exercises (Smoked Toffee) | *gap* (title only) | one toffee at a time (new, proposed), market equilibrium (MiniExam C 23F), Yard Flowers (proposed 2026-10-07) | tax equilibrium, welfare (MiniExam 2) | the residents (moved from C1 on 2026-10-06), Policy Proposal, DWL intuition |
-| Vignettes (pumpkin pasties) | B6's trade, Intl Pasties tariff and export subsidy | 24F Demo C equilibrium | Somethin's Up With Pumpkins tax | Policy Proposal, DWL intuition |
-| Homework (butterbeer, 40 − Q and 10 + Q/2 since 2026-10-13) | B6’s trade, tariff (revenue and backlash framings) | Malodorous Byproducts, Covid vaccine, DWL intuition (moved from C3 for Fall 27) | The Butterbeer Tax, a butterbeer subsidy (new) | odor remedy (numeric), Dragon Pox subsidy (new) |
-| Demo C (Glittering Gum) | *gap* | market equilibrium | *gap* | Policy Proposal, DWL intuition |
+| Vignettes (Glittering Gum since 2026-10-15; pumpkin pasties before, see below) | B6's trade, Intl Pasties tariff and export subsidy | Glittering Gum equilibrium (MiniExam Z 23F) | Starlight Sneeze tax (the pasty tax paragraph re-nouned) | Policy Proposal (the gum exam's gas DWL intuition, 2.50, moved to Homework C1 Q3 for Fall 27 on 2026-10-15) |
+| Homework (butterbeer, 40 − Q and 10 + Q/2 since 2026-10-13) | B6’s trade, tariff (revenue and backlash framings) | Malodorous Byproducts, Covid vaccine, DWL intuition (moved from C3 for Fall 27) with the gallon of gas under it (from Vignette C3, 2026-10-15, Fall 27) | The Butterbeer Tax, a butterbeer subsidy (new) | odor remedy (numeric), Dragon Pox subsidy (new) |
+| Demo C (Floo Powder since 2026-10-13; Glittering Gum before, now the Vignettes) | *gap* | market equilibrium | *gap* | Policy Proposal, DWL intuition |
 
 Checkpoint C Version 1 (`ECON_0100/Checkpoints/C/Checkpoint_C_1.typ`, key in `_key.md`) is the 24F MiniExam C: broomstick trade with "Spellbound by Tariffs," Whiz-bangs, chocolate's aroma, and DWL intuition. Since 2026-10-06 its trade and tariff questions are cut (kept as `B6_International_Trade/From_C1_Tariffs/Checkpoint/Checkpoint_C_1_trade.typ` and its key); the rest is renumbered Q1–Q4 and runs to two pages.
 
 Still open in every series: **C2.2 Subsidies** and **C1.2 Positive Externalities**. The C3 subsidy side is open too.
+
+## Vignette story swap (2026-10-15)
+
+Pumpkin pasties were the story of every Part B Vignette and Exercise, so Taylor swapped the Part C Vignettes to **Glittering Gum and the Starlight Sneeze** (the 23F MiniExam Z, lately Demo C until Floo Powder displaced it). A direct swap: the Vignettes keep their 2026-10-13 curves (30 − Q/2, 6 + Q/4, external cost 6, a 3-galleon tax in C2). Vignette C1 is the gum exam's Q1, C3 its Q2–Q3 (so C3's gas question now has an externality of 2.50, DWL 2.00), and C2 keeps the pasty tax paragraph with the nouns struck and the gum's sneeze sentence inserted, marked, since the gum exam has no tax. The fully used gum source went to `ECON_0100/Checkpoints/C/_Archive/Glittering_Gum_from_Demo_C.md` (+pdf). **Somethin's Up With Pumpkins** moved whole to Reattempt C round 2 (`ECON_0100/Checkpoints/C/Somethins_Up_With_Pumpkins_from_Vignettes_C.md`, with the three pasty solution guides beside it and every source, answer, and flag in its editor note). The three stale pasty Vignette PDFs (Sep 30 and Oct 7 renders, before the renumbering) are in `_archive/` here as `Vignette_C?_pasties_<date>.pdf`. Nothing retired.
+
+Later the same day Taylor found the gum exam's gas question (Vignette C3 Q2, DWL intuition for one gallon) out of place in C3, since it tests C1.1. It moved to Homework C1 for Fall 27 (`C1_Externalities/Homework/Homework_C1_new.md`, +gradescope_new, +sols_new) as the numeric companion under Q3 Deadweight Loss Intuition; Taylor removes it from Vignette C3 himself. The pasty version (externality 1.00) stays in the Reattempt file.
+
+Also 2026-10-15: Taylor rewrote all three gum Vignettes (two-column blanks, coins, no question headings or editor notes) and turned Vignette C2 into a **3-coin subsidy** paid before the sneeze connection was established, so the Vignettes get their C2.2 practice and C3's tax lands on something the Ministry had subsidized. His tax version of C2 (a 3-coin budget tax on the same curves; answers 16, 13, 28, DWL 6) is kept here as `_archive/Vignette_C2_gum-tax_2026-10-15.md` (+_sols). Subsidy answers: buyers 12, sellers 15, quantity 36, DWL 6, spending 108.
 
 ## What's left
 

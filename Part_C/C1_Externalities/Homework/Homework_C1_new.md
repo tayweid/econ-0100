@@ -78,10 +78,14 @@ Which of the following best explains the intuition behind the deadweight loss as
 >
 > d\) The externality causes the market to produce at a quantity where the marginal social benefit of consumption exceeds the marginal social cost of production, leading to inefficiency and reduced total surplus.
 
+If the marginal cost of a gallon of gas is \$4.00, the negative externality is \$2.50, and the marginal benefit is \$4.50, what is the deadweight loss?
+
+Deadweight Loss: \_\_\_\_\_\_\_\_\_\_
+
 <!--
 Editor. For Fall 27. This is next year's Homework C1, made on 2026-10-13; Homework_C1.md beside it is the Fall 26 version as posted (butterbeer 100 − Q/2 and 20 + Q/2, odor cost 20, Covid vaccine, no Q3). In Fall 27, replace Homework_C1.md, Homework_C1_gradescope.md and Homework_C1_sols.md with this file, Homework_C1_gradescope_new.md and Homework_C1_sols_new.md (dropping the _new), and export the PDF.
 Q2 changed from the Covid vaccine to Dragon Pox (2026-10-13), since Checkpoint C Version 1 Q4 asks nearly the same vaccine question on a supplied graph. The story and curves match Homework C3 Q2 (Gorsemoor’s Draught: MPB 24 − Q, MSB 30 − Q, S 4 + Q, external benefit 6). The three assumptions and the graph sentences are the vaccine version's, reworded for the draught; the vaccine's "supply curve is a little funny" sentence is cut. Answers: market quantity 10, efficient 13, DWL region B, choice b.
-Changes. Q1 uses the Part C Homework butterbeer curves shared with Homework C2 and C3: 40 − Q and 10 + Q/2, odor cost 9 per bottle. Answers: MSC P = 19 + Q/2; market P 20, Q 20; efficient Q 14; DWL 27 (½ · 9 · 6). Q3 moved here from Homework C3 Q2, where it tested C1 material: Homework C 23F Q3 (C_Practice_Bank/Homework_C_butterbeer-tax-floo_F23.md, ink key _sols_F23.pdf), verbatim except "like the one above" now reads "like the one in Q1", since Q2 above it is the positive externality (Dragon Pox). Answer C.
+Changes. Q1 uses the Part C Homework butterbeer curves shared with Homework C2 and C3: 40 − Q and 10 + Q/2, odor cost 9 per bottle. Answers: MSC P = 19 + Q/2; market P 20, Q 20; efficient Q 14; DWL 27 (½ · 9 · 6). Q3 moved here from Homework C3 Q2, where it tested C1 material: Homework C 23F Q3 (C_Practice_Bank/Homework_C_butterbeer-tax-floo_F23.md, ink key _sols_F23.pdf), verbatim except "like the one above" now reads "like the one in Q1", since Q2 above it is the positive externality (Dragon Pox). Answer C. The gallon of gas under it (added 2026-10-15) is Q3's numeric companion: the last question of the Glittering Gum exam (23F MiniExam Z Q3 "Deadweight Loss Intuition"; ink key Checkpoints/Z/MEZ_sols.pdf), verbatim with its dollars, moved here from Vignette C3 Q2, where Taylor found it out of place: it tests C1.1's deadweight-loss bullet, not C3.1. Answer: MSC 4.00 + 2.50 = 6.50 is above MB 4.50, so the gallon shouldn't be sold; DWL \$2.00. The pasty exam's version (externality 1.00, DWL 0.50) stays with Somethin's Up With Pumpkins in ECON_0100/Checkpoints/C/.
 -->
 
 <!--

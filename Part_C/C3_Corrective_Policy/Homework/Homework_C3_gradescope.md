@@ -22,7 +22,7 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ```
 Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Work through the questions on paper first, plotting each curve and computing each number, then enter your answers here as selections. You are welcomed and encouraged to work in groups so long as your work is your own.
 
-See Q1 | Malodorous Byproducts on the Homework C3 handout (the PDF on the course page). Butterbeer, with demand $$P_B = 40 - Q_D$$ and supply $$P_S = 10 + \frac{1}{2} Q_S$$, in galleons. The odor imposes a cost of 9 galleons per bottle on everyone nearby.
+See Q1 | Malodorous Byproducts on the HW C3 handout (the PDF on the course page). Butterbeer, with demand $$P_B = 100 - \frac{1}{2} Q_D$$ and supply $$P_S = 20 + \frac{1}{2} Q_S$$, in galleons. The odor imposes a cost of 20 galleons per bottle on everyone nearby.
 ```
 
 ### Q1.1: `Which policy would you recommend?`
@@ -37,43 +37,34 @@ See Q1 | Malodorous Byproducts on the Homework C3 handout (the PDF on the course
 ### Q1.2: `Size per bottle:`
 
 ```
-( ) $$3$$ galleons
-( ) $$6$$ galleons
-(x) $$9$$ galleons
-( ) $$19$$ galleons
+( ) $$10$$ galleons
+(x) $$20$$ galleons
+( ) $$40$$ galleons
+( ) $$60$$ galleons
 ```
 
 ### Q1.3: `Market Quantity:`
 
 ```
-( ) $$14$$ bottles
-( ) $$16$$ bottles
-(x) $$20$$ bottles
-( ) $$24$$ bottles
+( ) $$60$$ bottles
+( ) $$70$$ bottles
+(x) $$80$$ bottles
+( ) $$100$$ bottles
 ```
 
 ### Q1.4: `Quantity with Your Policy:`
 
 ```
-( ) $$10$$ bottles
-(x) $$14$$ bottles
-( ) $$16$$ bottles
-( ) $$20$$ bottles
-```
-
-### Q1.5: `How does your policy bring the market to the socially efficient quantity?`
-
-```
-( ) It shifts supply down by the external cost, so sellers offer more bottles at every price.
-(x) Sellers now pay the odor's cost on every bottle, so their cost plus the tax matches marginal social cost, and the market settles where marginal benefit equals marginal social cost.
-( ) It caps the price of butterbeer, so sellers make fewer bottles.
-( ) The Ministry pays the revenue to everyone nearby, which removes the odor.
+( ) $$40$$ bottles
+(x) $$60$$ bottles
+( ) $$70$$ bottles
+( ) $$80$$ bottles
 ```
 
 ## Q2: `Dragon Pox`
 
 ```
-See Q2 | Dragon Pox on the Homework C3 handout. Gorsemoor's Draught, with marginal private benefit $$P = 24 - Q$$ and supply $$P = 4 + Q$$, in galleons. Each dose gives a benefit of 6 galleons to everyone else.
+See Q2 | Dragon Pox on the HW C3 handout. Gorsemoor's Dose, with marginal private benefit $$P = 24 - Q$$ and supply $$P = 4 + Q$$, in galleons. Each dose gives a benefit of 6 galleons to everyone else.
 ```
 
 ### Q2.1: `Which policy would you recommend?`
@@ -134,7 +125,6 @@ Which concepts (if any) from this block would you want explained in more detail 
 ```
 [ ] Choosing a corrective tax or subsidy
 [ ] Setting the size of a corrective policy
-[ ] How a corrective tax reaches the efficient quantity
 [ ] How a corrective subsidy reaches the efficient quantity
 [ ] Nothing: all clear
 ```

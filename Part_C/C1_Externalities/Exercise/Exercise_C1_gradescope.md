@@ -17,109 +17,184 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `One Toffee Exchange`
+## Q1: `A Single Exchange (a)`
 
 ```
-Smoked toffee, with demand $$P = 100 - Q_d$$ and supply $$P = 10 + Q_s$$, in Galleons. The proliferation of smoked toffee makers has meant the town saw a subsequent rise in _smoke_. Wood smoke can cause lung issues and carries a cost of 10 Galleons to the health of Hogsmeade residents.
+See Q1 | Smoked Toffee on the Exercise C1 handout. Smoked toffee, with demand $$P = 20 - \frac{1}{2} Q_d$$ and supply $$P = 2 + Q_s$$, in Coins. Wood smoke from making toffee carries a cost of 6 Coins to the health of Hogsmeade residents.
 
-A buyer values one smoked toffee at 60 Galleons. It costs the seller 55 Galleons to make.
+Exchange a): the buyer’s MB is 60 Coins and the seller’s MC is 55 Coins.
 ```
 
-### Q1.1: `Will the buyer and seller make this exchange?`
+### Q1.1: `Will buyer and seller exchange?`
 
 ```
 (x) Yes
 ( ) No
 ```
 
-### Q1.2: `Total Surplus to the buyer and seller:`
+### Q1.2: `Total Surplus to buyer and seller:`
 
 ```
-( ) $$-5$$ Galleons
-( ) $$0$$ Galleons
-(x) $$5$$ Galleons
-( ) $$15$$ Galleons
+( ) $$-1$$ Coins
+( ) $$0$$ Coins
+(x) $$5$$ Coins
+( ) $$11$$ Coins
 ```
 
 ### Q1.3: `Marginal Social Cost:`
 
 ```
-( ) $$45$$ Galleons
-( ) $$55$$ Galleons
-(x) $$65$$ Galleons
-( ) $$70$$ Galleons
+( ) $$49$$ Coins
+( ) $$55$$ Coins
+(x) $$61$$ Coins
+( ) $$66$$ Coins
 ```
 
-### Q1.4: `Total Surplus, including the residents:`
+### Q1.4: `Total Surplus, including residents:`
 
 ```
-( ) $$-10$$ Galleons
-(x) $$-5$$ Galleons
-( ) $$5$$ Galleons
-( ) $$15$$ Galleons
+( ) $$-6$$ Coins
+(x) $$-1$$ Coins
+( ) $$5$$ Coins
+( ) $$11$$ Coins
 ```
 
-### Q1.5: `Deadweight Loss from this exchange:`
+### Q1.5: `Deadweight Loss:`
 
 ```
-( ) $$0$$ Galleons
-(x) $$5$$ Galleons
-( ) $$10$$ Galleons
-( ) $$15$$ Galleons
+( ) $$0$$ Coins
+(x) $$1$$ Coins
+( ) $$5$$ Coins
+( ) $$6$$ Coins
 ```
 
-## Q2: `Market Equilibrium`
+## Q2: `A Single Exchange (b)`
 
 ```
-Smoked toffee, with demand $$P = 100 - Q_d$$ and supply $$P = 10 + Q_s$$, in Galleons. The proliferation of smoked toffee makers has meant the town saw a subsequent rise in _smoke_. Wood smoke can cause lung issues and carries a cost of 10 Galleons to the health of Hogsmeade residents.
+Smoked toffee, with demand $$P = 20 - \frac{1}{2} Q_d$$ and supply $$P = 2 + Q_s$$, in Coins. Wood smoke from making toffee carries a cost of 6 Coins to the health of Hogsmeade residents.
+
+Exchange b): the buyer’s MB is 80 Coins and the seller’s MC is 40 Coins.
 ```
 
-### Q2.1: `Marginal Social Cost:`
+### Q2.1: `Will buyer and seller exchange?`
 
 ```
-( ) $$P = 10 + Q$$
-(x) $$P = 20 + Q$$
-( ) $$P = Q$$
-( ) $$P = 90 - Q$$
+(x) Yes
+( ) No
 ```
 
-### Q2.2: `Market Equilibrium Price:`
+### Q2.2: `Total Surplus to buyer and seller:`
 
 ```
-( ) $$45$$ Galleons
-( ) $$50$$ Galleons
-(x) $$55$$ Galleons
-( ) $$60$$ Galleons
+( ) $$34$$ Coins
+(x) $$40$$ Coins
+( ) $$46$$ Coins
+( ) $$80$$ Coins
 ```
 
-### Q2.3: `Market Equilibrium Quantity:`
+### Q2.3: `Marginal Social Cost:`
 
 ```
-( ) $$40$$ toffees
-(x) $$45$$ toffees
-( ) $$50$$ toffees
-( ) $$55$$ toffees
+( ) $$34$$ Coins
+( ) $$40$$ Coins
+(x) $$46$$ Coins
+( ) $$86$$ Coins
 ```
 
-### Q2.4: `Socially Efficient Quantity:`
+### Q2.4: `Total Surplus, including residents:`
 
 ```
-( ) $$35$$ toffees
-(x) $$40$$ toffees
-( ) $$45$$ toffees
-( ) $$50$$ toffees
+( ) $$0$$ Coins
+(x) $$34$$ Coins
+( ) $$40$$ Coins
+( ) $$46$$ Coins
 ```
 
 ### Q2.5: `Deadweight Loss:`
 
 ```
-( ) $$5$$ Galleons
-(x) $$25$$ Galleons
-( ) $$50$$ Galleons
-( ) $$100$$ Galleons
+(x) $$0$$ Coins
+( ) $$6$$ Coins
+( ) $$34$$ Coins
+( ) $$40$$ Coins
 ```
 
-## Q3: `Which concepts?`
+## Q3: `Market Equilibrium`
+
+```
+See Q1 c) on the Exercise C1 handout. Smoked toffee, with demand $$P = 20 - \frac{1}{2} Q_d$$ and supply $$P = 2 + Q_s$$, in Coins. Wood smoke from making toffee carries a cost of 6 Coins to the health of Hogsmeade residents.
+```
+
+### Q3.1: `Equilibrium Price:`
+
+```
+( ) $$12$$ Coins
+(x) $$14$$ Coins
+( ) $$16$$ Coins
+( ) $$20$$ Coins
+```
+
+### Q3.2: `Equilibrium Quantity:`
+
+```
+( ) $$8$$ toffees
+( ) $$10$$ toffees
+(x) $$12$$ toffees
+( ) $$14$$ toffees
+```
+
+### Q3.3: `Efficient Quantity:`
+
+```
+( ) $$6$$ toffees
+(x) $$8$$ toffees
+( ) $$10$$ toffees
+( ) $$12$$ toffees
+```
+
+### Q3.4: `Deadweight Loss:`
+
+```
+( ) $$6$$ Coins
+(x) $$12$$ Coins
+( ) $$24$$ Coins
+( ) $$48$$ Coins
+```
+
+## Q4: `Yard Flowers`
+
+```
+See Q2 | Yard Flowers on the Exercise C1 handout. A dozen flowers, with demand $$P = 100 - \frac{1}{2} Q_d$$ and supply $$P = \frac{1}{2} Q_s$$, in Coins. Flowers in front yards carry a benefit of 10 Coins per dozen to the neighbors.
+```
+
+### Q4.1: `Equilibrium Quantity:`
+
+```
+( ) $$90$$ dozen
+(x) $$100$$ dozen
+( ) $$110$$ dozen
+( ) $$120$$ dozen
+```
+
+### Q4.2: `Efficient Quantity:`
+
+```
+( ) $$90$$ dozen
+( ) $$100$$ dozen
+(x) $$110$$ dozen
+( ) $$120$$ dozen
+```
+
+### Q4.3: `Deadweight Loss:`
+
+```
+( ) $$25$$ Coins
+(x) $$50$$ Coins
+( ) $$100$$ Coins
+( ) $$500$$ Coins
+```
+
+## Q5: `Which concepts?`
 
 Gradescope-only: not on the printed exercise. Graded by hand for completion, so any response earns the point.
 
@@ -127,7 +202,7 @@ Gradescope-only: not on the printed exercise. Graded by hand for completion, so 
 Which concepts (if any) from this block would you want explained in more detail in lecture or recitation?
 ```
 
-### Q3.1: `Select all that apply.`
+### Q5.1: `Select all that apply.`
 
 ```
 [ ] Total surplus of a single exchange
@@ -135,5 +210,6 @@ Which concepts (if any) from this block would you want explained in more detail 
 [ ] Deadweight loss from a single exchange
 [ ] Market vs. socially efficient quantity
 [ ] Deadweight loss on a graph
+[ ] Marginal social benefit from a positive externality
 [ ] Nothing: all clear
 ```

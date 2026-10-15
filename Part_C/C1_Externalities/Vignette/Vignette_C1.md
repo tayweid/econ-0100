@@ -8,36 +8,72 @@ plass:
 
 *Due in Recitation. Vignettes are a certificate of the work done together in Recitation.*
 
-Residents of Hogsmeade enjoy pumpkin pasties year round. The Demand (marginal benefit) curve and Supply (marginal cost) curve for pumpkin pasties can be represented using the following relationships.
+Hogsmeade has recently seen a surge in shops selling Glittering Gum, a candy that makes one’s words sparkle and glisten as one speaks. The Demand curve and Supply curve for Glittering Gum can be represented using the following relationships:
 
 $$
-D: P_b = 30 - \frac{1}{2} Q_b
+D: P_b = 30 - \frac{1}{2} Q_d \qquad\qquad S: P_s = 6 + \frac{1}{4} Q_s
 $$
 
-$$
-S: P_s = 6 + \frac{1}{4} Q_s
-$$
+After years of careful epidemiological analysis, a subcommittee of the Ministry tasked with improving the health of the wizarding community published a story in the Daily Profit establishing a link between the consumption of Glittering Gum and “Starlight Sneeze,” a condition where non-consumers start sneezing out harmless but bothersome glitter. The story estimated this condition carries an inconvenience cost of 6 Coins per unit to those in Hogsmeade. 
 
-However, a recent report conducted by the Daily Profit conclusively established a link between the consumption of pumpkin pasties and accidental magical spells, with a cost to society of 6 galleons per pasty.
+Use a graph and algebra to find equilibrium price, quantity, and DWL.
 
-## Q1 | Market Equilibrium
+:::: {.columns gutter=1em}
 
-Find the market equilibrium price, quantity, and DWL. Use algebra and a graph to guide your answers.
+::: {.column width=30%}
+
+Equilibrium Price ($\hat{P}$):
+
+:::
+
+::: {.column width=20%}
+
+\_\_\_\_\_\_\_\_\_\_
+
+:::
+
+::: {.column width=30%}
+
+Equilibrium Quantity ($\hat{Q}$):
+
+:::
+
+::: {.column width=20%}
+
+\_\_\_\_\_\_\_\_\_\_
+
+:::
+
+::::
+
+:::: {.columns .continued gutter=1em}
+
+::: {.column width=30%}
+
+Efficient Quantity ($Q^*$):
+
+:::
+
+::: {.column width=20%}
+
+\_\_\_\_\_\_\_\_\_\_
+
+:::
+
+::: {.column width=30%}
+
+Deadweight Loss (*DWL*):
+
+:::
+
+::: {.column width=20%}
+
+\_\_\_\_\_\_\_\_\_\_
+
+:::
+
+::::
 
  
 
  
-
-a\) Market Equilibrium Quantity: \_\_\_\_\_\_\_\_\_\_ Socially Efficient Quantity: \_\_\_\_\_\_\_\_\_\_
-
-b\) Market Equilibrium Price: \_\_\_\_\_\_\_\_\_\_ Deadweight Loss: \_\_\_\_\_\_\_\_\_\_
-
-<!--
-Editor. Source. The story and Q1 are 24F Demo C1, "Somethin’s Up With Pumpkins", Q1 (of 3) "Market Equilibrium" (ECON_0100/Checkpoints/C/_Archive/24F_Demo_C.md, +pdf), verbatim. Left out: the MiniExam timing line and the Academic Conduct Code, the story title (the Part B Vignettes have none), and the "(of 3)". Q2–Q3 of that demo are Vignette C3.
-Answers. Superseded by the renumbering on 2026-10-13: see the last editor note.
-Gap: C1.2 Positive Externalities.
--->
-
-<!--
-Editor. Renumbered 2026-10-13 so the Vignettes share one set of pasty curves, distinct from the Exercises' smoked toffee (which had the same 100 − Q, 10 + Q, cost 10, so the answers repeated): D: P = 30 − Q/2, S: P = 6 + Q/4, spells cost 6 per pasty. The answers in the note above are superseded. New answers. Market: 30 − Q/2 = 6 + Q/4, Q 32, P 14. MSC = 12 + Q/4; efficient Q 24 (P 18). DWL ½ · 6 · 8 = 24.
--->

@@ -22,150 +22,133 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ```
 Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Work through the questions on paper first, plotting each curve and computing each number, then enter your answers here as selections. You are welcomed and encouraged to work in groups so long as your work is your own.
 
-See Q1 | The Butterbeer Tax on the Homework C2 handout (the PDF on the course page). Butterbeer, with demand $$P_B = 40 - Q_D$$ and supply $$P_S = 10 + \frac{1}{2} Q_S$$, in galleons. The Ministry of Magic imposes a 6 galleon tax on the sale of butterbeer.
+See Q1 | The Butterbeer Tax on the HW C2 handout (the PDF on the course page). Butterbeer, with demand $$P_B = 100 - \frac{1}{2} Q_D$$ and supply $$P_S = 20 + \frac{1}{2} Q_S$$, in galleons. The Ministry of Magic imposes a 6 galleon tax on the sale of butterbeer.
 ```
 
 ### Q1.1: `Pre-Tax Price:`
 
 ```
-( ) $$18$$ galleons
-(x) $$20$$ galleons
-( ) $$24$$ galleons
-( ) $$26$$ galleons
+( ) $$57$$ galleons
+(x) $$60$$ galleons
+( ) $$63$$ galleons
+( ) $$80$$ galleons
 ```
 
 ### Q1.2: `Pre-Tax Quantity:`
 
 ```
-( ) $$12$$ bottles
-( ) $$14$$ bottles
-( ) $$16$$ bottles
-(x) $$20$$ bottles
+( ) $$60$$ bottles
+( ) $$74$$ bottles
+(x) $$80$$ bottles
+( ) $$86$$ bottles
 ```
 
 ### Q1.3: `Post-Tax Quantity:`
 
 ```
-(x) $$16$$ bottles
-( ) $$18$$ bottles
-( ) $$20$$ bottles
-( ) $$24$$ bottles
+( ) $$60$$ bottles
+(x) $$74$$ bottles
+( ) $$80$$ bottles
+( ) $$86$$ bottles
 ```
 
 ### Q1.4: `Buyer Price:`
 
 ```
-( ) $$18$$ galleons
-( ) $$20$$ galleons
-(x) $$24$$ galleons
-( ) $$26$$ galleons
+( ) $$57$$ galleons
+( ) $$60$$ galleons
+(x) $$63$$ galleons
+( ) $$66$$ galleons
 ```
 
 ### Q1.5: `Seller Price:`
 
 ```
-( ) $$14$$ galleons
+( ) $$54$$ galleons
+(x) $$57$$ galleons
+( ) $$60$$ galleons
+( ) $$63$$ galleons
+```
+
+### Q1.6: `Government Revenue:`
+
+```
+( ) $$360$$ galleons
+(x) $$444$$ galleons
+( ) $$480$$ galleons
+( ) $$516$$ galleons
+```
+
+### Q1.7: `Deadweight Loss:`
+
+```
+( ) $$6$$ galleons
 (x) $$18$$ galleons
-( ) $$20$$ galleons
-( ) $$24$$ galleons
-```
-
-### Q1.6: `Consumer Surplus:`
-
-```
-( ) $$64$$ galleons
-( ) $$100$$ galleons
-(x) $$128$$ galleons
-( ) $$200$$ galleons
-```
-
-### Q1.7: `Producer Surplus:`
-
-```
-(x) $$64$$ galleons
-( ) $$96$$ galleons
-( ) $$100$$ galleons
-( ) $$128$$ galleons
-```
-
-### Q1.8: `Government Revenue:`
-
-```
 ( ) $$36$$ galleons
-( ) $$48$$ galleons
-( ) $$72$$ galleons
-(x) $$96$$ galleons
+( ) $$120$$ galleons
 ```
 
-### Q1.9: `Deadweight Loss:`
+### Q1.8: `Tax Incidence on Buyers:`
 
 ```
-( ) $$6$$ galleons
-(x) $$12$$ galleons
-( ) $$24$$ galleons
-( ) $$36$$ galleons
-```
-
-### Q1.10: `Tax Incidence on Buyers:`
-
-```
+( ) $$0$$ galleons
 ( ) $$2$$ galleons
-( ) $$3$$ galleons
-(x) $$4$$ galleons
+(x) $$3$$ galleons
 ( ) $$6$$ galleons
 ```
 
-### Q1.11: `Tax Incidence on Sellers:`
+### Q1.9: `Tax Incidence on Sellers:`
 
 ```
-(x) $$2$$ galleons
-( ) $$3$$ galleons
-( ) $$4$$ galleons
+( ) $$0$$ galleons
+( ) $$2$$ galleons
+(x) $$3$$ galleons
 ( ) $$6$$ galleons
-```
-
-### Q1.12: `Who bears more of the tax?`
-
-```
-(x) Buyers
-( ) Sellers
-( ) Equal
 ```
 
 ## Q2: `The Butterbeer Subsidy`
 
 ```
-See Q2 | The Butterbeer Subsidy on the Homework C2 handout. Butterbeer, with demand $$P_B = 40 - Q_D$$ and supply $$P_S = 10 + \frac{1}{2} Q_S$$, in galleons. There is no tax. Instead, the Ministry of Magic pays a 6 galleon subsidy on every butterbeer sold.
+See Q2 | The Butterbeer Subsidy on the HW C2 handout. Butterbeer, with demand $$P_B = 100 - \frac{1}{2} Q_D$$ and supply $$P_S = 20 + \frac{1}{2} Q_S$$, in galleons. There is no tax. Instead, the Ministry of Magic pays a 6 galleon subsidy on every butterbeer sold.
 ```
 
-### Q2.1: `Post-Subsidy Quantity:`
+### Q2.1: `Post-Subs Quantity:`
 
 ```
-( ) $$16$$ bottles
-( ) $$20$$ bottles
-( ) $$22$$ bottles
-(x) $$24$$ bottles
+( ) $$74$$ bottles
+( ) $$80$$ bottles
+(x) $$86$$ bottles
+( ) $$92$$ bottles
 ```
 
-### Q2.2: `Buyer Price:`
+### Q2.2: `Deadweight Loss:`
 
 ```
-( ) $$14$$ galleons
-(x) $$16$$ galleons
-( ) $$18$$ galleons
-( ) $$20$$ galleons
+( ) $$6$$ galleons
+(x) $$18$$ galleons
+( ) $$36$$ galleons
+( ) $$516$$ galleons
 ```
 
-### Q2.3: `Seller Price:`
+### Q2.3: `Buyer Price:`
 
 ```
-( ) $$18$$ galleons
-( ) $$20$$ galleons
-(x) $$22$$ galleons
-( ) $$24$$ galleons
+( ) $$54$$ galleons
+(x) $$57$$ galleons
+( ) $$60$$ galleons
+( ) $$63$$ galleons
 ```
 
-### Q2.4: `For the bottles sold beyond the pre-subsidy quantity, how does marginal benefit compare with marginal cost?`
+### Q2.4: `Seller Price:`
+
+```
+( ) $$57$$ galleons
+( ) $$60$$ galleons
+(x) $$63$$ galleons
+( ) $$66$$ galleons
+```
+
+### Q2.5: `For the bottles sold beyond the pre-subsidy quantity, how does marginal benefit compare with marginal cost?`
 
 ```
 ( ) Marginal benefit is above marginal cost, so these added trades raise total surplus.
@@ -186,7 +169,7 @@ Which concepts (if any) from this block would you want explained in more detail 
 
 ```
 [ ] Buyer and seller prices with a tax
-[ ] Surplus, revenue, and DWL with a tax
+[ ] Revenue and DWL with a tax
 [ ] Tax incidence
 [ ] Buyer and seller prices with a subsidy
 [ ] Why a subsidy's added trades reduce surplus

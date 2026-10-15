@@ -126,6 +126,17 @@ See Q3 | Deadweight Loss Intuition on the Homework C1 handout (the PDF on the co
 ( ) The externality causes the market to produce at a quantity where the marginal social benefit of consumption exceeds the marginal social cost of production, leading to inefficiency and reduced total surplus.
 ```
 
+### Q3.2: `Deadweight loss of the gallon of gas:`
+
+```
+If the marginal cost of a gallon of gas is \$4.00, the negative externality is \$2.50, and the marginal benefit is \$4.50, what is the deadweight loss?
+
+( ) $$0.50$$ dollars
+(x) $$2.00$$ dollars
+( ) $$2.50$$ dollars
+( ) $$6.50$$ dollars
+```
+
 ## Q4: `Which concepts?`
 
 Gradescope-only: not on the printed homework. Graded by hand for completion, so any response earns the point.
@@ -143,5 +154,6 @@ Which concepts (if any) from this block would you want explained in more detail 
 [ ] Marginal social benefit above private benefit
 [ ] Deadweight loss on a supplied graph
 [ ] Why a negative externality creates deadweight loss
+[ ] Deadweight loss of a single trade
 [ ] Nothing: all clear
 ```

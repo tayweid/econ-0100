@@ -17,12 +17,12 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `Policy Proposal`
+## Q1: `Correcting Smoked Toffee`
 
 ```
-Smoked toffee, with demand $$P_B = 20 - \frac{1}{2} Q_D$$ and supply $$P_S = 2 + Q_S$$, in Galleons. Wood smoke from production imposes an external cost of 3 Galleons per unit of smoked toffee on Hogsmeade residents.
+See Q1 on the Exercise C3 handout. Smoked toffee, with demand $$P = 20 - \frac{1}{2} Q_d$$ and supply $$P = 2 + Q_s$$, in Coins. Wood smoke from making toffee carries a cost of 6 Coins to the health of Hogsmeade residents.
 
-What type and size of policy would you propose to eliminate the deadweight loss from the wood smoke?
+What type and size of policy would you propose to eliminate the DWL you identified in Exercise C1?
 ```
 
 ### Q1.1: `Policy Type:`
@@ -37,52 +37,108 @@ What type and size of policy would you propose to eliminate the deadweight loss 
 ### Q1.2: `Policy Size:`
 
 ```
-( ) $$1$$ Galleons
-( ) $$2$$ Galleons
-(x) $$3$$ Galleons
-( ) $$6$$ Galleons
+( ) $$2$$ Coins
+( ) $$3$$ Coins
+(x) $$6$$ Coins
+( ) $$12$$ Coins
 ```
 
-### Q1.3: `Buyer Price:`
+### Q1.3: `Buyer’s Price:`
 
 ```
-( ) $$12$$ Galleons
-( ) $$14$$ Galleons
-(x) $$15$$ Galleons
-( ) $$17$$ Galleons
+( ) $$10$$ Coins
+( ) $$14$$ Coins
+(x) $$16$$ Coins
+( ) $$20$$ Coins
 ```
 
-### Q1.4: `Seller Price:`
+### Q1.4: `Seller’s Price:`
 
 ```
-( ) $$11$$ Galleons
-(x) $$12$$ Galleons
-( ) $$14$$ Galleons
-( ) $$15$$ Galleons
+( ) $$8$$ Coins
+(x) $$10$$ Coins
+( ) $$12$$ Coins
+( ) $$14$$ Coins
 ```
 
 ### Q1.5: `Post-Policy Quantity:`
 
 ```
-( ) $$8$$ toffees
-(x) $$10$$ toffees
+( ) $$6$$ toffees
+(x) $$8$$ toffees
+( ) $$10$$ toffees
 ( ) $$12$$ toffees
-( ) $$14$$ toffees
 ```
 
-## Q2: `Deadweight Loss Intuition`
+### Q1.6: `Deadweight Loss:`
 
 ```
-If the marginal cost of a gallon of gas is $$\$4.00$$, the negative externality is $$\$1.00$$, and the marginal benefit is $$\$4.50$$, what is the deadweight loss?
+(x) $$0$$ Coins
+( ) $$6$$ Coins
+( ) $$12$$ Coins
+( ) $$24$$ Coins
 ```
 
-### Q2.1: `Deadweight Loss:`
+## Q2: `Correcting Yard Flowers`
 
 ```
-( ) $$\$0$$
-(x) $$\$0.50$$
-( ) $$\$1.00$$
-( ) $$\$1.50$$
+See Q2 on the Exercise C3 handout. A dozen flowers, with demand $$P = 100 - \frac{1}{2} Q_d$$ and supply $$P = \frac{1}{2} Q_s$$, in Coins. Flowers in front yards carry a benefit of 10 Coins per dozen to the neighbors.
+
+What type and size of policy would you propose to eliminate the DWL you identified in Exercise C1?
+```
+
+### Q2.1: `Policy Type:`
+
+```
+( ) Tax
+(x) Subsidy
+( ) Price ceiling
+( ) Price floor
+```
+
+### Q2.2: `Policy Size:`
+
+```
+( ) $$5$$ Coins
+(x) $$10$$ Coins
+( ) $$20$$ Coins
+( ) $$50$$ Coins
+```
+
+### Q2.3: `Buyer’s Price:`
+
+```
+( ) $$40$$ Coins
+(x) $$45$$ Coins
+( ) $$50$$ Coins
+( ) $$55$$ Coins
+```
+
+### Q2.4: `Seller’s Price:`
+
+```
+( ) $$45$$ Coins
+( ) $$50$$ Coins
+(x) $$55$$ Coins
+( ) $$60$$ Coins
+```
+
+### Q2.5: `Post-Policy Quantity:`
+
+```
+( ) $$90$$ dozen
+( ) $$100$$ dozen
+(x) $$110$$ dozen
+( ) $$120$$ dozen
+```
+
+### Q2.6: `Deadweight Loss:`
+
+```
+(x) $$0$$ Coins
+( ) $$25$$ Coins
+( ) $$50$$ Coins
+( ) $$100$$ Coins
 ```
 
 ## Q3: `Which concepts?`
@@ -97,8 +153,8 @@ Which concepts (if any) from this block would you want explained in more detail 
 
 ```
 [ ] Choosing a corrective policy
-[ ] Sizing a corrective tax
-[ ] Buyer and seller prices with a corrective tax
-[ ] Deadweight loss from a single exchange
+[ ] Sizing a corrective tax or subsidy
+[ ] Buyer and seller prices with a corrective policy
+[ ] How a corrective policy removes the deadweight loss
 [ ] Nothing: all clear
 ```
