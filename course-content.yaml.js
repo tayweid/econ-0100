@@ -165,10 +165,10 @@ parts:
           reattempt_when: Thu Oct 8, 2:30–4:30 PM
           date: '2026-09-09'
           links:
-            - {label: Solutions V1, file: Part_A/A_MiniExam/Checkpoint_A_1_sols.pdf}
-            - {label: Solutions V2, file: Part_A/A_MiniExam/Checkpoint_A_2_sols.pdf}
-            - {label: Solutions V3, file: Part_A/A_MiniExam/Checkpoint_A_3_sols.pdf}
-            - {label: Solutions V4, file: Part_A/A_MiniExam/Checkpoint_A_4_sols.pdf}
+            - {label: Solutions V1, file: Part_A/A_Demo/Checkpoint_A_1_sols.pdf}
+            - {label: Solutions V2, file: Part_A/A_Demo/Checkpoint_A_2_sols.pdf}
+            - {label: Solutions V3, file: Part_A/A_Demo/Checkpoint_A_3_sols.pdf}
+            - {label: Solutions V4, file: Part_A/A_Demo/Checkpoint_A_4_sols.pdf}
           description: >-
             Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
@@ -176,7 +176,7 @@ parts:
             video: KH0MkPxWsig
             description: >-
               Attempt Demo A first, then walk through with me. The video is the Fall 2024 Demo A, with the same story and numbers. It walks through the first parts of each question; the later parts are new this year and use the same skills. Where the video answers "attainable? yes" in Q2, this year's sheet asks you to say "inefficient."
-            links: [{label: Demo A, file: Part_A/A_MiniExam/Demo_A.pdf}]
+            links: [{label: Demo A, file: Part_A/A_Demo/Demo_A.pdf}]
 
   B:
     title: How Competitive Markets Work
@@ -323,12 +323,13 @@ parts:
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: xMhI4kJC-mA
-            links: [{label: Demo B, file: Part_B/B_Checkpoint/Demo_B.pdf}, {label: Solutions, file: Part_B/B_Checkpoint/Demo_B_sols.pdf}]
+            links: [{label: Demo B, file: Part_B/B_Demo/Demo_B.pdf}, {label: Solutions, file: Part_B/B_Demo/Demo_B_sols.pdf}]
             description: 'Start by trying the Demo on your own. Then check your work with a friend using the Solutions. Then follow me in this video for my process.'
 
   C:
     title: Externalities
     tagline: externalized costs and benefits lead to inefficient markets
+    links: [{label: Skillsheet, file: Part_C/C_Skillsheet.pdf}]
     introduction: >-
       In Part A we set up the landscape of what’s possible and in Part B we introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. But not every market is competitive or without externalities. Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. We’ll build the models to show how pollution, taxes, and corrective policies can either harm or correct market behavior.
     sections:
@@ -420,6 +421,7 @@ parts:
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: lna7UhNOOro
+            links: [{label: Demo C, file: Part_C/C_Demo/Demo_C.pdf}, {label: Solutions, file: Part_C/C_Demo/Demo_C_sols.pdf}]
 
   D:
     title: Strategic Interaction

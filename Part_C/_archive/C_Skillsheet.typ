@@ -21,7 +21,7 @@ Each skill has three types of practice: the *Exercise* (done together in class),
 Skills you pass stay passed. If you do not pass a skill on Checkpoint C, complete all three practices and take the Reattempt.
 
 
-*Assessment scope.* The standards below define the evidence required for each pass. Show calculation setups; minor arithmetic slips do not erase a correct method. Skills are judged separately.
+*Assessment scope.* The standards below define the evidence required for each pass. Show calculation setups; minor arithmetic slips do not erase a correct method. Skills are judged separately. Deadweight loss is the one welfare measure you must calculate; consumer surplus, producer surplus, and government revenue or spending are not required.
 
 == C1.1 | Negative Externalities
 
@@ -33,7 +33,7 @@ An external cost can make privately attractive trades socially costly.
 
 - Add a constant per-unit external cost to marginal private cost to construct marginal social cost.
 - Calculate market and efficient quantities using private and social marginal conditions, and show why the market produces too much.
-- Identify the deadweight-loss region on a graph and explain it using social marginal cost and benefit. Numerical DWL area is not required.
+- Identify the deadweight-loss region on a graph, explain it using social marginal cost and benefit, and calculate its area. #strike[Numerical DWL area is not required.]
 
 == C1.2 | Positive Externalities
 
@@ -45,6 +45,7 @@ An external benefit can make trades socially worthwhile even when private incent
 
 - Identify marginal social benefit above marginal private benefit when an activity generates a positive external benefit.
 - On a supplied graph, identify market and efficient quantities and the deadweight-loss region, and explain why the market produces too little.
+- Calculate the deadweight loss from the market’s too-few trades.
 
 == C2.1 | Taxes & Incidence
 
@@ -56,6 +57,7 @@ A per-unit tax separates the price buyers pay from the price sellers receive.
 
 - Use the tax wedge (buyer price minus seller price equals the tax) and linear demand and supply to calculate the traded quantity and both prices.
 - Compare both prices with the untaxed equilibrium price to calculate the tax burden per unit on each side and identify which side bears more.
+- In a market without externalities, calculate the deadweight loss of the tax from the trades it prevents.
 
 == C2.2 | Subsidies
 
@@ -66,7 +68,7 @@ A per-unit subsidy reverses the wedge between buyers and sellers.
 *You pass if you can:*
 
 - Use the subsidy wedge (seller price minus buyer price equals the subsidy) to calculate the traded quantity and both prices from linear demand and supply.
-- In a market without externalities, explain why the added trades beyond the efficient quantity have marginal cost above marginal benefit. No separate welfare-area calculations are required.
+- In a market without externalities, explain why the added trades beyond the efficient quantity have marginal cost above marginal benefit, and calculate the deadweight loss they create. #strike[No separate welfare-area calculations are required.]
 
 == C3.1 | Corrective Taxes & Subsidies
 
@@ -77,5 +79,5 @@ A corrective policy aligns private incentives with social costs or benefits.
 *You pass if you can:*
 
 - Choose a corrective tax for a negative externality or a corrective subsidy for a positive externality, and set its size equal to the constant per-unit external cost or benefit.
-- Explain how the policy moves quantity toward the efficient level. Separate calculations of policy prices, government revenue or spending, and welfare areas are not required.
+- Explain how the policy moves quantity toward the efficient level, and calculate the deadweight loss that remains under a given policy (zero when the policy equals the external cost or benefit). Separate calculations of policy prices#strike[,] and government revenue or spending#strike[, and welfare areas] are not required.
 

@@ -8,6 +8,12 @@
 
 #let sol-color = rgb("#b3261e")
 
+// Size of the graph text, as a multiple of the defaults below (axis labels 9pt, ticks and
+// labels 8pt). A frame whose graphs are shown smaller or larger than drawn can change it
+// before its first graph: #fig-text.update(1.3)
+#let fig-text = state("fig-text", 1)
+#let fig-size(pt) = pt * fig-text.get()
+
 // ---- graphs -------------------------------------------------------------
 // graph(xmax, ymax, ...items) draws axes in a box; each item is a closure
 // (px, py) => content produced by seg / pt below, where px and py map data
@@ -21,15 +27,15 @@
   box(width: w, height: h, {
     place(line(start: (px(0), py(0)), end: (px(xmax) + 10pt, py(0)), stroke: 0.8pt))
     place(line(start: (px(0), py(0)), end: (px(0), py(ymax) - 10pt), stroke: 0.8pt))
-    place(dx: px(xmax) + 13pt, dy: py(0) - 5pt, text(size: 9pt, xlabel))
-    place(dx: px(0) - 4pt, dy: py(ymax) - 24pt, text(size: 9pt, ylabel))
+    place(dx: px(xmax) + 13pt, dy: py(0) - 5pt, context text(size: fig-size(9pt), xlabel))
+    place(dx: px(0) - 4pt, dy: py(ymax) - 24pt, context text(size: fig-size(9pt), ylabel))
     for t in xticks {
       place(line(start: (px(t), py(0) - 2pt), end: (px(t), py(0) + 2pt), stroke: 0.8pt))
-      place(dx: px(t) - 5pt, dy: py(0) + 4pt, text(size: 8pt, str(t)))
+      place(dx: px(t) - 5pt, dy: py(0) + 4pt, context text(size: fig-size(8pt), str(t)))
     }
     for t in yticks {
       place(line(start: (px(0) - 2pt, py(t)), end: (px(0) + 2pt, py(t)), stroke: 0.8pt))
-      place(dx: px(0) - 18pt, dy: py(t) - 5pt, text(size: 8pt, str(t)))
+      place(dx: px(0) - 18pt, dy: py(t) - 5pt, context text(size: fig-size(8pt), str(t)))
     }
     for it in items.pos() { it(px, py) }
   })
@@ -40,14 +46,14 @@
              stroke: (paint: color, thickness: 1.2pt, dash: dash)))
   if label != none {
     let a = if at == none { ((x1 + x2) / 2, (y1 + y2) / 2) } else { at }
-    place(dx: px(a.at(0)) + 4pt, dy: py(a.at(1)) - 5pt, text(size: 8pt, fill: color, label))
+    place(dx: px(a.at(0)) + 4pt, dy: py(a.at(1)) - 5pt, context text(size: fig-size(8pt), fill: color, label))
   }
 }
 
 #let pt(x, y, color: black, label: none, dx: 5pt, dy: -11pt) = (px, py) => {
   place(dx: px(x) - 2.5pt, dy: py(y) - 2.5pt, circle(radius: 2.5pt, fill: color, stroke: none))
   if label != none {
-    place(dx: px(x) + dx, dy: py(y) + dy, text(size: 8pt, fill: color, label))
+    place(dx: px(x) + dx, dy: py(y) + dy, context text(size: fig-size(8pt), fill: color, label))
   }
 }
 
@@ -60,5 +66,5 @@
 
 // A small label placed at data coordinates, e.g. lbl(1, 11)[CS].
 #let lbl(x, y, body, color: sol-color) = (px, py) => {
-  place(dx: px(x), dy: py(y), text(size: 8pt, fill: color, body))
+  place(dx: px(x), dy: py(y), context text(size: fig-size(8pt), fill: color, body))
 }
