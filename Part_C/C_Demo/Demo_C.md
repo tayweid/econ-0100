@@ -11,7 +11,7 @@ Demos are similar to Checkpoints, often taken directly from past semesters. Work
 
 ## Patronus Lessons
 
-Every winter, dementors drift through Hogsmeade, and the surest defense against them is the Patronus Charm. Private tutors sell lessons in the charm. Each witch or wizard who learns it also protects their neighbors from dementors, an external benefit of 10 Coins per lesson. Prices are in coins and quantity is in lessons. The Demand (Marginal Private Benefit) and Supply (Marginal Cost) equations for lessons are the following:
+Every winter, dementors drift through Hogsmeade, and the surest defense against them is the Patronus Charm. Private tutors sell lessons in the charm. Each witch or wizard who learns it also protects their neighbors from dementors, an external benefit of 10 coins per lesson. Prices are in coins and quantity is in lessons. The Demand (Marginal Private Benefit) and Supply (Marginal Cost) equations for lessons are the following:
 
 $$
 D: P_b = 40 - Q_d \qquad\qquad S: P_s = 10 + Q_s
@@ -23,7 +23,7 @@ $$
 
 :::: {.column width=66.667%}
 
-The graph shows the market for lessons: marginal private benefit (MPB), marginal social benefit (MSB), and supply (S)The lettered regions are for the questions.
+The graph shows the market for lessons: marginal private benefit (MPB), marginal social benefit (MSB), and supply (S). The lettered regions are for the questions.
 
 ::: {.table style=plain inset=4pt columns="auto 1fr" spans=r0c0:2x1 aligns=r0c0:default}
 
