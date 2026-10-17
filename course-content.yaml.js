@@ -347,7 +347,6 @@ parts:
           topic: Environmental protection and negative externalities
           video: prohFxS0E1I
         vignette:
-          video: xKK5JBPXGsg
           description: "*Externalities practice problems*"
         homework:
           file: C1
@@ -402,6 +401,8 @@ parts:
           chapter: 12
           topic: Environmental protection and negative externalities
           video: prohFxS0E1I
+        exercise:
+          video: nRnD-J07q0g
         vignette:
           description: "*Corrective policies practice problems*"
         homework:
