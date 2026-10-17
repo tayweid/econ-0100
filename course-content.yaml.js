@@ -381,7 +381,6 @@ parts:
         vignette:
           description: "*Taxes practice problems*"
           files: C2
-          solutions: false
         homework:
           file: C2
           post: now
