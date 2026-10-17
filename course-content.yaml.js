@@ -346,6 +346,8 @@ parts:
           chapter: 12
           topic: Environmental protection and negative externalities
           video: prohFxS0E1I
+        exercise:
+          video: -IWLMUjfTwI
         vignette:
           description: "*Externalities practice problems*"
         homework:
