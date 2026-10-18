@@ -421,9 +421,13 @@ parts:
           date: '2026-10-19'
           description: >-
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          steps:
+            - name: Part C Overview
+              where: in class
+              links: [{label: Animations, file: Part_C/C4_Wrap_Up/media/C4_present/, icon: fa fa-desktop}]
           demo:
             video: TxGbIwP7Lhk
-            links: [{label: Demo C, file: Part_C/C_Demo/Demo_C.pdf}, {label: Solutions, file: Part_C/C_Demo/Demo_C_sols.pdf}, {label: Animations, file: Part_C/C4_Wrap_Up/media/C4_present/, icon: fa fa-desktop}]
+            links: [{label: Demo C, file: Part_C/C_Demo/Demo_C.pdf}, {label: Solutions, file: Part_C/C_Demo/Demo_C_sols.pdf}]
 
   D:
     title: Strategic Interaction
