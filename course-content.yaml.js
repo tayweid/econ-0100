@@ -423,7 +423,7 @@ parts:
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           steps:
             - name: Part C Overview
-              where: in class
+              where: Review Session
               links: [{label: Animations, file: Part_C/C4_Wrap_Up/media/C4_present/, icon: fa fa-desktop}]
           demo:
             video: TxGbIwP7Lhk
