@@ -68,6 +68,11 @@ def add_market_objects(scene, *mobjects, **kwargs):
             for child in mob.get_family():
                 if isinstance(child, VMobject):
                     child.use_triangulated_fill = True
+                    # Raster pixels retain planar outlines, but still belong to
+                    # the 3D world and participate in camera/depth rendering.
+                    # Restore after every add, including animation re-adds.
+                    if getattr(child, 'preserve_flat_stroke', False):
+                        child.set_flat_stroke(True)
     return scene
 
 

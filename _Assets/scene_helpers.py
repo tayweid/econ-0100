@@ -51,6 +51,9 @@ def Raster_Font(string):
         for index in block_indecies:
             w, h = block[index]
             square = Square(side_length=block_size, color=config.background_color)
+            # These outlines separate adjacent pixels. Keep their flat stroke
+            # geometry even in a 3D scene; perpendicular strokes chip the corners.
+            square.preserve_flat_stroke = True
             square.move_to(RIGHT * (w + block_shift / block_size + base_center) * block_size + DOWN * h * block_size)
             squares.append(square)
 
