@@ -484,14 +484,28 @@ class C4(ThreeDScene):
             return ([m.animate.set_opacity(DIM_CURVES if on else 1) for m in curves] +
                     [m.animate.set_opacity((0 if hides(m) else DIM_REST) if on else 1) for m in pieces])
 
-        def reveal_unit(stage):
+        def reveal_unit(stage, pause_prefix=None):
             """The unit's picture in the order it is found, once the line stands at the quantity and
             the dots sit where it meets the curves: the flanges pop out from the dots, then the
             numbers and names (and any prices), then the bars drop from the flanges."""
-            self.play(*[GrowFromPoint(e, d.get_center()) for e, d in zip(stage['edges'], stage['dots'])], run_time=0.35)
-            self.add(stage['edges'])
-            words = [stage[k] for k in ('names', 'values', 'prices', 'price_marks') if len(stage[k])]
-            self.play(*[FadeIn(m) for m in words], run_time=0.35)
+            if pause_prefix:
+                pieces = stage['system']['buyer'] + stage['system']['seller']
+                for i, (_, fill_color, _, name) in enumerate(pieces):
+                    self.play(GrowFromPoint(stage['edges'][i], stage['dots'][i].get_center()), run_time=0.35)
+                    labels = [stage['name_tex'][name], stage['values'][i]]
+                    if fill_color == EXT:
+                        labels.append(stage['name_tex']['EXT'])
+                    self.play(*[FadeIn(m) for m in labels], run_time=0.35)
+                    self.pause(f'{pause_prefix}.{name.lower()}')
+                self.add(stage['edges'], stage['names'], stage['values'])
+                prices = [stage[k] for k in ('prices', 'price_marks') if len(stage[k])]
+                if prices:
+                    self.play(*[FadeIn(m) for m in prices], run_time=0.35)
+            else:
+                self.play(*[GrowFromPoint(e, d.get_center()) for e, d in zip(stage['edges'], stage['dots'])], run_time=0.35)
+                self.add(stage['edges'])
+                words = [stage[k] for k in ('names', 'values', 'prices', 'price_marks') if len(stage[k])]
+                self.play(*[FadeIn(m) for m in words], run_time=0.35)
             bars = stage['bars']
             bars.save_state()
             for bar in bars:
@@ -557,10 +571,11 @@ class C4(ThreeDScene):
             decide_unit(stage, lines, pause_prefix)
             return stage
 
-        def jump_unit(stage, u, lines, pause_prefix):
+        def jump_unit(stage, u, lines, pause_prefix, explain_values=False):
             """The unit moves to another quantity: the picture clears down to the line and the dots,
             which slide along the curves to the new quantity (the ordinal counting with them); the
-            picture fills back in there and the beats decide, with one pausepoint after the values."""
+            picture fills back in there and the beats decide. The first two moves pause at the
+            quantity and reveal each marginal value separately; later moves reveal them together."""
             new = unit_stage(stage['system'], u)
             new.update(questions=stage['questions'], first=stage['first'], faded=stage['faded'], curves=stage['curves'])
             leaving = [stage[k] for k in STAGE_KEYS if k not in ('line', 'dots') and len(stage[k])]
@@ -592,7 +607,9 @@ class C4(ThreeDScene):
                       Transform(stage['dots'], new['dots'].copy()), run_time=1.0)
             self.remove(stage['line'][0], counter, stage['dots'])
             self.add(new['line'], new['dots'])
-            reveal_unit(new)
+            if explain_values:
+                self.pause(f'{pause_prefix}.quantity')
+            reveal_unit(new, pause_prefix if explain_values else None)
             self.pause(f'{pause_prefix}.values')
             decide_unit(new, lines)
             return new
@@ -781,11 +798,11 @@ class C4(ThreeDScene):
         self.pause('2.c')
 
         # ---- 2.d.inside · Jump to a unit both answers accept: its gap is surplus, not loss.
-        stage = jump_unit(stage, 28, 'The 28th unit: both answers are yes, so its gap is surplus, not loss.', '2.d.inside')
+        stage = jump_unit(stage, 28, 'The 28th unit: both answers are yes, so its gap is surplus, not loss.', '2.d.inside', explain_values=True)
         self.pause('2.d.inside')
 
         # ---- 2.d.outside · Jump past both quantities: never traded, nothing lost.
-        stage = jump_unit(stage, 44, 'The 44th unit: both answers are no. It is never traded, so nothing is lost.', '2.d.outside')
+        stage = jump_unit(stage, 44, 'The 44th unit: both answers are no. It is never traded, so nothing is lost.', '2.d.outside', explain_values=True)
         self.pause('2.d.outside')
 
         # ---- 2.d · Stage 3: every unit between the two quantities, starting from the 36th.
