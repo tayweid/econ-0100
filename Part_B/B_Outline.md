@@ -6,6 +6,8 @@
 
 - add in more history to the notes
 - use the china shock literature as reference and framing for the section on trade in Part B
+- I want to separate Part B into two parts. The big problem with it as is is that the checkpoint ends up being way too long if it’s all in one. And Fall 2026 we didn’t even add international trade to it. I’m not totally sure how to separate, but one thought is to just split it as is, with international trade in the second one. Maybe equilibrium in the first, and all the other material in the second. The other thought is to move some of Part F up to right after Part A. Not everything in Part F is totally necessary, so keep the derivation of demand and maybe a few other things, and bundle that with demand. But it’s also really nice at the end. Could try to get to General Equilibrium ideas in Part F. 
+- I want to spend more focussed time on the idea of Deadweight Loss when doing First Welfare theorem. It’s very important in Part C. And I’m not sure I’ve done everything to set the stage in Part B.
 
 Specialization and trade mean interacting can benefit everyone. The PPF tells us what’s avaiable: a point on the PPF represents a combination of quantities of the two goods. But we also need to think about who gets these goods, and how much does everyone get?
 
