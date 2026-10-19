@@ -50,9 +50,7 @@ below names a click-through pause. New prose fades in only after old prose leave
 1.c · The same box turns green without moving; green Part B appears one unit below Part A.
 1.d · The same box shifts DOWN exactly 0.5 units and turns teal; teal Part C appears one unit below Part B. This original offset is intentional and is not a new cell selection.
 1.e · Move the same box, without resizing, to Common Resources and turn it red. No added Part D label at left. After this pause, fade out the table, box, and A/B/C labels, then the retained opening, and continue directly to Baby Game Theory instead of the old fishing-simulation rules.
-2.a · “Baby Game Theory”: Best Response definition fades in.
-2.b · Dominant Strategy definition joins below.
-2.c · Nash Equilibrium definition joins below; clear the definition card before the first matrix.
+2.c · “Baby Game Theory”: show the Nash Equilibrium definition alone; clear it before the first matrix. Best Response and Dominant Strategy now follow Player 1’s worked example at 3.e2–3.e3.
 3.a1 · Prisoner's Dilemma: reveal the diamond grid, then Player 1's two choices. Gold caption: “Player 1 chooses Cooperate or Defect.”
 3.a2 · Reveal Player 2's two choices. Gold caption: “Player 2 also chooses Cooperate or Defect.”
 3.a2r · Player 2 chooses Cooperate. Underline Cooperate in teal and shade only Player 2’s corresponding column. Pause before Player 1 chooses; no payoffs yet.
@@ -74,6 +72,9 @@ below names a click-through pause. New prose fades in only after old prose leave
 3.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
 3.d · Teal shading and underline identify Player 2 choosing Defect; “If Player 2 chooses Defect, what is your best response?”
 3.e · Add pink boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
+3.e1 · Remove Player 2's fixed-choice shading and underline; retain both pink best-response payoff boxes. Gold caption: “Player 1's dominant strategy is Defect.” Pause to establish the result before defining it.
+3.e2 · Slide all visible game objects 3.7 units left at their existing size, retaining the title and bottom caption. Draw the familiar subtle grey vertical divider downward at x=0.3, from y=2.5 to -3.0 (MUTED, width 1, opacity 0.5). Fade in Best Response on the right: original definition wording reflowed at scale 0.7, gold term and white serif body. Pause.
+3.e3 · Fade in Dominant Strategy below Best Response, matching its typography, with a 0.65-unit gap. Pause with both definitions and the worked game visible. Then fade out the definitions/divider and return the game to its original centered position before continuing Player 2's best-response analysis.
 3.f · Pink shading and underline identify Player 1 choosing Cooperate; “If Player 1 chooses Cooperate, what is your best response?”
 3.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes.
 3.h · Pink shading and underline identify Player 1 choosing Defect; “If Player 1 chooses Defect, what is your best response?”

@@ -83,31 +83,15 @@ class EpisodeD1(Scene):
         self.play(FadeOut(opening))
         self.clear()
 
-        # ---- 2.a–2.c · Original definitions, with this semester's serif roles.
+        # ---- 2.c · Retain the Nash definition; strategy definitions follow the example.
         head = title('Baby Game Theory')
-        best_response = VGroup(
-            Tex('Best Response', color=DEFINITION),
-            Tex('The strategy that gives a player the highest payoff,', color=INK),
-            Tex('given the strategies chosen by the other players in the game.', color=INK),
-        ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.8)
-        dominant = VGroup(
-            Tex('Dominant Strategy', color=DEFINITION),
-            Tex('A strategy that yields the highest payoff for a player', color=INK),
-            Tex('regardless of the strategies chosen by the other players in the game.', color=INK),
-        ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.8)
         nash_definition = VGroup(
             Tex('Nash Equilibrium', color=DEFINITION),
             Tex('A set of strategies such that no player can improve their payoff', color=INK),
             Tex('by unilaterally changing strategy.', color=INK),
         ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.8)
-        definitions = VGroup(best_response, dominant, nash_definition)
-        definitions.arrange(DOWN, buff=0.45, aligned_edge=LEFT)
-        definitions.move_to([0, BODY_MID, 0]).align_to(head, LEFT)
-        self.play(FadeIn(head), FadeIn(best_response))
-        self.pause('2.a')
-        self.play(FadeIn(dominant))
-        self.pause('2.b')
-        self.play(FadeIn(nash_definition))
+        nash_definition.move_to([0, BODY_MID, 0]).align_to(head, LEFT)
+        self.play(FadeIn(head), FadeIn(nash_definition))
         self.pause('2.c')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
@@ -323,6 +307,42 @@ class EpisodeD1(Scene):
         self.play(FadeIn(responses))
         self.pause('3.e')
 
+        # ---- 3.e1 · Both comparisons establish Player 1's dominant strategy.
+        self.remove(teaching)
+        teaching = Tex("Player 1's dominant strategy is Defect.", color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(teaching))
+        self.pause('3.e1')
+
+        # ---- 3.e2 · Slide the worked example left and drop the shared grey divider.
+        game_objects = [mob for mob in self.mobjects if mob is not head and mob is not teaching]
+        definition_divider = Line([0.3, 2.5, 0], [0.3, -3.0, 0],
+                                  color=MUTED, stroke_width=1, stroke_opacity=0.5)
+        best_response = VGroup(
+            Tex('Best Response', color=DEFINITION),
+            Tex('The strategy that gives a player', color=INK),
+            Tex('the highest payoff, given the strategies', color=INK),
+            Tex('chosen by the other players in the game.', color=INK),
+        ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.7)
+        best_response.move_to([0.85, 1.65, 0], aligned_edge=UL)
+        dominant = VGroup(
+            Tex('Dominant Strategy', color=DEFINITION),
+            Tex('A strategy that yields the highest payoff', color=INK),
+            Tex('for a player regardless of the strategies', color=INK),
+            Tex('chosen by the other players in the game.', color=INK),
+        ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.7)
+        dominant.next_to(best_response, DOWN, buff=0.65, aligned_edge=LEFT)
+        self.play(*[mob.animate.shift(LEFT * 3.7) for mob in game_objects],
+                  GrowFromEdge(definition_divider, UP), run_time=1.0)
+        self.play(FadeIn(best_response))
+        self.pause('3.e2')
+
+        # ---- 3.e3 · Add the second definition only on the next click.
+        self.play(FadeIn(dominant))
+        self.pause('3.e3')
+        self.play(FadeOut(best_response), FadeOut(dominant), FadeOut(definition_divider))
+        self.play(*[mob.animate.shift(RIGHT * 3.7) for mob in game_objects], run_time=1.0)
+
         # ---- 3.f · Hold the other player's choice fixed.
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Cooperate, what is your best response?', color=DEFINITION)
@@ -331,7 +351,7 @@ class EpisodeD1(Scene):
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
-        self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
+        self.play(FadeIn(row_choice), FadeIn(row_shade),
                   FadeIn(teaching))
         self.pause('3.f')
 
