@@ -4,7 +4,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 <!--
 Animation: D1_Animation.py · EpisodeD1
-First day of Part D: Strategic Interaction. Taxonomy, then Baby Game Theory.
+First day of Part D: Strategic Interaction. Taxonomy, deadline simulation, then Baby Game Theory.
 Sources: ../D0_Strategic_Interaction/03_Code.py (taxonomy and A/B/C map)
 and _archive/03_Code_2026-10-19.py (definitions, four games, closing question).
 The old D0 fishing-simulation rules are outside this requested combined sequence;
@@ -34,8 +34,8 @@ Defect (Player 2's 1, then Player 1's 1) before returning to Player 1's
 perspective with Player 2's Defect column shaded teal. Complete the outcome's
 payoff pair before changing perspective; then consider Player 1 cooperating.
 Never retain both players' background bands at a pause.
-Introduce the payoff values without optimization claims first. Proceed directly from the taxonomy to the Prisoner’s Dilemma; there is no
-standalone definition scene. Then compare
+Introduce the payoff values without optimization claims first. Run the Vignette D1 deadline simulation between the taxonomy and the
+Prisoner’s Dilemma; there is no standalone definition scene. Then compare
 choices, show explicit best-response answers with the payoff boxes, and
 connect those comparisons to the definitions. Keep questions and answers on
 separate pauses; definition panels appear without a bottom yellow caption. Never retain both
@@ -56,7 +56,12 @@ below names a click-through pause. New prose fades in only after old prose leave
 1.b · Part A appears at the original upper-left anchor shifted 3 units down, scale 1.6, yellow. A yellow box with 0.5-unit padding surrounds Private Goods.
 1.c · The same box turns green without moving; green Part B appears one unit below Part A.
 1.d · The same box shifts DOWN exactly 0.5 units and turns teal; teal Part C appears one unit below Part B. This original offset is intentional and is not a new cell selection.
-1.e · Move the same box, without resizing, to Common Resources and turn it red. No added Part D label at left. After this pause, fade out the table, box, and A/B/C labels, then the retained opening, and continue directly to Baby Game Theory instead of the old fishing-simulation rules.
+1.e · Move the same box, without resizing, to Common Resources and turn it red. No added Part D label at left. After this pause, fade out the table, box, and A/B/C labels, then the retained opening, and continue to the Vignette D1 deadline simulation instead of the old fishing-simulation rules.
+2.a · Title “Vignette D1”, grey subtitle “A deadline decision”. Reveal three white context lines: recitations this week are for Reattempt B; Vignette D1 will be recorded; watch the recording and complete the vignette on your own. Pause before explaining the deadline rule.
+2.b · Fade out the context lines, retaining the title/subtitle. Start a deadline table with “Your choice” at x=-4.7 and “Default” at x=0. Show “Keep the standard deadline” (two lines) and Saturday on the first row (y=0). Grey table rules separate columns and rows; leave the extra-day row and right column unrevealed. Gold caption: “The usual deadline is Friday. Everyone starts with Saturday.” Pause.
+2.c · Add “Request one extra day” (two lines) and Sunday on the second row (y=-1.4). Gold caption: “You can request one extra day: Sunday.” Pause before revealing the catch.
+2.d · Replace “Default” with “30 or fewer requests”. Reveal the right column “31 or more requests” at x=4.6, with Friday for the standard deadline and Saturday for extra-day requests. Use 0.7-scale grey column/choice labels, white 1.0-scale days, and neutral grey rules. Gold caption: “With more than 30 requests, the standard deadline returns to Friday.” The threshold is an absolute count, including the student’s own request, not a share of the roughly 300-person room. Exactly 30 requests keeps Saturday/Sunday; 31 triggers Friday/Saturday. Pause with the full outcome table visible.
+2.e · Keep the full table visible, with the two choice labels unchanged. Gold caption: “Raise your hand for one extra day; keep it raised while I count.” Hold indefinitely for the instructor’s count and announcement. No invented class result, automated deadline change, payoff numbers, or game-theory solution. On the next click, clear the scene and begin the existing Prisoner’s Dilemma sequence.
 3.a1 · Prisoner's Dilemma: reveal the diamond grid, then Player 1's two choices. Gold caption: “Player 1 can choose Cooperate or Defect.”
 3.a2 · Reveal Player 2's two choices. Gold caption: “Player 2 has the same two choices.”
 3.a2r · What if Player 2 cooperates? Underline Cooperate in teal and shade only Player 2’s corresponding column. Pause before Player 1 chooses; no payoffs yet.

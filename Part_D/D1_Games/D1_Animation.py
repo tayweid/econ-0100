@@ -1,6 +1,6 @@
 # maniml D1_Animation.py EpisodeD1
 # Part D | Strategic Interaction — first day
-# Taxonomy from D0, followed by the original Baby Game Theory sequence.
+# Taxonomy from D0, a deadline simulation, then Baby Game Theory.
 # Beat descriptions live in D1_Notes.md. All choreography is flat and editable.
 # /// script
 # requires-python = ">=3.11"
@@ -33,6 +33,7 @@ class EpisodeD1(Scene):
         CELL_BOX_WIDTH = CELL_SIDE - 0.15
         CELL_BOX_HEIGHT = CELL_BOX_WIDTH
         GAME_CENTER = DOWN * 0.5
+        EXTRA_DAY_REQUEST_LIMIT = 30
         # Unit vectors for the original table's right/up directions after rotation.
         TABLE_RIGHT = (RIGHT + DOWN) / 2**0.5
         TABLE_UP = (RIGHT + UP) / 2**0.5
@@ -81,6 +82,83 @@ class EpisodeD1(Scene):
         self.play(FadeOut(box), FadeOut(taxonomy), FadeOut(part_a), FadeOut(part_b), FadeOut(part_c))
         # The requested next topic replaces D0's fishing-simulation rules.
         self.play(FadeOut(opening))
+        self.clear()
+
+        # ---- 2.a · This week's recorded vignette replaces the recitation activity.
+        head = title('Vignette D1')
+        context = subtitle(head, 'A deadline decision')
+        vignette_context = VGroup(
+            Tex('Recitations this week: Reattempt B.', color=INK),
+            Tex('Vignette D1 will be recorded.', color=INK),
+            Tex('Watch the recording and complete the vignette on your own.', color=INK),
+        ).arrange(DOWN, buff=0.55, aligned_edge=LEFT).scale(0.8)
+        vignette_context.move_to([0, BODY_MID, 0])
+        self.play(FadeIn(head), FadeIn(context), FadeIn(vignette_context))
+        self.pause('2.a')
+
+        # ---- 2.b · Everyone starts with the Saturday deadline.
+        self.play(FadeOut(vignette_context))
+        choice_header = Tex('Your choice', color=CAPTION).scale(0.7).move_to([-4.7, 1.5, 0])
+        default_header = Tex('Default', color=CAPTION).scale(0.7).move_to([0, 1.5, 0])
+        standard_choice = VGroup(
+            Tex(r'\textsf{Keep the}', color=CAPTION),
+            Tex(r'\textsf{standard deadline}', color=CAPTION),
+        ).arrange(DOWN, buff=0.1).scale(0.7).move_to([-4.7, 0, 0])
+        standard_day = Tex('Saturday', color=INK).move_to([0, 0, 0])
+        deadline_rules = VGroup(
+            Line([-7, 0.75, 0], [2.3, 0.75, 0], color=MUTED, stroke_width=1.5),
+            Line([-7, -0.7, 0], [2.3, -0.7, 0], color=MUTED, stroke_width=1.5),
+            Line([-2.4, 2.1, 0], [-2.4, -2.1, 0], color=MUTED, stroke_width=1.5),
+        )
+        teaching = Tex('The usual deadline is Friday. Everyone starts with Saturday.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(choice_header), FadeIn(default_header), FadeIn(deadline_rules),
+                  FadeIn(standard_choice), FadeIn(standard_day), FadeIn(teaching))
+        self.pause('2.b')
+
+        # ---- 2.c · Requesting an extra day initially means Sunday.
+        extra_choice = VGroup(
+            Tex(r'\textsf{Request one}', color=CAPTION),
+            Tex(r'\textsf{extra day}', color=CAPTION),
+        ).arrange(DOWN, buff=0.1).scale(0.7).move_to([-4.7, -1.4, 0])
+        extra_day = Tex('Sunday', color=INK).move_to([0, -1.4, 0])
+        self.remove(teaching)
+        teaching = Tex('You can request one extra day: Sunday.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(extra_choice), FadeIn(extra_day), FadeIn(teaching))
+        self.pause('2.c')
+
+        # ---- 2.d · More than 30 total requests moves both deadlines back one day.
+        within_limit = VGroup(
+            Tex(f'{EXTRA_DAY_REQUEST_LIMIT} or fewer', color=CAPTION),
+            Tex('requests', color=CAPTION),
+        ).arrange(DOWN, buff=0.1).scale(0.7).move_to([0, 1.5, 0])
+        over_limit = VGroup(
+            Tex(f'{EXTRA_DAY_REQUEST_LIMIT + 1} or more', color=CAPTION),
+            Tex('requests', color=CAPTION),
+        ).arrange(DOWN, buff=0.1).scale(0.7).move_to([4.6, 1.5, 0])
+        reduced_standard_day = Tex('Friday', color=INK).move_to([4.6, 0, 0])
+        reduced_extra_day = Tex('Saturday', color=INK).move_to([4.6, -1.4, 0])
+        more_deadline_rules = VGroup(
+            Line([2.3, 0.75, 0], [7, 0.75, 0], color=MUTED, stroke_width=1.5),
+            Line([2.3, -0.7, 0], [7, -0.7, 0], color=MUTED, stroke_width=1.5),
+            Line([2.3, 2.1, 0], [2.3, -2.1, 0], color=MUTED, stroke_width=1.5),
+        )
+        self.remove(teaching)
+        teaching = Tex(f'With more than {EXTRA_DAY_REQUEST_LIMIT} requests, the standard deadline returns to Friday.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeOut(default_header))
+        self.play(FadeIn(within_limit), FadeIn(over_limit), FadeIn(more_deadline_rules),
+                  FadeIn(reduced_standard_day), FadeIn(reduced_extra_day), FadeIn(teaching))
+        self.pause('2.d')
+
+        # ---- 2.e · Hold for the live count; the instructor announces the result.
+        self.remove(teaching)
+        teaching = Tex('Raise your hand for one extra day; keep it raised while I count.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching))
+        self.pause('2.e')
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
 
         # ---- 3.a · Original matrix 1; row payoff first.
