@@ -24,10 +24,12 @@ CAPTION grey; player names retain serif type at scale 0.8 and their payoff
 colors, separating players from choices. Player 1's choices sit outside the upper-left
 edge, Player 2's outside the upper-right edge. Player names share y=2.0.
 During the Prisoner's Dilemma payoff reveals, pink and teal underlines mark
-each player's current choice. They move through Cooperate/Cooperate,
+each player's current choice. Matching diagonal background bands at 12%
+opacity cover the corresponding row and column behind the grid and payoffs;
+their overlap identifies the joint outcome. They move through Cooperate/Cooperate,
 Defect/Cooperate, Defect/Defect, and Cooperate/Defect with the payoff reveals.
 During best-response analysis in all four games, only the choice held fixed
-is underlined; remove that underline for the equilibrium summary.
+is underlined and shaded; remove both cues for the equilibrium summary.
 Yellow row/column isolation rectangles follow the diagonal grid and span the
 two relevant outcome cells. Individual best-response boxes remain upright.
 Nash and efficiency outlines are equal 1.35-unit squares rotated with the

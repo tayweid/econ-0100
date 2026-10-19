@@ -29,6 +29,7 @@ class EpisodeD1(Scene):
         DEFINITION_BOTTOM = 0.05
         DIAMOND_ANGLE = -PI / 4
         CELL_SIDE = 1.5
+        CHOICE_FILL_OPACITY = 0.12
         CELL_BOX_WIDTH = CELL_SIDE - 0.15
         CELL_BOX_HEIGHT = CELL_BOX_WIDTH
         GAME_CENTER = DOWN * 0.5
@@ -170,8 +171,14 @@ class EpisodeD1(Scene):
         teaching = Tex('Both cooperate: Player 1 receives 3.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
+        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeIn(row_choice), FadeIn(col_choice),
+        col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(FadeIn(row_choice), FadeIn(row_shade), FadeIn(col_choice), FadeIn(col_shade),
                   FadeIn(payoffs[0][0][0]), FadeIn(payoffs[0][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a3')
 
@@ -187,7 +194,10 @@ class EpisodeD1(Scene):
         teaching = Tex('Only Player 1 defects: Player 1 receives 5.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(row_choice, next_choice),
+        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
                   FadeIn(payoffs[1][0][0]), FadeIn(payoffs[1][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a5')
 
@@ -203,7 +213,10 @@ class EpisodeD1(Scene):
         teaching = Tex('Both defect: Player 1 receives 1.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(col_choice, next_choice),
+        next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   FadeIn(payoffs[1][1][0]), FadeIn(payoffs[1][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a7')
 
@@ -219,7 +232,10 @@ class EpisodeD1(Scene):
         teaching = Tex('Only Player 2 defects: Player 1 receives 0.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(row_choice, next_choice),
+        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
                   FadeIn(payoffs[0][1][0]), FadeIn(payoffs[0][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a9')
 
@@ -238,7 +254,10 @@ class EpisodeD1(Scene):
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         next_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeOut(row_choice), Transform(col_choice, next_choice),
+        next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(FadeOut(row_choice), FadeOut(row_shade), Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   FadeIn(isolation), FadeIn(teaching))
         self.pause('3.b')
 
@@ -256,7 +275,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(col_choice, next_choice),
+        next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('3.d')
 
@@ -274,7 +296,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeOut(col_choice), FadeIn(row_choice),
+        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('3.f')
 
@@ -292,7 +317,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(row_choice, next_choice),
+        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('3.h')
 
@@ -304,7 +332,7 @@ class EpisodeD1(Scene):
         self.pause('3.i')
 
         # ---- 3.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice))
+        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('Both players have a dominant strategy: Defect.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
@@ -388,7 +416,10 @@ class EpisodeD1(Scene):
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeIn(col_choice), FadeIn(isolation), FadeIn(teaching))
+        col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(isolation), FadeIn(teaching))
         self.pause('4.b')
 
         # ---- 4.c · Preserve every best response, including ties.
@@ -405,7 +436,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(col_choice, next_choice),
+        next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('4.d')
 
@@ -423,7 +457,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeOut(col_choice), FadeIn(row_choice),
+        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('4.f')
 
@@ -441,7 +478,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(row_choice, next_choice),
+        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('4.h')
 
@@ -453,7 +493,7 @@ class EpisodeD1(Scene):
         self.pause('4.i')
 
         # ---- 4.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice))
+        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('Two pure-strategy Nash equilibria: both Play or both Movie.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
@@ -529,7 +569,10 @@ class EpisodeD1(Scene):
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeIn(col_choice), FadeIn(isolation), FadeIn(teaching))
+        col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(isolation), FadeIn(teaching))
         self.pause('5.b')
 
         # ---- 5.c · Preserve every best response, including ties.
@@ -546,7 +589,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(col_choice, next_choice),
+        next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('5.d')
 
@@ -565,7 +611,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeOut(col_choice), FadeIn(row_choice),
+        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('5.f')
 
@@ -583,7 +632,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(row_choice, next_choice),
+        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('5.h')
 
@@ -596,7 +648,7 @@ class EpisodeD1(Scene):
         self.pause('5.i')
 
         # ---- 5.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice))
+        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('A tie means that both strategies are best responses.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
@@ -682,7 +734,10 @@ class EpisodeD1(Scene):
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeIn(col_choice), FadeIn(isolation), FadeIn(teaching))
+        col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(isolation), FadeIn(teaching))
         self.pause('6.b')
 
         # ---- 6.c · Preserve every best response, including ties.
@@ -699,7 +754,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(col_choice, next_choice),
+        next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('6.d')
 
@@ -717,7 +775,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(FadeOut(col_choice), FadeIn(row_choice),
+        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('6.f')
 
@@ -735,7 +796,10 @@ class EpisodeD1(Scene):
         next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
         next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        self.play(Transform(row_choice, next_choice),
+        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
                   Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('6.h')
 
@@ -748,7 +812,7 @@ class EpisodeD1(Scene):
         self.pause('6.i')
 
         # ---- 6.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice))
+        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('Two pure-strategy Nash equilibria: different activities.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
