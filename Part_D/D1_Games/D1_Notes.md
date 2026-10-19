@@ -14,17 +14,18 @@ lecture script has been substituted for them.
 
 Layout: Graphite 2:1, 15 fps; shared palette and serif Tex. Azure topic titles,
 optional grey context, 0.7443-scale gold bottom lines centered 0.05 from bottom.
-Body centered between y=2.5 and y=-2.8. Matrix outlines are 1.65 wide by 0.75 high for both Nash
+Taxonomy retains the original D0 layout and color-changing box choreography;
+game-theory body content is centered between y=2.5 and y=-2.8. Matrix outlines are 1.65 wide by 0.75 high for both Nash
 and efficiency; best-response boxes use the matching player's color. Payoff
 components have a 0.18-unit gap before scaling so boxes leave commas readable. Each line
 below names a click-through pause. New prose fades in only after old prose leaves.
 
-0.a · Raster MICROECONOMICS bumper; “Part D | Strategic Interaction.”
-1.a · “The Taxonomy Of Goods”: one grey Table, Rival / Non-Rival columns, then Excludable / Non-Excludable rows, then Private Goods / Club Goods / Common Resources / Public Goods. No simulation rules.
-1.b · Yellow outline around Private Goods; Part A appears beside the map.
-1.c · Retain the private-goods outline; Part B appears beneath Part A.
-1.d · Retain the map and outline; Part C appears beneath Part B.
-1.e · Move the same outline to Common Resources; “Part D | Strategic Interaction” below the part list. Fade the map and labels out before game theory.
+0.a · Original D0 opening: raster MICROECONOMICS, five flicker rounds; “Part D | Strategic Interaction” below it. Move this group to the top with a 1-unit margin and retain it through the taxonomy. The Part D label uses current title azure and the remaining title caption grey.
+1.a · Reveal the complete taxonomy Table in one fade, scale 0.7, directly below the retained opening and shifted 1 unit right. Preserve Rival / Non-Rival columns and Excludable / Non-Excludable rows, with red labels; Private Goods / Club Goods / Common Resources / Public Goods in white serif, grey rules. No separate taxonomy heading.
+1.b · Part A appears at the original upper-left anchor shifted 3 units down, scale 1.6, yellow. A yellow box with 0.5-unit padding surrounds Private Goods.
+1.c · The same box turns green without moving; green Part B appears one unit below Part A.
+1.d · The same box shifts DOWN exactly 0.5 units and turns teal; teal Part C appears one unit below Part B. This original offset is intentional and is not a new cell selection.
+1.e · Move the same box, without resizing, to Common Resources and turn it red. No added Part D label at left. After this pause, fade out the table, box, and A/B/C labels, then the retained opening, and continue directly to Baby Game Theory instead of the old fishing-simulation rules.
 2.a · “Baby Game Theory”: Best Response definition fades in.
 2.b · Dominant Strategy definition joins below.
 2.c · Nash Equilibrium definition joins below; clear the definition card before the first matrix.

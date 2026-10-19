@@ -30,55 +30,50 @@ class EpisodeD1(Scene):
         CELL_BOX_WIDTH = 1.65
         CELL_BOX_HEIGHT = 0.75
 
-        # ---- 0.a · The existing raster bumper, with the current Part D title.
+        # ---- 0.a · Original D0 opening: the wordmark stays over the taxonomy.
         squares = bumper_raster(self)
-        flicker(self, squares)
+        flicker(self, squares, rounds=5)
         part = Tex(r'{{Part D}} $|$ Strategic Interaction', color=CAPTION)
-        part.set_color_by_tex('Part D', TITLE).scale(1.5).move_to(DOWN * 0.9)
-        self.play(FadeIn(part), squares.animate.move_to(UP * 0.9))
+        part.set_color_by_tex('Part D', TITLE).scale(1.5).next_to(squares, DOWN)
+        opening = VGroup(squares, part)
+        self.play(FadeIn(part), opening.animate.to_edge(UP, buff=1))
         self.pause('0.a')
-        self.play(FadeOut(squares), FadeOut(part))
-        self.clear()
 
-        # ---- 1.a · The same four cells and orientation as the original D0.
-        head = title('The Taxonomy Of Goods')
+        # ---- 1.a · Copy D0's full-table reveal beneath the retained opening.
         taxonomy = Table(
             [[r'Private\\Goods', r'Club\\Goods'],
              [r'Common\\Resources', r'Public\\Goods']],
-            row_labels=[Tex('Excludable'), Tex('Non-Excludable')],
-            col_labels=[Tex('Rival'), Tex('Non-Rival')],
+            row_labels=[Tex('Excludable', color=GUIDE), Tex('Non-Excludable', color=GUIDE)],
+            col_labels=[Tex('Rival', color=GUIDE), Tex('Non-Rival', color=GUIDE)],
             element_to_mobject=Tex,
-            h_buff=0.65, v_buff=0.6,
             line_config={'color': MUTED, 'stroke_width': 2},
-        ).scale(0.8).move_to([1.7, BODY_MID, 0])
-        self.play(FadeIn(head), FadeIn(taxonomy.get_horizontal_lines()),
-                  FadeIn(taxonomy.get_vertical_lines()))
-        self.play(FadeIn(taxonomy.get_col_labels()))
-        self.play(FadeIn(taxonomy.get_row_labels()))
-        self.play(FadeIn(taxonomy.get_entries_without_labels()))
+        ).scale(0.7).next_to(opening, DOWN).shift(RIGHT)
+        self.play(FadeIn(taxonomy))
         self.pause('1.a')
 
-        # ---- 1.b–1.d · Preserve the earlier Parts' private-goods map.
-        parts = VGroup(Tex('Part A', color=CAPTION), Tex('Part B', color=CAPTION),
-                       Tex('Part C', color=CAPTION))
-        parts.arrange(DOWN, buff=0.5, aligned_edge=LEFT).move_to([-5.6, BODY_MID, 0])
+        # ---- 1.b · Part A: the original generous box around private goods.
+        part_a = Tex(r'Part~A', color=FOCUS).scale(1.6).to_corner(UL).shift(DOWN * 3)
+        part_b = Tex(r'Part~B', color=GREEN).scale(1.6).to_corner(UL).shift(DOWN * 4)
+        part_c = Tex(r'Part~C', color=BLUE).scale(1.6).to_corner(UL).shift(DOWN * 5)
         box = SurroundingRectangle(taxonomy.get_entries_without_labels((1, 1)),
-                                   buff=0.2, color=FOCUS)
-        self.play(FadeIn(box), FadeIn(parts[0]))
+                                   buff=0.5, color=FOCUS)
+        self.play(FadeIn(box), FadeIn(part_a))
         self.pause('1.b')
-        self.play(FadeIn(parts[1]))
+
+        # ---- 1.c · Part B recolors the SAME box green; it does not move.
+        self.play(box.animate.set_color(GREEN), FadeIn(part_b))
         self.pause('1.c')
-        self.play(FadeIn(parts[2]))
+
+        # ---- 1.d · Preserve D0's half-unit downward shift for Part C.
+        self.play(box.animate.shift(DOWN * 0.5).set_color(BLUE), FadeIn(part_c))
         self.pause('1.d')
 
-        # ---- 1.e · The old map's move to common resources, then game theory.
-        next_box = SurroundingRectangle(taxonomy.get_entries_without_labels((2, 1)),
-                                        buff=0.2, color=FOCUS)
-        part_d = Tex(r'Part D\\Strategic Interaction', color=DEFINITION).scale(0.7)
-        part_d.next_to(parts, DOWN, buff=0.45)
-        self.play(Transform(box, next_box), FadeIn(part_d))
+        # ---- 1.e · Same box, same size: move to common resources and turn red.
+        self.play(box.animate.move_to(taxonomy.get_entries_without_labels((2, 1))).set_color(RED))
         self.pause('1.e')
-        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.play(FadeOut(box), FadeOut(taxonomy), FadeOut(part_a), FadeOut(part_b), FadeOut(part_c))
+        # The requested next topic replaces D0's fishing-simulation rules.
+        self.play(FadeOut(opening))
         self.clear()
 
         # ---- 2.a–2.c · Original definitions, with this semester's serif roles.
