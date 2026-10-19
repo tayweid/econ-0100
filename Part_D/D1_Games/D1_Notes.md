@@ -34,7 +34,8 @@ Defect (Player 2's 1, then Player 1's 1) before returning to Player 1's
 perspective with Player 2's Defect column shaded teal. Complete the outcome's
 payoff pair before changing perspective; then consider Player 1 cooperating.
 Never retain both players' background bands at a pause.
-Introduce the payoff values without optimization claims first. Then compare
+Introduce the payoff values without optimization claims first. Proceed directly from the taxonomy to the Prisoner’s Dilemma; there is no
+standalone definition scene. Then compare
 choices, show explicit best-response answers with the payoff boxes, and
 connect those comparisons to the definitions. Keep questions and answers on
 separate pauses; definition panels appear without a bottom yellow caption. Never retain both
@@ -56,7 +57,6 @@ below names a click-through pause. New prose fades in only after old prose leave
 1.c · The same box turns green without moving; green Part B appears one unit below Part A.
 1.d · The same box shifts DOWN exactly 0.5 units and turns teal; teal Part C appears one unit below Part B. This original offset is intentional and is not a new cell selection.
 1.e · Move the same box, without resizing, to Common Resources and turn it red. No added Part D label at left. After this pause, fade out the table, box, and A/B/C labels, then the retained opening, and continue directly to Baby Game Theory instead of the old fishing-simulation rules.
-2.c · “Baby Game Theory”: show the Nash Equilibrium definition alone; clear it before the first matrix. Best Response and Dominant Strategy now follow Player 1’s worked example at 3.e2–3.e3.
 3.a1 · Prisoner's Dilemma: reveal the diamond grid, then Player 1's two choices. Gold caption: “Player 1 can choose Cooperate or Defect.”
 3.a2 · Reveal Player 2's two choices. Gold caption: “Player 2 has the same two choices.”
 3.a2r · What if Player 2 cooperates? Underline Cooperate in teal and shade only Player 2’s corresponding column. Pause before Player 1 chooses; no payoffs yet.
@@ -86,6 +86,7 @@ below names a click-through pause. New prose fades in only after old prose leave
 3.h · Pink shading and underline identify Player 1 choosing Defect; “If Player 1 defects, what is Player 2's best response?”
 3.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Defect: $1 > 0$.”
 3.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(1, 1)]. “At (Defect, Defect), neither player gains by switching alone.”
+3.j1 · Slide the highlighted game 3.7 units left, retaining the title and fading out the yellow caption. Drop the same subtle grey divider at x=0.3. Reveal Nash Equilibrium on the right at scale 0.7, gold term and white serif body: “A set of strategies such that no player can improve their payoff by unilaterally changing strategy.” Pause with the red equilibrium outline and both players’ best-response boxes visible; no bottom caption. Then fade out the definition/divider and recenter the game before the efficiency comparison.
 3.k · Green box, same dimensions as Nash boxes, marks [(0, 0)]. “Both players prefer (3, 3) to (1, 1).”
 4.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 1), (0, 0)], [(0, 0), (1, 2)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
 4.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is Player 1's best response?”

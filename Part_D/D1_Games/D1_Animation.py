@@ -83,19 +83,6 @@ class EpisodeD1(Scene):
         self.play(FadeOut(opening))
         self.clear()
 
-        # ---- 2.c · Retain the Nash definition; strategy definitions follow the example.
-        head = title('Baby Game Theory')
-        nash_definition = VGroup(
-            Tex('Nash Equilibrium', color=DEFINITION),
-            Tex('A set of strategies such that no player can improve their payoff', color=INK),
-            Tex('by unilaterally changing strategy.', color=INK),
-        ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.8)
-        nash_definition.move_to([0, BODY_MID, 0]).align_to(head, LEFT)
-        self.play(FadeIn(head), FadeIn(nash_definition))
-        self.pause('2.c')
-        self.play(*[FadeOut(mob) for mob in self.mobjects])
-        self.clear()
-
         # ---- 3.a · Original matrix 1; row payoff first.
         head = title("Prisoner's Dilemma")
         payoffs = [
@@ -403,6 +390,24 @@ class EpisodeD1(Scene):
         )
         self.play(FadeIn(equilibria), FadeIn(teaching))
         self.pause('3.j')
+
+        # ---- 3.j1 · Define Nash equilibrium beside the highlighted outcome.
+        game_objects = [mob for mob in self.mobjects if mob is not head and mob is not teaching]
+        definition_divider = Line([0.3, 2.5, 0], [0.3, -3.0, 0],
+                                  color=MUTED, stroke_width=1, stroke_opacity=0.5)
+        nash_definition = VGroup(
+            Tex('Nash Equilibrium', color=DEFINITION),
+            Tex('A set of strategies such that no player', color=INK),
+            Tex('can improve their payoff by unilaterally', color=INK),
+            Tex('changing strategy.', color=INK),
+        ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.7)
+        nash_definition.move_to([0.85, 1.65, 0], aligned_edge=UL)
+        self.play(*[mob.animate.shift(LEFT * 3.7) for mob in game_objects],
+                  GrowFromEdge(definition_divider, UP), FadeOut(teaching), run_time=1.0)
+        self.play(FadeIn(nash_definition))
+        self.pause('3.j1')
+        self.play(FadeOut(nash_definition), FadeOut(definition_divider))
+        self.play(*[mob.animate.shift(RIGHT * 3.7) for mob in game_objects], run_time=1.0)
 
         # ---- 3.k · Distinguish equilibrium from the efficient outcome.
         self.remove(teaching)
