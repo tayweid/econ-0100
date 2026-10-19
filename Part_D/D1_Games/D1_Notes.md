@@ -24,11 +24,16 @@ CAPTION grey; player names retain serif type at scale 0.8 and their payoff
 colors, separating players from choices. Player 1's choices sit outside the upper-left
 edge, Player 2's outside the upper-right edge. Player names share y=2.0.
 During the Prisoner's Dilemma payoff reveals, background shading represents
-only Player 2's fixed choice as Player 1's rival: a single teal column at 12%
-opacity behind the grid and numbers. Both players retain colored choice
-underlines. Establish Player 2's choice and pause; then show Player 1's choice
-and ask for the payoff, pause again, and reveal Player 1's number. Reveal
-Player 2's payoff on the following click. Repeat for CC, DC, DD, and CD.
+only the rival's fixed choice: a single band at 12% opacity behind the grid
+and numbers. Both players retain colored choice underlines. Start from
+Player 1's perspective with Player 2's Cooperate column shaded teal. Once
+Player 1 defects, switch to Player 2's perspective: replace the teal shading
+with Player 1's Defect row in pink, ask what Player 2 should do, and reveal
+Player 2's payoffs from Cooperate (0) and Defect (1) sequentially. At mutual
+Defect, return to Player 1's perspective by replacing pink with Player 2's
+Defect column in teal; reveal Player 1's payoff of 1, then consider Cooperate.
+Keep choice/question pauses separate from payoff answers. Never retain both
+players' background bands at a pause.
 During best-response analysis in all four games, only the choice held fixed
 is underlined and shaded; remove both cues for the equilibrium summary.
 Yellow row/column isolation rectangles follow the diagonal grid and span the
@@ -56,11 +61,12 @@ below names a click-through pause. New prose fades in only after old prose leave
 3.a4 · Both cooperate: Player 2 receives 3. Reveal only Player 2’s payoff at cell (0, 0). Keep earlier numbers visible.
 3.a5q · Player 1 chooses Defect. What is their payoff? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
 3.a5 · Only Player 1 defects: Player 1 receives 5. Reveal only Player 1’s payoff at cell (1, 0) and its grey pipe. Keep earlier numbers visible.
-3.a6 · Only Player 1 defects: Player 2 receives 0. Reveal only Player 2’s payoff at cell (1, 0). Keep earlier numbers visible.
-3.a6r · Player 2 now chooses Defect. Move the teal underline and the single shaded column to Defect; remove Player 1’s underline and pause.
-3.a7q · Player 1 chooses Defect. What is their payoff? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
-3.a7 · Both defect: Player 1 receives 1. Reveal only Player 1’s payoff at cell (1, 1) and its grey pipe. Keep earlier numbers visible.
-3.a8 · Both defect: Player 2 receives 1. Reveal only Player 2’s payoff at cell (1, 1). Keep earlier numbers visible.
+3.a6q · Switch to Player 2's perspective: fade out Player 2's teal column shading and shade only Player 1's Defect row pink. Keep both choice underlines. Gold caption: “Player 1 defects. What should Player 2 do?” Pause before revealing Player 2's payoff.
+3.a6 · Gold caption: “Cooperating gives Player 2 a payoff of 0.” Reveal Player 2's 0 at cell (1, 0); keep Player 1's Defect row shaded.
+3.a6r · Move Player 2's teal underline to Defect, retaining Player 1's pink Defect underline and row shading. Gold caption: “What if Player 2 defects instead?” Pause with the new payoff hidden.
+3.a8 · Reveal Player 2's 1 and the grey pipe at cell (1, 1), before Player 1's payoff. Gold caption: “Defecting raises Player 2's payoff from 0 to 1.” Retain only Player 1's Defect row shading.
+3.a7q · Switch back to Player 1's perspective: fade out the pink row shading and shade Player 2's Defect column teal. Keep both Defect underlines. Gold caption: “Back to Player 1: what is the payoff from Defect?” Pause with Player 1's payoff hidden.
+3.a7 · Both defect: Player 1 receives 1. Reveal only Player 1's payoff at cell (1, 1); the pipe and Player 2's 1 are already visible.
 3.a9q · Player 1 chooses Cooperate. What is their payoff? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
 3.a9 · Only Player 2 defects: Player 1 receives 0. Reveal only Player 1’s payoff at cell (0, 1) and its grey pipe. Keep earlier numbers visible.
 3.a · Only Player 2 defects: Player 2 receives 5. Reveal only Player 2’s payoff at cell (0, 1). Keep earlier numbers visible.
