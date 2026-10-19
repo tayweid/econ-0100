@@ -141,10 +141,10 @@ class EpisodeD1(Scene):
         ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
         for cell in entries:
             cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
-        row_labels = VGroup(Tex('Cooperate', color=ROW_PLAYER), Tex('Defect', color=ROW_PLAYER))
-        col_labels = VGroup(Tex('Cooperate', color=COL_PLAYER), Tex('Defect', color=COL_PLAYER))
-        row_labels.scale(0.8)
-        col_labels.scale(0.8)
+        row_labels = VGroup(Tex(r'\textsf{Cooperate}', color=CAPTION), Tex(r'\textsf{Defect}', color=CAPTION))
+        col_labels = VGroup(Tex(r'\textsf{Cooperate}', color=CAPTION), Tex(r'\textsf{Defect}', color=CAPTION))
+        row_labels.scale(0.7)
+        col_labels.scale(0.7)
         for index in range(2):
             offset = (0.5 - index) * CELL_SIDE
             row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
@@ -339,10 +339,10 @@ class EpisodeD1(Scene):
         ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
         for cell in entries:
             cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
-        row_labels = VGroup(Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER))
-        col_labels = VGroup(Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER))
-        row_labels.scale(0.8)
-        col_labels.scale(0.8)
+        row_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION))
+        col_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION))
+        row_labels.scale(0.7)
+        col_labels.scale(0.7)
         for index in range(2):
             offset = (0.5 - index) * CELL_SIDE
             row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
@@ -473,10 +473,10 @@ class EpisodeD1(Scene):
         ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
         for cell in entries:
             cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
-        row_labels = VGroup(Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER))
-        col_labels = VGroup(Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER))
-        row_labels.scale(0.8)
-        col_labels.scale(0.8)
+        row_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION))
+        col_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION))
+        row_labels.scale(0.7)
+        col_labels.scale(0.7)
         for index in range(2):
             offset = (0.5 - index) * CELL_SIDE
             row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
@@ -619,10 +619,10 @@ class EpisodeD1(Scene):
         ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
         for cell in entries:
             cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
-        row_labels = VGroup(Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER))
-        col_labels = VGroup(Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER))
-        row_labels.scale(0.8)
-        col_labels.scale(0.8)
+        row_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION))
+        col_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION))
+        row_labels.scale(0.7)
+        col_labels.scale(0.7)
         for index in range(2):
             offset = (0.5 - index) * CELL_SIDE
             row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP

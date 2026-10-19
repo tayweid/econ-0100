@@ -19,7 +19,9 @@ the four game matrices use a 45-degree clockwise diamond layout. Each square
 cell is 1.5 units on a side; the board center is (0, -0.5). The original
 upper-left / upper-right / lower-left / lower-right outcomes now occupy the
 top / right / left / bottom of the diamond. All payoffs, strategy labels, and
-player names stay horizontal. Player 1's choices sit outside the upper-left
+player names stay horizontal. Strategy labels use CMU Sans at scale 0.7 in
+CAPTION grey; player names retain serif type at scale 0.8 and their payoff
+colors, separating players from choices. Player 1's choices sit outside the upper-left
 edge, Player 2's outside the upper-right edge. Player names share y=2.0.
 Yellow row/column isolation rectangles follow the diagonal grid and span the
 two relevant outcome cells. Individual best-response boxes remain upright.
