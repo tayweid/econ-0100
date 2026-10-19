@@ -321,6 +321,7 @@ parts:
           date: '2026-10-05'
           description: >-
             Checkpoint B covers everything in Part B. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          links: [{label: Solutions V1, file: Part_B/B_Demo/Checkpoint_B_1_sols.pdf}, {label: Solutions V2, file: Part_B/B_Demo/Checkpoint_B_2_sols.pdf}, {label: Solutions V3, file: Part_B/B_Demo/Checkpoint_B_3_sols.pdf}, {label: Solutions V4, file: Part_B/B_Demo/Checkpoint_B_4_sols.pdf}]
           demo:
             video: xMhI4kJC-mA
             links: [{label: Demo B, file: Part_B/B_Demo/Demo_B.pdf}, {label: Solutions, file: Part_B/B_Demo/Demo_B_sols.pdf}]
