@@ -339,18 +339,12 @@ class EpisodeD1(Scene):
         ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.7)
         dominant.next_to(best_response, DOWN, buff=0.65, aligned_edge=LEFT)
         self.play(*[mob.animate.shift(LEFT * 3.7) for mob in game_objects],
-                  GrowFromEdge(definition_divider, UP), run_time=1.0)
-        self.remove(teaching)
-        teaching = Tex('A best response gives the highest payoff for a fixed rival choice.', color=DEFINITION)
-        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        self.play(FadeIn(best_response), FadeIn(teaching))
+                  GrowFromEdge(definition_divider, UP), FadeOut(teaching), run_time=1.0)
+        self.play(FadeIn(best_response))
         self.pause('3.e2')
 
         # ---- 3.e3 · Add the second definition only on the next click.
-        self.remove(teaching)
-        teaching = Tex('That makes Defect a dominant strategy for Player 1.', color=DEFINITION)
-        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        self.play(FadeIn(dominant), FadeIn(teaching))
+        self.play(FadeIn(dominant))
         self.pause('3.e3')
         self.play(FadeOut(best_response), FadeOut(dominant), FadeOut(definition_divider))
         self.play(*[mob.animate.shift(RIGHT * 3.7) for mob in game_objects], run_time=1.0)

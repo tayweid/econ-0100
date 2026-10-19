@@ -37,7 +37,7 @@ Never retain both players' background bands at a pause.
 Introduce the payoff values without optimization claims first. Then compare
 choices, show explicit best-response answers with the payoff boxes, and
 connect those comparisons to the definitions. Keep questions and answers on
-separate pauses; definition captions describe the term currently appearing. Never retain both
+separate pauses; definition panels appear without a bottom yellow caption. Never retain both
 players' background bands at a pause.
 During best-response analysis in all four games, only the choice held fixed
 is underlined and shaded; remove both cues for the equilibrium summary.
@@ -78,8 +78,8 @@ below names a click-through pause. New prose fades in only after old prose leave
 3.d · Teal shading and underline identify Player 2 choosing Defect; “Player 2 defects. Which choice gives Player 1 more?”
 3.e · Add pink boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Defect: $1 > 0$.”
 3.e1 · Remove Player 2's fixed-choice shading and underline; retain both pink best-response payoff boxes. Gold caption: “Defect is best for Player 1 against either choice.” Pause to establish the result before defining it.
-3.e2 · Slide all visible game objects 3.7 units left at their existing size, retaining the title and bottom caption. Draw the familiar subtle grey vertical divider downward at x=0.3, from y=2.5 to -3.0 (MUTED, width 1, opacity 0.5). Fade in Best Response on the right: original definition wording reflowed at scale 0.7, gold term and white serif body. Pause. Yellow caption: “A best response gives the highest payoff for a fixed rival choice.”
-3.e3 · Fade in Dominant Strategy below Best Response, matching its typography, with a 0.65-unit gap. Pause with both definitions and the worked game visible. Then fade out the definitions/divider and return the game to its original centered position before continuing Player 2's best-response analysis. Yellow caption: “That makes Defect a dominant strategy for Player 1.”
+3.e2 · Slide all visible game objects 3.7 units left at their existing size, retaining the title and fading out the bottom caption. Draw the familiar subtle grey vertical divider downward at x=0.3, from y=2.5 to -3.0 (MUTED, width 1, opacity 0.5). Fade in Best Response on the right: original definition wording reflowed at scale 0.7, gold term and white serif body. Pause. No bottom caption during this definition reveal.
+3.e3 · Fade in Dominant Strategy below Best Response, matching its typography, with a 0.65-unit gap. Pause with both definitions and the worked game visible. Then fade out the definitions/divider and return the game to its original centered position before continuing Player 2's best-response analysis. Keep the bottom caption area empty while the definitions are visible.
 3.f · Pink shading and underline identify Player 1 choosing Cooperate; “Player 1 cooperates. What is Player 2's best response?”
 3.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Defect: $5 > 3$.”
 3.h · Pink shading and underline identify Player 1 choosing Defect; “Player 1 defects. What is Player 2's best response?”
