@@ -25,7 +25,7 @@ Yellow row/column isolation rectangles follow the diagonal grid and span the
 two relevant outcome cells. Individual best-response boxes remain upright.
 Nash and efficiency outlines are equal 1.55-unit squares rotated with the
 cells; their color and dashed overlay convention are unchanged. Payoff pairs
-retain a 0.18-unit gap before scaling to 0.85. Each line
+use an upright white pipe separator with a 0.18-unit gap on each side before scaling to 0.85. Each line
 below names a click-through pause. New prose fades in only after old prose leaves.
 
 0.a · Original D0 opening: raster MICROECONOMICS, five flicker rounds; “Part D | Strategic Interaction” below it. Move this group to the top with a 1-unit margin and retain it through the taxonomy. The Part D label uses current title azure and the remaining title caption grey.

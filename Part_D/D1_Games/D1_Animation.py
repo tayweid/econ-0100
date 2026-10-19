@@ -115,15 +115,15 @@ class EpisodeD1(Scene):
         head = title("Prisoner's Dilemma")
         payoffs = [
             [
-                VGroup(Tex('3', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('3', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('3', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('5', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
             [
-                VGroup(Tex('5', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('5', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
@@ -257,15 +257,15 @@ class EpisodeD1(Scene):
         context = subtitle(head, 'Example 2')
         payoffs = [
             [
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
             [
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
@@ -391,15 +391,15 @@ class EpisodeD1(Scene):
         context = subtitle(head, 'Example 3')
         payoffs = [
             [
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
             [
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
@@ -537,15 +537,15 @@ class EpisodeD1(Scene):
         context = subtitle(head, 'Example 4')
         payoffs = [
             [
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
             [
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(',', color=INK),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
