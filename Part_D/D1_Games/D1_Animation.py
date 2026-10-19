@@ -153,16 +153,72 @@ class EpisodeD1(Scene):
             col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
         player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-2.8, 2.0, 0])
         player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([2.8, 2.0, 0])
-        teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
+        teaching = Tex('Player 1 chooses Cooperate or Defect.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(matrix.get_horizontal_lines()),
                   FadeIn(matrix.get_vertical_lines()))
-        self.play(FadeIn(player_2), FadeIn(col_labels))
-        self.play(FadeIn(player_1), FadeIn(row_labels))
-        self.play(FadeIn(teaching))
-        for row in payoffs:
-            for cell in row:
-                self.play(FadeIn(cell), run_time=0.4)
+        self.play(FadeIn(player_1), FadeIn(row_labels), FadeIn(teaching))
+        self.pause('3.a1')
+        self.remove(teaching)
+        teaching = Tex('Player 2 also chooses Cooperate or Defect.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(player_2), FadeIn(col_labels), FadeIn(teaching))
+        self.pause('3.a2')
+
+        # ---- 3.a3 · Both cooperate: Player 1 receives 3.
+        self.remove(teaching)
+        teaching = Tex('Both cooperate: Player 1 receives 3.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[0][0][0]), FadeIn(payoffs[0][0][1]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a3')
+
+        # ---- 3.a4 · Both cooperate: Player 2 receives 3.
+        self.remove(teaching)
+        teaching = Tex('Both cooperate: Player 2 receives 3.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[0][0][2]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a4')
+
+        # ---- 3.a5 · Only Player 1 defects: Player 1 receives 5.
+        self.remove(teaching)
+        teaching = Tex('Only Player 1 defects: Player 1 receives 5.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[1][0][0]), FadeIn(payoffs[1][0][1]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a5')
+
+        # ---- 3.a6 · Only Player 1 defects: Player 2 receives 0.
+        self.remove(teaching)
+        teaching = Tex('Only Player 1 defects: Player 2 receives 0.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[1][0][2]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a6')
+
+        # ---- 3.a7 · Both defect: Player 1 receives 1.
+        self.remove(teaching)
+        teaching = Tex('Both defect: Player 1 receives 1.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[1][1][0]), FadeIn(payoffs[1][1][1]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a7')
+
+        # ---- 3.a8 · Both defect: Player 2 receives 1.
+        self.remove(teaching)
+        teaching = Tex('Both defect: Player 2 receives 1.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[1][1][2]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a8')
+
+        # ---- 3.a9 · Only Player 2 defects: Player 1 receives 0.
+        self.remove(teaching)
+        teaching = Tex('Only Player 2 defects: Player 1 receives 0.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[0][1][0]), FadeIn(payoffs[0][1][1]), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a9')
+
+        # ---- 3.a · Only Player 2 defects: Player 2 receives 5.
+        self.remove(teaching)
+        teaching = Tex('Only Player 2 defects: Player 2 receives 5.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[0][1][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a')
 
         # ---- 3.b · Hold the other player's choice fixed.

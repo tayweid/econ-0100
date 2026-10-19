@@ -38,7 +38,16 @@ below names a click-through pause. New prose fades in only after old prose leave
 2.a · “Baby Game Theory”: Best Response definition fades in.
 2.b · Dominant Strategy definition joins below.
 2.c · Nash Equilibrium definition joins below; clear the definition card before the first matrix.
-3.a · Diamond layout (45 degrees clockwise, upright text). “Prisoner's Dilemma”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(3, 3), (0, 5)], [(5, 0), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
+3.a1 · Prisoner's Dilemma: reveal the diamond grid, then Player 1's two choices. Gold caption: “Player 1 chooses Cooperate or Defect.”
+3.a2 · Reveal Player 2's two choices. Gold caption: “Player 2 also chooses Cooperate or Defect.”
+3.a3 · Fade in only Player 1’s payoff at zero-based cell (0, 0), together with its grey pipe. Gold caption: “Both cooperate: Player 1 receives 3.” Keep all earlier numbers visible.
+3.a4 · Fade in only Player 2’s payoff at zero-based cell (0, 0). Gold caption: “Both cooperate: Player 2 receives 3.” Keep all earlier numbers visible.
+3.a5 · Fade in only Player 1’s payoff at zero-based cell (1, 0), together with its grey pipe. Gold caption: “Only Player 1 defects: Player 1 receives 5.” Keep all earlier numbers visible.
+3.a6 · Fade in only Player 2’s payoff at zero-based cell (1, 0). Gold caption: “Only Player 1 defects: Player 2 receives 0.” Keep all earlier numbers visible.
+3.a7 · Fade in only Player 1’s payoff at zero-based cell (1, 1), together with its grey pipe. Gold caption: “Both defect: Player 1 receives 1.” Keep all earlier numbers visible.
+3.a8 · Fade in only Player 2’s payoff at zero-based cell (1, 1). Gold caption: “Both defect: Player 2 receives 1.” Keep all earlier numbers visible.
+3.a9 · Fade in only Player 1’s payoff at zero-based cell (0, 1), together with its grey pipe. Gold caption: “Only Player 2 defects: Player 1 receives 0.” Keep all earlier numbers visible.
+3.a · Fade in only Player 2’s payoff at zero-based cell (0, 1). Gold caption: “Only Player 2 defects: Player 2 receives 5.” Keep all earlier numbers visible.
 3.b · Yellow outline isolates Player 2 choosing Cooperate; “If Player 2 chooses Cooperate, what is your best response?”
 3.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
 3.d · Yellow outline isolates Player 2 choosing Defect; “If Player 2 chooses Defect, what is your best response?”
