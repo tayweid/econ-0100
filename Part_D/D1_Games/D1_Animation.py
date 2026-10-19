@@ -198,22 +198,22 @@ class EpisodeD1(Scene):
         self.play(FadeIn(payoffs[1][0][0]), FadeIn(payoffs[1][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a5')
 
-        # ---- 3.a6q · Switch to Player 2: Player 1's Defect is now fixed.
-        self.remove(teaching)
-        teaching = Tex("Player 1 defects. Now read Player 2's payoffs.", color=DEFINITION)
-        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
-                              stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
-        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
-        self.play(FadeOut(col_shade), FadeIn(row_shade), FadeIn(teaching), run_time=0.4)
-        self.pause('3.a6q')
-
         # ---- 3.a6 · Player 2's payoff from continuing to cooperate.
         self.remove(teaching)
         teaching = Tex('Cooperating gives Player 2 a payoff of 0.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[1][0][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a6')
+
+        # ---- 3.a6q · Switch to Player 2: Player 1's Defect is now fixed.
+        self.remove(teaching)
+        teaching = Tex("Now consider Player 2 switching to Defect.", color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
+                              stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
+        self.play(FadeOut(col_shade), FadeIn(row_shade), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a6q')
 
         # ---- 3.a6r · Player 2 considers Defect while Player 1 stays fixed.
         self.remove(teaching)
@@ -230,22 +230,22 @@ class EpisodeD1(Scene):
         self.play(FadeIn(payoffs[1][1][2]), FadeIn(payoffs[1][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a8')
 
-        # ---- 3.a7q · Return to Player 1: Player 2's Defect is now fixed.
-        self.remove(teaching)
-        teaching = Tex("Player 2 defects. Now read Player 1's payoff from Defect.", color=DEFINITION)
-        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
-                              stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
-        col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(FadeOut(row_shade), FadeIn(col_shade), FadeIn(teaching), run_time=0.4)
-        self.pause('3.a7q')
-
         # ---- 3.a7 · Both defect: Player 1 receives 1.
         self.remove(teaching)
         teaching = Tex('Both defect: Player 1 receives 1.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[1][1][0]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a7')
+
+        # ---- 3.a7q · Return to Player 1: Player 2's Defect is now fixed.
+        self.remove(teaching)
+        teaching = Tex("Now consider Player 1's choice, given Player 2 defects.", color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
+                              stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
+        col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
+        self.play(FadeOut(row_shade), FadeIn(col_shade), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a7q')
 
         # ---- 3.a9q · Player 1 chooses Cooperate. What is their payoff?
         self.remove(teaching)
