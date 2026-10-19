@@ -23,6 +23,11 @@ player names stay horizontal. Strategy labels use CMU Sans at scale 0.7 in
 CAPTION grey; player names retain serif type at scale 0.8 and their payoff
 colors, separating players from choices. Player 1's choices sit outside the upper-left
 edge, Player 2's outside the upper-right edge. Player names share y=2.0.
+During the Prisoner's Dilemma payoff reveals, pink and teal underlines mark
+each player's current choice. They move through Cooperate/Cooperate,
+Defect/Cooperate, Defect/Defect, and Cooperate/Defect with the payoff reveals.
+During best-response analysis in all four games, only the choice held fixed
+is underlined; remove that underline for the equilibrium summary.
 Yellow row/column isolation rectangles follow the diagonal grid and span the
 two relevant outcome cells. Individual best-response boxes remain upright.
 Nash and efficiency outlines are equal 1.35-unit squares rotated with the
@@ -42,13 +47,13 @@ below names a click-through pause. New prose fades in only after old prose leave
 2.c · Nash Equilibrium definition joins below; clear the definition card before the first matrix.
 3.a1 · Prisoner's Dilemma: reveal the diamond grid, then Player 1's two choices. Gold caption: “Player 1 chooses Cooperate or Defect.”
 3.a2 · Reveal Player 2's two choices. Gold caption: “Player 2 also chooses Cooperate or Defect.”
-3.a3 · Fade in only Player 1’s payoff at zero-based cell (0, 0), together with its grey pipe. Gold caption: “Both cooperate: Player 1 receives 3.” Keep all earlier numbers visible.
+3.a3 · Underline both Cooperate labels in their player colors. Fade in only Player 1’s payoff at zero-based cell (0, 0), together with its grey pipe. Gold caption: “Both cooperate: Player 1 receives 3.” Keep all earlier numbers visible.
 3.a4 · Fade in only Player 2’s payoff at zero-based cell (0, 0). Gold caption: “Both cooperate: Player 2 receives 3.” Keep all earlier numbers visible.
-3.a5 · Fade in only Player 1’s payoff at zero-based cell (1, 0), together with its grey pipe. Gold caption: “Only Player 1 defects: Player 1 receives 5.” Keep all earlier numbers visible.
+3.a5 · Move the pink underline to Defect; retain teal under Cooperate. Fade in only Player 1’s payoff at zero-based cell (1, 0), together with its grey pipe. Gold caption: “Only Player 1 defects: Player 1 receives 5.” Keep all earlier numbers visible.
 3.a6 · Fade in only Player 2’s payoff at zero-based cell (1, 0). Gold caption: “Only Player 1 defects: Player 2 receives 0.” Keep all earlier numbers visible.
-3.a7 · Fade in only Player 1’s payoff at zero-based cell (1, 1), together with its grey pipe. Gold caption: “Both defect: Player 1 receives 1.” Keep all earlier numbers visible.
+3.a7 · Move the teal underline to Defect; retain pink under Defect. Fade in only Player 1’s payoff at zero-based cell (1, 1), together with its grey pipe. Gold caption: “Both defect: Player 1 receives 1.” Keep all earlier numbers visible.
 3.a8 · Fade in only Player 2’s payoff at zero-based cell (1, 1). Gold caption: “Both defect: Player 2 receives 1.” Keep all earlier numbers visible.
-3.a9 · Fade in only Player 1’s payoff at zero-based cell (0, 1), together with its grey pipe. Gold caption: “Only Player 2 defects: Player 1 receives 0.” Keep all earlier numbers visible.
+3.a9 · Move the pink underline back to Cooperate; retain teal under Defect. Fade in only Player 1’s payoff at zero-based cell (0, 1), together with its grey pipe. Gold caption: “Only Player 2 defects: Player 1 receives 0.” Keep all earlier numbers visible.
 3.a · Fade in only Player 2’s payoff at zero-based cell (0, 1). Gold caption: “Only Player 2 defects: Player 2 receives 5.” Keep all earlier numbers visible.
 3.b · Yellow outline isolates Player 2 choosing Cooperate; “If Player 2 chooses Cooperate, what is your best response?”
 3.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
