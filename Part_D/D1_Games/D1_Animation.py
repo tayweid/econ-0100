@@ -152,7 +152,7 @@ class EpisodeD1(Scene):
 
         # ---- 3.a2r · Player 2 chooses Cooperate.
         self.remove(teaching)
-        teaching = Tex('Start with Player 2 choosing Cooperate.', color=DEFINITION)
+        teaching = Tex('What if Player 2 cooperates?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -169,38 +169,38 @@ class EpisodeD1(Scene):
         self.play(FadeIn(row_choice), FadeIn(teaching), run_time=0.4)
         self.pause('3.a3q')
 
-        # ---- 3.a3 · Both cooperate: Player 1 receives 3.
+        # ---- 3.a3 · If both cooperate, Player 1 receives 3.
         self.remove(teaching)
-        teaching = Tex('Both cooperate: Player 1 receives 3.', color=DEFINITION)
+        teaching = Tex('If both cooperate, Player 1 receives 3.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[0][0][0]), FadeIn(payoffs[0][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a3')
 
-        # ---- 3.a4 · Both cooperate: Player 2 receives 3.
+        # ---- 3.a4 · If both cooperate, Player 2 receives 3.
         self.remove(teaching)
-        teaching = Tex('Both cooperate: Player 2 receives 3.', color=DEFINITION)
+        teaching = Tex('If both cooperate, Player 2 receives 3.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[0][0][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a4')
 
         # ---- 3.a5q · Player 1 chooses Defect. What is their payoff?
         self.remove(teaching)
-        teaching = Tex('Player 2 still cooperates. What if Player 1 defects?', color=DEFINITION)
+        teaching = Tex('If Player 2 cooperates, what if Player 1 defects?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         self.play(Transform(row_choice, next_choice), FadeIn(teaching), run_time=0.4)
         self.pause('3.a5q')
 
-        # ---- 3.a5 · Only Player 1 defects: Player 1 receives 5.
+        # ---- 3.a5 · If only Player 1 defects, Player 1 receives 5.
         self.remove(teaching)
-        teaching = Tex('Only Player 1 defects: Player 1 receives 5.', color=DEFINITION)
+        teaching = Tex('If only Player 1 defects, Player 1 receives 5.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[1][0][0]), FadeIn(payoffs[1][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a5')
 
         # ---- 3.a6 · Player 2's payoff from continuing to cooperate.
         self.remove(teaching)
-        teaching = Tex('Cooperating gives Player 2 a payoff of 0.', color=DEFINITION)
+        teaching = Tex('If only Player 1 defects, Player 2 receives 0.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[1][0][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a6')
@@ -225,21 +225,21 @@ class EpisodeD1(Scene):
 
         # ---- 3.a8 · Reveal Player 2's gain before switching perspective back.
         self.remove(teaching)
-        teaching = Tex('Both defect: Player 2 receives 1.', color=DEFINITION)
+        teaching = Tex('If both defect, Player 2 receives 1.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[1][1][2]), FadeIn(payoffs[1][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a8')
 
-        # ---- 3.a7 · Both defect: Player 1 receives 1.
+        # ---- 3.a7 · If both defect, Player 1 receives 1.
         self.remove(teaching)
-        teaching = Tex('Both defect: Player 1 receives 1.', color=DEFINITION)
+        teaching = Tex('If both defect, Player 1 receives 1.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[1][1][0]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a7')
 
         # ---- 3.a7q · Return to Player 1: Player 2's Defect is now fixed.
         self.remove(teaching)
-        teaching = Tex("Now consider Player 1's choice, given Player 2 defects.", color=DEFINITION)
+        teaching = Tex("If Player 2 defects, consider Player 1's choice.", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                               stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
@@ -249,29 +249,29 @@ class EpisodeD1(Scene):
 
         # ---- 3.a9q · Player 1 chooses Cooperate. What is their payoff?
         self.remove(teaching)
-        teaching = Tex('Player 2 still defects. What if Player 1 cooperates?', color=DEFINITION)
+        teaching = Tex('If Player 2 defects, what if Player 1 cooperates?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         self.play(Transform(row_choice, next_choice), FadeIn(teaching), run_time=0.4)
         self.pause('3.a9q')
 
-        # ---- 3.a9 · Only Player 2 defects: Player 1 receives 0.
+        # ---- 3.a9 · If only Player 2 defects, Player 1 receives 0.
         self.remove(teaching)
-        teaching = Tex('Only Player 2 defects: Player 1 receives 0.', color=DEFINITION)
+        teaching = Tex('If only Player 2 defects, Player 1 receives 0.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[0][1][0]), FadeIn(payoffs[0][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a9')
 
-        # ---- 3.a · Only Player 2 defects: Player 2 receives 5.
+        # ---- 3.a · If only Player 2 defects, Player 2 receives 5.
         self.remove(teaching)
-        teaching = Tex('Only Player 2 defects: Player 2 receives 5.', color=DEFINITION)
+        teaching = Tex('If only Player 2 defects, Player 2 receives 5.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(payoffs[0][1][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a')
 
         # ---- 3.b · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex('Player 2 cooperates. Which choice gives Player 1 more?', color=DEFINITION)
+        teaching = Tex('If Player 2 cooperates, which choice gives Player 1 more?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -293,7 +293,7 @@ class EpisodeD1(Scene):
 
         # ---- 3.d · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex('Player 2 defects. Which choice gives Player 1 more?', color=DEFINITION)
+        teaching = Tex('If Player 2 defects, which choice gives Player 1 more?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -351,7 +351,7 @@ class EpisodeD1(Scene):
 
         # ---- 3.f · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 cooperates. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 cooperates, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -373,7 +373,7 @@ class EpisodeD1(Scene):
 
         # ---- 3.h · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 defects. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 defects, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -472,7 +472,7 @@ class EpisodeD1(Scene):
 
         # ---- 4.b · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 2 chooses Play. What is Player 1's best response?", color=DEFINITION)
+        teaching = Tex("If Player 2 chooses Play, what is Player 1's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -493,7 +493,7 @@ class EpisodeD1(Scene):
 
         # ---- 4.d · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 2 chooses Movie. What is Player 1's best response?", color=DEFINITION)
+        teaching = Tex("If Player 2 chooses Movie, what is Player 1's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -515,7 +515,7 @@ class EpisodeD1(Scene):
 
         # ---- 4.f · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 chooses Play. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 chooses Play, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -537,7 +537,7 @@ class EpisodeD1(Scene):
 
         # ---- 4.h · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 chooses Movie. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 chooses Movie, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -628,7 +628,7 @@ class EpisodeD1(Scene):
 
         # ---- 5.b · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 2 chooses Play. What is Player 1's best response?", color=DEFINITION)
+        teaching = Tex("If Player 2 chooses Play, what is Player 1's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -649,7 +649,7 @@ class EpisodeD1(Scene):
 
         # ---- 5.d · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 2 chooses Movie. What is Player 1's best response?", color=DEFINITION)
+        teaching = Tex("If Player 2 chooses Movie, what is Player 1's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -672,7 +672,7 @@ class EpisodeD1(Scene):
 
         # ---- 5.f · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 chooses Play. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 chooses Play, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -694,7 +694,7 @@ class EpisodeD1(Scene):
 
         # ---- 5.h · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 chooses Movie. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 chooses Movie, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -796,7 +796,7 @@ class EpisodeD1(Scene):
 
         # ---- 6.b · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 2 chooses Play. What is Player 1's best response?", color=DEFINITION)
+        teaching = Tex("If Player 2 chooses Play, what is Player 1's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -817,7 +817,7 @@ class EpisodeD1(Scene):
 
         # ---- 6.d · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 2 chooses Movie. What is Player 1's best response?", color=DEFINITION)
+        teaching = Tex("If Player 2 chooses Movie, what is Player 1's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
@@ -839,7 +839,7 @@ class EpisodeD1(Scene):
 
         # ---- 6.f · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 chooses Play. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 chooses Play, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
@@ -861,7 +861,7 @@ class EpisodeD1(Scene):
 
         # ---- 6.h · Hold the other player's choice fixed.
         self.remove(teaching)
-        teaching = Tex("Player 1 chooses Movie. What is Player 2's best response?", color=DEFINITION)
+        teaching = Tex("If Player 1 chooses Movie, what is Player 2's best response?", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
