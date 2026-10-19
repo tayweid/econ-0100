@@ -406,30 +406,20 @@ class EpisodeD1(Scene):
                   GrowFromEdge(definition_divider, UP), FadeOut(teaching), run_time=1.0)
         self.play(FadeIn(nash_definition))
         self.pause('3.j1')
-        self.play(FadeOut(nash_definition), FadeOut(definition_divider))
-        self.play(*[mob.animate.shift(RIGHT * 3.7) for mob in game_objects], run_time=1.0)
 
-        # ---- 3.k · Distinguish equilibrium from the socially efficient outcome.
-        self.remove(teaching)
-        teaching = Tex('Mutual cooperation gives the highest total payoff: $3 + 3 = 6$.', color=DEFINITION)
-        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        # ---- 3.k · Keep Nash visible while marking the socially efficient outcome.
         efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT).rotate(DIAMOND_ANGLE)
         efficient.move_to(payoffs[0][0])
-        self.play(FadeIn(efficient), FadeIn(teaching))
+        self.play(FadeIn(efficient))
         self.pause('3.k')
 
-        # ---- 3.k1 · Define social efficiency beside mutual cooperation.
-        game_objects = [mob for mob in self.mobjects if mob is not head and mob is not teaching]
-        definition_divider = Line([0.3, 2.5, 0], [0.3, -3.0, 0],
-                                  color=MUTED, stroke_width=1, stroke_opacity=0.5)
+        # ---- 3.k1 · Add social efficiency below Nash on the next click.
         efficiency_definition = VGroup(
             Tex('Social Efficiency', color=DEFINITION),
             Tex('An outcome is socially efficient if it', color=INK),
             Tex("maximizes the sum of all players' payoffs.", color=INK),
         ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.7)
-        efficiency_definition.move_to([0.85, 1.65, 0], aligned_edge=UL)
-        self.play(*[mob.animate.shift(LEFT * 3.7) for mob in game_objects],
-                  GrowFromEdge(definition_divider, UP), FadeOut(teaching), run_time=1.0)
+        efficiency_definition.next_to(nash_definition, DOWN, buff=0.65, aligned_edge=LEFT)
         self.play(FadeIn(efficiency_definition))
         self.pause('3.k1')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
