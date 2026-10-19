@@ -409,24 +409,23 @@ class EpisodeD1(Scene):
         self.play(FadeOut(nash_definition), FadeOut(definition_divider))
         self.play(*[mob.animate.shift(RIGHT * 3.7) for mob in game_objects], run_time=1.0)
 
-        # ---- 3.k · Distinguish equilibrium from a Pareto-efficient outcome.
+        # ---- 3.k · Distinguish equilibrium from the socially efficient outcome.
         self.remove(teaching)
-        teaching = Tex('Both players prefer (3, 3) to (1, 1).', color=DEFINITION)
+        teaching = Tex('Mutual cooperation gives the highest total payoff: $3 + 3 = 6$.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT).rotate(DIAMOND_ANGLE)
         efficient.move_to(payoffs[0][0])
         self.play(FadeIn(efficient), FadeIn(teaching))
         self.pause('3.k')
 
-        # ---- 3.k1 · Define Pareto efficiency beside mutual cooperation.
+        # ---- 3.k1 · Define social efficiency beside mutual cooperation.
         game_objects = [mob for mob in self.mobjects if mob is not head and mob is not teaching]
         definition_divider = Line([0.3, 2.5, 0], [0.3, -3.0, 0],
                                   color=MUTED, stroke_width=1, stroke_opacity=0.5)
         efficiency_definition = VGroup(
-            Tex('Pareto Efficiency', color=DEFINITION),
-            Tex('An outcome is Pareto efficient if', color=INK),
-            Tex('no player can be made better off', color=INK),
-            Tex('without making another player worse off.', color=INK),
+            Tex('Social Efficiency', color=DEFINITION),
+            Tex('An outcome is socially efficient if it', color=INK),
+            Tex("maximizes the sum of all players' payoffs.", color=INK),
         ).arrange(DOWN, buff=0.12, aligned_edge=LEFT).scale(0.7)
         efficiency_definition.move_to([0.85, 1.65, 0], aligned_edge=UL)
         self.play(*[mob.animate.shift(LEFT * 3.7) for mob in game_objects],
@@ -750,7 +749,7 @@ class EpisodeD1(Scene):
 
         # ---- 5.k · Distinguish equilibrium from the efficient outcome.
         self.remove(teaching)
-        teaching = Tex('Both Play is Pareto efficient; both Movie is not.', color=DEFINITION)
+        teaching = Tex('Both Play is socially efficient; both Movie is not.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT).rotate(DIAMOND_ANGLE)
         efficient.move_to(payoffs[0][0])
