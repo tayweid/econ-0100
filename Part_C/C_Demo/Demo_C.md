@@ -1,6 +1,6 @@
 ---
-margin: {top: 0.6in, right: 0.6in, bottom: 0.6in, left: 0.6in}
-fontsize: 10pt
+margin: {top: 0.3in, right: 0.3in, bottom: 0.3in, left: 0.3in}
+fontsize: 11pt
 plass:
   number-equations: false
 ---
@@ -11,7 +11,7 @@ Demos are similar to Checkpoints, often taken directly from past semesters. Work
 
 ## Patronus Lessons
 
-Every winter, dementors drift through Hogsmeade, and the surest defense against them is the Patronus Charm. Private tutors sell lessons in the charm. Each witch or wizard who learns it also protects their neighbors from dementors, an external benefit of 10 coins per lesson. Prices are in coins and quantity is in lessons. The Demand (Marginal Private Benefit) and Supply (Marginal Cost) equations for lessons are the following:
+Every winter, dementors drift through Hogsmeade, and the surest defense against them is the Patronus Charm. Private tutors sell lessons in the charm. Each witch or wizard who learns it also protects their neighbors from dementors, an external benefit of 10 Coins per lesson. The Demand and Supply equations for lessons are:
 
 $$
 D: P_b = 40 - Q_d \qquad\qquad S: P_s = 10 + Q_s
@@ -19,11 +19,11 @@ $$
 
 ### C1.2 | Patronus Lessons
 
+The graph shows the market for lessons: marginal private benefit (MPB), marginal social benefit (MSB), and supply (S). The lettered regions are for the questions.
+
 ::::: {.columns gutter=1em}
 
 :::: {.column width=66.667%}
-
-The graph shows the market for lessons: marginal private benefit (MPB), marginal social benefit (MSB), and supply (S). The lettered regions are for the questions.
 
 ::: {.table style=plain inset=4pt columns="auto 1fr" spans=r0c0:2x1 aligns=r0c0:default}
 
@@ -54,13 +54,11 @@ The graph shows the market for lessons: marginal private benefit (MPB), marginal
 
  
 
- 
-
 ### C2.2 | A Subsidy for Lessons
 
 ::::: {.columns gutter=1em}
 
-:::: {.column width=66.667%}
+:::: column
 
 To encourage lessons, the Ministry pays tutors a subsidy of 8 coins per lesson. For this question, ignore the external benefit: demand is the marginal benefit (MB) of a lesson.
 
@@ -75,10 +73,6 @@ To encourage lessons, the Ministry pays tutors a subsidy of 8 coins per lesson. 
 | Last Lesson Traded, MC vs. MB: | $\square$ above $\quad\square$ below |
 
 :::
-
-::::
-
-:::: {.column width=33.333%}
 
 ::::
 
@@ -107,7 +101,6 @@ Start by using a graph and algebra to describe the market failure.
 |   |   |
 | :--- | :--- |
 | Graph demand, supply, and MSC, and shade the deadweight loss. |   |
-| Marginal Social Cost (MSC): | \_\_\_\_\_\_\_\_\_\_ |
 | Market Quantity ($\hat{Q}$): | \_\_\_\_\_\_\_\_\_\_ |
 | Efficient Quantity ($Q^*$): | \_\_\_\_\_\_\_\_\_\_ |
 | Deadweight Loss (*DWL*): | \_\_\_\_\_\_\_\_\_\_ |
@@ -158,8 +151,6 @@ Needing revenue, and not yet knowing the size of the externality, the Ministry i
 ::::
 
 :::::
-
- 
 
 ### C3.1 | Designing the Policy
 
