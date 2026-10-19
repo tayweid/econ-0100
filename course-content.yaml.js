@@ -329,7 +329,7 @@ parts:
 
   C:
     title: Externalities
-    tagline: externalized costs and benefits lead to inefficient markets
+    tagline: externalized costs and benefits can lead to inefficient markets
     links: [{label: Skillsheet, file: Part_C/C_Skillsheet.pdf}]
     introduction: >-
       In Part A we set up the landscape of what’s possible and in Part B we introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. But not every market is competitive or without externalities. Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. We’ll build the models to show how pollution, taxes, and corrective policies can either harm or correct market behavior.
@@ -432,19 +432,42 @@ parts:
 
   D:
     title: Strategic Interaction
-    tagline: strategic interaction often leads to inefficient markets
+    tagline: strategic interaction can lead to inefficient markets
     introduction: >-
       Part A set up the landscape of what’s possible. Part B introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. And Part C showed that externalities break the efficiency of markets. In Part D we take this idea even further, into settings with strategic interaction, which we call game theory.
     sections:
       - block: D1
         folder: Part_D/D1_Games
-        nav: Common Resources
+        nav: Game Theory
+        title: Game Theory
+        description: >-
+          Strategic interaction and Nash equilibrium provide a framework for analyzing decisions when outcomes depend on what others do, revealing why cooperation often fails even when it would benefit everyone.
+        episode:
+          video: s_ed6uwHOQI
+          description: "*Baby game theory*"
+        reading:
+          name: Reading D1
+        vignette:
+          description: "*Game theory practice problems*"
+          files: D1
+        dates:
+          class: '2026-10-26'
+          recitation: '2026-10-30'
+          homework: '2026-11-01'
+
+        extras:
+          - name: Veritasium Game Theory
+            video: mScpHTIi-kM
+
+      - block: D2
+        folder: Part_D/D2_The_Commons
+        nav: Commons
         title: Common Resources
         description: >-
-          Common resources create market failures through the tragedy of the commons—when shared resources are overused because private incentives don't align with social benefits.
+          Common resources create market failures through the tragedy of the commons, when shared resources are overused because private incentives don't align with social benefits.
         episode:
-          video: wd8LSB8nF7o
-          description: "*Introducing non-excludable goods*"
+          description: "*Introducing non-excludable goods* "
+          video: Is0CQbUM-j8
         reading:
           chapter: 13
           topic: Positive externalities and public goods
@@ -455,49 +478,28 @@ parts:
           class: '2026-10-19'
           recitation: '2026-10-23'
           homework: '2026-10-25'
+        extras:
+          - name: 'Non-Excludability'
+            video: wd8LSB8nF7o
 
-      - block: D2
+      - block: D3
         folder: Part_D/D2_The_Commons
         nav: Public Goods
         title: Public Goods
         description: >-
-          Public goods create free-rider problems because they are non-excludable and non-rivalrous, leading to under-provision by private markets and the need for government intervention.
+          Public goods create free-rider problems because they are non-excludable and non-rival, leading to under-provision by markets.
         episode:
-          video: Is0CQbUM-j8
-          description: "*Baby game theory*"
+          description: "Public goods are non-rival and non-excludable"
         reading:
           chapter: 13
           topic: Positive externalities and public goods
         vignette:
-          description: "*Game theory practice problems*"
+          description: "Game theory practice problems"
           files: D2
         dates:
           class: '2026-10-21'
           recitation: '2026-10-23'
           homework: '2026-10-25'
-
-      - block: D3
-        folder: Part_D/D3_Public_Goods_and_Voting
-        nav: Game Theory
-        title: Game Theory
-        description: >-
-          Strategic interaction and Nash equilibrium provide a framework for analyzing decisions when outcomes depend on what others do, revealing why cooperation often fails even when it would benefit everyone.
-        episode:
-          video: s_ed6uwHOQI
-          description: "*Baby game theory*"
-        reading:
-          name: Reading D3
-        vignette:
-          description: "*Game theory practice problems*"
-          files: D3
-        dates:
-          class: '2026-10-26'
-          recitation: '2026-10-30'
-          homework: '2026-11-01'
-
-        extras:
-          - name: Veritasium Game Theory
-            video: mScpHTIi-kM
       - block: D4
         folder: Part_D/D4_Sequential_Games
         nav: Voting
