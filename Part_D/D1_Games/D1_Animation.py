@@ -166,20 +166,30 @@ class EpisodeD1(Scene):
         self.play(FadeIn(player_2), FadeIn(col_labels), FadeIn(teaching))
         self.pause('3.a2')
 
-        # ---- 3.a3 · Both cooperate: Player 1 receives 3.
+        # ---- 3.a2r · Player 2 chooses Cooperate.
         self.remove(teaching)
-        teaching = Tex('Both cooperate: Player 1 receives 3.', color=DEFINITION)
+        teaching = Tex('Player 2 chooses Cooperate.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
-                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
-        row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(FadeIn(row_choice), FadeIn(row_shade), FadeIn(col_choice), FadeIn(col_shade),
-                  FadeIn(payoffs[0][0][0]), FadeIn(payoffs[0][0][1]), FadeIn(teaching), run_time=0.4)
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a2r')
+
+        # ---- 3.a3q · Player 1 chooses Cooperate. What is their payoff?
+        self.remove(teaching)
+        teaching = Tex('Player 1 chooses Cooperate. What is their payoff?', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
+        self.play(FadeIn(row_choice), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a3q')
+
+        # ---- 3.a3 · Both cooperate: Player 1 receives 3.
+        self.remove(teaching)
+        teaching = Tex('Both cooperate: Player 1 receives 3.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[0][0][0]), FadeIn(payoffs[0][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a3')
 
         # ---- 3.a4 · Both cooperate: Player 2 receives 3.
@@ -189,16 +199,19 @@ class EpisodeD1(Scene):
         self.play(FadeIn(payoffs[0][0][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a4')
 
+        # ---- 3.a5q · Player 1 chooses Defect. What is their payoff?
+        self.remove(teaching)
+        teaching = Tex('Player 1 chooses Defect. What is their payoff?', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
+        self.play(Transform(row_choice, next_choice), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a5q')
+
         # ---- 3.a5 · Only Player 1 defects: Player 1 receives 5.
         self.remove(teaching)
         teaching = Tex('Only Player 1 defects: Player 1 receives 5.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
-                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
-        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
-        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
-                  FadeIn(payoffs[1][0][0]), FadeIn(payoffs[1][0][1]), FadeIn(teaching), run_time=0.4)
+        self.play(FadeIn(payoffs[1][0][0]), FadeIn(payoffs[1][0][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a5')
 
         # ---- 3.a6 · Only Player 1 defects: Player 2 receives 0.
@@ -208,16 +221,30 @@ class EpisodeD1(Scene):
         self.play(FadeIn(payoffs[1][0][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a6')
 
-        # ---- 3.a7 · Both defect: Player 1 receives 1.
+        # ---- 3.a6r · Player 2 now chooses Defect.
         self.remove(teaching)
-        teaching = Tex('Both defect: Player 1 receives 1.', color=DEFINITION)
+        teaching = Tex('Player 2 now chooses Defect.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
-                  FadeIn(payoffs[1][1][0]), FadeIn(payoffs[1][1][1]), FadeIn(teaching), run_time=0.4)
+        self.play(FadeOut(row_choice), Transform(col_choice, next_choice), Transform(col_shade, next_shade), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a6r')
+
+        # ---- 3.a7q · Player 1 chooses Defect. What is their payoff?
+        self.remove(teaching)
+        teaching = Tex('Player 1 chooses Defect. What is their payoff?', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        row_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
+        self.play(FadeIn(row_choice), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a7q')
+
+        # ---- 3.a7 · Both defect: Player 1 receives 1.
+        self.remove(teaching)
+        teaching = Tex('Both defect: Player 1 receives 1.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(payoffs[1][1][0]), FadeIn(payoffs[1][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a7')
 
         # ---- 3.a8 · Both defect: Player 2 receives 1.
@@ -227,16 +254,19 @@ class EpisodeD1(Scene):
         self.play(FadeIn(payoffs[1][1][2]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a8')
 
+        # ---- 3.a9q · Player 1 chooses Cooperate. What is their payoff?
+        self.remove(teaching)
+        teaching = Tex('Player 1 chooses Cooperate. What is their payoff?', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        next_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
+        self.play(Transform(row_choice, next_choice), FadeIn(teaching), run_time=0.4)
+        self.pause('3.a9q')
+
         # ---- 3.a9 · Only Player 2 defects: Player 1 receives 0.
         self.remove(teaching)
         teaching = Tex('Only Player 2 defects: Player 1 receives 0.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
-        next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
-                               stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
-        next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
-        self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
-                  FadeIn(payoffs[0][1][0]), FadeIn(payoffs[0][1][1]), FadeIn(teaching), run_time=0.4)
+        self.play(FadeIn(payoffs[0][1][0]), FadeIn(payoffs[0][1][1]), FadeIn(teaching), run_time=0.4)
         self.pause('3.a9')
 
         # ---- 3.a · Only Player 2 defects: Player 2 receives 5.
@@ -257,7 +287,7 @@ class EpisodeD1(Scene):
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(FadeOut(row_choice), FadeOut(row_shade), Transform(col_choice, next_choice), Transform(col_shade, next_shade),
+        self.play(FadeOut(row_choice), Transform(col_choice, next_choice), Transform(col_shade, next_shade),
                   FadeIn(isolation), FadeIn(teaching))
         self.pause('3.b')
 
