@@ -289,15 +289,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Cooperate, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
-        isolation = next_isolation
         next_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
         self.play(FadeOut(row_choice), Transform(col_choice, next_choice), Transform(col_shade, next_shade),
-                  FadeIn(isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('3.b')
 
         # ---- 3.c · Preserve every best response, including ties.
@@ -311,14 +308,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Defect, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
         self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('3.d')
 
         # ---- 3.e · Preserve every best response, including ties.
@@ -332,14 +327,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Cooperate, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('3.f')
 
         # ---- 3.g · Preserve every best response, including ties.
@@ -353,14 +346,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Defect, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('3.h')
 
         # ---- 3.i · Preserve every best response, including ties.
@@ -371,7 +362,7 @@ class EpisodeD1(Scene):
         self.pause('3.i')
 
         # ---- 3.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
+        self.play(FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('Both players have a dominant strategy: Defect.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
@@ -451,14 +442,11 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
-        isolation = next_isolation
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(isolation), FadeIn(teaching))
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(teaching))
         self.pause('4.b')
 
         # ---- 4.c · Preserve every best response, including ties.
@@ -472,14 +460,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
         self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('4.d')
 
         # ---- 4.e · Preserve every best response, including ties.
@@ -493,14 +479,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('4.f')
 
         # ---- 4.g · Preserve every best response, including ties.
@@ -514,14 +498,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('4.h')
 
         # ---- 4.i · Preserve every best response, including ties.
@@ -532,7 +514,7 @@ class EpisodeD1(Scene):
         self.pause('4.i')
 
         # ---- 4.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
+        self.play(FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('Two pure-strategy Nash equilibria: both Play or both Movie.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
@@ -604,14 +586,11 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
-        isolation = next_isolation
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(isolation), FadeIn(teaching))
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(teaching))
         self.pause('5.b')
 
         # ---- 5.c · Preserve every best response, including ties.
@@ -625,14 +604,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
         self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('5.d')
 
         # ---- 5.e · Preserve every best response, including ties.
@@ -647,14 +624,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('5.f')
 
         # ---- 5.g · Preserve every best response, including ties.
@@ -668,14 +643,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('5.h')
 
         # ---- 5.i · Preserve every best response, including ties.
@@ -687,7 +660,7 @@ class EpisodeD1(Scene):
         self.pause('5.i')
 
         # ---- 5.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
+        self.play(FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('A tie means that both strategies are best responses.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
@@ -769,14 +742,11 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
-        isolation = next_isolation
         col_choice = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         col_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         col_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
-        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(isolation), FadeIn(teaching))
+        self.play(FadeIn(col_choice), FadeIn(col_shade), FadeIn(teaching))
         self.pause('6.b')
 
         # ---- 6.c · Preserve every best response, including ties.
@@ -790,14 +760,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         next_choice = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE,
                                stroke_width=0, fill_color=COL_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_RIGHT).set_z_index(-1)
         self.play(Transform(col_choice, next_choice), Transform(col_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('6.d')
 
         # ---- 6.e · Preserve every best response, including ties.
@@ -811,14 +779,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         row_choice = Underline(row_labels[0], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         row_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         row_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(FadeOut(col_choice), FadeOut(col_shade), FadeIn(row_choice), FadeIn(row_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('6.f')
 
         # ---- 6.g · Preserve every best response, including ties.
@@ -832,14 +798,12 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
-        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         next_choice = Underline(row_labels[1], buff=0.1, stroke_color=ROW_PLAYER, stroke_width=3, stretch_factor=1)
         next_shade = Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE,
                                stroke_width=0, fill_color=ROW_PLAYER, fill_opacity=CHOICE_FILL_OPACITY)
         next_shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - CELL_SIDE / 2 * TABLE_UP).set_z_index(-2)
         self.play(Transform(row_choice, next_choice), Transform(row_shade, next_shade),
-                  Transform(isolation, next_isolation), FadeIn(teaching))
+                  FadeIn(teaching))
         self.pause('6.h')
 
         # ---- 6.i · Preserve every best response, including ties.
@@ -851,7 +815,7 @@ class EpisodeD1(Scene):
         self.pause('6.i')
 
         # ---- 6.j · A Nash cell contains a best response for both players.
-        self.play(FadeOut(isolation), FadeOut(row_choice), FadeOut(row_shade))
+        self.play(FadeOut(row_choice), FadeOut(row_shade))
         self.remove(teaching)
         teaching = Tex('Two pure-strategy Nash equilibria: different activities.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)

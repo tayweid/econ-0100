@@ -36,8 +36,8 @@ Keep choice/question pauses separate from payoff answers. Never retain both
 players' background bands at a pause.
 During best-response analysis in all four games, only the choice held fixed
 is underlined and shaded; remove both cues for the equilibrium summary.
-Yellow row/column isolation rectangles follow the diagonal grid and span the
-two relevant outcome cells. Individual best-response boxes remain upright.
+The background band and choice underline identify the fixed strategy.
+Individual best-response boxes remain upright.
 Nash and efficiency outlines are equal 1.35-unit squares rotated with the
 cells; their color and dashed overlay convention are unchanged. Payoff pairs
 use an upright grey pipe separator stretched to 130% height, with a 0.3-unit
@@ -70,47 +70,47 @@ below names a click-through pause. New prose fades in only after old prose leave
 3.a9q · Player 1 chooses Cooperate. What is their payoff? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
 3.a9 · Only Player 2 defects: Player 1 receives 0. Reveal only Player 1’s payoff at cell (0, 1) and its grey pipe. Keep earlier numbers visible.
 3.a · Only Player 2 defects: Player 2 receives 5. Reveal only Player 2’s payoff at cell (0, 1). Keep earlier numbers visible.
-3.b · Yellow outline isolates Player 2 choosing Cooperate; “If Player 2 chooses Cooperate, what is your best response?”
+3.b · Teal shading and underline identify Player 2 choosing Cooperate; “If Player 2 chooses Cooperate, what is your best response?”
 3.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
-3.d · Yellow outline isolates Player 2 choosing Defect; “If Player 2 chooses Defect, what is your best response?”
+3.d · Teal shading and underline identify Player 2 choosing Defect; “If Player 2 chooses Defect, what is your best response?”
 3.e · Add pink boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-3.f · Yellow outline isolates Player 1 choosing Cooperate; “If Player 1 chooses Cooperate, what is your best response?”
+3.f · Pink shading and underline identify Player 1 choosing Cooperate; “If Player 1 chooses Cooperate, what is your best response?”
 3.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-3.h · Yellow outline isolates Player 1 choosing Defect; “If Player 1 chooses Defect, what is your best response?”
+3.h · Pink shading and underline identify Player 1 choosing Defect; “If Player 1 chooses Defect, what is your best response?”
 3.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-3.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(1, 1)]. “Both players have a dominant strategy: Defect.”
+3.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(1, 1)]. “Both players have a dominant strategy: Defect.”
 3.k · Green box, same dimensions as Nash boxes, marks [(0, 0)]. “Both players prefer (3, 3) to (1, 1).”
 4.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 1), (0, 0)], [(0, 0), (1, 2)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
-4.b · Yellow outline isolates Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
+4.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
 4.c · Add pink boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes.
-4.d · Yellow outline isolates Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
+4.d · Teal shading and underline identify Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
 4.e · Add pink boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-4.f · Yellow outline isolates Player 1 choosing Play; “If Player 1 chooses Play, what is your best response?”
+4.f · Pink shading and underline identify Player 1 choosing Play; “If Player 1 chooses Play, what is your best response?”
 4.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes.
-4.h · Yellow outline isolates Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
+4.h · Pink shading and underline identify Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
 4.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-4.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “Two pure-strategy Nash equilibria: both Play or both Movie.”
+4.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “Two pure-strategy Nash equilibria: both Play or both Movie.”
 5.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 2), (1, 0)], [(0, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
-5.b · Yellow outline isolates Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
+5.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
 5.c · Add pink boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes.
-5.d · Yellow outline isolates Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
+5.d · Teal shading and underline identify Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
 5.e · Add pink boxes to best-response payoffs at zero-based cells [(0, 1), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-5.f · Yellow outline isolates Player 1 choosing Play; “If Player 1 chooses Play, what is your best response?”
+5.f · Pink shading and underline identify Player 1 choosing Play; “If Player 1 chooses Play, what is your best response?”
 5.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes.
-5.h · Yellow outline isolates Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
+5.h · Pink shading and underline identify Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
 5.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 0), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-5.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “A tie means that both strategies are best responses.”
+5.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “A tie means that both strategies are best responses.”
 5.k · Retain both red Nash boxes; overlay a same-size dashed green box on (Play, Play). “Both Play is Pareto efficient; both Movie is not.”
 6.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(1, 0), (2, 1)], [(2, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
-6.b · Yellow outline isolates Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
+6.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
 6.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
-6.d · Yellow outline isolates Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
+6.d · Teal shading and underline identify Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
 6.e · Add pink boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-6.f · Yellow outline isolates Player 1 choosing Play; “If Player 1 chooses Play, what is your best response?”
+6.f · Pink shading and underline identify Player 1 choosing Play; “If Player 1 chooses Play, what is your best response?”
 6.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-6.h · Yellow outline isolates Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
+6.h · Pink shading and underline identify Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
 6.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 0), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
-6.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(0, 1), (1, 0)]. “Two pure-strategy Nash equilibria: different activities.”
+6.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(0, 1), (1, 0)]. “Two pure-strategy Nash equilibria: different activities.”
 7.a · Gold “Question” heading and serif Ron-and-Harry room-cleaning prompt, copied verbatim from the old closing card.
 -->
 
