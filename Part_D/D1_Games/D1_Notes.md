@@ -16,16 +16,17 @@ Layout: Graphite 2:1, 15 fps; shared palette and serif Tex. Azure topic titles,
 optional grey context, 0.7443-scale gold bottom lines centered 0.05 from bottom.
 Taxonomy retains the original D0 layout and color-changing box choreography;
 the four game matrices use a 45-degree clockwise diamond layout. Each square
-cell is 1.7 units on a side; the board center is (0, -0.5). The original
+cell is 1.5 units on a side; the board center is (0, -0.5). The original
 upper-left / upper-right / lower-left / lower-right outcomes now occupy the
 top / right / left / bottom of the diamond. All payoffs, strategy labels, and
 player names stay horizontal. Player 1's choices sit outside the upper-left
-edge, Player 2's outside the upper-right edge. Player names share y=2.25.
+edge, Player 2's outside the upper-right edge. Player names share y=2.0.
 Yellow row/column isolation rectangles follow the diagonal grid and span the
 two relevant outcome cells. Individual best-response boxes remain upright.
-Nash and efficiency outlines are equal 1.55-unit squares rotated with the
+Nash and efficiency outlines are equal 1.35-unit squares rotated with the
 cells; their color and dashed overlay convention are unchanged. Payoff pairs
-use an upright white pipe separator with a 0.18-unit gap on each side before scaling to 0.85. Each line
+use an upright grey pipe separator stretched to 130% height, with a 0.3-unit
+gap on each side before scaling to 0.85. Each line
 below names a click-through pause. New prose fades in only after old prose leaves.
 
 0.a · Original D0 opening: raster MICROECONOMICS, five flicker rounds; “Part D | Strategic Interaction” below it. Move this group to the top with a 1-unit margin and retain it through the taxonomy. The Part D label uses current title azure and the remaining title caption grey.

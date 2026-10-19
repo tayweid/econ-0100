@@ -28,7 +28,7 @@ class EpisodeD1(Scene):
         DEFINITION_SCALE = 0.7443
         DEFINITION_BOTTOM = 0.05
         DIAMOND_ANGLE = -PI / 4
-        CELL_SIDE = 1.7
+        CELL_SIDE = 1.5
         CELL_BOX_WIDTH = CELL_SIDE - 0.15
         CELL_BOX_HEIGHT = CELL_BOX_WIDTH
         GAME_CENTER = DOWN * 0.5
@@ -115,16 +115,16 @@ class EpisodeD1(Scene):
         head = title("Prisoner's Dilemma")
         payoffs = [
             [
-                VGroup(Tex('3', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('3', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('5', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('3', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('3', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('5', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
             [
-                VGroup(Tex('5', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('5', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
         ]
         # Square data cells turn clockwise; text counter-rotates in place.
@@ -151,8 +151,8 @@ class EpisodeD1(Scene):
             col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
             row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
             col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-2.8, 2.0, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([2.8, 2.0, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(matrix.get_horizontal_lines()),
@@ -257,16 +257,16 @@ class EpisodeD1(Scene):
         context = subtitle(head, 'Example 2')
         payoffs = [
             [
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
             [
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
         ]
         # Square data cells turn clockwise; text counter-rotates in place.
@@ -293,8 +293,8 @@ class EpisodeD1(Scene):
             col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
             row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
             col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-2.8, 2.0, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([2.8, 2.0, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()),
@@ -391,16 +391,16 @@ class EpisodeD1(Scene):
         context = subtitle(head, 'Example 3')
         payoffs = [
             [
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
             [
-                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('0', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
         ]
         # Square data cells turn clockwise; text counter-rotates in place.
@@ -427,8 +427,8 @@ class EpisodeD1(Scene):
             col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
             row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
             col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-2.8, 2.0, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([2.8, 2.0, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()),
@@ -537,16 +537,16 @@ class EpisodeD1(Scene):
         context = subtitle(head, 'Example 4')
         payoffs = [
             [
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('0', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
             [
-                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
-                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=INK),
-                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
+                VGroup(Tex('2', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
+                VGroup(Tex('1', color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                       Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.3),
             ],
         ]
         # Square data cells turn clockwise; text counter-rotates in place.
@@ -573,8 +573,8 @@ class EpisodeD1(Scene):
             col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
             row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
             col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-2.8, 2.0, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([2.8, 2.0, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()),
