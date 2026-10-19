@@ -27,8 +27,14 @@ class EpisodeD1(Scene):
         BODY_MID = (BODY_TOP + BODY_BOTTOM) / 2
         DEFINITION_SCALE = 0.7443
         DEFINITION_BOTTOM = 0.05
-        CELL_BOX_WIDTH = 1.65
-        CELL_BOX_HEIGHT = 0.75
+        DIAMOND_ANGLE = -PI / 4
+        CELL_SIDE = 1.7
+        CELL_BOX_WIDTH = CELL_SIDE - 0.15
+        CELL_BOX_HEIGHT = CELL_BOX_WIDTH
+        GAME_CENTER = DOWN * 0.5
+        # Unit vectors for the original table's right/up directions after rotation.
+        TABLE_RIGHT = (RIGHT + DOWN) / 2**0.5
+        TABLE_UP = (RIGHT + UP) / 2**0.5
 
         # ---- 0.a · Original D0 opening: the wordmark stays over the taxonomy.
         squares = bumper_raster(self)
@@ -121,23 +127,38 @@ class EpisodeD1(Scene):
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
+        # Square data cells turn clockwise; text counter-rotates in place.
+        for row in payoffs:
+            for cell in row:
+                cell.scale(0.85)
+        entries = [cell for row in payoffs for cell in row]
         matrix = Table(
             payoffs,
-            row_labels=[Tex('Cooperate', color=ROW_PLAYER), Tex('Defect', color=ROW_PLAYER)],
-            col_labels=[Tex('Cooperate', color=COL_PLAYER), Tex('Defect', color=COL_PLAYER)],
-            h_buff=1.1, v_buff=0.65,
+            h_buff=CELL_SIDE - max(cell.width for cell in entries),
+            v_buff=CELL_SIDE - max(cell.height for cell in entries),
+            include_outer_lines=True,
             line_config={'color': MUTED, 'stroke_width': 2},
-        ).scale(0.85)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).rotate(PI / 2)
-        player_1.next_to(matrix, LEFT, buff=0.45)
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).next_to(matrix, UP, buff=0.3)
-        game = VGroup(matrix, player_1, player_2).move_to([0, BODY_MID, 0])
+        ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
+        for cell in entries:
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        row_labels = VGroup(Tex('Cooperate', color=ROW_PLAYER), Tex('Defect', color=ROW_PLAYER))
+        col_labels = VGroup(Tex('Cooperate', color=COL_PLAYER), Tex('Defect', color=COL_PLAYER))
+        row_labels.scale(0.8)
+        col_labels.scale(0.8)
+        for index in range(2):
+            offset = (0.5 - index) * CELL_SIDE
+            row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
+            col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
+            row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(matrix.get_horizontal_lines()),
                   FadeIn(matrix.get_vertical_lines()))
-        self.play(FadeIn(player_2), FadeIn(matrix.get_col_labels()))
-        self.play(FadeIn(player_1), FadeIn(matrix.get_row_labels()))
+        self.play(FadeIn(player_2), FadeIn(col_labels))
+        self.play(FadeIn(player_1), FadeIn(row_labels))
         self.play(FadeIn(teaching))
         for row in payoffs:
             for cell in row:
@@ -148,7 +169,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Cooperate, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         self.play(FadeIn(isolation), FadeIn(teaching))
         self.pause('3.b')
@@ -164,7 +186,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Defect, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('3.d')
 
@@ -179,7 +202,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Cooperate, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('3.f')
 
@@ -194,7 +218,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Defect, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('3.h')
 
@@ -211,7 +236,7 @@ class EpisodeD1(Scene):
         teaching = Tex('Both players have a dominant strategy: Defect.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         equilibria = VGroup(
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[1][1]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[1][1]),
         )
         self.play(FadeIn(equilibria), FadeIn(teaching))
         self.pause('3.j')
@@ -220,7 +245,7 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('Both players prefer (3, 3) to (1, 1).', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT)
+        efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT).rotate(DIAMOND_ANGLE)
         efficient.move_to(payoffs[0][0])
         self.play(FadeIn(efficient), FadeIn(teaching))
         self.pause('3.k')
@@ -244,23 +269,38 @@ class EpisodeD1(Scene):
                        Tex('2', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
+        # Square data cells turn clockwise; text counter-rotates in place.
+        for row in payoffs:
+            for cell in row:
+                cell.scale(0.85)
+        entries = [cell for row in payoffs for cell in row]
         matrix = Table(
             payoffs,
-            row_labels=[Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER)],
-            col_labels=[Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER)],
-            h_buff=1.1, v_buff=0.65,
+            h_buff=CELL_SIDE - max(cell.width for cell in entries),
+            v_buff=CELL_SIDE - max(cell.height for cell in entries),
+            include_outer_lines=True,
             line_config={'color': MUTED, 'stroke_width': 2},
-        ).scale(0.85)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).rotate(PI / 2)
-        player_1.next_to(matrix, LEFT, buff=0.45)
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).next_to(matrix, UP, buff=0.3)
-        game = VGroup(matrix, player_1, player_2).move_to([0, BODY_MID, 0])
+        ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
+        for cell in entries:
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        row_labels = VGroup(Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER))
+        col_labels = VGroup(Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER))
+        row_labels.scale(0.8)
+        col_labels.scale(0.8)
+        for index in range(2):
+            offset = (0.5 - index) * CELL_SIDE
+            row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
+            col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
+            row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()),
                   FadeIn(matrix.get_vertical_lines()))
-        self.play(FadeIn(player_2), FadeIn(matrix.get_col_labels()))
-        self.play(FadeIn(player_1), FadeIn(matrix.get_row_labels()))
+        self.play(FadeIn(player_2), FadeIn(col_labels))
+        self.play(FadeIn(player_1), FadeIn(row_labels))
         self.play(FadeIn(teaching))
         for row in payoffs:
             for cell in row:
@@ -271,7 +311,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         self.play(FadeIn(isolation), FadeIn(teaching))
         self.pause('4.b')
@@ -287,7 +328,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('4.d')
 
@@ -302,7 +344,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('4.f')
 
@@ -317,7 +360,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('4.h')
 
@@ -334,8 +378,8 @@ class EpisodeD1(Scene):
         teaching = Tex('Two pure-strategy Nash equilibria: both Play or both Movie.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         equilibria = VGroup(
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[0][0]),
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[1][1]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[0][0]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[1][1]),
         )
         self.play(FadeIn(equilibria), FadeIn(teaching))
         self.pause('4.j')
@@ -359,23 +403,38 @@ class EpisodeD1(Scene):
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
+        # Square data cells turn clockwise; text counter-rotates in place.
+        for row in payoffs:
+            for cell in row:
+                cell.scale(0.85)
+        entries = [cell for row in payoffs for cell in row]
         matrix = Table(
             payoffs,
-            row_labels=[Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER)],
-            col_labels=[Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER)],
-            h_buff=1.1, v_buff=0.65,
+            h_buff=CELL_SIDE - max(cell.width for cell in entries),
+            v_buff=CELL_SIDE - max(cell.height for cell in entries),
+            include_outer_lines=True,
             line_config={'color': MUTED, 'stroke_width': 2},
-        ).scale(0.85)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).rotate(PI / 2)
-        player_1.next_to(matrix, LEFT, buff=0.45)
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).next_to(matrix, UP, buff=0.3)
-        game = VGroup(matrix, player_1, player_2).move_to([0, BODY_MID, 0])
+        ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
+        for cell in entries:
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        row_labels = VGroup(Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER))
+        col_labels = VGroup(Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER))
+        row_labels.scale(0.8)
+        col_labels.scale(0.8)
+        for index in range(2):
+            offset = (0.5 - index) * CELL_SIDE
+            row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
+            col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
+            row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()),
                   FadeIn(matrix.get_vertical_lines()))
-        self.play(FadeIn(player_2), FadeIn(matrix.get_col_labels()))
-        self.play(FadeIn(player_1), FadeIn(matrix.get_row_labels()))
+        self.play(FadeIn(player_2), FadeIn(col_labels))
+        self.play(FadeIn(player_1), FadeIn(row_labels))
         self.play(FadeIn(teaching))
         for row in payoffs:
             for cell in row:
@@ -386,7 +445,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         self.play(FadeIn(isolation), FadeIn(teaching))
         self.pause('5.b')
@@ -402,7 +462,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('5.d')
 
@@ -418,7 +479,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('5.f')
 
@@ -433,7 +495,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('5.h')
 
@@ -451,8 +514,8 @@ class EpisodeD1(Scene):
         teaching = Tex('A tie means that both strategies are best responses.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         equilibria = VGroup(
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[0][0]),
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[1][1]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[0][0]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[1][1]),
         )
         self.play(FadeIn(equilibria), FadeIn(teaching))
         self.pause('5.j')
@@ -461,7 +524,7 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('Both Play is Pareto efficient; both Movie is not.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT)
+        efficient = Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=EFFICIENT).rotate(DIAMOND_ANGLE)
         efficient.move_to(payoffs[0][0])
         efficient = DashedVMobject(efficient, num_dashes=36)
         self.play(FadeIn(efficient), FadeIn(teaching))
@@ -486,23 +549,38 @@ class EpisodeD1(Scene):
                        Tex('1', color=COL_PLAYER)).arrange(RIGHT, buff=0.18),
             ],
         ]
+        # Square data cells turn clockwise; text counter-rotates in place.
+        for row in payoffs:
+            for cell in row:
+                cell.scale(0.85)
+        entries = [cell for row in payoffs for cell in row]
         matrix = Table(
             payoffs,
-            row_labels=[Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER)],
-            col_labels=[Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER)],
-            h_buff=1.1, v_buff=0.65,
+            h_buff=CELL_SIDE - max(cell.width for cell in entries),
+            v_buff=CELL_SIDE - max(cell.height for cell in entries),
+            include_outer_lines=True,
             line_config={'color': MUTED, 'stroke_width': 2},
-        ).scale(0.85)
-        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).rotate(PI / 2)
-        player_1.next_to(matrix, LEFT, buff=0.45)
-        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).next_to(matrix, UP, buff=0.3)
-        game = VGroup(matrix, player_1, player_2).move_to([0, BODY_MID, 0])
+        ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
+        for cell in entries:
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        row_labels = VGroup(Tex('Play', color=ROW_PLAYER), Tex('Movie', color=ROW_PLAYER))
+        col_labels = VGroup(Tex('Play', color=COL_PLAYER), Tex('Movie', color=COL_PLAYER))
+        row_labels.scale(0.8)
+        col_labels.scale(0.8)
+        for index in range(2):
+            offset = (0.5 - index) * CELL_SIDE
+            row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
+            col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
+            row_labels[index].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[index].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([-3.0, 2.25, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([3.0, 2.25, 0])
         teaching = Tex('Payoffs: Player 1 first, Player 2 second.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()),
                   FadeIn(matrix.get_vertical_lines()))
-        self.play(FadeIn(player_2), FadeIn(matrix.get_col_labels()))
-        self.play(FadeIn(player_1), FadeIn(matrix.get_row_labels()))
+        self.play(FadeIn(player_2), FadeIn(col_labels))
+        self.play(FadeIn(player_1), FadeIn(row_labels))
         self.play(FadeIn(teaching))
         for row in payoffs:
             for cell in row:
@@ -513,7 +591,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[0])
         isolation = next_isolation
         self.play(FadeIn(isolation), FadeIn(teaching))
         self.pause('6.b')
@@ -529,7 +608,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 2 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_columns()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=CELL_SIDE - 0.1, height=2 * CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_columns()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('6.d')
 
@@ -544,7 +624,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Play, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[1], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[0])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('6.f')
 
@@ -559,7 +640,8 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('If Player 1 chooses Movie, what is your best response?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        next_isolation = SurroundingRectangle(matrix.get_rows()[2], buff=0.15, color=FOCUS)
+        next_isolation = Rectangle(width=2 * CELL_SIDE - 0.1, height=CELL_SIDE - 0.1, color=FOCUS)
+        next_isolation.rotate(DIAMOND_ANGLE).move_to(matrix.get_rows()[1])
         self.play(Transform(isolation, next_isolation), FadeIn(teaching))
         self.pause('6.h')
 
@@ -577,8 +659,8 @@ class EpisodeD1(Scene):
         teaching = Tex('Two pure-strategy Nash equilibria: different activities.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         equilibria = VGroup(
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[0][1]),
-            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).move_to(payoffs[1][0]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[0][1]),
+            Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[1][0]),
         )
         self.play(FadeIn(equilibria), FadeIn(teaching))
         self.pause('6.j')

@@ -15,9 +15,17 @@ lecture script has been substituted for them.
 Layout: Graphite 2:1, 15 fps; shared palette and serif Tex. Azure topic titles,
 optional grey context, 0.7443-scale gold bottom lines centered 0.05 from bottom.
 Taxonomy retains the original D0 layout and color-changing box choreography;
-game-theory body content is centered between y=2.5 and y=-2.8. Matrix outlines are 1.65 wide by 0.75 high for both Nash
-and efficiency; best-response boxes use the matching player's color. Payoff
-components have a 0.18-unit gap before scaling so boxes leave commas readable. Each line
+the four game matrices use a 45-degree clockwise diamond layout. Each square
+cell is 1.7 units on a side; the board center is (0, -0.5). The original
+upper-left / upper-right / lower-left / lower-right outcomes now occupy the
+top / right / left / bottom of the diamond. All payoffs, strategy labels, and
+player names stay horizontal. Player 1's choices sit outside the upper-left
+edge, Player 2's outside the upper-right edge. Player names share y=2.25.
+Yellow row/column isolation rectangles follow the diagonal grid and span the
+two relevant outcome cells. Individual best-response boxes remain upright.
+Nash and efficiency outlines are equal 1.55-unit squares rotated with the
+cells; their color and dashed overlay convention are unchanged. Payoff pairs
+retain a 0.18-unit gap before scaling to 0.85. Each line
 below names a click-through pause. New prose fades in only after old prose leaves.
 
 0.a · Original D0 opening: raster MICROECONOMICS, five flicker rounds; “Part D | Strategic Interaction” below it. Move this group to the top with a 1-unit margin and retain it through the taxonomy. The Part D label uses current title azure and the remaining title caption grey.
@@ -29,7 +37,7 @@ below names a click-through pause. New prose fades in only after old prose leave
 2.a · “Baby Game Theory”: Best Response definition fades in.
 2.b · Dominant Strategy definition joins below.
 2.c · Nash Equilibrium definition joins below; clear the definition card before the first matrix.
-3.a · “Prisoner's Dilemma”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(3, 3), (0, 5)], [(5, 0), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
+3.a · Diamond layout (45 degrees clockwise, upright text). “Prisoner's Dilemma”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(3, 3), (0, 5)], [(5, 0), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
 3.b · Yellow outline isolates Player 2 choosing Cooperate; “If Player 2 chooses Cooperate, what is your best response?”
 3.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
 3.d · Yellow outline isolates Player 2 choosing Defect; “If Player 2 chooses Defect, what is your best response?”
@@ -40,7 +48,7 @@ below names a click-through pause. New prose fades in only after old prose leave
 3.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
 3.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(1, 1)]. “Both players have a dominant strategy: Defect.”
 3.k · Green box, same dimensions as Nash boxes, marks [(0, 0)]. “Both players prefer (3, 3) to (1, 1).”
-4.a · “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 1), (0, 0)], [(0, 0), (1, 2)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
+4.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 1), (0, 0)], [(0, 0), (1, 2)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
 4.b · Yellow outline isolates Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
 4.c · Add pink boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes.
 4.d · Yellow outline isolates Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
@@ -50,7 +58,7 @@ below names a click-through pause. New prose fades in only after old prose leave
 4.h · Yellow outline isolates Player 1 choosing Movie; “If Player 1 chooses Movie, what is your best response?”
 4.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
 4.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “Two pure-strategy Nash equilibria: both Play or both Movie.”
-5.a · “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 2), (1, 0)], [(0, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
+5.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 2), (1, 0)], [(0, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
 5.b · Yellow outline isolates Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
 5.c · Add pink boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes.
 5.d · Yellow outline isolates Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
@@ -61,7 +69,7 @@ below names a click-through pause. New prose fades in only after old prose leave
 5.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 0), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes.
 5.j · Remove isolation outline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “A tie means that both strategies are best responses.”
 5.k · Retain both red Nash boxes; overlay a same-size dashed green box on (Play, Play). “Both Play is Pareto efficient; both Movie is not.”
-6.a · “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(1, 0), (2, 1)], [(2, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
+6.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(1, 0), (2, 1)], [(2, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
 6.b · Yellow outline isolates Player 2 choosing Play; “If Player 2 chooses Play, what is your best response?”
 6.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes.
 6.d · Yellow outline isolates Player 2 choosing Movie; “If Player 2 chooses Movie, what is your best response?”
