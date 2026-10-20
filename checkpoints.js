@@ -52,7 +52,7 @@
     function eventMeta(parent, x, y, event, anchor = 'middle') {
         const line = svgElement('text', { x, y, class: 'event-date', 'text-anchor': anchor });
         line.append(document.createTextNode(dateLabel(event.date) + ' · '));
-        line.append(svgElement('tspan', { class: 'event-place' + (event.place.toLowerCase() === 'in class' ? ' in-class' : '') }, event.place.toUpperCase()));
+        line.append(svgElement('tspan', { class: 'event-place' }, event.place.toUpperCase()));
         parent.append(line);
     }
 
@@ -218,7 +218,7 @@
         svg.append(svgElement('title', { id: 'route-title' }, full ? 'The full checkpoint and reattempt timeline' : 'How Parts A and B continue through reattempts'));
         svg.append(svgElement('desc', { id: 'route-desc' }, events.map(event =>
             `${event.name}, ${dateLabel(event.date)}, ${event.place}: ${event.kind === 'final' ? 'Checkpoint F and reattempts for' : event.kind === 'checkpoint' ? 'first attempt for' : 'reattempts for'} Part${event.available.length > 1 ? 's' : ''} ${event.available.join(', ')}.`
-        ).join(' ') + ' An open circle starts each part’s practice period at the preceding checkpoint. Part A starts before the first checkpoint. Solid paths lead to first attempts; dashed paths connect later chances. A vertical tick marks an available attempt.'));
+        ).join(' ') + ' An open circle starts each part’s practice period at the preceding checkpoint. Part A starts before the first checkpoint. Solid paths lead to first attempts; dashed paths connect later chances. A vertical bar marks a checkpoint; a hollow diamond marks a reattempt.'));
         svg.append(svgElement('line', { x1: start - 38, y1: 59, x2: width - 30, y2: 59, class: 'axis' }));
         events.forEach((event, index) => {
             const at = x(index);
@@ -253,7 +253,11 @@
                 const at = x(index);
                 // Remove a little connecting line around each tick for legibility.
                 svg.append(svgElement('rect', { x: at - 6, y: y - 14, width: 12, height: 28, fill: 'var(--bg)' }));
-                svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', stroke: color }));
+                if (index === first) {
+                    svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', stroke: color }));
+                } else {
+                    svg.append(svgElement('path', { d: `M ${at} ${y - 8} L ${at + 6} ${y} L ${at} ${y + 8} L ${at - 6} ${y} Z`, class: 'reattempt-stop', stroke: color }));
+                }
             });
         });
         const map = document.getElementById('timeline-map');
@@ -270,7 +274,7 @@
             role: 'group', 'aria-labelledby': 'compact-title', 'aria-describedby': 'compact-desc'
         });
         svg.append(svgElement('title', { id: 'compact-title' }, 'Follow Parts A and B down the timeline'));
-        svg.append(svgElement('desc', { id: 'compact-desc' }, description.replace('A vertical tick', 'A horizontal tick')));
+        svg.append(svgElement('desc', { id: 'compact-desc' }, description.replace('A vertical bar', 'A horizontal bar')));
         const y = index => 64 + index * 66;
         events.forEach((event, index) => {
             const heading = eventHeading(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, class: 'tip-hit' }), event);
@@ -295,7 +299,11 @@
                 const initial = eventIndex === first;
                 if (!initial && !(event.kind === 'reattempt' && event.available.includes(part.id))) return;
                 svg.append(svgElement('rect', { x: x - 14, y: y(eventIndex) - 6, width: 28, height: 12, fill: 'var(--bg)' }));
-                svg.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', stroke: color }));
+                if (initial) {
+                    svg.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', stroke: color }));
+                } else {
+                    svg.append(svgElement('path', { d: `M ${x} ${y(eventIndex) - 8} L ${x + 6} ${y(eventIndex)} L ${x} ${y(eventIndex) + 8} L ${x - 6} ${y(eventIndex)} Z`, class: 'reattempt-stop', stroke: color }));
+                }
             });
         });
         document.getElementById('timeline-map').append(svg);
