@@ -27,7 +27,8 @@ Each entry pairs a serif Part A–F label with its title in the course's light
 sans-serif body font, on one line. These entries live in `checkpoints.html`, so keep them
 in sync when editing part titles in the YAML.
 Course Outline and Office Hours use aligned headings beneath the page title,
-with the same compact gap before the part list and office-hours table. The table
+with outline rows spread evenly to match the office-hours height when side by side.
+Both use the same compact gap before the part list and office-hours table. The table
 has no visible column headers or divider, with Taylor starting level with Part A.
 Column headers remain available to screen readers. Names use serif type, with TA
 and UTA in a separate aligned column (Taylor’s role cell is blank); times and rooms use
