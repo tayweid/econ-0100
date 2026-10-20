@@ -28,8 +28,9 @@ after the tagline; titles use semibold weight and subtitles use light weight. Th
 The office hours and summaries stack on smaller screens.
 The syllabus uses the shared chip beside the page title;
 neither appears in `course.nav`.
-The home page retains the left course navigation, has no right contents sidebar,
-and offers Part A–F links above the title on phones.
+The home page has no sidebars or duplicate mobile navigation. Each part summary
+is one keyboard-accessible link covering its label, title, and subtitle. Part pages
+retain their existing navigation back to the course home.
 Its timeline is rendered by `checkpoints.js` from the checkpoint dates,
 reattempt dates, and logistics in the same YAML; do not copy dates into the HTML.
 The course home shows only the full-semester timeline, with horizontal scrolling
