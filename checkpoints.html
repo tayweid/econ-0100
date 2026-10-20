@@ -31,12 +31,14 @@
         .part-link:hover .part-title, .part-link:focus-visible .part-title { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
         .part-overview .part-title { font: 300 16px/1.4 var(--font-body); }
         .hours-table { width: auto; max-width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 15px; line-height: 1.4; }
-        .hours-table th, .hours-table td { text-align: left; vertical-align: top; padding: 4px 20px 4px 0; }
-        .hours-table thead th { padding-top: 0; padding-bottom: 3px; font-weight: 400; font-size: 13px; color: var(--caption); border-bottom: 1px solid var(--rule); }
+        .hours-table th, .hours-table td { text-align: left; vertical-align: baseline; padding: 0 20px 8px 0; }
+        .hours-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
         .hours-table tbody th { font: 400 20px/1.4 var(--font-heading); color: var(--white); white-space: nowrap; }
         .hours-table th:last-child, .hours-table td:last-child { padding-right: 0; white-space: nowrap; }
         .hours-table td { font: 300 16px/1.4 var(--font-body); }
-        .hours-role { color: var(--caption); font: 400 12px/1.4 var(--font-body); }
+        .hours-table .hours-role { color: var(--caption); font: 400 12px/1.4 var(--font-body); }
+        .hours-table tbody th { padding-right: 10px; }
+        .hours-table tbody tr:last-child > * { padding-bottom: 0; }
         .guide p { line-height: 1.5; }
         .guide p:hover { color: inherit; }
         .guide h2 { font-size: clamp(22px, 2.8vw, 28px); line-height: 1.2; margin: 0; color: var(--white); }
@@ -181,15 +183,15 @@
             <div id="office-hours">
                 <h2>Office Hours</h2>
                 <table class="hours-table" aria-label="Instructor and TA office hours">
-                    <thead><tr><th scope="col">Name</th><th scope="col">Time</th><th scope="col">Location</th></tr></thead>
+                    <thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Time</th><th scope="col">Location</th></tr></thead>
                     <tbody>
-                        <tr><th scope="row">Taylor</th><td>Wed &amp; Thu 2:30–3:30 PM</td><td>Posvar 4702</td></tr>
-                        <tr><th scope="row">Zoe <span class="hours-role">· UTA</span></th><td>Tue &amp; Thu 11 AM–noon<br>Tue &amp; Thu 2:30–3:30 PM</td><td>Posvar 4925</td></tr>
-                        <tr><th scope="row"><a href="mailto:AAR247@pitt.edu">Aaron</a> <span class="hours-role">· TA</span></th><td>Tue 10:15 AM–12:15 PM</td><td>Posvar 4515</td></tr>
-                        <tr><th scope="row"><a href="mailto:fizzah.malik@pitt.edu">Fizzah</a> <span class="hours-role">· TA</span></th><td>Tue 11 AM–1 PM</td><td>Posvar 4911</td></tr>
-                        <tr><th scope="row"><a href="mailto:BRF94@pitt.edu">Brianna</a> <span class="hours-role">· TA</span></th><td>Wed 10 AM–noon</td><td>Posvar 4715</td></tr>
-                        <tr><th scope="row"><a href="mailto:behroozmoosavi@pitt.edu">Behrooz</a> <span class="hours-role">· TA</span></th><td>Thu 1:30–3:30 PM</td><td>Posvar 4925</td></tr>
-                        <tr><th scope="row"><a href="mailto:shihas.abdulrazak@pitt.edu">Shihas</a> <span class="hours-role">· TA</span></th><td>Thu 3–5 PM</td><td>Posvar 4911</td></tr>
+                        <tr><th scope="row">Taylor</th><td class="hours-role"></td><td>Wed &amp; Thu 2:30–3:30 PM</td><td>Posvar 4702</td></tr>
+                        <tr><th scope="row">Zoe</th><td class="hours-role">UTA</td><td>Tue &amp; Thu 11 AM–noon<br>Tue &amp; Thu 2:30–3:30 PM</td><td>Posvar 4925</td></tr>
+                        <tr><th scope="row"><a href="mailto:AAR247@pitt.edu">Aaron</a></th><td class="hours-role">TA</td><td>Tue 10:15 AM–12:15 PM</td><td>Posvar 4515</td></tr>
+                        <tr><th scope="row"><a href="mailto:fizzah.malik@pitt.edu">Fizzah</a></th><td class="hours-role">TA</td><td>Tue 11 AM–1 PM</td><td>Posvar 4911</td></tr>
+                        <tr><th scope="row"><a href="mailto:BRF94@pitt.edu">Brianna</a></th><td class="hours-role">TA</td><td>Wed 10 AM–noon</td><td>Posvar 4715</td></tr>
+                        <tr><th scope="row"><a href="mailto:behroozmoosavi@pitt.edu">Behrooz</a></th><td class="hours-role">TA</td><td>Thu 1:30–3:30 PM</td><td>Posvar 4925</td></tr>
+                        <tr><th scope="row"><a href="mailto:shihas.abdulrazak@pitt.edu">Shihas</a></th><td class="hours-role">TA</td><td>Thu 3–5 PM</td><td>Posvar 4911</td></tr>
                     </tbody>
                 </table>
             </div>

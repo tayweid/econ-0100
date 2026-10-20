@@ -28,8 +28,9 @@ sans-serif body font, on one line. These entries live in `checkpoints.html`, so 
 in sync when editing part titles in the YAML.
 Course Outline and Office Hours use aligned headings beneath the page title,
 with the same compact gap before the part list and office-hours table. The table
-starts level with Part A on wide screens. Names use serif
-type, followed by · TA or · UTA (Taylor has no role suffix); times and rooms use
+has no visible column headers or divider, with Taylor starting level with Part A.
+Column headers remain available to screen readers. Names use serif type, with TA
+and UTA in a separate aligned column (Taylor’s role cell is blank); times and rooms use
 the light sans-serif body style. The office hours and summaries stack on smaller screens.
 The syllabus uses the shared chip beside the page title;
 neither appears in `course.nav`.
