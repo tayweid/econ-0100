@@ -23,12 +23,12 @@ with no video may carry an `image` (a URL or a local path) as its thumbnail.
 The course home is `checkpoints.html`; `index.html` redirects there. Setting
 `course.home: index.html` makes MICRO ECON link home on every part page. Office hours
 appear beside the page title and six linked part summaries on wide screens.
-Each entry pairs a serif Part A–F label with its title in the course's italic
-subtitle font, on one line. These entries live in `checkpoints.html`, so keep them
+Each entry pairs a serif Part A–F label with its title in the course's light
+sans-serif body font, on one line. These entries live in `checkpoints.html`, so keep them
 in sync when editing part titles in the YAML.
 The office-hours table starts level with Part A on wide screens. Names use serif
 type, followed by · TA or · UTA (Taylor has no role suffix); times and rooms use
-the italic subtitle style. The office hours and summaries stack on smaller screens.
+the light sans-serif body style. The office hours and summaries stack on smaller screens.
 The syllabus uses the shared chip beside the page title;
 neither appears in `course.nav`.
 The home page has no sidebars or duplicate mobile navigation. Each part summary
