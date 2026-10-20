@@ -107,10 +107,9 @@
     }
 
     function eventHeading(svg, shape, event) {
-        if (event.detail) {
-            return tipTarget(svg, shape, { title: event.name, body: event.detail });
-        }
-        const heading = svgElement('g', { 'data-route': event.kind === 'checkpoint' ? 'practice' : 'makeup' });
+        const heading = svgElement('g', event.kind === 'final' ? {} : {
+            'data-route': event.kind === 'checkpoint' ? 'practice' : 'makeup'
+        });
         heading.append(shape);
         svg.append(heading);
         return heading;
@@ -166,65 +165,6 @@
         });
     }
 
-    let activeTip = null;
-    let activeInfo = null;
-    let pinnedTip = false;
-    let hideTimer;
-
-    function hideTip() {
-        clearTimeout(hideTimer);
-        if (activeTip) activeTip.removeAttribute('aria-describedby');
-        activeTip = null;
-        activeInfo = null;
-        pinnedTip = false;
-        document.getElementById('map-tooltip').hidden = true;
-    }
-
-    function showTip(trigger, info) {
-        clearTimeout(hideTimer);
-        if (activeTip !== trigger) hideTip();
-        activeTip = trigger;
-        activeInfo = info;
-        const tip = document.getElementById('map-tooltip');
-        const title = document.createElement('strong');
-        title.textContent = info.title;
-        const body = document.createElement('p');
-        body.textContent = info.body;
-        tip.replaceChildren(title, body);
-        tip.hidden = false;
-        trigger.setAttribute('aria-describedby', 'map-tooltip');
-        const anchor = trigger.getBoundingClientRect();
-        const bounds = tip.getBoundingClientRect();
-        const left = Math.max(12, Math.min(anchor.left + anchor.width / 2 - bounds.width / 2, innerWidth - bounds.width - 12));
-        const below = anchor.bottom + 10;
-        const top = below + bounds.height <= innerHeight - 12 ? below : Math.max(12, anchor.top - bounds.height - 10);
-        tip.style.left = left + 'px';
-        tip.style.top = top + 'px';
-    }
-
-    function tipTarget(svg, shape, info, label = info.title) {
-        const group = svgElement('g', { class: 'tip-target', role: 'button', tabindex: 0, 'aria-label': label });
-        group.append(shape);
-        group.addEventListener('pointerenter', event => {
-            if (event.pointerType !== 'touch' && !pinnedTip) showTip(group, info);
-        });
-        group.addEventListener('pointerleave', () => {
-            if (!pinnedTip && document.activeElement !== group) hideTimer = setTimeout(hideTip, 150);
-        });
-        group.addEventListener('focus', () => showTip(group, info));
-        group.addEventListener('blur', hideTip);
-        const toggle = () => {
-            if (activeTip === group && pinnedTip) hideTip();
-            else { showTip(group, info); pinnedTip = true; }
-        };
-        group.addEventListener('click', toggle);
-        group.addEventListener('keydown', event => {
-            if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); }
-        });
-        svg.append(group);
-        return group;
-    }
-
     function buildSchedule(data) {
         const parts = Object.entries(data.parts).map(([id, part]) => ({
             id, checkpoint: part.sections.find(section => section.checkpoint)?.checkpoint
@@ -237,7 +177,6 @@
                 id: 'checkpoint-' + part.id, part: part.id, kind: final ? 'final' : 'checkpoint',
                 date: cp.date, name: final ? 'Final session' : 'Checkpoint ' + part.id,
                 place: final ? 'See Canvas' : 'In class',
-                detail: final && cp.when ? cp.when + '. Checkpoint F and reattempts for earlier parts.' : cp.when || null,
                 // The syllabus promises a final reattempt session for earlier parts.
                 available: final ? parts.slice(0, index).map(p => p.id) : [part.id]
             });
@@ -245,7 +184,6 @@
                 id: 'reattempt-' + part.id, part: part.id, kind: 'reattempt',
                 date: cp.reattempt_date, name: 'Reattempt ' + part.id,
                 place: cp.reattempt || 'See Canvas',
-                detail: null,
                 available: parts.slice(0, index + 1).map(p => p.id)
             });
         });
@@ -257,7 +195,6 @@
         const parts = full ? schedule.parts : schedule.parts.filter(part => ['A', 'B'].includes(part.id));
         const events = full ? schedule.events : schedule.events.filter(event => ['A', 'B'].includes(event.part) && event.kind !== 'final');
         const width = full ? Math.max(1340, events.length * 126 + 80) : 830;
-        hideTip();
         const rowGap = full ? 32 : 44;
         const firstRow = full ? 82 : 94;
         const height = firstRow + (parts.length - 1) * rowGap + 26;
@@ -266,16 +203,15 @@
         const x = index => events.length > 1 ? start + index * (end - start) / (events.length - 1) : start;
         const svg = svgElement('svg', {
             viewBox: `0 0 ${width} ${height}`, class: 'route-map' + (full ? ' full' : ' example'),
-            role: 'group', 'aria-labelledby': 'route-title', 'aria-describedby': 'route-desc'
+            role: 'group', 'aria-label': full ? 'The full checkpoint and reattempt timeline' : 'How Parts A and B continue through reattempts', 'aria-describedby': 'route-desc'
         });
-        svg.append(svgElement('title', { id: 'route-title' }, full ? 'The full checkpoint and reattempt timeline' : 'How Parts A and B continue through reattempts'));
         svg.append(svgElement('desc', { id: 'route-desc' }, events.map(event =>
             `${event.name}, ${dateLabel(event.date)}, ${event.place}: ${event.kind === 'final' ? 'Checkpoint F and reattempts for' : event.kind === 'checkpoint' ? 'first attempt for' : 'reattempts for'} Part${event.available.length > 1 ? 's' : ''} ${event.available.join(', ')}.`
         ).join(' ') + ' An open circle starts each part’s practice period at the preceding checkpoint. Part A starts before the first checkpoint. Solid paths lead to first attempts; dashed paths connect later chances. A vertical bar marks a checkpoint; a hollow diamond marks a reattempt.'));
         svg.append(svgElement('line', { x1: start - 38, y1: 59, x2: width - 30, y2: 59, class: 'axis' }));
         events.forEach((event, index) => {
             const at = x(index);
-            const heading = eventHeading(svg, svgElement('rect', { x: at - (full ? 62 : 85), y: 0, width: full ? 124 : 170, height: 54, class: 'tip-hit' }), event);
+            const heading = eventHeading(svg, svgElement('rect', { x: at - (full ? 62 : 85), y: 0, width: full ? 124 : 170, height: 54, fill: 'transparent' }), event);
             text(heading, at, 17, event.name, 'event-name');
             eventMeta(heading, at, full ? 34 : 39, event, 'middle', full);
             svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
@@ -348,13 +284,12 @@
         const height = 76 + events.length * 66;
         const svg = svgElement('svg', {
             viewBox: `0 0 350 ${height}`, class: 'route-map compact',
-            role: 'group', 'aria-labelledby': 'compact-title', 'aria-describedby': 'compact-desc'
+            role: 'group', 'aria-label': 'Follow Parts A and B down the timeline', 'aria-describedby': 'compact-desc'
         });
-        svg.append(svgElement('title', { id: 'compact-title' }, 'Follow Parts A and B down the timeline'));
         svg.append(svgElement('desc', { id: 'compact-desc' }, description.replace('A vertical bar', 'A horizontal bar')));
         const y = index => 64 + index * 66;
         events.forEach((event, index) => {
-            const heading = eventHeading(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, class: 'tip-hit' }), event);
+            const heading = eventHeading(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, fill: 'transparent' }), event);
             text(heading, 2, y(index) - 8, event.name, 'event-name', 'start');
             eventMeta(heading, 2, y(index) + 14, event, 'start');
             svg.append(svgElement('line', { x1: 158, y1: y(index), x2: 330, y2: y(index), class: 'guide-line' }));
@@ -404,20 +339,6 @@
         document.getElementById('schedule-content').hidden = false;
         scrollToToday();
         document.getElementById('schedule').setAttribute('aria-busy', 'false');
-        const tooltip = document.getElementById('map-tooltip');
-        tooltip.addEventListener('pointerenter', () => clearTimeout(hideTimer));
-        tooltip.addEventListener('pointerleave', () => {
-            if (!pinnedTip && document.activeElement !== activeTip) hideTip();
-        });
-        document.addEventListener('keydown', event => { if (event.key === 'Escape') hideTip(); });
-        document.addEventListener('pointerdown', event => {
-            if (activeTip && !activeTip.contains(event.target) && !tooltip.contains(event.target)) hideTip();
-        });
-        document.addEventListener('scroll', () => {
-            if (activeTip && document.activeElement === activeTip) showTip(activeTip, activeInfo);
-            else hideTip();
-        }, true);
-        window.addEventListener('resize', hideTip);
         setInterval(() => updateToday(), 60000);
         document.addEventListener('visibilitychange', () => { if (!document.hidden) updateToday(); });
     }).catch(() => {

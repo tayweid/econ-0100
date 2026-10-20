@@ -79,14 +79,6 @@
         .route-map .practice-start { fill: var(--bg); stroke-width: 2; }
         .route-map > rect { pointer-events: none; }
         .route-map [data-route], .unlock-legend { transition: opacity 120ms ease; }
-        .tip-target { cursor: help; }
-        .tip-target .event-name { text-decoration: underline dotted; text-underline-offset: 4px; }
-        .tip-hit { fill: transparent; }
-        .tip-target:hover .event-name, .tip-target:focus-visible .event-name { fill: var(--link); }
-        .tip-target:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
-        #map-tooltip { position: fixed; z-index: 100; width: 310px; max-width: calc(100vw - 24px); padding: 14px 16px; background: var(--bg-hover); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 5px 18px #0006; font: 16px/1.4 var(--font-body); color: var(--fg); }
-        #map-tooltip strong { display: block; font-weight: 600; color: var(--white); }
-        #map-tooltip p { margin: 6px 0 0; font-size: 16px; line-height: 1.4; }
         .attempt-key { position: absolute; left: 0; top: 21px; width: 52px; height: 24px; flex-shrink: 0; color: var(--link); }
         .attempt-key .key-path { fill: none; stroke: currentColor; stroke-width: 2; }
         .attempt-key .key-start { fill: var(--bg); stroke: currentColor; stroke-width: 2; }
@@ -138,7 +130,6 @@
         }
         @media (prefers-reduced-motion: reduce) { .guide * { scroll-behavior: auto; transition: none; } }
         @media print {
-            #map-tooltip { display: none !important; }
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
             .hours-table { font-size: 14px; }
@@ -226,6 +217,5 @@
     </main>
 
 </div>
-<div id="map-tooltip" role="tooltip" hidden></div>
 </body>
 </html>

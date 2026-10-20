@@ -52,7 +52,7 @@ cumulative by session letter (B offers A+B), not by which checkpoints have alrea
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
 only dated sessions appear in the timeline. Policy copy and diagram styling live in the
 guide HTML. Each event heading sits above its date and regular-weight uppercase location
-on separate lines; final-session details stay in a tooltip. The solid and dashed
+on separate lines. The infographic has no tooltips, including native SVG title popups. The solid and dashed
 legend rows below the timeline state “2 of 3 practice unlocks a skill on the
 Checkpoint” and “3 of 3 practice unlocks a skill on the Reattempt.” Three compact
 makeup steps sit beneath the reattempt row, after the note that practice can only
@@ -61,7 +61,7 @@ Taylor’s or a TA’s office hours, then reattempt needed skills. Hover or keyb
 the row headings to emphasize the corresponding paths. Hovering a path or its
 markers also highlights its matching legend and dims the entire other legend,
 including makeup instructions, and the other route type. Checkpoint and reattempt
-headings trigger the same highlighting; the combined final session retains its tooltip.
+headings trigger the same highlighting; the combined final-session label stays neutral.
 Invisible rectangular targets span 32 pixels around each path or marker to cover
 dashed gaps and marker interiors without competing with adjacent rows.
 Solid practice paths begin with an open circle at the preceding checkpoint
@@ -69,11 +69,8 @@ Solid practice paths begin with an open circle at the preceding checkpoint
 Phones use the same complete, horizontally scrollable timeline. Checkpoint bars and hollow reattempt diamonds distinguish the two kinds of
 attempt without repeated part-letter labels. Matching keys sit to the left of the
 compact legend sentences, with each attempt marker at the right end of its line.
-Only the final session has a tooltip, with its time and session details; its heading
-is underlined. Hover, keyboard focus, or tap reveals it; Escape and clicking outside
-dismiss it. The legend has no full-width divider lines. The introduction compares checkpoints
-to quizzes broken out by skills and explains that individual skills can be reattempted. Preview the complete timeline, its final-session
-tooltip, and the narrow layout when changing the guide. Check home navigation
+The legend has no full-width divider lines. The introduction compares checkpoints
+to quizzes broken out by skills and explains that individual skills can be reattempted. Preview the complete timeline, its hover highlighting, and the narrow layout when changing the guide. Check home navigation
 from a part page when changing course navigation.
 
 `design/course-logistics-options.html` is a separate interactive mockup comparing

@@ -68,14 +68,7 @@
         .route-map .stop { stroke-width: 5; }
         .route-map .reattempt-stop { fill: var(--bg); stroke-width: 2.5; }
         .route-map .practice-start { fill: var(--bg); stroke-width: 2; }
-        .tip-target { cursor: help; }
-        .tip-hit { fill: transparent; }
         .route-hit { fill: transparent; }
-        .tip-target:hover .event-name, .tip-target:focus-visible .event-name { fill: var(--link); }
-        .tip-target:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
-        #map-tooltip { position: fixed; z-index: 100; width: 310px; max-width: calc(100vw - 24px); padding: 14px 16px; background: var(--bg-hover); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 5px 18px #0006; font: 16px/1.4 var(--font-body); color: var(--fg); }
-        #map-tooltip strong { display: block; font-weight: 600; color: var(--white); }
-        #map-tooltip p { margin: 6px 0 0; font-size: 16px; line-height: 1.4; }
         .map-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 14px; margin: 4px 0 8px; color: var(--fg); }
         .map-legend a { display: flex; gap: 10px; align-items: center; padding: 8px 0; color: var(--fg); }
         .map-legend a:hover, .map-legend a:focus-visible { color: var(--link); }
@@ -150,7 +143,6 @@
         }
         @media (prefers-reduced-motion: reduce) { .guide * { scroll-behavior: auto; } }
         @media print {
-            #map-tooltip { display: none !important; }
             .guide .left_div, .guide .right_div, .view-switch, .mobile-home { display: none !important; }
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
@@ -289,7 +281,6 @@
         </ul></nav>
     </aside>
 </div>
-<div id="map-tooltip" role="tooltip" hidden></div>
 
 <script>
 (function () {
