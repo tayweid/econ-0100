@@ -78,6 +78,7 @@
     }
 
     let updateToday = () => {};
+    let scrollToToday = () => {};
 
     function todayIndicator(svg, events, x, height) {
         const group = svgElement('g', { class: 'today-indicator', role: 'img' });
@@ -245,7 +246,7 @@
         parts.forEach((part, row) => {
             const y = firstRow + row * rowGap;
             const color = routeColor;
-            text(svg, 14, y + 6, 'Part ' + part.id, 'part-label', 'start');
+            if (!full) text(svg, 14, y + 6, 'Part ' + part.id, 'part-label', 'start');
             const first = events.findIndex(event => event.part === part.id && event.kind !== 'reattempt');
             if (first < 0) return;
             const firstX = x(first);
@@ -275,8 +276,29 @@
             });
         });
         const map = document.getElementById('timeline-map');
-        map.replaceChildren(svg);
-        if (!full) renderCompactMap(parts, events, svg.querySelector('desc').textContent);
+        scrollToToday = () => {};
+        if (full) {
+            const stage = document.createElement('div');
+            stage.className = 'map-stage';
+            stage.style.minWidth = width + 'px';
+            const labels = svgElement('svg', {
+                class: 'frozen-labels', viewBox: `0 0 82 ${height}`,
+                preserveAspectRatio: 'none', 'aria-hidden': 'true'
+            });
+            parts.forEach((part, row) => text(labels, 14, firstRow + row * rowGap + 6, 'Part ' + part.id, 'part-label', 'start'));
+            stage.append(svg, labels);
+            map.replaceChildren(stage);
+            scrollToToday = () => {
+                const at = todayPosition(events, courseToday(), x);
+                if (at === null) return;
+                const scale = svg.getBoundingClientRect().width / width;
+                // Leave room for the frozen labels and a little preceding context.
+                map.scrollLeft = Math.max(0, at * scale - 178);
+            };
+        } else {
+            map.replaceChildren(svg);
+            renderCompactMap(parts, events, svg.querySelector('desc').textContent);
+        }
     }
 
     // At phone widths, turn the A/B diagram so both routes and all four stops are
@@ -338,6 +360,7 @@
         });
         document.getElementById('schedule-status').hidden = true;
         document.getElementById('schedule-content').hidden = false;
+        scrollToToday();
         document.getElementById('schedule').setAttribute('aria-busy', 'false');
         const tooltip = document.getElementById('map-tooltip');
         tooltip.addEventListener('pointerenter', () => clearTimeout(hideTimer));

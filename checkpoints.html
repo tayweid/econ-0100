@@ -37,6 +37,10 @@
         .guide-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); scroll-margin-top: 25px; }
         .section-intro { margin: 8px 0 16px; font-size: 18px; }
         .map-scroll { container-type: inline-size; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
+        .map-stage { display: grid; }
+        .map-stage > .route-map { grid-area: 1 / 1; }
+        .frozen-labels { grid-area: 1 / 1; position: sticky; left: 0; z-index: 1; width: 82px; height: 100%; background: var(--bg); pointer-events: none; }
+        .frozen-labels .part-label { font: 20px var(--font-heading); fill: var(--white); }
         .map-scroll:focus-visible { outline-offset: -2px; }
         .route-map { display: block; width: 100%; min-width: 700px; overflow: visible; }
         .route-map.full { min-width: 1340px; }
@@ -125,6 +129,8 @@
             .hours-table { font-size: 14px; }
             .hours-table th, .hours-table td { padding-right: 8px; }
             .map-scroll { overflow: visible; }
+            .map-stage { min-width: 0 !important; }
+            .frozen-labels { position: static; width: 6.12%; }
             .route-map, .route-map.full { min-width: 0; }
             .guide-section { break-inside: avoid; }
         }

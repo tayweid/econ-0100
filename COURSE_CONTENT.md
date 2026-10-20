@@ -34,7 +34,9 @@ apart; each event stacks its name, date, and location to avoid label collisions.
 A yellow Today line uses the current date in America/New_York and interpolates
 between surrounding event dates. It stays on a session's column throughout a
 multi-day session, hides outside the dated timeline, and refreshes while the page
-is open or when returning to the tab. Reattempt eligibility is
+is open or when returning to the tab. On initial load, the timeline scrolls Today
+near the left, just past the frozen Part A–F label column. Manual scrolling remains
+free; the date refresh does not move the viewport. Reattempt eligibility is
 cumulative by session letter (B offers A+B), not by which checkpoints have already
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
 only dated sessions appear in the timeline. Policy copy and diagram styling live in the
