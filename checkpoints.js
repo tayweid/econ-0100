@@ -49,10 +49,10 @@
         svg.append(svgElement('text', { x, y, class: className, 'text-anchor': anchor }, value));
     }
 
-    function eventMeta(parent, x, y, event, anchor = 'middle') {
+    function eventMeta(parent, x, y, event, anchor = 'middle', stacked = false) {
         const line = svgElement('text', { x, y, class: 'event-date', 'text-anchor': anchor });
-        line.append(document.createTextNode(dateLabel(event.date) + ' · '));
-        line.append(svgElement('tspan', { class: 'event-place' }, event.place.toUpperCase()));
+        line.append(document.createTextNode(dateLabel(event.date) + (stacked ? '' : ' · ')));
+        line.append(svgElement('tspan', stacked ? { class: 'event-place', x, dy: 15 } : { class: 'event-place' }, event.place.toUpperCase()));
         parent.append(line);
     }
 
@@ -166,11 +166,13 @@
     function renderMap(schedule, full) {
         const parts = full ? schedule.parts : schedule.parts.filter(part => ['A', 'B'].includes(part.id));
         const events = full ? schedule.events : schedule.events.filter(event => ['A', 'B'].includes(event.part) && event.kind !== 'final');
-        const width = full ? Math.max(1850, events.length * 170 + 150) : 830;
+        const width = full ? Math.max(1340, events.length * 126 + 80) : 830;
         hideTip();
-        const height = 96 + parts.length * 44;
-        const start = 148;
-        const end = width - (full ? 82 : 135);
+        const rowGap = full ? 32 : 44;
+        const firstRow = full ? 82 : 94;
+        const height = firstRow + (parts.length - 1) * rowGap + 26;
+        const start = full ? 126 : 148;
+        const end = width - (full ? 66 : 135);
         const x = index => events.length > 1 ? start + index * (end - start) / (events.length - 1) : start;
         const svg = svgElement('svg', {
             viewBox: `0 0 ${width} ${height}`, class: 'route-map' + (full ? ' full' : ' example'),
@@ -183,14 +185,14 @@
         svg.append(svgElement('line', { x1: start - 38, y1: 59, x2: width - 30, y2: 59, class: 'axis' }));
         events.forEach((event, index) => {
             const at = x(index);
-            const heading = eventHeading(svg, svgElement('rect', { x: at - 85, y: 0, width: 170, height: 48, class: 'tip-hit' }), event);
+            const heading = eventHeading(svg, svgElement('rect', { x: at - (full ? 62 : 85), y: 0, width: full ? 124 : 170, height: 54, class: 'tip-hit' }), event);
             text(heading, at, 17, event.name, 'event-name');
-            eventMeta(heading, at, 39, event);
+            eventMeta(heading, at, full ? 34 : 39, event, 'middle', full);
             svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
             svg.append(svgElement('line', { x1: at, y1: 70, x2: at, y2: height - 15, class: 'guide-line' }));
         });
         parts.forEach((part, row) => {
-            const y = 94 + row * 44;
+            const y = firstRow + row * rowGap;
             const color = colors[schedule.parts.findIndex(p => p.id === part.id) % colors.length];
             text(svg, 14, y + 6, 'Part ' + part.id, 'part-label', 'start');
             const first = events.findIndex(event => event.part === part.id && event.kind !== 'reattempt');
@@ -273,7 +275,9 @@
     loadYaml().then(() => {
         const data = window.jsyaml.load(window.COURSE_CONTENT_YAML);
         const schedule = buildSchedule(data);
-        renderMap(schedule, false);
+        // Historical design mockups retain their comparison controls; the course home
+        // has no view switch and always opens the complete semester.
+        renderMap(schedule, !document.querySelector('[data-view="example"]'));
         document.querySelectorAll('[data-view]').forEach(button => {
             button.addEventListener('click', () => {
                 document.querySelectorAll('[data-view]').forEach(other => other.setAttribute('aria-pressed', String(other === button)));

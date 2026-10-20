@@ -40,7 +40,11 @@
         .map-scroll { container-type: inline-size; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
         .map-scroll:focus-visible { outline-offset: -2px; }
         .route-map { display: block; width: 100%; min-width: 700px; overflow: visible; }
-        .route-map.full { min-width: 1850px; }
+        .route-map.full { min-width: 1340px; }
+        .route-map.full .event-name { font-size: 15px; }
+        .route-map.full .event-date { font-size: 13px; }
+        .route-map.full .event-place { font-size: 12px; }
+        .route-map.full .part-label { font-size: 20px; }
         .route-map.compact { display: none; min-width: 0; max-width: 350px; margin: 0 auto; }
         .route-map text { font-family: var(--font-body); fill: var(--fg); }
         .route-map .event-name { font-size: 15px; font-weight: 600; fill: var(--white); }

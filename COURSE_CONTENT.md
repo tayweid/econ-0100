@@ -28,12 +28,14 @@ The home page retains the left course navigation, has no right contents sidebar,
 and offers Part A–F links above the title on phones.
 Its timeline is rendered by `checkpoints.js` from the checkpoint dates,
 reattempt dates, and logistics in the same YAML; do not copy dates into the HTML.
-The guide starts with A/B and offers a full-semester view. Reattempt eligibility is
+The course home shows only the full-semester timeline, with horizontal scrolling
+on narrow screens. Dates are spaced about 130 pixels apart and part rows 32 pixels
+apart; each event stacks its name, date, and location to avoid label collisions. Reattempt eligibility is
 cumulative by session letter (B offers A+B), not by which checkpoints have already
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
 only dated sessions appear in the timeline. Policy copy and diagram styling live in the
-guide HTML. Each event heading sits above its date and regular-weight uppercase location,
-separated by a middle dot; final-session details stay in a tooltip. The solid and dashed
+guide HTML. Each event heading sits above its date and regular-weight uppercase location
+on separate lines; final-session details stay in a tooltip. The solid and dashed
 legend rows below the timeline state “2 of 3 practice unlocks a skill on the
 Checkpoint” and “3 of 3 practice unlocks a skill on the Reattempt.” Three compact
 makeup steps sit beneath the reattempt row, after the note that practice can only
@@ -41,15 +43,14 @@ be made up after the checkpoint: complete missed practice, bring it to
 Taylor or a TA to be recorded, then reattempt needed skills. Hover or keyboard-focus
 the row headings to emphasize the corresponding paths. Solid practice paths begin with an open circle at the preceding checkpoint
 (Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
-On phones, the A/B diagram turns vertically so all four opportunities
-remain visible together. Checkpoint bars and hollow reattempt diamonds distinguish the two kinds of
+Phones use the same complete, horizontally scrollable timeline. Checkpoint bars and hollow reattempt diamonds distinguish the two kinds of
 attempt without repeated part-letter labels. Matching keys sit to the left of the
 compact legend sentences, with each attempt marker at the right end of its line.
 Only the final session has a tooltip, with its time and session details; its heading
 is underlined. Hover, keyboard focus, or tap reveals it; Escape and clicking outside
 dismiss it. The legend has no full-width divider lines. The introduction compares checkpoints
-to quizzes broken out by skills and explains that individual skills can be reattempted. Preview both timeline
-views, tooltips, and the narrow layout when changing the guide. Check home navigation
+to quizzes broken out by skills and explains that individual skills can be reattempted. Preview the complete timeline, its final-session
+tooltip, and the narrow layout when changing the guide. Check home navigation
 from a part page when changing course navigation.
 
 `design/course-logistics-options.html` is a separate interactive mockup comparing

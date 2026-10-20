@@ -36,15 +36,14 @@
         .guide .subtitle-text { margin-top: 8px; }
         .guide-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); scroll-margin-top: 25px; }
         .section-intro { margin: 8px 0 16px; font-size: 18px; }
-        .map-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-bottom: 10px; }
-        .view-switch { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--rule); border-radius: 7px; }
-        .view-switch button { color: var(--fg); background: transparent; border: 0; border-radius: 4px; padding: 6px 10px; cursor: pointer; font: 600 15px var(--font-body); }
-        .view-switch button[aria-pressed="true"] { background: var(--mid); color: var(--white); }
-        .view-switch button:hover { color: var(--white); }
         .map-scroll { container-type: inline-size; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
         .map-scroll:focus-visible { outline-offset: -2px; }
         .route-map { display: block; width: 100%; min-width: 700px; overflow: visible; }
-        .route-map.full { min-width: 1850px; }
+        .route-map.full { min-width: 1340px; }
+        .route-map.full .event-name { font-size: 15px; }
+        .route-map.full .event-date { font-size: 13px; }
+        .route-map.full .event-place { font-size: 12px; }
+        .route-map.full .part-label { font-size: 20px; }
         .route-map.compact { display: none; min-width: 0; max-width: 350px; margin: 0 auto; }
         .route-map text { font-family: var(--font-body); fill: var(--fg); }
         .route-map .event-name { font-size: 15px; font-weight: 600; fill: var(--white); }
@@ -100,10 +99,6 @@
             .guide .right_div { display: none; }
             .guide .content { max-width: 890px; padding-left: 15px; padding-right: 15px; }
         }
-        @container (max-width: 699px) {
-            .route-map.example { display: none; }
-            .route-map.compact { display: block; }
-        }
         @media (max-width: 700px) {
             .guide .wrapper { display: block; }
             .hours-table { font-size: 14px; }
@@ -112,9 +107,6 @@
             .guide .content { padding: 25px 20px 45px; }
             .guide .mobile-parts { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 26px; font-size: 15px; }
             .guide-section { margin-top: 22px; padding-top: 18px; }
-            .map-controls { gap: 9px; }
-            .route-map.example { display: none; }
-            .route-map.compact { display: block; }
             .guide .unlock-legend { padding-left: 50px; }
             .attempt-key { width: 38px; top: 19px; }
             .guide .unlock-heading { font-size: 17px; }
@@ -123,7 +115,7 @@
         @media (prefers-reduced-motion: reduce) { .guide * { scroll-behavior: auto; } }
         @media print {
             #map-tooltip { display: none !important; }
-            .guide .left_div, .guide .right_div, .view-switch, .mobile-parts { display: none !important; }
+            .guide .left_div, .guide .right_div, .mobile-parts { display: none !important; }
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
             .hours-table { font-size: 14px; }
@@ -190,12 +182,6 @@
             <div id="schedule" aria-busy="true">
                 <p id="schedule-status" role="status">Loading dates from the course schedule…</p>
                 <div id="schedule-content" hidden>
-                    <div class="map-controls">
-                        <div class="view-switch" role="group" aria-label="Timeline view">
-                            <button type="button" data-view="example" aria-pressed="true" aria-controls="timeline-map">Parts A &amp; B</button>
-                            <button type="button" data-view="full" aria-pressed="false" aria-controls="timeline-map">All parts</button>
-                        </div>
-                    </div>
                     <div class="map-scroll" id="timeline-map" tabindex="0" role="region" aria-label="Checkpoint and reattempt timeline"></div>
                 </div>
             </div>
