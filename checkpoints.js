@@ -49,6 +49,55 @@
         svg.append(svgElement('text', { x, y, class: className, 'text-anchor': anchor }, value));
     }
 
+    function courseToday(now = new Date()) {
+        const fields = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).formatToParts(now);
+        const value = type => fields.find(field => field.type === type).value;
+        return `${value('year')}-${value('month')}-${value('day')}`;
+    }
+
+    // Event columns are evenly spaced, so interpolate within each gap rather than
+    // treating the entire diagram as one continuous calendar scale.
+    function todayPosition(events, today, x) {
+        const day = value => Date.parse(value + 'T00:00:00Z');
+        const current = day(today);
+        const spans = events.map(event => {
+            const list = dates(event.date);
+            return { start: day(list[0]), end: day(list[list.length - 1]) };
+        });
+        if (!spans.length || current < spans[0].start || current > spans[spans.length - 1].end) return null;
+        for (let index = 0; index < spans.length; index++) {
+            if (current >= spans[index].start && current <= spans[index].end) return x(index);
+            if (current < spans[index].start) {
+                const fraction = (current - spans[index - 1].end) / (spans[index].start - spans[index - 1].end);
+                return x(index - 1) + fraction * (x(index) - x(index - 1));
+            }
+        }
+        return null;
+    }
+
+    let updateToday = () => {};
+
+    function todayIndicator(svg, events, x, height) {
+        const group = svgElement('g', { class: 'today-indicator', role: 'img' });
+        svg.append(group);
+        let previousDay;
+        return () => {
+            const today = courseToday();
+            if (today === previousDay) return;
+            previousDay = today;
+            const at = todayPosition(events, today, x);
+            group.replaceChildren();
+            group.setAttribute('aria-hidden', String(at === null));
+            if (at === null) return;
+            group.setAttribute('aria-label', 'Today, ' + dateLabel(today));
+            group.append(svgElement('line', { x1: at, x2: at, y1: 59, y2: height - 20, class: 'today-line' }));
+            group.append(svgElement('path', { d: `M ${at - 4} 56 H ${at + 4} L ${at} 62 Z`, class: 'today-pointer' }));
+            text(group, at, height - 3, 'Today · ' + dateLabel(today), 'today-label');
+        };
+    }
+
     function eventMeta(parent, x, y, event, anchor = 'middle', stacked = false) {
         const line = svgElement('text', { x, y, class: 'event-date', 'text-anchor': anchor });
         line.append(document.createTextNode(dateLabel(event.date) + (stacked ? '' : ' · ')));
@@ -191,6 +240,8 @@
             svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
             svg.append(svgElement('line', { x1: at, y1: 70, x2: at, y2: height - 15, class: 'guide-line' }));
         });
+        updateToday = full ? todayIndicator(svg, events, x, height) : () => {};
+        updateToday();
         parts.forEach((part, row) => {
             const y = firstRow + row * rowGap;
             const color = routeColor;
@@ -302,6 +353,8 @@
             else hideTip();
         }, true);
         window.addEventListener('resize', hideTip);
+        setInterval(() => updateToday(), 60000);
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) updateToday(); });
     }).catch(() => {
         document.getElementById('schedule').setAttribute('aria-busy', 'false');
         const status = document.getElementById('schedule-status');

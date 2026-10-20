@@ -30,7 +30,11 @@ Its timeline is rendered by `checkpoints.js` from the checkpoint dates,
 reattempt dates, and logistics in the same YAML; do not copy dates into the HTML.
 The course home shows only the full-semester timeline, with horizontal scrolling
 on narrow screens. Dates are spaced about 130 pixels apart and part rows 32 pixels
-apart; each event stacks its name, date, and location to avoid label collisions. Reattempt eligibility is
+apart; each event stacks its name, date, and location to avoid label collisions.
+A yellow Today line uses the current date in America/New_York and interpolates
+between surrounding event dates. It stays on a session's column throughout a
+multi-day session, hides outside the dated timeline, and refreshes while the page
+is open or when returning to the tab. Reattempt eligibility is
 cumulative by session letter (B offers A+B), not by which checkpoints have already
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
 only dated sessions appear in the timeline. Policy copy and diagram styling live in the
