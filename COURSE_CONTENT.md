@@ -1,7 +1,7 @@
 # Editing the ECON 0100 website
 
 Course lessons and schedule data live in `course-content.yaml.js`.
-Home-page office hours, the syllabus link, and logistics copy live in `checkpoints.html`. Edit the YAML between the two backtick
+Home-page office hours, the syllabus link, and logistics copy live in `course.html`. Edit the YAML between the two backtick
 lines, open the affected `part-*.html` page (double-click it), refresh, and run
 `scripts/check-course` before committing. There
 is no build step.
@@ -20,11 +20,13 @@ Exercise, Vignette, and Homework PDFs are found there without a YAML edit; solut
 opt-in through `solutions: true`. Chapter readings resolve to `Reading/Ch_NN.pdf`. An extra
 with no video may carry an `image` (a URL or a local path) as its thumbnail.
 
-The course home is `checkpoints.html`; `index.html` redirects there. Setting
-`course.home: index.html` makes MICRO ECON link home on every part page. Office hours
+The Course Logistics page is `course.html`; MICRO ECON links there through
+`course.home: course.html`. `index.html` uses the shared renderer’s
+`data-course-part="current"` mode to display the current part from the YAML schedule
+(first part before the term, last part afterward), without duplicating date logic. Office hours
 appear beside the page title and six linked part summaries on wide screens.
 Each entry pairs a serif Part A–F label with its title in the course's light
-sans-serif body font, on one line. These entries live in `checkpoints.html`, so keep them
+sans-serif body font, on one line. These entries live in `course.html`, so keep them
 in sync when editing part titles in the YAML.
 Course Outline and Office Hours use aligned headings beneath the page title,
 with outline rows spread evenly to match the office-hours height when side by side.
