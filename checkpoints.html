@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="dark">
     <meta name="description" content="A visual guide to ECON 0100 checkpoints, cumulative reattempts, and making up missed practice.">
-    <title>Checkpoints & Reattempts | ECON 0100</title>
+    <title>Course Logistics | ECON 0100</title>
     <style>html { color-scheme: dark; background: #212121; }</style>
     <link rel="stylesheet" href="https://tayweid.github.io/course-assets/course.css">
     <link rel="icon" href="https://tayweid.github.io/course-assets/icon.svg">
@@ -23,33 +23,26 @@
         .guide .content { padding-bottom: 70px; }
         .guide p { line-height: 1.5; }
         .guide p:hover { color: inherit; }
-        .guide h1 { max-width: 720px; font-size: clamp(36px, 5vw, 52px); line-height: 1.1; margin: 0 0 18px; color: var(--white); }
-        .guide h2 { font-size: clamp(26px, 3vw, 32px); line-height: 1.2; margin: 0; color: var(--white); }
-        .guide h3 { font-size: 24px; line-height: 1.25; margin: 0; color: var(--white); }
+        .guide h2 { font-size: clamp(22px, 2.8vw, 28px); line-height: 1.2; margin: 0; color: var(--white); }
+        .guide h3 { font-size: 22px; line-height: 1.25; margin: 0; color: var(--white); }
         .guide strong { font-weight: 600; color: var(--white); }
-        .guide .eyebrow { font-size: 13px; letter-spacing: .13em; text-transform: uppercase; color: var(--caption); margin: 0 0 14px; }
-        .guide .intro { font-size: 21px; max-width: 650px; margin: 0; }
-        .guide .keep { display: flex; gap: 12px; align-items: baseline; border-left: 3px solid var(--mark-green); padding: 9px 0 9px 17px; margin: 25px 0 0; font-size: 17px; }
-        .guide .keep span { color: var(--mark-green); font-weight: 600; }
-        .guide-section { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--rule); scroll-margin-top: 25px; }
-        .section-heading { display: flex; gap: 15px; align-items: baseline; }
-        .section-number { font: 16px var(--font-body); color: var(--caption); }
-        .section-intro { margin: 12px 0 22px; font-size: 18px; }
-        .map-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-bottom: 18px; }
+        .guide .subtitle-text { margin-top: 8px; }
+        .guide-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--rule); scroll-margin-top: 25px; }
+        .section-intro { margin: 8px 0 16px; font-size: 18px; }
+        .map-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-bottom: 10px; }
         .view-switch { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--rule); border-radius: 7px; }
-        .view-switch button { color: var(--fg); background: transparent; border: 0; border-radius: 4px; padding: 8px 12px; cursor: pointer; font: 600 15px var(--font-body); }
+        .view-switch button { color: var(--fg); background: transparent; border: 0; border-radius: 4px; padding: 6px 10px; cursor: pointer; font: 600 15px var(--font-body); }
         .view-switch button[aria-pressed="true"] { background: var(--mid); color: var(--white); }
         .view-switch button:hover { color: var(--white); }
         .map-scale { color: var(--caption); font-size: 13px; }
-        .map-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
+        .map-scroll { container-type: inline-size; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
         .map-scroll:focus-visible { outline-offset: -2px; }
-        .route-map { display: block; width: 100%; min-width: 780px; overflow: visible; }
+        .route-map { display: block; width: 100%; min-width: 700px; overflow: visible; }
         .route-map.full { min-width: 1250px; }
-        .route-map.compact { display: none; min-width: 0; max-width: 420px; }
+        .route-map.compact { display: none; min-width: 0; max-width: 350px; margin: 0 auto; }
         .route-map text { font-family: var(--font-body); fill: var(--fg); }
         .route-map .event-name { font-size: 15px; font-weight: 600; fill: var(--white); }
         .route-map .event-date { font-size: 17px; fill: var(--white); }
-        .route-map .event-place { font-size: 13px; fill: var(--caption); }
         .route-map .part-label { font: 22px var(--font-heading); fill: var(--white); }
         .route-map .stop-label { font-size: 13px; font-weight: 600; fill: var(--white); }
         .route-map .end-label { font-size: 13px; fill: var(--caption); }
@@ -58,74 +51,72 @@
         .route-map .route { stroke-width: 3; fill: none; }
         .route-map .retry { stroke-dasharray: 6 6; }
         .route-map .stop { stroke-width: 5; }
-        .map-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 14px; margin: 10px 0 17px; color: var(--fg); }
+        .tip-target { cursor: help; }
+        .tip-hit { fill: transparent; }
+        .route-hit { fill: transparent; }
+        .tip-target:hover .event-name, .tip-target:focus-visible .event-name { fill: var(--link); }
+        .tip-target:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+        #map-tooltip { position: fixed; z-index: 100; width: 310px; max-width: calc(100vw - 24px); padding: 14px 16px; background: var(--bg-hover); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 5px 18px #0006; font: 16px/1.4 var(--font-body); color: var(--fg); }
+        #map-tooltip strong { display: block; font-weight: 600; color: var(--white); }
+        #map-tooltip p { margin: 6px 0 0; font-size: 16px; line-height: 1.4; }
+        .map-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 14px; margin: 4px 0 8px; color: var(--fg); }
         .map-legend span { display: flex; gap: 9px; align-items: center; }
         .map-legend i { display: inline-block; width: 28px; border-top: 2px solid var(--fg); }
         .map-legend .dash { border-top-style: dashed; }
-        .map-legend .tick { width: 3px; height: 15px; background: var(--fg); border: none; margin: 0 12px; }
-        .map-takeaway { font-size: 18px; margin: 0; padding: 17px 20px; background: var(--bg-hover); border-left: 2px solid var(--rule); }
         .map-help { font-size: 14px; color: var(--caption); margin: 12px 0; }
         .map-help[hidden], [hidden] { display: none !important; }
-        .guide details { margin-top: 18px; border-top: 1px solid var(--mid); }
+        .guide details { margin-top: 10px; border-top: 1px solid var(--mid); }
         .guide summary { padding: 13px 0; cursor: pointer; font-size: 16px; color: var(--link); }
         .date-list { padding: 0; margin: 4px 0 0; list-style: none; }
         .date-list li { display: grid; grid-template-columns: 120px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--mid); font-size: 16px; line-height: 1.4; }
         .date-list time { font-weight: 600; color: var(--white); }
         .date-list small { display: block; font-size: 14px; color: var(--caption); margin-top: 3px; }
-        .unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 24px; }
+        .unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 16px; }
         .unlock-panel { padding: 0 28px 0 0; }
         .unlock-panel + .unlock-panel { padding: 0 0 0 28px; border-left: 1px solid var(--rule); }
         .unlock-label { font-size: 16px; color: var(--caption); margin: 0; }
-        .fraction { display: flex; gap: 12px; align-items: baseline; margin: 2px 0 16px; color: var(--white); }
-        .fraction b { font: 64px var(--font-heading); line-height: 1.1; }
-        .fraction span { font: 26px var(--font-heading); }
-        .practice-slots { display: flex; gap: 8px; margin: 0 0 14px; }
-        .practice-slots i { display: grid; place-items: center; height: 35px; width: 54px; border: 1px solid var(--fg); border-radius: 4px; font: normal 21px var(--font-body); color: var(--white); }
-        .practice-slots i.empty { border-style: dashed; border-color: var(--caption); color: var(--caption); }
-        .unlock-panel p:last-child { font-size: 17px; margin: 0; max-width: 320px; }
-        .practice-key { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 25px 0 0; padding: 16px 0; border-top: 1px solid var(--mid); }
+        .fraction { display: flex; gap: 12px; align-items: baseline; margin: 2px 0 0; color: var(--white); }
+        .fraction b { font: 44px var(--font-heading); line-height: 1.1; }
+        .fraction span { font: 23px var(--font-heading); }
+        .practice-key { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 14px 0 0; padding: 0; }
         .practice-key span { font-size: 16px; }
         .practice-key small { margin-left: 5px; font-size: 14px; color: var(--caption); }
         .practice-note { color: var(--caption); font-size: 15px; margin: 0; }
-        .makeup-flow { display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 26px; padding: 8px 0 0; margin: 0; list-style: none; counter-reset: makeup; }
-        .makeup-flow li { position: relative; counter-increment: makeup; border-top: 2px solid var(--rule); padding-top: 17px; }
-        .makeup-flow li::before { content: counter(makeup); display: block; color: var(--caption); font-size: 14px; margin-bottom: 9px; }
+        .makeup-flow { display: grid; grid-template-columns: 1fr 1.25fr 1fr; gap: 26px; padding: 16px 0 0; margin: 0; list-style: none; counter-reset: makeup; }
+        .makeup-flow li { position: relative; counter-increment: makeup; border-top: 2px solid var(--rule); padding-top: 10px; }
+        .makeup-flow li::before { content: counter(makeup); float: left; color: var(--caption); font-size: 14px; margin: 4px 10px 0 0; }
         .makeup-flow li:not(:last-child)::after { content: "→"; position: absolute; right: -19px; top: -16px; background: var(--bg); color: var(--caption); font-size: 22px; }
         .makeup-flow p { font-size: 17px; margin: 10px 0 0; }
-        .makeup-note { font-size: 16px; margin: 25px 0 0; padding-left: 17px; border-left: 2px solid var(--rule); }
-        .guide footer { border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 18px; display: flex; justify-content: space-between; gap: 14px; font-size: 15px; }
+        .makeup-note { font-size: 16px; margin: 14px 0 0; color: var(--caption); }
+        .guide footer { border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 18px; display: flex; justify-content: space-between; gap: 14px; font-size: 15px; }
         .guide .mobile-home { display: none; }
         .guide .skip-link { position: absolute; top: -100px; left: 15px; z-index: 10; background: var(--bg); padding: 12px; }
         .guide .skip-link:focus { top: 10px; }
         .guide :focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
         @media (max-width: 1000px) {
             .guide .right_div { display: none; }
+            .guide .content { max-width: 890px; padding-left: 15px; padding-right: 15px; }
+        }
+        @container (max-width: 699px) {
+            .route-map.example { display: none; }
+            .route-map.compact { display: block; }
         }
         @media (max-width: 700px) {
             .guide .wrapper { display: block; }
             .guide .left_div { display: none; }
             .guide .content { padding: 25px 20px 45px; }
             .guide .mobile-home { display: block; margin-bottom: 30px; font-size: 15px; }
-            .guide h1 { font-size: 39px; }
-            .guide .intro { font-size: 19px; }
-            .guide .keep { display: block; }
-            .guide .keep span { display: block; margin-bottom: 3px; }
-            .guide-section { margin-top: 32px; padding-top: 24px; }
-            .section-heading { gap: 10px; }
+            .guide-section { margin-top: 22px; padding-top: 18px; }
             .map-controls { gap: 9px; }
             .map-scale { width: 100%; }
             .route-map.example { display: none; }
             .route-map.compact { display: block; }
-            .map-takeaway { padding: 15px; font-size: 17px; }
             .unlock-grid { gap: 20px; }
             .unlock-panel { padding: 0; }
             .unlock-panel + .unlock-panel { padding-left: 20px; }
             .fraction { gap: 6px; }
-            .fraction b { font-size: 53px; }
+            .fraction b { font-size: 44px; }
             .fraction span { font-size: 22px; }
-            .practice-slots { gap: 5px; }
-            .practice-slots i { width: 34px; height: 31px; }
-            .unlock-panel p:last-child { font-size: 16px; }
             .practice-key { flex-direction: column; gap: 7px; }
             .makeup-flow { grid-template-columns: 1fr; gap: 22px; }
             .makeup-flow li { border-top: 0; border-left: 2px solid var(--rule); padding: 0 0 0 18px; }
@@ -138,6 +129,7 @@
         }
         @media (prefers-reduced-motion: reduce) { .guide * { scroll-behavior: auto; } }
         @media print {
+            #map-tooltip { display: none !important; }
             .guide .left_div, .guide .right_div, .view-switch, .mobile-home, .map-help { display: none !important; }
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
@@ -150,7 +142,7 @@
     <script src="checkpoints.js" defer></script>
 </head>
 <body class="guide course-econ-0100">
-<a class="skip-link" href="#main">Skip to checkpoint guide</a>
+<a class="skip-link" href="#main">Skip to course logistics</a>
 <div class="wrapper">
     <aside class="left_div">
         <nav aria-label="Course">
@@ -165,44 +157,40 @@
                 <li><a href="part-e.html">Part E</a></li>
                 <li><a href="part-f.html">Part F</a></li>
                 <hr class="nav-hr">
-                <li><a href="checkpoints.html" class="active" aria-current="page">Checkpoint Guide</a></li>
-                <li><a href="Syllabus/Syllabus.pdf">Syllabus</a></li>
+                <li><a href="checkpoints.html" class="active" aria-current="page">Course Logistics</a></li>
+                <li data-fallback-syllabus><a href="Syllabus/Syllabus.pdf">Syllabus</a></li>
             </ul>
         </nav>
     </aside>
     <main class="content" id="main">
         <a class="mobile-home" href="index.html">← ECON 0100 · Course home</a>
-        <header>
-            <p class="eyebrow">ECON 0100 · A guide to your progress</p>
-            <h1>Checkpoints &amp; reattempts</h1>
-            <p class="intro">Practice unlocks a skill. A checkpoint is your first chance to pass it. Reattempts give you more chances.</p>
-            <p class="keep"><span>Passed skills stay passed.</span> You only redo skills you haven’t passed yet.</p>
+        <header class="description">
+            <h1 class="title title-tight">Course Logistics</h1>
+            <i class="subtitle-text">ECON 0100 · Microeconomics</i>
         </header>
 
         <section class="guide-section" id="timeline" aria-labelledby="timeline-heading">
-            <div class="section-heading"><span class="section-number" aria-hidden="true">01</span><h2 id="timeline-heading">Your next chance stays open.</h2></div>
-            <p class="section-intro">Each reattempt adds a new part <strong>and keeps the earlier parts available.</strong></p>
+            <h2 id="timeline-heading">Checkpoints &amp; reattempts</h2>
+            <p class="section-intro">Each reattempt includes earlier parts. <strong>Passed skills stay passed.</strong></p>
             <div id="schedule" aria-busy="true">
                 <p id="schedule-status" role="status">Loading dates from the course schedule…</p>
                 <div id="schedule-content" hidden>
                     <div class="map-controls">
                         <div class="view-switch" role="group" aria-label="Timeline view">
-                            <button type="button" data-view="example" aria-pressed="true" aria-controls="timeline-map">Start with A &amp; B</button>
-                            <button type="button" data-view="full" aria-pressed="false" aria-controls="timeline-map">All parts &amp; dates</button>
+                            <button type="button" data-view="example" aria-pressed="true" aria-controls="timeline-map">Parts A &amp; B</button>
+                            <button type="button" data-view="full" aria-pressed="false" aria-controls="timeline-map">All parts</button>
                         </div>
-                        <span class="map-scale">In date order · spacing not to scale</span>
+                        <span class="map-scale">Hover or tap for details</span>
                     </div>
                     <div class="map-scroll" id="timeline-map" tabindex="0" role="region" aria-label="Checkpoint and reattempt timeline"></div>
-                    <p class="map-help" id="map-help">Scroll or swipe across to see the whole timeline. The date list below is another way to read it.</p>
+                    <p class="map-help" id="map-help">Scroll for later dates →</p>
                     <div class="map-legend" aria-label="Timeline legend">
                         <span><i aria-hidden="true"></i>First attempt</span>
-                        <span><i class="dash" aria-hidden="true"></i>More chances</span>
-                        <span><i class="tick" aria-hidden="true"></i>A chance to try that part</span>
+                        <span><i class="dash" aria-hidden="true"></i>Make up practice &amp; try again</span>
                     </div>
-                    <p class="map-takeaway" id="map-takeaway" aria-live="polite"></p>
                     <p class="map-help" id="pending-dates" hidden></p>
                     <details>
-                        <summary>All dates, locations &amp; available parts</summary>
+                        <summary>Dates &amp; locations</summary>
                         <ol class="date-list" id="date-list"></ol>
                         <p class="map-help" id="unscheduled"></p>
                         <p class="map-help">Check Canvas for session announcements and any changes.</p>
@@ -213,20 +201,16 @@
         </section>
 
         <section class="guide-section" id="practice" aria-labelledby="practice-heading">
-            <div class="section-heading"><span class="section-number" aria-hidden="true">02</span><h2 id="practice-heading">Unlock each skill with practice.</h2></div>
-            <p class="section-intro">Count the practice types completed <strong>for that skill</strong>.</p>
+            <h2 id="practice-heading">Practice unlocks skills</h2>
+            <p class="section-intro">For <strong>each skill</strong>, complete these practice types:</p>
             <div class="unlock-grid">
                 <div class="unlock-panel">
-                    <p class="unlock-label">At the checkpoint</p>
+                    <p class="unlock-label">Checkpoint · any two</p>
                     <div class="fraction"><b>2</b><span>of 3</span></div>
-                    <div class="practice-slots" aria-hidden="true"><i>✓</i><i>✓</i><i class="empty">–</i></div>
-                    <p><strong>Any two practice types</strong> unlock your first attempt at that skill.</p>
                 </div>
                 <div class="unlock-panel">
-                    <p class="unlock-label">At a reattempt</p>
+                    <p class="unlock-label">Reattempt · all three</p>
                     <div class="fraction"><b>3</b><span>of 3</span></div>
-                    <div class="practice-slots" aria-hidden="true"><i>✓</i><i>✓</i><i>✓</i></div>
-                    <p><strong>All three practice types</strong> unlock that skill at a reattempt session.</p>
                 </div>
             </div>
             <div class="practice-key" aria-label="The three practice types">
@@ -234,18 +218,17 @@
                 <span><strong>Vignette</strong><small>in recitation</small></span>
                 <span><strong>Homework</strong><small>on your own time</small></span>
             </div>
-            <p class="practice-note">Practice is checked for completion, not correctness. These requirements apply to each skill, not to your total assignments for the part.</p>
+            <p class="practice-note">Checked for completion, not correctness.</p>
         </section>
 
         <section class="guide-section" id="makeup" aria-labelledby="makeup-heading">
-            <div class="section-heading"><span class="section-number" aria-hidden="true">03</span><h2 id="makeup-heading">Missed practice? Here’s the path back.</h2></div>
-            <p class="section-intro">After the checkpoint, you can make up missed practice for a reattempt.</p>
+            <h2 id="makeup-heading">Make up missed practice</h2>
             <ol class="makeup-flow">
-                <li><h3>Complete it.</h3><p>Finish the Exercise, Vignette, or Homework you missed.</p></li>
-                <li><h3>Bring it to us.</h3><p>Bring the completed work to <strong>Taylor or your TA</strong> to have the practice recorded.</p></li>
-                <li><h3>Try the skill.</h3><p>With <strong>3 of 3</strong> complete, try the skill at a reattempt offering that part.</p></li>
+                <li><h3>Complete it.</h3><p>Finish the practice you missed.</p></li>
+                <li><h3>Bring it.</h3><p>Show <strong>Taylor or your TA</strong> so it gets recorded.</p></li>
+                <li><h3>Try again.</h3><p>Reattempt the skills you still need.</p></li>
             </ol>
-            <p class="makeup-note"><strong>Makeups are for after the checkpoint.</strong> You cannot make up practice to unlock the original checkpoint. Still attend it and answer the skills you have unlocked.</p>
+            <p class="makeup-note">Makeups begin <strong>after the checkpoint</strong>. At the checkpoint, attempt the skills you have already unlocked.</p>
         </section>
         <footer>
             <a href="index.html">← Back to the course</a>
@@ -255,11 +238,12 @@
     <aside class="right_div">
         <nav aria-label="On this page"><ul>
             <span>On this page</span><hr class="nav-hr-right">
-            <li><a href="#timeline">The timeline</a></li>
-            <li><a href="#practice">Unlock a skill</a></li>
-            <li><a href="#makeup">Missed practice</a></li>
+            <li><a href="#timeline">Checkpoints</a></li>
+            <li><a href="#practice">Practice</a></li>
+            <li><a href="#makeup">Makeups</a></li>
         </ul></nav>
     </aside>
 </div>
+<div id="map-tooltip" role="tooltip" hidden></div>
 </body>
 </html>

@@ -57,7 +57,7 @@ course:
     - label: Syllabus
       file: Syllabus/Syllabus.pdf
       button: true
-    - label: Checkpoint Guide
+    - label: Course Logistics
       file: checkpoints.html
   checkpoint: Checkpoint
   reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
