@@ -28,8 +28,11 @@ occurred. The final session includes Checkpoint F and reattempts for earlier par
 only dated sessions appear in the timeline. Policy copy and diagram styling live in the
 guide HTML. Each event heading sits above its date and bold uppercase location,
 separated by a middle dot; detailed times stay in the tooltips. The solid and dashed
-legend keys link to the practice and makeup sections, with matching symbols in their
-headings and route emphasis on hover or keyboard focus. Solid practice paths begin with an open circle at the preceding checkpoint
+legend rows below the timeline combine the practice requirements and policies:
+“Unlock Checkpoints with” 2 of 3 practice types per skill, then “Unlock Reattempts
+with” 3 of 3. The checkpoint row names Exercise, Vignette, and Homework. The
+reattempt row gives the makeup instruction in one sentence. Hover or keyboard-focus
+the row headings to emphasize the corresponding paths. Solid practice paths begin with an open circle at the preceding checkpoint
 (Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
 On phones, the A/B diagram turns vertically so all four opportunities
 remain visible together. Dates, stops, and dashed makeup paths reveal details on
