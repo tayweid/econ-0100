@@ -60,8 +60,9 @@
         #map-tooltip { position: fixed; z-index: 100; width: 310px; max-width: calc(100vw - 24px); padding: 14px 16px; background: var(--bg-hover); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 5px 18px #0006; font: 16px/1.4 var(--font-body); color: var(--fg); }
         #map-tooltip strong { display: block; font-weight: 600; color: var(--white); }
         #map-tooltip p { margin: 6px 0 0; font-size: 16px; line-height: 1.4; }
-        .attempt-key { width: 52px; height: 24px; flex-shrink: 0; color: var(--fg); }
+        .attempt-key { position: absolute; left: 0; top: 21px; width: 52px; height: 24px; flex-shrink: 0; color: var(--fg); }
         .attempt-key .key-path { fill: none; stroke: currentColor; stroke-width: 2; }
+        .attempt-key .key-start { fill: var(--bg); stroke: currentColor; stroke-width: 2; }
         .attempt-key .key-checkpoint { stroke: currentColor; stroke-width: 4; }
         .attempt-key .key-reattempt { fill: var(--bg); stroke: currentColor; stroke-width: 2; }
         [hidden] { display: none !important; }
@@ -74,9 +75,9 @@
         body:has([data-route="practice"]:is(:hover, :focus-visible)) #practice,
         body:has([data-route="makeup"]:is(:hover, :focus-visible)) #makeup { border-color: var(--link); }
 
-        .guide .unlock-legend { margin-top: 16px; padding-top: 14px; border-top: 0; }
+        .guide .unlock-legend { position: relative; margin-top: 16px; padding-top: 14px; padding-left: 70px; border-top: 0; }
         .guide .unlock-heading { font: 400 18px/1.5 var(--font-body); }
-        .unlock-heading button { display: inline-flex; align-items: center; gap: 18px; max-width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+        .unlock-heading button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
         .unlock-heading button:hover, .unlock-heading button:focus-visible { color: var(--link); }
         .unlock-count { color: var(--white); font: 32px/1.2 var(--font-heading); white-space: nowrap; margin-right: 5px; }
         .makeup-intro { margin: 14px 0 6px; font-size: 16px; }
@@ -105,8 +106,8 @@
             .map-controls { gap: 9px; }
             .route-map.example { display: none; }
             .route-map.compact { display: block; }
-            .unlock-heading button { gap: 12px; }
-            .attempt-key { width: 38px; }
+            .guide .unlock-legend { padding-left: 50px; }
+            .attempt-key { width: 38px; top: 19px; }
             .guide .unlock-heading { font-size: 17px; }
             .unlock-count { font-size: 28px; }
         }
@@ -154,7 +155,7 @@
 
         <section class="guide-section" id="timeline" aria-labelledby="timeline-heading">
             <h2 id="timeline-heading">Checkpoints &amp; Reattempts</h2>
-            <p class="section-intro">Checkpoints and Reattempts are like quizzes, but you can reattempt each skill individually. <strong>Passed skills stay passed.</strong> Each reattempt includes earlier parts.</p>
+            <p class="section-intro">Checkpoints are like quizzes, but broken out by skills. You can reattempt any skill individually. <strong>Passed skills stay passed.</strong></p>
             <div id="schedule" aria-busy="true">
                 <p id="schedule-status" role="status">Loading dates from the course schedule…</p>
                 <div id="schedule-content" hidden>
@@ -171,11 +172,11 @@
         </section>
 
         <section class="guide-section unlock-legend" id="practice" tabindex="-1" aria-labelledby="practice-heading">
-            <h2 class="unlock-heading" id="practice-heading"><button type="button" data-route="practice"><span><span class="unlock-count">2 of 3</span> practice unlocks a skill on the Checkpoint</span><svg class="attempt-key" viewBox="0 0 52 24" aria-hidden="true"><path class="key-path" d="M 1 12 H 51"/><path class="key-checkpoint" d="M 26 3 V 21"/></svg></button></h2>
+            <h2 class="unlock-heading" id="practice-heading"><button type="button" data-route="practice"><span><span class="unlock-count">2 of 3</span> practice unlocks a skill on the Checkpoint</span><svg class="attempt-key" viewBox="0 0 52 24" aria-hidden="true"><path class="key-path" d="M 5 12 H 48"/><circle class="key-start" cx="5" cy="12" r="3.5"/><path class="key-checkpoint" d="M 48 3 V 21"/></svg></button></h2>
         </section>
 
         <section class="guide-section unlock-legend" id="makeup" tabindex="-1" aria-labelledby="makeup-heading">
-            <h2 class="unlock-heading" id="makeup-heading"><button type="button" data-route="makeup"><span><span class="unlock-count">3 of 3</span> practice unlocks a skill on the Reattempt</span><svg class="attempt-key" viewBox="0 0 52 24" aria-hidden="true"><path class="key-path" stroke-dasharray="4 4" d="M 1 12 H 51"/><path class="key-reattempt" d="M 26 4 L 32 12 L 26 20 L 20 12 Z"/></svg></button></h2>
+            <h2 class="unlock-heading" id="makeup-heading"><button type="button" data-route="makeup"><span><span class="unlock-count">3 of 3</span> practice unlocks a skill on the Reattempt</span><svg class="attempt-key" viewBox="0 0 52 24" aria-hidden="true"><path class="key-path" stroke-dasharray="4 4" d="M 1 12 H 44"/><path class="key-reattempt" d="M 44 4 L 50 12 L 44 20 L 38 12 Z"/></svg></button></h2>
             <p class="makeup-intro">Practice can only be made up <strong>after the checkpoint.</strong></p>
             <ol class="makeup-steps" aria-label="How to make up missed practice">
                 <li><strong>Complete</strong> the practice you missed.</li>

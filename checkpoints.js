@@ -155,7 +155,7 @@
                 id: 'reattempt-' + part.id, part: part.id, kind: 'reattempt',
                 date: cp.reattempt_date, name: 'Reattempt ' + part.id,
                 place: cp.reattempt || 'See Canvas',
-                detail: cp.reattempt_when || null,
+                detail: null,
                 available: parts.slice(0, index + 1).map(p => p.id)
             });
         });

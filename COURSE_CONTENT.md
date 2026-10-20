@@ -27,7 +27,7 @@ cumulative by session letter (B offers A+B), not by which checkpoints have alrea
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
 only dated sessions appear in the timeline. Policy copy and diagram styling live in the
 guide HTML. Each event heading sits above its date and regular-weight uppercase location,
-separated by a middle dot; detailed times stay in the tooltips. The solid and dashed
+separated by a middle dot; final-session details stay in a tooltip. The solid and dashed
 legend rows below the timeline state “2 of 3 practice unlocks a skill on the
 Checkpoint” and “3 of 3 practice unlocks a skill on the Reattempt.” Three compact
 makeup steps sit beneath the reattempt row, after the note that practice can only
@@ -37,12 +37,12 @@ the row headings to emphasize the corresponding paths. Solid practice paths begi
 (Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
 On phones, the A/B diagram turns vertically so all four opportunities
 remain visible together. Checkpoint bars and hollow reattempt diamonds distinguish the two kinds of
-attempt without repeated part-letter labels. Matching keys sit to the right of the
-compact legend sentences. Only
-Reattempt A and the final session have tooltips, for time and final-session details;
-these headings are underlined. Hover, keyboard focus, or tap reveals them; Escape
-and clicking outside dismiss them. The legend has no full-width divider lines. The introduction compares checkpoints
-and reattempts to quizzes and explains that individual skills can be reattempted. The sidebar
+attempt without repeated part-letter labels. Matching keys sit to the left of the
+compact legend sentences, with each attempt marker at the right end of its line.
+Only the final session has a tooltip, with its time and session details; its heading
+is underlined. Hover, keyboard focus, or tap reveals it; Escape and clicking outside
+dismiss it. The legend has no full-width divider lines. The introduction compares checkpoints
+to quizzes broken out by skills and explains that individual skills can be reattempted. The sidebar
 reads office hours and the syllabus link from the course YAML. Preview both timeline
 views, tooltips, and the narrow layout when changing the guide.
 The course home (`index.html`) still opens the current part.
