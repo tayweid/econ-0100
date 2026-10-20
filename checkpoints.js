@@ -110,7 +110,8 @@
         if (event.detail) {
             return tipTarget(svg, shape, { title: event.name, body: event.detail });
         }
-        const heading = svgElement('g');
+        const heading = svgElement('g', { 'data-route': event.kind === 'checkpoint' ? 'practice' : 'makeup' });
+        heading.append(shape);
         svg.append(heading);
         return heading;
     }
@@ -130,11 +131,36 @@
         svg.querySelectorAll('.practice-path, .practice-start, .stop, .retry, .reattempt-stop').forEach(mark => {
             const route = mark.matches('.practice-path, .practice-start, .stop') ? 'practice' : 'makeup';
             const group = svgElement('g', { 'data-route': route });
-            // A continuous, wider target keeps dashed gaps and thin marks easy to hover.
-            const hit = mark.cloneNode(false);
-            Object.entries({ class: 'route-hit', stroke: 'transparent', 'stroke-width': 16,
-                'stroke-dasharray': 'none', fill: 'none', 'pointer-events': 'stroke', 'aria-hidden': 'true'
-            }).forEach(([name, value]) => hit.setAttribute(name, value));
+            // Read drawing coordinates directly: the schedule may still be hidden
+            // while loading, when getBBox() would report an empty rectangle.
+            const number = name => Number(mark.getAttribute(name));
+            let points;
+            if (mark.localName === 'circle') {
+                points = [[number('cx'), number('cy')]];
+            } else if (mark.localName === 'line') {
+                points = [[number('x1'), number('y1')], [number('x2'), number('y2')]];
+            } else {
+                const d = mark.getAttribute('d');
+                const coordinates = d.match(/-?\d+(?:\.\d+)?/g).map(Number);
+                if (d.includes('H')) points = [[coordinates[0], coordinates[1]], [coordinates[2], coordinates[1]]];
+                else if (d.includes('V')) points = [[coordinates[0], coordinates[1]], [coordinates[0], coordinates[2]]];
+                else points = coordinates.reduce((pairs, value, index) => {
+                    if (index % 2 === 0) pairs.push([value, coordinates[index + 1]]);
+                    return pairs;
+                }, []);
+            }
+            const x = Math.min(...points.map(point => point[0]));
+            const y = Math.min(...points.map(point => point[1]));
+            const bounds = { x, y, width: Math.max(...points.map(point => point[0])) - x,
+                height: Math.max(...points.map(point => point[1])) - y };
+            const vertical = svg.classList.contains('compact');
+            const hit = svgElement('rect', {
+                x: vertical ? bounds.x + bounds.width / 2 - 16 : bounds.x - Math.max(12, (32 - bounds.width) / 2),
+                y: vertical ? bounds.y - Math.max(12, (32 - bounds.height) / 2) : bounds.y + bounds.height / 2 - 16,
+                width: vertical ? 32 : Math.max(32, bounds.width + 24),
+                height: vertical ? Math.max(32, bounds.height + 24) : 32,
+                class: 'route-hit', fill: 'transparent', 'pointer-events': 'all', 'aria-hidden': 'true'
+            });
             mark.replaceWith(group);
             group.append(hit, mark);
         });
@@ -289,7 +315,6 @@
                 }
             });
         });
-        linkRoutesToLegend(svg);
         const map = document.getElementById('timeline-map');
         scrollToToday = () => {};
         if (full) {
@@ -314,6 +339,7 @@
             map.replaceChildren(svg);
             renderCompactMap(parts, events, svg.querySelector('desc').textContent);
         }
+        linkRoutesToLegend(svg);
     }
 
     // At phone widths, turn the A/B diagram so both routes and all four stops are
@@ -357,8 +383,8 @@
                 }
             });
         });
-        linkRoutesToLegend(svg);
         document.getElementById('timeline-map').append(svg);
+        linkRoutesToLegend(svg);
     }
 
     loadYaml().then(() => {

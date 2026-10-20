@@ -58,8 +58,11 @@ makeup steps sit beneath the reattempt row, after the note that practice can onl
 be made up after the checkpoint: complete missed practice, bring it to
 Taylor’s or a TA’s office hours, then reattempt needed skills. Hover or keyboard-focus
 the row headings to emphasize the corresponding paths. Hovering a path or its
-markers also highlights its matching legend heading and dims the other heading
-and route type; wider invisible targets make thin paths and dashed gaps easy to hover.
+markers also highlights its matching legend and dims the entire other legend,
+including makeup instructions, and the other route type. Checkpoint and reattempt
+headings trigger the same highlighting; the combined final session retains its tooltip.
+Invisible rectangular targets span 32 pixels around each path or marker to cover
+dashed gaps and marker interiors without competing with adjacent rows.
 Solid practice paths begin with an open circle at the preceding checkpoint
 (Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
 Phones use the same complete, horizontally scrollable timeline. Checkpoint bars and hollow reattempt diamonds distinguish the two kinds of
