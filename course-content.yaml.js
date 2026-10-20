@@ -57,6 +57,8 @@ course:
     - label: Syllabus
       file: Syllabus/Syllabus.pdf
       button: true
+    - label: Checkpoint Guide
+      file: checkpoints.html
   checkpoint: Checkpoint
   reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
   materials: .                    # conventional PDFs live under <folder>/ (e.g. Part_A/A1_The_PPF)
