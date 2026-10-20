@@ -28,10 +28,10 @@ appear beside the page title and six linked part summaries on wide screens.
 Each entry pairs a serif Part A–F label with its title in the course's light
 sans-serif body font, on one line. These entries live in `course.html`, so keep them
 in sync when editing part titles in the YAML.
-Course Outline and Office Hours use aligned headings beneath the page title,
-with outline rows spread evenly to match the office-hours height when side by side.
-Both use the same compact gap before the part list and office-hours table. The table
-has no visible column headers or divider, with Taylor starting level with Part A.
+Course Outline and Office Hours use aligned headings beneath the page title.
+The outline includes the opening sentence from the syllabus's Course Description,
+followed by compact rows with the same 8-pixel spacing as Office Hours.
+The office-hours table has no visible column headers or divider.
 Column headers remain available to screen readers. Names use serif type, with TA
 and UTA in a separate aligned column (Taylor’s role cell is blank); times and rooms use
 the light sans-serif body style. The office hours and summaries stack on smaller screens.

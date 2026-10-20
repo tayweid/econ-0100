@@ -24,8 +24,9 @@
         .title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; }
         .guide .course-overview { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 22px 36px; margin: 0; }
         .course-overview > .description { grid-column: 1 / -1; }
-        .part-overview { display: flex; flex-direction: column; align-self: stretch; margin-top: 0; font-size: 16px; line-height: 1.4; }
-        .part-overview ul { display: grid; flex: 1; align-content: space-between; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; overflow: visible; }
+        .part-overview { margin-top: 0; font-size: 16px; line-height: 1.4; }
+        .guide .outline-intro { margin: 8px 0 0; font-size: 16px; }
+        .part-overview ul { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; overflow: visible; }
         .part-link { display: grid; grid-template-columns: 3.3rem minmax(0, 1fr); align-items: baseline; gap: 14px; padding: 0; color: var(--fg); font: inherit; }
         .part-label-link { color: var(--link); font: 400 20px/1.4 var(--font-heading); white-space: nowrap; }
         .part-link:hover .part-title, .part-link:focus-visible .part-title { color: var(--link); }
@@ -160,6 +161,7 @@
         </header>
             <nav class="part-overview" aria-labelledby="outline-heading">
                 <h2 id="outline-heading">Course Outline</h2>
+                <p class="outline-intro">Economists ask a big question, “What choices should we make when we can’t have everything?”</p>
                 <ul>
                     <li><a class="part-link" href="part-a.html"><span class="part-label-link">Part A</span><span class="part-title">The Core Economic Idea</span></a></li>
                     <li><a class="part-link" href="part-b.html"><span class="part-label-link">Part B</span><span class="part-title">How Competitive Markets Work</span></a></li>
