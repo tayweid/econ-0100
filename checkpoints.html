@@ -22,6 +22,10 @@
         .guide { --caption: #9e9e9e; }
         .guide .content { padding-bottom: 70px; }
         .title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; }
+        .guide .course-overview { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 36px; margin: 0; }
+        .part-overview { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 14px; margin: 22px 0 0; font-size: 16px; line-height: 1.4; }
+        .part-overview dt, .part-overview dd { margin: 0; }
+        .part-overview dt { white-space: nowrap; }
         .hours-table { width: auto; max-width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; line-height: 1.4; }
         .hours-table th, .hours-table td { text-align: left; vertical-align: top; padding: 4px 20px 4px 0; }
         .hours-table thead th { font-weight: 400; font-size: 13px; color: var(--caption); border-bottom: 1px solid var(--rule); }
@@ -103,6 +107,9 @@
         .guide .skip-link { position: absolute; top: -100px; left: 15px; z-index: 10; background: var(--bg); padding: 12px; }
         .guide .skip-link:focus { top: 10px; }
         .guide :focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+        @media (max-width: 1100px) {
+            .guide .course-overview { grid-template-columns: 1fr; gap: 24px; }
+        }
         @media (max-width: 1000px) {
             .guide .right_div { display: none; }
             .guide .content { max-width: 890px; padding-left: 15px; padding-right: 15px; }
@@ -160,15 +167,24 @@
         <nav class="mobile-parts" aria-label="Course parts">
             <a href="part-a.html">Part A</a><a href="part-b.html">Part B</a><a href="part-c.html">Part C</a><a href="part-d.html">Part D</a><a href="part-e.html">Part E</a><a href="part-f.html">Part F</a>
         </nav>
+        <div class="course-overview">
         <header class="description">
             <div class="title-row">
                 <h1 class="title title-tight">Course Logistics</h1>
                 <a class="download-link" href="Syllabus/Syllabus.pdf" target="_blank" rel="noopener"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Syllabus</a>
             </div>
             <i class="subtitle-text">ECON 0100 · Microeconomics</i>
+            <dl class="part-overview" aria-label="The six parts of the course">
+                <dt><a href="part-a.html">Part A</a></dt><dd>Scarcity, specialization, and gains from trade.</dd>
+                <dt><a href="part-b.html">Part B</a></dt><dd>How supply and demand coordinate markets.</dd>
+                <dt><a href="part-c.html">Part C</a></dt><dd>Externalities, taxes, and corrective policies.</dd>
+                <dt><a href="part-d.html">Part D</a></dt><dd>Strategic interaction and collective decisions.</dd>
+                <dt><a href="part-e.html">Part E</a></dt><dd>How firms respond to costs and market power.</dd>
+                <dt><a href="part-f.html">Part F</a></dt><dd>How buyers choose within a budget.</dd>
+            </dl>
         </header>
 
-        <section class="guide-section course-info" aria-label="Course information">
+        <section class="course-info" aria-label="Course information">
             <div id="office-hours">
                 <h2>Office Hours</h2>
                 <table class="hours-table" aria-label="Instructor and TA office hours">
@@ -185,6 +201,7 @@
                 </table>
             </div>
         </section>
+        </div>
 
         <section class="guide-section" id="timeline" aria-labelledby="timeline-heading">
             <h2 id="timeline-heading">Checkpoints &amp; Reattempts</h2>
