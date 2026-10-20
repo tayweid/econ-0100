@@ -20,13 +20,16 @@ opt-in through `solutions: true`. Chapter readings resolve to `Reading/Ch_NN.pdf
 with no video may carry an `image` (a URL or a local path) as its thumbnail.
 
 The student-facing Course Logistics page is `checkpoints.html`, linked from `course.nav`.
-Its timeline and date list are rendered by `checkpoints.js` from the checkpoint dates,
+Its timeline is rendered by `checkpoints.js` from the checkpoint dates,
 reattempt dates, and logistics in the same YAML; do not copy dates into the HTML.
 The guide starts with A/B and offers a full-semester view. Reattempt eligibility is
 cumulative by session letter (B offers A+B), not by which checkpoints have already
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
 undated reattempts remain explicitly TBA. Policy copy and diagram styling live in the
-guide HTML. On phones, the A/B diagram turns vertically so all four opportunities
+guide HTML. Locations appear under each event heading; detailed times stay in the
+tooltips. Solid practice paths begin with an open circle at the preceding checkpoint
+(Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
+On phones, the A/B diagram turns vertically so all four opportunities
 remain visible together. Dates, stops, and dashed makeup paths reveal details on
 hover, keyboard focus, or tap; Escape and clicking outside dismiss them. The sidebar
 reads office hours and the syllabus link from the course YAML. Preview both timeline

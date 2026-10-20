@@ -43,6 +43,7 @@
         .route-map text { font-family: var(--font-body); fill: var(--fg); }
         .route-map .event-name { font-size: 15px; font-weight: 600; fill: var(--white); }
         .route-map .event-date { font-size: 17px; fill: var(--white); }
+        .route-map .event-place { font-size: 13px; fill: var(--caption); }
         .route-map .part-label { font: 22px var(--font-heading); fill: var(--white); }
         .route-map .stop-label { font-size: 13px; font-weight: 600; fill: var(--white); }
         .route-map .end-label { font-size: 13px; fill: var(--caption); }
@@ -51,6 +52,7 @@
         .route-map .route { stroke-width: 3; fill: none; }
         .route-map .retry { stroke-dasharray: 6 6; }
         .route-map .stop { stroke-width: 5; }
+        .route-map .practice-start { fill: var(--bg); stroke-width: 2; }
         .tip-target { cursor: help; }
         .tip-hit { fill: transparent; }
         .route-hit { fill: transparent; }
@@ -63,14 +65,10 @@
         .map-legend span { display: flex; gap: 9px; align-items: center; }
         .map-legend i { display: inline-block; width: 28px; border-top: 2px solid var(--fg); }
         .map-legend .dash { border-top-style: dashed; }
+        .map-legend .solid { position: relative; }
+        .map-legend .solid::before { content: ""; position: absolute; width: 6px; height: 6px; top: -5px; left: 0; border: 2px solid var(--fg); border-radius: 50%; background: var(--bg); }
         .map-help { font-size: 14px; color: var(--caption); margin: 12px 0; }
         .map-help[hidden], [hidden] { display: none !important; }
-        .guide details { margin-top: 10px; border-top: 1px solid var(--mid); }
-        .guide summary { padding: 13px 0; cursor: pointer; font-size: 16px; color: var(--link); }
-        .date-list { padding: 0; margin: 4px 0 0; list-style: none; }
-        .date-list li { display: grid; grid-template-columns: 120px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--mid); font-size: 16px; line-height: 1.4; }
-        .date-list time { font-weight: 600; color: var(--white); }
-        .date-list small { display: block; font-size: 14px; color: var(--caption); margin-top: 3px; }
         .unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 16px; }
         .unlock-panel { padding: 0 28px 0 0; }
         .unlock-panel + .unlock-panel { padding: 0 0 0 28px; border-left: 1px solid var(--rule); }
@@ -125,7 +123,6 @@
             .makeup-flow h3 { font-size: 23px; }
             .makeup-flow p { margin-top: 6px; }
             .guide footer { flex-wrap: wrap; }
-            .date-list li { grid-template-columns: 96px 1fr; }
         }
         @media (prefers-reduced-motion: reduce) { .guide * { scroll-behavior: auto; } }
         @media print {
@@ -185,16 +182,10 @@
                     <div class="map-scroll" id="timeline-map" tabindex="0" role="region" aria-label="Checkpoint and reattempt timeline"></div>
                     <p class="map-help" id="map-help">Scroll for later dates →</p>
                     <div class="map-legend" aria-label="Timeline legend">
-                        <span><i aria-hidden="true"></i>First attempt</span>
+                        <span><i class="solid" aria-hidden="true"></i>Practice → checkpoint</span>
                         <span><i class="dash" aria-hidden="true"></i>Make up practice &amp; try again</span>
                     </div>
                     <p class="map-help" id="pending-dates" hidden></p>
-                    <details>
-                        <summary>Dates &amp; locations</summary>
-                        <ol class="date-list" id="date-list"></ol>
-                        <p class="map-help" id="unscheduled"></p>
-                        <p class="map-help">Check Canvas for session announcements and any changes.</p>
-                    </details>
                 </div>
             </div>
             <noscript><style>#schedule { display: none; }</style><p>Enable JavaScript to see the dated timeline. Reattempt A offers Part A; Reattempt B offers Parts A and B; Reattempt C offers A, B, and C, and so on. See the <a href="Syllabus/Syllabus.pdf">syllabus</a> and Canvas for dates.</p></noscript>
