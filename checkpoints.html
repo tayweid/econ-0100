@@ -21,15 +21,15 @@
         /* The guide's diagrams use the shared Graphite type, ground, and marks. */
         .guide { --caption: #9e9e9e; }
         .guide .content { padding-bottom: 70px; }
-        .course-info { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 30px; }
+        .title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; }
+        .syllabus-chip { display: inline-block; padding: 4px 12px; border: 1px solid var(--rule); border-radius: 999px; font: 14px/1.5 var(--font-body); color: var(--fg); white-space: nowrap; }
+        .syllabus-chip:hover { color: var(--white); border-color: var(--link); }
         .hours-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 15px; line-height: 1.5; }
         .hours-table th, .hours-table td { text-align: left; vertical-align: top; padding: 7px 14px 7px 0; }
         .hours-table thead th { font-weight: 400; font-size: 13px; color: var(--caption); border-bottom: 1px solid var(--rule); }
         .hours-table tbody th { font-weight: 400; color: var(--white); white-space: nowrap; }
         .hours-table th:last-child, .hours-table td:last-child { padding-right: 0; white-space: nowrap; }
         .hours-role { color: var(--caption); font-size: 12px; margin-left: 4px; }
-        .course-info p { margin: 8px 0 0; font-size: 16px; }
-        #syllabus p { margin-top: 16px; }
         .guide p { line-height: 1.5; }
         .guide p:hover { color: inherit; }
         .guide h2 { font-size: clamp(22px, 2.8vw, 28px); line-height: 1.2; margin: 0; color: var(--white); }
@@ -108,7 +108,6 @@
         }
         @media (max-width: 700px) {
             .guide .wrapper { display: block; }
-            .course-info { grid-template-columns: 1fr; gap: 24px; }
             .hours-table { font-size: 14px; }
             .hours-table th, .hours-table td { padding-right: 8px; }
             .guide .left_div { display: none; }
@@ -129,7 +128,6 @@
             .guide .left_div, .guide .right_div, .view-switch, .mobile-parts { display: none !important; }
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
-            .course-info { grid-template-columns: 1fr; gap: 24px; }
             .hours-table { font-size: 14px; }
             .hours-table th, .hours-table td { padding-right: 8px; }
             .map-scroll { overflow: visible; }
@@ -163,7 +161,10 @@
             <a href="part-a.html">Part A</a><a href="part-b.html">Part B</a><a href="part-c.html">Part C</a><a href="part-d.html">Part D</a><a href="part-e.html">Part E</a><a href="part-f.html">Part F</a>
         </nav>
         <header class="description">
-            <h1 class="title title-tight">Course Logistics</h1>
+            <div class="title-row">
+                <h1 class="title title-tight">Course Logistics</h1>
+                <a class="syllabus-chip" href="Syllabus/Syllabus.pdf" target="_blank" rel="noopener">Syllabus</a>
+            </div>
             <i class="subtitle-text">ECON 0100 · Microeconomics</i>
         </header>
 
@@ -175,17 +176,13 @@
                     <tbody>
                         <tr><th scope="row">Taylor</th><td>Wed &amp; Thu 2:30–3:30 PM</td><td>Posvar 4702</td></tr>
                         <tr><th scope="row">Zoe <span class="hours-role">UTA</span></th><td>Tue &amp; Thu 11 AM–noon<br>Tue &amp; Thu 2:30–3:30 PM</td><td>Posvar 4925</td></tr>
-                        <tr><th scope="row"><a href="mailto:AAR247@pitt.edu">Aaron</a></th><td>Tue 10:15 AM–12:15 PM</td><td>Posvar 4515</td></tr>
-                        <tr><th scope="row"><a href="mailto:fizzah.malik@pitt.edu">Fizzah</a></th><td>Tue 11 AM–1 PM</td><td>Posvar 4911</td></tr>
-                        <tr><th scope="row"><a href="mailto:BRF94@pitt.edu">Brianna</a></th><td>Wed 10 AM–noon</td><td>Posvar 4715</td></tr>
-                        <tr><th scope="row"><a href="mailto:behroozmoosavi@pitt.edu">Behrooz</a></th><td>Thu 1:30–3:30 PM</td><td>Posvar 4925</td></tr>
-                        <tr><th scope="row"><a href="mailto:shihas.abdulrazak@pitt.edu">Shihas</a></th><td>Thu 3–5 PM</td><td>Posvar 4911</td></tr>
+                        <tr><th scope="row"><a href="mailto:AAR247@pitt.edu">Aaron</a> <span class="hours-role">TA</span></th><td>Tue 10:15 AM–12:15 PM</td><td>Posvar 4515</td></tr>
+                        <tr><th scope="row"><a href="mailto:fizzah.malik@pitt.edu">Fizzah</a> <span class="hours-role">TA</span></th><td>Tue 11 AM–1 PM</td><td>Posvar 4911</td></tr>
+                        <tr><th scope="row"><a href="mailto:BRF94@pitt.edu">Brianna</a> <span class="hours-role">TA</span></th><td>Wed 10 AM–noon</td><td>Posvar 4715</td></tr>
+                        <tr><th scope="row"><a href="mailto:behroozmoosavi@pitt.edu">Behrooz</a> <span class="hours-role">TA</span></th><td>Thu 1:30–3:30 PM</td><td>Posvar 4925</td></tr>
+                        <tr><th scope="row"><a href="mailto:shihas.abdulrazak@pitt.edu">Shihas</a> <span class="hours-role">TA</span></th><td>Thu 3–5 PM</td><td>Posvar 4911</td></tr>
                     </tbody>
                 </table>
-            </div>
-            <div id="syllabus">
-                <h2>Syllabus</h2>
-                <p><a class="btn" href="Syllabus/Syllabus.pdf" target="_blank" rel="noopener">Read the syllabus <span aria-hidden="true">↗</span></a></p>
             </div>
         </section>
 

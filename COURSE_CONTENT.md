@@ -22,7 +22,8 @@ with no video may carry an `image` (a URL or a local path) as its thumbnail.
 
 The course home is `checkpoints.html`; `index.html` redirects there. Setting
 `course.home: index.html` makes MICRO ECON link home on every part page. Office hours
-and the syllabus appear in the main content above Checkpoints, not in `course.nav`.
+appear above Checkpoints, and the syllabus is a small chip beside the page title;
+neither appears in `course.nav`.
 The home page retains the left course navigation, has no right contents sidebar,
 and offers Part A–F links above the title on phones.
 Its timeline is rendered by `checkpoints.js` from the checkpoint dates,
