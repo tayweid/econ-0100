@@ -7,7 +7,7 @@
     const assets = 'https://tayweid.github.io/course-assets/';
     const localAssets = '../tayweid.github.io/course-assets/';
     const svgNS = 'http://www.w3.org/2000/svg';
-    const colors = ['var(--mark-orange)', 'var(--mark-purple)', 'var(--mark-green)', 'var(--mark-pink)', 'var(--fg)', 'var(--white)'];
+    const routeColor = 'var(--link)';
 
     function loadYaml() {
         return new Promise((resolve, reject) => {
@@ -193,7 +193,7 @@
         });
         parts.forEach((part, row) => {
             const y = firstRow + row * rowGap;
-            const color = colors[schedule.parts.findIndex(p => p.id === part.id) % colors.length];
+            const color = routeColor;
             text(svg, 14, y + 6, 'Part ' + part.id, 'part-label', 'start');
             const first = events.findIndex(event => event.part === part.id && event.kind !== 'reattempt');
             if (first < 0) return;
@@ -247,7 +247,7 @@
         });
         parts.forEach((part, index) => {
             const x = 215 + index * 95;
-            const color = colors[index];
+            const color = routeColor;
             text(svg, x, 23, 'Part ' + part.id, 'part-label');
             const first = events.findIndex(event => event.part === part.id && event.kind === 'checkpoint');
             if (first < 0) return;
