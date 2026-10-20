@@ -34,7 +34,6 @@
         .view-switch button { color: var(--fg); background: transparent; border: 0; border-radius: 4px; padding: 6px 10px; cursor: pointer; font: 600 15px var(--font-body); }
         .view-switch button[aria-pressed="true"] { background: var(--mid); color: var(--white); }
         .view-switch button:hover { color: var(--white); }
-        .map-scale { color: var(--caption); font-size: 13px; }
         .map-scroll { container-type: inline-size; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
         .map-scroll:focus-visible { outline-offset: -2px; }
         .route-map { display: block; width: 100%; min-width: 700px; overflow: visible; }
@@ -45,7 +44,7 @@
         .route-map .event-date { font-size: 13px; fill: var(--fg); }
         .route-map .event-place { font-weight: 600; fill: var(--white); }
         .route-map .part-label { font: 22px var(--font-heading); fill: var(--white); }
-        .route-map .stop-label { font-size: 13px; font-weight: 600; fill: var(--white); }
+        .route-map .event-place.in-class { font-weight: 400; fill: var(--fg); }
         .route-map .end-label { font-size: 13px; fill: var(--caption); }
         .route-map .axis { stroke: var(--rule); stroke-width: 1; }
         .route-map .guide-line { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 6; }
@@ -54,8 +53,8 @@
         .route-map .stop { stroke-width: 5; }
         .route-map .practice-start { fill: var(--bg); stroke-width: 2; }
         .tip-target { cursor: help; }
+        .tip-target .event-name { text-decoration: underline dotted; text-underline-offset: 4px; }
         .tip-hit { fill: transparent; }
-        .route-hit { fill: transparent; }
         .tip-target:hover .event-name, .tip-target:focus-visible .event-name { fill: var(--link); }
         .tip-target:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
         #map-tooltip { position: fixed; z-index: 100; width: 310px; max-width: calc(100vw - 24px); padding: 14px 16px; background: var(--bg-hover); border: 1px solid var(--rule); border-radius: 6px; box-shadow: 0 5px 18px #0006; font: 16px/1.4 var(--font-body); color: var(--fg); }
@@ -75,7 +74,7 @@
         body:has([data-route="practice"]:is(:hover, :focus-visible)) #practice,
         body:has([data-route="makeup"]:is(:hover, :focus-visible)) #makeup { border-color: var(--link); }
 
-        .unlock-legend { padding-left: 58px; position: relative; }
+        .unlock-legend { padding-left: 58px; position: relative; border-top: 0; }
         .guide .unlock-heading { font: 400 18px/1.5 var(--font-body); }
         .unlock-heading button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
         .unlock-heading button:hover, .unlock-heading button:focus-visible { color: var(--link); }
@@ -105,7 +104,6 @@
             .guide .mobile-home { display: block; margin-bottom: 30px; font-size: 15px; }
             .guide-section { margin-top: 22px; padding-top: 18px; }
             .map-controls { gap: 9px; }
-            .map-scale { width: 100%; }
             .route-map.example { display: none; }
             .route-map.compact { display: block; }
             .unlock-legend { padding-left: 40px; }
@@ -166,7 +164,6 @@
                             <button type="button" data-view="example" aria-pressed="true" aria-controls="timeline-map">Parts A &amp; B</button>
                             <button type="button" data-view="full" aria-pressed="false" aria-controls="timeline-map">All parts</button>
                         </div>
-                        <span class="map-scale">Hover or tap for details</span>
                     </div>
                     <div class="map-scroll" id="timeline-map" tabindex="0" role="region" aria-label="Checkpoint and reattempt timeline"></div>
                 </div>
@@ -180,7 +177,7 @@
 
         <section class="guide-section unlock-legend" id="makeup" tabindex="-1" aria-labelledby="makeup-heading">
             <h2 class="unlock-heading" id="makeup-heading"><button type="button" data-route="makeup"><i class="route-key dash" aria-hidden="true"></i><span class="unlock-count">3 of 3</span> practice unlocks a skill on the Reattempt</button></h2>
-            <p class="makeup-intro">To make up missed practice:</p>
+            <p class="makeup-intro">Practice can only be made up <strong>after the checkpoint.</strong></p>
             <ol class="makeup-steps" aria-label="How to make up missed practice">
                 <li><strong>Complete</strong> the practice you missed.</li>
                 <li><strong>Bring the completed work to Taylor or your TA</strong> so your completion is recorded.</li>

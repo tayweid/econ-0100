@@ -52,26 +52,17 @@
     function eventMeta(parent, x, y, event, anchor = 'middle') {
         const line = svgElement('text', { x, y, class: 'event-date', 'text-anchor': anchor });
         line.append(document.createTextNode(dateLabel(event.date) + ' · '));
-        line.append(svgElement('tspan', { class: 'event-place' }, event.place.toUpperCase()));
+        line.append(svgElement('tspan', { class: 'event-place' + (event.place.toLowerCase() === 'in class' ? ' in-class' : '') }, event.place.toUpperCase()));
         parent.append(line);
     }
 
-    function eventInfo(event, part) {
-        const name = event.name + (part ? ' · Part ' + part : '');
-        const available = 'Parts ' + event.available.join(', ');
-        const policy = event.kind === 'checkpoint'
-            ? 'Complete any 2 of 3 practice types for each skill you attempt.'
-            : event.kind === 'final'
-                ? 'Checkpoint F: 2 of 3 practice types per skill. Reattempts for ' + available.replace('Parts', 'parts') + ': 3 of 3.'
-                : available + ' available. Complete all 3 practice types for each skill you reattempt. Only redo skills you haven’t passed.';
-        return { title: name, body: dateLabel(event.date) + ' · ' + event.detail.replace(/[.!?]$/, '') + '. ' + policy };
-    }
-
-    function makeupInfo(part) {
-        return {
-            title: 'Part ' + part + ' · make up practice & try again',
-            body: 'After Checkpoint ' + part + ', finish any missed practice and bring it to Taylor or your TA to be recorded. With all 3 practice types complete for a skill, try it at Reattempt ' + part + ' or any later reattempt.'
-        };
+    function eventHeading(svg, shape, event) {
+        if (event.detail) {
+            return tipTarget(svg, shape, { title: event.name, body: event.detail });
+        }
+        const heading = svgElement('g');
+        svg.append(heading);
+        return heading;
     }
 
     function previousCheckpoint(events, first) {
@@ -81,15 +72,8 @@
         return -1;
     }
 
-    function practiceStart(svg, part, previous, x, y, color) {
-        const info = {
-            title: 'Part ' + part + ' · practice begins',
-            body: previous
-                ? 'Start practicing Part ' + part + ' after ' + previous.name + ' (' + dateLabel(previous.date) + '). The solid line leads to Checkpoint ' + part + ', your first attempt.'
-                : 'Practice Part ' + part + ' before its checkpoint. The solid line leads to your first attempt.'
-        };
-        const marker = tipTarget(svg, svgElement('rect', { x: x - 12, y: y - 12, width: 24, height: 24, class: 'tip-hit' }), info);
-        marker.append(svgElement('circle', { cx: x, cy: y, r: 4.5, class: 'practice-start', 'data-part': part, stroke: color }));
+    function practiceStart(svg, part, x, y, color) {
+        svg.append(svgElement('circle', { cx: x, cy: y, r: 4.5, class: 'practice-start', 'data-part': part, stroke: color }));
     }
 
     let activeTip = null;
@@ -163,7 +147,7 @@
                 id: 'checkpoint-' + part.id, part: part.id, kind: final ? 'final' : 'checkpoint',
                 date: cp.date, name: final ? 'Final session' : 'Checkpoint ' + part.id,
                 place: final ? 'See Canvas' : 'In class',
-                detail: cp.when || 'In your regular class.',
+                detail: final && cp.when ? cp.when + '. Checkpoint F and reattempts for earlier parts.' : cp.when || null,
                 // The syllabus promises a final reattempt session for earlier parts.
                 available: final ? parts.slice(0, index).map(p => p.id) : [part.id]
             });
@@ -171,7 +155,7 @@
                 id: 'reattempt-' + part.id, part: part.id, kind: 'reattempt',
                 date: cp.reattempt_date, name: 'Reattempt ' + part.id,
                 place: cp.reattempt || 'See Canvas',
-                detail: cp.reattempt_when ? cp.reattempt_when + ' · ' + cp.reattempt : cp.reattempt || 'See Canvas for logistics.',
+                detail: cp.reattempt_when || null,
                 available: parts.slice(0, index + 1).map(p => p.id)
             });
         });
@@ -238,7 +222,7 @@
         svg.append(svgElement('line', { x1: start - 38, y1: 59, x2: width - 30, y2: 59, class: 'axis' }));
         events.forEach((event, index) => {
             const at = x(index);
-            const heading = tipTarget(svg, svgElement('rect', { x: at - 85, y: 0, width: 170, height: 48, class: 'tip-hit' }), eventInfo(event));
+            const heading = eventHeading(svg, svgElement('rect', { x: at - 85, y: 0, width: 170, height: 48, class: 'tip-hit' }), event);
             text(heading, at, 17, event.name, 'event-name');
             eventMeta(heading, at, 39, event);
             svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
@@ -254,25 +238,22 @@
             const previous = previousCheckpoint(events, first);
             const from = previous >= 0 ? x(previous) : firstX - 36;
             svg.append(svgElement('path', { d: `M ${from} ${y} H ${firstX}`, class: 'route practice-path', 'data-part': part.id, stroke: color }));
-            practiceStart(svg, part.id, events[previous], from, y, color);
+            practiceStart(svg, part.id, from, y, color);
             const chances = events.map((event, index) => ({ event, index })).filter(({ event, index }) =>
                 index > first && event.kind !== 'checkpoint' && event.available.includes(part.id));
             if (chances.length || !full) {
                 const lastX = full ? x(chances[chances.length - 1].index) : width - 29;
                 svg.append(svgElement('path', { d: `M ${firstX} ${y} H ${lastX}`, class: 'route retry', stroke: color }));
-                tipTarget(svg, svgElement('rect', { x: firstX + 14, y: y - 12, width: Math.max(1, lastX - firstX - 28), height: 24, class: 'route-hit' }), makeupInfo(part.id));
                 if (!full) {
                     svg.append(svgElement('path', { d: `M ${lastX - 7} ${y - 5} L ${lastX} ${y} L ${lastX - 7} ${y + 5}`, class: 'route', stroke: color }));
                     text(svg, width - 70, y - 15, 'and later', 'end-label');
                 }
             }
-            [{ index: first, initial: true }, ...chances.map(chance => ({ index: chance.index, initial: false }))].forEach(stop => {
-                const at = x(stop.index);
+            [first, ...chances.map(chance => chance.index)].forEach(index => {
+                const at = x(index);
                 // Remove a little connecting line around each tick for legibility.
                 svg.append(svgElement('rect', { x: at - 6, y: y - 14, width: 12, height: 28, fill: 'var(--bg)' }));
-                const marker = tipTarget(svg, svgElement('rect', { x: at - 14, y: y - 15, width: 28, height: 34, class: 'tip-hit' }), eventInfo(events[stop.index], part.id));
-                marker.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', stroke: color }));
-                if (!stop.initial) text(marker, at, y + 24, part.id, 'stop-label');
+                svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', stroke: color }));
             });
         });
         const map = document.getElementById('timeline-map');
@@ -292,7 +273,7 @@
         svg.append(svgElement('desc', { id: 'compact-desc' }, description.replace('A vertical tick', 'A horizontal tick')));
         const y = index => 64 + index * 66;
         events.forEach((event, index) => {
-            const heading = tipTarget(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, class: 'tip-hit' }), eventInfo(event));
+            const heading = eventHeading(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, class: 'tip-hit' }), event);
             text(heading, 2, y(index) - 8, event.name, 'event-name', 'start');
             eventMeta(heading, 2, y(index) + 14, event, 'start');
             svg.append(svgElement('line', { x1: 158, y1: y(index), x2: 330, y2: y(index), class: 'guide-line' }));
@@ -306,18 +287,15 @@
             const previous = previousCheckpoint(events, first);
             const from = previous >= 0 ? y(previous) : y(first) - 27;
             svg.append(svgElement('path', { d: `M ${x} ${from} V ${y(first)}`, class: 'route practice-path', 'data-part': part.id, stroke: color }));
-            practiceStart(svg, part.id, events[previous], x, from, color);
+            practiceStart(svg, part.id, x, from, color);
             svg.append(svgElement('path', { d: `M ${x} ${y(first)} V ${height - 47}`, class: 'route retry', stroke: color }));
-            tipTarget(svg, svgElement('rect', { x: x - 12, y: y(first) + 14, width: 24, height: height - 61 - y(first), class: 'route-hit' }), makeupInfo(part.id));
             svg.append(svgElement('path', { d: `M ${x - 5} ${height - 54} L ${x} ${height - 47} L ${x + 5} ${height - 54}`, class: 'route', stroke: color }));
             text(svg, x, height - 19, 'and later', 'end-label');
             events.forEach((event, eventIndex) => {
                 const initial = eventIndex === first;
                 if (!initial && !(event.kind === 'reattempt' && event.available.includes(part.id))) return;
                 svg.append(svgElement('rect', { x: x - 14, y: y(eventIndex) - 6, width: 28, height: 12, fill: 'var(--bg)' }));
-                const marker = tipTarget(svg, svgElement('rect', { x: x - 19, y: y(eventIndex) - 15, width: 38, height: 38, class: 'tip-hit' }), eventInfo(event, part.id));
-                marker.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', stroke: color }));
-                if (!initial) text(marker, x, y(eventIndex) + 24, part.id, 'stop-label');
+                svg.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', stroke: color }));
             });
         });
         document.getElementById('timeline-map').append(svg);
