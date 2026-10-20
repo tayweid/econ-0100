@@ -25,10 +25,10 @@
         .guide .course-overview { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 36px; margin: 0; }
         .part-overview { margin-top: 22px; font-size: 16px; line-height: 1.4; }
         .part-overview ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; overflow: visible; }
-        .part-link { display: grid; grid-template-columns: 2.7em minmax(0, 1fr); gap: 14px; padding: 0; color: var(--fg); font: inherit; }
-        .part-label-link { color: var(--link); font-weight: 600; white-space: nowrap; }
-        .part-link:hover strong, .part-link:focus-visible strong { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
-        .part-overview .part-subtitle { display: block; font-weight: 300; }
+        .part-link { display: grid; grid-template-columns: 3.3rem minmax(0, 1fr); align-items: baseline; gap: 14px; padding: 0; color: var(--fg); font: inherit; }
+        .part-label-link { color: var(--link); font: 400 20px/1.4 var(--font-heading); white-space: nowrap; }
+        .part-link:hover .part-title, .part-link:focus-visible .part-title { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+        .part-overview .part-title { font: italic 400 16px/1.4 var(--font-heading); }
         .hours-table { width: auto; max-width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; line-height: 1.4; }
         .hours-table th, .hours-table td { text-align: left; vertical-align: top; padding: 4px 20px 4px 0; }
         .hours-table thead th { font-weight: 400; font-size: 13px; color: var(--caption); border-bottom: 1px solid var(--rule); }
@@ -156,12 +156,12 @@
             <i class="subtitle-text">ECON 0100 · Microeconomics · Lawrence 120</i>
             <nav class="part-overview" aria-label="Course parts">
                 <ul>
-                    <li><a class="part-link" href="part-a.html"><span class="part-label-link">Part A</span><span><strong>The Core Economic Idea</strong><span class="part-subtitle">better choices can benefit everyone.</span></span></a></li>
-                    <li><a class="part-link" href="part-b.html"><span class="part-label-link">Part B</span><span><strong>How Competitive Markets Work</strong><span class="part-subtitle">prices can coordinate buyers and sellers.</span></span></a></li>
-                    <li><a class="part-link" href="part-c.html"><span class="part-label-link">Part C</span><span><strong>Externalities</strong><span class="part-subtitle">externalized costs and benefits can lead to inefficient markets.</span></span></a></li>
-                    <li><a class="part-link" href="part-d.html"><span class="part-label-link">Part D</span><span><strong>Strategic Interaction</strong><span class="part-subtitle">strategic interaction can lead to inefficient markets.</span></span></a></li>
-                    <li><a class="part-link" href="part-e.html"><span class="part-label-link">Part E</span><span><strong>Sellers</strong><span class="part-subtitle">market power leads to inefficient markets.</span></span></a></li>
-                    <li><a class="part-link" href="part-f.html"><span class="part-label-link">Part F</span><span><strong>Buyers</strong><span class="part-subtitle">people respond to many interacting incentives.</span></span></a></li>
+                    <li><a class="part-link" href="part-a.html"><span class="part-label-link">Part A</span><span class="part-title">The Core Economic Idea</span></a></li>
+                    <li><a class="part-link" href="part-b.html"><span class="part-label-link">Part B</span><span class="part-title">How Competitive Markets Work</span></a></li>
+                    <li><a class="part-link" href="part-c.html"><span class="part-label-link">Part C</span><span class="part-title">Externalities</span></a></li>
+                    <li><a class="part-link" href="part-d.html"><span class="part-label-link">Part D</span><span class="part-title">Strategic Interaction</span></a></li>
+                    <li><a class="part-link" href="part-e.html"><span class="part-label-link">Part E</span><span class="part-title">Sellers</span></a></li>
+                    <li><a class="part-link" href="part-f.html"><span class="part-label-link">Part F</span><span class="part-title">Buyers</span></a></li>
                 </ul>
             </nav>
         </header>
