@@ -37,3 +37,8 @@ hover, keyboard focus, or tap; Escape and clicking outside dismiss them. The sid
 reads office hours and the syllabus link from the course YAML. Preview both timeline
 views, tooltips, and the narrow layout when changing the guide.
 The course home (`index.html`) still opens the current part.
+
+`design/course-logistics-options.html` is a separate interactive mockup comparing
+practice requirements in the legend below the timeline, in cards above it, and in
+a compact timeline header. Use its three layout buttons to compare; it reuses the
+current renderer and YAML dates and does not change the student-facing page.
