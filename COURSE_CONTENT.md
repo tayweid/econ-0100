@@ -1,6 +1,7 @@
 # Editing the ECON 0100 website
 
-All course content lives in `course-content.yaml.js`. Edit the YAML between the two backtick
+Course lessons and schedule data live in `course-content.yaml.js`.
+Home-page office hours, the syllabus link, and logistics copy live in `checkpoints.html`. Edit the YAML between the two backtick
 lines, open the affected `part-*.html` page (double-click it), refresh, and run
 `scripts/check-course` before committing. There
 is no build step.
@@ -19,7 +20,11 @@ Exercise, Vignette, and Homework PDFs are found there without a YAML edit; solut
 opt-in through `solutions: true`. Chapter readings resolve to `Reading/Ch_NN.pdf`. An extra
 with no video may carry an `image` (a URL or a local path) as its thumbnail.
 
-The student-facing Course Logistics page is `checkpoints.html`, linked from `course.nav`.
+The course home is `checkpoints.html`; `index.html` redirects there. Setting
+`course.home: index.html` makes MICRO ECON link home on every part page. Office hours
+and the syllabus appear in the main content above Checkpoints, not in `course.nav`.
+The home page retains the left course navigation, has no right contents sidebar,
+and offers Part A–F links above the title on phones.
 Its timeline is rendered by `checkpoints.js` from the checkpoint dates,
 reattempt dates, and logistics in the same YAML; do not copy dates into the HTML.
 The guide starts with A/B and offers a full-semester view. Reattempt eligibility is
@@ -42,10 +47,9 @@ compact legend sentences, with each attempt marker at the right end of its line.
 Only the final session has a tooltip, with its time and session details; its heading
 is underlined. Hover, keyboard focus, or tap reveals it; Escape and clicking outside
 dismiss it. The legend has no full-width divider lines. The introduction compares checkpoints
-to quizzes broken out by skills and explains that individual skills can be reattempted. The sidebar
-reads office hours and the syllabus link from the course YAML. Preview both timeline
-views, tooltips, and the narrow layout when changing the guide.
-The course home (`index.html`) still opens the current part.
+to quizzes broken out by skills and explains that individual skills can be reattempted. Preview both timeline
+views, tooltips, and the narrow layout when changing the guide. Check home navigation
+from a part page when changing course navigation.
 
 `design/course-logistics-options.html` is a separate interactive mockup comparing
 practice requirements in the legend below the timeline, in cards above it, and in

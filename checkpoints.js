@@ -163,45 +163,6 @@
         return { parts, events };
     }
 
-    function renderCourseNotes(data) {
-        // Reuse the course's navigation content and shared CSS, including office hours.
-        const list = document.querySelector('.left_div nav ul');
-        const firstPart = list.querySelector('li');
-        (data.course.nav || []).filter(item => item.lines || item.button).forEach(item => {
-            const li = document.createElement('li');
-            li.className = item.lines ? 'nav-note' : 'nav-item-no-margin';
-            if (item.lines) {
-                const label = document.createElement('span');
-                label.className = 'nav-note-label';
-                label.textContent = item.label;
-                li.append(label);
-                item.lines.forEach(line => {
-                    const row = document.createElement('span');
-                    row.className = 'nav-note-line';
-                    line.split(/(\*[^*]+\*)/).forEach(piece => {
-                        if (piece.startsWith('*') && piece.endsWith('*')) {
-                            const name = document.createElement('i');
-                            name.textContent = piece.slice(1, -1);
-                            row.append(name);
-                        } else row.append(piece);
-                    });
-                    li.append(row);
-                });
-            } else {
-                const link = document.createElement('a');
-                link.className = 'btn';
-                link.href = item.file;
-                link.textContent = item.label;
-                li.append(link);
-            }
-            list.insertBefore(li, firstPart);
-        });
-        const divider = document.createElement('hr');
-        divider.className = 'nav-hr-top';
-        list.insertBefore(divider, firstPart);
-        list.querySelector('[data-fallback-syllabus]').remove();
-    }
-
     function renderMap(schedule, full) {
         const parts = full ? schedule.parts : schedule.parts.filter(part => ['A', 'B'].includes(part.id));
         const events = full ? schedule.events : schedule.events.filter(event => ['A', 'B'].includes(event.part) && event.kind !== 'final');
@@ -312,7 +273,6 @@
     loadYaml().then(() => {
         const data = window.jsyaml.load(window.COURSE_CONTENT_YAML);
         const schedule = buildSchedule(data);
-        renderCourseNotes(data);
         renderMap(schedule, false);
         document.querySelectorAll('[data-view]').forEach(button => {
             button.addEventListener('click', () => {

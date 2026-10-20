@@ -46,19 +46,7 @@ course:
   code: ECON 0100
   title: Microeconomics
   brand: [MICRO, ECON]
-  nav:
-    - label: Office Hours
-      lines:
-        - '*Taylor* · Posvar 4702'
-        - 'Wed & Thu 2:30–3:30'
-        - '*Zoe* · Posvar 4925'
-        - 'Tue & Thu 11–12'
-        - 'Tue & Thu 2:30–3:30'
-    - label: Syllabus
-      file: Syllabus/Syllabus.pdf
-      button: true
-    - label: Course Logistics
-      file: checkpoints.html
+  home: index.html
   checkpoint: Checkpoint
   reading: Reading/Ch_{nn}.pdf    # reading.chapter: 3 links Reading/Ch_03.pdf
   materials: .                    # conventional PDFs live under <folder>/ (e.g. Part_A/A1_The_PPF)
