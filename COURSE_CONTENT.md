@@ -25,9 +25,11 @@ reattempt dates, and logistics in the same YAML; do not copy dates into the HTML
 The guide starts with A/B and offers a full-semester view. Reattempt eligibility is
 cumulative by session letter (B offers A+B), not by which checkpoints have already
 occurred. The final session includes Checkpoint F and reattempts for earlier parts;
-undated reattempts remain explicitly TBA. Policy copy and diagram styling live in the
-guide HTML. Locations appear under each event heading; detailed times stay in the
-tooltips. Solid practice paths begin with an open circle at the preceding checkpoint
+only dated sessions appear in the timeline. Policy copy and diagram styling live in the
+guide HTML. Each event heading sits above its date and bold uppercase location,
+separated by a middle dot; detailed times stay in the tooltips. The solid and dashed
+legend keys link to the practice and makeup sections, with matching symbols in their
+headings and route emphasis on hover or keyboard focus. Solid practice paths begin with an open circle at the preceding checkpoint
 (Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
 On phones, the A/B diagram turns vertically so all four opportunities
 remain visible together. Dates, stops, and dashed makeup paths reveal details on

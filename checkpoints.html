@@ -38,12 +38,12 @@
         .map-scroll { container-type: inline-size; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--rule) var(--bg); }
         .map-scroll:focus-visible { outline-offset: -2px; }
         .route-map { display: block; width: 100%; min-width: 700px; overflow: visible; }
-        .route-map.full { min-width: 1250px; }
+        .route-map.full { min-width: 1850px; }
         .route-map.compact { display: none; min-width: 0; max-width: 350px; margin: 0 auto; }
         .route-map text { font-family: var(--font-body); fill: var(--fg); }
         .route-map .event-name { font-size: 15px; font-weight: 600; fill: var(--white); }
-        .route-map .event-date { font-size: 17px; fill: var(--white); }
-        .route-map .event-place { font-size: 13px; fill: var(--caption); }
+        .route-map .event-date { font-size: 13px; fill: var(--fg); }
+        .route-map .event-place { font-weight: 600; fill: var(--white); }
         .route-map .part-label { font: 22px var(--font-heading); fill: var(--white); }
         .route-map .stop-label { font-size: 13px; font-weight: 600; fill: var(--white); }
         .route-map .end-label { font-size: 13px; fill: var(--caption); }
@@ -62,13 +62,24 @@
         #map-tooltip strong { display: block; font-weight: 600; color: var(--white); }
         #map-tooltip p { margin: 6px 0 0; font-size: 16px; line-height: 1.4; }
         .map-legend { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 14px; margin: 4px 0 8px; color: var(--fg); }
-        .map-legend span { display: flex; gap: 9px; align-items: center; }
-        .map-legend i { display: inline-block; width: 28px; border-top: 2px solid var(--fg); }
-        .map-legend .dash { border-top-style: dashed; }
-        .map-legend .solid { position: relative; }
-        .map-legend .solid::before { content: ""; position: absolute; width: 6px; height: 6px; top: -5px; left: 0; border: 2px solid var(--fg); border-radius: 50%; background: var(--bg); }
-        .map-help { font-size: 14px; color: var(--caption); margin: 12px 0; }
-        .map-help[hidden], [hidden] { display: none !important; }
+        .map-legend a { display: flex; gap: 10px; align-items: center; padding: 8px 0; color: var(--fg); }
+        .map-legend a:hover, .map-legend a:focus-visible { color: var(--link); }
+        .route-key { display: inline-block; width: 28px; border-top: 2px solid currentColor; }
+        .route-key.dash { border-top-style: dashed; }
+        .route-key.solid { position: relative; }
+        .route-key.solid::before { content: ""; position: absolute; width: 6px; height: 6px; top: -5px; left: 0; border: 2px solid currentColor; border-radius: 50%; background: var(--bg); }
+        [hidden] { display: none !important; }
+        .section-title { display: flex; align-items: center; gap: 14px; }
+        .section-title .route-key { flex-shrink: 0; color: var(--fg); }
+        .guide-section:target { border-color: var(--link); }
+        .guide-section:target .section-title { color: var(--link); }
+        body:has([data-route="practice"]:is(:hover, :focus-visible)) .practice-path,
+        body:has([data-route="makeup"]:is(:hover, :focus-visible)) .retry { stroke-width: 5; }
+        body:has([data-route="practice"]:is(:hover, :focus-visible)) .retry,
+        body:has([data-route="makeup"]:is(:hover, :focus-visible)) .practice-path { opacity: .25; }
+        body:has([data-route="practice"]:is(:hover, :focus-visible)) #practice,
+        body:has([data-route="makeup"]:is(:hover, :focus-visible)) #makeup { border-color: var(--link); }
+
         .unlock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 16px; }
         .unlock-panel { padding: 0 28px 0 0; }
         .unlock-panel + .unlock-panel { padding: 0 0 0 28px; border-left: 1px solid var(--rule); }
@@ -86,7 +97,6 @@
         .makeup-flow li:not(:last-child)::after { content: "→"; position: absolute; right: -19px; top: -16px; background: var(--bg); color: var(--caption); font-size: 22px; }
         .makeup-flow p { font-size: 17px; margin: 10px 0 0; }
         .makeup-note { font-size: 16px; margin: 14px 0 0; color: var(--caption); }
-        .guide footer { border-top: 1px solid var(--rule); margin-top: 24px; padding-top: 18px; display: flex; justify-content: space-between; gap: 14px; font-size: 15px; }
         .guide .mobile-home { display: none; }
         .guide .skip-link { position: absolute; top: -100px; left: 15px; z-index: 10; background: var(--bg); padding: 12px; }
         .guide .skip-link:focus { top: 10px; }
@@ -122,12 +132,11 @@
             .makeup-flow li:not(:last-child)::after { content: none; }
             .makeup-flow h3 { font-size: 23px; }
             .makeup-flow p { margin-top: 6px; }
-            .guide footer { flex-wrap: wrap; }
         }
         @media (prefers-reduced-motion: reduce) { .guide * { scroll-behavior: auto; } }
         @media print {
             #map-tooltip { display: none !important; }
-            .guide .left_div, .guide .right_div, .view-switch, .mobile-home, .map-help { display: none !important; }
+            .guide .left_div, .guide .right_div, .view-switch, .mobile-home { display: none !important; }
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
             .map-scroll { overflow: visible; }
@@ -180,19 +189,17 @@
                         <span class="map-scale">Hover or tap for details</span>
                     </div>
                     <div class="map-scroll" id="timeline-map" tabindex="0" role="region" aria-label="Checkpoint and reattempt timeline"></div>
-                    <p class="map-help" id="map-help">Scroll for later dates →</p>
                     <div class="map-legend" aria-label="Timeline legend">
-                        <span><i class="solid" aria-hidden="true"></i>Practice → checkpoint</span>
-                        <span><i class="dash" aria-hidden="true"></i>Make up practice &amp; try again</span>
+                        <a href="#practice" data-route="practice"><i class="route-key solid" aria-hidden="true"></i>Practice &amp; checkpoints <span aria-hidden="true">↓</span></a>
+                        <a href="#makeup" data-route="makeup"><i class="route-key dash" aria-hidden="true"></i>Makeups &amp; reattempts <span aria-hidden="true">↓</span></a>
                     </div>
-                    <p class="map-help" id="pending-dates" hidden></p>
                 </div>
             </div>
             <noscript><style>#schedule { display: none; }</style><p>Enable JavaScript to see the dated timeline. Reattempt A offers Part A; Reattempt B offers Parts A and B; Reattempt C offers A, B, and C, and so on. See the <a href="Syllabus/Syllabus.pdf">syllabus</a> and Canvas for dates.</p></noscript>
         </section>
 
-        <section class="guide-section" id="practice" aria-labelledby="practice-heading">
-            <h2 id="practice-heading">Practice unlocks skills</h2>
+        <section class="guide-section" id="practice" tabindex="-1" aria-labelledby="practice-heading">
+            <h2 class="section-title" id="practice-heading"><i class="route-key solid" aria-hidden="true"></i>Practice unlocks skills</h2>
             <p class="section-intro">For <strong>each skill</strong>, complete these practice types:</p>
             <div class="unlock-grid">
                 <div class="unlock-panel">
@@ -212,8 +219,8 @@
             <p class="practice-note">Checked for completion, not correctness.</p>
         </section>
 
-        <section class="guide-section" id="makeup" aria-labelledby="makeup-heading">
-            <h2 id="makeup-heading">Make up missed practice</h2>
+        <section class="guide-section" id="makeup" tabindex="-1" aria-labelledby="makeup-heading">
+            <h2 class="section-title" id="makeup-heading"><i class="route-key dash" aria-hidden="true"></i>Make up missed practice</h2>
             <ol class="makeup-flow">
                 <li><h3>Complete it.</h3><p>Finish the practice you missed.</p></li>
                 <li><h3>Bring it.</h3><p>Show <strong>Taylor or your TA</strong> so it gets recorded.</p></li>
@@ -221,10 +228,6 @@
             </ol>
             <p class="makeup-note">Makeups begin <strong>after the checkpoint</strong>. At the checkpoint, attempt the skills you have already unlocked.</p>
         </section>
-        <footer>
-            <a href="index.html">← Back to the course</a>
-            <a href="Syllabus/Syllabus.pdf">Full policy in the syllabus ↗</a>
-        </footer>
     </main>
     <aside class="right_div">
         <nav aria-label="On this page"><ul>

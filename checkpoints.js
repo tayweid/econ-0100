@@ -49,6 +49,13 @@
         svg.append(svgElement('text', { x, y, class: className, 'text-anchor': anchor }, value));
     }
 
+    function eventMeta(parent, x, y, event, anchor = 'middle') {
+        const line = svgElement('text', { x, y, class: 'event-date', 'text-anchor': anchor });
+        line.append(document.createTextNode(dateLabel(event.date) + ' · '));
+        line.append(svgElement('tspan', { class: 'event-place' }, event.place.toUpperCase()));
+        parent.append(line);
+    }
+
     function eventInfo(event, part) {
         const name = event.name + (part ? ' · Part ' + part : '');
         const available = 'Parts ' + event.available.join(', ');
@@ -149,7 +156,6 @@
             id, checkpoint: part.sections.find(section => section.checkpoint)?.checkpoint
         })).filter(part => part.checkpoint);
         const events = [];
-        const pending = [];
         parts.forEach((part, index) => {
             const cp = part.checkpoint;
             const final = part.id === 'F';
@@ -161,7 +167,6 @@
                 // The syllabus promises a final reattempt session for earlier parts.
                 available: final ? parts.slice(0, index).map(p => p.id) : [part.id]
             });
-            else pending.push('Checkpoint ' + part.id + ': date to be announced.');
             if (dates(cp.reattempt_date).length) events.push({
                 id: 'reattempt-' + part.id, part: part.id, kind: 'reattempt',
                 date: cp.reattempt_date, name: 'Reattempt ' + part.id,
@@ -169,10 +174,9 @@
                 detail: cp.reattempt_when ? cp.reattempt_when + ' · ' + cp.reattempt : cp.reattempt || 'See Canvas for logistics.',
                 available: parts.slice(0, index + 1).map(p => p.id)
             });
-            else if (!final) pending.push('Reattempt ' + part.id + ': date to be announced.');
         });
         events.sort((a, b) => dates(a.date)[0].localeCompare(dates(b.date)[0]) || a.id.localeCompare(b.id));
-        return { parts, events, pending };
+        return { parts, events };
     }
 
     function renderCourseNotes(data) {
@@ -217,9 +221,9 @@
     function renderMap(schedule, full) {
         const parts = full ? schedule.parts : schedule.parts.filter(part => ['A', 'B'].includes(part.id));
         const events = full ? schedule.events : schedule.events.filter(event => ['A', 'B'].includes(event.part) && event.kind !== 'final');
-        const width = full ? Math.max(1250, events.length * 114 + 110) : 830;
+        const width = full ? Math.max(1850, events.length * 170 + 150) : 830;
         hideTip();
-        const height = 116 + parts.length * 44;
+        const height = 96 + parts.length * 44;
         const start = 148;
         const end = width - (full ? 82 : 135);
         const x = index => events.length > 1 ? start + index * (end - start) / (events.length - 1) : start;
@@ -231,18 +235,17 @@
         svg.append(svgElement('desc', { id: 'route-desc' }, events.map(event =>
             `${event.name}, ${dateLabel(event.date)}, ${event.place}: ${event.kind === 'final' ? 'Checkpoint F and reattempts for' : event.kind === 'checkpoint' ? 'first attempt for' : 'reattempts for'} Part${event.available.length > 1 ? 's' : ''} ${event.available.join(', ')}.`
         ).join(' ') + ' An open circle starts each part’s practice period at the preceding checkpoint. Part A starts before the first checkpoint. Solid paths lead to first attempts; dashed paths connect later chances. A vertical tick marks an available attempt.'));
-        svg.append(svgElement('line', { x1: start - 38, y1: 79, x2: width - 30, y2: 79, class: 'axis' }));
+        svg.append(svgElement('line', { x1: start - 38, y1: 59, x2: width - 30, y2: 59, class: 'axis' }));
         events.forEach((event, index) => {
             const at = x(index);
-            const heading = tipTarget(svg, svgElement('rect', { x: at - 53, y: 0, width: 106, height: 68, class: 'tip-hit' }), eventInfo(event));
-            text(heading, at, 17, dateLabel(event.date), 'event-date');
-            text(heading, at, 39, event.name, 'event-name');
-            text(heading, at, 59, event.place, 'event-place');
-            svg.append(svgElement('line', { x1: at, y1: 73, x2: at, y2: 85, class: 'axis' }));
-            svg.append(svgElement('line', { x1: at, y1: 90, x2: at, y2: height - 15, class: 'guide-line' }));
+            const heading = tipTarget(svg, svgElement('rect', { x: at - 85, y: 0, width: 170, height: 48, class: 'tip-hit' }), eventInfo(event));
+            text(heading, at, 17, event.name, 'event-name');
+            eventMeta(heading, at, 39, event);
+            svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
+            svg.append(svgElement('line', { x1: at, y1: 70, x2: at, y2: height - 15, class: 'guide-line' }));
         });
         parts.forEach((part, row) => {
-            const y = 114 + row * 44;
+            const y = 94 + row * 44;
             const color = colors[schedule.parts.findIndex(p => p.id === part.id) % colors.length];
             text(svg, 14, y + 6, 'Part ' + part.id, 'part-label', 'start');
             const first = events.findIndex(event => event.part === part.id && event.kind !== 'reattempt');
@@ -274,21 +277,7 @@
         });
         const map = document.getElementById('timeline-map');
         map.replaceChildren(svg);
-        if (full) map.setAttribute('aria-describedby', 'map-help');
-        else map.removeAttribute('aria-describedby');
         if (!full) renderCompactMap(parts, events, svg.querySelector('desc').textContent);
-        requestAnimationFrame(updateScrollHint);
-        const pending = document.getElementById('pending-dates');
-        pending.textContent = schedule.pending.join(' ');
-        pending.hidden = !full || !schedule.pending.length;
-    }
-
-    function updateScrollHint() {
-        const map = document.getElementById('timeline-map');
-        const overflowing = map.scrollWidth > map.clientWidth + 1;
-        document.getElementById('map-help').hidden = !overflowing;
-        if (overflowing) map.setAttribute('aria-describedby', 'map-help');
-        else map.removeAttribute('aria-describedby');
     }
 
     // At phone widths, turn the A/B diagram so both routes and all four stops are
@@ -303,10 +292,9 @@
         svg.append(svgElement('desc', { id: 'compact-desc' }, description.replace('A vertical tick', 'A horizontal tick')));
         const y = index => 64 + index * 66;
         events.forEach((event, index) => {
-            const heading = tipTarget(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 150, height: 62, class: 'tip-hit' }), eventInfo(event));
-            text(heading, 2, y(index) - 8, dateLabel(event.date), 'event-date', 'start');
-            text(heading, 2, y(index) + 14, event.name, 'event-name', 'start');
-            text(heading, 2, y(index) + 32, event.place, 'event-place', 'start');
+            const heading = tipTarget(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, class: 'tip-hit' }), eventInfo(event));
+            text(heading, 2, y(index) - 8, event.name, 'event-name', 'start');
+            eventMeta(heading, 2, y(index) + 14, event, 'start');
             svg.append(svgElement('line', { x1: 158, y1: y(index), x2: 330, y2: y(index), class: 'guide-line' }));
         });
         parts.forEach((part, index) => {
@@ -350,8 +338,6 @@
         document.getElementById('schedule-status').hidden = true;
         document.getElementById('schedule-content').hidden = false;
         document.getElementById('schedule').setAttribute('aria-busy', 'false');
-        if (window.ResizeObserver) new ResizeObserver(updateScrollHint).observe(document.getElementById('timeline-map'));
-        else window.addEventListener('resize', updateScrollHint);
         const tooltip = document.getElementById('map-tooltip');
         tooltip.addEventListener('pointerenter', () => clearTimeout(hideTimer));
         tooltip.addEventListener('pointerleave', () => {
