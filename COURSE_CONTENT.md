@@ -55,7 +55,10 @@ Checkpoint” and “3 of 3 practice unlocks a skill on the Reattempt.” Three 
 makeup steps sit beneath the reattempt row, after the note that practice can only
 be made up after the checkpoint: complete missed practice, bring it to
 Taylor’s or a TA’s office hours, then reattempt needed skills. Hover or keyboard-focus
-the row headings to emphasize the corresponding paths. Solid practice paths begin with an open circle at the preceding checkpoint
+the row headings to emphasize the corresponding paths. Hovering a path or its
+markers also highlights its matching legend heading and dims the other heading
+and route type; wider invisible targets make thin paths and dashed gaps easy to hover.
+Solid practice paths begin with an open circle at the preceding checkpoint
 (Part A begins before the first checkpoint), then turn dashed at their own checkpoint.
 Phones use the same complete, horizontally scrollable timeline. Checkpoint bars and hollow reattempt diamonds distinguish the two kinds of
 attempt without repeated part-letter labels. Matching keys sit to the left of the

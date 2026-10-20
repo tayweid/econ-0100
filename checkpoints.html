@@ -94,10 +94,12 @@
         .guide-section:target .unlock-heading { color: var(--link); }
         body:has([data-route="practice"]:is(:hover, :focus-visible)) .practice-path,
         body:has([data-route="makeup"]:is(:hover, :focus-visible)) .retry { stroke-width: 5; }
-        body:has([data-route="practice"]:is(:hover, :focus-visible)) .retry,
-        body:has([data-route="makeup"]:is(:hover, :focus-visible)) .practice-path { opacity: .25; }
-        body:has([data-route="practice"]:is(:hover, :focus-visible)) #practice,
-        body:has([data-route="makeup"]:is(:hover, :focus-visible)) #makeup { border-color: var(--link); }
+        body:has([data-route="practice"]:is(:hover, :focus-visible)) .route-map [data-route="makeup"],
+        body:has([data-route="makeup"]:is(:hover, :focus-visible)) .route-map [data-route="practice"] { opacity: .25; }
+        body:has([data-route="practice"]:is(:hover, :focus-visible)) #practice :is(.unlock-heading, .unlock-count),
+        body:has([data-route="makeup"]:is(:hover, :focus-visible)) #makeup :is(.unlock-heading, .unlock-count) { color: var(--link); }
+        body:has([data-route="practice"]:is(:hover, :focus-visible)) #makeup .unlock-heading,
+        body:has([data-route="makeup"]:is(:hover, :focus-visible)) #practice .unlock-heading { opacity: .35; }
 
         .guide .unlock-legend { position: relative; margin-top: 16px; padding-top: 14px; padding-left: 70px; border-top: 0; }
         .guide .unlock-heading { font: 400 18px/1.5 var(--font-body); }

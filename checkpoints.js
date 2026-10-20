@@ -126,6 +126,20 @@
         svg.append(svgElement('circle', { cx: x, cy: y, r: 4.5, class: 'practice-start', 'data-part': part, stroke: color }));
     }
 
+    function linkRoutesToLegend(svg) {
+        svg.querySelectorAll('.practice-path, .practice-start, .stop, .retry, .reattempt-stop').forEach(mark => {
+            const route = mark.matches('.practice-path, .practice-start, .stop') ? 'practice' : 'makeup';
+            const group = svgElement('g', { 'data-route': route });
+            // A continuous, wider target keeps dashed gaps and thin marks easy to hover.
+            const hit = mark.cloneNode(false);
+            Object.entries({ class: 'route-hit', stroke: 'transparent', 'stroke-width': 16,
+                'stroke-dasharray': 'none', fill: 'none', 'pointer-events': 'stroke', 'aria-hidden': 'true'
+            }).forEach(([name, value]) => hit.setAttribute(name, value));
+            mark.replaceWith(group);
+            group.append(hit, mark);
+        });
+    }
+
     let activeTip = null;
     let activeInfo = null;
     let pinnedTip = false;
@@ -275,6 +289,7 @@
                 }
             });
         });
+        linkRoutesToLegend(svg);
         const map = document.getElementById('timeline-map');
         scrollToToday = () => {};
         if (full) {
@@ -342,6 +357,7 @@
                 }
             });
         });
+        linkRoutesToLegend(svg);
         document.getElementById('timeline-map').append(svg);
     }
 
