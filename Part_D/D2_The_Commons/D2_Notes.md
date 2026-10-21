@@ -10,7 +10,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 Script and storyboard, drafted 2026-10-20; commons animation implemented 2026-10-21 in D2_Animation.py, scene EpisodeD2. D0 simulation instructions precede sections 1–5. Public-goods material moved to ../D3_Public_Goods_and_Voting/D3_Notes.md before implementation. This is a proposed new script, not a transcription of the 2024 class. The numbered legacy files remain untouched pending review.
 Sources and teaching choices: D2_Planning.md. Primary source: Class_On_Oct_30.pdf, pp. 1–2, created October 30, 2024. D2 develops the tuna/commons game; the NPR donation game begins D3. The new pond model below generates its own payoff numbers; the original tuna matrix is retained in the planning notes and must not be represented as a calculation from this model.
 Style references: ../../_Style_Guide.md, ../D1_Games/D1_Notes.md and D1_Animation.py, ../../Part_C/C1_Externalities/C1_Notes.md, ../../Part_C/C3_Corrective_Policy/C3_Notes.md, ../../Part_C/C4_Wrap_Up/C4_Notes.md. Use the current Notes-file convention: section comments index beats; quote blocks give detailed directions; ordinary paragraphs are proposed narration. No student beat links are introduced.
-Stage: Graphite 2:1, 15 fps, CMU Serif teaching content, azure topic titles, optional grey CMU Sans subtitle, fixed 0.7443-scale gold teaching line centered 0.05 from the bottom. Body band y = −2.8 to 2.5, centered at −0.15. Import shared style tokens. No illustrated fishermen or decorative scenery: one INK pond outline, neutral fish tokens, and named catch trays. Firm 1 is ROW_PLAYER pink; Firm 2 is COL_PLAYER teal. Fish acquire a firm's color only when caught. A full rectangular fish token represents 1,000 fish; fractional widths represent fractional thousands, with exact numeric readouts. Catch-ledger tokens use a smaller display scale than pond tokens. Keep the pond boundary fixed: fewer fish do not mean less water or a smaller carrying capacity.
+Stage: Graphite 2:1, 15 fps, CMU Serif teaching content, azure topic titles, optional grey CMU Sans subtitle, fixed 0.7443-scale gold teaching line centered 0.05 from the bottom. Body band y = −2.8 to 2.5, centered at −0.15. Import shared style tokens. No illustrated fishermen or decorative scenery: one INK pond outline, neutral fish tokens, and named catch trays. Firm 1 is ROW_PLAYER pink; Firm 2 is COL_PLAYER teal. Fish acquire a firm's color only when caught. A full dot represents 1,000 fish; circular sectors represent fractional thousands by area, with exact numeric readouts. Catch-ledger tokens use a smaller display scale than pond tokens. Keep a rounded pond boundary fixed, using B2’s neutral outline treatment. Pond center (−4, 0.85), width 5.4, height 2.8, corner radius 0.8. Dots have radius 0.16 and twenty fixed, scattered positions, not a grid. The shared-capacity label sits at y = 2.5, stock at −0.9, and introductory token units at −1.45. Survivors keep their exact positions and object identities. Only offspring copies move into vacant positions. At fractional catch boundaries, divide the existing dot into circular sectors in place; do not replace the population. A caught dot retains its identity as it moves and shrinks into the ledger. Fewer fish do not mean less water or a smaller carrying capacity.
 Pacing follows C1/C3: quantities first, question and pause, calculation, answer and pause. Carry the same fish into catch trays and the same totals into matrix cells. D1's best-response boxes precede Nash and efficiency conclusions. Each dotted ID is a stopped beat unless its direction explicitly describes a continuous transition.
 D2 opens with the original D0 simulation rules card (sim.a–sim.e), followed by sections 1–5. Hold at sim.e to run the live activity. The separate optional two-firm prediction exercise can follow 3.a; see D2_Simulation.md.
 -->
@@ -29,7 +29,7 @@ sim.e · Add “- Maximize harvest after 4 rounds”; hold the complete card for
 <!--
 1.a · Title “Common Resources”; reuse D1's taxonomy and isolate Common Resources; bottom “What changes when we cannot exclude other users?”
 1.b · Carry the category into the pond; one fish moves into Firm 1's tray; bottom “A fish I catch is no longer available for you to catch.”
-1.c · Reveal 20 fish tokens and K = 20; bottom “Carrying capacity is a stock, not a monthly catch.”
+1.c · Reveal 20 fish tokens and K = 20; bottom “Carrying capacity limits the stock, not the monthly catch.”
 -->
 
 > **1.a.** Start with D1′s existing taxonomy geometry. Highlight Common Resources, preserving the Rival and Non-Excludable labels, then fade the other categories. Pause before introducing the pond. Do not rerun the A/B/C tour or the deadline activity.
@@ -38,11 +38,11 @@ In D1, we learned how to ask what each player would choose, given what the other
 
 The fish are **rival**: catching one leaves one fewer for someone else. Access is **non-excludable in our setup**: neither firm can keep the other from fishing. These are the characteristics of a **common resource**.
 
-> **1.b.** Center an INK pond outline on the left, with two labeled catch trays below it. Place Firm 1′s pink name over its tray and Firm 2′s teal name over the other. Move one neutral fish token into Firm 1′s tray and recolor it pink. Firm 2′s tray remains empty. Return that fish before the next beat; this was an illustration, not month 1.
+> **1.b.** Keep the neutral rounded pond on the left and two labeled catch trays below it. Show twenty dots and the caption “One full dot = 1,000 fish”. Move one existing dot to Firm 1’s tray and recolor it pink. Return that same dot to its original position before 1.c; this is an illustration, not month 1.
 
 The catch belongs to the firm that takes it. The remaining fish, and the fish they can produce, are shared. The private benefit is easy to see. The cost imposed on the other firm is less immediate.
 
-> **1.c.** Show 20 neutral tokens inside the fixed pond. Label it “Stock: 20” and put “Thousands of fish” in a small grey unit caption. Add “Carrying capacity: K = 20” beside the boundary. Keep the right half empty for the next calculation.
+> **1.c.** Add “Shared pond: capacity 20” above the fixed boundary and “Stock: 20” below it. Leave the right half open for the calculations. The capacity refers to thousands of fish, consistent with the dot-unit caption.
 
 The pond can support 20,000 fish. That is its **carrying capacity**. It does not mean we can catch 20,000 fish every month. A stock is measured at a point in time; a harvest is a flow over a period of time.
 
@@ -50,30 +50,30 @@ The pond can support 20,000 fish. That is its **carrying capacity**. It does not
 
 <!--
 2.a · Title “Population And Harvest”; 20 → 10 after a harvest of 10; bottom “How many fish remain to reproduce?”
-2.b · Survivors double: 10 → 20; bottom “Ten thousand fish caught; twenty thousand next month.”
+2.b · Survivors double: 10 → 20; bottom “Catch 10; the surviving 10 restore the stock to 20.”
 2.c.survivors · Reset and harvest 12; stop with 8 survivors.
-2.c · Reset: 20 → 8 → 16 after a harvest of 12; bottom “The same pond now starts next month with fewer fish.”
+2.c · Reset: 20 → 8 → 16 after a harvest of 12; bottom “Catch 12; the surviving 8 restore only 16.”
 2.d.survivors · Reset and harvest 4; stop with 16 survivors.
-2.d · Reset: 20 → 16 → 20 after a harvest of 4; bottom “Reproduction is limited by carrying capacity.”
+2.d · Reset: 20 → 16 → 20 after a harvest of 4; bottom “The population grows only as far as the pond can support.”
 2.e.survivors · Reveal the survivor equation before the reproduction rule.
-2.e · Reveal S_t = N_t − h_1t − h_2t, then N_(t+1) = min{20, 2S_t}; bottom “Next month's stock depends on what survives this month's catch.”
+2.e · Transform the concrete subtraction into N_t − h_1t − h_2t = S_t, then N_(t+1) = min{20, 2S_t}; bottom “Next month's stock depends on what survives this month's catch.”
 2.f.recovery · Stop after recovery from 8 to 16 to 20.
 2.f · Compare recovery from 8 survivors with no further harvest: 8 → 16 → 20; then 0 → 0; bottom “Depletion can be reversed; an empty pond cannot reproduce.”
 -->
 
-> **2.a.** Keep the pond left and a calculation area right, separated by the thin vertical divider used in Part C. From a fresh stock of 20, move 5 tokens to each firm’s tray. On the right reveal “Start 20”, then “Catch 10”, then the subtraction “20 − 10 = ?”. Pause before revealing 10 survivors. Keep the month fixed during harvest.
+> **2.a.** Keep the pond and trays fixed; add Part C’s thin divider and a right-hand calculation area. Relabel the stock as “Start” for the harvest, then copy its readout into the first term of 20 − 5 − 5 = ?. Move five existing dots into each firm’s tray without resizing them. Show each catch count below its tray, then carry copies of those numbers into the corresponding pink and teal subtraction terms. Pause before revealing the answer. The ten survivors stay in their original positions.
 
 We will use the simple rule from the old classroom game: after the firms fish, the survivors double, up to the pond’s capacity. These are model fish, not a biological estimate for tuna.
 
-> **2.b.** Reveal 10 survivors. Each survivor produces one new token. Fill back to 20, then advance the month once. Reveal “2 × 10 = 20” on the right. Catch trays stay outside the pond: caught fish do not reproduce. Pause at the restored stock.
+> **2.b.** Reveal 10 in the subtraction and in the pond’s Survivors readout. Carry a copy of this result into min{20, 2 × 10} = 20, withholding its final result. Keep every parent stationary while ten offspring copies move from those parents into the vacated positions. Reveal the next stock and advance the month only after reproduction. Caught fish remain outside the pond.
 
 If we catch 10,000 fish from a full pond, 10,000 remain. They reproduce, and next month we have 20,000 again. We can repeat this harvest without reducing the starting stock.
 
-> **2.c.** Reset stock, clock, and catch trays. Move 6 tokens to each tray. Pause at “20 − 12 = 8”, then reproduce to 16 and advance the month. Show the three numbers 20 → 8 → 16 with “Start”, “Survivors”, and “Next month” above them. Remove the previous example’s arithmetic first.
+> **2.c.** Fade the completed example’s population, catches, and calculations; visibly reset the same pond to twenty dots. Catch six per firm. Carry the two catch counts into 20 − 6 − 6 = 8 and stop at 2.c.survivors. Copy the eight-survivor result into the growth equation; eight offspring move to empty positions while their parents stay fixed. Reveal 16 as the next stock.
 
 If we catch 12,000, only 8,000 remain. Next month there are 16,000 fish. Reproduction helps, but it does not replace everything we took.
 
-> **2.d.** Reset again. Catch 2 per firm. Reveal 16 survivors, then “min{20, 2 × 16} = 20”. Add only 4 new tokens; do not draw 32 fish and quietly delete 12. The capacity label briefly receives a FOCUS outline, which leaves before the next beat.
+> **2.d.** Reset the same way, then catch two per firm. Show 20 − 2 − 2 = 16 and pause at 2.d.survivors. Carry 16 into min{20, 2 × 16} = 20. Only four offspring enter the vacant positions. Briefly outline the capacity label and indicate the cap in the equation, then remove the focus outline.
 
 If we leave 16,000 fish, the pond does not grow to 32,000. The carrying capacity limits the population. Leaving more fish does not always produce more fish next month.
 
@@ -89,9 +89,9 @@ $$
 N_{t+1}=\min\{20,\;2S_t\}.
 $$
 
-> **2.e.** Replace the example arithmetic with the two general equations, one at a time. Point each quantity to the existing stock or catch tray before adding its symbol. Keep “Harvest → Reproduction → Next month” over the calculation area. Require total catch to be no larger than the stock; there are no negative fish.
+> **2.e.** Transform the existing numerical subtraction into N_t − h_1t − h_2t = S_t term by term, preserving the firm colors. Pause at 2.e.survivors. Transform the growth calculation into N_(t+1) = min{20, 2S_t}; add the nonnegative total-catch constraint. Do not introduce a second disconnected calculation panel.
 
-> **2.f.** Show 8 survivors from the earlier example. With no further fishing, reproduce to 16 and then to 20 over two month advances. Reset to zero survivors and advance once: zero remains. Keep the capacity label at 20 in both cases. Clear the recovery example before section 3.
+> **2.f.** Clear the catch trays and concrete equations. Start the recovery example at eight dots. Reveal 8 → 16 → 20 in stages synchronized with offspring moving into vacant slots; parents stay fixed. Hold at 2.f.recovery, then reset to zero and show 0 → 0. The pond and capacity stay fixed. Clear before section 3.
 
 Overharvesting need not mean immediate extinction. A depleted population can recover if enough fish remain and fishing falls. But zero stays zero in this model: we have assumed no restocking or migration.
 
@@ -99,12 +99,15 @@ Overharvesting need not mean immediate extinction. A depleted population can rec
 
 <!--
 3.a · Title “The Fishing Game”; show L = catch 1/4 of current stock and H = catch 1/2; bottom “Choose a fishing strategy for all three months.”
+3.b.harvest · Stop after the first harvest at 10 survivors; bottom “What stock will these survivors produce?”
 3.b.first · Stop after month 1 and predict the next catch.
 3.b · L,L: three harvests of 5 each; bottom “Low harvests maintain the stock.”
+3.c.harvest · Stop after the first harvest at 5 survivors; bottom “What stock will these survivors produce?”
 3.c.first · Stop after month 1 and predict catches from a stock of 10.
 3.c · H,L: Firm 1 catches 10, 5, 2.5; Firm 2 catches 5, 2.5, 1.25; bottom “A larger share today can leave fewer fish tomorrow.”
+3.d.harvest · Stop after the first harvest at zero survivors; bottom “What stock will these survivors produce?”
 3.d.first · Stop at the empty pond after month 1.
-3.d · H,H: each catches 10, 0, 0; bottom “Both firms take more at first, then there are no fish left.”
+3.d · H,H: each catches 10, 0, 0; bottom “Both firms empty the pond in the first month.”
 3.e · Hold three Firm 1 harvest paths on the same axes; bottom “The payoff counts all three months.”
 -->
 
@@ -119,15 +122,15 @@ The payoff is the firm’s **total catch over three months**, in thousands of fi
 
 > **3.a.** Use the full frame for the L/H rules, simultaneous choices, and three-month commitment. Reveal “Payoff = catch in month 1 + month 2 + month 3” and the equal-value, no-cost, no-terminal-stock assumptions. Pause before any strategy profile or payoff is shown. Then replace the rules with a fresh stock of 20 on the left and a three-column catch ledger on the right.
 
-> **3.b.** Select L for both firms. Run the same harvest-then-reproduction choreography three times: each catches 5; 10 survive; stock returns to 20. Stop after the first cycle for a prediction, then after the third. Keep each month’s catch in a separate tray compartment. Reveal each total only after its three catches are present: 5 + 5 + 5 = 15. Save “L,L: 15 | 15” as a result card for the comparison plot; clear the ledger before the next run.
+> **3.b.** Build one persistent pond and a three-column catch ledger. The ledger labels identify Firm 1/Low and Firm 2/Low. Run three months, keeping survivors stationary and moving the actual caught dots into the appropriate ledger compartments at 65% display scale. Below the pond, distinguish Start, Survivors, and Next stock, and copy the starting-stock and catch readouts into each month’s subtraction; copy its survivor result into the reproduction equation. Stop after the first harvest, then after reproduction for the next-month prediction. For each firm, carry copies of the three ledger counts into 5 + 5 + 5 = 15 before revealing its total. Save copies of those actual total objects for the plot and matrix.
 
 With two Low strategies, each firm catches 5,000 fish per month. Each collects 15,000 over three months, and the pond keeps returning to capacity.
 
-> **3.c.** Reset to 20. Select H for Firm 1 and L for Firm 2. Run month 1 slowly: catches 10 and 5, survivors 5, next stock 10. Pause before asking for month 2′s catches. Continue with catches 5 and 2.5, next stock 5; then 2.5 and 1.25, next stock 2.5. Fractional tokens and numeric labels must agree. Reveal totals 17.5 and 8.75. Save “H,L: 17.5 | 8.75” for the comparison plot. State that exchanging the firms exchanges the two payoffs; a fourth full pond run is unnecessary.
+> **3.c.** Keep the pond boundary and ledger grid fixed while fading the completed trial and resetting the population. Set Firm 1/High and Firm 2/Low. Pause at five survivors after month 1, then at the reproduced stock of ten. In later months, split only dots crossed by an exact catch boundary into proportional circular sectors; the pieces preserve the original area and position until caught. Never reconstruct or repack survivors. Run the catch sequences (10,5,2.5) and (5,2.5,1.25); copy their ledger counts into the totals 17.5 and 8.75. Save the total objects for comparison. Exchanging firms exchanges the payoffs; a fourth full run is unnecessary.
 
 If Firm 1 switches to High while Firm 2 stays Low, Firm 1 catches more. But the combined catch leaves too few survivors to restore the pond. The starting stock halves each month: 20, then 10, then 5. Firm 1 gets 17,500 fish in total. Firm 2 gets 8,750.
 
-> **3.d.** Reset to 20. Select H for both firms. Move 10 tokens to each tray simultaneously, leaving zero. Advance through the remaining months with empty catches. Reveal 10 + 0 + 0 = 10 for each firm. Save “H,H: 10 | 10” for the comparison plot. Do not animate spontaneous recovery.
+> **3.d.** Reset the population inside the same pond. With both firms High, move ten existing dots into each firm’s first-month compartment. Stop at zero survivors, then show the growth equation yielding zero. Continue months 2 and 3 with zero catches and no offspring. Carry the ledger values into 10 + 0 + 0 = 10 for each firm. Save the totals for comparison.
 
 If both choose High, they empty the pond in the first month. Each gets 10,000 fish, and nothing in months 2 and 3.
 

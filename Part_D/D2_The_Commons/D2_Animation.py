@@ -27,10 +27,15 @@ class EpisodeD2(Scene):
         K = 20.0                    # Thousands of fish; stock before harvest.
         LOW, HIGH = 0.25, 0.5       # Simultaneous shares of that same stock.
         MONTHS = 3                  # Commitment horizon; no terminal-stock payoff.
-        TOKEN_WIDTH, TOKEN_HEIGHT = 0.42, 0.18
-        POND_CENTER = np.array([-4.0, 0.55, 0.0])
-        POND_POSITIONS = [np.array([-5.5 + (i % 5) * 0.75,
-                                   1.25 - (i // 5) * 0.47, 0.0]) for i in range(20)]
+        TOKEN_RADIUS = 0.16
+        LEDGER_SCALE = 0.65
+        POND_CENTER = np.array([-4.0, 0.85, 0.0])
+        # A fixed, gently scattered population: no jitter or rearrangement on birth.
+        POND_POSITIONS = [POND_CENTER + np.array([x,y,0]) for x,y in (
+            (0.10,0.66),(2.07,-0.45),(1.20,0.44),(0.73,-0.84),(-2.13,-0.25),
+            (0.01,-0.39),(1.56,0.96),(-0.44,1.08),(-1.97,0.68),(-0.56,0.59),
+            (-1.38,0.22),(0.25,0.12),(-0.68,-0.07),(1.03,-0.41),(1.85,-1.04),
+            (2.07,0.19),(-0.49,-0.66),(-1.12,-0.75),(-1.75,-0.62),(1.54,0.08))]
         FIRM_COLORS = (ROW_PLAYER, COL_PLAYER)
         CELL_SIDE = 1.5
         DIAMOND_ANGLE = -PI / 4
@@ -89,162 +94,147 @@ class EpisodeD2(Scene):
         self.play(Create(box))
         self.pause('1.a')
 
-        # ---- 1.b · A caught fish leaves the shared stock.
-        self.play(FadeOut(taxonomy), FadeOut(box))
-        self.remove(teaching)
-        pond = Ellipse(width=5.4, height=2.65, color=INK, stroke_width=2).move_to(POND_CENTER)
-        capacity = Tex(r'Carrying capacity: $K = 20$', color=CAPTION).scale(0.7).move_to([-4, 2.25, 0])
-        units = Tex(r'\textsf{Thousands of fish}', color=CAPTION).scale(0.6).move_to([-4, 1.95, 0])
-        stock_label = Tex(r'Stock: $20$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-        trays = VGroup(*[Rectangle(width=2.4, height=0.65, color=MUTED, stroke_width=1.5)
-                        .move_to([x, -2.25, 0]) for x in (-5.5, -2.5)])
-        firm_names = VGroup(*[Tex(f'Firm {i+1}', color=FIRM_COLORS[i]).scale(0.8)
-                             .move_to([x, -1.65, 0]) for i, x in enumerate((-5.5, -2.5))])
-        fish = VGroup(*[Rectangle(width=TOKEN_WIDTH, height=TOKEN_HEIGHT, stroke_width=0,
-                                  fill_color=INK, fill_opacity=1).move_to(pos) for pos in POND_POSITIONS])
+        # ---- 1.b · The shared stock stays put; a caught unit moves to its owner.
+        self.play(FadeOut(taxonomy), FadeOut(box), FadeOut(teaching))
+        pond = RoundedRectangle(width=5.4, height=2.8, corner_radius=0.8, color=INK, stroke_width=2).move_to(POND_CENTER)
+        capacity = Tex(r'Shared pond: capacity $20$', color=CAPTION).scale(0.8).move_to([-4, 2.5, 0])
+        units = Tex(r'\textsf{One full dot = 1,000 fish}', color=CAPTION).scale(0.6).move_to([-4, -1.45, 0])
+        stock_label = VGroup(Tex('Stock:', color=INK), Tex('20', color=INK)).arrange(RIGHT, buff=0.15).scale(0.8).move_to([-4, -0.9, 0])
+        trays = VGroup(*[RoundedRectangle(width=2.3, height=0.8, corner_radius=0.12, color=MUTED, stroke_width=1.5)
+                        .move_to([x, -2.55, 0]) for x in (-5.5, -2.5)])
+        firm_names = VGroup(*[Tex(f'Firm {i+1}', color=FIRM_COLORS[i]).scale(0.75)
+                             .move_to([x, -1.95, 0]) for i, x in enumerate((-5.5, -2.5))])
+        fish = VGroup(*[Dot(radius=TOKEN_RADIUS, color=INK)
+                       .move_to(pos) for pos in POND_POSITIONS])
         teaching = Tex('A fish I catch is no longer available for you to catch.', color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(pond), FadeIn(trays), FadeIn(firm_names), FadeIn(fish), FadeIn(teaching))
-        self.play(fish[-1].animate.move_to([-5.5, -2.25, 0]).set_color(ROW_PLAYER))
+        self.play(Create(pond), FadeIn(fish), FadeIn(units), FadeIn(trays), FadeIn(firm_names), FadeIn(teaching))
+        self.play(fish[-1].animate.move_to(trays[0]).set_color(ROW_PLAYER), run_time=1.2)
         self.pause('1.b')
         self.play(fish[-1].animate.move_to(POND_POSITIONS[-1]).set_color(INK))
 
-        # ---- 1.c · Fixed pond boundary, stock and capacity are different quantities.
+        # ---- 1.c · Capacity is the fixed boundary; stock is the population inside.
         self.remove(teaching)
-        teaching = Tex('Carrying capacity is a stock, not a monthly catch.', color=DEFINITION)
+        teaching = Tex('Carrying capacity limits the stock, not the monthly catch.', color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(capacity), FadeIn(units), FadeIn(stock_label), FadeIn(teaching))
+        self.play(FadeIn(capacity), FadeIn(stock_label), FadeIn(teaching))
         self.pause('1.c')
 
-        # ---- 2.a · Take ten; pause before revealing the survivor calculation.
-        self.remove(head, teaching)
-        head = title('Population And Harvest')
-        divider = Line([0, -2.85, 0], [0, 2.5, 0], color=MUTED, stroke_width=1)
-        month_label = Tex('Month 1', color=CAPTION).scale(0.8).move_to([4, 2.15, 0])
-        phase = Tex(r'\textsf{Harvest}', color=CAPTION).scale(0.7).move_to([4, 1.55, 0])
-        equation = MathTex('20 - 10 = ?', color=INK).move_to([4, 0.5, 0])
-        start_catch = Tex(r'Start: $20$\qquad Catch: $10$', color=CAPTION).scale(0.8).move_to([4, -0.35, 0])
-        teaching = Tex('How many fish remain to reproduce?', color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(head), FadeIn(divider), FadeIn(month_label), FadeIn(phase), FadeIn(teaching))
-        catches = [VGroup(*fish[0:5]), VGroup(*fish[5:10])]
-        survivors = VGroup(*fish[10:])
-        self.remove(stock_label)
-        self.play(*[token.animate.move_to([-6.42 + i * 0.46 + firm * 3, -2.25, 0]).set_color(FIRM_COLORS[firm])
-                    for firm, group in enumerate(catches) for i, token in enumerate(group)], run_time=1.2)
-        catch_values = VGroup(*[Tex('$5$', color=color).scale(0.75).move_to([x, -2.85, 0])
-                               for color, x in zip(FIRM_COLORS, (-5.5, -2.5))])
-        self.play(FadeIn(start_catch), FadeIn(equation), FadeIn(catch_values))
-        self.pause('2.a')
-
-        # ---- 2.b · Only the ten surviving tokens reproduce.
-        self.remove(equation, teaching, phase)
-        equation = MathTex('20 - 10 = 10', color=INK).move_to([4, 0.5, 0])
-        phase = Tex(r'\textsf{Reproduction}', color=CAPTION).scale(0.7).move_to([4, 1.55, 0])
-        stock_label = Tex(r'Survivors: $10$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-        self.play(FadeIn(equation), FadeIn(phase), FadeIn(stock_label))
-        babies = VGroup(*[token.copy() for token in survivors])
-        self.add(babies)
-        self.play(*[token.animate.move_to(POND_POSITIONS[i]) for i, token in enumerate(survivors)],
-                  *[token.animate.move_to(POND_POSITIONS[i+10]) for i, token in enumerate(babies)], run_time=1.2)
-        fish = VGroup(*survivors, *babies)
-        self.remove(stock_label, month_label, start_catch)
-        stock_label = Tex(r'Stock: $20$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-        month_label = Tex('Month 2', color=CAPTION).scale(0.8).move_to([4, 2.15, 0])
-        growth = MathTex(r'2\times10=20', color=INK).move_to([4, -0.45, 0])
-        teaching = Tex('Ten thousand fish caught; twenty thousand next month.', color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(stock_label), FadeIn(month_label), FadeIn(growth), FadeIn(teaching))
-        self.pause('2.b')
-
-        # ---- 2.c / 2.d · Reset examples; no fish ever exceed the capacity.
-        for per_firm in (6, 2):
-            self.remove(fish, *catches, catch_values, stock_label, month_label, phase, equation, growth, teaching)
-            fish = VGroup(*[Rectangle(width=TOKEN_WIDTH, height=TOKEN_HEIGHT, stroke_width=0,
-                                      fill_color=INK, fill_opacity=1).move_to(pos) for pos in POND_POSITIONS])
-            stock_label = Tex(r'Stock: $20$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-            month_label = Tex('Month 1', color=CAPTION).scale(0.8).move_to([4, 2.15, 0])
-            phase = Tex(r'\textsf{Harvest}', color=CAPTION).scale(0.7).move_to([4, 1.55, 0])
-            self.play(FadeIn(fish), FadeIn(stock_label), FadeIn(month_label), FadeIn(phase))
-            catches = [VGroup(*fish[:per_firm]), VGroup(*fish[per_firm:2*per_firm])]
-            survivors = VGroup(*fish[2*per_firm:])
-            self.play(*[token.animate.move_to([-6.42+(i%5)*0.46+firm*3, -2.12-(i//5)*0.26, 0])
-                        .set_color(FIRM_COLORS[firm])
-                        for firm, group in enumerate(catches) for i, token in enumerate(group)], run_time=1)
+        # ---- 2.a–2.d · Same pond and trays; only catches and births move.
+        self.play(Transform(head, title('Population And Harvest')), FadeOut(teaching))
+        divider = Line([0, -3.05, 0], [0, 2.5, 0], color=MUTED, stroke_width=1)
+        self.play(Create(divider))
+        example_objects = VGroup()
+        for example, per_firm in enumerate((5, 6, 2)):
+            if example:
+                # An explicit fresh example, not a jump during population growth.
+                self.play(FadeOut(fish), FadeOut(catches[0]), FadeOut(catches[1]),
+                          FadeOut(catch_values), FadeOut(example_objects), FadeOut(teaching))
+                fish = VGroup(*[Dot(radius=TOKEN_RADIUS, color=INK)
+                               .move_to(pos) for pos in POND_POSITIONS])
+                self.play(FadeIn(fish), Transform(stock_label,
+                    VGroup(Tex('Stock:', color=INK), Tex('20', color=INK)).arrange(RIGHT, buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
             remaining = K - 2*per_firm
             next_stock = min(K, 2*remaining)
-            equation = MathTex(f'20 - {2*per_firm} = {remaining:g}', color=INK).move_to([4, 0.5, 0])
-            catch_values = VGroup(*[Tex(f'${per_firm}$', color=color).scale(0.75).move_to([x, -2.85, 0])
-                                   for color, x in zip(FIRM_COLORS, (-5.5, -2.5))])
-            self.remove(stock_label)
-            stock_label = Tex(f'Survivors: ${remaining:g}$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-            self.play(FadeIn(equation), FadeIn(catch_values), FadeIn(stock_label))
-            if per_firm == 6:
+            month_label = Tex('Month 1', color=CAPTION).scale(0.8).move_to([4,2.35,0])
+            phase = Tex('Harvest', color=INK).scale(0.8).move_to([4,1.65,0])
+            equation = VGroup(*[Tex(t, color=c) for t,c in zip(
+                ('20', '$-$', str(per_firm), '$-$', str(per_firm), '$=$', '?'),
+                (INK, INK, ROW_PLAYER, INK, COL_PLAYER, INK, INK))]).arrange(RIGHT,buff=0.15).scale(0.9).move_to([4,0.75,0])
+            catches = [VGroup(*fish[:per_firm]), VGroup(*fish[per_firm:2*per_firm])]
+            survivors = VGroup(*fish[2*per_firm:])
+            survivor_homes = [token.get_center().copy() for token in survivors]
+            self.play(Transform(stock_label[0],Tex('Start:',color=INK).scale(0.8).move_to(stock_label[0])))
+            self.play(FadeIn(month_label), FadeIn(phase), TransformFromCopy(stock_label[1], equation[0]))
+            # Every caught dot retains its size. Neutral survivors never move.
+            self.play(*[token.animate.move_to([-6.34+(i%5)*0.42+firm*3,-2.35-(i//5)*0.4,0]).set_color(FIRM_COLORS[firm])
+                        for firm, group in enumerate(catches) for i,token in enumerate(group)], run_time=1.4)
+            catch_values = VGroup(*[Tex(f'${per_firm}$',color=c).scale(0.75).move_to([x,-3.15,0])
+                                   for c,x in zip(FIRM_COLORS,(-5.5,-2.5))])
+            self.play(FadeIn(catch_values))
+            self.play(TransformFromCopy(catch_values[0],equation[2]), TransformFromCopy(catch_values[1],equation[4]),
+                      *[FadeIn(equation[i]) for i in (1,3,5,6)], run_time=0.9)
+            teaching = Tex('How many fish remain to reproduce?',color=DEFINITION)
+            teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+            self.play(FadeIn(teaching))
+            if example == 0:
+                self.pause('2.a')
+            answer = Tex(f'${remaining:g}$',color=INK).scale(0.9).move_to(equation[6])
+            self.play(Transform(equation[6],answer), Transform(stock_label,
+                VGroup(Tex('Survivors:',color=INK),Tex(f'{remaining:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+            if example == 1:
                 self.pause('2.c.survivors')
-            else:
+            elif example == 2:
                 self.pause('2.d.survivors')
-            babies = VGroup(*[survivors[i % len(survivors)].copy() for i in range(int(next_stock-remaining))])
+            growth_heading = Tex('Reproduction',color=INK).scale(0.8).move_to([4,-0.35,0])
+            growth = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK), Tex(f'${remaining:g}$',color=INK),
+                            Tex(r'$\}=$',color=INK), Tex(f'${next_stock:g}$',color=INK))
+            growth.arrange(RIGHT,buff=0.12).scale(0.9).move_to([4,-1.25,0])
+            self.play(FadeIn(growth_heading),FadeIn(growth[0]),TransformFromCopy(equation[6],growth[1]),FadeIn(growth[2]),FadeOut(teaching))
+            # Births alone fill vacated slots. Parents retain both identity and position.
+            babies = VGroup(*[survivors[i].copy() for i in range(int(next_stock-remaining))])
             self.add(babies)
-            self.remove(phase)
-            phase = Tex(r'\textsf{Reproduction}', color=CAPTION).scale(0.7).move_to([4, 1.55, 0])
-            self.play(FadeIn(phase),
-                      *[token.animate.move_to(POND_POSITIONS[i]) for i, token in enumerate(survivors)],
-                      *[token.animate.move_to(POND_POSITIONS[int(remaining)+i]) for i, token in enumerate(babies)], run_time=1.2)
-            fish = VGroup(*survivors, *babies)
-            self.remove(stock_label, month_label)
-            stock_label = Tex(f'Stock: ${next_stock:g}$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-            month_label = Tex('Month 2', color=CAPTION).scale(0.8).move_to([4, 2.15, 0])
-            growth = MathTex(r'\min\{20,\;2\times'+f'{remaining:g}'+r'\}='+f'{next_stock:g}', color=INK).scale(0.9).move_to([4, -0.45, 0])
-            line = ('The same pond now starts next month with fewer fish.' if per_firm == 6
-                    else 'Reproduction is limited by carrying capacity.')
-            teaching = Tex(line, color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-            self.play(FadeIn(stock_label), FadeIn(month_label), FadeIn(growth), FadeIn(teaching))
-            if per_firm == 6:
+            self.play(*[baby.animate.move_to(POND_POSITIONS[i]) for i,baby in enumerate(babies)],run_time=1.4)
+            assert all(np.allclose(t.get_center(),p) for t,p in zip(survivors,survivor_homes))
+            fish = VGroup(*survivors,*babies)
+            self.play(FadeIn(growth[3]), Transform(stock_label,
+                VGroup(Tex('Stock:',color=INK),Tex(f'{next_stock:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])),
+                Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.8).move_to(month_label)))
+            line = ('Catch 10; the surviving 10 restore the stock to 20.',
+                    'Catch 12; the surviving 8 restore only 16.',
+                    'The population grows only as far as the pond can support.')[example]
+            teaching = Tex(line,color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+            self.play(FadeIn(teaching))
+            example_objects = VGroup(month_label,phase,equation,growth_heading,growth)
+            if example == 0:
+                self.pause('2.b')
+            elif example == 1:
                 self.pause('2.c')
             else:
-                cap_box = SurroundingRectangle(capacity, buff=0.12, color=FOCUS)
-                self.play(Create(cap_box))
+                capacity_focus = SurroundingRectangle(capacity,color=FOCUS,buff=0.12)
+                self.play(Create(capacity_focus),Indicate(growth[0],color=FOCUS))
                 self.pause('2.d')
-                self.play(FadeOut(cap_box))
+                self.play(FadeOut(capacity_focus))
 
-        # ---- 2.e · General equations arrive only after the concrete examples.
-        self.remove(equation, growth, month_label, phase, teaching)
-        clock_rule = Tex(r'\textsf{Harvest $\to$ Reproduction $\to$ Next month}', color=CAPTION).scale(0.6).move_to([4, 2.15, 0])
-        survivor_rule = MathTex('S_t=N_t-h_{1t}-h_{2t}', color=INK).scale(0.9).move_to([4, 0.75, 0])
-        growth_rule = MathTex(r'N_{t+1}=\min\{20,\;2S_t\}', color=INK).scale(0.9).move_to([4, -0.4, 0])
-        feasible = MathTex(r'0\leq h_{1t}+h_{2t}\leq N_t', color=CAPTION).scale(0.75).move_to([4, -1.55, 0])
-        self.play(Indicate(stock_label, color=FOCUS), FadeIn(clock_rule), FadeIn(survivor_rule))
+        # ---- 2.e · Replace concrete arithmetic with its general rule, term by term.
+        self.play(FadeOut(month_label),FadeOut(phase),FadeOut(growth_heading),FadeOut(teaching))
+        survivor_rule = VGroup(*[MathTex(t,color=c) for t,c in zip(
+            ('N_t','-','h_{1t}','-','h_{2t}','=','S_t'),
+            (INK,INK,ROW_PLAYER,INK,COL_PLAYER,INK,INK))]).arrange(RIGHT,buff=0.15).scale(0.9).move_to([4,0.75,0])
+        self.play(*[ReplacementTransform(equation[i],survivor_rule[i]) for i in range(7)])
         self.pause('2.e.survivors')
-        teaching = Tex("Next month's stock depends on what survives this month's catch.", color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(Indicate(capacity, color=FOCUS), FadeIn(growth_rule), FadeIn(feasible), FadeIn(teaching))
+        growth_rule = MathTex(r'N_{t+1}=\min\{20,\;2S_t\}',color=INK).scale(0.9).move_to([4,-1.25,0])
+        feasible = MathTex(r'0\leq h_{1t}+h_{2t}\leq N_t',color=CAPTION).scale(0.7).move_to([4,-2.3,0])
+        teaching = Tex("Next month's stock depends on what survives this month's catch.",color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(ReplacementTransform(growth,growth_rule),FadeIn(feasible),FadeIn(teaching))
         self.pause('2.e')
 
-        # ---- 2.f · With no further harvest, a positive stock recovers; zero cannot.
-        self.remove(fish, *catches, catch_values, stock_label, survivor_rule, growth_rule, feasible, teaching)
-        fish = VGroup(*[Rectangle(width=TOKEN_WIDTH, height=TOKEN_HEIGHT, stroke_width=0,
-                                  fill_color=INK, fill_opacity=1).move_to(pos) for pos in POND_POSITIONS[:8]])
-        recovery = MathTex(r'8\ \longrightarrow\ 16\ \longrightarrow\ 20', color=INK).scale(0.9).move_to([4, 0.6, 0])
-        no_catch = Tex('No further harvest', color=CAPTION).scale(0.8).move_to([4, 1.4, 0])
-        self.play(FadeIn(fish), FadeIn(no_catch))
-        for stock in (8, 16, 20):
-            self.remove(stock_label)
-            stock_label = Tex(f'Stock: ${stock}$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-            if stock > len(fish):
-                babies = VGroup(*[fish[i % len(fish)].copy() for i in range(stock-len(fish))])
-                self.add(babies)
-                self.play(*[token.animate.move_to(POND_POSITIONS[len(fish)+i]) for i, token in enumerate(babies)], run_time=0.8)
-                fish.add(*babies)
-            self.play(FadeIn(stock_label), run_time=0.3)
-        self.play(FadeIn(recovery))
+        # ---- 2.f · Show each recovery step while it happens; no hidden new stock.
+        self.play(FadeOut(fish),FadeOut(catches[0]),FadeOut(catches[1]),FadeOut(catch_values),
+                  FadeOut(survivor_rule),FadeOut(growth_rule),FadeOut(feasible),FadeOut(teaching),
+                  FadeOut(trays),FadeOut(firm_names))
+        fish = VGroup(*[Dot(radius=TOKEN_RADIUS,color=INK)
+                       .move_to(pos) for pos in POND_POSITIONS[:8]])
+        recovery = VGroup(*[Tex(t,color=INK) for t in ('8',r'$\longrightarrow$','16',r'$\longrightarrow$','20')])
+        recovery.arrange(RIGHT,buff=0.2).scale(0.9).move_to([4,0.75,0])
+        no_catch = Tex('No further harvest',color=CAPTION).scale(0.8).move_to([4,1.65,0])
+        self.play(FadeIn(fish),FadeIn(no_catch),FadeIn(recovery[0]),Transform(stock_label,
+            VGroup(Tex('Stock:',color=INK),Tex('8',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+        for step,stock in enumerate((16,20)):
+            babies = VGroup(*[fish[i].copy() for i in range(stock-len(fish))])
+            self.add(babies)
+            self.play(*[t.animate.move_to(POND_POSITIONS[len(fish)+i]) for i,t in enumerate(babies)],FadeIn(recovery[1+step*2]),run_time=1.2)
+            fish.add(*babies)
+            self.play(FadeIn(recovery[2+step*2]),Transform(stock_label,
+                VGroup(Tex('Stock:',color=INK),Tex(str(stock),color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
         self.pause('2.f.recovery')
-        self.play(FadeOut(fish))
-        self.remove(stock_label)
-        stock_label = Tex(r'Stock: $0$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-        zero = MathTex(r'0\ \longrightarrow\ 0', color=INK).move_to([4, -0.8, 0])
-        teaching = Tex('Depletion can be reversed; an empty pond cannot reproduce.', color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(stock_label), FadeIn(zero), FadeIn(teaching))
+        self.play(FadeOut(fish),Transform(stock_label,
+            VGroup(Tex('Stock:',color=INK),Tex('0',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+        zero = MathTex(r'0\longrightarrow0',color=INK).scale(0.9).move_to([4,-0.8,0])
+        teaching = Tex('Depletion can be reversed; an empty pond cannot reproduce.',color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(zero),FadeIn(teaching))
         self.pause('2.f')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
@@ -264,117 +254,149 @@ class EpisodeD2(Scene):
         self.play(FadeOut(rules), FadeOut(scoring), FadeOut(assumptions))
         self.remove(teaching)
 
-        # ---- 3.b / 3.c / 3.d · Same pond, timing, scale and ledger in all runs.
-        # Rectangles are divisible fish tokens: their width measures the fraction
-        # of one thousand fish. Split boundary tokens before simultaneous catches.
+        # ---- 3.b–3.d · One persistent pond, one ledger, three fresh strategy runs.
+        pond = RoundedRectangle(width=5.4,height=2.8,corner_radius=0.8,color=INK,stroke_width=2).move_to(POND_CENTER)
+        capacity = Tex(r'Shared pond: capacity $20$',color=CAPTION).scale(0.8).move_to([-4,2.5,0])
+        ledger_head = Tex('Catch by month',color=INK).scale(0.8).move_to([4.2,2.5,0])
+        ledger_columns = VGroup(*[Tex(str(m+1),color=CAPTION).scale(0.75).move_to([2.3+m*2,1.8,0]) for m in range(MONTHS)])
+        ledger_boxes = VGroup(*[RoundedRectangle(width=1.65,height=0.85,corner_radius=0.12,color=MUTED,stroke_width=1)
+                               .move_to([2.3+m*2,0.9-firm*1.65,0]) for firm in range(2) for m in range(MONTHS)])
+        divider = Line([0,-3.1,0],[0,2.5,0],color=MUTED,stroke_width=1)
+        self.play(Create(pond),FadeIn(capacity),FadeIn(ledger_head),FadeIn(ledger_columns),FadeIn(ledger_boxes),Create(divider))
         result_cards = VGroup()
-        profiles = [('L,L', LOW, LOW), ('H,L', HIGH, LOW), ('H,H', HIGH, HIGH)]
+        profiles = [('L,L',LOW,LOW),('H,L',HIGH,LOW),('H,H',HIGH,HIGH)]
         payoff_by_profile = {}
         harvest_paths = []
-        for profile_index, (profile, share_1, share_2) in enumerate(profiles):
+        for profile_index,(profile,share_1,share_2) in enumerate(profiles):
             if profile_index:
-                self.play(*[FadeOut(mob) for mob in self.mobjects if mob is not head and mob is not result_cards])
-                self.remove(*[mob for mob in self.mobjects if mob is not head and mob is not result_cards])
-            pond = Ellipse(width=5.4, height=2.65, color=INK, stroke_width=2).move_to(POND_CENTER)
-            capacity = Tex(r'Carrying capacity: $K = 20$', color=CAPTION).scale(0.7).move_to([-4, 2.25, 0])
-            units = Tex(r'\textsf{Thousands of fish}', color=CAPTION).scale(0.6).move_to([-4, 1.95, 0])
-            stock_label = Tex(r'Stock: $20$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-            selections = VGroup(Tex(f'Firm 1: {profile[0]}', color=ROW_PLAYER),
-                                Tex(f'Firm 2: {profile[2]}', color=COL_PLAYER)).arrange(RIGHT, buff=0.65).scale(0.8).move_to([-4, -1.9, 0])
-            ledger_head = Tex('Catch By Month', color=INK).scale(0.8).move_to([4.3, 2.2, 0])
-            ledger_columns = VGroup(*[Tex(f'{m+1}', color=CAPTION).scale(0.8).move_to([2.3+m*2, 1.55, 0]) for m in range(MONTHS)])
-            ledger_names = VGroup(Tex('Firm 1', color=ROW_PLAYER).scale(0.7).move_to([0.7, 0.6, 0]),
-                                  Tex('Firm 2', color=COL_PLAYER).scale(0.7).move_to([0.7, -0.9, 0]))
-            ledger_boxes = VGroup(*[Rectangle(width=1.6, height=0.85, color=MUTED, stroke_width=1)
-                                   .move_to([2.3+m*2, 0.6-firm*1.5, 0]) for firm in range(2) for m in range(MONTHS)])
-            fish = VGroup(*[Rectangle(width=TOKEN_WIDTH, height=TOKEN_HEIGHT, stroke_width=0,
-                                      fill_color=INK, fill_opacity=1).move_to(pos) for pos in POND_POSITIONS])
-            self.play(FadeIn(pond), FadeIn(capacity), FadeIn(units), FadeIn(stock_label), FadeIn(selections),
-                      FadeIn(ledger_head), FadeIn(ledger_columns), FadeIn(ledger_names), FadeIn(ledger_boxes), FadeIn(fish))
+                # Clear a completed trial; keep the physical pond and ledger fixed.
+                self.play(FadeOut(fish),FadeOut(captured),FadeOut(ledger_numbers),FadeOut(ledger_names),
+                          FadeOut(stock_label),FadeOut(phase),FadeOut(harvest_math),FadeOut(growth_math),FadeOut(sums),FadeOut(teaching))
+            ledger_names = VGroup(*[VGroup(Tex(f'Firm {firm+1}',color=color),Tex('Low' if share==LOW else 'High',color=color))
+                .arrange(DOWN,buff=0.12).scale(0.65).move_to([0.75,0.9-firm*1.65,0])
+                for firm,(color,share) in enumerate(zip(FIRM_COLORS,(share_1,share_2)))])
+            stock_label = VGroup(Tex('Stock:',color=INK),Tex('20',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])
+            fish = VGroup(*[Dot(radius=TOKEN_RADIUS,color=INK).move_to(pos) for pos in POND_POSITIONS])
+            for slot,token in enumerate(fish):
+                token.fish_units = 1.0
+                token.pond_slot = slot
+                token.fish_angle = 0.0
+            self.play(FadeIn(fish),FadeIn(stock_label),FadeIn(ledger_names))
             n = K
-            catches_by_firm = [[], []]
+            catches_by_firm = [[],[]]
             captured = VGroup()
             ledger_numbers = VGroup()
-            phase = VGroup()
+            phase = Tex('Month 1',color=CAPTION).scale(0.65).move_to([-4,-1.4,0])
+            harvest_math = VGroup()
+            growth_math = VGroup()
+            self.play(FadeIn(phase))
             for month in range(MONTHS):
-                h_1, h_2 = share_1*n, share_2*n
+                h_1,h_2 = share_1*n,share_2*n
                 survivor_count = n-h_1-h_2
-                next_stock = min(K, 2*survivor_count)
+                next_stock = min(K,2*survivor_count)
                 assert 0 <= h_1+h_2 <= n and 0 <= next_stock <= K
+                if month:
+                    self.play(FadeOut(harvest_math),FadeOut(growth_math),
+                              Transform(phase,Tex(f'Month {month+1}',color=CAPTION).scale(0.65).move_to(phase)))
+                self.play(Transform(stock_label,
+                    VGroup(Tex('Start:',color=INK),Tex(f'{n:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
                 catches_by_firm[0].append(h_1)
                 catches_by_firm[1].append(h_2)
-                self.remove(phase)
-                phase = Tex(f'Month {month+1}: harvest', color=CAPTION).scale(0.75).move_to([-4, -2.55, 0])
-                self.play(FadeIn(phase), run_time=0.3)
-                # Partition the current token grid at the exact two catch boundaries.
-                partitions = [VGroup(), VGroup(), VGroup()]
-                cursor = 0.0
-                for owner, quantity in enumerate((h_1, h_2, survivor_count)):
-                    remaining = quantity
-                    while remaining > 1e-8:
-                        slot = int(cursor+1e-8)
-                        fraction_start = cursor-slot
-                        amount = min(remaining, 1-fraction_start)
-                        piece = Rectangle(width=TOKEN_WIDTH*amount, height=TOKEN_HEIGHT,
-                                          stroke_width=0, fill_color=INK, fill_opacity=1)
-                        piece.move_to(POND_POSITIONS[slot] + RIGHT*TOKEN_WIDTH*(fraction_start+amount/2-0.5))
-                        partitions[owner].add(piece)
-                        cursor += amount
-                        remaining -= amount
-                self.remove(fish)
-                self.add(*partitions)
+                # Reuse every whole dot. Split only the token at a catch boundary,
+                # in place, with the pieces' combined area equal to the original.
+                available = list(fish)
+                partitions = [VGroup(),VGroup()]
+                for owner,quantity in enumerate((h_1,h_2)):
+                    need = quantity
+                    while need > 1e-8:
+                        token = available.pop(0)
+                        if token.fish_units <= need+1e-8:
+                            partitions[owner].add(token)
+                            need -= token.fish_units
+                        else:
+                            remainder = token.copy()
+                            remainder.fish_units = token.fish_units-need
+                            remainder.fish_angle = token.fish_angle+TAU*need
+                            # Divide the circular area in place. The two sectors
+                            # together look exactly like the original dot.
+                            remainder.become(Sector(radius=TOKEN_RADIUS,angle=TAU*remainder.fish_units,
+                                start_angle=remainder.fish_angle,arc_center=POND_POSITIONS[token.pond_slot],color=INK))
+                            token.fish_units = need
+                            token.become(Sector(radius=TOKEN_RADIUS,angle=TAU*need,
+                                start_angle=token.fish_angle,arc_center=POND_POSITIONS[token.pond_slot],color=INK))
+                            self.add(remainder)
+                            partitions[owner].add(token)
+                            available.insert(0,remainder)
+                            need = 0
+                survivors = VGroup(*available)
+                survivor_homes = [token.get_center().copy() for token in survivors]
+                survivor_ids = [id(token) for token in survivors]
+                month_values = VGroup(*[Tex(f'${quantity:g}$',color=FIRM_COLORS[firm]).scale(0.75)
+                    .move_to([2.3+month*2,0.23-firm*1.65,0]) for firm,quantity in enumerate((h_1,h_2))])
                 moves = []
                 for firm in range(2):
-                    for i, piece in enumerate(partitions[firm]):
-                        target = np.array([1.76+month*2+(i%5)*0.27, 0.76-firm*1.5-(i//5)*0.3, 0])
-                        moves.append(piece.animate.scale(0.5).move_to(target).set_color(FIRM_COLORS[firm]))
+                    for i,token in enumerate(partitions[firm]):
+                        target = [1.76+month*2+(i%5)*0.27,1.1-firm*1.65-(i//5)*0.36,0]
+                        moves.append(token.animate.scale(LEDGER_SCALE).move_to(target).set_color(FIRM_COLORS[firm]))
                 if moves:
-                    self.play(*moves, run_time=1.0)
-                captured.add(*partitions[0], *partitions[1])
-                month_values = VGroup(*[Tex(f'${quantity:g}$', color=FIRM_COLORS[firm]).scale(0.75)
-                                        .move_to([2.3+month*2, -0.1-firm*1.5, 0])
-                                        for firm, quantity in enumerate((h_1, h_2))])
-                ledger_numbers.add(*month_values)
-                self.remove(stock_label)
-                stock_label = Tex(f'Survivors: ${survivor_count:g}$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-                self.play(FadeIn(month_values), FadeIn(stock_label), run_time=0.4)
-                self.remove(phase)
-                phase = Tex(f'Reproduce: ${survivor_count:g} \\to {next_stock:g}$', color=CAPTION).scale(0.75).move_to([-4, -2.55, 0])
-                self.play(FadeIn(phase), run_time=0.3)
-                # Repack survivors into unit tokens, then grow only from survivors.
-                self.remove(partitions[2])
-                surviving_tokens = VGroup()
-                for i in range(int(np.ceil(survivor_count))):
-                    amount = min(1.0, survivor_count-i)
-                    token = Rectangle(width=TOKEN_WIDTH*amount, height=TOKEN_HEIGHT, stroke_width=0,
-                                      fill_color=INK, fill_opacity=1).move_to(POND_POSITIONS[i]+LEFT*TOKEN_WIDTH*(1-amount)/2)
-                    surviving_tokens.add(token)
-                self.add(surviving_tokens)
-                fish = VGroup()
-                for i in range(int(np.ceil(next_stock))):
-                    amount = min(1.0, next_stock-i)
-                    token = Rectangle(width=TOKEN_WIDTH*amount, height=TOKEN_HEIGHT, stroke_width=0,
-                                      fill_color=INK, fill_opacity=1).move_to(POND_POSITIONS[i]+LEFT*TOKEN_WIDTH*(1-amount)/2)
-                    fish.add(token)
-                if len(fish):
-                    # Copies start inside the surviving population, not in catch trays.
-                    newborn_display = fish.copy()
-                    for i, token in enumerate(newborn_display):
-                        token.move_to(surviving_tokens[i % len(surviving_tokens)].get_center())
-                    self.remove(surviving_tokens)
-                    self.add(newborn_display)
-                    self.play(Transform(newborn_display, fish), run_time=1.0)
-                    self.remove(newborn_display)
-                    self.add(fish)
-                else:
-                    self.remove(surviving_tokens)
-                self.remove(stock_label)
-                stock_label = Tex(f'Next stock: ${next_stock:g}$', color=INK).scale(0.8).move_to([-4, -1.15, 0])
-                self.play(FadeIn(stock_label), run_time=0.3)
+                    self.play(*moves,run_time=1.4)
+                captured.add(*partitions[0],*partitions[1])
+                self.play(FadeIn(month_values),run_time=0.5)
+                ledger_numbers.add(month_values)
+                harvest_math = VGroup(*[Tex(t,color=c) for t,c in zip(
+                    (f'${n:g}$','$-$',f'${h_1:g}$','$-$',f'${h_2:g}$','$=$',f'${survivor_count:g}$'),
+                    (INK,INK,ROW_PLAYER,INK,COL_PLAYER,INK,INK))]).arrange(RIGHT,buff=0.12).scale(0.8).move_to([-4,-2.05,0])
+                self.play(TransformFromCopy(stock_label[1],harvest_math[0]),
+                          TransformFromCopy(month_values[0],harvest_math[2]),TransformFromCopy(month_values[1],harvest_math[4]),
+                          *[FadeIn(harvest_math[i]) for i in (1,3,5)],run_time=0.9)
+                self.play(FadeIn(harvest_math[6]),Transform(stock_label,
+                    VGroup(Tex('Survivors:',color=INK),Tex(f'{survivor_count:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+                if month == 0:
+                    teaching = Tex('What stock will these survivors produce?',color=DEFINITION)
+                    teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+                    self.play(FadeIn(teaching))
+                    if profile_index == 0:
+                        self.pause('3.b.harvest')
+                    elif profile_index == 1:
+                        self.pause('3.c.harvest')
+                    else:
+                        self.pause('3.d.harvest')
+                    self.play(FadeOut(teaching))
+                growth_math = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex(f'${survivor_count:g}$',color=INK),
+                                    Tex(r'$\}=$',color=INK),Tex(f'${next_stock:g}$',color=INK))
+                growth_math.arrange(RIGHT,buff=0.1).scale(0.8).move_to([-4,-2.85,0])
+                self.play(FadeIn(growth_math[0]),TransformFromCopy(harvest_math[6],growth_math[1]),FadeIn(growth_math[2]))
+                # Parents stay exactly where they survived. Only newborn copies move.
+                vacant = [slot for slot in range(20) if slot not in {t.pond_slot for t in survivors}]
+                births_needed = next_stock-survivor_count
+                babies = VGroup()
+                for parent in survivors:
+                    if births_needed <= 1e-8:
+                        break
+                    amount = min(parent.fish_units,births_needed)
+                    baby = parent.copy()
+                    baby.fish_units = amount
+                    baby.pond_slot = vacant[len(babies)]
+                    baby.birth_shift = POND_POSITIONS[baby.pond_slot]-POND_POSITIONS[parent.pond_slot]
+                    if amount < parent.fish_units-1e-8:
+                        baby.become(Sector(radius=TOKEN_RADIUS,angle=TAU*amount,start_angle=parent.fish_angle,
+                            arc_center=POND_POSITIONS[parent.pond_slot],color=INK))
+                    babies.add(baby)
+                    births_needed -= amount
+                assert abs(births_needed)<1e-8
+                if len(babies):
+                    self.add(babies)
+                    self.play(*[baby.animate.shift(baby.birth_shift) for baby in babies],run_time=1.4)
+                assert [id(t) for t in survivors] == survivor_ids
+                assert all(np.allclose(t.get_center(),p) for t,p in zip(survivors,survivor_homes))
+                fish = VGroup(*survivors,*babies)
+                assert np.isclose(sum(t.fish_units for t in fish),next_stock)
+                self.play(FadeIn(growth_math[3]),Transform(stock_label,
+                    VGroup(Tex('Next stock:',color=INK),Tex(f'{next_stock:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
                 n = next_stock
                 if month == 0:
-                    teaching = Tex('What will each firm catch next month?', color=DEFINITION)
-                    teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+                    teaching = Tex('What will each firm catch next month?',color=DEFINITION)
+                    teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
                     self.play(FadeIn(teaching))
                     if profile_index == 0:
                         self.pause('3.b.first')
@@ -382,17 +404,24 @@ class EpisodeD2(Scene):
                         self.pause('3.c.first')
                     else:
                         self.pause('3.d.first')
-                    self.remove(teaching)
-            total_1, total_2 = map(sum, catches_by_firm)
-            payoff_by_profile[profile] = (total_1, total_2)
+                    self.play(FadeOut(teaching))
+            total_1,total_2 = map(sum,catches_by_firm)
+            payoff_by_profile[profile] = (total_1,total_2)
             harvest_paths.append(catches_by_firm[0])
-            sums = VGroup(*[MathTex('+'.join(f'{h:g}' for h in catches_by_firm[firm])+f'={total:g}', color=FIRM_COLORS[firm])
-                            .scale(0.8).move_to([4.3, -2.2-firm*0.55, 0]) for firm, total in enumerate((total_1,total_2))])
-            self.play(FadeIn(sums))
+            sums = VGroup()
+            for firm,total in enumerate((total_1,total_2)):
+                terms = [Tex(f'${v:g}$',color=FIRM_COLORS[firm]) for v in catches_by_firm[firm]]
+                row = VGroup(terms[0],Tex('$+$',color=FIRM_COLORS[firm]),terms[1],Tex('$+$',color=FIRM_COLORS[firm]),
+                             terms[2],Tex('$=$',color=FIRM_COLORS[firm]),Tex(f'${total:g}$',color=FIRM_COLORS[firm]))
+                row.arrange(RIGHT,buff=0.1).scale(0.8).move_to([4.2,-2.3-firm*0.65,0])
+                self.play(*[TransformFromCopy(ledger_numbers[m][firm],row[m*2]) for m in range(MONTHS)],
+                          *[FadeIn(row[i]) for i in (1,3,5)],run_time=0.8)
+                self.play(FadeIn(row[6]))
+                sums.add(row)
             line = ('Low harvests maintain the stock.',
                     'A larger share today can leave fewer fish tomorrow.',
-                    'Both firms take more at first, then there are no fish left.')[profile_index]
-            teaching = Tex(line, color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+                    'Both firms empty the pond in the first month.')[profile_index]
+            teaching = Tex(line,color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
             self.play(FadeIn(teaching))
             if profile_index == 0:
                 self.pause('3.b')
@@ -400,10 +429,9 @@ class EpisodeD2(Scene):
                 self.pause('3.c')
             else:
                 self.pause('3.d')
-            card = VGroup(Tex(profile, color=CAPTION), Tex(f'{total_1:g}', color=ROW_PLAYER),
-                          Tex(r'$\mid$', color=MUTED), Tex(f'{total_2:g}', color=COL_PLAYER)).arrange(RIGHT, buff=0.16).scale(0.7)
-            card.move_to([-4.8+profile_index*4.8, -2.8, 0])
-            # Retain result cards off-stage between runs, then bring back for the plot.
+            card = VGroup(Tex(profile,color=CAPTION),sums[0][6].copy(),Tex(r'$\mid$',color=MUTED),sums[1][6].copy())
+            card.arrange(RIGHT,buff=0.16)
+            card.set_height(0.28)
             result_cards.add(card)
 
         self.play(*[FadeOut(mob) for mob in self.mobjects])
