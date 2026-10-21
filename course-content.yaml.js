@@ -439,11 +439,10 @@ parts:
           name: Reading D1
         vignette:
           description: "*Game theory practice problems*"
-          files: D1
         dates:
-          class: '2026-10-26'
-          recitation: '2026-10-30'
-          homework: '2026-11-01'
+          class: '2026-10-21'
+          recitation: '2026-10-23'
+          homework: '2026-10-25'
 
         extras:
           - name: Veritasium Game Theory
@@ -463,17 +462,16 @@ parts:
           topic: Positive externalities and public goods
         vignette:
           description: "*Non-excludable goods practice problems*"
-          files: D1
         dates:
-          class: '2026-10-19'
-          recitation: '2026-10-23'
-          homework: '2026-10-25'
+          class: '2026-10-26'
+          recitation: '2026-10-30'
+          homework: '2026-11-01'
         extras:
           - name: 'Non-Excludability'
             video: wd8LSB8nF7o
 
       - block: D3
-        folder: Part_D/D2_The_Commons
+        folder: Part_D/D3_Public_Goods_and_Voting
         nav: Public Goods
         title: Public Goods
         description: >-
@@ -485,11 +483,10 @@ parts:
           topic: Positive externalities and public goods
         vignette:
           description: "Game theory practice problems"
-          files: D2
         dates:
-          class: '2026-10-21'
-          recitation: '2026-10-23'
-          homework: '2026-10-25'
+          class: '2026-10-28'
+          recitation: '2026-10-30'
+          homework: '2026-11-01'
       - block: D4
         folder: Part_D/D4_Sequential_Games
         nav: Voting
