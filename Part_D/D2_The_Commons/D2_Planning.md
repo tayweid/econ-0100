@@ -4,7 +4,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 # D2 | Sources And Teaching Decisions
 
-This accompanies the proposed [script and embedded storyboard](D2_Notes.md). All animation beats are drafts; no scenes have been built. The original notes, storyboard stub, code stub, and October 30 PDF are preserved.
+This accompanies the proposed [script and embedded storyboard](D2_Notes.md). D2 sections 1–5 are implemented in D2_Animation.py. The NPR/public-goods script and storyboard have moved to [D3](../D3_Public_Goods_and_Voting/D3_Notes.md), where animation remains unbuilt. The original notes, storyboard stub, code stub, and October 30 PDF are preserved.
 
 ## What the previous materials establish
 
@@ -21,7 +21,7 @@ The tuna scenario list unambiguously gives this matrix, with Firm 1 first:
 
 The H,H cell is overwritten in the drawing; the separate Scenario 2 lists 8 for each firm. The source identifies L,L as socially efficient and H,H as Nash. Indeed, 12 > 10 and 8 > 2; totals are 20, 14, 14, 16. The notes do not give a growth equation, precise harvest rules, payoff units, costs, discount factor, or horizon from which those numbers can be calculated. Treat them as illustrative payoffs if retaining them verbatim.
 
-Page 1 also gives the NPR two-player matrix (20,20), (10,25), (25,10), (15,15), and the three-player formula with endowment 15 and benefit factor 2/3. Page 2 continues the zero-contribution calculation, then moves to the Dobby memorial, voting, and the possibility of charging admission. The new script preserves the NPR numbers exactly and leaves the memorial/voting material for D3.
+Page 1 also gives the NPR two-player matrix (20,20), (10,25), (25,10), (15,15), and the three-player formula with endowment 15 and benefit factor 2/3. Page 2 continues the zero-contribution calculation, then moves to the Dobby memorial, voting, and the possibility of charging admission. The D3 script preserves the NPR numbers exactly. D2 now covers common resources only; memorial/voting material remains for later development.
 
 ## What happened in the schedule
 
