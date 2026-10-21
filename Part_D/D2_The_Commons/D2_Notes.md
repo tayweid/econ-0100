@@ -7,12 +7,21 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 *What makes sense for each of us can leave less for all of us.*
 
 <!--
-Script and storyboard, drafted 2026-10-20; commons animation implemented 2026-10-21 in D2_Animation.py, scene EpisodeD2. Sections 1–5 only. Public-goods material moved to ../D3_Public_Goods_and_Voting/D3_Notes.md before implementation. This is a proposed new script, not a transcription of the 2024 class. The numbered legacy files remain untouched pending review.
+Script and storyboard, drafted 2026-10-20; commons animation implemented 2026-10-21 in D2_Animation.py, scene EpisodeD2. D0 simulation instructions precede sections 1–5. Public-goods material moved to ../D3_Public_Goods_and_Voting/D3_Notes.md before implementation. This is a proposed new script, not a transcription of the 2024 class. The numbered legacy files remain untouched pending review.
 Sources and teaching choices: D2_Planning.md. Primary source: Class_On_Oct_30.pdf, pp. 1–2, created October 30, 2024. D2 develops the tuna/commons game; the NPR donation game begins D3. The new pond model below generates its own payoff numbers; the original tuna matrix is retained in the planning notes and must not be represented as a calculation from this model.
 Style references: ../../_Style_Guide.md, ../D1_Games/D1_Notes.md and D1_Animation.py, ../../Part_C/C1_Externalities/C1_Notes.md, ../../Part_C/C3_Corrective_Policy/C3_Notes.md, ../../Part_C/C4_Wrap_Up/C4_Notes.md. Use the current Notes-file convention: section comments index beats; quote blocks give detailed directions; ordinary paragraphs are proposed narration. No student beat links are introduced.
 Stage: Graphite 2:1, 15 fps, CMU Serif teaching content, azure topic titles, optional grey CMU Sans subtitle, fixed 0.7443-scale gold teaching line centered 0.05 from the bottom. Body band y = −2.8 to 2.5, centered at −0.15. Import shared style tokens. No illustrated fishermen or decorative scenery: one INK pond outline, neutral fish tokens, and named catch trays. Firm 1 is ROW_PLAYER pink; Firm 2 is COL_PLAYER teal. Fish acquire a firm's color only when caught. A full rectangular fish token represents 1,000 fish; fractional widths represent fractional thousands, with exact numeric readouts. Catch-ledger tokens use a smaller display scale than pond tokens. Keep the pond boundary fixed: fewer fish do not mean less water or a smaller carrying capacity.
 Pacing follows C1/C3: quantities first, question and pause, calculation, answer and pause. Carry the same fish into catch trays and the same totals into matrix cells. D1's best-response boxes precede Nash and efficiency conclusions. Each dotted ID is a stopped beat unless its direction explicitly describes a continuous transition.
-D2 core: sections 1–5, with discussion pauses. Optional live simulation goes after beat 3.a, before revealing the outcomes; see D2_Simulation.md.
+D2 opens with the original D0 simulation rules card (sim.a–sim.e), followed by sections 1–5. Hold at sim.e to run the live activity. The separate optional two-firm prediction exercise can follow 3.a; see D2_Simulation.md.
+-->
+
+<!--
+Simulation opening copied from ../D0_Strategic_Interaction/03_Code.py on 2026-10-21 at Taylor's request; reference notes: Sim.md and D2_Simulation.md. Preserve D0's wording, grey rules, yellow Rules label, red Part D label, positions, and one-at-a-time reveals. The simulation heading is placed independently at the top because D2 does not have D0's raster bumper to anchor it. Timed waits become named ManimLive holds. No new simulation mechanics added. This five-firm, four-round activity precedes the distinct two-firm, three-month model.
+sim.a · Title “Part D | Common Resources Simulation”; “Rules”; reveal “- One lake, five firms”.
+sim.b · Add “- Each round, choose your harvest”.
+sim.c · Add “- Fish population doubles each round”.
+sim.d · Add “- Carrying capacity is 20,000 fish”.
+sim.e · Add “- Maximize harvest after 4 rounds”; hold the complete card for the live simulation, then fade and clear before 1.a.
 -->
 
 ## 1 | A shared pond

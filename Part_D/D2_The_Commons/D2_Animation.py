@@ -38,6 +38,39 @@ class EpisodeD2(Scene):
         TABLE_RIGHT = (RIGHT + DOWN) / 2**0.5
         TABLE_UP = (RIGHT + UP) / 2**0.5
 
+        # ---- sim.a–sim.e · Original D0 simulation instructions, before the model.
+        # Copy of D0_Strategic_Interaction/03_Code.py's final rules card.
+        # Only integration changes: standalone heading (no D0 bumper dependency),
+        # named ManimLive holds instead of waits, then clear before the D2 model.
+        simulation_label = Tex('{{Part D}} $|$ Common Resources Simulation').set_color(GREY).set_color_by_tex_to_color_map(
+            {"Part D": RED,}
+        ).scale(1.5).to_edge(UP, buff=1)
+        self.play(FadeIn(simulation_label))
+
+        rule_label = Tex('{{Rules}}').set_color(YELLOW).scale(1.5).to_edge(UP+LEFT, buff=1).shift(DOWN*3 + RIGHT*2)
+
+        rules = [
+            Tex('- One lake, five firms').set_color(GREY).to_edge(UP+LEFT, buff=1).shift(DOWN*4 + RIGHT*2),
+            Tex('- Each round, choose your harvest').set_color(GREY).to_edge(UP+LEFT, buff=1).shift(DOWN*4.5 + RIGHT*2),
+            Tex('- Fish population doubles each round').set_color(GREY).to_edge(UP+LEFT, buff=1).shift(DOWN*5 + RIGHT*2),
+            Tex('- Carrying capacity is 20,000 fish').set_color(GREY).to_edge(UP+LEFT, buff=1).shift(DOWN*5.5 + RIGHT*2),
+            Tex('- Maximize harvest after 4 rounds').set_color(GREY).to_edge(UP+LEFT, buff=1).shift(DOWN*6 + RIGHT*2),
+        ]
+
+        self.play(FadeIn(rule_label))
+        self.play(FadeIn(rules[0]))
+        self.pause('sim.a')
+        self.play(FadeIn(rules[1]))
+        self.pause('sim.b')
+        self.play(FadeIn(rules[2]))
+        self.pause('sim.c')
+        self.play(FadeIn(rules[3]))
+        self.pause('sim.d')
+        self.play(FadeIn(rules[4]))
+        self.pause('sim.e')
+        self.play(FadeOut(simulation_label), FadeOut(rule_label), *[FadeOut(rule) for rule in rules])
+        self.clear()
+
         # ---- 1.a · D1's taxonomy, with the common-resource cell selected.
         head = title('Common Resources')
         taxonomy = Table(
