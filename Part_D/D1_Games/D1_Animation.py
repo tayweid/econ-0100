@@ -500,6 +500,59 @@ class EpisodeD1(Scene):
         efficiency_definition.next_to(nash_definition, DOWN, buff=0.65, aligned_edge=LEFT)
         self.play(FadeIn(efficiency_definition))
         self.pause('3.k1')
+
+        # ---- 3.exercise · Exercise D1 Q1 card: the handout's study room game.
+        card_head = Tex('Exercise D1 $|$ Q1: Study Room Dynamics', color=DEFINITION).scale(1.05)
+        card_parts = VGroup(
+            Tex("a) What is Ravenclaw's best response?"),
+            Tex("b) What is Hufflepuff's best response?"),
+            Tex("c) Identify each house's dominant strategy"),
+            Tex('if one exists.'),
+            Tex('d) Find all Nash Equilibrium.'),
+            Tex('e) Find the socially efficient strategies.'),
+        ).scale(0.7).arrange(DOWN, buff=0.32, aligned_edge=LEFT)
+        card_parts[3].shift(UP * 0.18 + RIGHT * 0.3)
+        card_parts[4:].shift(UP * 0.18)
+        # Diamond matrix as in the lecture: cells turned 45 degrees, text upright,
+        # row payoff pink and column payoff teal.
+        card_side = 1.05
+        card_center = np.array([3.7, 0.0, 0.0])
+        card_payoffs = VGroup()
+        for i, row in enumerate([('10', '10', '6', '12'), ('12', '6', '8', '8')]):
+            for j in range(2):
+                pair = VGroup(Tex(row[2 * j], color=ROW_PLAYER),
+                              Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                              Tex(row[2 * j + 1], color=COL_PLAYER)).arrange(RIGHT, buff=0.3).scale(0.6)
+                pair.move_to(card_center + (j - 0.5) * card_side * TABLE_RIGHT + (0.5 - i) * card_side * TABLE_UP)
+                card_payoffs.add(pair)
+        card_grid = VGroup(
+            *[Line(card_center - card_side * TABLE_RIGHT + (1 - k) * card_side * TABLE_UP,
+                   card_center + card_side * TABLE_RIGHT + (1 - k) * card_side * TABLE_UP) for k in range(3)],
+            *[Line(card_center + (k - 1) * card_side * TABLE_RIGHT - card_side * TABLE_UP,
+                   card_center + (k - 1) * card_side * TABLE_RIGHT + card_side * TABLE_UP) for k in range(3)],
+        ).set_stroke(MUTED, width=2)
+        card_cols = VGroup(Tex(r'\textsf{Clean}', color=CAPTION), Tex(r"\textsf{Don't Clean}", color=CAPTION)).scale(0.55)
+        card_rows = VGroup(Tex(r'\textsf{Clean}', color=CAPTION), Tex(r"\textsf{Don't Clean}", color=CAPTION)).scale(0.55)
+        for k in range(2):
+            offset = (0.5 - k) * card_side
+            card_rows[k].move_to(card_center - card_side * TABLE_RIGHT + offset * TABLE_UP + LEFT * 0.25,
+                                 aligned_edge=RIGHT)
+            card_cols[k].move_to(card_center - offset * TABLE_RIGHT + card_side * TABLE_UP + RIGHT * 0.25,
+                                 aligned_edge=LEFT)
+        card_row_player = Tex('Ravenclaw', color=ROW_PLAYER).scale(0.65).move_to(card_center + np.array([-1.95, 1.75, 0]))
+        card_col_player = Tex('Hufflepuff', color=COL_PLAYER).scale(0.65).move_to(card_center + np.array([1.95, 1.75, 0]))
+        card_matrix = VGroup(card_grid, card_payoffs, card_cols, card_rows, card_col_player, card_row_player)
+        card_panel = RoundedRectangle(width=13.6, height=5.4, corner_radius=0.25, color=MUTED,
+                                      stroke_width=2, fill_color=BG, fill_opacity=1).move_to([0, -0.2, 0])
+        card_head.move_to(card_panel.get_corner(UL) + RIGHT * 0.65 + DOWN * 0.7, aligned_edge=LEFT)
+        card_parts.next_to(card_head, DOWN, buff=0.55, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        card_matrix.set_y(card_parts.get_y())
+        card_panel.set_z_index(50)
+        for glyph in VGroup(card_head, card_parts, card_matrix).get_family():
+            glyph.set_z_index(51)
+        self.play(*[m.animate.set_opacity(0.05) for m in list(self.mobjects)],
+                  FadeIn(card_panel), FadeIn(card_head), FadeIn(card_parts), FadeIn(card_matrix))
+        self.pause('3.exercise')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
 
@@ -984,20 +1037,48 @@ class EpisodeD1(Scene):
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
 
-        # ---- 7.a · Original closing question; no invented payoff data.
-        panel = RoundedRectangle(width=14.2, height=5.5, corner_radius=0.15,
-                                 color=MUTED, stroke_width=2).move_to([0, BODY_MID, 0])
-        question_head = Tex('Question', color=DEFINITION)
-        question_head.move_to(panel.get_corner(UL) + RIGHT * 0.65 + DOWN * 0.65, aligned_edge=LEFT)
-        question = VGroup(
-            Tex('Ron and Harry share a room in the Gryffindor tower'),
-            Tex('during the school year. Neither student is partial'),
-            Tex('to chores, and would prefer not to tidy up their'),
-            Tex(r'shared space.\ But both enjoy when the room is clean,'),
-            Tex('and are more than willing to tidy the room if it'),
-            Tex('means the space is neat.'),
-        ).arrange(DOWN, buff=0.22, aligned_edge=LEFT).scale(0.8)
-        question.next_to(question_head, DOWN, buff=0.45, aligned_edge=LEFT).shift(RIGHT * 0.35)
-        head = title('Baby Game Theory')
-        self.play(FadeIn(head), FadeIn(panel), FadeIn(question_head), FadeIn(question))
-        self.pause('7.a')
+        # ---- 7.exercise · Exercise D1 Q2 card: Date Night, matrix left for students.
+        # The Ron-and-Harry closing card it replaces is in _archive/03_Code_2026-10-19.py.
+        # Questions only; the story is on the handout.
+        card_head = Tex('Exercise D1 $|$ Q2: Date Night', color=DEFINITION).scale(1.05)
+        card_parts = VGroup(
+            Tex('a) First, use the information about their'),
+            Tex('preferences to setup the payoff matrix.'),
+            Tex('b) Second, use the boxing method to find'),
+            Tex('both players best responses above.'),
+            Tex('c) Third, find the Nash Equilibrium. Since'),
+            Tex("they couldn't communicate, could they use"),
+            Tex('this to figure out which location to go?'),
+        ).scale(0.7).arrange(DOWN, buff=0.32, aligned_edge=LEFT)
+        for k in (1, 3, 5, 6):
+            card_parts[k].shift(RIGHT * 0.3)
+        for k, lift in ((1, 0.18), (2, 0.18), (3, 0.36), (4, 0.36), (5, 0.54), (6, 0.72)):
+            card_parts[k].shift(UP * lift)
+        # Empty diamond matrix, Hagrid as Player 1, as on the handout.
+        card_side = 1.05
+        card_center = np.array([3.7, 0.0, 0.0])
+        card_grid = VGroup(
+            *[Line(card_center - card_side * TABLE_RIGHT + (1 - k) * card_side * TABLE_UP,
+                   card_center + card_side * TABLE_RIGHT + (1 - k) * card_side * TABLE_UP) for k in range(3)],
+            *[Line(card_center + (k - 1) * card_side * TABLE_RIGHT - card_side * TABLE_UP,
+                   card_center + (k - 1) * card_side * TABLE_RIGHT + card_side * TABLE_UP) for k in range(3)],
+        ).set_stroke(MUTED, width=2)
+        card_cols = VGroup(Tex(r'\textsf{Leaky Cauldron}', color=CAPTION), Tex(r"\textsf{Hog's Head}", color=CAPTION)).scale(0.55)
+        card_rows = VGroup(Tex(r'\textsf{Leaky Cauldron}', color=CAPTION), Tex(r"\textsf{Hog's Head}", color=CAPTION)).scale(0.55)
+        for k in range(2):
+            offset = (0.5 - k) * card_side
+            card_rows[k].move_to(card_center - card_side * TABLE_RIGHT + offset * TABLE_UP + LEFT * 0.25,
+                                 aligned_edge=RIGHT)
+            card_cols[k].move_to(card_center - offset * TABLE_RIGHT + card_side * TABLE_UP + RIGHT * 0.25,
+                                 aligned_edge=LEFT)
+        card_row_player = Tex('Hagrid', color=ROW_PLAYER).scale(0.65).move_to(card_center + np.array([-1.95, 1.75, 0]))
+        card_col_player = Tex('McGonagall', color=COL_PLAYER).scale(0.65).move_to(card_center + np.array([1.95, 1.75, 0]))
+        card_matrix = VGroup(card_grid, card_cols, card_rows, card_col_player, card_row_player)
+        card_panel = RoundedRectangle(width=13.6, height=5.4, corner_radius=0.25, color=MUTED,
+                                      stroke_width=2, fill_color=BG, fill_opacity=1).move_to([0, -0.2, 0])
+        card_head.move_to(card_panel.get_corner(UL) + RIGHT * 0.65 + DOWN * 0.7, aligned_edge=LEFT)
+        card_note = subtitle(card_head, 'Use the setup in the exercise file.')
+        card_parts.next_to(card_note, DOWN, buff=0.4, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        card_matrix.set_y(card_parts.get_y())
+        self.play(FadeIn(card_panel), FadeIn(card_head), FadeIn(card_note), FadeIn(card_parts), FadeIn(card_matrix))
+        self.pause('7.exercise')
