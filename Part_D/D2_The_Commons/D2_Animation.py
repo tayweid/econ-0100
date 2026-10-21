@@ -97,8 +97,7 @@ class EpisodeD2(Scene):
         # ---- 1.b · The shared stock stays put; a caught unit moves to its owner.
         self.play(FadeOut(taxonomy), FadeOut(box), FadeOut(teaching))
         pond = RoundedRectangle(width=5.4, height=2.8, corner_radius=0.8, color=INK, stroke_width=2).move_to(POND_CENTER)
-        capacity = Tex(r'Shared pond: capacity $20$', color=CAPTION).scale(0.8).move_to([-4, 2.5, 0])
-        units = Tex(r'\textsf{One full dot = 1,000 fish}', color=CAPTION).scale(0.6).move_to([-4, -1.45, 0])
+        context = subtitle(head, 'One dot = 1,000 fish. Survivors double after harvest, up to 20,000 fish.')
         stock_label = VGroup(Tex('Stock:', color=INK), Tex('20', color=INK)).arrange(RIGHT, buff=0.15).scale(0.8).move_to([-4, -0.9, 0])
         trays = VGroup(*[RoundedRectangle(width=2.3, height=0.8, corner_radius=0.12, color=MUTED, stroke_width=1.5)
                         .move_to([x, -2.55, 0]) for x in (-5.5, -2.5)])
@@ -108,7 +107,7 @@ class EpisodeD2(Scene):
                        .move_to(pos) for pos in POND_POSITIONS])
         teaching = Tex('A fish I catch is no longer available for you to catch.', color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(Create(pond), FadeIn(fish), FadeIn(units), FadeIn(trays), FadeIn(firm_names), FadeIn(teaching))
+        self.play(Create(pond), FadeIn(fish), FadeIn(context), FadeIn(trays), FadeIn(firm_names), FadeIn(teaching))
         self.play(fish[-1].animate.move_to(trays[0]).set_color(ROW_PLAYER), run_time=1.2)
         self.pause('1.b')
         self.play(fish[-1].animate.move_to(POND_POSITIONS[-1]).set_color(INK))
@@ -117,7 +116,7 @@ class EpisodeD2(Scene):
         self.remove(teaching)
         teaching = Tex('Carrying capacity limits the stock, not the monthly catch.', color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(capacity), FadeIn(stock_label), FadeIn(teaching))
+        self.play(FadeIn(stock_label), FadeIn(teaching))
         self.pause('1.c')
 
         # ---- 2.a–2.d · Same pond and trays; only catches and births move.
@@ -132,23 +131,35 @@ class EpisodeD2(Scene):
                           FadeOut(catch_values), FadeOut(example_objects), FadeOut(teaching))
                 fish = VGroup(*[Dot(radius=TOKEN_RADIUS, color=INK)
                                .move_to(pos) for pos in POND_POSITIONS])
-                self.play(FadeIn(fish), Transform(stock_label,
-                    VGroup(Tex('Stock:', color=INK), Tex('20', color=INK)).arrange(RIGHT, buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+                self.play(FadeIn(fish))
             remaining = K - 2*per_firm
             next_stock = min(K, 2*remaining)
-            month_label = Tex('Month 1', color=CAPTION).scale(0.8).move_to([4,2.35,0])
-            phase = Tex('Harvest', color=INK).scale(0.8).move_to([4,1.65,0])
+            # A three-state timeline records stock; catches remain in their trays.
+            timeline_points = [np.array([x,1.55,0]) for x in (1.2,4,6.8)]
+            timeline_line = VGroup(*[Line(timeline_points[i],timeline_points[i+1],color=MUTED,stroke_width=1.5) for i in range(2)])
+            timeline_dots = VGroup(*[Dot(p,radius=0.055,color=CAPTION) for p in timeline_points])
+            timeline_labels = VGroup(*[Tex(t,color=CAPTION).scale(0.65).move_to([x,2.05,0])
+                                      for t,x in zip(('Month 1','After catch','Month 2'),(1.2,4,6.8))])
+            timeline_values = VGroup(*[Tex(f'${v:g}$',color=INK).scale(0.85).move_to([x,1.05,0])
+                                      for v,x in zip((K,remaining,next_stock),(1.2,4,6.8))])
+            cursor = Circle(radius=0.12,color=FOCUS,stroke_width=2).move_to(timeline_points[0])
+            timeline = VGroup(timeline_line,timeline_dots,timeline_labels,timeline_values,cursor)
+            phase = Tex('Harvest', color=CAPTION).scale(0.7).move_to([4,0.25,0])
             equation = VGroup(*[Tex(t, color=c) for t,c in zip(
                 ('20', '$-$', str(per_firm), '$-$', str(per_firm), '$=$', '?'),
-                (INK, INK, ROW_PLAYER, INK, COL_PLAYER, INK, INK))]).arrange(RIGHT,buff=0.15).scale(0.9).move_to([4,0.75,0])
+                (INK, INK, ROW_PLAYER, INK, COL_PLAYER, INK, INK))]).arrange(RIGHT,buff=0.15).scale(0.9).move_to([4,-0.4,0])
             catches = [VGroup(*fish[:per_firm]), VGroup(*fish[per_firm:2*per_firm])]
             survivors = VGroup(*fish[2*per_firm:])
             survivor_homes = [token.get_center().copy() for token in survivors]
-            self.play(Transform(stock_label[0],Tex('Start:',color=INK).scale(0.8).move_to(stock_label[0])))
-            self.play(FadeIn(month_label), FadeIn(phase), TransformFromCopy(stock_label[1], equation[0]))
+            self.play(Create(timeline_line),FadeIn(timeline_dots),FadeIn(timeline_labels),FadeIn(cursor))
+            if example == 0:
+                self.play(ReplacementTransform(stock_label[1],timeline_values[0]),FadeOut(stock_label[0]))
+            else:
+                self.play(FadeIn(timeline_values[0]))
+            self.play(FadeIn(phase),TransformFromCopy(timeline_values[0],equation[0]))
             # Every caught dot retains its size. Neutral survivors never move.
             self.play(*[token.animate.move_to([-6.34+(i%5)*0.42+firm*3,-2.35-(i//5)*0.4,0]).set_color(FIRM_COLORS[firm])
-                        for firm, group in enumerate(catches) for i,token in enumerate(group)], run_time=1.4)
+                        for firm, group in enumerate(catches) for i,token in enumerate(group)], cursor.animate.move_to(timeline_points[1]), run_time=1.4)
             catch_values = VGroup(*[Tex(f'${per_firm}$',color=c).scale(0.75).move_to([x,-3.15,0])
                                    for c,x in zip(FIRM_COLORS,(-5.5,-2.5))])
             self.play(FadeIn(catch_values))
@@ -160,16 +171,16 @@ class EpisodeD2(Scene):
             if example == 0:
                 self.pause('2.a')
             answer = Tex(f'${remaining:g}$',color=INK).scale(0.9).move_to(equation[6])
-            self.play(Transform(equation[6],answer), Transform(stock_label,
-                VGroup(Tex('Survivors:',color=INK),Tex(f'{remaining:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+            self.play(Transform(equation[6],answer))
+            self.play(TransformFromCopy(equation[6],timeline_values[1]))
             if example == 1:
                 self.pause('2.c.survivors')
             elif example == 2:
                 self.pause('2.d.survivors')
-            growth_heading = Tex('Reproduction',color=INK).scale(0.8).move_to([4,-0.35,0])
+            growth_heading = Tex('Reproduction',color=CAPTION).scale(0.7).move_to([4,-1.25,0])
             growth = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK), Tex(f'${remaining:g}$',color=INK),
                             Tex(r'$\}=$',color=INK), Tex(f'${next_stock:g}$',color=INK))
-            growth.arrange(RIGHT,buff=0.12).scale(0.9).move_to([4,-1.25,0])
+            growth.arrange(RIGHT,buff=0.12).scale(0.9).move_to([4,-1.9,0])
             self.play(FadeIn(growth_heading),FadeIn(growth[0]),TransformFromCopy(equation[6],growth[1]),FadeIn(growth[2]),FadeOut(teaching))
             # Births alone fill vacated slots. Parents retain both identity and position.
             babies = VGroup(*[survivors[i].copy() for i in range(int(next_stock-remaining))])
@@ -177,34 +188,33 @@ class EpisodeD2(Scene):
             self.play(*[baby.animate.move_to(POND_POSITIONS[i]) for i,baby in enumerate(babies)],run_time=1.4)
             assert all(np.allclose(t.get_center(),p) for t,p in zip(survivors,survivor_homes))
             fish = VGroup(*survivors,*babies)
-            self.play(FadeIn(growth[3]), Transform(stock_label,
-                VGroup(Tex('Stock:',color=INK),Tex(f'{next_stock:g}',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])),
-                Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.8).move_to(month_label)))
+            self.play(FadeIn(growth[3]),cursor.animate.move_to(timeline_points[2]))
+            self.play(TransformFromCopy(growth[3],timeline_values[2]))
             line = ('Catch 10; the surviving 10 restore the stock to 20.',
                     'Catch 12; the surviving 8 restore only 16.',
                     'The population grows only as far as the pond can support.')[example]
             teaching = Tex(line,color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
             self.play(FadeIn(teaching))
-            example_objects = VGroup(month_label,phase,equation,growth_heading,growth)
+            example_objects = VGroup(timeline,phase,equation,growth_heading,growth)
             if example == 0:
                 self.pause('2.b')
             elif example == 1:
                 self.pause('2.c')
             else:
-                capacity_focus = SurroundingRectangle(capacity,color=FOCUS,buff=0.12)
-                self.play(Create(capacity_focus),Indicate(growth[0],color=FOCUS))
+                capacity_focus = SurroundingRectangle(growth[0],color=FOCUS,buff=0.12)
+                self.play(Create(capacity_focus))
                 self.pause('2.d')
                 self.play(FadeOut(capacity_focus))
 
         # ---- 2.e · Replace concrete arithmetic with its general rule, term by term.
-        self.play(FadeOut(month_label),FadeOut(phase),FadeOut(growth_heading),FadeOut(teaching))
+        self.play(FadeOut(timeline),FadeOut(phase),FadeOut(growth_heading),FadeOut(teaching))
         survivor_rule = VGroup(*[MathTex(t,color=c) for t,c in zip(
             ('N_t','-','h_{1t}','-','h_{2t}','=','S_t'),
-            (INK,INK,ROW_PLAYER,INK,COL_PLAYER,INK,INK))]).arrange(RIGHT,buff=0.15).scale(0.9).move_to([4,0.75,0])
+            (INK,INK,ROW_PLAYER,INK,COL_PLAYER,INK,INK))]).arrange(RIGHT,buff=0.15).scale(0.9).move_to([4,-0.4,0])
         self.play(*[ReplacementTransform(equation[i],survivor_rule[i]) for i in range(7)])
         self.pause('2.e.survivors')
-        growth_rule = MathTex(r'N_{t+1}=\min\{20,\;2S_t\}',color=INK).scale(0.9).move_to([4,-1.25,0])
-        feasible = MathTex(r'0\leq h_{1t}+h_{2t}\leq N_t',color=CAPTION).scale(0.7).move_to([4,-2.3,0])
+        growth_rule = MathTex(r'N_{t+1}=\min\{20,\;2S_t\}',color=INK).scale(0.9).move_to([4,-1.9,0])
+        feasible = MathTex(r'0\leq h_{1t}+h_{2t}\leq N_t',color=CAPTION).scale(0.7).move_to([4,-2.8,0])
         teaching = Tex("Next month's stock depends on what survives this month's catch.",color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(ReplacementTransform(growth,growth_rule),FadeIn(feasible),FadeIn(teaching))
@@ -219,8 +229,8 @@ class EpisodeD2(Scene):
         recovery = VGroup(*[Tex(t,color=INK) for t in ('8',r'$\longrightarrow$','16',r'$\longrightarrow$','20')])
         recovery.arrange(RIGHT,buff=0.2).scale(0.9).move_to([4,0.75,0])
         no_catch = Tex('No further harvest',color=CAPTION).scale(0.8).move_to([4,1.65,0])
-        self.play(FadeIn(fish),FadeIn(no_catch),FadeIn(recovery[0]),Transform(stock_label,
-            VGroup(Tex('Stock:',color=INK),Tex('8',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])))
+        stock_label = VGroup(Tex('Stock:',color=INK),Tex('8',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])
+        self.play(FadeIn(fish),FadeIn(no_catch),FadeIn(recovery[0]),FadeIn(stock_label))
         for step,stock in enumerate((16,20)):
             babies = VGroup(*[fish[i].copy() for i in range(stock-len(fish))])
             self.add(babies)
@@ -256,13 +266,13 @@ class EpisodeD2(Scene):
 
         # ---- 3.b–3.d · One persistent pond, one ledger, three fresh strategy runs.
         pond = RoundedRectangle(width=5.4,height=2.8,corner_radius=0.8,color=INK,stroke_width=2).move_to(POND_CENTER)
-        capacity = Tex(r'Shared pond: capacity $20$',color=CAPTION).scale(0.8).move_to([-4,2.5,0])
-        ledger_head = Tex('Catch by month',color=INK).scale(0.8).move_to([4.2,2.5,0])
+        context = subtitle(head, 'One dot = 1,000 fish. Survivors double after harvest, up to 20,000 fish.')
+        ledger_head = Tex('Catch by month',color=INK).scale(0.8).move_to([4.2,2.3,0])
         ledger_columns = VGroup(*[Tex(str(m+1),color=CAPTION).scale(0.75).move_to([2.3+m*2,1.8,0]) for m in range(MONTHS)])
         ledger_boxes = VGroup(*[RoundedRectangle(width=1.65,height=0.85,corner_radius=0.12,color=MUTED,stroke_width=1)
                                .move_to([2.3+m*2,0.9-firm*1.65,0]) for firm in range(2) for m in range(MONTHS)])
         divider = Line([0,-3.1,0],[0,2.5,0],color=MUTED,stroke_width=1)
-        self.play(Create(pond),FadeIn(capacity),FadeIn(ledger_head),FadeIn(ledger_columns),FadeIn(ledger_boxes),Create(divider))
+        self.play(Create(pond),FadeIn(context),FadeIn(ledger_head),FadeIn(ledger_columns),FadeIn(ledger_boxes),Create(divider))
         result_cards = VGroup()
         profiles = [('L,L',LOW,LOW),('H,L',HIGH,LOW),('H,H',HIGH,HIGH)]
         payoff_by_profile = {}
