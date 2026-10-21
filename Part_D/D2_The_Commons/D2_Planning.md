@@ -39,7 +39,7 @@ The [working schedule](../../_Schedule.md) mixes dated 2023 teaching notes, 2024
 
 The archived [Fall 2024 calendar](../../Syllabus/_Past/24F/Calendar_Page.pdf), page 1, schedules taxonomy/game theory for October 21/23 and public goods/public choice for October 28/30. It supports the broad order, but does not explicitly list the fishing simulation or establish which activity happened on which day. The PDF’s lake sketch supports its inclusion in the October 30 teaching material, not proof of a completed live run.
 
-**Answer to the historical question:** there is retrospective evidence of a prior commons simulation, plus explicit rules and comments about how it went. The available record does not establish that it ran in 2024 specifically. No distinct 2025 schedule was found in this repository. The best-supported sequence is game theory first, then commons and free riding, then public goods and voting.
+**Fall 2024 remains unconfirmed.** Taylor confirms earlier runs in smaller classes, and the groups-of-five note appears in an archive named “Simulations pre24F.” A Fall 2024 lecture plan and Google Sheet shortcut show preparation for a simulation, but the linked sheet now reports that it has been deleted. The October 30, 2024 PDF contains a simulation sketch, not recorded outcomes. See [the simulation evidence and source links](D2_Simulation.md). The dated 2023 topic notes place game theory before commons/free riding, then public goods/voting; the Fall 2024 Lecture 15 plan puts the simulation before the D1 game-theory lecture.
 
 ## Why use the capped-doubling pond first?
 
@@ -76,15 +76,9 @@ The three-month horizon matters. With four months, L,L gives each firm 20, while
 
 If retaining the exact 2024 tuna numbers is preferable, keep the pond to explain the mechanism, then label the old matrix “Illustrative lifetime payoffs.” Do not animate its 10/12/2/8 values as sums of the new catches. The draft chooses the calculated version because the requested teaching connection is pond math → matrix.
 
-## Optional live simulation, before revealing the matrix
+## Live simulation
 
-The old simulation uses pennies representing 1,000 fish, costs equivalent to one penny per participant per month, and three treatments: no communication/no visibility; communication/no visibility; communication/visibility. The schedule labels one version “Public Goods,” but rival fish make this a common-resource activity. Its claim that commons have “no private component” should not be repeated: the catch provides a private benefit while extraction affects others.
-
-For a first use with the new animation, a short **two-firm prediction game** fits better than adding a second set of mechanics. Pause after beat 3.a, before showing the outcomes. Split the room into pairs of teams. Each team privately commits to L or H for three months. Collect both choices before revealing either; run the chosen path, tally the catch, then compare with the unchosen profiles. This uses precisely the script’s model. The outcome is evidence for discussion, not a requirement that students must choose H,H.
-
-To revisit the original open-harvest simulation instead, reserve 12–15 minutes and state that its strategy space differs from the two-firm matrix. Use teams of six as a tentative adjustment to the old groups-of-five note, with 20 tokens per pond. In each month participants submit integer requests from 0 to 20 privately and simultaneously. If total requests exceed stock, allocate remaining tokens by a publicly stated random draw among requested units, without replacement; never allow negative stock. Charge one token-equivalent operating cost per participant per month in the score, including a zero-catch month. One actual token covers this cost; it is not 1,000 tokens. Reproduce only after all catches, doubling remaining tokens to a maximum of 20.
-
-Use three treatments of three months each, resetting to 20 and resetting scores each time: no communication/private catches; communication/private catches; communication/public catches. Private-stock rounds use a covered jar and a facilitator who privately updates stock; public rounds reveal both stock and catches. Log initial stock, aggregate actual catch, survivors, next stock, and scores. Fixed treatment order also introduces learning, so do not interpret differences as a clean causal estimate of communication or visibility. Let the results be what they are: cooperation is a useful outcome too. Debrief who benefits from restraint, who can observe deviations, and what rules participants would choose.
+The original rules, Fall 2024 evidence, and proposed live adaptations are collected in [D2 | Commons Simulation](D2_Simulation.md).
 
 ## Continuity with past parts
 

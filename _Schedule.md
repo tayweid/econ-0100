@@ -423,55 +423,9 @@ next time we’ll talk about a positive externality
 
 Public goods are goods or services with some unusual characteristics: 1) the good or service is not excludable and 2) it is not rival. Excludability is the the property of being able to prevent someone else from accessing the good or service. This is the bases of private production: a firm can sell a goods or services because they can prevent you from consuming the good or service if you do not pay for it. If a good or service is not excludable, people may consume the good or service without having to pay for it and the market will not be able to produce the optimal amount. If a good is not rival it means that one person’s consumption of the good or service does not reduce another person’s ability to consume the same good or service. GPS location services are a good example of a service that is not rival. When goods or services are not rival, it makes no sense to limit the consumption of the good or service by charging a price for consumption.
 
-### Simulation D | Public Goods
+### Simulation D | Common Resources
 
-this is the one where students have to pull from the pond and there are various treatments with different visibilities
-
-Let’s play a little game. So far in this class we’ve focused on Private Goods: goods that are rival (meaning my using them makes less available for you) but also excludable (meaning I can keep my goods away from you).
-
-We talked about externalities, which were goods with some non-excludability: either 1) you couldn’t stop me from benefiting from your good, or 2) I couldn’t stop you from benefiting from mine. This was the externality.
-
-Today we’re going to take this idea to the limit, by looking at goods which have no private component, which carry only externalities: Common Resources.
-
-Here’s the game. You operate a small scale fishing operation with a few of your friends. The lake you fish on is big but has a finite space with a finite population of fish: Ramora, which is a magical fish native to the Indian Ocean but also is able to survive some fresh water lakes. Some facts about fishing the lake:
-
-1. Every month the fish spawn, doubling in population.
-2. Every month you operate your fishing operation, you have to pay for equipment maintenance: your monthly costs, equal to the revenue from 1000 fish. So to continue to operate, you need to catch at least one.
-3. There isn’t much information about the number of fish in the lake.
-4. The carrying capacity of the lake for fish is 20000 fish.
-
-The lake is this jar. In the jar are pennies, each representing 1000 fish.
-
-Mention Elinor Ostrom at some point.
-
-Do three rounds:
-
-1. No communication, no visibility
-2. Communication, no visibility
-3. Communication, visibility
-
-### Notes
-
-I used groups of 5, which was too small to demonstrate tragedy of the commons for many classes.
-
-### Simulation | Common Resources and Game Theory
-
-Let’s play a little game. So far in this class we’ve focused on Private Goods: goods that are rival (meaning my using them makes less available for you) but also excludable (meaning I can keep my goods away from you).
-
-We talked about externalities, which were goods with some non-excludability: either 1) you couldn’t stop me from benefiting from your good, or 2) I couldn’t stop you from benefiting from mine. This was the externality.
-
-Today we’re going to take this idea to the limit, by looking at goods which have no private component, which carry only externalities: Common Resources.
-
-Here’s the game. You operate a small scale fishing operation with a few of your friends. The lake you fish on is big but has a finite space with a finite population of fish: Ramora, which is a magical fish native to the Indian Ocean but also is able to survive some fresh water lakes. Some facts about fishing the lake:
-
-1. Every month the fish spawn, doubling in population.
-2. Every month you operate your fishing operation, you have to pay for equipment maintenance: your monthly costs, equal to the revenue from 1000 fish. So to continue to operate, you need to catch at least one.
-3. There isn’t much information about the number of fish in the lake.
-4. The carrying capacity of the lake for fish is 16000 fish.
-
-The lake is this jar. In the jar are pennies, each representing 1000 fish.
-
-Mention Elenor Ostrom at some point.
+The simulation rules, capacity variants, visibility treatments, and teaching notes have moved to [D2 | Commons Simulation](Part_D/D2_The_Commons/D2_Simulation.md).
 
 ### Simulation C | Externalities
 
