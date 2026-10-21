@@ -4,7 +4,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 # D2 | Sources And Teaching Decisions
 
-This accompanies the proposed [script and embedded storyboard](D2_Notes.md). D2 sections 1–5 are implemented in D2_Animation.py. The NPR/public-goods script and storyboard have moved to [D3](../D3_Public_Goods_and_Voting/D3_Notes.md), where animation remains unbuilt. The original notes, storyboard stub, code stub, and October 30 PDF are preserved.
+This accompanies the proposed [script and embedded storyboard](D2_Notes.md). D2_Animation.py now follows simulation → brief common-resource definition → fishing model → calculated 2×2 and its solution. The first Low/Low month teaches the population mechanics; standalone harvest and recovery demonstrations have been removed. Existing beat IDs are retained, so section 2 is intentionally absent from the current storyboard. The NPR/public-goods script and storyboard have moved to [D3](../D3_Public_Goods_and_Voting/D3_Notes.md), where animation remains unbuilt. The original notes, storyboard stub, code stub, and October 30 PDF are preserved.
 
 ## What the previous materials establish
 
@@ -41,7 +41,7 @@ The archived [Fall 2024 calendar](../../Syllabus/_Past/24F/Calendar_Page.pdf), p
 
 **Fall 2024 remains unconfirmed.** Taylor confirms earlier runs in smaller classes, and the groups-of-five note appears in an archive named “Simulations pre24F.” A Fall 2024 lecture plan and Google Sheet shortcut show preparation for a simulation, but the linked sheet now reports that it has been deleted. The October 30, 2024 PDF contains a simulation sketch, not recorded outcomes. See [the simulation evidence and source links](D2_Simulation.md). The dated 2023 topic notes place game theory before commons/free riding, then public goods/voting; the Fall 2024 Lecture 15 plan puts the simulation before the D1 game-theory lecture.
 
-## Why use the capped-doubling pond first?
+## Why use capped doubling in the fishing game?
 
 Use K = 20, in thousands of fish, to match the 2024 sketch and the 20-token simulation. Harvest happens first. Survivors then double, limited to K:
 
@@ -70,7 +70,7 @@ The proposed script changes the tuna payoff numbers explicitly. Let a Low firm t
 | L,H | 20, 10, 5 | 5, 2.5, 1.25 | 10, 5, 2.5 | 2.5 | 8.75, 17.5 |
 | H,H | 20, 0, 0 | 10, 0, 0 | 10, 0, 0 | 0 | 10, 10 |
 
-The resulting game has the same strategic structure as the old tuna game: High strictly dominates Low, H,H is the unique Nash equilibrium, and L,L Pareto-dominates H,H and maximizes the sum among the four available profiles. The mixed profile depletes geometrically; it does not reach exactly zero in any finite month. H,H empties the pond immediately. The old sketch’s smooth paths are qualitative; the proposed chart uses discrete observations and straight connecting segments.
+The resulting game has the same strategic structure as the old tuna game: High strictly dominates Low, H,H is the unique Nash equilibrium, and L,L Pareto-dominates H,H and maximizes the sum among the four available profiles. The mixed profile depletes geometrically; it does not reach exactly zero in any finite month. H,H empties the pond immediately. The old sketch’s smooth paths are qualitative. The current animation uses a month-by-month catch ledger and takes its totals directly into the matrix; the separate harvest plot has been removed to keep the sequence continuous.
 
 The three-month horizon matters. With four months, L,L gives each firm 20, while High against Low yields 18.75: High is no longer dominant. More concern for future fish, a terminal-stock value, costs, different harvest shares, or new decisions each month can change the game. Present the Nash result as a result of the specified two-strategy commitment game, not a theorem about every fishery or a solution to an unrestricted repeated game. “Socially efficient” here means highest combined payoff among these four profiles, not the solution to all possible dynamic fishing policies.
 
