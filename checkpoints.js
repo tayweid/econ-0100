@@ -129,7 +129,19 @@
     function linkRoutesToLegend(svg) {
         svg.querySelectorAll('.practice-path, .practice-start, .stop, .retry, .reattempt-stop').forEach(mark => {
             const route = mark.matches('.practice-path, .practice-start, .stop') ? 'practice' : 'makeup';
-            const group = svgElement('g', { 'data-route': route });
+            const part = mark.getAttribute('data-part');
+            const group = svgElement('g', { 'data-route': route, 'data-part': part });
+            // Hovering one part's line lights only that part's marks on this route;
+            // the legend still lights through the shared data-route rules.
+            group.addEventListener('pointerenter', () => {
+                svg.classList.add('part-hover');
+                svg.querySelectorAll('g[data-route][data-part]').forEach(other => other.classList.toggle('part-on',
+                    other.dataset.route === route && other.dataset.part === part));
+            });
+            group.addEventListener('pointerleave', () => {
+                svg.classList.remove('part-hover');
+                svg.querySelectorAll('.part-on').forEach(other => other.classList.remove('part-on'));
+            });
             // Read drawing coordinates directly: the schedule may still be hidden
             // while loading, when getBBox() would report an empty rectangle.
             const number = name => Number(mark.getAttribute(name));
@@ -234,7 +246,7 @@
                 index > first && event.kind !== 'checkpoint' && event.available.includes(part.id));
             if (chances.length || !full) {
                 const lastX = full ? x(chances[chances.length - 1].index) : width - 29;
-                svg.append(svgElement('path', { d: `M ${firstX} ${y} H ${lastX}`, class: 'route retry', stroke: color }));
+                svg.append(svgElement('path', { d: `M ${firstX} ${y} H ${lastX}`, class: 'route retry', 'data-part': part.id, stroke: color }));
                 if (!full) {
                     svg.append(svgElement('path', { d: `M ${lastX - 7} ${y - 5} L ${lastX} ${y} L ${lastX - 7} ${y + 5}`, class: 'route', stroke: color }));
                     text(svg, width - 70, y - 15, 'and later', 'end-label');
@@ -245,9 +257,9 @@
                 // Remove a little connecting line around each tick for legibility.
                 svg.append(svgElement('rect', { x: at - 6, y: y - 14, width: 12, height: 28, fill: 'var(--bg)' }));
                 if (index === first) {
-                    svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', stroke: color }));
+                    svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', 'data-part': part.id, stroke: color }));
                 } else {
-                    svg.append(svgElement('path', { d: `M ${at} ${y - 8} L ${at + 6} ${y} L ${at} ${y + 8} L ${at - 6} ${y} Z`, class: 'reattempt-stop', stroke: color }));
+                    svg.append(svgElement('path', { d: `M ${at} ${y - 8} L ${at + 6} ${y} L ${at} ${y + 8} L ${at - 6} ${y} Z`, class: 'reattempt-stop', 'data-part': part.id, stroke: color }));
                 }
             });
         });
@@ -304,7 +316,7 @@
             const from = previous >= 0 ? y(previous) : y(first) - 27;
             svg.append(svgElement('path', { d: `M ${x} ${from} V ${y(first)}`, class: 'route practice-path', 'data-part': part.id, stroke: color }));
             practiceStart(svg, part.id, x, from, color);
-            svg.append(svgElement('path', { d: `M ${x} ${y(first)} V ${height - 47}`, class: 'route retry', stroke: color }));
+            svg.append(svgElement('path', { d: `M ${x} ${y(first)} V ${height - 47}`, class: 'route retry', 'data-part': part.id, stroke: color }));
             svg.append(svgElement('path', { d: `M ${x - 5} ${height - 54} L ${x} ${height - 47} L ${x + 5} ${height - 54}`, class: 'route', stroke: color }));
             text(svg, x, height - 19, 'and later', 'end-label');
             events.forEach((event, eventIndex) => {
@@ -312,9 +324,9 @@
                 if (!initial && !(event.kind === 'reattempt' && event.available.includes(part.id))) return;
                 svg.append(svgElement('rect', { x: x - 14, y: y(eventIndex) - 6, width: 28, height: 12, fill: 'var(--bg)' }));
                 if (initial) {
-                    svg.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', stroke: color }));
+                    svg.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', 'data-part': part.id, stroke: color }));
                 } else {
-                    svg.append(svgElement('path', { d: `M ${x} ${y(eventIndex) - 8} L ${x + 6} ${y(eventIndex)} L ${x} ${y(eventIndex) + 8} L ${x - 6} ${y(eventIndex)} Z`, class: 'reattempt-stop', stroke: color }));
+                    svg.append(svgElement('path', { d: `M ${x} ${y(eventIndex) - 8} L ${x + 6} ${y(eventIndex)} L ${x} ${y(eventIndex) + 8} L ${x - 6} ${y(eventIndex)} Z`, class: 'reattempt-stop', 'data-part': part.id, stroke: color }));
                 }
             });
         });
