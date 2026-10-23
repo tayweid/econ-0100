@@ -46,7 +46,16 @@
     }
 
     function text(svg, x, y, value, className, anchor = 'middle') {
-        svg.append(svgElement('text', { x, y, class: className, 'text-anchor': anchor }, value));
+        const node = svgElement('text', { x, y, class: className, 'text-anchor': anchor }, value);
+        svg.append(node);
+        return node;
+    }
+
+    // Record which parts an event heading serves on each route, as a
+    // space-separated list (data-practice-parts, data-makeup-parts).
+    function servePart(heading, route, part) {
+        const name = `data-${route}-parts`;
+        heading.setAttribute(name, ((heading.getAttribute(name) || '') + ' ' + part).trim());
     }
 
     function courseToday(now = new Date()) {
@@ -107,11 +116,14 @@
     }
 
     function eventHeading(svg, shape, event) {
-        const heading = svgElement('g', event.kind === 'final' ? {} : {
-            'data-route': event.kind === 'checkpoint' ? 'practice' : 'makeup'
+        const heading = svgElement('g', event.kind === 'final' ? { class: 'event-heading' } : {
+            class: 'event-heading', 'data-route': event.kind === 'checkpoint' ? 'practice' : 'makeup'
         });
         heading.append(shape);
         svg.append(heading);
+        // A date lights the parts that can be attempted there and their lines.
+        onHover(heading, () => ['practice', 'makeup'].flatMap(route =>
+            servedParts(heading, route).map(part => route + ' ' + part)), heading);
         return heading;
     }
 
@@ -126,22 +138,53 @@
         svg.append(svgElement('circle', { cx: x, cy: y, r: 4.5, class: 'practice-start', 'data-part': part, stroke: color }));
     }
 
+    function servedParts(heading, route) {
+        return (heading.getAttribute(`data-${route}-parts`) || '').split(' ').filter(Boolean);
+    }
+
+    // Light the route lines named by keys ('practice B', 'makeup A', ...) and
+    // their row labels, plus either the one hovered heading or every heading those
+    // lines can attempt; mute everything else. The legend still lights through
+    // the shared data-route rules.
+    function highlight(scope, keys, onlyHeading) {
+        const parts = new Set(keys.map(key => key.split(' ')[1]));
+        scope.classList.add('part-hover');
+        scope.querySelectorAll('g[data-route][data-part]').forEach(group => group.classList.toggle('part-on',
+            keys.includes(group.dataset.route + ' ' + group.dataset.part)));
+        scope.querySelectorAll('.part-label[data-part]').forEach(label => label.classList.toggle('part-on',
+            parts.has(label.dataset.part)));
+        scope.querySelectorAll('.event-heading').forEach(heading => heading.classList.toggle('part-on', onlyHeading
+            ? heading === onlyHeading
+            : keys.some(key => servedParts(heading, key.split(' ')[0]).includes(key.split(' ')[1]))));
+    }
+
+    // The scope is the full map's stage (which holds the frozen row labels) or
+    // the map region itself in the A/B example.
+    function onHover(target, keysFor, onlyHeading) {
+        const scope = () => target.closest('.map-stage, .map-scroll');
+        target.addEventListener('pointerenter', () => highlight(scope(), keysFor(), onlyHeading));
+        target.addEventListener('pointerleave', () => {
+            scope().classList.remove('part-hover');
+            scope().querySelectorAll('.part-on').forEach(other => other.classList.remove('part-on'));
+        });
+    }
+
+    // A row label lights that part's whole line, solid and dashed.
+    function partLabel(parent, x, y, part, anchor = 'start') {
+        const target = svgElement('g', { class: 'label-target' });
+        target.append(svgElement('rect', { x: anchor === 'start' ? x - 14 : x - 41, y: y - 22, width: 82, height: 32,
+            fill: 'transparent', 'pointer-events': 'all', 'aria-hidden': 'true' }));
+        text(target, x, y, 'Part ' + part, 'part-label', anchor).setAttribute('data-part', part);
+        parent.append(target);
+        onHover(target, () => ['practice ' + part, 'makeup ' + part]);
+    }
+
     function linkRoutesToLegend(svg) {
         svg.querySelectorAll('.practice-path, .practice-start, .stop, .retry, .reattempt-stop').forEach(mark => {
             const route = mark.matches('.practice-path, .practice-start, .stop') ? 'practice' : 'makeup';
             const part = mark.getAttribute('data-part');
             const group = svgElement('g', { 'data-route': route, 'data-part': part });
-            // Hovering one part's line lights only that part's marks on this route;
-            // the legend still lights through the shared data-route rules.
-            group.addEventListener('pointerenter', () => {
-                svg.classList.add('part-hover');
-                svg.querySelectorAll('g[data-route][data-part]').forEach(other => other.classList.toggle('part-on',
-                    other.dataset.route === route && other.dataset.part === part));
-            });
-            group.addEventListener('pointerleave', () => {
-                svg.classList.remove('part-hover');
-                svg.querySelectorAll('.part-on').forEach(other => other.classList.remove('part-on'));
-            });
+            onHover(group, () => [route + ' ' + part]);
             // Read drawing coordinates directly: the schedule may still be hidden
             // while loading, when getBBox() would report an empty rectangle.
             const number = name => Number(mark.getAttribute(name));
@@ -221,9 +264,10 @@
             `${event.name}, ${dateLabel(event.date)}, ${event.place}: ${event.kind === 'final' ? 'Checkpoint F and reattempts for' : event.kind === 'checkpoint' ? 'first attempt for' : 'reattempts for'} Part${event.available.length > 1 ? 's' : ''} ${event.available.join(', ')}.`
         ).join(' ') + ' An open circle starts each part’s practice period at the preceding checkpoint. Part A starts before the first checkpoint. Solid paths lead to first attempts; dashed paths connect later chances. A vertical bar marks a checkpoint; a hollow diamond marks a reattempt.'));
         svg.append(svgElement('line', { x1: start - 38, y1: 59, x2: width - 30, y2: 59, class: 'axis' }));
+        const headings = [];
         events.forEach((event, index) => {
             const at = x(index);
-            const heading = eventHeading(svg, svgElement('rect', { x: at - (full ? 62 : 85), y: 0, width: full ? 124 : 170, height: 54, fill: 'transparent' }), event);
+            const heading = headings[index] = eventHeading(svg, svgElement('rect', { x: at - (full ? 62 : 85), y: 0, width: full ? 124 : 170, height: 54, fill: 'transparent' }), event);
             text(heading, at, 17, event.name, 'event-name');
             eventMeta(heading, at, full ? 34 : 39, event, 'middle', full);
             svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
@@ -234,7 +278,7 @@
         parts.forEach((part, row) => {
             const y = firstRow + row * rowGap;
             const color = routeColor;
-            if (!full) text(svg, 14, y + 6, 'Part ' + part.id, 'part-label', 'start');
+            if (!full) partLabel(svg, 14, y + 6, part.id);
             const first = events.findIndex(event => event.part === part.id && event.kind !== 'reattempt');
             if (first < 0) return;
             const firstX = x(first);
@@ -244,6 +288,8 @@
             practiceStart(svg, part.id, from, y, color);
             const chances = events.map((event, index) => ({ event, index })).filter(({ event, index }) =>
                 index > first && event.kind !== 'checkpoint' && event.available.includes(part.id));
+            servePart(headings[first], 'practice', part.id);
+            chances.forEach(chance => servePart(headings[chance.index], 'makeup', part.id));
             if (chances.length || !full) {
                 const lastX = full ? x(chances[chances.length - 1].index) : width - 29;
                 svg.append(svgElement('path', { d: `M ${firstX} ${y} H ${lastX}`, class: 'route retry', 'data-part': part.id, stroke: color }));
@@ -273,7 +319,7 @@
                 class: 'frozen-labels', viewBox: `0 0 82 ${height}`,
                 preserveAspectRatio: 'none', 'aria-hidden': 'true'
             });
-            parts.forEach((part, row) => text(labels, 14, firstRow + row * rowGap + 6, 'Part ' + part.id, 'part-label', 'start'));
+            parts.forEach((part, row) => partLabel(labels, 14, firstRow + row * rowGap + 6, part.id));
             stage.append(svg, labels);
             map.replaceChildren(stage);
             scrollToToday = () => {
@@ -300,8 +346,9 @@
         });
         svg.append(svgElement('desc', { id: 'compact-desc' }, description.replace('A vertical bar', 'A horizontal bar')));
         const y = index => 64 + index * 66;
+        const headings = [];
         events.forEach((event, index) => {
-            const heading = eventHeading(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, fill: 'transparent' }), event);
+            const heading = headings[index] = eventHeading(svg, svgElement('rect', { x: 0, y: y(index) - 25, width: 175, height: 48, fill: 'transparent' }), event);
             text(heading, 2, y(index) - 8, event.name, 'event-name', 'start');
             eventMeta(heading, 2, y(index) + 14, event, 'start');
             svg.append(svgElement('line', { x1: 158, y1: y(index), x2: 330, y2: y(index), class: 'guide-line' }));
@@ -309,7 +356,7 @@
         parts.forEach((part, index) => {
             const x = 215 + index * 95;
             const color = routeColor;
-            text(svg, x, 23, 'Part ' + part.id, 'part-label');
+            partLabel(svg, x, 23, part.id, 'middle');
             const first = events.findIndex(event => event.part === part.id && event.kind === 'checkpoint');
             if (first < 0) return;
             const previous = previousCheckpoint(events, first);
@@ -322,6 +369,7 @@
             events.forEach((event, eventIndex) => {
                 const initial = eventIndex === first;
                 if (!initial && !(event.kind === 'reattempt' && event.available.includes(part.id))) return;
+                servePart(headings[eventIndex], initial ? 'practice' : 'makeup', part.id);
                 svg.append(svgElement('rect', { x: x - 14, y: y(eventIndex) - 6, width: 28, height: 12, fill: 'var(--bg)' }));
                 if (initial) {
                     svg.append(svgElement('line', { x1: x - 10, x2: x + 10, y1: y(eventIndex), y2: y(eventIndex), class: 'stop', 'data-part': part.id, stroke: color }));

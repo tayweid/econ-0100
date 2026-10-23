@@ -96,9 +96,11 @@
         body:has([data-route="makeup"]:is(:hover, :focus-visible)) #makeup :is(.unlock-heading, .unlock-count) { color: var(--link); }
         body:has([data-route="practice"]:is(:hover, :focus-visible)) #makeup,
         body:has([data-route="makeup"]:is(:hover, :focus-visible)) #practice { opacity: .35; }
-        /* On one part's line, light only that part's route (thicker), dim the rest. */
-        .route-map.part-hover g[data-route]:not(.part-on) { opacity: .25; }
-        .route-map.part-hover g[data-route]:not(.part-on) :is(.practice-path, .retry) { stroke-width: 3; }
+        /* On one part's line, light only that part's route (thicker), the events it
+           can attempt there, and its row label; mute everything else. */
+        .event-heading, .part-label[data-part] { transition: opacity 120ms ease; }
+        .part-hover :is(.route-map g[data-route], .event-heading, .part-label[data-part]):not(.part-on) { opacity: .25; }
+        .part-hover .route-map g[data-route]:not(.part-on) :is(.practice-path, .retry) { stroke-width: 3; }
 
         .guide .unlock-legend { position: relative; margin-top: 16px; padding-top: 14px; padding-left: 70px; border-top: 0; }
         .guide .unlock-heading { font: 400 18px/1.5 var(--font-body); }
