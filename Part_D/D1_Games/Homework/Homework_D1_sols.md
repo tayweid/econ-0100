@@ -74,9 +74,9 @@ c) Identify a Nash Equilibrium in this game if one exists.
 
 There are two: (Harry Contributes, Ron Doesn't) and (Harry Doesn't, Ron Contributes). Harry's best responses mirror Ron's, so in each one the player who doesn't contribute is best responding to the other's contribution, and the contributor is best responding to the other's not contributing.
 
-Best responses are boxed. The yellow cells are the two Nash equilibria.
+Best responses are boxed. The yellow cells are the two Nash equilibria; they and the blue cell are socially efficient.
 
-::: {.table style=plain inset=8pt columns="auto auto 112pt 112pt" fills="r2c3:yellow r3c2:yellow" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+::: {.table style=plain inset=8pt columns="auto auto 112pt 112pt" fills="r2c2:blue r2c3:yellow r3c2:yellow" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
 
 |   |   | **Ron** |   |
 | ---: | ---: | :---: | :---: |
@@ -88,7 +88,7 @@ Best responses are boxed. The yellow cells are the two Nash equilibria.
 
 :::::
 
-d) What well known phenomenon results from this game?
+d) ~~What well known phenomenon results from this game?~~ {++Find the socially efficient strategies.++}
 
  
 
@@ -96,6 +96,164 @@ d) What well known phenomenon results from this game?
 
 ::: solution
 
-The free rider problem: in either equilibrium one roommate does the shopping and the other enjoys the stocked kitchen without paying for it.
+Any outcome where at least one of them contributes: (Contribute, Contribute), (Contribute, Don't Contribute) and (Don't Contribute, Contribute) each total 12 galleons. Only (Don't Contribute, Don't Contribute), at 0, is inefficient.
+
+:::
+
+## Q2 | Late-Night Wireless
+
+{++Seamus and Dean share a dorm at Hogwarts. Each night, each chooses whether to play his wireless late or keep quiet so the other can sleep. Each enjoys his own music, but both value a good night’s sleep, and they don’t value them equally. Their payoffs, in galleons, are below.++}
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **Dean** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | Quiet | Play |
+| **Seamus** | Quiet | 6, 5 | 1, 7 |
+|   | Play | 8, 2 | 4, 3 |
+
+:::
+
+::: solution
+
+*Q2 and Q3 are new questions, drafted by Claude in the format of Q1. The answers are Claude's, worked from the payoff matrices.*
+
+:::
+
+a) {++Identify Dean's best response.++}
+
+ 
+
+ 
+
+::: solution
+
+$$
+BR_{Dean} = \begin{cases} \text{Play} & \text{if Seamus keeps quiet } (7 > 5) \\ \text{Play} & \text{if Seamus plays } (3 > 2) \end{cases}
+$$
+
+:::
+
+b) {++Identify Dean's dominant strategy if one exists.++}
+
+ 
+
+ 
+
+::: solution
+
+Play. It is Dean's best response whatever Seamus does.
+
+:::
+
+c) {++Identify a Nash Equilibrium in this game if one exists.++}
+
+ 
+
+ 
+
+::::: solution
+
+(Play, Play). Play is dominant for Seamus too: $8 > 6$ if Dean keeps quiet and $4 > 1$ if Dean plays.
+
+Best responses are boxed. The yellow cell is the Nash equilibrium, and the blue cell is socially efficient.
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" fills="r2c2:blue r3c3:yellow" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **Dean** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | Quiet | Play |
+| **Seamus** | Quiet | 6, 5 | 1, $\boxed{7}$ |
+|   | Play | $\boxed{8}$, 2 | $\boxed{4}$, $\boxed{3}$ |
+
+:::
+
+:::::
+
+d) {++Find the socially efficient strategies.++}
+
+ 
+
+ 
+
+::: solution
+
+(Quiet, Quiet). It totals 11 galleons, against 8 at (Quiet, Play), 10 at (Play, Quiet) and 7 at (Play, Play).
+
+:::
+
+## Q3 | Sunday Breakfast
+
+{++Fred and George like a big breakfast at the Burrow on Sunday mornings, but it takes two cooks. Each twin chooses whether to get up early to cook or to sleep in and make toast later. Their payoffs, in galleons, are below.++}
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **George** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | Cook | Sleep In |
+| **Fred** | Cook | 8, 8 | 0, 4 |
+|   | Sleep In | 4, 0 | 4, 4 |
+
+:::
+
+a) {++Identify George's best response.++}
+
+ 
+
+ 
+
+::: solution
+
+$$
+BR_{George} = \begin{cases} \text{Cook} & \text{if Fred cooks } (8 > 4) \\ \text{Sleep In} & \text{if Fred sleeps in } (4 > 0) \end{cases}
+$$
+
+:::
+
+b) {++Identify George's dominant strategy if one exists.++}
+
+ 
+
+ 
+
+::: solution
+
+None. George's best response depends on what Fred does.
+
+:::
+
+c) {++Identify a Nash Equilibrium in this game if one exists.++}
+
+ 
+
+ 
+
+::::: solution
+
+There are two: (Cook, Cook) and (Sleep In, Sleep In). In each, neither twin wants to change his choice alone.
+
+Best responses are boxed. The yellow cells are the two Nash equilibria; (Cook, Cook) is also socially efficient.
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" fills="r2c2:yellow r3c3:yellow" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **George** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | Cook | Sleep In |
+| **Fred** | Cook | $\boxed{8}$, $\boxed{8}$ | 0, 4 |
+|   | Sleep In | 4, 0 | $\boxed{4}$, $\boxed{4}$ |
+
+:::
+
+:::::
+
+d) {++Find the socially efficient strategies.++}
+
+ 
+
+ 
+
+::: solution
+
+(Cook, Cook). It totals 16 galleons, against 4 at (Cook, Sleep In) and at (Sleep In, Cook), and 8 at (Sleep In, Sleep In).
 
 :::

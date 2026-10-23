@@ -6,9 +6,7 @@ plass:
 
 # ECON 0100 | Vignette D1 | Game Theory
 
-*Due in Recitation. Vignettes are a certificate of the work done together in Recitation.*
-
-~~Vignette D5 was given as a MinExam in a previous semester.~~
+*Due in (Virtual!) Recitation. Vignettes are a certificate of the work done together in Recitation.*
 
 ## Q1 | Keeping House: Gryffindor
 
@@ -28,9 +26,7 @@ Ron and Harry share a room in the Gryffindor tower during the school year. Neith
 
 Find Harry’s best response.
 
- 
-
- 
+  
 
 ### b) Efficient Strategies
 
@@ -38,13 +34,9 @@ Which set of strategies is efficient for Ron and Harry?
 
  
 
- 
-
 ### c) Nash Equilibrium
 
 What is the Nash equilibrium?
-
- 
 
  
 
@@ -85,4 +77,3 @@ What is the Nash Equilibrium?
  
 
  
-

@@ -56,8 +56,109 @@ See Q1 | Dorm Room Kitchen on the HW D1 handout (the PDF on the course page). En
 [ ] (Don't Contribute, Don't Contribute)
 ```
 
-### Q1.5: `What well known phenomenon results from this game?`
+### Q1.5: `Find the socially efficient strategies.`
 
 ```
-|____|
+Select all that apply, Harry's choice first.
+
+[x] (Contribute, Contribute)
+[x] (Contribute, Don't Contribute)
+[x] (Don't Contribute, Contribute)
+[ ] (Don't Contribute, Don't Contribute)
+```
+
+## Q2: `Late-Night Wireless`
+
+```
+See Q2 | Late-Night Wireless on the HW D1 handout (the PDF on the course page). Enter your answers here.
+```
+
+### Q2.1: `Dean's best response if Seamus keeps quiet:`
+
+```
+( ) Quiet
+(x) Play
+```
+
+### Q2.2: `Dean's best response if Seamus plays:`
+
+```
+( ) Quiet
+(x) Play
+```
+
+### Q2.3: `Identify Dean's dominant strategy if one exists.`
+
+```
+( ) Quiet
+(x) Play
+( ) Dean has no dominant strategy
+```
+
+### Q2.4: `Identify the Nash Equilibria (Seamus, Dean). Select all that apply.`
+
+```
+[ ] (Quiet, Quiet)
+[ ] (Quiet, Play)
+[ ] (Play, Quiet)
+[x] (Play, Play)
+```
+
+### Q2.5: `Find the socially efficient strategies.`
+
+```
+Select all that apply, Seamus's choice first.
+
+[x] (Quiet, Quiet)
+[ ] (Quiet, Play)
+[ ] (Play, Quiet)
+[ ] (Play, Play)
+```
+
+## Q3: `Sunday Breakfast`
+
+```
+See Q3 | Sunday Breakfast on the HW D1 handout (the PDF on the course page). Enter your answers here.
+```
+
+### Q3.1: `George's best response if Fred cooks:`
+
+```
+(x) Cook
+( ) Sleep In
+```
+
+### Q3.2: `George's best response if Fred sleeps in:`
+
+```
+( ) Cook
+(x) Sleep In
+```
+
+### Q3.3: `Identify George's dominant strategy if one exists.`
+
+```
+( ) Cook
+( ) Sleep In
+(x) George has no dominant strategy
+```
+
+### Q3.4: `Identify the Nash Equilibria (Fred, George). Select all that apply.`
+
+```
+[x] (Cook, Cook)
+[ ] (Cook, Sleep In)
+[ ] (Sleep In, Cook)
+[x] (Sleep In, Sleep In)
+```
+
+### Q3.5: `Find the socially efficient strategies.`
+
+```
+Select all that apply, Fred's choice first.
+
+[x] (Cook, Cook)
+[ ] (Cook, Sleep In)
+[ ] (Sleep In, Cook)
+[ ] (Sleep In, Sleep In)
 ```

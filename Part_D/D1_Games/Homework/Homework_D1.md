@@ -24,27 +24,94 @@ Harry and Ron share a dorm at Hogwarts and like to keep their kitchen stocked wi
 
 :::
 
-a) Identify Ron's best response.
+a\) Identify Ron’s best response.
 
  
 
  
 
-b) Identify Ron's dominant strategy if one exists.
+b\) Identify Ron’s dominant strategy if one exists.
 
  
 
  
 
-c) Identify a Nash Equilibrium in this game if one exists.
+c\) Identify a Nash Equilibrium in this game if one exists.
+
+ 
+
+d\) Find the socially efficient strategies.
+
+ 
+
+## Q2 | Late-Night Wireless
+
+Seamus and Dean share a dorm at Hogwarts. Each night, each chooses whether to play his wireless late or keep quiet so the other can sleep. Each enjoys his own music, but both value a good night’s sleep, and they don’t value them equally. Their payoffs, in galleons, are below.
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **Dean** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | Quiet | Play |
+| **Seamus** | Quiet | 6, 5 | 1, 7 |
+|   | Play | 8, 2 | 4, 3 |
+
+:::
+
+a\) Identify Dean’s best response.
 
  
 
  
 
-d) What well known phenomenon results from this game?
+b\) Identify Dean’s dominant strategy if one exists.
 
  
 
  
 
+c\) Identify a Nash Equilibrium in this game if one exists.
+
+ 
+
+ 
+
+d\) Find the socially efficient strategies.
+
+ 
+
+ 
+
+## Q3 | Sunday Breakfast
+
+Fred and George like a big breakfast at the Burrow on Sunday mornings, but it takes two cooks. Each twin chooses whether to get up early to cook or to sleep in and make toast later. Their payoffs, in galleons, are below.
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **George** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | Cook | Sleep In |
+| **Fred** | Cook | 8, 8 | 0, 4 |
+|   | Sleep In | 4, 0 | 4, 4 |
+
+:::
+
+a\) Identify George’s best response.
+
+ 
+
+ 
+
+b\) Identify George’s dominant strategy if one exists.
+
+ 
+
+ 
+
+c\) Identify a Nash Equilibrium in this game if one exists.
+
+ 
+
+ 
+
+d\) Find the socially efficient strategies.

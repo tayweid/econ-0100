@@ -439,6 +439,7 @@ parts:
           name: Reading D1
         vignette:
           description: "*Game theory practice problems*"
+          post: now
         dates:
           class: '2026-10-21'
           recitation: '2026-10-23'
