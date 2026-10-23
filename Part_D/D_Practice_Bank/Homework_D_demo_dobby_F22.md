@@ -40,13 +40,4 @@ Would the proposal receive a majority vote if the tax were $25$ galleons?
 
 Neville proposes allowing a private company to build the memorial and charge residents a lump-sum fee to visit the memorial as they like. If the private company were allowed to set a single fee, would the company be able to cover its costs?
 
-#### Question 3 | International Pumpkin Pasties
-
-Economic historians in the wizarding world remember a time before the Ministry had begun meddling with the domestic market. In those earlier days, trade barriers had been lifted for exports of pumpkin pasties to international magical markets with a world price of $12$ galleons. At the time, the Ministry of Magic used this opportunity to pad its coffers without facing the political backlash associated with a domestic tax, instead imposing an import tariff of $2$ galleons. Use a graph to illustrate what happened to the market after the tariff was imposed. The supply and demand curves:
-
-$$P = 17 - \frac{1}{6} Q_D$$
-$$P = 2 + \frac{2}{3} Q_S$$
-
-*(figure: graph_paper.png)*
-
-What is the area of the deadweight loss from the tariff?__________
+<!-- split 2026-10-23: Q3 International Pumpkin Pasties -> Part_B/B_Practice_Bank/Homework_D_demo_intl-pasties-tariff_F22.md -->

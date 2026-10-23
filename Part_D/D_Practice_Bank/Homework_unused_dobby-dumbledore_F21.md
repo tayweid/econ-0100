@@ -62,8 +62,4 @@ If the referendum passed, would it lead to an efficient outcome?
 
 A. Yes
 
-#### Question
-
-Suppose the demand for wands is given by $Q = 100 - P$ and there are two main wand sellers, A and B, that sell wands at a constant marginal cost of 10. The marginal revenue for A is $MR_A = 100 - 2q_A - q_B$ and for B it is $MR_B = 100 - 2q_B - q_A$. Calculate the Nash equilibrium level of output for the two wandsellers and put it in the blanks below.
-
-Calculate the equilibrium price and put it in the blank below.
+<!-- split 2026-10-23: the wand duopoly question -> Part_E/E_Practice_Bank/Homework_unused_wand-duopoly_F21.md -->
