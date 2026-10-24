@@ -437,6 +437,8 @@ parts:
           description: "*Baby game theory*"
         reading:
           name: Reading D1
+        exercise:
+          video: txH1arKP_M0
         vignette:
           where: home
           post: now
