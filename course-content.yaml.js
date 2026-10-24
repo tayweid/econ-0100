@@ -437,27 +437,13 @@ parts:
           description: "*Baby game theory*"
         reading:
           name: Reading D1
-        # Written out so Vignette D1 can show as due at home (the conventional vignette is always "recitation").
-        steps:
-          - name: Exercise D1
-            kind: exercise
-            date: '2026-10-21'
-            links: [{label: Exercise, file: Part_D/D1_Games/Exercise/Exercise_D1.pdf}]
-          - name: Vignette D1
-            kind: vignette
-            where: home
-            due: Sun Oct 25
-            date: '2026-10-25'
-            video: PWmQW5aBQu4
-            post: now
-            links: [{label: Vignette, file: Part_D/D1_Games/Vignette/Vignette_D1.pdf}]
-          - name: Homework D1
-            kind: homework
-            date: '2026-10-25'
-            links: [{label: Homework, file: Part_D/D1_Games/Homework/Homework_D1.pdf}]
+        vignette:
+          where: home
+          post: now
+          video: PWmQW5aBQu4
         dates:
           class: '2026-10-21'
-          recitation: '2026-10-23'
+          recitation: '2026-10-25' # At-home vignette deadline
           homework: '2026-10-25'
 
         extras:
@@ -515,7 +501,6 @@ parts:
           name: Reading D4
         vignette:
           description: "*Voting systems practice problems*"
-          files: D4
         dates:
           class: '2026-10-28'
           recitation: '2026-10-30'

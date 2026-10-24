@@ -18,10 +18,10 @@ there. `scripts/check-course` expects that repository to be cloned beside this o
 Local to this site: every block names its `folder` (e.g. `Part_A/A1_The_PPF`), and the conventional
 Exercise, Vignette, and Homework PDFs are found there without a YAML edit. This site's
 `course.solutions: after_date` releases solution PDFs the day after each activity's date.
-Explicit practice steps (such as D1's at-home vignette) also discover conventionally named
-solution PDFs and use their own `date:` for release. Keep each step's `kind:` set; use
-`solutions: never` to suppress an answer key. The PDF must be committed and pushed before
-it can appear on the live site. Chapter readings resolve to `Reading/Ch_NN.pdf`. An extra
+All Part D blocks use this automatic Exercise/Vignette/Homework setup. D1's vignette
+sets `where: home`, with its October 25 deadline in `dates.recitation`; the date drives
+both the due label and solution release. Use `solutions: never` to suppress an answer key.
+The PDF must be committed and pushed before it can appear on the live site. Chapter readings resolve to `Reading/Ch_NN.pdf`. An extra
 with no video may carry an `image` (a URL or a local path) as its thumbnail.
 
 The Course Logistics page is `course.html`; MICRO ECON links there through
