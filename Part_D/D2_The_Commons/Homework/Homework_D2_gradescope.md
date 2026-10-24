@@ -61,3 +61,55 @@ See Q1 | Enforceable Permits on the HW D2 handout (the PDF on the course page). 
 [ ] (H, L)
 [ ] (H, H)
 ```
+
+## Q2: `Plimpies in the Black Lake`
+
+```
+See Q2 | Plimpies in the Black Lake on the HW D2 handout (the PDF on the course page). Firm A chooses first and Firm B sees that choice before choosing. Lifetime profits, listed (Firm A, Firm B): (L, L) 9, 9; (L, H) 2, 7; (H, L) 12, 1; (H, H) 4, 4. Enter your answers here.
+```
+
+### Q2.1: `If Firm A chooses L, Firm B chooses:`
+
+```
+(x) L
+( ) H
+```
+
+### Q2.2: `If Firm A chooses H, Firm B chooses:`
+
+```
+( ) L
+(x) H
+```
+
+### Q2.3: `Working backward, Firm A chooses:`
+
+```
+(x) L
+( ) H
+```
+
+### Q2.4: `The outcome of the game (Firm A, Firm B):`
+
+```
+(x) (L, L)
+( ) (L, H)
+( ) (H, L)
+( ) (H, H)
+```
+
+### Q2.5: `Is the outcome socially efficient?`
+
+```
+(x) Yes
+( ) No
+```
+
+### Q2.6: `If the firms chose at the same time, find all Nash Equilibrium (Firm A, Firm B). Select all that apply.`
+
+```
+[ ] (L, L)
+[ ] (L, H)
+[ ] (H, L)
+[x] (H, H)
+```

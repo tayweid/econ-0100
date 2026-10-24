@@ -48,3 +48,49 @@ Find all Nash ~~Equilibium~~{++Equilibrium++}.
 
  
 
+## Q2 | Plimpies in the Black Lake
+
+{++Two firms, Firm A and Firm B, fish for plimpies in the Black Lake. Firm A’s fleet sets out first each season, and Firm B’s scouts see Firm A’s nets before Firm B chooses low ($L$) or high ($H$) capacity. If Firm A fishes low, the stock stays healthy and Firm B prefers to keep it that way. If Firm A fishes high, the stock will collapse anyway, so Firm B harvests all it can. Each row of the table below is one path through the game tree. Lifetime profits are in Galleons.++}
+
+::: {.table style=plain inset=8pt columns="auto auto 112pt" borders="r1c0:all r1-4c1-2:all r3c0:all" valign=middle spans="r1c0:1x2 r3c0:1x2"}
+
+| **Firm A chooses** | **Then Firm B chooses** | **Profits (A, B)** |
+| :---: | :---: | :---: |
+| L | L | 9, 9 |
+|   | H | 2, 7 |
+| H | L | 12, 1 |
+|   | H | 4, 4 |
+
+:::
+
+### a) Firm B’s Responses
+
+{++If Firm A chooses $L$, what does Firm B choose? If Firm A chooses $H$?++}
+
+ 
+
+ 
+
+### b) Firm A’s Choice
+
+{++Working backward, which capacity does Firm A choose?++}
+
+ 
+
+ 
+
+### c) The Outcome
+
+{++What is the outcome of the game? Is it socially efficient?++}
+
+ 
+
+ 
+
+### d) Choosing at the Same Time
+
+{++Suppose instead the firms chose at the same time, without seeing each other’s nets. Write the same profits as a payoff matrix and find all Nash Equilibrium.++}
+
+ 
+
+ 

@@ -52,3 +52,49 @@ Find the socially efficient strategies.
 
  
 
+## Q2 | Shrake Fishery, Firm A Moves First
+
+{++Now suppose Firm A’s fleet sets out first each season, and Firm B sees how much Firm A is harvesting before choosing its own capacity. Lifetime profits are the same as in Q1. Each row of the table below is one path through the game tree: Firm A’s choice, then Firm B’s.++}
+
+::: {.table style=plain inset=8pt columns="auto auto 112pt" borders="r1c0:all r1-4c1-2:all r3c0:all" valign=middle spans="r1c0:1x2 r3c0:1x2"}
+
+| **Firm A chooses** | **Then Firm B chooses** | **Profits (A, B)** |
+| :---: | :---: | :---: |
+| L | L | 10, 6 |
+|   | H | 2, 10 |
+| H | L | 18, 1 |
+|   | H | 3, 3 |
+
+:::
+
+### a) Firm B’s Responses
+
+{++If Firm A chooses $L$, what does Firm B choose? If Firm A chooses $H$?++}
+
+ 
+
+ 
+
+### b) Firm A’s Choice
+
+{++Firm A knows how Firm B will respond. Which capacity does Firm A choose?++}
+
+ 
+
+ 
+
+### c) The Outcome
+
+{++What is the outcome of the game, and what does each firm earn?++}
+
+ 
+
+ 
+
+### d) Moving First
+
+{++Compare this outcome with the Nash Equilibrium you found in Q1. Does moving first change the outcome? Why or why not?++}
+
+ 
+
+ 

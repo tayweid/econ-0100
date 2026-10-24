@@ -89,3 +89,105 @@ Best responses are boxed. The yellow cell is the Nash equilibrium.
 :::
 
 :::::
+
+## Q2 | Plimpies in the Black Lake
+
+{++Two firms, Firm A and Firm B, fish for plimpies in the Black Lake. Firm A’s fleet sets out first each season, and Firm B’s scouts see Firm A’s nets before Firm B chooses low ($L$) or high ($H$) capacity. If Firm A fishes low, the stock stays healthy and Firm B prefers to keep it that way. If Firm A fishes high, the stock will collapse anyway, so Firm B harvests all it can. Each row of the table below is one path through the game tree. Lifetime profits are in Galleons.++}
+
+::: {.table style=plain inset=8pt columns="auto auto 112pt" borders="r1c0:all r1-4c1-2:all r3c0:all" valign=middle spans="r1c0:1x2 r3c0:1x2"}
+
+| **Firm A chooses** | **Then Firm B chooses** | **Profits (A, B)** |
+| :---: | :---: | :---: |
+| L | L | 9, 9 |
+|   | H | 2, 7 |
+| H | L | 12, 1 |
+|   | H | 4, 4 |
+
+:::
+
+::: solution
+
+*Q2 is a new question, drafted by Claude for skill D2.2 (Sequential Games). The answers are Claude’s, worked from the table.*
+
+:::
+
+### a) Firm B’s Responses
+
+{++If Firm A chooses $L$, what does Firm B choose? If Firm A chooses $H$?++}
+
+ 
+
+ 
+
+::: solution
+
+If Firm A chooses $L$, Firm B chooses $L$: $9 > 7$. If Firm A chooses $H$, Firm B chooses $H$: $4 > 1$.
+
+:::
+
+### b) Firm A’s Choice
+
+{++Working backward, which capacity does Firm A choose?++}
+
+ 
+
+ 
+
+::: solution
+
+$L$. Choosing $L$ leads to $(L, L)$ and $9$ for Firm A; choosing $H$ leads to $(H, H)$ and $4$. Since $9 > 4$, Firm A chooses $L$.
+
+:::
+
+### c) The Outcome
+
+{++What is the outcome of the game? Is it socially efficient?++}
+
+ 
+
+ 
+
+:::: solution
+
+$(L, L)$, with $9$ for each firm. It is efficient: total profits are $18$ at $(L, L)$, $9$ at $(L, H)$, $13$ at $(H, L)$ and $8$ at $(H, H)$.
+
+Firm B’s best response on each branch is boxed. The yellow path is the outcome of the game.
+
+::: {.table style=plain inset=8pt columns="auto auto 112pt" fills="r1c1:yellow r1c2:yellow" borders="r1c0:all r1-4c1-2:all r3c0:all" valign=middle spans="r1c0:1x2 r3c0:1x2"}
+
+| **Firm A chooses** | **Then Firm B chooses** | **Profits (A, B)** |
+| :---: | :---: | :---: |
+| L | L | 9, $\boxed{9}$ |
+|   | H | 2, 7 |
+| H | L | 12, 1 |
+|   | H | 4, $\boxed{4}$ |
+
+:::
+
+::::
+
+### d) Choosing at the Same Time
+
+{++Suppose instead the firms chose at the same time, without seeing each other’s nets. Write the same profits as a payoff matrix and find all Nash Equilibrium.++}
+
+ 
+
+ 
+
+:::: solution
+
+$(H, H)$. Without seeing Firm B’s choice, Firm A harvests high whatever Firm B does ($12 > 9$ and $4 > 2$), and Firm B’s best response to $H$ is $H$. Moving first helps here: Firm A knows that fishing low keeps Firm B fishing low, which is worth more to Firm A than the extra catch.
+
+Best responses are boxed. The yellow cell is the Nash Equilibrium, and the blue cell is socially efficient.
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" fills="r2c2:blue r3c3:yellow" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **Firm B** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | L | H |
+| **Firm A** | L | 9, $\boxed{9}$ | 2, 7 |
+|   | H | $\boxed{12}$, 1 | $\boxed{4}$, $\boxed{4}$ |
+
+:::
+
+::::

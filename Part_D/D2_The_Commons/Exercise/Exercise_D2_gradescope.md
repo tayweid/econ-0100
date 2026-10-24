@@ -68,3 +68,46 @@ See Q1 | Shrake Fishery on the Exercise D2 handout. Firm A and Firm B each harve
 (x) (H, L)
 ( ) (H, H)
 ```
+
+## Q2: `Shrake Fishery, Firm A Moves First`
+
+```
+See Q2 | Shrake Fishery, Firm A Moves First on the Exercise D2 handout. Firm A chooses first and Firm B sees that choice before choosing. Lifetime profits are the same as in Q1, listed (Firm A, Firm B): (L, L) 10, 6; (L, H) 2, 10; (H, L) 18, 1; (H, H) 3, 3.
+```
+
+### Q2.1: `If Firm A chooses L, Firm B chooses:`
+
+```
+( ) L
+(x) H
+```
+
+### Q2.2: `If Firm A chooses H, Firm B chooses:`
+
+```
+( ) L
+(x) H
+```
+
+### Q2.3: `Working backward, Firm A chooses:`
+
+```
+( ) L
+(x) H
+```
+
+### Q2.4: `The outcome of the game (Firm A, Firm B):`
+
+```
+( ) (L, L)
+( ) (L, H)
+( ) (H, L)
+(x) (H, H)
+```
+
+### Q2.5: `Does moving first change the outcome from the Nash Equilibrium in Q1?`
+
+```
+( ) Yes
+(x) No
+```
