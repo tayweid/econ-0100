@@ -535,7 +535,6 @@ parts:
           topic: Production, costs, and industry structure
         vignette:
           description: "*Production costs practice problems*"
-          files: E1
         dates:
           class: '2026-11-02'
           recitation: '2026-11-06'
@@ -554,7 +553,6 @@ parts:
           topic: Perfect competition
         vignette:
           description: "*Competitive firms practice problems*"
-          files: E2
         dates:
           class: '2026-11-04'
           recitation: '2026-11-06'
@@ -631,7 +629,6 @@ parts:
         vignette:
           video: n3LpswjCp6w
           description: "*Factor markets practice problems with video walkthrough*"
-          files: F1
         dates:
           class: '2026-11-30'
           recitation: '2026-12-04'
@@ -650,8 +647,6 @@ parts:
         vignette:
           video: l2uq30_Cg10
           description: "*Consumer choice practice problems with video walkthrough*"
-          files: F2
-          solution_file: Vignettes/Vignette_F2_sols_new.pdf
         dates:
           class: '2026-12-02'
           recitation: '2026-12-04'
