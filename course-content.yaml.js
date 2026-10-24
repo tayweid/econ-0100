@@ -448,6 +448,7 @@ parts:
             where: home
             due: Sun Oct 25
             date: '2026-10-25'
+            video: PWmQW5aBQu4
             post: now
             links: [{label: Vignette, file: Part_D/D1_Games/Vignette/Vignette_D1.pdf}]
           - name: Homework D1
