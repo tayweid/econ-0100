@@ -144,13 +144,15 @@
 
     // Light the route lines named by keys ('practice B', 'makeup A', ...) and
     // their row labels, plus either the one hovered heading or every heading those
-    // lines can attempt; mute everything else. The legend still lights through
-    // the shared data-route rules.
+    // lines can attempt; mute everything else. A hovered heading lights only the
+    // marks up to its own event, to show what led there. The legend still lights
+    // through the shared data-route rules.
     function highlight(scope, keys, onlyHeading) {
         const parts = new Set(keys.map(key => key.split(' ')[1]));
+        const until = onlyHeading && onlyHeading.hasAttribute('data-at') ? Number(onlyHeading.dataset.at) : Infinity;
         scope.classList.add('part-hover');
         scope.querySelectorAll('g[data-route][data-part]').forEach(group => group.classList.toggle('part-on',
-            keys.includes(group.dataset.route + ' ' + group.dataset.part)));
+            keys.includes(group.dataset.route + ' ' + group.dataset.part) && !(Number(group.dataset.at) > until)));
         scope.querySelectorAll('.part-label[data-part]').forEach(label => label.classList.toggle('part-on',
             parts.has(label.dataset.part)));
         scope.querySelectorAll('.event-heading').forEach(heading => heading.classList.toggle('part-on', onlyHeading
@@ -184,6 +186,7 @@
             const route = mark.matches('.practice-path, .practice-start, .stop') ? 'practice' : 'makeup';
             const part = mark.getAttribute('data-part');
             const group = svgElement('g', { 'data-route': route, 'data-part': part });
+            if (mark.hasAttribute('data-at')) group.setAttribute('data-at', mark.getAttribute('data-at'));
             onHover(group, () => [route + ' ' + part]);
             // Read drawing coordinates directly: the schedule may still be hidden
             // while loading, when getBBox() would report an empty rectangle.
@@ -268,6 +271,7 @@
         events.forEach((event, index) => {
             const at = x(index);
             const heading = headings[index] = eventHeading(svg, svgElement('rect', { x: at - (full ? 62 : 85), y: 0, width: full ? 124 : 170, height: 54, fill: 'transparent' }), event);
+            heading.setAttribute('data-at', index);
             text(heading, at, 17, event.name, 'event-name');
             eventMeta(heading, at, full ? 34 : 39, event, 'middle', full);
             svg.append(svgElement('line', { x1: at, y1: 53, x2: at, y2: 65, class: 'axis' }));
@@ -292,7 +296,14 @@
             chances.forEach(chance => servePart(headings[chance.index], 'makeup', part.id));
             if (chances.length || !full) {
                 const lastX = full ? x(chances[chances.length - 1].index) : width - 29;
-                svg.append(svgElement('path', { d: `M ${firstX} ${y} H ${lastX}`, class: 'route retry', 'data-part': part.id, stroke: color }));
+                if (full) {
+                    // One dashed piece per chance, ending at its event, so a date can
+                    // light only the stretch that leads up to it.
+                    const stops = [first, ...chances.map(chance => chance.index)];
+                    stops.slice(1).forEach((end, step) => svg.append(svgElement('path', {
+                        d: `M ${x(stops[step])} ${y} H ${x(end)}`, class: 'route retry', 'data-part': part.id, 'data-at': end, stroke: color
+                    })));
+                } else svg.append(svgElement('path', { d: `M ${firstX} ${y} H ${lastX}`, class: 'route retry', 'data-part': part.id, stroke: color }));
                 if (!full) {
                     svg.append(svgElement('path', { d: `M ${lastX - 7} ${y - 5} L ${lastX} ${y} L ${lastX - 7} ${y + 5}`, class: 'route', stroke: color }));
                     text(svg, width - 70, y - 15, 'and later', 'end-label');
@@ -303,9 +314,9 @@
                 // Remove a little connecting line around each tick for legibility.
                 svg.append(svgElement('rect', { x: at - 6, y: y - 14, width: 12, height: 28, fill: 'var(--bg)' }));
                 if (index === first) {
-                    svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', 'data-part': part.id, stroke: color }));
+                    svg.append(svgElement('line', { x1: at, y1: y - 9, x2: at, y2: y + 9, class: 'stop', 'data-part': part.id, 'data-at': index, stroke: color }));
                 } else {
-                    svg.append(svgElement('path', { d: `M ${at} ${y - 8} L ${at + 6} ${y} L ${at} ${y + 8} L ${at - 6} ${y} Z`, class: 'reattempt-stop', 'data-part': part.id, stroke: color }));
+                    svg.append(svgElement('path', { d: `M ${at} ${y - 8} L ${at + 6} ${y} L ${at} ${y + 8} L ${at - 6} ${y} Z`, class: 'reattempt-stop', 'data-part': part.id, 'data-at': index, stroke: color }));
                 }
             });
         });

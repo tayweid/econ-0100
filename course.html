@@ -80,11 +80,17 @@
         .route-map .practice-start { fill: var(--bg); stroke-width: 2; }
         .route-map > rect { pointer-events: none; }
         .route-map [data-route], .unlock-legend { transition: opacity 120ms ease; }
-        .attempt-key { position: absolute; left: 0; top: 21px; width: 52px; height: 24px; flex-shrink: 0; color: var(--link); }
+        /* Each key: the timeline's line and mark, with a block's E V H practice on it (2 of 3 done, then 3 of 3). */
+        .attempt-key { position: absolute; left: 0; top: 16px; width: 132px; height: 34px; flex-shrink: 0; color: var(--link); }
         .attempt-key .key-path { fill: none; stroke: currentColor; stroke-width: 2; }
         .attempt-key .key-start { fill: var(--bg); stroke: currentColor; stroke-width: 2; }
         .attempt-key .key-checkpoint { stroke: currentColor; stroke-width: 4; }
         .attempt-key .key-reattempt { fill: var(--bg); stroke: currentColor; stroke-width: 2; }
+        .attempt-key .key-dot { stroke-width: 2; }
+        .attempt-key .key-dot.done { fill: var(--link); stroke: var(--link); }
+        .attempt-key .key-dot.hollow { fill: var(--bg); stroke: #8a8a8a; }
+        .attempt-key .key-letter { fill: var(--caption); font: 600 9px var(--font-body); }
+        #practice-head h2 { margin: 0; }
         [hidden] { display: none !important; }
         .guide-section:target { border-color: var(--link); }
         .guide-section:target .unlock-heading { color: var(--link); }
@@ -102,7 +108,7 @@
         .part-hover :is(.route-map g[data-route], .event-heading, .part-label[data-part]):not(.part-on) { opacity: .25; }
         .part-hover .route-map g[data-route]:not(.part-on) :is(.practice-path, .retry) { stroke-width: 3; }
 
-        .guide .unlock-legend { position: relative; margin-top: 16px; padding-top: 14px; padding-left: 70px; border-top: 0; }
+        .guide .unlock-legend { position: relative; margin-top: 16px; padding-top: 14px; padding-left: 156px; border-top: 0; }
         .guide .unlock-heading { font: 400 18px/1.5 var(--font-body); }
         .unlock-heading button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
         .unlock-heading button:hover, .unlock-heading button:focus-visible { color: var(--link); }
@@ -112,6 +118,55 @@
         .makeup-steps li { padding-left: 4px; }
         .makeup-steps li + li { margin-top: 5px; }
         .makeup-steps li::marker { color: var(--caption); }
+        /* Example Part B, one skill per row, drawn like the Skillsheet Report:
+           its dots, status squares, column heads, and block lines, in the page's colors. */
+        .guide { --amber: #D99A00; --amber-tint: rgba(217, 154, 0, .16); --blue-tint: rgba(74, 143, 240, .18); }
+        .ex-legend { display: flex; flex-wrap: wrap; gap: 8px 36px; margin: 0 0 6px; padding: 10px 14px 6px; background: rgba(255, 255, 255, .04); border-radius: 4px; font-size: 13px; color: var(--fg); }
+        .ex-legend .h { margin: 0 0 5px; color: var(--white); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+        .ex-legend .row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 0 0 5px; }
+        .ex-legend b { color: var(--white); }
+        .ex-legend .it { white-space: nowrap; }
+        .ex-legend .dot { width: 12px; height: 12px; vertical-align: -1px; }
+        .ex-legend .ic { width: 16px; height: 16px; vertical-align: -3px; }
+        .ex-table { font-size: 15px; border-bottom: 1px solid var(--fg); }
+        .ex-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) 70px 108px 88px 140px 108px 88px; align-items: center; gap: 0 8px; min-height: 34px; }
+        .ex-head { align-items: end; padding: 14px 0 5px; border-bottom: 1.5px solid var(--fg); }
+        .ex-th { color: var(--caption); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+        .ex-th.ex-title { grid-column: span 2; color: var(--white); font: 400 21px/1.1 var(--font-heading); letter-spacing: 0; text-transform: none; }
+        .ex-th .on { margin-left: 8px; color: var(--caption); font: 400 14px var(--font-body); }
+        .ex-head .ex-practice { display: flex; justify-content: center; }
+        .let { display: flex; gap: 7px; }
+        .let span { width: 16px; color: var(--white); font-weight: 600; text-align: center; }
+        .ex-lead { display: flex; align-items: center; gap: 12px; padding: 10px 0 2px; color: var(--white); font: 400 19px/1.2 var(--font-heading); }
+        .ex-lead .line { flex: 1; border-top: 1px solid var(--rule); }
+        .ex-code { padding-left: 14px; color: var(--caption); font-size: 14px; }
+        .ex-name { color: var(--white); min-width: 0; }
+        .ex-practice { display: flex; justify-content: center; }
+        .tri { display: inline-flex; gap: 7px; }
+        .dot-button, .ic-button { display: inline-flex; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 50%; }
+        .ic-button { border-radius: 4px; }
+        .dot-button:hover .dot, .ic-button:hover .ic { transform: scale(1.18); }
+        .dot-slot { width: 16px; }
+        .dot { display: inline-block; width: 16px; height: 16px; border-radius: 50%; border: 2px solid #8a8a8a; background: var(--bg); transition: transform 120ms ease, background 120ms ease, border-color 120ms ease; }
+        .dot.done { background: var(--link); border-color: var(--link); }
+        .dot.closed { background: var(--amber-tint); border-color: var(--amber); }
+        .ic { width: 20px; height: 20px; flex-shrink: 0; transition: transform 120ms ease; }
+        .ic rect { stroke-width: 1.6; }
+        .ic-passed rect { fill: var(--link); stroke: var(--link); }
+        .ic-notyet_open rect, .ic-notyet_locked rect { fill: var(--amber-tint); stroke: var(--amber); }
+        .ic-unlocked rect { fill: var(--blue-tint); stroke: var(--link); }
+        .ic-locked rect { fill: var(--bg); stroke: var(--fg); stroke-width: 1.4; }
+        .ic-unknown rect { fill: var(--bg); stroke: #8a8a8a; stroke-width: 1.4; stroke-dasharray: 2 1.6; }
+        .ic-unknown text { fill: var(--caption); font: 700 10px var(--font-body); }
+        .ic-x { stroke: var(--white); stroke-width: 1.7; stroke-linecap: round; fill: none; }
+        .ex-sitting, .ex-outcome, .ex-makeup { display: flex; align-items: center; gap: 8px; transition: opacity 120ms ease, filter 120ms ease; }
+        .ic-still { display: inline-flex; }
+        .todo { color: var(--white); font-size: 14px; white-space: nowrap; }
+        .todo.quiet { color: var(--caption); }
+        .todo.made { color: var(--link); }
+        .ex-sitting.blank { opacity: .22; filter: grayscale(1); }
+        .ex-outcome.passed .todo { color: var(--link); font-weight: 600; }
+        .ex-hint { margin: 6px 0 0; color: var(--caption); font-size: 13px; font-style: italic; }
         .guide .skip-link { position: absolute; top: -100px; left: 15px; z-index: 10; background: var(--bg); padding: 12px; }
         .guide .skip-link:focus { top: 10px; }
         .guide :focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
@@ -129,8 +184,20 @@
             .hours-table th, .hours-table td { padding-right: 8px; }
             .guide .content { padding: 25px 20px 45px; }
             .guide-section { margin-top: 22px; padding-top: 18px; }
-            .guide .unlock-legend { padding-left: 50px; }
-            .attempt-key { width: 38px; top: 19px; }
+            .guide .unlock-legend { padding-left: 0; padding-top: 52px; }   /* the key sits above its line */
+            .ex-row { grid-template-columns: 44px repeat(3, minmax(0, 1fr)); gap: 6px 8px; padding: 2px 0 10px; }
+            .ex-head > :not(.ex-title) { display: none; }
+            .ex-th.ex-title { grid-column: 1 / -1; }
+            .ex-code { grid-column: 1; padding-left: 0; }
+            .ex-name { grid-column: 2 / -1; }
+            .ex-practice { grid-column: 2 / -1; justify-content: flex-start; flex-wrap: wrap; gap: 2px 6px; }
+            .ex-row > :nth-child(4), .ex-row > :nth-child(7) { grid-column: 2; }   /* Checkpoint · Outcome · Makeups, then Reattempt · Outcome */
+            .ex-sitting, .ex-outcome, .ex-makeup { flex-wrap: wrap; align-items: center; gap: 2px 6px; }
+            .ex-cell[data-label]::before { content: attr(data-label); flex-basis: 100%; color: var(--caption); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+            .let { gap: 4px; } .tri { gap: 4px; }
+            .todo, .ex-th { font-size: 12px; }
+            .ex-legend { gap: 4px 20px; }
+            .attempt-key { top: 12px; }
             .guide .unlock-heading { font-size: 17px; }
             .unlock-count { font-size: 28px; }
         }
@@ -151,6 +218,7 @@
     </style>
     <script src="course-content.yaml.js" defer></script>
     <script src="checkpoints.js" defer></script>
+    <script src="practice-demo.js" defer></script>
 </head>
 <body class="guide course-econ-0100">
 <a class="skip-link" href="#main">Skip to course logistics</a>
@@ -198,7 +266,7 @@
 
         <section class="guide-section" id="timeline" aria-labelledby="timeline-heading">
             <h2 id="timeline-heading">Checkpoints &amp; Reattempts</h2>
-            <p class="section-intro">Checkpoints are like quizzes, but are broken down into skills. Attempt only the questions you have unlocked. You can reattempt any skill individually. Leave blank the skills you have already passed. Passed skills stay passed.</p>
+            <p class="section-intro">Checkpoints are made up of many small quizzes, one per skill, and you can reattempt any skill you do not pass. Attempt only the skill you have unlocked. You can reattempt any skill individually. Leave blank the skills you have already passed. Passed skills stay passed.</p>
             <div id="schedule" aria-busy="true">
                 <p id="schedule-status" role="status">Loading dates from the course schedule…</p>
                 <div id="schedule-content" hidden>
@@ -208,18 +276,29 @@
             <noscript><style>#schedule { display: none; }</style><p>Enable JavaScript to see the dated timeline. Reattempt A offers Part A; Reattempt B offers Parts A and B; Reattempt C offers A, B, and C, and so on. See the <a href="Syllabus/Syllabus.pdf">syllabus</a> and Canvas for dates.</p></noscript>
         </section>
 
+        <section class="guide-section" id="practice-head" aria-labelledby="practice-title">
+            <h2 id="practice-title">Practice</h2>
+            <p class="section-intro">There are three kinds of practice. Exercises are done together in class. Vignettes are done together in recitation. Homework is done with your classmates or on your own outside of class. Practice is built into the course in this way to give you regular and repeated practice before a checkpoint. Practice is graded for completion, carries no points for your grade, and is required to unlock the checkpoint.</p>
+        </section>
+
         <section class="guide-section unlock-legend" id="practice" tabindex="-1" aria-labelledby="practice-heading">
-            <h2 class="unlock-heading" id="practice-heading"><button type="button" data-route="practice"><span><span class="unlock-count">2 of 3</span> practice unlocks a skill on the Checkpoint</span><svg class="attempt-key" viewBox="0 0 52 24" aria-hidden="true"><path class="key-path" d="M 5 12 H 48"/><circle class="key-start" cx="5" cy="12" r="3.5"/><path class="key-checkpoint" d="M 48 3 V 21"/></svg></button></h2>
+            <h2 class="unlock-heading" id="practice-heading"><button type="button" data-route="practice"><span><span class="unlock-count">2 of 3</span> practice unlocks a skill on the Checkpoint</span><svg class="attempt-key" viewBox="0 0 132 34" aria-hidden="true"><path class="key-path" d="M 5 12 H 126"/><circle class="key-start" cx="5" cy="12" r="3.5"/><circle class="key-dot done" cx="42" cy="12" r="6"/><text class="key-letter" x="42" y="31" text-anchor="middle">E</text><circle class="key-dot done" cx="64" cy="12" r="6"/><text class="key-letter" x="64" y="31" text-anchor="middle">V</text><circle class="key-dot hollow" cx="86" cy="12" r="6"/><text class="key-letter" x="86" y="31" text-anchor="middle">H</text><path class="key-checkpoint" d="M 126 3 V 21"/></svg></button></h2>
         </section>
 
         <section class="guide-section unlock-legend" id="makeup" tabindex="-1" aria-labelledby="makeup-heading">
-            <h2 class="unlock-heading" id="makeup-heading"><button type="button" data-route="makeup"><span><span class="unlock-count">3 of 3</span> practice unlocks a skill on the Reattempt</span><svg class="attempt-key" viewBox="0 0 52 24" aria-hidden="true"><path class="key-path" stroke-dasharray="4 4" d="M 1 12 H 44"/><path class="key-reattempt" d="M 44 4 L 50 12 L 44 20 L 38 12 Z"/></svg></button></h2>
+            <h2 class="unlock-heading" id="makeup-heading"><button type="button" data-route="makeup"><span><span class="unlock-count">3 of 3</span> practice unlocks a skill on the Reattempt</span><svg class="attempt-key" viewBox="0 0 132 34" aria-hidden="true"><path class="key-path" stroke-dasharray="4 4" d="M 1 12 H 118"/><circle class="key-dot done" cx="42" cy="12" r="6"/><text class="key-letter" x="42" y="31" text-anchor="middle">E</text><circle class="key-dot done" cx="64" cy="12" r="6"/><text class="key-letter" x="64" y="31" text-anchor="middle">V</text><circle class="key-dot done" cx="86" cy="12" r="6"/><text class="key-letter" x="86" y="31" text-anchor="middle">H</text><path class="key-reattempt" d="M 124 4 L 130 12 L 124 20 L 118 12 Z"/></svg></button></h2>
             <p class="makeup-intro">Practice can only be made up <strong>after the checkpoint.</strong></p>
             <ol class="makeup-steps" aria-label="How to make up missed practice">
                 <li>Find the Exercise, Vignette, or Homework you missed on the course page and <strong>complete the work.</strong></li>
                 <li><strong>Bring the completed work to Taylor’s or your TA’s office hours.</strong></li>
                 <li><strong>Reattempt</strong> the skills you still need.</li>
             </ol>
+        </section>
+
+        <section class="guide-section demo-section" id="practice-demo" aria-labelledby="reports-title">
+            <h2 id="reports-title">Skillsheet Reports</h2>
+            <p class="section-intro">You'll receive a skillsheet report showing the practice you've completed on the path to attempting the skill and the skills you've passed. Your final grade is simply the percentage of skills you pass.</p>
+            <div id="practice-blocks"></div>
         </section>
     </main>
 
