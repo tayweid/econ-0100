@@ -565,7 +565,10 @@ class EpisodeD2(Scene):
         self.play(FadeOut(teaching))
         efficient_box = Square(side_length=CELL_SIDE-0.15,color=EFFICIENT,stroke_width=3).rotate(DIAMOND_ANGLE).move_to(payoffs[0][0])
         comparison = Tex(r'$15 > 10$ for each firm.',color=INK).scale(0.85).move_to([4.8,0,0])
-        teaching = Tex('Tragedy of the commons: both would do better with Low.',color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        teaching = VGroup(
+            Tex('Tragedy of the commons',color=DEFINITION).scale(TEACHING_SCALE),
+            Tex('Individual incentives lead to overuse of a rival, non-excludable resource:',color=INK).scale(0.65),
+            Tex('each user benefits from extra use but bears only part of its total cost.',color=INK).scale(0.65),
+        ).arrange(DOWN,buff=0.12).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(Create(efficient_box),FadeIn(comparison),FadeIn(teaching))
         self.pause('4.k')

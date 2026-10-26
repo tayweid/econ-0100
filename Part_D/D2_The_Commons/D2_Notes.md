@@ -109,7 +109,7 @@ When both choose High, they exhaust the pond immediately. Each catches ten, then
 4.e · Box 10 in pink; “High: 10 > 8.75.”
 4.f · Add Firm 2’s two teal best-response boxes by symmetry; “The same comparisons hold for Firm 2. Both prefer High.”
 4.j · Red outline around H,H; “Neither firm gains by changing its strategy alone.”
-4.k · Green outline around L,L, retain red H,H, show 15 > 10 for each firm; “Tragedy of the commons: both would do better with Low.” End.
+4.k · Green outline around L,L, retain red H,H, show 15 > 10 for each firm; Gold heading “Tragedy of the commons”; white definition “Individual incentives lead to overuse of a rival, non-excludable resource: each user benefits from extra use but bears only part of its total cost.” End.
 -->
 
 > **4.a.** In one continuous 1.2-second transition, fade the graph, its subtitle, and the totals heading while the grid and labels of D1’s diamond matrix appear. Move the three payoff pairs directly from their positions beside the graph into their matrix cells. Simultaneously copy the H,L numbers, exchanging firms and colors, into L,H. Fade the three profile labels. Do not stage payoff cards above the matrix or reveal a separate empty matrix. Pause only on the complete unmarked matrix. Preserve D1 geometry, horizontal numbers, and player colors.
@@ -127,9 +127,9 @@ If Firm 2 chooses Low, Firm 1 prefers 17.5 to 15. If Firm 2 chooses High, Firm 1
 
 > **4.j.** Retain response boxes and outline High, High in red. Hold on the unilateral-deviation test: neither firm can improve by changing alone. This is the **Nash equilibrium**.
 
-> **4.k.** Add the matching green outline around Low, Low, and “15 > 10 for each firm” beside the matrix. Hold and finish the core explanation here.
+> **4.k.** Add the matching green outline around Low, Low, and “15 > 10 for each firm” beside the matrix. At the bottom, show “Tragedy of the commons” in gold at the standard teaching scale, followed by two white lines at scale 0.65: “Individual incentives lead to overuse of a rival, non-excludable resource:” and “each user benefits from extra use but bears only part of its total cost.” Keep 0.12 spacing and the existing bottom margin, with clearance below the diamond. Hold and finish the core explanation here.
 
-Both would do better if both chose Low. But each prefers High given either choice by the other firm. That conflict between individual incentives and the shared outcome is the **tragedy of the commons**.
+Both would do better if both chose Low. But each prefers High given either choice by the other firm. The **tragedy of the commons** occurs when individual incentives lead to overuse of a rival, non-excludable resource: each user benefits from extra use but bears only part of its total cost. Here, a firm gets the fish it catches, while the depleted stock reduces future catches for both firms. The Nash outcome therefore leaves both worse off than restrained use.
 
 ## Optional discussion | Beyond the short lesson
 
