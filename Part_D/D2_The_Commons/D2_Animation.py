@@ -37,6 +37,7 @@ class EpisodeD2(Scene):
             (-1.38,0.22),(0.25,0.12),(-0.68,-0.07),(1.03,-0.41),(1.85,-1.04),
             (2.07,0.19),(-0.49,-0.66),(-1.12,-0.75),(-1.75,-0.62),(1.54,0.08))]
         FIRM_COLORS = (ROW_PLAYER, COL_PLAYER)
+        PRIOR_PATH_OPACITY = 0.25
         CELL_SIDE = 1.5
         DIAMOND_ANGLE = -PI / 4
         GAME_CENTER = DOWN * 0.5
@@ -305,6 +306,7 @@ class EpisodeD2(Scene):
         # ---- 3.e.low.first · New scenario: reset once, then run all three months.
         self.play(FadeOut(survivors),FadeOut(offspring),FadeOut(newborn_edges),
                   FadeOut(teaching),FadeOut(result_cards[1]),FadeOut(point_values),
+                  VGroup(hl_dots,hl_segments,hl_label).animate.set_opacity(PRIOR_PATH_OPACITY),
                   Transform(names[0],Tex('Firm 1: Low',color=ROW_PLAYER).scale(0.65).move_to(names[0])),
                   Transform(month_label,Tex('Month 1',color=CAPTION).scale(0.6).move_to(month_label)),
                   Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.5)
@@ -394,6 +396,7 @@ class EpisodeD2(Scene):
         # ---- 3.e.high.first · Both High removes the entire stock in month 1.
         self.play(FadeOut(survivors),FadeOut(offspring),FadeOut(newborn_edges),
                   FadeOut(teaching),FadeOut(result_cards[0]),
+                  VGroup(ll_dots,ll_segments,ll_label).animate.set_opacity(PRIOR_PATH_OPACITY),
                   *[Transform(names[i],Tex(f'Firm {i+1}: High',color=FIRM_COLORS[i]).scale(0.65).move_to(names[i])) for i in range(2)],
                   Transform(month_label,Tex('Month 1',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.5)
         fish = VGroup(*[Dot(radius=TOKEN_RADIUS*0.8,color=INK).move_to(pos) for pos in POND_POSITIONS])
@@ -455,6 +458,9 @@ class EpisodeD2(Scene):
         plot_target[1].become(x_labels_target)
         plot_target[2].become(y_labels_target)
         plot_target[3].become(x_title_target)
+        # Restore equal emphasis when comparing all three completed scenarios.
+        for path_part in plot_target[4:]:
+            path_part.set_opacity(1)
         self.play(FadeOut(pond),FadeOut(stock_label),FadeOut(names),FadeOut(trays),FadeOut(choices),
                   FadeOut(catch_values),FadeOut(month_label),FadeOut(chart_heading),FadeOut(teaching),run_time=0.4)
         self.play(Transform(head,title('Catch Over Time')),
