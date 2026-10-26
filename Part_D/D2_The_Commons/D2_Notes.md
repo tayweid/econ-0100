@@ -37,11 +37,11 @@ sim.e · Add “- Maximize harvest after 4 rounds”; hold the complete card for
 ## 1 | From the simulation to the model
 
 <!--
-1.a · D1 taxonomy with Common Resources highlighted; “What changes when we cannot exclude other users?”
+1.a · D1 taxonomy with Common Resources highlighted; grey subtitle “Goods that are rival and non-excludable.”; no yellow note.
 3.a · Pond and twenty dots on the left; “Two Strategies:” with “- Low Catch (L): ¼ of the Stock” and “- High Catch (H): ½ of the Stock” on the right; descriptions after the colons are grey; “Maximize total catch over 3 months.”
 -->
 
-> **1.a.** Briefly reconnect to D1’s taxonomy. The fish are rival, and neither firm can exclude the other from this pond. Hold, then move directly to the model.
+> **1.a.** Briefly reconnect to D1’s taxonomy. Under the title, show the grey subtitle “Goods that are rival and non-excludable.” Leave the bottom clear, with no yellow note. The fish are rival, and neither firm can exclude the other from this pond. Hold, then move directly to the model.
 
 A fish one firm catches is unavailable to the other. The catch is private, but the stock that produces future catches is shared.
 

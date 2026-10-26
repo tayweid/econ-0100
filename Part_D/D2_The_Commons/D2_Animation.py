@@ -88,15 +88,14 @@ class EpisodeD2(Scene):
         ).scale(0.7).move_to([0.4, BODY_MID, 0])
         selected = taxonomy.get_entries_without_labels((2, 1))
         box = SurroundingRectangle(selected, buff=0.22, color=NASH)
-        teaching = Tex('What changes when we cannot exclude other users?', color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(head), FadeIn(taxonomy), FadeIn(teaching))
+        context = subtitle(head, 'Goods that are rival and non-excludable.')
+        self.play(FadeIn(head), FadeIn(context), FadeIn(taxonomy))
         self.play(Create(box))
         self.pause('1.a')
 
         # ---- 3.a · Turn the simulation into a deliberately small strategic model.
         # Keep the pond and its actual population through the rules and first run.
-        self.play(FadeOut(taxonomy),FadeOut(box),FadeOut(teaching),Transform(head,title('The Fishing Game')))
+        self.play(FadeOut(taxonomy),FadeOut(box),FadeOut(context),Transform(head,title('The Fishing Game')))
         pond = RoundedRectangle(width=5.4,height=2.8,corner_radius=0.8,color=INK,stroke_width=2).move_to(POND_CENTER)
         context = subtitle(head, 'One dot = 1,000 fish.')
         fish = VGroup(*[Dot(radius=TOKEN_RADIUS,color=INK).move_to(pos) for pos in POND_POSITIONS])
