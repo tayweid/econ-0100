@@ -38,14 +38,14 @@ sim.e · Add “- Maximize harvest after 4 rounds”; hold the complete card for
 
 <!--
 1.a · D1 taxonomy with Common Resources highlighted; “What changes when we cannot exclude other users?”
-3.a · Pond and twenty dots on the left; only “Low: ¼” and “High: ½” on the right; “Maximize total catch over 3 months.”
+3.a · Pond and twenty dots on the left; “Two Strategies:” with “- Low Catch (L): ¼ of the Stock” and “- High Catch (H): ½ of the Stock” on the right; descriptions after the colons are grey; “Maximize total catch over 3 months.”
 -->
 
 > **1.a.** Briefly reconnect to D1’s taxonomy. The fish are rival, and neither firm can exclude the other from this pond. Hold, then move directly to the model.
 
 A fish one firm catches is unavailable to the other. The catch is private, but the stock that produces future catches is shared.
 
-> **3.a.** Keep the rounded pond at (−4, 0.85), width 5.4, height 2.8, corner radius 0.8, with twenty scattered dots and Stock: 20. Short subtitle: “One dot = 1,000 fish.” On the right, show only “Low: ¼” and “High: ½” at scale 1.05, centered as a group at (4, 0.65). Bottom: “Maximize total catch over 3 months.” Hold. Explain the shares of starting stock, simultaneous choices, fixed strategies, reproduction rule, and payoff assumptions aloud using the paragraph below; do not display a second rules list or an assumptions caption.
+> **3.a.** Keep the rounded pond at (−4, 0.85), width 5.4, height 2.8, corner radius 0.8, with twenty scattered dots and Stock: 20. Short subtitle: “One dot = 1,000 fish.” On the right, show “Two Strategies:” at scale 0.85 above “- Low Catch (L): ¼ of the Stock” and “- High Catch (H): ½ of the Stock” at scale 0.75. Keep the heading and strategy names white; everything after each strategy’s colon is CAPTION grey. Align the three lines on the left with 0.55 spacing, centered as a group at (4, 0.65). Bottom: “Maximize total catch over 3 months.” Hold. Explain the shares of starting stock, simultaneous choices, fixed strategies, reproduction rule, and payoff assumptions aloud using the paragraph below; do not display a second rules list or an assumptions caption.
 
 Both firms calculate their catch from the same starting stock. After harvest, survivors double, up to the carrying capacity of 20,000. We count all three months’ catches, with equal value per fish, no costs, and no value assigned to the final stock. This is a small commitment game we can solve, not a biological model of tuna.
 
