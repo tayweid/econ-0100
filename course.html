@@ -16,6 +16,28 @@
         css.onerror = function () { css.onerror = null; css.href = 'https://tayweid.github.io/course-assets/course.css'; };
         css.href = '../tayweid.github.io/course-assets/course.css';
     }
+    // The course column, as on the part pages: the shared course code reads course-content.yaml.js
+    // (loaded below) and draws it into the left slot. From disk it prefers the sibling checkout.
+    (function () {
+        var published = 'https://tayweid.github.io/course-assets/';
+        var sibling = '../tayweid.github.io/course-assets/';
+        var base = location.protocol === 'file:' ? sibling : published;
+        var files = ['js-yaml.min.js', 'course-schema.js', 'course-page.js'];
+        function load(index) {
+            if (index >= files.length) return;
+            var script = document.createElement('script');
+            script.src = base + files[index];
+            script.onload = function () { load(index + 1); };
+            script.onerror = function () {
+                if (base === published) { load(index + 1); return; }
+                base = published;
+                load(index);
+            };
+            window.COURSE_ASSETS_BASE = base;
+            document.head.appendChild(script);
+        }
+        load(0);
+    })();
     </script>
     <style>
         /* The guide's diagrams use the shared Graphite type, ground, and marks. */
@@ -223,7 +245,8 @@
 <body class="guide course-econ-0100">
 <a class="skip-link" href="#main">Skip to course logistics</a>
 <div class="wrapper">
-    <main class="content" id="main">
+    <div class="left_div" data-course-left-nav></div>
+    <main class="content" id="main" data-course-home>
         <div class="course-overview">
         <header class="description">
             <div class="title-row">
@@ -233,7 +256,7 @@
             <i class="subtitle-text">ECON 0100 · Microeconomics · Lawrence 120</i>
         </header>
             <nav class="part-overview" aria-labelledby="outline-heading">
-                <h2 id="outline-heading">Course Outline</h2>
+                <h2 id="outline-heading" data-course-nav>Course Outline</h2>
                 <p class="outline-intro">Economists ask a big question, “What choices should we make when we can’t have everything?”</p>
                 <ul>
                     <li><a class="part-link" href="part-a.html"><span class="part-label-link">Part A</span><span class="part-title">The Core Economic Idea</span></a></li>
@@ -247,7 +270,7 @@
 
         <section class="course-info" aria-label="Course information">
             <div id="office-hours">
-                <h2>Office Hours</h2>
+                <h2 data-course-nav>Office Hours</h2>
                 <table class="hours-table" aria-label="Instructor and TA office hours">
                     <thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Time</th><th scope="col">Location</th></tr></thead>
                     <tbody>
@@ -265,7 +288,7 @@
         </div>
 
         <section class="guide-section" id="timeline" aria-labelledby="timeline-heading">
-            <h2 id="timeline-heading">Checkpoints &amp; Reattempts</h2>
+            <h2 id="timeline-heading" data-course-nav>Checkpoints &amp; Reattempts</h2>
             <p class="section-intro">Checkpoints are made up of many small quizzes, one per skill, and you can reattempt any skill you do not pass. Attempt only the skill you have unlocked. You can reattempt any skill individually. Leave blank the skills you have already passed. Passed skills stay passed.</p>
             <div id="schedule" aria-busy="true">
                 <p id="schedule-status" role="status">Loading dates from the course schedule…</p>
@@ -277,7 +300,7 @@
         </section>
 
         <section class="guide-section" id="practice-head" aria-labelledby="practice-title">
-            <h2 id="practice-title">Practice</h2>
+            <h2 id="practice-title" data-course-nav>Practice</h2>
             <p class="section-intro">There are three kinds of practice. Exercises are done together in class. Vignettes are done together in recitation. Homework is done with your classmates or on your own outside of class. Practice is built into the course in this way to give you regular and repeated practice before a checkpoint. Practice is graded for completion, carries no points for your grade, and is required to unlock the checkpoint.</p>
         </section>
 
@@ -296,7 +319,7 @@
         </section>
 
         <section class="guide-section demo-section" id="practice-demo" aria-labelledby="reports-title">
-            <h2 id="reports-title">Skillsheet Reports</h2>
+            <h2 id="reports-title" data-course-nav>Skillsheet Reports</h2>
             <p class="section-intro">You'll receive a skillsheet report showing the practice you've completed on the path to attempting the skill and the skills you've passed. Your final grade is simply the percentage of skills you pass.</p>
             <div id="practice-blocks"></div>
         </section>
