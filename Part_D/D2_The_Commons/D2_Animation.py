@@ -181,17 +181,21 @@ class EpisodeD2(Scene):
         self.play(FadeIn(hl_dots[0]),TransformFromCopy(catch_values[0],point_values[0]),FadeIn(teaching))
         self.pause('3.b.harvest')
 
-        # ---- 3.b.growth · Only offspring move; the first month establishes the rule.
+        # ---- 3.b.growth · Stock supplies the input; the growth result becomes Stock.
+        stock_number_anchor = stock_label[1].get_left().copy()
         growth_math = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('5',color=INK),
                             Tex(r'$\}=$',color=INK),Tex('10',color=INK))
         growth_math.arrange(RIGHT,buff=0.1).scale(0.8).move_to([-4,-2.75,0])
-        self.play(FadeOut(teaching),FadeIn(growth_math[0]),ReplacementTransform(harvest_math[6],growth_math[1]),FadeIn(growth_math[2]),
-                  *[FadeOut(harvest_math[i]) for i in range(6)])
+        self.play(FadeOut(teaching),FadeOut(harvest_math),FadeIn(growth_math[0]),
+                  TransformFromCopy(stock_label[1],growth_math[1]),FadeIn(growth_math[2]))
         babies = VGroup(*[dot.copy() for dot in survivors])
         self.add(babies)
-        self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(babies)],run_time=1.2)
-        self.play(FadeIn(growth_math[3]),Transform(stock_label[1],
-                  Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)))
+        self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(babies)],
+                  FadeIn(growth_math[3]),FadeOut(stock_label[1]),run_time=1.2)
+        # Keep the same readout object; a copy of the equation's answer travels into it.
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.7)
+        self.add(stock_label,growth_math)
         assert all(np.allclose(dot.get_center(),pos) for dot,pos in zip(survivors,survivor_homes))
         teaching = Tex('A smaller stock means a smaller catch next month.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
@@ -223,10 +227,18 @@ class EpisodeD2(Scene):
                   Transform(growth_math,Tex(r'$10-5-2.5=2.5$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
         offspring = VGroup(*[dot.copy() for dot in survivors])
         self.add(offspring)
+        growth_target = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('2.5',color=INK),
+                               Tex(r'$\}=$',color=INK),Tex('5',color=INK))
+        growth_target.arrange(RIGHT,buff=0.1).scale(0.8).move_to(growth_math)
+        self.play(FadeOut(growth_math),FadeIn(growth_target[0]),
+                  TransformFromCopy(stock_label[1],growth_target[1]),FadeIn(growth_target[2]),run_time=0.3)
+        growth_math = growth_target
         self.play(*[dot.animate.shift(POND_POSITIONS[i]-POND_POSITIONS[j])
                     for dot,i,j in zip(offspring,(5,6,7),(3,4,2))],
-                  Transform(growth_math,Tex(r'$2\times2.5=5$',color=INK).scale(0.8).move_to(growth_math)),
-                  Transform(stock_label[1],Tex('5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
+                  FadeIn(growth_math[3]),FadeOut(stock_label[1]),run_time=0.6)
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.45)
+        self.add(stock_label,growth_math)
         teaching = Tex('Less stock, smaller catches.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.first')
@@ -256,10 +268,18 @@ class EpisodeD2(Scene):
                   Transform(growth_math,Tex(r'$5-2.5-1.25=1.25$',color=INK).scale(0.75).move_to(growth_math)),run_time=0.6)
         offspring = VGroup(*[dot.copy() for dot in survivors])
         self.add(offspring)
+        growth_target = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('1.25',color=INK),
+                               Tex(r'$\}=$',color=INK),Tex('2.5',color=INK))
+        growth_target.arrange(RIGHT,buff=0.1).scale(0.8).move_to(growth_math)
+        self.play(FadeOut(growth_math),FadeIn(growth_target[0]),
+                  TransformFromCopy(stock_label[1],growth_target[1]),FadeIn(growth_target[2]),run_time=0.3)
+        growth_math = growth_target
         self.play(*[dot.animate.shift(POND_POSITIONS[i]-POND_POSITIONS[j])
                     for dot,i,j in zip(offspring,(8,9),(6,7))],
-                  Transform(growth_math,Tex(r'$2\times1.25=2.5$',color=INK).scale(0.8).move_to(growth_math)),
-                  Transform(stock_label[1],Tex('2.5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),FadeIn(hl_label),run_time=0.6)
+                  FadeIn(growth_math[3]),FadeOut(stock_label[1]),FadeIn(hl_label),run_time=0.6)
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.45)
+        self.add(stock_label,growth_math)
         teaching = Tex('High against Low: the stock halves, so the catch halves.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -315,9 +335,17 @@ class EpisodeD2(Scene):
                   FadeIn(ll_dots[0]),run_time=0.6)
         offspring = VGroup(*[dot.copy() for dot in survivors])
         self.add(offspring)
+        growth_target = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('10',color=INK),
+                               Tex(r'$\}=$',color=INK),Tex('20',color=INK))
+        growth_target.arrange(RIGHT,buff=0.1).scale(0.8).move_to(growth_math)
+        self.play(FadeOut(growth_math),FadeIn(growth_target[0]),
+                  TransformFromCopy(stock_label[1],growth_target[1]),FadeIn(growth_target[2]),run_time=0.3)
+        growth_math = growth_target
         self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(offspring)],
-                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
-                  Transform(growth_math,Tex(r'$2\times10=20$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+                  FadeIn(growth_math[3]),FadeOut(stock_label[1]),run_time=0.6)
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.45)
+        self.add(stock_label,growth_math)
         teaching = Tex('Both Low: the stock returns to 20.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -335,9 +363,17 @@ class EpisodeD2(Scene):
                   FadeIn(ll_dots[1]),Create(ll_segments[0]),run_time=0.6)
         offspring = VGroup(*[dot.copy() for dot in survivors])
         self.add(offspring)
+        growth_target = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('10',color=INK),
+                               Tex(r'$\}=$',color=INK),Tex('20',color=INK))
+        growth_target.arrange(RIGHT,buff=0.1).scale(0.8).move_to(growth_math)
+        self.play(FadeOut(growth_math),FadeIn(growth_target[0]),
+                  TransformFromCopy(stock_label[1],growth_target[1]),FadeIn(growth_target[2]),run_time=0.3)
+        growth_math = growth_target
         self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(offspring)],
-                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
-                  Transform(growth_math,Tex(r'$2\times10=20$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+                  FadeIn(growth_math[3]),FadeOut(stock_label[1]),run_time=0.6)
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.45)
+        self.add(stock_label,growth_math)
         teaching = Tex('The same catch, again.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -355,9 +391,17 @@ class EpisodeD2(Scene):
                   FadeIn(ll_dots[2]),Create(ll_segments[1]),run_time=0.6)
         offspring = VGroup(*[dot.copy() for dot in survivors])
         self.add(offspring)
+        growth_target = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('10',color=INK),
+                               Tex(r'$\}=$',color=INK),Tex('20',color=INK))
+        growth_target.arrange(RIGHT,buff=0.1).scale(0.8).move_to(growth_math)
+        self.play(FadeOut(growth_math),FadeIn(growth_target[0]),
+                  TransformFromCopy(stock_label[1],growth_target[1]),FadeIn(growth_target[2]),run_time=0.3)
+        growth_math = growth_target
         self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(offspring)],
-                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
-                  Transform(growth_math,Tex(r'$2\times10=20$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+                  FadeIn(growth_math[3]),FadeOut(stock_label[1]),run_time=0.6)
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.45)
+        self.add(stock_label,growth_math)
         result_cards[0].move_to([3.5,-2.85,0])
         self.play(FadeIn(ll_label),FadeIn(result_cards[0]),run_time=0.3)
         teaching = Tex('Both Low: 5 each month, 15 each in total.',color=DEFINITION)
@@ -387,7 +431,16 @@ class EpisodeD2(Scene):
                   Transform(growth_math,Tex(r'$20-10-10=0$',color=INK).scale(0.8).move_to(growth_math)),FadeIn(hh_dots[0]),run_time=0.6)
         teaching = Tex('Both High: nothing left to reproduce.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(Transform(growth_math,Tex(r'$2\times0=0$',color=INK).scale(0.8).move_to(growth_math)),FadeIn(teaching),run_time=0.4)
+        growth_target = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('0',color=INK),
+                               Tex(r'$\}=$',color=INK),Tex('0',color=INK))
+        growth_target.arrange(RIGHT,buff=0.1).scale(0.8).move_to(growth_math)
+        self.play(FadeOut(growth_math),FadeIn(growth_target[0]),
+                  TransformFromCopy(stock_label[1],growth_target[1]),FadeIn(growth_target[2]),run_time=0.3)
+        growth_math = growth_target
+        self.play(FadeIn(growth_math[3]),FadeOut(stock_label[1]),FadeIn(teaching),run_time=0.6)
+        stock_label[1].become(growth_math[3].copy().move_to(stock_number_anchor,aligned_edge=LEFT))
+        self.play(TransformFromCopy(growth_math[3],stock_label[1]),run_time=0.45)
+        self.add(stock_label,growth_math)
         self.pause('3.e.high.first')
 
         # ---- 3.e.high.second · Month 2: empty pond, zero catch.

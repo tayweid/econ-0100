@@ -73,7 +73,7 @@ High takes 10,000 fish; Low takes 5,000. High gets more now. What happens to the
 
 > **3.b.harvest.** Move the actual ten and five dots into the corresponding trays, shrinking slightly to fit. Keep the remaining five in place. Copy the start and catch numbers into the subtraction below the trays. Carry a copy of Firm 1’s catch of ten into the graph’s first point label. Keep Stock: fixed and change only its number to 5. Hold on the reproduction question.
 
-> **3.b.growth.** Replace the subtraction with the growth calculation. Leave the five parents fixed while five newborn copies move to vacant positions. Change the stock number from 5 to 10. Hold with the graph’s month-1 point still visible. This first month establishes the rule; the remaining months are brief repetitions.
+> **3.b.growth.** Replace the subtraction with the growth calculation. Copy the actual Stock: 5 number into min{20, 2 × 5}. Keep the five parents fixed while five newborn copies move into vacant positions; reveal the answer 10 as they appear. Fade the old stock number, then carry a copy of the equation’s answer into that same fixed readout. Both numbers use identical white text and scale 0.8, so the calculation visibly supplies the new stock. Keep the complete equation below for reference. Hold with the graph’s month-1 point still visible. Repeat this input → reproduction → answer → Stock: motion in every later growth beat, including zero, with a faster 0.45-second answer transfer and no extra pauses. Always show the capped min{20, 2 × remaining stock} rule; it is a minimum because the pond cannot exceed capacity. This first month establishes the rule; the remaining months are brief repetitions.
 
 The stock has fallen from 20,000 to 10,000. Keeping the same strategies now means smaller catches. In thousands of fish, the rule is
 
@@ -81,7 +81,7 @@ $$
 S_t=N_t-h_{1t}-h_{2t},\qquad N_{t+1}=\min\{20,2S_t\}.
 $$
 
-> **3.e.first–3.e.path.** Keep both panels throughout months 2 and 3. Clear the previous catches from the trays, advance the month label, and update the two share calculations. Move the actual catch portions from the pond as the corresponding graph point and segment appear. Replace the subtraction with reproduction and move offspring copies into vacant spots. Use half and quarter sectors when a catch divides a thousand-fish dot; preserve total area and leave survivors fixed. Month 2: 10 − 5 − 2.5 = 2.5, then 2 × 2.5 = 5. Month 3: 5 − 2.5 − 1.25 = 1.25, then 2 × 1.25 = 2.5. Use 0.6-second catch and growth moves, then a top-level manual pause after each month. Keep all three plotted numeric catches until they supply the sum.
+> **3.e.first–3.e.path.** Keep both panels throughout months 2 and 3. Clear the previous catches from the trays, advance the month label, and update the two share calculations. Move the actual catch portions from the pond as the corresponding graph point and segment appear. Replace the subtraction with reproduction and move offspring copies into vacant spots. Use half and quarter sectors when a catch divides a thousand-fish dot; preserve total area and leave survivors fixed. Month 2: 10 − 5 − 2.5 = 2.5, then 2 × 2.5 = 5. Month 3: 5 − 2.5 − 1.25 = 1.25, then 2 × 1.25 = 2.5. Use 0.6-second catch and growth moves, plus a brief transfer of the growth answer into Stock:, then a top-level manual pause after each month. Keep all three plotted numeric catches until they supply the sum.
 
 High’s catches fall from ten to five to two and a half. Low takes half as much along the same stock path.
 
@@ -93,7 +93,7 @@ Our payoff is the sum of the three catches, not the last point on the graph. Hig
 
 When both choose Low, ten thousand fish survive each month and reproduce back to twenty thousand. Each firm keeps catching five thousand: fifteen thousand in total.
 
-> **3.e.high.first–3.e.high.** Reset once to twenty, identify “Both High: start again at 20.” and change both firms to High. In month 1 move ten dots into each tray, set Stock: 0, and show 2 × 0 = 0. Plot ten at month 1. For months 2 and 3 keep the pond empty and update the month label; plot zero and draw each dotted segment as the empty trays and zero share calculations remain visible. Pause once per month. End with H,H and 10 | 10 beneath the graph. Preserve the earlier paths throughout.
+> **3.e.high.first–3.e.high.** Reset once to twenty, identify “Both High: start again at 20.” and change both firms to High. In month 1 move ten dots into each tray, set Stock: 0, and show min{20, 2 × 0} = 0. Copy that zero back into the stock readout just as in the growing cases. Plot ten at month 1. For months 2 and 3 keep the pond empty and update the month label; plot zero and draw each dotted segment as the empty trays and zero share calculations remain visible. Pause once per month. End with H,H and 10 | 10 beneath the graph. Preserve the earlier paths throughout.
 
 When both choose High, they exhaust the pond immediately. Each catches ten, then nothing. A large first catch is not the same as a large three-month payoff.
 
