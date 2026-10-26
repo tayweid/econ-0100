@@ -97,7 +97,7 @@ class EpisodeD2(Scene):
         # Keep the pond and its actual population through the rules and first run.
         self.play(FadeOut(taxonomy),FadeOut(box),FadeOut(context),Transform(head,title('The Fishing Game')))
         pond = RoundedRectangle(width=5.4,height=2.8,corner_radius=0.8,color=INK,stroke_width=2).move_to(POND_CENTER)
-        context = subtitle(head, 'One dot = 1,000 fish.')
+        context = subtitle(head, 'One full dot = 1,000 fish.')
         fish = VGroup(*[Dot(radius=TOKEN_RADIUS,color=INK).move_to(pos) for pos in POND_POSITIONS])
         stock_label = VGroup(Tex('Stock:',color=INK),Tex('20',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).next_to(pond,DOWN,buff=0.2)
         strategies_heading = Tex('Two Strategies:',color=INK).scale(0.85)
@@ -113,7 +113,7 @@ class EpisodeD2(Scene):
         self.pause('3.a')
         self.play(FadeOut(rules),FadeOut(teaching))
 
-        # Calculate graph and matrix data without animating the other runs.
+        # Calculate the three short runs and their matrix payoffs.
         paths_data = {}
         payoff_by_profile = {}
         for profile,a,b in (('L,L',LOW,LOW),('H,L',HIGH,LOW),('H,H',HIGH,HIGH)):
@@ -135,6 +135,7 @@ class EpisodeD2(Scene):
         self.play(VGroup(pond,fish).animate.scale(0.8,about_point=POND_CENTER).move_to(compact_center),
                   stock_label.animate.move_to([-4,-0.3,0]))
         chart = axes([1,3,1],[0,10,5],x_length=5.8,y_length=3.4).move_to([3.5,0.2,0])
+        month_label = Tex('Month 1',color=CAPTION).scale(0.6).move_to([-4,2.5,0])
         chart_heading = Tex("Firm 1's catch (thousands)",color=CAPTION).scale(0.65).move_to([3.5,2.35,0])
         x_labels = VGroup(*[Tex(str(m),color=CAPTION).scale(0.6).next_to(chart.c2p(m,0),DOWN,buff=0.16) for m in (1,2,3)])
         y_labels = VGroup(*[Tex(str(q),color=CAPTION).scale(0.6).next_to(chart.c2p(1,q),LEFT,buff=0.16) for q in (0,5,10)])
@@ -156,7 +157,7 @@ class EpisodeD2(Scene):
         teaching = Tex('High takes twice as many fish as Low this month.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(names),FadeIn(trays),FadeIn(choices),FadeIn(catch_values),FadeIn(teaching),
-                  Create(chart),FadeIn(chart_heading),FadeIn(x_labels),FadeIn(y_labels),FadeIn(x_title))
+                  Create(chart),FadeIn(chart_heading),FadeIn(x_labels),FadeIn(y_labels),FadeIn(x_title),FadeIn(month_label))
         self.pause('3.b.choices')
 
         # ---- 3.b.harvest · The actual dots supply the subtraction.
@@ -180,7 +181,7 @@ class EpisodeD2(Scene):
         self.play(FadeIn(hl_dots[0]),TransformFromCopy(catch_values[0],point_values[0]),FadeIn(teaching))
         self.pause('3.b.harvest')
 
-        # ---- 3.b.growth · Only offspring move; no second pond run.
+        # ---- 3.b.growth · Only offspring move; the first month establishes the rule.
         growth_math = VGroup(Tex(r'$\min\{20,\,2\times$',color=INK),Tex('5',color=INK),
                             Tex(r'$\}=$',color=INK),Tex('10',color=INK))
         growth_math.arrange(RIGHT,buff=0.1).scale(0.8).move_to([-4,-2.75,0])
@@ -197,57 +198,80 @@ class EpisodeD2(Scene):
         self.play(FadeIn(teaching))
         self.pause('3.b.growth')
 
-        # ---- 3.e.first · Predict the next catch on the same graph.
-        forecast = VGroup(Tex(r'$\frac12\times$',color=ROW_PLAYER),Tex('10',color=INK),
-                          Tex('=',color=ROW_PLAYER),Tex('5',color=ROW_PLAYER))
-        forecast.arrange(RIGHT,buff=0.12).scale(0.75).move_to([3.5,-2.85,0])
-        self.play(FadeOut(teaching),FadeIn(forecast[0]),TransformFromCopy(stock_label[1],forecast[1]),
-                  FadeIn(forecast[2]),FadeIn(forecast[3]))
+        # ---- 3.e.first · Month 2: repeat the rule quickly, keeping the same fish.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),
+                  Transform(choices[0],Tex(r'$\frac12\times10=$',color=ROW_PLAYER).scale(0.65).move_to(choices[0])),
+                  Transform(choices[1],Tex(r'$\frac14\times10=$',color=COL_PLAYER).scale(0.65).move_to(choices[1])),
+                  Transform(catch_values[0],Tex('5',color=ROW_PLAYER).scale(0.65).move_to(catch_values[0],aligned_edge=LEFT)),
+                  Transform(catch_values[1],Tex('2.5',color=COL_PLAYER).scale(0.65).move_to(catch_values[1],aligned_edge=LEFT)),run_time=0.4)
+        # Split one thousand-fish dot into two halves, preserving its total area.
+        half_caught = Sector(radius=TOKEN_RADIUS*0.8,angle=PI,start_angle=0,color=INK,arc_center=POND_POSITIONS[2])
+        half_left = Sector(radius=TOKEN_RADIUS*0.8,angle=PI,start_angle=PI,color=INK,arc_center=POND_POSITIONS[2])
+        self.remove(babies[2])
+        self.add(half_caught,half_left)
+        caught_1 = VGroup(*survivors)
+        caught_2 = VGroup(babies[0],babies[1],half_caught)
+        survivors = VGroup(babies[3],babies[4],half_left)
+        moves = [dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
+                    [-6.15+firm*2.9+(i%5)*0.35,-1.12-(i//5)*0.36,0])
+                 for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)]
         hl_segments = VGroup(DashedLine(hl_dots[0].get_center(),hl_dots[1].get_center(),
                                        color=ROW_PLAYER,stroke_width=3,dash_length=0.16))
-        teaching = Tex('Next month: half of 10 is 5.',color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(hl_dots[1]),TransformFromCopy(forecast[3],point_values[1]),
-                  Create(hl_segments[0]),FadeIn(teaching))
+        self.play(*moves,FadeIn(hl_dots[1]),Create(hl_segments[0]),TransformFromCopy(catch_values[0],point_values[1]),
+                  Transform(stock_label[1],Tex('2.5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$10-5-2.5=2.5$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+        offspring = VGroup(*[dot.copy() for dot in survivors])
+        self.add(offspring)
+        self.play(*[dot.animate.shift(POND_POSITIONS[i]-POND_POSITIONS[j])
+                    for dot,i,j in zip(offspring,(5,6,7),(3,4,2))],
+                  Transform(growth_math,Tex(r'$2\times2.5=5$',color=INK).scale(0.8).move_to(growth_math)),
+                  Transform(stock_label[1],Tex('5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
+        teaching = Tex('Less stock, smaller catches.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.first')
 
-        # ---- 3.e.path · Expand the existing graph and complete the trend.
-        chart_target = axes([1,3,1],[0,10,5],x_length=7,y_length=3.5).move_to([-2.3,-0.2,0])
-        x_labels_target = VGroup(*[Tex(str(m),color=CAPTION).scale(0.7).next_to(chart_target.c2p(m,0),DOWN,buff=0.16) for m in (1,2,3)])
-        y_labels_target = VGroup(*[Tex(str(q),color=CAPTION).scale(0.7).next_to(chart_target.c2p(1,q),LEFT,buff=0.16) for q in (0,5,10)])
-        x_title_target = Tex('Month',color=INK).scale(0.75).next_to(chart_target,DOWN,buff=0.6)
-        dots_target = VGroup(*[dot.copy().move_to(chart_target.c2p(m+1,q))
-                              for m,(dot,q) in enumerate(zip(hl_dots,paths_data['H,L'][0]))])
-        values_target = VGroup(*[value.copy().next_to(dot,UP,buff=0.13) for value,dot in zip(point_values,dots_target)])
-        segment_target = DashedLine(dots_target[0].get_center(),dots_target[1].get_center(),
-                                   color=ROW_PLAYER,stroke_width=3,dash_length=0.16)
-        self.play(FadeOut(pond),FadeOut(fish),FadeOut(babies),FadeOut(stock_label),FadeOut(names),
-                  FadeOut(trays),FadeOut(choices),FadeOut(catch_values),FadeOut(growth_math),FadeOut(forecast),
-                  FadeOut(chart_heading),FadeOut(teaching),run_time=0.6)
-        self.play(Transform(head,title('Catch Over Time')),
-                  Transform(context,subtitle(head,"Firm 1's monthly catch, in thousands of fish.")),
-                  Transform(chart,chart_target),Transform(x_labels,x_labels_target),Transform(y_labels,y_labels_target),
-                  Transform(x_title,x_title_target),Transform(hl_segments[0],segment_target),
-                  *[Transform(hl_dots[i],dots_target[i]) for i in (0,1)],
-                  *[Transform(point_values[i],values_target[i]) for i in (0,1)])
-        hl_dots[2].move_to(dots_target[2])
-        point_values[2].move_to(values_target[2])
+        # ---- 3.e.path · Month 3 completes H,L without leaving the pond.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  Transform(month_label,Tex('Month 3',color=CAPTION).scale(0.6).move_to(month_label)),
+                  Transform(choices[0],Tex(r'$\frac12\times5=$',color=ROW_PLAYER).scale(0.65).move_to(choices[0])),
+                  Transform(choices[1],Tex(r'$\frac14\times5=$',color=COL_PLAYER).scale(0.65).move_to(choices[1])),
+                  Transform(catch_values[0],Tex('2.5',color=ROW_PLAYER).scale(0.65).move_to(catch_values[0],aligned_edge=LEFT)),
+                  Transform(catch_values[1],Tex('1.25',color=COL_PLAYER).scale(0.65).move_to(catch_values[1],aligned_edge=LEFT)),run_time=0.4)
+        quarter_caught = Sector(radius=TOKEN_RADIUS*0.8,angle=PI/2,start_angle=PI,color=INK,arc_center=POND_POSITIONS[7])
+        quarter_left = Sector(radius=TOKEN_RADIUS*0.8,angle=PI/2,start_angle=3*PI/2,color=INK,arc_center=POND_POSITIONS[7])
+        self.remove(offspring[2])
+        self.add(quarter_caught,quarter_left)
+        caught_1 = VGroup(*survivors)
+        caught_2 = VGroup(offspring[0],quarter_caught)
+        survivors = VGroup(offspring[1],quarter_left)
+        moves = [dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
+                    [-6.15+firm*2.9+(i%5)*0.35,-1.12-(i//5)*0.36,0])
+                 for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)]
         hl_segments.add(DashedLine(hl_dots[1].get_center(),hl_dots[2].get_center(),
                                   color=ROW_PLAYER,stroke_width=3,dash_length=0.16))
-        hl_label = Tex('H,L',color=CAPTION).scale(0.7).next_to(hl_dots[2],RIGHT,buff=0.25)
+        hl_label = Tex('H,L',color=CAPTION).scale(0.65).next_to(hl_dots[2],RIGHT,buff=0.2)
+        self.play(*moves,FadeIn(hl_dots[2]),Create(hl_segments[1]),TransformFromCopy(catch_values[0],point_values[2]),
+                  Transform(stock_label[1],Tex('1.25',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$5-2.5-1.25=1.25$',color=INK).scale(0.75).move_to(growth_math)),run_time=0.6)
+        offspring = VGroup(*[dot.copy() for dot in survivors])
+        self.add(offspring)
+        self.play(*[dot.animate.shift(POND_POSITIONS[i]-POND_POSITIONS[j])
+                    for dot,i,j in zip(offspring,(8,9),(6,7))],
+                  Transform(growth_math,Tex(r'$2\times1.25=2.5$',color=INK).scale(0.8).move_to(growth_math)),
+                  Transform(stock_label[1],Tex('2.5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),FadeIn(hl_label),run_time=0.6)
         teaching = Tex('High against Low: the stock halves, so the catch halves.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(Create(hl_segments[1]),FadeIn(hl_dots[2]),FadeIn(point_values[2]),FadeIn(hl_label),FadeIn(teaching))
+        self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.path')
 
-        # ---- 3.e.total · Turn the three observations into one payoff.
+        # ---- 3.e.total · Carry the plotted catches into their three-month payoff.
         sum_rows = VGroup()
         for firm,values in enumerate(paths_data['H,L']):
             row = VGroup(*[Tex(t,color=FIRM_COLORS[firm]) for t in
                           (f'{values[0]:g}','+',f'{values[1]:g}','+',f'{values[2]:g}','=',f'{sum(values):g}')])
-            row.arrange(RIGHT,buff=0.08).scale(0.65).move_to([4.9,0.8-firm*0.9,0])
+            row.arrange(RIGHT,buff=0.08).scale(0.6).move_to([3.5,-2.65-firm*0.5,0])
             sum_rows.add(row)
-        sum_heading = Tex('Total catch: H,L',color=INK).scale(0.8).move_to([4.9,1.8,0])
         result_cards = VGroup()
         for profile in ('L,L','H,L','H,H'):
             a,b = payoff_by_profile[profile]
@@ -255,42 +279,168 @@ class EpisodeD2(Scene):
             pair.arrange(RIGHT,buff=0.14).scale(0.8)
             card = VGroup(Tex(profile,color=CAPTION).scale(0.7),pair).arrange(DOWN,buff=0.2)
             result_cards.add(card)
-        result_cards[0].move_to([4.9,1.4,0])
-        result_cards[1].move_to([4.9,0,0])
-        result_cards[2].move_to([4.9,-1.4,0])
-        self.play(FadeIn(sum_heading),*[TransformFromCopy(point_values[i],sum_rows[0][2*i]) for i in range(3)],
-                  *[FadeIn(sum_rows[0][i]) for i in (1,3,5,6)],FadeIn(sum_rows[1]),FadeOut(teaching))
+        self.play(*[TransformFromCopy(point_values[i],sum_rows[0][2*i]) for i in range(3)],
+                  *[FadeIn(sum_rows[0][i]) for i in (1,3,5,6)],FadeIn(sum_rows[1]),FadeOut(teaching),run_time=0.7)
         teaching = Tex('Add the three catches to get each firm\'s payoff.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(teaching))
+        self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.total')
-
-        # ---- 3.e.low · Sustainable catch: one curve, one result pair.
+        # Save the actual sum results for the later comparison and matrix.
+        result_cards[1].move_to([3.5,-2.85,0])
         self.play(TransformFromCopy(sum_rows[0][6],result_cards[1][1][0]),
                   TransformFromCopy(sum_rows[1][6],result_cards[1][1][2]),
-                  FadeIn(result_cards[1][0]),FadeIn(result_cards[1][1][1]),
-                  FadeOut(sum_heading),FadeOut(sum_rows),FadeOut(point_values),FadeOut(teaching))
+                  FadeIn(result_cards[1][0]),FadeIn(result_cards[1][1][1]),FadeOut(sum_rows),run_time=0.5)
         self.add(result_cards[1])
-        totals_heading = Tex('Three-month totals',color=INK).scale(0.8).move_to([4.9,2.3,0])
+
+        # ---- 3.e.low.first · New scenario: reset once, then run all three months.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(survivors),FadeOut(offspring),
+                  FadeOut(teaching),FadeOut(result_cards[1]),FadeOut(point_values),
+                  Transform(names[0],Tex('Firm 1: Low',color=ROW_PLAYER).scale(0.65).move_to(names[0])),
+                  Transform(month_label,Tex('Month 1',color=CAPTION).scale(0.6).move_to(month_label)),
+                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex('Both Low: start again at 20.',color=CAPTION).scale(0.65).move_to(growth_math)),run_time=0.5)
+        fish = VGroup(*[Dot(radius=TOKEN_RADIUS*0.8,color=INK).move_to(pos) for pos in POND_POSITIONS])
         ll_dots = VGroup(*[Dot(chart.c2p(m+1,q),radius=0.065,color=ROW_PLAYER) for m,q in enumerate(paths_data['L,L'][0])])
-        ll_line = Line(ll_dots[0].get_center(),ll_dots[2].get_center(),color=ROW_PLAYER,stroke_width=3)
-        ll_label = Tex('L,L',color=CAPTION).scale(0.7).next_to(ll_dots[2],RIGHT,buff=0.25)
+        ll_segments = VGroup(*[Line(ll_dots[i].get_center(),ll_dots[i+1].get_center(),color=ROW_PLAYER,stroke_width=3) for i in range(2)])
+        ll_label = Tex('L,L',color=CAPTION).scale(0.65).next_to(ll_dots[2],RIGHT,buff=0.2)
+        self.play(FadeIn(fish),
+                  *[Transform(choices[i],Tex(r'$\frac14\times20=$',color=FIRM_COLORS[i]).scale(0.65).move_to(choices[i])) for i in range(2)],
+                  *[Transform(catch_values[i],Tex('5',color=FIRM_COLORS[i]).scale(0.65).move_to(catch_values[i],aligned_edge=LEFT)) for i in range(2)],run_time=0.4)
+        caught_1, caught_2, survivors = VGroup(*fish[:5]),VGroup(*fish[5:10]),VGroup(*fish[10:])
+        self.play(*[dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
+                    [-6.15+firm*2.9+i*0.35,-1.12,0])
+                    for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
+                  Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$20-5-5=10$',color=INK).scale(0.8).move_to(growth_math)),
+                  FadeIn(ll_dots[0]),run_time=0.6)
+        offspring = VGroup(*[dot.copy() for dot in survivors])
+        self.add(offspring)
+        self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(offspring)],
+                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$2\times10=20$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+        teaching = Tex('Both Low: the stock returns to 20.',color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching),run_time=0.3)
+        self.pause('3.e.low.first')
+
+        # ---- 3.e.low.second · Both Low, month 2.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.3)
+        caught_1, caught_2 = VGroup(*offspring[:5]),VGroup(*offspring[5:])
+        self.play(*[dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
+                    [-6.15+firm*2.9+i*0.35,-1.12,0])
+                    for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
+                  Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$20-5-5=10$',color=INK).scale(0.8).move_to(growth_math)),
+                  FadeIn(ll_dots[1]),Create(ll_segments[0]),run_time=0.6)
+        offspring = VGroup(*[dot.copy() for dot in survivors])
+        self.add(offspring)
+        self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(offspring)],
+                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$2\times10=20$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+        teaching = Tex('The same catch, again.',color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching),run_time=0.3)
+        self.pause('3.e.low.second')
+
+        # ---- 3.e.low · Both Low, month 3.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  Transform(month_label,Tex('Month 3',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.3)
+        caught_1, caught_2 = VGroup(*offspring[:5]),VGroup(*offspring[5:])
+        self.play(*[dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
+                    [-6.15+firm*2.9+i*0.35,-1.12,0])
+                    for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
+                  Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$20-5-5=10$',color=INK).scale(0.8).move_to(growth_math)),
+                  FadeIn(ll_dots[2]),Create(ll_segments[1]),run_time=0.6)
+        offspring = VGroup(*[dot.copy() for dot in survivors])
+        self.add(offspring)
+        self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(offspring)],
+                  Transform(stock_label[1],Tex('20',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$2\times10=20$',color=INK).scale(0.8).move_to(growth_math)),run_time=0.6)
+        result_cards[0].move_to([3.5,-2.85,0])
+        self.play(FadeIn(ll_label),FadeIn(result_cards[0]),run_time=0.3)
         teaching = Tex('Both Low: 5 each month, 15 each in total.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(totals_heading),Create(ll_line),FadeIn(ll_dots),FadeIn(ll_label),
-                  FadeIn(result_cards[0]),FadeIn(teaching))
+        self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.low')
 
-        # ---- 3.e.high · Restore the earlier three-path figure.
+        # ---- 3.e.high.first · Both High removes the entire stock in month 1.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(survivors),FadeOut(offspring),
+                  FadeOut(teaching),FadeOut(result_cards[0]),
+                  *[Transform(names[i],Tex(f'Firm {i+1}: High',color=FIRM_COLORS[i]).scale(0.65).move_to(names[i])) for i in range(2)],
+                  Transform(month_label,Tex('Month 1',color=CAPTION).scale(0.6).move_to(month_label)),
+                  Transform(growth_math,Tex('Both High: start again at 20.',color=CAPTION).scale(0.65).move_to(growth_math)),run_time=0.5)
+        fish = VGroup(*[Dot(radius=TOKEN_RADIUS*0.8,color=INK).move_to(pos) for pos in POND_POSITIONS])
         hh_dots = VGroup(*[Dot(chart.c2p(m+1,q),radius=0.065,color=ROW_PLAYER) for m,q in enumerate(paths_data['H,H'][0])])
         hh_segments = VGroup(*[DashedLine(hh_dots[i].get_center(),hh_dots[i+1].get_center(),color=ROW_PLAYER,
                                 stroke_width=3,dash_length=0.045,dashed_ratio=0.3) for i in range(2)])
-        hh_label = Tex('H,H',color=CAPTION).scale(0.7).next_to(hh_dots[2],RIGHT,buff=0.25)
-        self.play(Create(hh_segments),FadeIn(hh_dots),FadeIn(hh_label),FadeIn(result_cards[2]),FadeOut(teaching))
+        hh_label = Tex('H,H',color=CAPTION).scale(0.65).next_to(hh_dots[2],RIGHT,buff=0.2)
+        self.play(FadeIn(fish),
+                  *[Transform(choices[i],Tex(r'$\frac12\times20=$',color=FIRM_COLORS[i]).scale(0.65).move_to(choices[i])) for i in range(2)],
+                  *[Transform(catch_values[i],Tex('10',color=FIRM_COLORS[i]).scale(0.65).move_to(catch_values[i],aligned_edge=LEFT)) for i in range(2)],run_time=0.4)
+        caught_1, caught_2 = VGroup(*fish[:10]),VGroup(*fish[10:])
+        self.play(*[dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
+                    [-6.15+firm*2.9+(i%5)*0.35,-1.12-(i//5)*0.36,0])
+                    for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
+                  Transform(stock_label[1],Tex('0',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
+                  Transform(growth_math,Tex(r'$20-10-10=0$',color=INK).scale(0.8).move_to(growth_math)),FadeIn(hh_dots[0]),run_time=0.6)
+        teaching = Tex('Both High: nothing left to reproduce.',color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(Transform(growth_math,Tex(r'$2\times0=0$',color=INK).scale(0.8).move_to(growth_math)),FadeIn(teaching),run_time=0.4)
+        self.pause('3.e.high.first')
+
+        # ---- 3.e.high.second · Month 2: empty pond, zero catch.
+        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),
+                  *[Transform(choices[i],Tex(r'$\frac12\times0=$',color=FIRM_COLORS[i]).scale(0.65).move_to(choices[i])) for i in range(2)],
+                  *[Transform(catch_values[i],Tex('0',color=FIRM_COLORS[i]).scale(0.65).move_to(catch_values[i],aligned_edge=LEFT)) for i in range(2)],
+                  FadeIn(hh_dots[1]),Create(hh_segments[0]),run_time=0.6)
+        teaching = Tex('No stock, no catch.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching),run_time=0.3)
+        self.pause('3.e.high.second')
+
+        # ---- 3.e.high · Month 3: no recovery; complete the third line.
+        result_cards[2].move_to([3.5,-2.85,0])
+        self.play(Transform(month_label,Tex('Month 3',color=CAPTION).scale(0.6).move_to(month_label)),
+                  FadeIn(hh_dots[2]),Create(hh_segments[1]),FadeIn(hh_label),FadeIn(result_cards[2]),FadeOut(teaching),run_time=0.6)
         teaching = Tex('Both High: 10 now, then no fish left to catch.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(teaching))
+        self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.high')
+
+        # ---- 3.e.compare · Expand all three existing paths; carry their totals forward.
+        chart_target = axes([1,3,1],[0,10,5],x_length=7,y_length=3.5).move_to([-2.3,-0.2,0])
+        x_labels_target = VGroup(*[Tex(str(m),color=CAPTION).scale(0.7).next_to(chart_target.c2p(m,0),DOWN,buff=0.16) for m in (1,2,3)])
+        y_labels_target = VGroup(*[Tex(str(q),color=CAPTION).scale(0.7).next_to(chart_target.c2p(1,q),LEFT,buff=0.16) for q in (0,5,10)])
+        x_title_target = Tex('Month',color=INK).scale(0.75).next_to(chart_target,DOWN,buff=0.6)
+        # One affine motion keeps every point, segment, and endpoint label together.
+        plot = VGroup(chart,x_labels,y_labels,x_title,hl_dots,hl_segments,hl_label,
+                      ll_dots,ll_segments,ll_label,hh_dots,hh_segments,hh_label)
+        plot_target = plot.copy()
+        plot_target.stretch(7/5.8,0,about_point=chart.get_center()).stretch(3.5/3.4,1,about_point=chart.get_center())
+        plot_target.shift(chart_target.get_center()-chart.get_center())
+        # Preserve circular markers and normal letter proportions during expansion.
+        for dots_index,label_index in ((4,6),(7,9),(10,12)):
+            for source,target in zip(plot[dots_index],plot_target[dots_index]):
+                target.become(source.copy().move_to(target.get_center()))
+            plot_target[label_index].become(plot[label_index].copy().scale(0.7/0.65)
+                                           .next_to(plot_target[dots_index][2],RIGHT,buff=0.25))
+        # Keep axis typography undistorted at its full-graph size.
+        plot_target[1].become(x_labels_target)
+        plot_target[2].become(y_labels_target)
+        plot_target[3].become(x_title_target)
+        self.play(FadeOut(pond),FadeOut(stock_label),FadeOut(names),FadeOut(trays),FadeOut(choices),
+                  FadeOut(catch_values),FadeOut(growth_math),FadeOut(month_label),FadeOut(chart_heading),FadeOut(teaching),run_time=0.4)
+        self.play(Transform(head,title('Catch Over Time')),
+                  Transform(context,subtitle(head,"Firm 1's monthly catch, in thousands of fish.")),Transform(plot,plot_target),
+                  result_cards[2].animate.move_to([4.9,-1.4,0]),run_time=0.8)
+        result_cards[0].move_to([4.9,1.4,0])
+        result_cards[1].move_to([4.9,0,0])
+        totals_heading = Tex('Three-month totals',color=INK).scale(0.8).move_to([4.9,2.3,0])
+        teaching = Tex('Three paths, three payoff pairs.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(result_cards[0]),FadeIn(result_cards[1]),FadeIn(totals_heading),FadeIn(teaching),run_time=0.4)
+        self.pause('3.e.compare')
 
         # Keep the calculated results as the graph gives way to the matrix.
         self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in list(result_cards)])
