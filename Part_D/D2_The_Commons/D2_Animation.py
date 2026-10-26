@@ -40,7 +40,7 @@ class EpisodeD2(Scene):
         PRIOR_PATH_OPACITY = 0.25
         CELL_SIDE = 1.5
         DIAMOND_ANGLE = -PI / 4
-        GAME_CENTER = DOWN * 0.5
+        GAME_CENTER = np.array([3.9,-0.2,0])
         TABLE_RIGHT = (RIGHT + DOWN) / 2**0.5
         TABLE_UP = (RIGHT + UP) / 2**0.5
 
@@ -502,7 +502,23 @@ class EpisodeD2(Scene):
         self.play(FadeIn(teaching),run_time=0.4)
         self.pause('3.e.compare')
 
-        # ---- 4.a · Move totals straight from the graph into the completed matrix.
+        # ---- 4.a · Keep the graph on the left as its totals enter the right-hand matrix.
+        split_axes = axes([1,3,1],[0,10,5],x_length=5,y_length=3.3).move_to([-4.1,0,0])
+        split_plot = plot.copy()
+        split_plot.stretch(5/7,0,about_point=chart.get_center()).stretch(3.3/3.5,1,about_point=chart.get_center())
+        split_plot.shift(split_axes.get_center()-chart.get_center())
+        for dots_index in (4,6,8):
+            for source,target in zip(plot[dots_index],split_plot[dots_index]):
+                target.become(source.copy().move_to(target.get_center()))
+        split_plot[1].become(VGroup(*[Tex(str(m),color=CAPTION).scale(0.65)
+                                     .next_to(split_axes.c2p(m,0),DOWN,buff=0.16) for m in (1,2,3)]))
+        split_plot[2].become(VGroup(*[Tex(str(q),color=CAPTION).scale(0.65)
+                                     .next_to(split_axes.c2p(1,q),LEFT,buff=0.16) for q in (0,5,10)]))
+        split_plot[3].become(Tex('Month',color=INK).scale(0.65).next_to(split_axes,DOWN,buff=0.6))
+        graph_labels = VGroup(*[card[0] for card in result_cards])
+        graph_label_targets = VGroup(*[label.copy().next_to(split_axes.c2p(3,paths_data[profile][0][-1]),RIGHT,buff=0.2)
+                                       for label,profile in zip(graph_labels,('L,L','H,L','H,H'))])
+        matrix_divider = Line([0,2.5,0],[0,-2.55,0],color=MUTED,stroke_width=1)
         # The L,H case is the H,L case with the identities exchanged.
         payoff_by_profile['L,H'] = payoff_by_profile['H,L'][::-1]
         numeric = [[payoff_by_profile['L,L'], payoff_by_profile['L,H']],
@@ -523,16 +539,17 @@ class EpisodeD2(Scene):
             col_anchor=GAME_CENTER-offset*TABLE_RIGHT+CELL_SIDE*TABLE_UP
             row_labels[i].move_to(row_anchor+LEFT*0.3,aligned_edge=RIGHT)
             col_labels[i].move_to(col_anchor+RIGHT*0.3,aligned_edge=LEFT)
-        player_1=Tex('Firm 1',color=ROW_PLAYER).scale(0.8).move_to([-2.8,2,0])
-        player_2=Tex('Firm 2',color=COL_PLAYER).scale(0.8).move_to([2.8,2,0])
+        player_1=Tex('Firm 1',color=ROW_PLAYER).scale(0.8).move_to([1.9,2.15,0])
+        player_2=Tex('Firm 2',color=COL_PLAYER).scale(0.8).move_to([5.9,2.15,0])
         matrix_teaching=Tex("Firm 1's payoff first; Firm 2's payoff second.",color=DEFINITION)
         matrix_teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        # Grid and values arrive together; no payoff-card row or empty-matrix stage.
-        self.play(FadeOut(plot),FadeOut(context),FadeOut(totals_heading),FadeOut(teaching),
+        # Shrink the existing graph without fading it; keep each profile label beside its line.
+        self.play(Transform(plot,split_plot),Create(matrix_divider),FadeOut(totals_heading),FadeOut(teaching),
+                  Transform(context,subtitle(head,"Monthly catch and three-month payoffs, in thousands of fish.")),
                   Transform(head,title('The Fishing Game')),
                   FadeIn(matrix.get_horizontal_lines()),FadeIn(matrix.get_vertical_lines()),
                   FadeIn(row_labels),FadeIn(col_labels),FadeIn(player_1),FadeIn(player_2),FadeIn(matrix_teaching),
-                  *[FadeOut(card[0]) for card in result_cards],
+                  *[Transform(label,target) for label,target in zip(graph_labels,graph_label_targets)],
                   ReplacementTransform(result_cards[0][1],payoffs[0][0]),
                   ReplacementTransform(result_cards[1][1],payoffs[1][0]),
                   ReplacementTransform(result_cards[2][1],payoffs[1][1]),
@@ -593,7 +610,7 @@ class EpisodeD2(Scene):
         # ---- 4.k · End on the incentive conflict.
         self.play(FadeOut(teaching))
         efficient_box = Square(side_length=CELL_SIDE-0.15,color=EFFICIENT,stroke_width=3).rotate(DIAMOND_ANGLE).move_to(payoffs[0][0])
-        comparison = Tex(r'$15 > 10$ for each firm.',color=INK).scale(0.85).move_to([4.8,0,0])
+        comparison = Tex(r'$15 > 10$ for each firm.',color=INK).scale(0.65).move_to([3.9,2.65,0])
         teaching = VGroup(
             Tex('Tragedy of the commons',color=DEFINITION).scale(TEACHING_SCALE),
             Tex('Individual incentives lead to overuse of a rival, non-excludable resource:',color=INK).scale(0.65),
