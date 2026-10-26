@@ -140,8 +140,8 @@ class EpisodeD2(Scene):
                   stock_label.animate.move_to([-4,-0.65,0]))
         chart = axes([1,3,1],[0,10,5],x_length=4.3,y_length=3.4).move_to([2.75,0.2,0])
         divider = Line([-0.65,2.5,0],[-0.65,-3.05,0],color=MUTED,stroke_width=1)
-        totals_heading = Tex('Total catch',color=CAPTION).scale(0.6).move_to([6.25,2.35,0])
-        # Profile and cumulative catches stay at the right edge, level with the newest point.
+        totals_heading = Tex('Total catch',color=CAPTION).scale(0.6).move_to([6.65,2.35,0])
+        # Reveal each completed profile and its final payoff pair in aligned columns.
         result_cards = VGroup(*[VGroup() for _ in range(3)])
         month_label = Tex('Month 1',color=CAPTION).scale(0.6).move_to([-4,2.35,0])
         chart_heading = Tex("Firm 1's catch (thousands)",color=CAPTION).scale(0.65).move_to([2.75,2.35,0])
@@ -181,14 +181,8 @@ class EpisodeD2(Scene):
         self.pause('3.b.harvest')
 
         # ---- 3.b.plot · Transfer the count while both catches fade; hold before spawning.
-        totals = [sum(values[:1]) for values in paths_data['H,L']]
-        pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
-        pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('H,L',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],hl_dots[0].get_y(),0],RIGHT,buff=0.3)
-        result_cards[1].become(total_target)
         self.play(ReplacementTransform(catch_values[0][1],point_values[0]),FadeIn(hl_dots[0]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),FadeIn(result_cards[1]),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         self.pause('3.b.plot')
 
         babies = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
@@ -231,13 +225,8 @@ class EpisodeD2(Scene):
                                for i,q in enumerate((5, 2.5))])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.first.catch')
-        totals = [sum(values[:2]) for values in paths_data['H,L']]
-        pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
-        pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('H,L',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],hl_dots[1].get_y(),0],RIGHT,buff=0.3)
         self.play(ReplacementTransform(catch_values[0][1],point_values[1]),FadeIn(hl_dots[1]),Create(hl_segments[0]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),Transform(result_cards[1],total_target),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         self.pause('3.e.first.plot')
 
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
@@ -280,10 +269,12 @@ class EpisodeD2(Scene):
         totals = [sum(values[:3]) for values in paths_data['H,L']]
         pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
         pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('H,L',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],hl_dots[2].get_y(),0],RIGHT,buff=0.3)
+        pair.move_to([6.65,hl_dots[2].get_y(),0])
+        profile_label = Tex('H,L',color=CAPTION).scale(0.55).move_to([5.4,hl_dots[2].get_y(),0])
+        result_cards[1].become(VGroup(profile_label,pair))
         self.play(ReplacementTransform(catch_values[0][1],point_values[2]),FadeIn(hl_dots[2]),Create(hl_segments[1]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),Transform(result_cards[1],total_target),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(FadeIn(result_cards[1]),run_time=0.4)
         self.pause('3.e.path.plot')
 
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
@@ -324,14 +315,8 @@ class EpisodeD2(Scene):
                                .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.low.first.catch')
-        totals = [sum(values[:1]) for values in paths_data['L,L']]
-        pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
-        pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('L,L',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],ll_dots[0].get_y(),0],RIGHT,buff=0.3)
-        result_cards[0].become(total_target)
         self.play(ReplacementTransform(catch_values[0][1],ll_values[0]),FadeIn(ll_dots[0]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),FadeIn(result_cards[0]),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         self.pause('3.e.low.first.plot')
 
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
@@ -362,13 +347,8 @@ class EpisodeD2(Scene):
                                .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.low.second.catch')
-        totals = [sum(values[:2]) for values in paths_data['L,L']]
-        pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
-        pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('L,L',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],ll_dots[1].get_y(),0],RIGHT,buff=0.3)
         self.play(ReplacementTransform(catch_values[0][1],ll_values[1]),FadeIn(ll_dots[1]),Create(ll_segments[0]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),Transform(result_cards[0],total_target),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         self.pause('3.e.low.second.plot')
 
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
@@ -402,10 +382,12 @@ class EpisodeD2(Scene):
         totals = [sum(values[:3]) for values in paths_data['L,L']]
         pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
         pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('L,L',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],ll_dots[2].get_y(),0],RIGHT,buff=0.3)
+        pair.move_to([6.65,ll_dots[2].get_y(),0])
+        profile_label = Tex('L,L',color=CAPTION).scale(0.55).move_to([5.4,ll_dots[2].get_y(),0])
+        result_cards[0].become(VGroup(profile_label,pair))
         self.play(ReplacementTransform(catch_values[0][1],ll_values[2]),FadeIn(ll_dots[2]),Create(ll_segments[1]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),Transform(result_cards[0],total_target),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(FadeIn(result_cards[0]),run_time=0.4)
         self.pause('3.e.low.plot')
 
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
@@ -446,14 +428,8 @@ class EpisodeD2(Scene):
                                .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.high.first.catch')
-        totals = [sum(values[:1]) for values in paths_data['H,H']]
-        pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
-        pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('H,H',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],hh_dots[0].get_y(),0],RIGHT,buff=0.3)
-        result_cards[2].become(total_target)
         self.play(ReplacementTransform(catch_values[0][1],hh_values[0]),FadeIn(hh_dots[0]),
-                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),FadeIn(result_cards[2]),run_time=0.7)
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         teaching = Tex('Both High: nothing left to reproduce.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -466,13 +442,8 @@ class EpisodeD2(Scene):
                                .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.high.second.catch')
-        totals = [sum(values[:2]) for values in paths_data['H,H']]
-        pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
-        pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('H,H',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],hh_dots[1].get_y(),0],RIGHT,buff=0.3)
         self.play(ReplacementTransform(catch_values[0][1],hh_values[1]),FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),
-                  FadeIn(hh_dots[1]),Create(hh_segments[0]),Transform(result_cards[2],total_target),run_time=0.7)
+                  FadeIn(hh_dots[1]),Create(hh_segments[0]),run_time=0.7)
         teaching = Tex('No stock, no catch.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.high.second')
@@ -486,10 +457,12 @@ class EpisodeD2(Scene):
         totals = [sum(values[:3]) for values in paths_data['H,H']]
         pair = VGroup(Tex(f'{totals[0]:g}',color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(f'{totals[1]:g}',color=COL_PLAYER))
         pair.arrange(RIGHT,buff=0.1).scale(0.6)
-        total_target = VGroup(Tex('H,H',color=CAPTION).scale(0.55),pair).arrange(DOWN,buff=0.12)
-        total_target.next_to([chart.c2p(3,0)[0],hh_dots[2].get_y(),0],RIGHT,buff=0.3)
+        pair.move_to([6.65,hh_dots[2].get_y(),0])
+        profile_label = Tex('H,H',color=CAPTION).scale(0.55).move_to([5.4,hh_dots[2].get_y(),0])
+        result_cards[2].become(VGroup(profile_label,pair))
         self.play(ReplacementTransform(catch_values[0][1],hh_values[2]),FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),
-                  FadeIn(hh_dots[2]),Create(hh_segments[1]),Transform(result_cards[2],total_target),run_time=0.7)
+                  FadeIn(hh_dots[2]),Create(hh_segments[1]),run_time=0.7)
+        self.play(FadeIn(result_cards[2]),run_time=0.4)
         teaching = Tex('Both High: 10 now, then no fish left to catch.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -512,15 +485,19 @@ class EpisodeD2(Scene):
         plot_target[3].become(x_title_target)
         for path_part in plot_target[4:]:
             path_part.set_opacity(1)
-        card_targets = VGroup(*[card.copy().set_opacity(1).scale(1.1)
-                                .next_to(chart_target.c2p(3,paths_data[profile][0][-1]),RIGHT,buff=0.35)
-                                for card,profile in zip(result_cards,('L,L','H,L','H,H'))])
+        card_targets = VGroup()
+        for card,profile in zip(result_cards,('L,L','H,L','H,H')):
+            target = card.copy().set_opacity(1).scale(1.1)
+            endpoint = chart_target.c2p(3,paths_data[profile][0][-1])
+            target[0].next_to(endpoint,RIGHT,buff=0.35)
+            target[1].move_to([3.5,endpoint[1],0])
+            card_targets.add(target)
         self.play(FadeOut(pond),FadeOut(stock_label),FadeOut(names),FadeOut(trays),FadeOut(ll_values),FadeOut(hh_values),
                   FadeOut(month_label),FadeOut(chart_heading),FadeOut(divider),FadeOut(teaching),run_time=0.4)
         self.play(Transform(head,title('Catch Over Time')),
                   Transform(context,subtitle(head,"Firm 1's monthly catch, in thousands of fish.")),Transform(plot,plot_target),
                   *[Transform(card,target) for card,target in zip(result_cards,card_targets)],
-                  Transform(totals_heading,Tex('Three-month totals',color=CAPTION).scale(0.7).move_to([3,2.3,0])),run_time=0.8)
+                  Transform(totals_heading,Tex('Three-month totals',color=CAPTION).scale(0.7).move_to([3.5,2.3,0])),run_time=0.8)
         teaching = Tex('Three paths, three payoff pairs.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.4)
         self.pause('3.e.compare')
