@@ -460,12 +460,7 @@ class EpisodeD2(Scene):
         self.play(FadeIn(result_cards[0]),FadeIn(result_cards[1]),FadeIn(totals_heading),FadeIn(teaching),run_time=0.4)
         self.pause('3.e.compare')
 
-        # Keep the calculated results as the graph gives way to the matrix.
-        self.play(*[FadeOut(mob) for mob in self.mobjects if mob not in list(result_cards)])
-        head = title('The Fishing Game')
-        self.play(FadeIn(head),*[card.animate.move_to([-4.8+i*4.8,2.3,0]) for i,card in enumerate(result_cards)])
-
-        # ---- 4.a · Carry actual totals into D1's diamond matrix.
+        # ---- 4.a · Move totals straight from the graph into the completed matrix.
         # The L,H case is the H,L case with the identities exchanged.
         payoff_by_profile['L,H'] = payoff_by_profile['H,L'][::-1]
         numeric = [[payoff_by_profile['L,L'], payoff_by_profile['L,H']],
@@ -488,15 +483,22 @@ class EpisodeD2(Scene):
             col_labels[i].move_to(col_anchor+RIGHT*0.3,aligned_edge=LEFT)
         player_1=Tex('Firm 1',color=ROW_PLAYER).scale(0.8).move_to([-2.8,2,0])
         player_2=Tex('Firm 2',color=COL_PLAYER).scale(0.8).move_to([2.8,2,0])
-        teaching=Tex("Firm 1's payoff first; Firm 2's payoff second.",color=DEFINITION)
-        teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(FadeIn(matrix.get_horizontal_lines()),FadeIn(matrix.get_vertical_lines()),
-                  FadeIn(row_labels),FadeIn(col_labels),FadeIn(player_1),FadeIn(player_2),FadeIn(teaching))
-        for card_index, (r,c) in enumerate(((0,0),(1,0),(1,1))):
-            self.play(TransformFromCopy(result_cards[card_index][1],payoffs[r][c]),run_time=0.8)
-            if card_index==1:
-                self.play(TransformFromCopy(payoffs[1][0],payoffs[0][1]),run_time=0.8)
-        self.play(FadeOut(result_cards))
+        matrix_teaching=Tex("Firm 1's payoff first; Firm 2's payoff second.",color=DEFINITION)
+        matrix_teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
+        # Grid and values arrive together; no payoff-card row or empty-matrix stage.
+        self.play(FadeOut(plot),FadeOut(context),FadeOut(totals_heading),FadeOut(teaching),
+                  Transform(head,title('The Fishing Game')),
+                  FadeIn(matrix.get_horizontal_lines()),FadeIn(matrix.get_vertical_lines()),
+                  FadeIn(row_labels),FadeIn(col_labels),FadeIn(player_1),FadeIn(player_2),FadeIn(matrix_teaching),
+                  *[FadeOut(card[0]) for card in result_cards],
+                  ReplacementTransform(result_cards[0][1],payoffs[0][0]),
+                  ReplacementTransform(result_cards[1][1],payoffs[1][0]),
+                  ReplacementTransform(result_cards[2][1],payoffs[1][1]),
+                  TransformFromCopy(result_cards[1][1][2],payoffs[0][1][0]),
+                  TransformFromCopy(result_cards[1][1][0],payoffs[0][1][2]),
+                  FadeIn(payoffs[0][1][1]),run_time=1.2)
+        self.add(*entries)
+        teaching = matrix_teaching
         self.pause('4.a')
 
         # ---- 4.b–4.f · Two comparisons, then symmetry.

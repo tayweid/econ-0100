@@ -102,7 +102,7 @@ When both choose High, they exhaust the pond immediately. Each catches ten, then
 ## 4 | Put the payoffs in a game and solve it
 
 <!--
-4.a · Carry the graph’s result pairs into D1’s diamond matrix; reflect H,L to obtain L,H; “Firm 1's payoff first; Firm 2's payoff second.”
+4.a · Move the graph’s result pairs directly into D1’s diamond matrix as its grid appears; reflect H,L to obtain L,H; “Firm 1's payoff first; Firm 2's payoff second.”
 4.b · Hold Firm 2 Low; ask Firm 1’s best response.
 4.c · Box 17.5 in pink; “High: 17.5 > 15.”
 4.d · Hold Firm 2 High; ask Firm 1’s best response.
@@ -112,7 +112,7 @@ When both choose High, they exhaust the pond immediately. Each catches ten, then
 4.k · Green outline around L,L, retain red H,H, show 15 > 10 for each firm; “Tragedy of the commons: both would do better with Low.” End.
 -->
 
-> **4.a.** Retain the result pairs while the graph fades, move them above D1’s diamond matrix, and copy their values into its cells. Reversing the firms reverses the H,L payoffs; no fourth run is needed. Fade the source pairs and hold on the complete unmarked matrix. Preserve D1 geometry, horizontal numbers, and player colors.
+> **4.a.** In one continuous 1.2-second transition, fade the graph, its subtitle, and the totals heading while the grid and labels of D1’s diamond matrix appear. Move the three payoff pairs directly from their positions beside the graph into their matrix cells. Simultaneously copy the H,L numbers, exchanging firms and colors, into L,H. Fade the three profile labels. Do not stage payoff cards above the matrix or reveal a separate empty matrix. Pause only on the complete unmarked matrix. Preserve D1 geometry, horizontal numbers, and player colors.
 
 | Firm 1 / Firm 2 | Low | High |
 | --- | --- | --- |
