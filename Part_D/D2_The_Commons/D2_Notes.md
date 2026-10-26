@@ -45,7 +45,7 @@ sim.e · Add “- Maximize harvest after 4 rounds”; hold the complete card for
 
 A fish one firm catches is unavailable to the other. The catch is private, but the stock that produces future catches is shared.
 
-> **3.a.** Keep the rounded pond at (−4, 0.85), width 5.4, height 2.8, corner radius 0.8, with twenty scattered dots and Stock: 20. Short subtitle: “One dot = 1,000 fish.” On the right, show “Two Strategies:” at scale 0.85 above “- Low Catch (L): ¼ of the Stock” and “- High Catch (H): ½ of the Stock” at scale 0.75. Keep the heading and strategy names white; everything after each strategy’s colon is CAPTION grey. Align the three lines on the left with 0.55 spacing, centered as a group at (4, 0.65). Bottom: “Maximize total catch over 3 months.” Hold. Explain the shares of starting stock, simultaneous choices, fixed strategies, reproduction rule, and payoff assumptions aloud using the paragraph below; do not display a second rules list or an assumptions caption.
+> **3.a.** Keep the rounded pond at (−4, 0.15), width 5.4, height 2.8, corner radius 0.8, with twenty scattered dots and Stock: 20 placed 0.2 below the pond. The pond and readout together share the strategy panel’s vertical center; neither panel hugs the heading. Short subtitle: “One dot = 1,000 fish.” On the right, show “Two Strategies:” at scale 0.85 above “- Low Catch (L): ¼ of the Stock” and “- High Catch (H): ½ of the Stock” at scale 0.75. Keep the heading and strategy names white; everything after each strategy’s colon is CAPTION grey. Align the three lines on the left with 0.55 spacing, centered as a group at (4, −0.15), the midpoint of the main content band. Bottom: “Maximize total catch over 3 months.” Hold. Explain the shares of starting stock, simultaneous choices, fixed strategies, reproduction rule, and payoff assumptions aloud using the paragraph below; do not display a second rules list or an assumptions caption.
 
 Both firms calculate their catch from the same starting stock. After harvest, survivors double, up to the carrying capacity of 20,000. We count all three months’ catches, with equal value per fish, no costs, and no value assigned to the final stock. This is a small commitment game we can solve, not a biological model of tuna.
 
@@ -66,9 +66,9 @@ Both firms calculate their catch from the same starting stock. After harvest, su
 
 High takes 10,000 fish; Low takes 5,000. High gets more now. What happens to the stock they both depend on?
 
-> **3.b.harvest.** Move the actual ten and five dots into the corresponding trays, shrinking slightly to fit. Keep the remaining five in place. Copy the start and catch numbers into the subtraction below the trays. Update the pond readout to Survivors: 5 and hold on the reproduction question.
+> **3.b.harvest.** Move the actual ten and five dots into the corresponding trays, shrinking slightly to fit. Keep the remaining five in place. Copy the start and catch numbers into the subtraction below the trays. Keep the Stock: label fixed and change only its number to 5 and hold on the reproduction question.
 
-> **3.b.growth.** Copy the survivor count into the growth calculation. Leave the five parents fixed while five newborn copies move to vacant positions. Reveal ten as next month’s stock. Hold. This ends the pond animation: no reset, no second or third month of fish movement, and no other strategy trials.
+> **3.b.growth.** Copy the survivor count into the growth calculation. Leave the five parents fixed while five newborn copies move to vacant positions. Change only the stock number from 5 to 10; the label remains Stock: in the same position. Hold. This ends the pond animation: no reset, no second or third month of fish movement, and no other strategy trials.
 
 The stock has fallen from 20,000 to 10,000. Keeping the same fishing strategies now means smaller catches. In thousands of fish, the rule is
 

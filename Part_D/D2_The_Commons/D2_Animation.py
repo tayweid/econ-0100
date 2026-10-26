@@ -28,7 +28,8 @@ class EpisodeD2(Scene):
         LOW, HIGH = 0.25, 0.5       # Simultaneous shares of that same stock.
         MONTHS = 3                  # Commitment horizon; no terminal-stock payoff.
         TOKEN_RADIUS = 0.16
-        POND_CENTER = np.array([-4.0, 0.85, 0.0])
+        # The pond plus its stock readout shares the strategy panel's body center.
+        POND_CENTER = np.array([-4.0, BODY_MID + 0.3, 0.0])
         # A fixed, gently scattered population: no jitter or rearrangement on birth.
         POND_POSITIONS = [POND_CENTER + np.array([x,y,0]) for x,y in (
             (0.10,0.66),(2.07,-0.45),(1.20,0.44),(0.73,-0.84),(-2.13,-0.25),
@@ -99,14 +100,14 @@ class EpisodeD2(Scene):
         pond = RoundedRectangle(width=5.4,height=2.8,corner_radius=0.8,color=INK,stroke_width=2).move_to(POND_CENTER)
         context = subtitle(head, 'One dot = 1,000 fish.')
         fish = VGroup(*[Dot(radius=TOKEN_RADIUS,color=INK).move_to(pos) for pos in POND_POSITIONS])
-        stock_label = VGroup(Tex('Stock:',color=INK),Tex('20',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])
+        stock_label = VGroup(Tex('Stock:',color=INK),Tex('20',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).next_to(pond,DOWN,buff=0.2)
         strategies_heading = Tex('Two Strategies:',color=INK).scale(0.85)
         low_rule = VGroup(Tex('- Low Catch (L):',color=INK),Tex(r'$\frac14$ of the Stock',color=CAPTION))
         high_rule = VGroup(Tex('- High Catch (H):',color=INK),Tex(r'$\frac12$ of the Stock',color=CAPTION))
         low_rule.arrange(RIGHT,buff=0.18).scale(0.75)
         high_rule.arrange(RIGHT,buff=0.18).scale(0.75)
         rules = VGroup(strategies_heading,low_rule,high_rule)
-        rules.arrange(DOWN,buff=0.55,aligned_edge=LEFT).move_to([4,0.65,0])
+        rules.arrange(DOWN,buff=0.55,aligned_edge=LEFT).move_to([4,BODY_MID,0])
         teaching = Tex('Maximize total catch over 3 months.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(Create(pond),FadeIn(fish),FadeIn(stock_label),FadeIn(context),FadeIn(rules),FadeIn(teaching))
@@ -146,8 +147,7 @@ class EpisodeD2(Scene):
         self.play(TransformFromCopy(stock_label[1],harvest_math[0]),
                   TransformFromCopy(catch_values[0],harvest_math[2]),TransformFromCopy(catch_values[1],harvest_math[4]),
                   *[FadeIn(harvest_math[i]) for i in (1,3,5,6)],
-                  Transform(stock_label,VGroup(Tex('Survivors:',color=INK),Tex('5',color=INK))
-                            .arrange(RIGHT,buff=0.15).scale(0.8).move_to(stock_label)))
+                  Transform(stock_label[1],Tex('5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)))
         teaching = Tex('Five thousand survive. How many fish next month?',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching))
@@ -161,8 +161,8 @@ class EpisodeD2(Scene):
         babies = VGroup(*[dot.copy() for dot in survivors])
         self.add(babies)
         self.play(*[dot.animate.move_to(POND_POSITIONS[i]) for i,dot in enumerate(babies)],run_time=1.2)
-        self.play(FadeIn(growth_math[3]),Transform(stock_label,
-                  VGroup(Tex('Next month:',color=INK),Tex('10',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to(stock_label)))
+        self.play(FadeIn(growth_math[3]),Transform(stock_label[1],
+                  Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)))
         assert all(np.allclose(dot.get_center(),pos) for dot,pos in zip(survivors,survivor_homes))
         teaching = Tex('A smaller stock means a smaller catch next month.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
