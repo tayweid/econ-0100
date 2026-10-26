@@ -45,20 +45,22 @@
         .guide .content { padding-bottom: 70px; }
         .title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; }
         .guide .course-overview { margin: 0; }
-        /* office hours across the page: who on the left, when in the middle, where on the right, a faint
-           rule between people so a row reads across */
-        .hours-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; line-height: 1.4; }
-        .hours-table th, .hours-table td { text-align: left; vertical-align: baseline; padding: 9px 20px 9px 0; }
-        .hours-table tbody tr + tr > * { border-top: 1px solid var(--rule); }
-        .hours-table tbody th { width: 9.5rem; }
-        .hours-table .hours-role { width: 4rem; }
-        .hours-table td:last-child { text-align: right; }
-        .hours-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-        .hours-table tbody th { font: 400 20px/1.4 var(--font-heading); color: var(--white); white-space: nowrap; }
-        .hours-table th:last-child, .hours-table td:last-child { padding-right: 0; white-space: nowrap; }
-        .hours-table td { font: 300 16px/1.4 var(--font-body); }
-        .hours-table .hours-role { color: var(--caption); font: 400 12px/1.4 var(--font-body); }
-        .hours-table tbody th { padding-right: 10px; }
+        /* office hours by day: Tuesday to Thursday side by side, each a list of times, earliest first, with
+           who and where; where the section is too narrow for three, the days stack and a time, its person
+           and the room share a line */
+        .office-hours { container-type: inline-size; }
+        .oh-days { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 28px; margin-top: 14px; }
+        .guide .oh-day h3 { margin: 0 0 8px; font: 600 11px/1.2 var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--caption); }
+        .oh-day ul { margin: 0; padding: 0; list-style: none; }
+        .oh-day li { display: grid; grid-template-columns: 6.2em minmax(0, 1fr); column-gap: 10px; align-items: baseline; padding: 4px 0; font: 300 15px/1.4 var(--font-body); }
+        .oh-who { font: 400 18px/1.3 var(--font-heading); color: var(--white); }
+        a.oh-who { color: var(--link); }
+        .oh-room { grid-column: 2; font-size: 13px; line-height: 1.3; color: var(--caption); }
+        @container (max-width: 619px) {
+            .oh-days { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+            .oh-day li { grid-template-columns: 6.2em 6.5em minmax(0, 1fr); padding: 2px 0; }
+            .oh-room { grid-column: 3; font-size: 14px; }
+        }
         .guide p { line-height: 1.5; }
         .guide p:hover { color: inherit; }
         .guide h2 { font-size: clamp(22px, 2.8vw, 28px); line-height: 1.2; margin: 0; color: var(--white); }
@@ -194,11 +196,6 @@
         }
         @media (max-width: 700px) {
             .guide .wrapper { display: block; }
-            .hours-table { font-size: 14px; }
-            .hours-table tbody th, .hours-table .hours-role { width: auto; }   /* the columns fit their words on a phone */
-            .hours-table tbody th { font-size: 17px; }
-            .hours-table td { font-size: 14px; }
-            .hours-table th, .hours-table td { padding-right: 8px; }
             .guide .content { padding: 25px 20px 45px; }
             .guide-section { margin-top: 22px; padding-top: 18px; }
             .guide .unlock-legend { padding-left: 0; padding-top: 52px; }   /* the key sits above its line */
@@ -222,10 +219,6 @@
         @media print {
             .guide .content { max-width: none; padding: 0; }
             .guide .wrapper { display: block; }
-            .hours-table { font-size: 14px; }
-            .hours-table tbody th { font-size: 17px; }
-            .hours-table td { font-size: 14px; }
-            .hours-table th, .hours-table td { padding-right: 8px; }
             .map-scroll { overflow: visible; }
             .map-stage { min-width: 0 !important; }
             .frozen-labels { position: static; width: 6.12%; }
@@ -253,18 +246,34 @@
         <section class="guide-section office-hours" id="office-hours" aria-labelledby="hours-heading">
             <div>
                 <h2 id="hours-heading" data-course-nav>Office Hours</h2>
-                <table class="hours-table" aria-label="Instructor and TA office hours">
-                    <thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Time</th><th scope="col">Location</th></tr></thead>
-                    <tbody>
-                        <tr><th scope="row">Taylor</th><td class="hours-role"></td><td>Wed &amp; Thu 2:30–3:30 PM</td><td>Posvar 4702</td></tr>
-                        <tr><th scope="row">Zoe</th><td class="hours-role">UTA</td><td>Tue &amp; Thu 11 AM–noon<br>Tue &amp; Thu 2:30–3:30 PM</td><td>Posvar 4925</td></tr>
-                        <tr><th scope="row"><a href="mailto:AAR247@pitt.edu">Aaron</a></th><td class="hours-role">TA</td><td>Tue 10:15 AM–12:15 PM</td><td>Posvar 4515</td></tr>
-                        <tr><th scope="row"><a href="mailto:fizzah.malik@pitt.edu">Fizzah</a></th><td class="hours-role">TA</td><td>Tue 11 AM–1 PM</td><td>Posvar 4911</td></tr>
-                        <tr><th scope="row"><a href="mailto:BRF94@pitt.edu">Brianna</a></th><td class="hours-role">TA</td><td>Wed 10 AM–noon</td><td>Posvar 4715</td></tr>
-                        <tr><th scope="row"><a href="mailto:behroozmoosavi@pitt.edu">Behrooz</a></th><td class="hours-role">TA</td><td>Thu 1:30–3:30 PM</td><td>Posvar 4925</td></tr>
-                        <tr><th scope="row"><a href="mailto:shihas.abdulrazak@pitt.edu">Shihas</a></th><td class="hours-role">TA</td><td>Thu 3–5 PM</td><td>Posvar 4911</td></tr>
-                    </tbody>
-                </table>
+                <div class="oh-days">
+                    <div class="oh-day">
+                        <h3>Tuesday</h3>
+                        <ul>
+                            <li><span class="oh-time">10:15–12:15</span><a class="oh-who" href="mailto:AAR247@pitt.edu">Aaron</a><span class="oh-room">Posvar 4515</span></li>
+                            <li><span class="oh-time">11–noon</span><span class="oh-who">Zoe</span><span class="oh-room">Posvar 4925</span></li>
+                            <li><span class="oh-time">11–1</span><a class="oh-who" href="mailto:fizzah.malik@pitt.edu">Fizzah</a><span class="oh-room">Posvar 4911</span></li>
+                            <li><span class="oh-time">2:30–3:30</span><span class="oh-who">Zoe</span><span class="oh-room">Posvar 4925</span></li>
+                        </ul>
+                    </div>
+                    <div class="oh-day">
+                        <h3>Wednesday</h3>
+                        <ul>
+                            <li><span class="oh-time">10–noon</span><a class="oh-who" href="mailto:BRF94@pitt.edu">Brianna</a><span class="oh-room">Posvar 4715</span></li>
+                            <li><span class="oh-time">2:30–3:30</span><span class="oh-who">Taylor</span><span class="oh-room">Posvar 4702</span></li>
+                        </ul>
+                    </div>
+                    <div class="oh-day">
+                        <h3>Thursday</h3>
+                        <ul>
+                            <li><span class="oh-time">11–noon</span><span class="oh-who">Zoe</span><span class="oh-room">Posvar 4925</span></li>
+                            <li><span class="oh-time">1:30–3:30</span><a class="oh-who" href="mailto:behroozmoosavi@pitt.edu">Behrooz</a><span class="oh-room">Posvar 4925</span></li>
+                            <li><span class="oh-time">2:30–3:30</span><span class="oh-who">Taylor</span><span class="oh-room">Posvar 4702</span></li>
+                            <li><span class="oh-time">2:30–3:30</span><span class="oh-who">Zoe</span><span class="oh-room">Posvar 4925</span></li>
+                            <li><span class="oh-time">3–5</span><a class="oh-who" href="mailto:shihas.abdulrazak@pitt.edu">Shihas</a><span class="oh-room">Posvar 4911</span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
         </div>
