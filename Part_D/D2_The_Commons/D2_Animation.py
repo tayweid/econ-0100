@@ -133,7 +133,7 @@ class EpisodeD2(Scene):
         # Every classroom hold is top-level, so ManimLive stops at each one.
         # A centered pond/readout stack above two evenly spaced firm columns.
         compact_center = np.array([-4.0,0.85,0])
-        CATCH_TOP = -1.77
+        CATCH_TOP = -2.32
         CATCH_ROW_GAP = 0.36
         POND_POSITIONS = [(pos-POND_CENTER)*0.8+compact_center for pos in POND_POSITIONS]
         self.play(VGroup(pond,fish).animate.scale(0.8,about_point=POND_CENTER).move_to(compact_center),
@@ -151,9 +151,10 @@ class EpisodeD2(Scene):
         names[0].scale(0.65).move_to([-5.45,-1.25,0])
         names[1].scale(0.65).move_to([-2.55,-1.25,0])
         trays = VGroup(*[RoundedRectangle(width=2.3,height=0.9,corner_radius=0.2,color=MUTED,stroke_width=1)
-                         .move_to([x,-1.95,0]) for x in (-5.45,-2.55)])
-        CATCH_CENTERS = [np.array([x,-2.8,0]) for x in (-5.45,-2.55)]
-        catch_values = VGroup(*[Tex(str(q),color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i])
+                         .move_to([x,-2.5,0]) for x in (-5.45,-2.55)])
+        CATCH_CENTERS = [np.array([x,-1.8,0]) for x in (-5.45,-2.55)]
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex(str(q),color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i])
                                for i,q in enumerate((10,5))])
         teaching = Tex('High takes twice as many fish as Low this month.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
@@ -176,8 +177,8 @@ class EpisodeD2(Scene):
         self.pause('3.b.harvest')
 
         # ---- 3.b.growth · Transfer the count while both catches fade, then spawn.
-        self.play(ReplacementTransform(catch_values[0],point_values[0]),FadeIn(hl_dots[0]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],point_values[0]),FadeIn(hl_dots[0]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         babies = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = babies
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -213,12 +214,13 @@ class EpisodeD2(Scene):
                                        color=ROW_PLAYER,stroke_width=3,dash_length=0.16))
         self.play(*moves,
                   Transform(stock_label[1],Tex('2.5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
-        catch_values = VGroup(*[Tex(f'{q:g}',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex(f'{q:g}',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i])
                                for i,q in enumerate((5, 2.5))])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.first.catch')
-        self.play(ReplacementTransform(catch_values[0],point_values[1]),FadeIn(hl_dots[1]),Create(hl_segments[0]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],point_values[1]),FadeIn(hl_dots[1]),Create(hl_segments[0]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -252,12 +254,13 @@ class EpisodeD2(Scene):
         hl_label = Tex('H,L',color=CAPTION).scale(0.65).next_to(hl_dots[2],RIGHT,buff=0.2)
         self.play(*moves,
                   Transform(stock_label[1],Tex('1.25',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
-        catch_values = VGroup(*[Tex(f'{q:g}',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex(f'{q:g}',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i])
                                for i,q in enumerate((2.5, 1.25))])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.path.catch')
-        self.play(ReplacementTransform(catch_values[0],point_values[2]),FadeIn(hl_dots[2]),Create(hl_segments[1]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],point_values[2]),FadeIn(hl_dots[2]),Create(hl_segments[1]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -319,11 +322,12 @@ class EpisodeD2(Scene):
                     [-6.15+firm*2.9+i*0.35,CATCH_TOP,0])
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
-        catch_values = VGroup(*[Tex('5',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i]) for i in range(2)])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex('5',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.low.first.catch')
-        self.play(ReplacementTransform(catch_values[0],ll_values[0]),FadeIn(ll_dots[0]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],ll_values[0]),FadeIn(ll_dots[0]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -348,11 +352,12 @@ class EpisodeD2(Scene):
                     [-6.15+firm*2.9+i*0.35,CATCH_TOP,0])
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
-        catch_values = VGroup(*[Tex('5',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i]) for i in range(2)])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex('5',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.low.second.catch')
-        self.play(ReplacementTransform(catch_values[0],ll_values[1]),FadeIn(ll_dots[1]),Create(ll_segments[0]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],ll_values[1]),FadeIn(ll_dots[1]),Create(ll_segments[0]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -377,11 +382,12 @@ class EpisodeD2(Scene):
                     [-6.15+firm*2.9+i*0.35,CATCH_TOP,0])
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
-        catch_values = VGroup(*[Tex('5',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i]) for i in range(2)])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex('5',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.low.catch')
-        self.play(ReplacementTransform(catch_values[0],ll_values[2]),FadeIn(ll_dots[2]),Create(ll_segments[1]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],ll_values[2]),FadeIn(ll_dots[2]),Create(ll_segments[1]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -418,11 +424,12 @@ class EpisodeD2(Scene):
                     [-6.15+firm*2.9+(i%5)*0.35,CATCH_TOP-(i//5)*CATCH_ROW_GAP,0])
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('0',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
-        catch_values = VGroup(*[Tex('10',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i]) for i in range(2)])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex('10',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.high.first.catch')
-        self.play(ReplacementTransform(catch_values[0],hh_values[0]),FadeIn(hh_dots[0]),
-                  FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
+        self.play(ReplacementTransform(catch_values[0][1],hh_values[0]),FadeIn(hh_dots[0]),
+                  FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),FadeOut(caught_1),FadeOut(caught_2),run_time=0.7)
         teaching = Tex('Both High: nothing left to reproduce.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -431,10 +438,11 @@ class EpisodeD2(Scene):
         # ---- 3.e.high.second · Month 2: empty pond, zero catch.
         self.play(FadeOut(teaching),
                   Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.3)
-        catch_values = VGroup(*[Tex('0',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i]) for i in range(2)])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex('0',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.high.second.catch')
-        self.play(ReplacementTransform(catch_values[0],hh_values[1]),FadeOut(catch_values[1]),
+        self.play(ReplacementTransform(catch_values[0][1],hh_values[1]),FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),
                   FadeIn(hh_dots[1]),Create(hh_segments[0]),run_time=0.7)
         teaching = Tex('No stock, no catch.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
@@ -443,10 +451,11 @@ class EpisodeD2(Scene):
         # ---- 3.e.high · Month 3: no recovery; complete the third line.
         result_cards[2].move_to([3.5,-2.85,0])
         self.play(Transform(month_label,Tex('Month 3',color=CAPTION).scale(0.6).move_to(month_label)),FadeOut(teaching),run_time=0.3)
-        catch_values = VGroup(*[Tex('0',color=FIRM_COLORS[i]).scale(0.8).move_to(CATCH_CENTERS[i]) for i in range(2)])
+        catch_values = VGroup(*[VGroup(Tex('Catch:',color=FIRM_COLORS[i]),Tex('0',color=FIRM_COLORS[i]))
+                               .arrange(RIGHT,buff=0.12).scale(0.65).move_to(CATCH_CENTERS[i]) for i in range(2)])
         self.play(FadeIn(catch_values),run_time=0.3)
         self.pause('3.e.high.catch')
-        self.play(ReplacementTransform(catch_values[0],hh_values[2]),FadeOut(catch_values[1]),
+        self.play(ReplacementTransform(catch_values[0][1],hh_values[2]),FadeOut(catch_values[0][0]),FadeOut(catch_values[1]),
                   FadeIn(hh_dots[2]),Create(hh_segments[1]),FadeIn(hh_label),FadeIn(result_cards[2]),run_time=0.7)
         teaching = Tex('Both High: 10 now, then no fish left to catch.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
