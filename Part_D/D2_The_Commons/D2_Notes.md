@@ -52,23 +52,23 @@ Both firms calculate their catch from the same starting stock. After harvest, su
 ## 3 | One month, then the full trend
 
 <!--
-3.b.choices · Firm 1 High, Firm 2 Low; 1/2 × 20 = 10 and 1/4 × 20 = 5; pause before moving fish.
-3.b.harvest · Move ten pink and five teal dots into their trays; 20 − 10 − 5 = 5; “Five thousand survive. How many fish next month?”
+3.b.choices · Compact pond and catch trays on the left; empty catch graph on the right; Firm 1 High, Firm 2 Low; 1/2 × 20 = 10 and 1/4 × 20 = 5; pause before moving fish.
+3.b.harvest · Move ten pink and five teal dots into their trays and plot Firm 1’s ten at month 1; 20 − 10 − 5 = 5; “Five thousand survive. How many fish next month?”
 3.b.growth · Five stationary survivors produce five offspring; min{20, 2 × 5} = 10; “A smaller stock means a smaller catch next month.”
-3.e.first · The worked catch of ten becomes month 1’s point; “The first catch is the first point: 10.”
+3.e.first · Keep pond and graph together; copy Stock: 10 into 1/2 × 10 = 5, plot month 2, and draw the first segment; “Next month: half of 10 is 5.”
 3.e.path · Complete the High/Low harvest path 10 → 5 → 2.5; “High against Low: the stock halves, so the catch halves.”
 3.e.total · Copy the three plotted catches into 10 + 5 + 2.5 = 17.5; show the Low firm's 5 + 2.5 + 1.25 = 8.75; “Add the three catches to get each firm's payoff.”
 3.e.low · Add the Low/Low path 5 → 5 → 5 and total pair 15 | 15; “Both Low: 5 each month, 15 each in total.”
 3.e.high · Add the High/High path 10 → 0 → 0 and total pair 10 | 10; “Both High: 10 now, then no fish left to catch.”
 -->
 
-> **3.b.choices.** Replace the rules with two catch trays on the right, labeled Firm 1: High and Firm 2: Low. Show each share calculation underneath. Hold before the catch.
+> **3.b.choices.** Keep the existing pond and fish; shrink them to 80% and move the pond to (−4, 1.1). Keep Stock: centered below at y = −0.3. Place the two catch trays underneath, centered at (−5.45, −1.3) and (−2.55, −1.3); names above, share calculations below. Introduce an empty graph on the right, center (3.5, 0.2), width 5.8, height 3.4; months 1–3 and catches 0, 5, 10. Heading: “Firm 1′s catch (thousands)”. Hold before the catch.
 
 High takes 10,000 fish; Low takes 5,000. High gets more now. What happens to the stock they both depend on?
 
-> **3.b.harvest.** Move the actual ten and five dots into the corresponding trays, shrinking slightly to fit. Keep the remaining five in place. Copy the start and catch numbers into the subtraction below the trays. Keep the Stock: label fixed and change only its number to 5 and hold on the reproduction question.
+> **3.b.harvest.** Move the actual ten and five dots into the corresponding trays, shrinking slightly to fit. Keep the remaining five in place. Copy the start and catch numbers into the subtraction below the trays. Carry a copy of Firm 1’s catch of ten into the graph’s first point label and reveal that point as part of this same catch beat. Keep Stock: fixed and change only its number to 5. Hold on the reproduction question.
 
-> **3.b.growth.** Copy the survivor count into the growth calculation. Leave the five parents fixed while five newborn copies move to vacant positions. Change only the stock number from 5 to 10; the label remains Stock: in the same position. Hold. This ends the pond animation: no reset, no second or third month of fish movement, and no other strategy trials.
+> **3.b.growth.** Replace the subtraction beneath the trays with the growth calculation, carrying its survivor count into the new expression. Leave the five parents fixed while five newborn copies move to vacant positions. Change only the stock number from 5 to 10; the label remains Stock: in the same position. Hold with the graph and its month-1 point still visible. No reset, no second or third month of fish movement, and no other strategy trials.
 
 The stock has fallen from 20,000 to 10,000. Keeping the same fishing strategies now means smaller catches. In thousands of fish, the rule is
 
@@ -76,9 +76,9 @@ $$
 S_t=N_t-h_{1t}-h_{2t},\qquad N_{t+1}=\min\{20,2S_t\}.
 $$
 
-> **3.e.first.** Fade the pond into “Catch Over Time.” Reuse the earlier graph treatment: grey axes, three labeled months, vertical ticks 0, 5, 10. Plot center (−2.3, −0.2), width 7, height 3.5. The grey subtitle identifies Firm 1’s monthly catch and the units. Carry the worked pink ten into the first point’s value label. Hold with only this point visible.
+> **3.e.first.** Keep the pond, Stock: 10, trays, and the same graph on screen. Beneath the graph, show 1/2 × 10 = 5, copying ten from the stock readout. Carry its result into the month-2 point label, reveal the point, and connect it to the existing month-1 point with a dashed pink line. Hold on this first segment. This is the prediction of the next catch, not another full pond run.
 
-> **3.e.path.** Reveal the remaining two observations and their numeric labels together, connected with dashed pink segments. Label the endpoint H,L. Hold on the complete 10 → 5 → 2.5 path. These are monthly observations connected by straight segments, not a smooth population curve.
+> **3.e.path.** Fade the pond, trays, and arithmetic; expand the same axes, first two points, their labels, and their segment into the earlier full graph layout (center −2.3, −0.2; width 7, height 3.5). Change the title to “Catch Over Time.” Add month 3’s point, 2.5, and the second dashed segment. Label the endpoint H,L and hold on the complete 10 → 5 → 2.5 trend. Do not clear and redraw the first two observations. The other profiles and totals follow on this same graph as before.
 
 High takes half the stock each month, but the stock halves each month. Its catches therefore fall from ten to five to two and a half. Low takes half as much as High along the same stock path.
 
