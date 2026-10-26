@@ -44,24 +44,21 @@
         .guide { --caption: #9e9e9e; }
         .guide .content { padding-bottom: 70px; }
         .title-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; }
-        .guide .course-overview { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 22px 36px; margin: 0; }
-        .course-overview > .description { grid-column: 1 / -1; }
-        .part-overview { margin-top: 0; font-size: 16px; line-height: 1.4; }
-        .guide .outline-intro { margin: 8px 0 0; font-size: 16px; }
-        .part-overview ul { display: grid; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; overflow: visible; }
-        .part-link { display: grid; grid-template-columns: 3.3rem minmax(0, 1fr); align-items: baseline; gap: 14px; padding: 0; color: var(--fg); font: inherit; }
-        .part-label-link { color: var(--link); font: 400 20px/1.4 var(--font-heading); white-space: nowrap; }
-        .part-link:hover .part-title, .part-link:focus-visible .part-title { color: var(--link); }
-        .part-overview .part-title { font: 300 16px/1.4 var(--font-body); }
-        .hours-table { width: auto; max-width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; line-height: 1.4; }
-        .hours-table th, .hours-table td { text-align: left; vertical-align: baseline; padding: 0 20px 8px 0; }
+        .guide .course-overview { margin: 0; }
+        /* office hours across the page: who on the left, when in the middle, where on the right, a faint
+           rule between people so a row reads across */
+        .hours-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 15px; line-height: 1.4; }
+        .hours-table th, .hours-table td { text-align: left; vertical-align: baseline; padding: 9px 20px 9px 0; }
+        .hours-table tbody tr + tr > * { border-top: 1px solid var(--rule); }
+        .hours-table tbody th { width: 9.5rem; }
+        .hours-table .hours-role { width: 4rem; }
+        .hours-table td:last-child { text-align: right; }
         .hours-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
         .hours-table tbody th { font: 400 20px/1.4 var(--font-heading); color: var(--white); white-space: nowrap; }
         .hours-table th:last-child, .hours-table td:last-child { padding-right: 0; white-space: nowrap; }
         .hours-table td { font: 300 16px/1.4 var(--font-body); }
         .hours-table .hours-role { color: var(--caption); font: 400 12px/1.4 var(--font-body); }
         .hours-table tbody th { padding-right: 10px; }
-        .hours-table tbody tr:last-child > * { padding-bottom: 0; }
         .guide p { line-height: 1.5; }
         .guide p:hover { color: inherit; }
         .guide h2 { font-size: clamp(22px, 2.8vw, 28px); line-height: 1.2; margin: 0; color: var(--white); }
@@ -192,15 +189,13 @@
         .guide .skip-link { position: absolute; top: -100px; left: 15px; z-index: 10; background: var(--bg); padding: 12px; }
         .guide .skip-link:focus { top: 10px; }
         .guide :focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
-        @media (max-width: 900px) {
-            .guide .course-overview { grid-template-columns: 1fr; gap: 24px; }
-        }
         @media (max-width: 1000px) {
             .guide .content { max-width: 890px; padding-left: 15px; padding-right: 15px; }
         }
         @media (max-width: 700px) {
             .guide .wrapper { display: block; }
             .hours-table { font-size: 14px; }
+            .hours-table tbody th, .hours-table .hours-role { width: auto; }   /* the columns fit their words on a phone */
             .hours-table tbody th { font-size: 17px; }
             .hours-table td { font-size: 14px; }
             .hours-table th, .hours-table td { padding-right: 8px; }
@@ -255,22 +250,9 @@
             </div>
             <i class="subtitle-text">ECON 0100 · Microeconomics · Lawrence 120</i>
         </header>
-            <nav class="part-overview" aria-labelledby="outline-heading">
-                <h2 id="outline-heading" data-course-nav>Course Outline</h2>
-                <p class="outline-intro">Economists ask a big question, “What choices should we make when we can’t have everything?”</p>
-                <ul>
-                    <li><a class="part-link" href="part-a.html"><span class="part-label-link">Part A</span><span class="part-title">The Core Economic Idea</span></a></li>
-                    <li><a class="part-link" href="part-b.html"><span class="part-label-link">Part B</span><span class="part-title">How Competitive Markets Work</span></a></li>
-                    <li><a class="part-link" href="part-c.html"><span class="part-label-link">Part C</span><span class="part-title">Externalities</span></a></li>
-                    <li><a class="part-link" href="part-d.html"><span class="part-label-link">Part D</span><span class="part-title">Strategic Interaction</span></a></li>
-                    <li><a class="part-link" href="part-e.html"><span class="part-label-link">Part E</span><span class="part-title">Sellers</span></a></li>
-                    <li><a class="part-link" href="part-f.html"><span class="part-label-link">Part F</span><span class="part-title">Buyers</span></a></li>
-                </ul>
-            </nav>
-
-        <section class="course-info" aria-label="Course information">
-            <div id="office-hours">
-                <h2 data-course-nav>Office Hours</h2>
+        <section class="guide-section office-hours" id="office-hours" aria-labelledby="hours-heading">
+            <div>
+                <h2 id="hours-heading" data-course-nav>Office Hours</h2>
                 <table class="hours-table" aria-label="Instructor and TA office hours">
                     <thead><tr><th scope="col">Name</th><th scope="col">Role</th><th scope="col">Time</th><th scope="col">Location</th></tr></thead>
                     <tbody>
