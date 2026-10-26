@@ -1,6 +1,6 @@
 # Exercise D2 | Gradescope
 
-This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work in class, taken from the Exercise file (the .typ handout).
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work in class, taken from the Exercise file (the .md handout).
 
 - Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
@@ -17,41 +17,41 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `Shrake Fishery`
+## Q1: `The Fishing Game`
 
 ```
-See Q1 | Shrake Fishery on the Exercise D2 handout. Firm A and Firm B each harvest at low (L) or high (H) capacity. Lifetime profits in Galleons, listed (Firm A, Firm B): (L, L) 10, 6; (L, H) 2, 10; (H, L) 18, 1; (H, H) 3, 3.
+See Q1 | The Fishing Game on the Exercise D2 handout. Firm 1 and Firm 2 each commit to Low Catch (L), one quarter of each month’s starting stock, or High Catch (H), one half, for three months. Both harvest from the same starting stock, initially 20,000 fish; survivors double after each harvest, up to 20,000 fish. Total three-month catches in thousands of fish, listed (Firm 1, Firm 2): (L, L) 15, 15; (L, H) 8.75, 17.5; (H, L) 17.5, 8.75; (H, H) 10, 10.
 ```
 
-### Q1.1: `Firm A's best response if Firm B chooses L:`
-
-```
-( ) L
-(x) H
-```
-
-### Q1.2: `Firm A's best response if Firm B chooses H:`
+### Q1.1: `Firm 1's best response if Firm 2 chooses L:`
 
 ```
 ( ) L
 (x) H
 ```
 
-### Q1.3: `Firm B's best response if Firm A chooses L:`
+### Q1.2: `Firm 1's best response if Firm 2 chooses H:`
 
 ```
 ( ) L
 (x) H
 ```
 
-### Q1.4: `Firm B's best response if Firm A chooses H:`
+### Q1.3: `Firm 2's best response if Firm 1 chooses L:`
 
 ```
 ( ) L
 (x) H
 ```
 
-### Q1.5: `Find all Nash Equilibrium (Firm A, Firm B). Select all that apply.`
+### Q1.4: `Firm 2's best response if Firm 1 chooses H:`
+
+```
+( ) L
+(x) H
+```
+
+### Q1.5: `Find all Nash Equilibrium (Firm 1, Firm 2). Select all that apply.`
 
 ```
 [ ] (L, L)
@@ -60,43 +60,43 @@ See Q1 | Shrake Fishery on the Exercise D2 handout. Firm A and Firm B each harve
 [x] (H, H)
 ```
 
-### Q1.6: `Find the socially efficient strategies (Firm A, Firm B).`
+### Q1.6: `Find the socially efficient strategies (Firm 1, Firm 2).`
 
 ```
-( ) (L, L)
+(x) (L, L)
 ( ) (L, H)
-(x) (H, L)
+( ) (H, L)
 ( ) (H, H)
 ```
 
-## Q2: `Shrake Fishery, Firm A Moves First`
+## Q2: `The Fishing Game, Firm 1 Moves First`
 
 ```
-See Q2 | Shrake Fishery, Firm A Moves First on the Exercise D2 handout. Firm A chooses first and Firm B sees that choice before choosing. Lifetime profits are the same as in Q1, listed (Firm A, Firm B): (L, L) 10, 6; (L, H) 2, 10; (H, L) 18, 1; (H, H) 3, 3.
+See Q2 | The Fishing Game, Firm 1 Moves First on the Exercise D2 handout. Firm 1 commits to its three-month strategy first and Firm 2 sees that choice before committing. Both firms still harvest from the same starting stock each month. Total three-month catches in thousands of fish are the same as in Q1, listed (Firm 1, Firm 2): (L, L) 15, 15; (L, H) 8.75, 17.5; (H, L) 17.5, 8.75; (H, H) 10, 10.
 ```
 
-### Q2.1: `If Firm A chooses L, Firm B chooses:`
-
-```
-( ) L
-(x) H
-```
-
-### Q2.2: `If Firm A chooses H, Firm B chooses:`
+### Q2.1: `If Firm 1 chooses L, Firm 2 chooses:`
 
 ```
 ( ) L
 (x) H
 ```
 
-### Q2.3: `Working backward, Firm A chooses:`
+### Q2.2: `If Firm 1 chooses H, Firm 2 chooses:`
 
 ```
 ( ) L
 (x) H
 ```
 
-### Q2.4: `The outcome of the game (Firm A, Firm B):`
+### Q2.3: `Working backward, Firm 1 chooses:`
+
+```
+( ) L
+(x) H
+```
+
+### Q2.4: `The outcome of the game (Firm 1, Firm 2):`
 
 ```
 ( ) (L, L)
@@ -105,9 +105,27 @@ See Q2 | Shrake Fishery, Firm A Moves First on the Exercise D2 handout. Firm A c
 (x) (H, H)
 ```
 
-### Q2.5: `Does moving first change the outcome from the Nash Equilibrium in Q1?`
+### Q2.5: `What does each firm catch over the three months (in thousands of fish)?`
+
+```
+Firm 1:
+[____](=10+-0)
+
+Firm 2:
+[____](=10+-0)
+```
+
+### Q2.6: `Does moving first change the outcome from the Nash Equilibrium in Q1?`
 
 ```
 ( ) Yes
 (x) No
+```
+
+### Q2.7: `Which firm has the higher payoff?`
+
+```
+( ) Firm 1
+( ) Firm 2
+(x) Neither; both have the same payoff
 ```
