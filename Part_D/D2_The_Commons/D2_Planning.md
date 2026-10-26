@@ -4,7 +4,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 # D2 | Sources And Teaching Decisions
 
-This accompanies the proposed [script and embedded storyboard](D2_Notes.md). D2_Animation.py now follows simulation → brief common-resource definition → fishing model → calculated 2×2 and its solution. The first Low/Low month teaches the population mechanics; standalone harvest and recovery demonstrations have been removed. Existing beat IDs are retained, so section 2 is intentionally absent from the current storyboard. The NPR/public-goods script and storyboard have moved to [D3](../D3_Public_Goods_and_Voting/D3_Notes.md), where animation remains unbuilt. The original notes, storyboard stub, code stub, and October 30 PDF are preserved.
+This accompanies the [script and embedded storyboard](D2_Notes.md). The October 26 revision targets **10–20 minutes after the simulation**, about fifteen minutes at the suggested pace. D2_Animation.py animates one High/Low month, restores the three-path harvest graph, carries its totals into the 2×2, and solves the incentives. The repeated pond trials, ledger, fractional fish, and animated policy extension have been cut. Each of the eighteen post-simulation holds is a literal top-level pause, so the viewer cannot run through instructional pauses inside a loop. Public goods remain in [D3](../D3_Public_Goods_and_Voting/D3_Notes.md). Original sources are preserved.
 
 ## What the previous materials establish
 
@@ -70,7 +70,7 @@ The proposed script changes the tuna payoff numbers explicitly. Let a Low firm t
 | L,H | 20, 10, 5 | 5, 2.5, 1.25 | 10, 5, 2.5 | 2.5 | 8.75, 17.5 |
 | H,H | 20, 0, 0 | 10, 0, 0 | 10, 0, 0 | 0 | 10, 10 |
 
-The resulting game has the same strategic structure as the old tuna game: High strictly dominates Low, H,H is the unique Nash equilibrium, and L,L Pareto-dominates H,H and maximizes the sum among the four available profiles. The mixed profile depletes geometrically; it does not reach exactly zero in any finite month. H,H empties the pond immediately. The old sketch’s smooth paths are qualitative. The current animation uses a month-by-month catch ledger and takes its totals directly into the matrix; the separate harvest plot has been removed to keep the sequence continuous.
+The resulting game has the same strategic structure as the old tuna game: High strictly dominates Low, H,H is the unique Nash equilibrium, and L,L Pareto-dominates H,H and maximizes the sum among the four available profiles. The mixed profile depletes geometrically; it does not reach exactly zero in any finite month. H,H empties the pond immediately. The old sketch’s smooth paths are qualitative. The current animation shows one worked High/Low month, then the three monthly harvest paths (L,L; H,L; H,H) as discrete observations with straight connecting segments. Their three-month catch sums supply the matrix. The horizon remains three months; the figure does not silently extend the payoff window.
 
 The three-month horizon matters. With four months, L,L gives each firm 20, while High against Low yields 18.75: High is no longer dominant. More concern for future fish, a terminal-stock value, costs, different harvest shares, or new decisions each month can change the game. Present the Nash result as a result of the specified two-strategy commitment game, not a theorem about every fishery or a solution to an unrestricted repeated game. “Socially efficient” here means highest combined payoff among these four profiles, not the solution to all possible dynamic fishing policies.
 
