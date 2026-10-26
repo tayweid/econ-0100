@@ -97,21 +97,17 @@ class EpisodeD2(Scene):
         # Keep the pond and its actual population through the rules and first run.
         self.play(FadeOut(taxonomy),FadeOut(box),FadeOut(teaching),Transform(head,title('The Fishing Game')))
         pond = RoundedRectangle(width=5.4,height=2.8,corner_radius=0.8,color=INK,stroke_width=2).move_to(POND_CENTER)
-        context = subtitle(head, 'One dot = 1,000 fish. Survivors double after harvest, up to 20,000 fish.')
+        context = subtitle(head, 'One dot = 1,000 fish.')
         fish = VGroup(*[Dot(radius=TOKEN_RADIUS,color=INK).move_to(pos) for pos in POND_POSITIONS])
         stock_label = VGroup(Tex('Stock:',color=INK),Tex('20',color=INK)).arrange(RIGHT,buff=0.15).scale(0.8).move_to([-4,-0.9,0])
-        rules = VGroup(Tex(r'Low: catch $\frac14$ of the stock.',color=INK),
-                       Tex(r'High: catch $\frac12$ of the stock.',color=INK),
-                       Tex('Choose simultaneously.',color=CAPTION),
-                       Tex('Keep your strategy for three months.',color=CAPTION))
-        rules.arrange(DOWN,buff=0.4,aligned_edge=LEFT).scale(0.75).move_to([4,0.5,0])
-        scoring = Tex('Payoff: total catch over three months.',color=INK).scale(0.7).move_to([4,-1.65,0])
-        assumptions = Tex('Equal value per fish; no costs or final-stock value.',color=CAPTION).scale(0.55).move_to([4,-2.4,0])
-        teaching = Tex('To explain the incentives: two firms, two strategies.',color=DEFINITION)
+        rules = VGroup(Tex(r'Low: $\frac14$',color=INK),
+                       Tex(r'High: $\frac12$',color=INK))
+        rules.arrange(DOWN,buff=0.65,aligned_edge=LEFT).scale(1.05).move_to([4,0.65,0])
+        teaching = Tex('Maximize total catch over 3 months.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
-        self.play(Create(pond),FadeIn(fish),FadeIn(stock_label),FadeIn(context),FadeIn(rules),FadeIn(scoring),FadeIn(assumptions),FadeIn(teaching))
+        self.play(Create(pond),FadeIn(fish),FadeIn(stock_label),FadeIn(context),FadeIn(rules),FadeIn(teaching))
         self.pause('3.a')
-        self.play(FadeOut(rules),FadeOut(scoring),FadeOut(assumptions),FadeOut(teaching))
+        self.play(FadeOut(rules),FadeOut(teaching))
 
         # ---- 3.b.choices · One worked month: High against Low.
         # Every classroom hold is top-level, so ManimLive stops at each one.
