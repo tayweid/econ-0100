@@ -163,7 +163,7 @@ class EpisodeD2(Scene):
                   Create(chart),FadeIn(chart_heading),FadeIn(x_labels),FadeIn(y_labels),FadeIn(x_title),FadeIn(month_label))
         self.pause('3.b.choices')
 
-        # ---- 3.b.harvest · The actual dots supply the subtraction.
+        # ---- 3.b.harvest · Plot the catch, then clear the trays.
         caught_1, caught_2, survivors = VGroup(*fish[:10]), VGroup(*fish[10:15]), VGroup(*fish[15:])
         survivor_homes = [dot.get_center().copy() for dot in survivors]
         moves = []
@@ -177,6 +177,7 @@ class EpisodeD2(Scene):
         teaching = Tex('Five thousand survive. How many fish next month?',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(hl_dots[0]),TransformFromCopy(catch_values[0],point_values[0]),FadeIn(teaching))
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         self.pause('3.b.harvest')
 
         # ---- 3.b.growth · Each survivor spawns one dashed, translucent newborn.
@@ -199,7 +200,7 @@ class EpisodeD2(Scene):
 
         # ---- 3.e.first · Month 2: repeat the rule quickly, keeping the same fish.
         self.play(*[dot.animate.set_fill(opacity=1) for dot in newborns],FadeOut(newborn_edges),
-                  FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  FadeOut(teaching),
                   Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),
                   Transform(choices[0],Tex(r'$\frac12\times10=$',color=ROW_PLAYER).scale(0.65).move_to(choices[0])),
                   Transform(choices[1],Tex(r'$\frac14\times10=$',color=COL_PLAYER).scale(0.65).move_to(choices[1])),
@@ -220,6 +221,7 @@ class EpisodeD2(Scene):
                                        color=ROW_PLAYER,stroke_width=3,dash_length=0.16))
         self.play(*moves,FadeIn(hl_dots[1]),Create(hl_segments[0]),TransformFromCopy(catch_values[0],point_values[1]),
                   Transform(stock_label[1],Tex('2.5',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -236,7 +238,7 @@ class EpisodeD2(Scene):
 
         # ---- 3.e.path · Month 3 completes H,L without leaving the pond.
         self.play(*[dot.animate.set_fill(opacity=1) for dot in newborns],FadeOut(newborn_edges),
-                  FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  FadeOut(teaching),
                   Transform(month_label,Tex('Month 3',color=CAPTION).scale(0.6).move_to(month_label)),
                   Transform(choices[0],Tex(r'$\frac12\times5=$',color=ROW_PLAYER).scale(0.65).move_to(choices[0])),
                   Transform(choices[1],Tex(r'$\frac14\times5=$',color=COL_PLAYER).scale(0.65).move_to(choices[1])),
@@ -257,6 +259,7 @@ class EpisodeD2(Scene):
         hl_label = Tex('H,L',color=CAPTION).scale(0.65).next_to(hl_dots[2],RIGHT,buff=0.2)
         self.play(*moves,FadeIn(hl_dots[2]),Create(hl_segments[1]),TransformFromCopy(catch_values[0],point_values[2]),
                   Transform(stock_label[1],Tex('1.25',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),run_time=0.6)
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -300,7 +303,7 @@ class EpisodeD2(Scene):
         self.add(result_cards[1])
 
         # ---- 3.e.low.first · New scenario: reset once, then run all three months.
-        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(survivors),FadeOut(offspring),FadeOut(newborn_edges),
+        self.play(FadeOut(survivors),FadeOut(offspring),FadeOut(newborn_edges),
                   FadeOut(teaching),FadeOut(result_cards[1]),FadeOut(point_values),
                   Transform(names[0],Tex('Firm 1: Low',color=ROW_PLAYER).scale(0.65).move_to(names[0])),
                   Transform(month_label,Tex('Month 1',color=CAPTION).scale(0.6).move_to(month_label)),
@@ -318,6 +321,7 @@ class EpisodeD2(Scene):
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
                   FadeIn(ll_dots[0]),run_time=0.6)
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -335,7 +339,7 @@ class EpisodeD2(Scene):
 
         # ---- 3.e.low.second · Both Low, month 2.
         self.play(*[dot.animate.set_fill(opacity=1) for dot in newborns],FadeOut(newborn_edges),
-                  FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  FadeOut(teaching),
                   Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.3)
         caught_1, caught_2 = VGroup(*offspring[:5]),VGroup(*offspring[5:])
         self.play(*[dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
@@ -343,6 +347,7 @@ class EpisodeD2(Scene):
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
                   FadeIn(ll_dots[1]),Create(ll_segments[0]),run_time=0.6)
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -360,7 +365,7 @@ class EpisodeD2(Scene):
 
         # ---- 3.e.low · Both Low, month 3.
         self.play(*[dot.animate.set_fill(opacity=1) for dot in newborns],FadeOut(newborn_edges),
-                  FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+                  FadeOut(teaching),
                   Transform(month_label,Tex('Month 3',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.3)
         caught_1, caught_2 = VGroup(*offspring[:5]),VGroup(*offspring[5:])
         self.play(*[dot.animate.scale(0.8).set_color(FIRM_COLORS[firm]).move_to(
@@ -368,6 +373,7 @@ class EpisodeD2(Scene):
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('10',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),
                   FadeIn(ll_dots[2]),Create(ll_segments[1]),run_time=0.6)
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         offspring = VGroup(*[dot.copy().set_fill(opacity=0.3) for dot in survivors])
         newborns = offspring
         newborn_edges = VGroup(*[DashedVMobject(dot.copy().set_fill(opacity=0)
@@ -386,7 +392,7 @@ class EpisodeD2(Scene):
         self.pause('3.e.low')
 
         # ---- 3.e.high.first · Both High removes the entire stock in month 1.
-        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(survivors),FadeOut(offspring),FadeOut(newborn_edges),
+        self.play(FadeOut(survivors),FadeOut(offspring),FadeOut(newborn_edges),
                   FadeOut(teaching),FadeOut(result_cards[0]),
                   *[Transform(names[i],Tex(f'Firm {i+1}: High',color=FIRM_COLORS[i]).scale(0.65).move_to(names[i])) for i in range(2)],
                   Transform(month_label,Tex('Month 1',color=CAPTION).scale(0.6).move_to(month_label)),run_time=0.5)
@@ -403,13 +409,14 @@ class EpisodeD2(Scene):
                     [-6.15+firm*2.9+(i%5)*0.35,CATCH_TOP-(i//5)*CATCH_ROW_GAP,0])
                     for firm,caught in enumerate((caught_1,caught_2)) for i,dot in enumerate(caught)],
                   Transform(stock_label[1],Tex('0',color=INK).scale(0.8).move_to(stock_label[1],aligned_edge=LEFT)),FadeIn(hh_dots[0]),run_time=0.6)
+        self.play(FadeOut(caught_1),FadeOut(caught_2),run_time=0.25)
         teaching = Tex('Both High: nothing left to reproduce.',color=DEFINITION)
         teaching.scale(TEACHING_SCALE).to_edge(DOWN,buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching),run_time=0.3)
         self.pause('3.e.high.first')
 
         # ---- 3.e.high.second · Month 2: empty pond, zero catch.
-        self.play(FadeOut(caught_1),FadeOut(caught_2),FadeOut(teaching),
+        self.play(FadeOut(teaching),
                   Transform(month_label,Tex('Month 2',color=CAPTION).scale(0.6).move_to(month_label)),
                   *[Transform(choices[i],Tex(r'$\frac12\times0=$',color=FIRM_COLORS[i]).scale(0.65).move_to(choices[i])) for i in range(2)],
                   *[Transform(catch_values[i],Tex('0',color=FIRM_COLORS[i]).scale(0.65).move_to(catch_values[i],aligned_edge=LEFT)) for i in range(2)],
