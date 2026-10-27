@@ -59,7 +59,7 @@ course:
 parts:
   A:
     title: The Core Economic Idea
-    tagline: better choices can benefit everyone
+    tagline: Better choices can benefit everyone.
     links: [{label: Skillsheet, file: Part_A/A_Skillsheet.pdf}]
     introduction: >-
       Part A explores one of the most profound insights in all of social science: we have both preferences and scarcity which means every choice requires giving something up, and that measuring the cost of a choice by the value of what we give up, there turns out to be a fundamental reason to coordinate with others. These concepts explain why we specialize, why cities flourish, and how strangers working together can create prosperity that benefits everyone. To show this, we’ll build the models that show the invisible forces that make civilization possible.
@@ -160,17 +160,15 @@ parts:
             - {label: Solutions V3, file: Part_A/A_Demo/Checkpoint_A_3_sols.pdf}
             - {label: Solutions V4, file: Part_A/A_Demo/Checkpoint_A_4_sols.pdf}
           description: >-
-            Checkpoint A covers everything in Part A. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+            Checkpoint A covers everything in Part A. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             name: Demo A Walkthrough (Fall 2024)
             video: KH0MkPxWsig
-            description: >-
-              Attempt Demo A first, then walk through with me. The video is the Fall 2024 Demo A, with the same story and numbers. It walks through the first parts of each question; the later parts are new this year and use the same skills. Where the video answers "attainable? yes" in Q2, this year's sheet asks you to say "inefficient."
             links: [{label: Demo A, file: Part_A/A_Demo/Demo_A.pdf}]
 
   B:
-    title: How Competitive Markets Work
-    tagline: prices can coordinate buyers and sellers
+    title: Competitive Markets
+    tagline: Prices can coordinate buyers and sellers.
     links: [{label: Skillsheet, file: Part_B/B_Skillsheet.pdf}]
     introduction: >-
       In Part A we set up the landscape of what’s possible but didn’t choose *which* point is best. Part B introduces preferences within competitive markets as a coordination device, allowing large groups to efficiently produce and distribute the things we want. This efficiency is amazing, but as we’ll show in Part C, it doesn’t work in every environment.
@@ -315,11 +313,10 @@ parts:
           demo:
             video: xMhI4kJC-mA
             links: [{label: Demo B, file: Part_B/B_Demo/Demo_B.pdf}, {label: Solutions, file: Part_B/B_Demo/Demo_B_sols.pdf}]
-            description: 'Start by trying the Demo on your own. Then check your work with a friend using the Solutions. Then follow me in this video for my process.'
 
   C:
     title: Externalities
-    tagline: externalized costs and benefits can lead to inefficient markets
+    tagline: Externalized costs and benefits can lead to inefficient markets.
     links: [{label: Skillsheet, file: Part_C/C_Skillsheet.pdf}]
     introduction: >-
       In Part A we set up the landscape of what’s possible and in Part B we introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. But not every market is competitive or without externalities. Part C shows how private incentives can misalign with social welfare, creating externalities and market failures that require government intervention to improve efficiency. We’ll build the models to show how pollution, taxes, and corrective policies can either harm or correct market behavior.
@@ -422,7 +419,7 @@ parts:
 
   D:
     title: Strategic Interaction
-    tagline: strategic interaction can lead to inefficient markets
+    tagline: Strategic interaction can lead to inefficient markets.
     introduction: >-
       Part A set up the landscape of what’s possible. Part B introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. And Part C showed that externalities break the efficiency of markets. In Part D we take this idea even further, into settings with strategic interaction, which we call game theory.
     sections:
@@ -520,7 +517,7 @@ parts:
 
   E:
     title: Sellers
-    tagline: market power leads to inefficient markets
+    tagline: Market power leads to inefficient markets.
     introduction: >-
       In Part A through Part D we’ve explored why we would want to coordinate and how to make coordination possible. Markets can organize economic activity efficiently in some contexts and fail in other contexts. In Part E build a model of sellers that shows how markets are not efficient when sellers have Market Power, the ability to impact the market for their own gain. 
     sections:
@@ -614,7 +611,7 @@ parts:
 
   F:
     title: Buyers
-    tagline: people respond to many interacting incentives
+    tagline: People respond to many interacting incentives.
     introduction: >-
       Part F brings us full circle, exploring what to do when we can’t have everything. We start by connecting Factor Markets and the Labor Market to buyer’s income in Final Goods markets, which shapes their Budget Constraint. To understand choices within this constraint, we rank preferences using Utility and map Indifference Curves. The Consumer’s Problem is solved at the highest attainable indifference curve within the budget constraint, where the Marginal Rate of Substitution equals the Marginal Rate of Transformation. 
     sections:

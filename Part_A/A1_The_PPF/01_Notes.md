@@ -1,4 +1,5 @@
 ---
+papersize: a5
 margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 ---
 
