@@ -420,6 +420,7 @@ parts:
   D:
     title: Strategic Interaction
     tagline: Strategic interaction can lead to inefficient markets.
+    links: [{label: Skillsheet, file: Part_D/D_Skillsheet.pdf}]
     introduction: >-
       Part A set up the landscape of what’s possible. Part B introduced competitive markets as a coordination device to efficiently arbitrate which point on the PPF we should choose. And Part C showed that externalities break the efficiency of markets. In Part D we take this idea even further, into settings with strategic interaction, which we call game theory.
     sections:
@@ -456,7 +457,7 @@ parts:
         description: >-
           Common resources create market failures through the tragedy of the commons, when shared resources are overused because private incentives don't align with social benefits.
         episode:
-          description: "*Introducing non-excludable goods* "
+          description: "*Introducing non-excludable goods*"
           video: Is0CQbUM-j8
         reading:
           chapter: 13
@@ -478,28 +479,12 @@ parts:
         description: >-
           Public goods create free-rider problems because they are non-excludable and non-rival, leading to under-provision by markets.
         episode:
-          description: "Public goods are non-rival and non-excludable"
+          description: "*Public goods are non-rival and non-excludable*"
         reading:
           chapter: 13
           topic: Positive externalities and public goods
         vignette:
-          description: "Game theory practice problems"
-        dates:
-          class: '2026-10-28'
-          recitation: '2026-10-30'
-          homework: '2026-11-01'
-      - block: D4
-        folder: Part_D/D4_Sequential_Games
-        nav: Voting
-        title: Voting
-        description: >-
-          Voting systems and collective choice reveal how individual preferences aggregate into social decisions, often leading to paradoxes and inefficiencies in democratic decision-making.
-        episode:
-          description: "*Voting and collective choice*"
-        reading:
-          name: Reading D4
-        vignette:
-          description: "*Voting systems practice problems*"
+          description: "*Public goods practice problems*"
         dates:
           class: '2026-10-28'
           recitation: '2026-10-30'

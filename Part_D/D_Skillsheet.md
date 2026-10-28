@@ -19,7 +19,7 @@ Each skill has three types of practice: the **Exercise** (done together in class
 
 Skills you pass stay passed. If you do not pass a skill on Checkpoint D, complete all three practices and take the Reattempt.
 
-**Assessment scope.** The standards below define the evidence required for each pass. Show the payoff comparisons behind each answer; in a payoff matrix the first number in each cell belongs to the row player. Skills are judged separately. Games have two players with two strategies each. A sequential game is given as a table of its paths, one row per branch of the game tree. Public-goods questions give each person’s benefit in a table.
+**Assessment scope.** The standards below define the evidence required for each pass. Show the payoff comparisons behind each answer; in a payoff matrix the first number in each cell belongs to the row player. Skills are judged separately. Games have two players with two strategies each. Public-goods questions give each person’s benefit in a table.
 
 ### The skills at a glance
 
@@ -30,7 +30,6 @@ Skills you pass stay passed. If you do not pass a skill on Checkpoint D, complet
 | D1.1 | Best Responses | Exercise D1 · Vignette D1 · HW D1 |
 | D1.2 | Nash Equilibrium & Efficiency | Exercise D1 · Vignette D1 · HW D1 |
 | D2.1 | Common Resources | Exercise D2 · Vignette D2 · HW D2 |
-| D2.2 | Sequential Games | Exercise D2 · Vignette D2 · HW D2 |
 | D3.1 | Public Goods | Exercise D3 · Vignette D3 · HW D3 |
 | D3.2 | Voting on Public Goods | Exercise D3 · Vignette D3 · HW D3 |
 
@@ -64,16 +63,6 @@ A common resource is rival but non-excludable, so private incentives lead to ove
 - Identify a common resource as rival and non-excludable.
 - In a game over a shared resource, find each user’s best responses, the Nash equilibrium, and the socially efficient outcome, and explain why the equilibrium overuses the resource: a user who takes more does not count the loss to the other user.
 - Find the new Nash equilibrium when an enforced rule, such as a permit with a fine, changes the payoffs, and explain how the rule makes sustainable use a best response.
-
-### D2.2 | Sequential Games
-
-When one player moves first and the other sees that choice, the first mover can anticipate the response.
-
-**Standard.** You pass this skill if you can:
-
-- Find the second mover’s best response to each choice the first mover could make.
-- Work backward from those responses to find the first mover’s choice and the outcome of the game.
-- Compare the outcome with the Nash equilibrium when both choose at the same time, and explain whether moving first changes the outcome and whether the outcome is efficient.
 
 ### D3.1 | Public Goods
 

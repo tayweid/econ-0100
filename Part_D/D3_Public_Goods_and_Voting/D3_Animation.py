@@ -1,12 +1,19 @@
 # maniml D3_Animation.py EpisodeD3
-# First classroom draft: NPR -> Dobby -> voting. See 02_Storyboard.md.
+# Public goods and voting: the bumper and a warmup from Exercise D3, the NPR game,
+# three contributors, a memorial to Dobby, the Exercise D3 card, and a brief look at the
+# limits of voting.
+# Layout and rhythm mirror D2_Animation.py: the arithmetic on the left, a graph on the
+# right that keeps every outcome, a thin divider, then the graph shrinks left while the
+# matrix fades in right and the numbers move into their cells. Narration: D3_Notes.md.
 # /// script
 # requires-python = ">=3.11"
 # dependencies = ["seaborn==0.13.2"]
 # ///
+
 from manim import *
 import os
 import sys
+
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../_Assets'))
 from style import *
 
@@ -20,348 +27,665 @@ class EpisodeD3(Scene):
         self.camera.fps = 15
         BODY_TOP, BODY_BOTTOM = 2.5, -2.8
         BODY_MID = (BODY_TOP + BODY_BOTTOM) / 2
-        TEACHING_SCALE = 0.7443
+        TEACHING_SCALE, TEACHING_BOTTOM = 0.7443, 0.05
+        RULE_POS = np.array([-3.7, 1.35, 0])            # the rule and its braces, top of the left panel
+        ROWS_LEFT, ROW_Y = -6.7, (-0.35, -0.95, -1.55)  # worked lines under the rule, one per player
+        CHART_CENTER = np.array([4.2, -0.3, 0])         # two players: Player 2's contribution 0..15 on a 0..20 axis
+        CHART_CENTER_3 = np.array([4.3, -0.3, 0])       # three players: the others' contributions 0..30 on a 0..35 axis
+        PLAYER_COLORS = (ROW_PLAYER, COL_PLAYER, PURPLE)
+        # Right panel: D2's diamond matrix.
         CELL_SIDE = 1.5
+        DIAMOND_ANGLE = -PI / 4
         GAME_CENTER = np.array([3.9, -0.2, 0])
-        TABLE_RIGHT, TABLE_UP = (RIGHT+DOWN)/2**0.5, (RIGHT+UP)/2**0.5
-        ENDOWMENT, RETURN = 15, 2/3
-        npr_payoffs = [[(20,20),(10,25)],[(25,10),(15,15)]]
-        residents = ('Harry','Ron','Hermione','Ginny','Neville')  # Oct. 30 PDF names.
-        benefits = (34,29,24,19,14)
-        cost = 100
+        TABLE_RIGHT = (RIGHT + DOWN) / 2**0.5
+        TABLE_UP = (RIGHT + UP) / 2**0.5
+        # A memorial to Dobby, from the October 30 notes.
+        residents = ('Harry', 'Ron', 'Hermione', 'Ginny', 'Neville')
+        benefits = (34, 29, 24, 19, 14)
+        COST = 100
 
-        # 1 · NPR. The same two players, same diamond, and same response colors as D2.
-        head = title('The NPR Game')
-        context = subtitle(head, 'Public goods are non-rival and non-excludable.')
-        trays = VGroup(*[RoundedRectangle(width=2.1,height=0.85,corner_radius=0.18,
-                     color=MUTED,stroke_width=2).move_to([x,1.25,0]) for x in (-5.6,-2.5)])
-        names = VGroup(*[Tex(f'Player {i+1}',color=c).scale(0.75).next_to(tray,DOWN,buff=0.2)
-                     for i,(c,tray) in enumerate(zip((ROW_PLAYER,COL_PLAYER),trays))])
-        money = VGroup(*[Tex('15',color=c).scale(0.85).move_to(tray)
-                     for c,tray in zip((ROW_PLAYER,COL_PLAYER),trays)])
-        kept_heading = Tex('Money kept',color=CAPTION).scale(0.65).move_to([-4.05,2.15,0])
-        fund = RoundedRectangle(width=3.2,height=0.85,corner_radius=0.18,color=MUTED,stroke_width=2).move_to([-4.05,-1.6,0])
-        fund_name = Tex('Broadcast fund',color=INK).scale(0.75).next_to(fund,DOWN,buff=0.2)
-        fund_value = Tex('0',color=INK).scale(0.85).move_to(fund)
-        rules = VGroup(Tex('Two Strategies:',color=INK).scale(0.85),
-            VGroup(Tex('Contribute (C):'),Tex('15',color=CAPTION)).arrange(RIGHT,buff=0.18).scale(0.75),
-            VGroup(Tex('Do not contribute (DC):'),Tex('0',color=CAPTION)).arrange(RIGHT,buff=0.18).scale(0.75)
-        ).arrange(DOWN,buff=0.5,aligned_edge=LEFT).move_to([3.65,BODY_MID,0])
-        teaching = Tex('Everyone can listen, whether or not they contribute.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(head),FadeIn(context),FadeIn(trays),FadeIn(names),FadeIn(money),FadeIn(kept_heading),FadeIn(fund),FadeIn(fund_name),FadeIn(fund_value),FadeIn(rules),FadeIn(teaching))
-        self.pause('1.a.rules')
+        def teach(text):
+            return Tex(text, color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
 
-        self.play(FadeOut(teaching))
-        teaching = Tex('Each 15 contributed creates a benefit of 10 for each player.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        gift = money[0].copy()
-        self.add(gift)
-        self.play(gift.animate.move_to(fund),Transform(money[0],Tex('0',color=ROW_PLAYER).scale(0.85).move_to(trays[0])),FadeOut(fund_value),FadeIn(teaching))
-        self.remove(gift)
-        fund_value = Tex('15',color=INK).scale(0.85).move_to(fund)
-        self.add(fund_value)
-        benefit_labels = VGroup(*[VGroup(Tex('Benefit:',color=CAPTION),Tex('10',color=c)).arrange(RIGHT,buff=0.15).scale(0.65).move_to([x,-0.15,0])
-                                  for x,c in zip((-5.6,-2.5),(ROW_PLAYER,COL_PLAYER))])
-        self.play(TransformFromCopy(fund_value,benefit_labels[0]),TransformFromCopy(fund_value,benefit_labels[1]))
-        self.pause('1.b.benefits')
+        # ---- 0.a · The bumper, as D1 opens: the wordmark flickers and the part label joins beneath it.
+        squares = bumper_raster(self)
+        flicker(self, squares, rounds=5)
+        part = Tex(r'{{Part D}} $|$ Public Goods', color=CAPTION).set_color_by_tex('Part D', TITLE).scale(1.5)
+        part.next_to(squares, DOWN, buff=0.5)
+        opening = VGroup(squares, part)
+        self.play(FadeIn(part), opening.animate.move_to(ORIGIN))
+        self.pause('0.a')
 
-        self.play(FadeOut(rules),FadeOut(teaching))
-        ledger = VGroup(
-            Tex('Payoff = money kept + benefit',color=CAPTION).scale(0.65).move_to([3.8,1.4,0]),
-            VGroup(MathTex('0+10=',color=ROW_PLAYER),Tex('10',color=ROW_PLAYER)).arrange(RIGHT,buff=0.1).scale(0.85).move_to([3.8,0.4,0]),
-            VGroup(MathTex('15+10=',color=COL_PLAYER),Tex('25',color=COL_PLAYER)).arrange(RIGHT,buff=0.1).scale(0.85).move_to([3.8,-0.55,0]))
-        teaching = Tex('What does each player receive?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.c.question')
-        self.play(FadeIn(ledger))
+        # ---- 0.b · Warmup, before any model: the title, then Exercise D3 Q1 on an exercise card in D1's style, with
+        # the handout's table as three bars. The handout's a) and b) only, so the letters match the card after Dobby,
+        # which carries c)–e): who visits (all three) and whether 30 coins a year from each would get it funded once the
+        # endowment runs out (no: only Aurelius, at 75, would pay). No teaching line; whether it is worth it to the three
+        # together (105 > 90) is for the discussion. The free-rider problem found before the lecture names it.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+        head = title('Warmup')
+        context = subtitle(head, 'Exercise D3, Q1, in groups, five minutes.')
+        warm_panel = RoundedRectangle(width=13.6, height=5.4, corner_radius=0.25, color=MUTED,
+                                      stroke_width=2, fill_color=BG, fill_opacity=1).move_to([0, -0.2, 0])
+        warm_head = Tex('Exercise D3 $|$ Q1: The Dumbledore Memorial', color=DEFINITION).scale(1.05)
+        warm_head.move_to(warm_panel.get_corner(UL) + RIGHT * 0.65 + DOWN * 0.7, aligned_edge=LEFT)
+        warm_setup = VGroup(
+            Tex('Three Dumbledores are considering a memorial to their', color=INK),
+            Tex('brother Albus, just outside their town. Anyone can enjoy it,', color=INK),
+            Tex('whether or not they helped pay. It costs 90 coins a year.', color=INK),
+        ).scale(0.62).arrange(DOWN, buff=0.18, aligned_edge=LEFT).next_to(warm_head, DOWN, buff=0.35, aligned_edge=LEFT)
+        warm_parts = VGroup(
+            Tex('a) If it were built, how many of the three would visit?', color=INK),
+            Tex('b) An endowment covers the first year. After that, each', color=INK),
+            Tex('must put in 30 coins a year. Would it get funded?', color=INK),
+        ).scale(0.66).arrange(DOWN, buff=0.26, aligned_edge=LEFT).next_to(warm_setup, DOWN, buff=0.4, aligned_edge=LEFT).shift(RIGHT * 0.3)
+        warm_parts[2].shift(RIGHT * 0.38)       # the continuation line hangs under the text of b)
+        # The handout's table as the three bars the later exercise card uses too.
+        warm_chart = axes([0, 4, 1], [0, 90, 30], x_length=3.8, y_length=2.4).move_to([4.8, -0.2, 0])
+        warm_heading = Tex('Annual benefit', color=CAPTION).scale(0.6).next_to(warm_chart, UP, buff=0.22)
+        warm_benefits = (75, 10, 20)
+        warm_bars = VGroup(*[Rectangle(width=0.6, height=2.4 * v / 90, color=DEMAND, fill_color=DEMAND, fill_opacity=0.3, stroke_width=2)
+                             .move_to(warm_chart.c2p(i + 1, v / 2)) for i, v in enumerate(warm_benefits)])
+        warm_values = VGroup(*[Tex(str(v), color=DEMAND).scale(0.6).next_to(bar, UP, buff=0.1) for v, bar in zip(warm_benefits, warm_bars)])
+        warm_names = VGroup(*[Tex(name, color=CAPTION).scale(0.42).next_to(warm_chart.c2p(i + 1, 0), DOWN, buff=0.18)
+                              for i, name in enumerate(('Aurelius', 'Aberforth', 'Ariana'))])
+        warm_cost = VGroup(Tex('Annual cost:', color=SUPPLY), Tex('90', color=SUPPLY)).arrange(RIGHT, buff=0.12).scale(0.65).next_to(warm_names, DOWN, buff=0.35)
+        warm_card = VGroup(warm_head, warm_setup, warm_parts, warm_chart, warm_heading, warm_bars, warm_values, warm_names, warm_cost)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(warm_panel), FadeIn(warm_card))
+        self.pause('0.b')
+
+        # ---- 1.a · D1's taxonomy again: a hold on common resources, last time's topic, then the box and the words
+        # move to public goods.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+        head = title('Common Resources')
+        context = subtitle(head, 'Goods that are rival and non-excludable.')
+        taxonomy = Table(
+            [[r'Private\\Goods', r'Club\\Goods'],
+             [r'Common\\Resources', r'Public\\Goods']],
+            row_labels=[Tex('Excludable', color=GUIDE), Tex('Non-Excludable', color=GUIDE)],
+            col_labels=[Tex('Rival', color=GUIDE), Tex('Non-Rival', color=GUIDE)],
+            element_to_mobject=Tex,
+            line_config={'color': MUTED, 'stroke_width': 2},
+        ).scale(0.7).move_to([0.4, BODY_MID, 0])
+        box = SurroundingRectangle(taxonomy.get_entries_without_labels((2, 1)), buff=0.22, color=NASH)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(taxonomy), FadeIn(box))
+        self.pause('1.a.commons')
+        new_head = title('Public Goods')
+        self.play(box.animate.move_to(taxonomy.get_entries_without_labels((2, 2))), Transform(head, new_head),
+                  Transform(context, subtitle(new_head, 'Goods that are non-rival and non-excludable.')), run_time=0.8)
+        self.pause('1.a')
+
+        # ---- 1.b · The NPR game opens on the rule alone, centered, its two braces arriving on separate holds. Then
+        # everything moves into place: the rule at the top of the left panel, the two strategies beneath it until the
+        # first worked lines replace them, and the empty graph on the right. The worked lines carry each profile's
+        # arithmetic and the graph keeps every outcome, as D2's harvest graph did.
+        self.play(FadeOut(taxonomy), FadeOut(box), FadeOut(context), Transform(head, title('The NPR Game')))
+        context = subtitle(head, 'Everyone can listen, whether or not they contribute.')
+
+        def rule_block(terms):
+            """The board's rule with its two underbraces. Double braces isolate the terms (the course's idiom);
+            the trailing thin space keeps the closing braces apart."""
+            fund_tex = '(' + terms + r')\cdot\tfrac{2}{3}\,'
+            rule = MathTex(r'\text{Payoff}_i = {{(15 - c_i)}} + {{' + fund_tex + '}}', color=INK).scale(0.75)
+            kept_brace = Brace(rule.get_part_by_tex('(15 - c_i)'), DOWN, buff=0.1, color=CAPTION)
+            fund_brace = Brace(rule.get_part_by_tex(fund_tex), DOWN, buff=0.1, color=CAPTION)
+            kept_note = Tex('the money I keep', color=CAPTION).scale(0.5).next_to(kept_brace, DOWN, buff=0.08)
+            fund_note = Tex('funding NPR', color=CAPTION).scale(0.5).next_to(fund_brace, DOWN, buff=0.08)
+            return VGroup(rule, kept_brace, fund_brace, kept_note, fund_note)
+
+        def worked_rows(profile):
+            """One line per player, worked from the rule as on the board: (15 - c_i) + (sum)·2/3 = result.
+            The result is its own mobject, so a copy of it can fly to the graph."""
+            total = ' + '.join(str(c) for c in profile)
+            rows = VGroup()
+            for i, (c_i, color) in enumerate(zip(profile, PLAYER_COLORS)):
+                result = 15 - c_i + 2 * sum(profile) // 3
+                row = VGroup(MathTex(rf'\text{{Player {i + 1}:}}\hspace{{0.45em}}(15 - {c_i}) + ({total})\cdot\tfrac{{2}}{{3}} =', color=color),
+                             MathTex(str(result), color=color)).arrange(RIGHT, buff=0.15).scale(0.55)
+                rows.add(row.move_to([ROWS_LEFT, ROW_Y[i], 0], aligned_edge=LEFT))
+            return rows
+
+        def payoff_chart(x_max, y_max, x_caption, x_length, center, marks):
+            """Player 1's payoff against what the others contribute: the rule's two cases are lines on it.
+            Only the contributions that occur are marked under the axis; payoffs are read beside the points."""
+            chart = axes([0, x_max, 5], [0, y_max, 5], x_length=x_length, y_length=3.4).move_to(center)
+            captions = VGroup(Tex(x_caption, color=CAPTION).scale(0.55).next_to(chart.c2p(x_max / 2, 0), DOWN, buff=0.5),
+                              Tex("Player 1's payoff", color=CAPTION).scale(0.55).next_to(chart.c2p(0, y_max), UP, buff=0.12)
+                              .align_to(chart.c2p(0, 0), LEFT),
+                              *[Tex(str(v), color=CAPTION).scale(0.5).next_to(chart.c2p(v, 0), DOWN, buff=0.12) for v in marks])
+            return chart, captions
+
+        def plot_point(chart, x, p1, pair, others=()):
+            """A pink dot for Player 1's payoff with the strategy pair beside it and the payoffs as a row,
+            left of the point at x = 0 and right of it otherwise. The numbers later move into the matrix."""
+            dot = Dot(chart.c2p(x, p1), radius=0.07, color=ROW_PLAYER)
+            numbers = VGroup(Tex(str(p1), color=ROW_PLAYER))
+            for value, color in zip(others, PLAYER_COLORS[1:]):
+                numbers.add(Tex(r'$\mid$', color=MUTED), Tex(str(value), color=color))
+            numbers.arrange(RIGHT, buff=0.1).scale(0.6)
+            pair_label = Tex(r'\textsf{' + pair + '}', color=CAPTION).scale(0.55)
+            VGroup(pair_label, numbers).arrange(RIGHT, buff=0.2).next_to(dot, LEFT if x == 0 else RIGHT, buff=0.2)
+            return dot, pair_label, numbers
+
+        rule_group = rule_block('c_1 + c_2')
+        rule, kept_brace, fund_brace, kept_note, fund_note = rule_group
+        RULE_ZOOM = 1.35
+        rule_group.scale(RULE_ZOOM).move_to([0, BODY_MID + 0.2, 0])
+        self.play(FadeIn(context), FadeIn(rule))
+        self.pause('1.b.rule')
+        self.play(FadeIn(kept_brace), FadeIn(kept_note))
+        self.pause('1.b.kept')
+        self.play(FadeIn(fund_brace), FadeIn(fund_note))
+        self.pause('1.b.fund')
+        strategies_heading = Tex('Two Strategies:', color=INK).scale(0.85)
+        c_rule = VGroup(Tex('- Contribute (C):', color=INK), Tex('15', color=CAPTION)).arrange(RIGHT, buff=0.18).scale(0.75)
+        dc_rule = VGroup(Tex('- Do not contribute (DC):', color=INK), Tex('0', color=CAPTION)).arrange(RIGHT, buff=0.18).scale(0.75)
+        strategies = VGroup(strategies_heading, c_rule, dc_rule).arrange(DOWN, buff=0.45, aligned_edge=LEFT)
+        divider = Line([0, 2.5, 0], [0, -2.55, 0], color=MUTED, stroke_width=1)
+        chart, chart_captions = payoff_chart(20, 30, "Player 2's contribution", 3.4, CHART_CENTER, (0, 15))
+        strategies.move_to([-3.7, -0.95, 0])          # where the worked lines will sit
+        teaching = teach('Do I contribute, or keep my money?')
+        self.play(rule_group.animate.scale(1 / RULE_ZOOM).move_to(RULE_POS), FadeIn(strategies), Create(divider), FadeIn(chart),
+                  FadeIn(chart_captions), FadeIn(teaching), run_time=1.0)
+        self.pause('1.b')
+
+        # ---- 1.d · The first profile, worked from the rule: Player 1 contributes, Player 2 does not.
+        self.play(FadeOut(teaching), FadeOut(strategies))
+        rows = worked_rows((15, 0))
+        teaching = teach('A contribution costs me 15 and benefits each of us by 10.')
+        self.play(FadeIn(rows), FadeIn(teaching), run_time=0.6)
         self.pause('1.d.payoffs')
 
-        payoffs = [[VGroup(Tex(str(a),color=ROW_PLAYER),Tex(r'$\mid$',color=MUTED),Tex(str(b),color=COL_PLAYER)).arrange(RIGHT,buff=0.12).scale(0.7)
-                    for a,b in row] for row in npr_payoffs]
+        # ---- 1.e · The results fly to the graph: the first point.
+        self.play(FadeOut(teaching))
+        dot, pair_label, numbers = plot_point(chart, 0, 10, 'C,DC', (25,))
+        teaching = teach("Each run is a point: Player 1's payoff against Player 2's contribution.")
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
+                  TransformFromCopy(rows[1][1], numbers[2]), FadeIn(teaching), run_time=0.8)
+        self.pause('1.e.graph')
+        graph_points = VGroup(dot, pair_label)        # shrinks with the graph later; the numbers move into the matrix instead
+        graph_numbers = {(0, 1): numbers}             # matrix cell (Player 1's row, Player 2's column) -> its pair of numbers
+
+        # ---- 1.f · Nobody contributes: each keeps 15.
+        self.play(FadeOut(teaching))
+        new_rows = worked_rows((0, 0))
+        teaching = teach('Nobody contributes: each keeps 15.')
+        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        rows = new_rows
+        self.pause('1.f.payoffs')
+        dot, pair_label, numbers = plot_point(chart, 0, 15, 'DC,DC', (15,))
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
+                  TransformFromCopy(rows[1][1], numbers[2]), run_time=0.8)
+        graph_points.add(dot, pair_label)
+        graph_numbers[(1, 1)] = numbers
+        self.pause('1.f.graph')
+
+        # ---- 1.g · Both contribute: 20 each. The second contributing point completes the C line.
+        self.play(FadeOut(teaching))
+        new_rows = worked_rows((15, 15))
+        teaching = teach('Both contribute: each receives 20.')
+        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        rows = new_rows
+        self.pause('1.g.payoffs')
+        dot, pair_label, numbers = plot_point(chart, 15, 20, 'C,C', (20,))
+        c_line = Line(chart.c2p(0, 10), chart.c2p(15, 20), color=INK, stroke_width=2)
+        c_label = Tex(r'\textsf{C}', color=INK).scale(0.55).move_to(chart.c2p(7.5, 17))
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
+                  TransformFromCopy(rows[1][1], numbers[2]), run_time=0.8)
+        self.play(Create(c_line), FadeIn(c_label), run_time=0.6)
+        graph_points.add(dot, pair_label, c_line, c_label)
+        graph_numbers[(0, 0)] = numbers
+        self.pause('1.g.graph')
+
+        # ---- 1.h · Switch the contributor: Player 1 keeps 15 and still gets 10. The DC line completes above the C line.
+        self.play(FadeOut(teaching))
+        new_rows = worked_rows((0, 15))
+        teaching = teach('Switch the contributor; switch the payoffs.')
+        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        rows = new_rows
+        self.pause('1.h.payoffs')
+        self.play(FadeOut(teaching))
+        dot, pair_label, numbers = plot_point(chart, 15, 25, 'DC,C', (10,))
+        dc_line = Line(chart.c2p(0, 15), chart.c2p(15, 25), color=INK, stroke_width=2)
+        dc_label = Tex(r'\textsf{DC}', color=INK).scale(0.55).move_to(chart.c2p(7.5, 22))
+        teaching = teach('Whatever Player 2 does, not contributing pays 5 more.')
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
+                  TransformFromCopy(rows[1][1], numbers[2]), run_time=0.8)
+        self.play(Create(dc_line), FadeIn(dc_label), FadeIn(teaching), run_time=0.6)
+        graph_points.add(dot, pair_label, dc_line, dc_label)
+        graph_numbers[(1, 0)] = numbers
+        self.pause('1.h.graph')
+
+        # ---- 1.i · D2's turn: the rule panel fades, the graph shrinks into the left panel, the matrix fades in on the
+        # right, and the pairs move from the points into their cells. The pair labels stay on the graph.
+        self.play(FadeOut(teaching), FadeOut(rule_group), FadeOut(rows))
+        npr = [[(20, 20), (10, 25)], [(25, 10), (15, 15)]]
+        payoffs = [[VGroup(Tex(f'{a}', color=ROW_PLAYER), Tex(r'$\mid$', color=MUTED), Tex(f'{b}', color=COL_PLAYER))
+                    .arrange(RIGHT, buff=0.12).scale(0.7) for a, b in row] for row in npr]
         entries = [cell for row in payoffs for cell in row]
-        matrix = Table(payoffs,h_buff=CELL_SIDE-max(c.width for c in entries),v_buff=CELL_SIDE-max(c.height for c in entries),include_outer_lines=True,
-                       line_config={'color':MUTED,'stroke_width':2}).rotate(-PI/4).move_to(GAME_CENTER)
+        matrix = Table(payoffs, h_buff=CELL_SIDE - max(cell.width for cell in entries),
+                       v_buff=CELL_SIDE - max(cell.height for cell in entries), include_outer_lines=True,
+                       line_config={'color': MUTED, 'stroke_width': 2}).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
         for cell in entries:
-            cell.rotate(PI/4,about_point=cell.get_center())
-        row_labels = VGroup(*[Tex(s,color=CAPTION).scale(0.7) for s in ('C','DC')])
-        col_labels = VGroup(*[Tex(s,color=CAPTION).scale(0.7) for s in ('C','DC')])
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        row_labels = VGroup(*[Tex(r'\textsf{' + s + '}', color=CAPTION).scale(0.7) for s in ('C', 'DC')])
+        col_labels = VGroup(*[Tex(r'\textsf{' + s + '}', color=CAPTION).scale(0.7) for s in ('C', 'DC')])
         for i in range(2):
-            offset = (0.5-i)*CELL_SIDE
-            row_labels[i].move_to(GAME_CENTER-CELL_SIDE*TABLE_RIGHT+offset*TABLE_UP+LEFT*0.3,aligned_edge=RIGHT)
-            col_labels[i].move_to(GAME_CENTER-offset*TABLE_RIGHT+CELL_SIDE*TABLE_UP+RIGHT*0.3,aligned_edge=LEFT)
-        player_labels = VGroup(Tex('Player 1',color=ROW_PLAYER).scale(0.8).move_to([1.9,2.15,0]),Tex('Player 2',color=COL_PLAYER).scale(0.8).move_to([5.9,2.15,0]))
-        divider = Line([0,2.5,0],[0,-2.7,0],color=MUTED,stroke_width=1)
-        self.play(FadeOut(teaching),FadeOut(ledger[0]),FadeIn(matrix.get_horizontal_lines()),FadeIn(matrix.get_vertical_lines()),FadeIn(row_labels),FadeIn(col_labels),FadeIn(player_labels),Create(divider),
-                  FadeOut(ledger[1][0]),FadeOut(ledger[2][0]),ReplacementTransform(ledger[1][1],payoffs[0][1][0]),ReplacementTransform(ledger[2][1],payoffs[0][1][2]),FadeIn(payoffs[0][1][1]))
-        self.add(payoffs[0][1])
-        teaching = Tex('Contribute, do not contribute: 10 and 25.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.e.matrix')
+            offset = (0.5 - i) * CELL_SIDE
+            row_anchor = GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP
+            col_anchor = GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP
+            row_labels[i].move_to(row_anchor + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[i].move_to(col_anchor + RIGHT * 0.3, aligned_edge=LEFT)
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to([1.9, 2.15, 0])
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to([5.9, 2.15, 0])
+        graph = VGroup(chart, chart_captions, graph_points)
+        teaching = teach("Player 1's payoff first; Player 2's payoff second.")
+        self.play(graph.animate.scale(0.85).move_to([-3.7, -0.4, 0]),
+                  FadeIn(matrix.get_horizontal_lines()), FadeIn(matrix.get_vertical_lines()),
+                  FadeIn(row_labels), FadeIn(col_labels), FadeIn(player_1), FadeIn(player_2),
+                  *[ReplacementTransform(graph_numbers[cell], payoffs[cell[0]][cell[1]]) for cell in graph_numbers],
+                  FadeIn(teaching), run_time=1.2)
+        self.add(*entries)
+        self.pause('1.i.matrix')
 
-        # Change only the numbers; the fund, players, and benefit labels persist.
-        self.play(FadeOut(teaching),Transform(money[0],Tex('15',color=ROW_PLAYER).scale(0.85).move_to(trays[0])),
-                  Transform(fund_value,Tex('0').scale(0.85).move_to(fund)),
-                  *[Transform(label[1],Tex('0',color=c).scale(0.65).move_to(label[1])) for label,c in zip(benefit_labels,(ROW_PLAYER,COL_PLAYER))])
-        teaching = Tex('Nobody contributes: each keeps 15.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(TransformFromCopy(money[0],payoffs[1][1][0]),TransformFromCopy(money[1],payoffs[1][1][2]),FadeIn(payoffs[1][1][1]),FadeIn(teaching))
-        self.add(payoffs[1][1])
-        self.pause('1.f.neither')
+        # ---- 1.j–1.m · Two comparisons for Player 1, as in D2: shade the fixed column, and the same x on the graph.
+        def graph_band(x):
+            top, bottom = chart.c2p(0, 30)[1], chart.c2p(0, 0)[1]
+            return (Rectangle(width=0.4, height=top - bottom, stroke_width=0, fill_color=COL_PLAYER, fill_opacity=0.12)
+                    .move_to(chart.c2p(x, 15)).set_z_index(-1))
 
-        self.play(FadeOut(teaching),*[Transform(m,Tex('0',color=c).scale(0.85).move_to(tray)) for m,c,tray in zip(money,(ROW_PLAYER,COL_PLAYER),trays)],
-                  Transform(fund_value,Tex('30').scale(0.85).move_to(fund)),
-                  *[Transform(label[1],Tex('20',color=c).scale(0.65).move_to(label[1])) for label,c in zip(benefit_labels,(ROW_PLAYER,COL_PLAYER))])
-        teaching = Tex('Both contribute: each receives 20.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(*[TransformFromCopy(benefit_labels[i][1],payoffs[0][0][2*i]) for i in (0,1)],FadeIn(payoffs[0][0][1]),FadeIn(teaching))
-        self.add(payoffs[0][0])
-        self.pause('1.g.both')
-        self.play(FadeOut(teaching),Transform(money[0],Tex('15',color=ROW_PLAYER).scale(0.85).move_to(trays[0])),
-                  Transform(fund_value,Tex('15').scale(0.85).move_to(fund)),
-                  *[Transform(label[1],Tex('10',color=c).scale(0.65).move_to(label[1])) for label,c in zip(benefit_labels,(ROW_PLAYER,COL_PLAYER))],
-                  TransformFromCopy(payoffs[0][1][2],payoffs[1][0][0]),TransformFromCopy(payoffs[0][1][0],payoffs[1][0][2]),FadeIn(payoffs[1][0][1]))
-        self.add(payoffs[1][0])
-        teaching = Tex('Switch the contributor; switch the payoffs.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
+        self.play(FadeOut(teaching))
+        shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE, stroke_width=0, fill_color=COL_PLAYER, fill_opacity=0.12)
+        shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER - 0.5 * CELL_SIDE * TABLE_RIGHT).set_z_index(-1)
+        underline = Underline(col_labels[0], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
+        band = graph_band(15)
+        teaching = teach("If Player 2 contributes, what is Player 1's best response?")
+        self.play(FadeIn(shade), FadeIn(underline), FadeIn(band), FadeIn(teaching))
+        self.pause('1.j.response-c')
+        response_c = SurroundingRectangle(payoffs[1][0][0], buff=0.08, color=ROW_PLAYER)
+        self.play(FadeOut(teaching), Create(response_c))
+        teaching = teach(r'Do not contribute: $25 > 20$.')
         self.play(FadeIn(teaching))
-        self.pause('1.h.symmetry')
+        self.pause('1.k.answer-c')
+        self.play(FadeOut(shade), FadeOut(underline), FadeOut(band), FadeOut(teaching))
+        shade = Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE, stroke_width=0, fill_color=COL_PLAYER, fill_opacity=0.12)
+        shade.rotate(DIAMOND_ANGLE).move_to(GAME_CENTER + 0.5 * CELL_SIDE * TABLE_RIGHT).set_z_index(-1)
+        underline = Underline(col_labels[1], buff=0.1, stroke_color=COL_PLAYER, stroke_width=3, stretch_factor=1)
+        band = graph_band(0)
+        teaching = teach("If Player 2 does not contribute, what is Player 1's best response?")
+        self.play(FadeIn(shade), FadeIn(underline), FadeIn(band), FadeIn(teaching))
+        self.pause('1.l.response-dc')
+        response_dc = SurroundingRectangle(payoffs[1][1][0], buff=0.08, color=ROW_PLAYER)
+        self.play(FadeOut(teaching), Create(response_dc))
+        teaching = teach(r'Do not contribute: $15 > 10$.')
+        self.play(FadeIn(teaching))
+        self.pause('1.m.answer-dc')
 
-        # Remove the now-unused fund; keep a simple incentive statement on the left.
-        self.play(*[FadeOut(o) for o in (trays,names,money,kept_heading,fund,fund_name,fund_value,benefit_labels,teaching)])
-        incentive = VGroup(Tex('Contributing 15',color=INK).scale(0.85),Tex('Own benefit: 10',color=ROW_PLAYER).scale(0.8),Tex('Benefit to the other player: 10',color=COL_PLAYER).scale(0.7)).arrange(DOWN,buff=0.5).move_to([-4,BODY_MID,0])
-        shade = Rectangle(width=CELL_SIDE,height=2*CELL_SIDE,stroke_width=0,fill_color=COL_PLAYER,fill_opacity=0.12).rotate(-PI/4).move_to(GAME_CENTER-0.5*CELL_SIDE*TABLE_RIGHT).set_z_index(-1)
-        teaching = Tex('If Player 2 contributes, what is Player 1\'s best response?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(incentive),FadeIn(shade),FadeIn(teaching))
-        self.pause('1.i.response-c')
-        br1 = SurroundingRectangle(payoffs[1][0][0],buff=0.08,color=ROW_PLAYER)
-        self.play(FadeOut(teaching),Create(br1))
-        teaching = Tex(r'Do not contribute: $25>20$.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.j.answer-c')
-        self.play(FadeOut(teaching),shade.animate.shift(CELL_SIDE*TABLE_RIGHT))
-        teaching = Tex('If Player 2 does not contribute, what is the best response?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.k.response-dc')
-        br2 = SurroundingRectangle(payoffs[1][1][0],buff=0.08,color=ROW_PLAYER)
-        self.play(FadeOut(teaching),Create(br2))
-        teaching = Tex(r'Do not contribute: $15>10$.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.l.answer-dc')
-        other_responses = VGroup(*[SurroundingRectangle(payoffs[r][1][2],buff=0.08,color=COL_PLAYER) for r in (0,1)])
-        nash = Square(side_length=1.35,color=NASH,stroke_width=3).rotate(-PI/4).move_to(payoffs[1][1])
-        efficient = Square(side_length=1.35,color=EFFICIENT,stroke_width=3).rotate(-PI/4).move_to(payoffs[0][0])
-        self.play(FadeOut(shade),FadeOut(teaching),Create(other_responses),Create(nash))
-        teaching = Tex('Neither contributes. Neither gains by changing alone.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.m.nash')
-        self.play(FadeOut(teaching),Create(efficient))
-        teaching = VGroup(Tex('The free rider problem',color=DEFINITION).scale(TEACHING_SCALE),
-             Tex('People can benefit without contributing, so individual incentives',color=INK).scale(0.65),
-             Tex('can leave a non-rival, non-excludable good underprovided.',color=INK).scale(0.65)).arrange(DOWN,buff=0.12).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('1.n.free-rider')
+        # ---- 1.n · Player 2 by symmetry, then the unilateral-deviation test.
+        self.play(FadeOut(shade), FadeOut(underline), FadeOut(band), FadeOut(teaching))
+        player_2_responses = VGroup(*[SurroundingRectangle(payoffs[r][1][2], buff=0.08, color=COL_PLAYER) for r in (0, 1)])
+        teaching = teach('The same comparisons hold for Player 2. Neither contributes.')
+        self.play(Create(player_2_responses), FadeIn(teaching))
+        self.pause('1.n.symmetry')
+        self.play(FadeOut(teaching))
+        nash_box = Square(side_length=CELL_SIDE - 0.15, color=NASH, stroke_width=3).rotate(DIAMOND_ANGLE).move_to(payoffs[1][1])
+        teaching = teach('Neither player gains by changing alone.')
+        self.play(Create(nash_box), FadeIn(teaching))
+        self.pause('1.n.nash')
 
-        # 2 · The PDF's three-player extension: one short calculation, no extra matrix.
-        self.play(*[FadeOut(o) for o in list(self.mobjects)])
+        # ---- 1.o · End on the incentive conflict, as D2 ended on the tragedy of the commons.
+        self.play(FadeOut(teaching))
+        efficient_box = Square(side_length=CELL_SIDE - 0.15, color=EFFICIENT, stroke_width=3).rotate(DIAMOND_ANGLE).move_to(payoffs[0][0])
+        comparison = Tex(r'$20 > 15$ for each player.', color=INK).scale(0.65).move_to([3.9, 2.65, 0])
+        teaching = VGroup(
+            Tex('Free rider problem', color=DEFINITION).scale(TEACHING_SCALE),
+            Tex('Individual incentives lead to the underprovision of a public good:', color=INK).scale(0.65),
+            Tex('each contributor pays the full cost but receives only part of the total benefit.', color=INK).scale(0.65),
+        ).arrange(DOWN, buff=0.12).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(Create(efficient_box), FadeIn(comparison), FadeIn(teaching))
+        self.pause('1.o.free-rider')
+
+        # ---- 1.p · Back to the taxonomy: the commons is overused, the public good underprovided.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+        head = title('Common Resources And Public Goods')
+        context = subtitle(head, 'Both are non-excludable. One is rival; the other is not.')
+        taxonomy = Table(
+            [[r'Private\\Goods', r'Club\\Goods'],
+             [r'Common\\Resources', r'Public\\Goods']],
+            row_labels=[Tex('Excludable', color=GUIDE), Tex('Non-Excludable', color=GUIDE)],
+            col_labels=[Tex('Rival', color=GUIDE), Tex('Non-Rival', color=GUIDE)],
+            element_to_mobject=Tex,
+            line_config={'color': MUTED, 'stroke_width': 2},
+        ).scale(0.7).move_to([0.4, BODY_MID + 0.3, 0])
+        commons_box = SurroundingRectangle(taxonomy.get_entries_without_labels((2, 1)), buff=0.22, color=NASH)
+        public_box = SurroundingRectangle(taxonomy.get_entries_without_labels((2, 2)), buff=0.22, color=NASH)
+        take = Tex('Take too much', color=INK).scale(0.7).next_to(commons_box, DOWN, buff=0.3)
+        give = Tex('Contribute too little', color=INK).scale(0.7).next_to(public_box, DOWN, buff=0.3)
+        teaching = teach('The commons is overused; the public good is underprovided.')
+        self.play(FadeIn(head), FadeIn(context), FadeIn(taxonomy), FadeIn(commons_box), FadeIn(public_box))
+        self.play(FadeIn(take), FadeIn(give), FadeIn(teaching))
+        self.pause('1.p.contrast')
+
+        # ---- 2.a · Three contributors: the same rule with one more term, the same two lines drawn out to 30, one more
+        # point. The graph is Player 1's payoff against what the other two contribute together.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
         head = title('Three Contributors')
-        context = subtitle(head,'Each player still has 15. Each contribution of 15 benefits everyone by 10.')
-        formula = MathTex(r'u_i=15-c_i+\frac{2}{3}(c_1+c_2+c_3)').scale(0.9).move_to([0,1.7,0])
-        three_names = VGroup(*[Tex(f'Player {i+1}',color=c).scale(0.8).move_to([x,0.65,0]) for i,(x,c) in enumerate(zip((-4,0,4),(ROW_PLAYER,COL_PLAYER,PURPLE)))])
-        choices = VGroup(*[Tex(s,color=CAPTION).scale(0.75).move_to([x,-0.25,0]) for x,s in zip((-4,0,4),('C: 15','DC: 0','DC: 0'))])
-        three_values = VGroup(*[Tex(str(v),color=c).scale(1.1).move_to([x,-1.2,0]) for x,v,c in zip((-4,0,4),(10,25,25),(ROW_PLAYER,COL_PLAYER,PURPLE))])
-        teaching = Tex('One contributor: 10 for them, 25 for each of the others.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(head),FadeIn(context),FadeIn(formula),FadeIn(three_names),FadeIn(choices),FadeIn(three_values),FadeIn(teaching))
+        context = subtitle(head, 'The same rule, with one more contribution in the fund.')
+        rule_group = rule_block('c_1 + c_2 + c_3').move_to(RULE_POS)
+        divider = Line([0, 2.5, 0], [0, -2.55, 0], color=MUTED, stroke_width=1)
+        chart, chart_captions = payoff_chart(35, 35, "The others' contributions", 3.2, CHART_CENTER_3, (0, 15, 30))
+        c_line = Line(chart.c2p(0, 10), chart.c2p(30, 30), color=INK, stroke_width=2)
+        dc_line = Line(chart.c2p(0, 15), chart.c2p(30, 35), color=INK, stroke_width=2)
+        c_label = Tex(r'\textsf{C}', color=INK).scale(0.55).move_to(chart.c2p(15, 22))
+        dc_label = Tex(r'\textsf{DC}', color=INK).scale(0.55).move_to(chart.c2p(15, 27))
+        rows = worked_rows((15, 0, 0))
+        teaching = teach('One contributor: 10 for them, 25 for each of the others.')
+        self.play(FadeIn(head), FadeIn(context), FadeIn(rule_group), Create(divider), FadeIn(chart), FadeIn(chart_captions),
+                  Create(c_line), Create(dc_line), FadeIn(c_label), FadeIn(dc_label))
+        self.play(FadeIn(rows), FadeIn(teaching), run_time=0.6)
+        dot, pair_label, numbers = plot_point(chart, 0, 10, 'C,DC,DC')
+        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][1], numbers[0]), run_time=0.8)
         self.pause('2.a.one')
-        self.play(FadeOut(teaching),Transform(choices[0],Tex('DC: 0',color=CAPTION).scale(0.75).move_to(choices[0])),
-                  *[Transform(v,Tex('15',color=c).scale(1.1).move_to(v)) for v,c in zip(three_values,(ROW_PLAYER,COL_PLAYER,PURPLE))])
-        teaching = Tex('Nobody contributes: 15 each. Total payoff: 45.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
+
+        # ---- 2.b · Nobody contributes: 15 each.
+        self.play(FadeOut(teaching))
+        new_rows = worked_rows((0, 0, 0))
+        teaching = teach('Nobody contributes: 15 each.')
+        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        rows = new_rows
+        dot, pair_label, numbers = plot_point(chart, 0, 15, 'DC,DC,DC')
+        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][1], numbers[0]), run_time=0.8)
         self.pause('2.b.none')
-        self.play(FadeOut(teaching),*[Transform(ch,Tex('C: 15',color=CAPTION).scale(0.75).move_to(ch)) for ch in choices],
-                  *[Transform(v,Tex('30',color=c).scale(1.1).move_to(v)) for v,c in zip(three_values,(ROW_PLAYER,COL_PLAYER,PURPLE))])
-        teaching = Tex('Everybody contributes: 30 each. Total payoff: 90.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
+
+        # ---- 2.c · Everybody contributes: 30 each, at the far end of the C line.
+        self.play(FadeOut(teaching))
+        new_rows = worked_rows((15, 15, 15))
+        teaching = teach('Everybody contributes: 30 each. Could a group arrange that?')
+        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        rows = new_rows
+        dot, pair_label, numbers = plot_point(chart, 30, 30, 'C,C,C')
+        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][1], numbers[0]), run_time=0.8)
         self.pause('2.c.all')
 
-        # 3 · Dobby. The same benefit bars remain through votes, efficiency, and fees.
-        self.play(*[FadeOut(o) for o in list(self.mobjects)])
+        # ---- 3.a · Five people, five benefits, one memorial. Who visits?
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
         head = title('A Memorial To Dobby')
-        context = subtitle(head,'Annual benefits and costs, in galleons. Everyone can enjoy the memorial.')
-        chart = axes([0,6,1],[0,40,10],x_length=6.2,y_length=3.3).move_to([-3.75,-0.1,0])
-        ticks = VGroup(*[Tex(str(v),color=CAPTION).scale(0.6).next_to(chart.c2p(0,v),LEFT,buff=0.15) for v in (0,20,40)])
-        bars = VGroup(*[Rectangle(width=0.62,height=3.3*v/40,color=DEMAND,fill_color=DEMAND,fill_opacity=0.3,stroke_width=2).move_to(chart.c2p(i+1,v/2)) for i,v in enumerate(benefits)])
-        bar_values = VGroup(*[Tex(str(v),color=DEMAND).scale(0.7).next_to(bar,UP,buff=0.12) for v,bar in zip(benefits,bars)])
-        bar_names = VGroup(*[Tex(name,color=CAPTION).scale(0.51).next_to(chart.c2p(i+1,0),DOWN,buff=0.2) for i,name in enumerate(residents)])
-        chart_heading = Tex('Individual benefit',color=CAPTION).scale(0.7).move_to([-3.75,2.2,0])
-        divider = Line([0,2.5,0],[0,-2.7,0],color=MUTED,stroke_width=1)
-        cost_label = Tex('Annual cost: 100',color=SUPPLY).scale(0.9).move_to([3.8,1.4,0])
-        teaching = Tex('If it is built, how many people will visit?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(head),FadeIn(context),FadeIn(chart),FadeIn(ticks),FadeIn(bars),FadeIn(bar_values),FadeIn(bar_names),FadeIn(chart_heading),Create(divider),FadeIn(cost_label),FadeIn(teaching))
+        context = subtitle(head, 'Annual benefits and costs, in galleons. Everyone can enjoy the memorial.')
+        chart = axes([0, 6, 1], [0, 40, 10], x_length=6.2, y_length=3.3).move_to([-3.75, -0.1, 0])
+        chart_heading = Tex('Marginal benefit', color=CAPTION).scale(0.65).move_to([-3.75, 2.2, 0])
+        bars = VGroup(*[Rectangle(width=0.62, height=3.3 * v / 40, color=DEMAND, fill_color=DEMAND, fill_opacity=0.3, stroke_width=2)
+                        .move_to(chart.c2p(i + 1, v / 2)) for i, v in enumerate(benefits)])
+        bar_values = VGroup(*[Tex(str(v), color=DEMAND).scale(0.7).next_to(bar, UP, buff=0.12) for v, bar in zip(benefits, bars)])
+        bar_names = VGroup(*[Tex(name, color=CAPTION).scale(0.55).next_to(chart.c2p(i + 1, 0), DOWN, buff=0.2)
+                             for i, name in enumerate(residents)])
+        divider = Line([0, 2.5, 0], [0, -2.7, 0], color=MUTED, stroke_width=1)
+        cost_label = VGroup(Tex('Annual cost:', color=SUPPLY), Tex(str(COST), color=SUPPLY)).arrange(RIGHT, buff=0.15).scale(0.8).move_to([3.8, 1.9, 0])
+        teaching = Tex('If it is built, how many people will visit?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(chart), FadeIn(chart_heading), FadeIn(bars), FadeIn(bar_values), FadeIn(bar_names),
+                  Create(divider), FadeIn(cost_label), FadeIn(teaching))
         self.pause('3.a.visits')
-        visitors = Tex('All five',color=INK).scale(1).move_to([3.8,-0.1,0])
-        self.play(FadeIn(visitors))
+
+        # ---- 3.b · All five.
+        self.play(FadeOut(teaching))
+        visitors = VGroup(Tex('Visitors:', color=INK), Tex('5', color=INK)).arrange(RIGHT, buff=0.15).scale(0.8).move_to([3.8, 0.9, 0])
+        teaching = Tex('All five: each gets a benefit, and no one can be kept out.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(visitors), FadeIn(teaching))
         self.pause('3.b.all-five')
 
-        self.play(FadeOut(visitors),FadeOut(teaching))
-        tax_line = DashedLine(chart.c2p(0,20),chart.c2p(6,20),color=GUIDE,stroke_width=2)
-        tax_label = Tex('Tax: 20 each',color=GUIDE).scale(0.8).move_to([3.8,0.3,0])
-        teaching = Tex('Would an equal tax of 20 pass a majority vote?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(Create(tax_line),FadeIn(tax_label),FadeIn(teaching))
+        # ---- 3.c · An equal tax of 20: one red line across the bars, read on the axis like a price.
+        self.play(FadeOut(teaching), FadeOut(visitors))
+        tax = ValueTracker(20)
+        tax_line = DashedLine(chart.c2p(0, 20), chart.c2p(6, 20), color=GUIDE, stroke_width=2)
+        tax_line.add_updater(lambda m: m.set_y(chart.c2p(0, tax.get_value())[1]))
+        tax_readout = DecimalNumber(20, num_decimal_places=0, color=GUIDE).scale(0.65)
+        tax_readout.add_updater(lambda m: m.set_value(round(tax.get_value(), 4)).next_to(chart.c2p(0, tax.get_value()), LEFT, buff=0.15))
+        tax_readout.update()
+        tax_word = Tex('tax', color=GUIDE).scale(0.5)
+        tax_word.add_updater(lambda m: m.next_to(chart.c2p(6, tax.get_value()), UP, buff=0.08, aligned_edge=RIGHT))
+        tax_word.update()
+        teaching = Tex('Would a tax of 20 each pass a majority vote?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(tax_line), FadeIn(tax_readout), FadeIn(tax_word), FadeIn(teaching))
         self.pause('3.c.vote')
-        votes = VGroup(*[Tex('Yes' if v>20 else 'No',color=EFFICIENT if v>20 else NASH).scale(0.65).next_to(name,DOWN,buff=0.24) for v,name in zip(benefits,bar_names)])
-        vote_result = Tex('3 Yes, 2 No',color=INK).scale(0.9).move_to([3.8,-0.8,0])
-        tax_total = Tex(r'$5\times20=100$',color=GOV).scale(0.75).move_to([3.8,-1.7,0])
-        self.play(FadeOut(teaching),FadeIn(votes),FadeIn(vote_result),FadeIn(tax_total))
-        teaching = Tex('It passes, and the tax pays for the memorial.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
-        self.pause('3.d.passes')
 
-        self.play(FadeOut(teaching),FadeOut(tax_label),FadeOut(tax_total),FadeOut(vote_result),FadeOut(votes),FadeOut(tax_line),FadeOut(cost_label))
-        teaching = Tex('Is building the memorial socially efficient?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
+        # ---- 3.d · Each person compares their benefit with the tax: checks and crosses, as on the board.
+        self.play(FadeOut(teaching))
+        votes = VGroup()
+        for v, name in zip(benefits, bar_names):
+            spot = name.get_center() + DOWN * 0.42
+            if v > 20:
+                votes.add(polyline([spot + np.array([-0.16, 0.01, 0]), spot + np.array([-0.05, -0.12, 0]), spot + np.array([0.17, 0.15, 0])],
+                                   color=EFFICIENT, width=4))
+            else:
+                votes.add(VGroup(Line(spot + np.array([-0.12, -0.12, 0]), spot + np.array([0.12, 0.12, 0]), color=NASH, stroke_width=4),
+                                 Line(spot + np.array([-0.12, 0.12, 0]), spot + np.array([0.12, -0.12, 0]), color=NASH, stroke_width=4)))
+        vote_result = Tex('3 Yes, 2 No', color=INK).scale(0.8).move_to([3.8, 0.5, 0])
+        tax_total = Tex(r'$5 \times 20 = 100$', color=GOV).scale(0.75).move_to([3.8, -0.5, 0])
+        teaching = Tex('It passes, and the tax pays for the memorial.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(LaggedStart(*[FadeIn(vote) for vote in votes], lag_ratio=0.25), run_time=0.8)
+        self.play(FadeIn(vote_result), run_time=0.4)
+        self.play(FadeIn(tax_total), FadeIn(teaching))
+        self.pause('3.d.passes')
+        self.play(FadeOut(teaching))
+        teaching = Tex('Ginny and Neville pay 20 for benefits of 19 and 14.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching))
+        self.pause('3.d.outvoted')
+
+        # ---- 3.e · Is it efficient? Keep the bars and the tax line; clear the vote.
+        self.play(FadeOut(teaching), FadeOut(votes), FadeOut(vote_result), FadeOut(tax_total))
+        teaching = Tex('Is building the memorial socially efficient?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching))
         self.pause('3.e.efficiency')
-        # Add benefits vertically: five people enjoy the same one memorial.
-        total_bar = VGroup()
+
+        # ---- 3.f · Add the five benefits vertically: one memorial, enjoyed by all five.
+        STACK_X, STACK_BOTTOM, STACK_UNIT = 3.3, -1.9, 0.025
+        segments = VGroup()
         running = 0
         for v in benefits:
-            segment = Rectangle(width=0.9,height=v*0.025,color=DEMAND,fill_color=DEMAND,fill_opacity=0.3,stroke_width=2).move_to([3.3,-1.65+(running+v/2)*0.025,0])
-            total_bar.add(segment)
+            segments.add(Rectangle(width=0.9, height=v * STACK_UNIT, color=DEMAND, fill_color=DEMAND, fill_opacity=0.3, stroke_width=2)
+                         .move_to([STACK_X, STACK_BOTTOM + (running + v / 2) * STACK_UNIT, 0]))
             running += v
-        total_name = Tex('Social benefit',color=CAPTION).scale(0.7).move_to([3.3,-2.15,0])
-        total_value = Tex('120',color=DEMAND).scale(0.85).next_to(total_bar,UP,buff=0.16)
-        cost_line = DashedLine([1.8,0.85,0],[5.4,0.85,0],color=SUPPLY,stroke_width=2)
-        cost_value = Tex('Cost: 100',color=SUPPLY).scale(0.7).next_to(cost_line,RIGHT,buff=0.16)
-        self.play(*[TransformFromCopy(bar,segment) for bar,segment in zip(bars,total_bar)],FadeIn(total_name))
-        self.play(TransformFromCopy(bar_values,total_value),Create(cost_line),FadeIn(cost_value),FadeOut(teaching))
-        teaching = Tex(r'$MSB=120>MSC=100$: a net gain of 20.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
+        msb_name = Tex('MSB', color=INK).scale(0.6).move_to([STACK_X, STACK_BOTTOM - 0.3, 0])
+        msb_value = Tex(str(sum(benefits)), color=DEMAND).scale(0.7).next_to(segments, UP, buff=0.12)
+        cost_line = DashedLine([STACK_X - 1.0, STACK_BOTTOM + COST * STACK_UNIT, 0], [STACK_X + 1.4, STACK_BOTTOM + COST * STACK_UNIT, 0],
+                               color=SUPPLY, stroke_width=2)
+        msc_label = VGroup(Tex('MSC', color=SUPPLY), Tex(str(COST), color=SUPPLY)).arrange(RIGHT, buff=0.15).scale(0.65).next_to(cost_line, RIGHT, buff=0.15)
+        self.play(FadeOut(teaching))
+        self.play(*[TransformFromCopy(bar, segment) for bar, segment in zip(bars, segments)], FadeIn(msb_name), run_time=1.0)
+        self.play(FadeIn(msb_value), FadeIn(cost_line), FadeIn(msc_label[0]), TransformFromCopy(cost_label[1], msc_label[1]), run_time=0.8)
+        teaching = Tex(r'$MSB = 120 > MSC = 100$: building it is efficient.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching))
         self.pause('3.f.efficient')
 
-        # The vignette's higher-tax question. Project cost is still 100.
-        self.play(*[FadeOut(o) for o in (total_bar,total_name,total_value,cost_line,cost_value,teaching)])
-        tax_line = DashedLine(chart.c2p(0,25),chart.c2p(6,25),color=GUIDE,stroke_width=2)
-        tax_label = Tex('Tax: 25 each',color=GUIDE).scale(0.9).move_to([3.8,1.4,0])
-        teaching = Tex('What if the proposed tax were 25 each?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(Create(tax_line),FadeIn(tax_label),FadeIn(teaching))
+        # ---- 3.g · The vignette's higher tax: the same line rolls up to 25.
+        self.play(FadeOut(teaching), FadeOut(segments), FadeOut(msb_name), FadeOut(msb_value), FadeOut(cost_line), FadeOut(msc_label))
+        teaching = Tex('What if the proposed tax were 25 each?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(tax.animate.set_value(25), FadeIn(teaching), run_time=1.0)
         self.pause('3.g.tax25')
-        votes = VGroup(*[Tex('Yes' if v>25 else 'No',color=EFFICIENT if v>25 else NASH).scale(0.65).next_to(name,DOWN,buff=0.24) for v,name in zip(benefits,bar_names)])
-        vote_result = Tex('2 Yes, 3 No',color=INK).scale(0.9).move_to([3.8,0.15,0])
-        tax_total = VGroup(Tex('Revenue if passed: 125',color=CAPTION),Tex('Project cost: still 100',color=CAPTION)).arrange(DOWN,buff=0.3).scale(0.65).move_to([3.8,-1.3,0])
-        self.play(FadeIn(votes),FadeIn(vote_result),FadeIn(tax_total),FadeOut(teaching))
-        teaching = Tex('It fails. Support depends on the proposed payment.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
+
+        # ---- 3.h · It fails, though nothing about the memorial's efficiency has changed.
+        self.play(FadeOut(teaching))
+        votes = VGroup()
+        for v, name in zip(benefits, bar_names):
+            spot = name.get_center() + DOWN * 0.42
+            if v > 25:
+                votes.add(polyline([spot + np.array([-0.16, 0.01, 0]), spot + np.array([-0.05, -0.12, 0]), spot + np.array([0.17, 0.15, 0])],
+                                   color=EFFICIENT, width=4))
+            else:
+                votes.add(VGroup(Line(spot + np.array([-0.12, -0.12, 0]), spot + np.array([0.12, 0.12, 0]), color=NASH, stroke_width=4),
+                                 Line(spot + np.array([-0.12, 0.12, 0]), spot + np.array([0.12, -0.12, 0]), color=NASH, stroke_width=4)))
+        vote_result = Tex('2 Yes, 3 No', color=INK).scale(0.8).move_to([3.8, 0.5, 0])
+        teaching = Tex('It fails, even though the memorial is still efficient.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(LaggedStart(*[FadeIn(vote) for vote in votes], lag_ratio=0.25), run_time=0.8)
+        self.play(FadeIn(vote_result), run_time=0.4)
         self.play(FadeIn(teaching))
         self.pause('3.h.fails')
 
-        # Admission is a counterfactual: exclusion is now possible, one uniform fee.
-        self.play(*[FadeOut(o) for o in (votes,vote_result,tax_total,tax_label,tax_line,teaching,context)])
-        context = subtitle(head,'Suppose access can be restricted. One annual admission fee.')
-        admission_heading = Tex('Admission revenue',color=CAPTION).scale(0.8).move_to([3.8,2.1,0])
-        fee_line = DashedLine(chart.c2p(0,20),chart.c2p(6,20),color=GUIDE,stroke_width=2)
-        fee_label = Tex('Fee: 20',color=GUIDE).scale(0.75).move_to([3.8,1.25,0])
-        teaching = Tex('Can a private operator cover the cost of 100?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(context),FadeIn(admission_heading),FadeIn(fee_label),Create(fee_line),FadeIn(teaching))
+        # ---- 3.i · Change the assumption: now non-payers can be kept out. The tax line becomes a fee.
+        tax_word.clear_updaters()
+        self.play(FadeOut(teaching), FadeOut(votes), FadeOut(vote_result), FadeOut(context), FadeOut(tax_word))
+        context = subtitle(head, 'Now suppose a private company can keep non-payers out, for a fee.')
+        fee_word = Tex('fee', color=GUIDE).scale(0.5)
+        fee_word.add_updater(lambda m: m.next_to(chart.c2p(6, tax.get_value()), UP, buff=0.08, aligned_edge=RIGHT))
+        fee_word.update()
+        revenue_heading = Tex('Admission revenue', color=CAPTION).scale(0.7).move_to([3.8, 0.9, 0])
+        teaching = Tex('Can one fee cover the annual cost of 100?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(context), FadeIn(fee_word), FadeIn(revenue_heading), tax.animate.set_value(20), FadeIn(teaching), run_time=1.0)
         self.pause('3.i.admission')
-        revenue20 = Tex(r'$3\times20=60$',color=INK).scale(0.85).move_to([3.8,0.15,0])
-        self.play(FadeIn(revenue20),bars[3].animate.set_fill(opacity=0.06).set_stroke(opacity=0.2),bars[4].animate.set_fill(opacity=0.06).set_stroke(opacity=0.2))
+
+        # ---- 3.j–3.l · Three fees from the board. Non-buyers go grey; earlier results are stored in grey.
+        revenue_20 = Tex(r'$3 \times 20 = 60$', color=INK).scale(0.8).move_to([3.8, 0.0, 0])
+        self.play(bars[3].animate.set_color(MUTED), bar_values[3].animate.set_color(CAPTION),
+                  bars[4].animate.set_color(MUTED), bar_values[4].animate.set_color(CAPTION), FadeIn(revenue_20), run_time=0.6)
         self.pause('3.j.fee20')
-        self.play(FadeOut(teaching),Transform(fee_line,DashedLine(chart.c2p(0,24),chart.c2p(6,24),color=GUIDE,stroke_width=2)),Transform(fee_label,Tex('Fee: 24',color=GUIDE).scale(0.75).move_to(fee_label)),
-                  revenue20.animate.scale(0.8).move_to([3.8,-1,0]).set_color(CAPTION))
-        revenue24 = Tex(r'$3\times24=72$',color=INK).scale(0.85).move_to([3.8,0.15,0])
-        self.play(FadeIn(revenue24))
+        revenue_24 = Tex(r'$3 \times 24 = 72$', color=INK).scale(0.8).move_to([3.8, 0.0, 0])
+        self.play(tax.animate.set_value(24), revenue_20.animate.scale(0.75).set_color(CAPTION).move_to([3.8, -0.9, 0]), run_time=0.8)
+        self.play(FadeIn(revenue_24), run_time=0.4)
         self.pause('3.k.fee24')
-        self.play(Transform(fee_line,DashedLine(chart.c2p(0,19),chart.c2p(6,19),color=GUIDE,stroke_width=2)),Transform(fee_label,Tex('Fee: 19',color=GUIDE).scale(0.75).move_to(fee_label)),
-                  revenue20.animate.move_to([3.8,-1.8,0]),revenue24.animate.scale(0.8).move_to([3.8,-1,0]).set_color(CAPTION),bars[3].animate.set_fill(opacity=0.3).set_stroke(opacity=1))
-        revenue19 = Tex(r'$4\times19=76$',color=INK).scale(0.85).move_to([3.8,0.15,0])
-        self.play(FadeIn(revenue19))
-        teaching = Tex(r'Even the best uniform fee raises only $76<100$.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
+        revenue_19 = Tex(r'$4 \times 19 = 76$', color=INK).scale(0.8).move_to([3.8, 0.0, 0])
+        self.play(tax.animate.set_value(19), revenue_20.animate.move_to([3.8, -1.6, 0]), FadeOut(teaching),
+                  revenue_24.animate.scale(0.75).set_color(CAPTION).move_to([3.8, -0.9, 0]),
+                  bars[3].animate.set_color(DEMAND), bar_values[3].animate.set_color(DEMAND), run_time=0.8)
+        self.play(FadeIn(revenue_19), run_time=0.4)
+        teaching = Tex(r'Even the best single fee raises only $76 < 100$.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching))
         self.pause('3.l.fee19')
 
-        # A brief Lindahl-inspired bridge; this discrete cost split is not a formal equilibrium.
-        self.play(*[FadeOut(o) for o in (admission_heading,fee_line,fee_label,revenue20,revenue24,revenue19,teaching,context)],*[bar.animate.set_fill(opacity=0.3).set_stroke(opacity=1) for bar in bars])
-        context = subtitle(head,'Personalized taxes: an alternative to equal payments.')
-        payments = (30,25,20,15,10)
-        tax_marks = VGroup(*[Line(chart.c2p(i+1,p)+LEFT*0.42,chart.c2p(i+1,p)+RIGHT*0.42,color=GUIDE,stroke_width=3) for i,p in enumerate(payments)])
-        payment_values = VGroup(*[Tex(str(p),color=GUIDE).scale(0.6).next_to(name,DOWN,buff=0.24) for p,name in zip(payments,bar_names)])
-        split_total = VGroup(Tex('Total tax: 100',color=GOV),Tex('Each benefit exceeds its tax',color=INK)).arrange(DOWN,buff=0.55).scale(0.75).move_to([3.8,BODY_MID,0])
-        teaching = Tex('Could different payments make everyone willing to fund it?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(context),FadeIn(teaching))
+        # ---- 3.m · Different payments for different people: the idea behind Lindahl taxes.
+        tax_line.clear_updaters()
+        tax_readout.clear_updaters()
+        fee_word.clear_updaters()
+        self.play(FadeOut(teaching), FadeOut(revenue_19), FadeOut(revenue_24), FadeOut(revenue_20), FadeOut(revenue_heading),
+                  FadeOut(tax_line), FadeOut(tax_readout), FadeOut(fee_word), FadeOut(context),
+                  bars[4].animate.set_color(DEMAND), bar_values[4].animate.set_color(DEMAND))
+        context = subtitle(head, 'What if each person paid a different amount?')
+        teaching = Tex('Could different payments make everyone willing to fund it?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(context), FadeIn(teaching))
         self.pause('3.m.personalized-question')
-        self.play(FadeIn(tax_marks),FadeIn(payment_values),FadeIn(split_total),FadeOut(teaching))
-        teaching = Tex('The difficulty: learning how much each person really values it.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
+
+        # ---- 3.n · Payments 4 below each benefit: everyone says yes, and the payments cover the cost.
+        payments = (30, 25, 20, 15, 10)
+        payment_marks = [Line(chart.c2p(i + 1, p) + LEFT * 0.42, chart.c2p(i + 1, p) + RIGHT * 0.42, color=GUIDE, stroke_width=3)
+                         for i, p in enumerate(payments)]
+        payment_values = [Tex(str(p), color=GUIDE).scale(0.6).next_to(name, DOWN, buff=0.22) for p, name in zip(payments, bar_names)]
+        payment_total = Tex(r'$30 + 25 + 20 + 15 + 10 = 100$', color=GOV).scale(0.7).move_to([3.8, 0.4, 0])
+        self.play(FadeOut(teaching))
+        teaching = Tex('Each pays 4 less than their benefit: all five say yes.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(LaggedStart(*[FadeIn(VGroup(mark, value)) for mark, value in zip(payment_marks, payment_values)], lag_ratio=0.2), run_time=0.8)
+        self.play(FadeIn(payment_total), FadeIn(teaching))
         self.pause('3.n.personalized')
-
-        # 4 · The exercise supplies a counterexample: majority does not maximize total gains.
-        self.play(*[FadeOut(o) for o in list(self.mobjects)])
-        self.clear()
-        head = title('Does A Majority Choose Efficiently?')
-        context = subtitle(head,'The Dumbledore memorial: annual cost 90; equal tax 30.')
-        small_chart = axes([0,4,1],[0,90,30],x_length=5.8,y_length=3.5).move_to([-3.7,-0.1,0])
-        small_benefits = (75,10,20)
-        small_bars = VGroup(*[Rectangle(width=0.85,height=3.5*v/90,color=DEMAND,fill_color=DEMAND,fill_opacity=0.3).move_to(small_chart.c2p(i+1,v/2)) for i,v in enumerate(small_benefits)])
-        small_values = VGroup(*[Tex(str(v),color=DEMAND).scale(0.8).next_to(b,UP,buff=0.15) for v,b in zip(small_benefits,small_bars)])
-        small_names = VGroup(*[Tex(s,color=CAPTION).scale(0.6).next_to(small_chart.c2p(i+1,0),DOWN,buff=0.2) for i,s in enumerate(('Aurelius','Aberforth','Ariana'))])
-        small_tax = DashedLine(small_chart.c2p(0,30),small_chart.c2p(4,30),color=GUIDE)
-        small_tax_value = Tex('30',color=GUIDE).scale(0.65).next_to(small_tax,LEFT,buff=0.15)
-        divider = Line([0,2.5,0],[0,-2.7,0],color=MUTED,stroke_width=1)
-        teaching = Tex('Does it pass? Should it be built?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(head),FadeIn(context),FadeIn(small_chart),FadeIn(small_bars),FadeIn(small_values),FadeIn(small_names),Create(small_tax),FadeIn(small_tax_value),Create(divider),FadeIn(teaching))
-        self.pause('4.a.counterexample')
-        rejection = VGroup(Tex('1 Yes, 2 No',color=NASH),Tex(r'$MSB=105>90=MSC$',color=INK),Tex('Efficient, but rejected',color=INK)).arrange(DOWN,buff=0.6).scale(0.8).move_to([3.9,BODY_MID,0])
-        self.play(FadeIn(rejection),FadeOut(teaching))
-        teaching = Tex('Votes count people, not the size of their gains and losses.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
+        self.play(FadeOut(teaching))
+        teaching = Tex('The difficulty: learning how much each person really values it.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
         self.play(FadeIn(teaching))
-        self.pause('4.b.rejected')
+        self.pause('3.n.elicitation')
 
-        # 5 · A short new illustration for the old schedule's three-ballot topic.
-        self.play(*[FadeOut(o) for o in list(self.mobjects)])
+        # ---- 3.exercise · Exercise D3 Q1 card, D1 style: the warmup's memorial again, now with the tools; parts c)–e).
+        card_head = Tex('Exercise D3 $|$ Q1, continued: The Dumbledore Memorial', color=DEFINITION).scale(1.05)
+        card_parts = VGroup(
+            Tex('c) Does a referendum for a tax of 30 each pass?'),
+            Tex('d) What is the marginal social benefit?'),
+            Tex('e) If it passed, would the outcome be efficient?'),
+        ).scale(0.7).arrange(DOWN, buff=0.4, aligned_edge=LEFT)
+        card_chart = axes([0, 4, 1], [0, 90, 30], x_length=4.2, y_length=2.4).move_to([4.5, -0.2, 0])
+        card_benefits = (75, 10, 20)
+        card_bars = VGroup(*[Rectangle(width=0.6, height=2.4 * v / 90, color=DEMAND, fill_color=DEMAND, fill_opacity=0.3, stroke_width=2)
+                             .move_to(card_chart.c2p(i + 1, v / 2)) for i, v in enumerate(card_benefits)])
+        card_values = VGroup(*[Tex(str(v), color=DEMAND).scale(0.6).next_to(bar, UP, buff=0.1) for v, bar in zip(card_benefits, card_bars)])
+        card_names = VGroup(*[Tex(name, color=CAPTION).scale(0.45).next_to(card_chart.c2p(i + 1, 0), DOWN, buff=0.18)
+                              for i, name in enumerate(('Aurelius', 'Aberforth', 'Ariana'))])
+        card_cost = VGroup(Tex('Annual cost:', color=SUPPLY), Tex('90', color=SUPPLY)).arrange(RIGHT, buff=0.12).scale(0.65).move_to([4.5, -2.15, 0])
+        card_panel = RoundedRectangle(width=13.6, height=5.4, corner_radius=0.25, color=MUTED,
+                                      stroke_width=2, fill_color=BG, fill_opacity=1).move_to([0, -0.2, 0])
+        card_head.move_to(card_panel.get_corner(UL) + RIGHT * 0.65 + DOWN * 0.7, aligned_edge=LEFT)
+        card_note = subtitle(card_head, 'The memorial from the warmup, now with the tools.')
+        card_parts.next_to(card_note, DOWN, buff=0.4, aligned_edge=LEFT).shift(RIGHT * 0.35)
+        card = VGroup(card_head, card_note, card_parts, card_chart, card_bars, card_values, card_names, card_cost)
+        card_panel.set_z_index(50)
+        for glyph in card.get_family():
+            glyph.set_z_index(51)
+        self.play(*[mob.animate.set_opacity(0.05) for mob in list(self.mobjects)], FadeIn(card_panel), FadeIn(card))
+        self.pause('3.exercise')
+
+        # ---- 5.a · A brief look past majority votes on one proposal: three voters, three alternatives.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
         head = title('Three Voters, Three Alternatives')
-        context = subtitle(head,'Each voter has a consistent ranking. Read from least to most preferred.')
-        rankings = (('C','B','A'),('A','C','B'),('B','A','C'))
-        ranking_rows = VGroup(*[VGroup(Tex(f'Voter {i+1}',color=CAPTION).scale(0.75),MathTex(r' \prec '.join(rank)).scale(0.9)).arrange(RIGHT,buff=0.55)
-                               for i,rank in enumerate(rankings)]).arrange(DOWN,buff=0.65,aligned_edge=LEFT).move_to([-3.9,BODY_MID,0])
-        divider = Line([0,2.5,0],[0,-2.7,0],color=MUTED,stroke_width=1)
-        teaching = Tex('Which alternative wins a pairwise majority vote?',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(head),FadeIn(context),FadeIn(ranking_rows),Create(divider),FadeIn(teaching))
+        context = subtitle(head, 'Each voter ranks A, B, and C. Rankings read from least to most preferred.')
+        rankings = (('C', 'B', 'A'), ('A', 'C', 'B'), ('B', 'A', 'C'))
+        ranking_rows = VGroup(*[VGroup(Tex(f'Voter {i + 1}', color=CAPTION).scale(0.75), Tex('$' + r' \prec '.join(rank) + '$').scale(0.9)).arrange(RIGHT, buff=0.55)
+                                for i, rank in enumerate(rankings)]).arrange(DOWN, buff=0.65, aligned_edge=LEFT).move_to([-3.9, BODY_MID, 0])
+        divider = Line([0, 2.5, 0], [0, -2.7, 0], color=MUTED, stroke_width=1)
+        teaching = Tex('Which alternative wins a majority against each of the others?', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(ranking_rows), Create(divider), FadeIn(teaching))
         self.pause('5.a.rankings')
-        pair_results = VGroup(*[Tex(s,color=INK).scale(0.9).move_to([3.8,y,0]) for s,y in zip(('A beats B: 2 to 1','B beats C: 2 to 1','C beats A: 2 to 1'),(1.25,0,-1.25))])
+        pair_results = VGroup(*[Tex(s, color=INK).scale(0.85).move_to([3.8, y, 0])
+                                for s, y in zip(('A beats B, 2 to 1', 'B beats C, 2 to 1', 'C beats A, 2 to 1'), (1.2, 0.3, -0.6))])
         self.play(FadeIn(pair_results[0]))
         self.pause('5.b.ab')
         self.play(FadeIn(pair_results[1]))
         self.pause('5.c.bc')
-        self.play(FadeIn(pair_results[2]),FadeOut(teaching))
-        teaching = Tex('A Condorcet cycle: no alternative beats every other one.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(teaching))
+        self.play(FadeOut(teaching))
+        teaching = Tex('A Condorcet cycle: no alternative beats every other one.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(pair_results[2]), FadeIn(teaching))
         self.pause('5.d.cycle')
         self.play(FadeOut(teaching))
-        agenda = Tex('A vs. B, then C: C wins',color=CAPTION).scale(0.7).move_to([3.8,-2.45,0])
-        teaching = Tex('The order of the votes can change the winner.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(agenda),FadeIn(teaching))
+        agenda = VGroup(Tex('A vs. B first, then the winner vs. C: C wins', color=CAPTION),
+                        Tex('B vs. C first, then the winner vs. A: A wins', color=CAPTION)
+                        ).arrange(DOWN, buff=0.2, aligned_edge=LEFT).scale(0.6).move_to([3.8, -1.9, 0])
+        teaching = Tex('The order of the votes can change the winner.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(agenda), FadeIn(teaching))
         self.pause('5.e.agenda')
 
-        self.play(*[FadeOut(o) for o in list(self.mobjects)])
+        # ---- 5.f · Arrow, as a statement only.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
         head = title("Arrow's Impossibility Theorem")
-        context = subtitle(head,'With three or more alternatives, aggregating rankings involves a tradeoff.')
-        conditions = VGroup(Tex('Any individual rankings',color=INK),Tex('Respect unanimous preferences',color=INK),
-            Tex('Compare A and B using only rankings of A and B',color=INK),Tex('No single voter always decides',color=INK)).arrange(DOWN,buff=0.4,aligned_edge=LEFT).scale(0.72).move_to([0,0.4,0])
-        arrow_result = Tex('No rule satisfies all four and always gives a complete, transitive social ranking.',color=INK).scale(0.65).move_to([0,-2,0])
-        teaching = Tex('This is a limit on ranking rules, not a reason to abandon voting.',color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN,buff=0.05).set_x(0)
-        self.play(FadeIn(head),FadeIn(context),FadeIn(conditions),FadeIn(arrow_result),FadeIn(teaching))
+        context = subtitle(head, 'With three or more alternatives, no voting rule can do all of the following.')
+        conditions = VGroup(
+            Tex('Accept any individual rankings', color=INK),
+            Tex('Respect unanimous preferences', color=INK),
+            Tex('Compare two alternatives using only how people rank those two', color=INK),
+            Tex('Let no single voter always decide', color=INK),
+        ).arrange(DOWN, buff=0.4, aligned_edge=LEFT).scale(0.75).move_to([0, 0.5, 0])
+        arrow_result = Tex('No rule does all four and always produces a consistent social ranking.', color=INK).scale(0.7).move_to([0, -1.8, 0])
+        teaching = Tex('A limit on ranking rules, not a reason to abandon voting.', color=DEFINITION)
+        teaching.scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(conditions))
+        self.play(FadeIn(arrow_result), FadeIn(teaching))
         self.pause('5.f.arrow')
 
-        # 6 · One sparse closing comparison with D2.
-        self.play(*[FadeOut(o) for o in list(self.mobjects)])
+        # ---- 6.a · Close: gold terms, white descriptions.
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
-        head = title('Public Goods And Collective Choice')
+        head = title('Public Goods And Voting')
+        context = subtitle(head, 'Both common resources and public goods are non-excludable.')
         recap = VGroup(
-            VGroup(Tex('Common resources',color=DEFINITION),Tex('Rival: take too much',color=INK)).arrange(RIGHT,buff=0.6),
-            VGroup(Tex('Public goods',color=DEFINITION),Tex('Non-rival: contribute too little',color=INK)).arrange(RIGHT,buff=0.6),
-            VGroup(Tex('Voting',color=DEFINITION),Tex('Can fund a good; need not choose efficiently',color=INK)).arrange(RIGHT,buff=0.6)
-        ).arrange(DOWN,buff=0.7,aligned_edge=LEFT).scale(0.7).move_to([0,BODY_MID,0])
-        for row in recap:
-            row[0].align_to(np.array([-5.8,0,0]),LEFT)
-            row[1].align_to(np.array([-1.3,0,0]),LEFT)
-        context = subtitle(head,'Both common resources and public goods are non-excludable.')
-        self.play(FadeIn(head),FadeIn(context),FadeIn(recap))
+            VGroup(Tex('Common resources', color=DEFINITION), Tex('Rival: individual incentives lead to overuse.', color=INK)),
+            VGroup(Tex('Public goods', color=DEFINITION), Tex('Non-rival: individual incentives lead to underprovision.', color=INK)),
+            VGroup(Tex('Voting', color=DEFINITION), Tex('Can fund a public good, but a majority need not choose efficiently.', color=INK)),
+        ).scale(0.7)
+        for i, row in enumerate(recap):
+            row[0].move_to([-6.0, 0.9 - 0.9 * i, 0], aligned_edge=LEFT)
+            row[1].move_to([-2.4, 0.9 - 0.9 * i, 0], aligned_edge=LEFT)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(recap))
         self.pause('6.a.recap')

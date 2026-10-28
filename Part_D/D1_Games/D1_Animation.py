@@ -1,6 +1,6 @@
 # maniml D1_Animation.py EpisodeD1
 # Part D | Strategic Interaction — first day
-# Taxonomy from D0, a deadline simulation, then Baby Game Theory.
+# Taxonomy from D0, a deadline simulation, Baby Game Theory, then Example 2 played one move at a time.
 # Beat descriptions live in D1_Notes.md. All choreography is flat and editable.
 # /// script
 # requires-python = ">=3.11"
@@ -1034,6 +1034,151 @@ class EpisodeD1(Scene):
         )
         self.play(FadeIn(equilibria), FadeIn(teaching))
         self.pause('6.j')
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.clear()
+
+        # ---- 7.a · Example 2 again, now one move at a time. Left: the simultaneous result, with its two Nash cells.
+        head = title('Play Or Movie')
+        context = subtitle(head, 'Example 2 again. Now Player 1 chooses first, and Player 2 sees the choice.')
+        SEQ_CENTER = np.array([-3.7, -0.5, 0.0])
+        seq_values = [[(2, 1), (0, 0)], [(0, 0), (1, 2)]]
+        payoffs = [[VGroup(Tex(str(a), color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                           Tex(str(b), color=COL_PLAYER)).arrange(RIGHT, buff=0.3) for a, b in row] for row in seq_values]
+        for row in payoffs:
+            for cell in row:
+                cell.scale(0.85)
+        entries = [cell for row in payoffs for cell in row]
+        matrix = Table(
+            payoffs,
+            h_buff=CELL_SIDE - max(cell.width for cell in entries),
+            v_buff=CELL_SIDE - max(cell.height for cell in entries),
+            include_outer_lines=True,
+            line_config={'color': MUTED, 'stroke_width': 2},
+        ).rotate(DIAMOND_ANGLE).move_to(SEQ_CENTER)
+        for cell in entries:
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        row_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION)).scale(0.7)
+        col_labels = VGroup(Tex(r'\textsf{Play}', color=CAPTION), Tex(r'\textsf{Movie}', color=CAPTION)).scale(0.7)
+        for index in range(2):
+            offset = (0.5 - index) * CELL_SIDE
+            row_labels[index].move_to(SEQ_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[index].move_to(SEQ_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP + RIGHT * 0.3, aligned_edge=LEFT)
+        player_1 = Tex('Player 1', color=ROW_PLAYER).scale(0.8).move_to(SEQ_CENTER + np.array([-2.8, 2.5, 0]))
+        player_2 = Tex('Player 2', color=COL_PLAYER).scale(0.8).move_to(SEQ_CENTER + np.array([2.8, 2.5, 0]))
+        equilibria = VGroup(*[Rectangle(width=CELL_BOX_WIDTH, height=CELL_BOX_HEIGHT, color=NASH).rotate(DIAMOND_ANGLE).move_to(payoffs[k][k])
+                              for k in (0, 1)])
+        divider = Line([0, 2.5, 0], [0, -2.7, 0], color=MUTED, stroke_width=1)
+        teaching = Tex('At the same time: two Nash equilibria, and no way to say which.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()), FadeIn(matrix.get_vertical_lines()),
+                  FadeIn(row_labels), FadeIn(col_labels), FadeIn(player_1), FadeIn(player_2), *[FadeIn(cell) for cell in entries],
+                  FadeIn(equilibria), Create(divider), FadeIn(teaching))
+        self.pause('7.a')
+
+        # ---- 7.b · The game tree on the right: Player 1 at the root, Player 2 at two nodes that know the first move.
+        ROOT = np.array([1.0, -0.5, 0.0])
+        NODES = [np.array([3.4, 0.7, 0.0]), np.array([3.4, -1.7, 0.0])]
+        LEAVES = [np.array([5.6, 1.3, 0.0]), np.array([5.6, 0.1, 0.0]), np.array([5.6, -1.1, 0.0]), np.array([5.6, -2.3, 0.0])]
+        first_branches = [Line(ROOT, node, color=INK, stroke_width=2) for node in NODES]
+        second_branches = [Line(NODES[k // 2], leaf, color=INK, stroke_width=2) for k, leaf in enumerate(LEAVES)]
+        root_dot = Dot(ROOT, radius=0.09, color=ROW_PLAYER)
+        node_dots = VGroup(*[Dot(node, radius=0.09, color=COL_PLAYER) for node in NODES])
+        leaf_dots = VGroup(*[Dot(leaf, radius=0.05, color=MUTED) for leaf in LEAVES])
+        leaf_values = [(2, 1), (0, 0), (0, 0), (1, 2)]      # (Play, Play), (Play, Movie), (Movie, Play), (Movie, Movie)
+        leaf_payoffs = [VGroup(Tex(str(a), color=ROW_PLAYER), Tex(r'$|$', color=MUTED).stretch(1.3, 1), Tex(str(b), color=COL_PLAYER))
+                        .arrange(RIGHT, buff=0.2).scale(0.7).next_to(leaf, RIGHT, buff=0.2) for (a, b), leaf in zip(leaf_values, LEAVES)]
+
+        def branch_label(text, a, b, side):
+            return Tex(r'\textsf{' + text + '}', color=CAPTION).scale(0.55).move_to((a + b) / 2 + side)
+
+        branch_labels = VGroup(
+            branch_label('Play', ROOT, NODES[0], UP * 0.32 + LEFT * 0.2), branch_label('Movie', ROOT, NODES[1], DOWN * 0.32 + LEFT * 0.25),
+            branch_label('Play', NODES[0], LEAVES[0], UP * 0.3), branch_label('Movie', NODES[0], LEAVES[1], DOWN * 0.3),
+            branch_label('Play', NODES[1], LEAVES[2], UP * 0.3), branch_label('Movie', NODES[1], LEAVES[3], DOWN * 0.3),
+        )
+        tree_p1 = Tex('Player 1', color=ROW_PLAYER).scale(0.65).move_to(ROOT + np.array([-0.1, 0.7, 0]))
+        tree_p2 = VGroup(Tex('Player 2', color=COL_PLAYER).scale(0.55).move_to(NODES[0] + UP * 0.42),
+                         Tex('Player 2', color=COL_PLAYER).scale(0.55).move_to(NODES[1] + DOWN * 0.42))
+        upper_subtree = VGroup(second_branches[0], second_branches[1], node_dots[0], leaf_dots[0], leaf_dots[1],
+                               leaf_payoffs[0], leaf_payoffs[1], branch_labels[2], branch_labels[3], tree_p2[0])
+        lower_subtree = VGroup(second_branches[2], second_branches[3], node_dots[1], leaf_dots[2], leaf_dots[3],
+                               leaf_payoffs[2], leaf_payoffs[3], branch_labels[4], branch_labels[5], tree_p2[1])
+        self.remove(teaching)
+        teaching = Tex('One at a time: Player 1 chooses, then Player 2 chooses knowing it.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(root_dot), FadeIn(tree_p1), *[Create(line) for line in first_branches], FadeIn(branch_labels[0]), FadeIn(branch_labels[1]),
+                  FadeIn(node_dots), FadeIn(tree_p2), run_time=0.8)
+        self.play(*[Create(line) for line in second_branches], FadeIn(branch_labels[2:]), FadeIn(leaf_dots),
+                  *[FadeIn(pair) for pair in leaf_payoffs], FadeIn(teaching), run_time=0.8)
+        self.pause('7.b')
+
+        # ---- 7.c–7.f · Player 2's best response after each first move, as D1 fixes the other player's choice: the
+        # branch taken is bold and the rest of the tree is faint.
+        self.remove(teaching)
+        teaching = Tex('If Player 1 chose Play, what does Player 2 do?', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(first_branches[0].animate.set_stroke(width=4), first_branches[1].animate.set_opacity(0.3),
+                  branch_labels[1].animate.set_opacity(0.3), lower_subtree.animate.set_opacity(0.3), FadeIn(teaching))
+        self.pause('7.c')
+        response_play = SurroundingRectangle(leaf_payoffs[0][2], buff=0.08, color=COL_PLAYER)
+        self.remove(teaching)
+        teaching = Tex(r'Player 2 plays Play: $1 > 0$.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(Create(response_play), second_branches[0].animate.set_stroke(width=4), second_branches[1].animate.set_opacity(0.3),
+                  branch_labels[3].animate.set_opacity(0.3), FadeIn(teaching))
+        self.pause('7.d')
+        self.remove(teaching)
+        teaching = Tex('If Player 1 chose Movie, what does Player 2 do?', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(first_branches[0].animate.set_stroke(width=2).set_opacity(0.3), branch_labels[0].animate.set_opacity(0.3),
+                  upper_subtree.animate.set_opacity(0.3), response_play.animate.set_opacity(0.3),
+                  first_branches[1].animate.set_opacity(1).set_stroke(width=4), branch_labels[1].animate.set_opacity(1),
+                  lower_subtree.animate.set_opacity(1), FadeIn(teaching))
+        self.pause('7.e')
+        response_movie = SurroundingRectangle(leaf_payoffs[3][2], buff=0.08, color=COL_PLAYER)
+        self.remove(teaching)
+        teaching = Tex(r'Player 2 plays Movie: $2 > 0$.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(Create(response_movie), second_branches[3].animate.set_stroke(width=4), second_branches[2].animate.set_opacity(0.3),
+                  branch_labels[4].animate.set_opacity(0.3), FadeIn(teaching))
+        self.pause('7.f')
+
+        # ---- 7.g · Player 1 works backward: only the two answered leaves are reachable.
+        self.remove(teaching)
+        teaching = Tex('Player 1 works backward: Play leads to 2, Movie to 1. Play.', color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        reachable = VGroup(second_branches[0], node_dots[0], leaf_dots[0], leaf_payoffs[0], branch_labels[2], tree_p2[0], response_play)
+        choice_play = SurroundingRectangle(leaf_payoffs[0][0], buff=0.08, color=ROW_PLAYER)
+        self.play(first_branches[0].animate.set_opacity(1).set_stroke(width=4), branch_labels[0].animate.set_opacity(1),
+                  reachable.animate.set_opacity(1), first_branches[1].animate.set_stroke(width=2).set_opacity(0.3),
+                  branch_labels[1].animate.set_opacity(0.3), run_time=0.8)
+        self.play(Create(choice_play), FadeIn(teaching))
+        self.pause('7.g')
+
+        # ---- 7.h · The outcome: one of the two equilibria, the first mover's favorite. The other fades on the matrix.
+        self.remove(teaching)
+        teaching = Tex("Moving first selects an equilibrium: the first mover's favorite.", color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        outcome = SurroundingRectangle(leaf_payoffs[0], buff=0.14, color=NASH)
+        self.play(Create(outcome), equilibria[1].animate.set_opacity(0.25), FadeIn(teaching))
+        self.pause('7.h')
+
+        # ---- 7.i · The contrast the other way: with a dominant strategy, order changes nothing.
+        self.remove(teaching)
+        teaching = Tex("In the Prisoner's Dilemma the order would not matter: Defect is best either way.", color=DEFINITION)
+        teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(teaching))
+        self.pause('7.i')
+
+        # ---- 7.j · Definition at the bottom, in the episode's gold-term form.
+        self.remove(teaching)
+        sequential_definition = VGroup(
+            Tex('Sequential Game', color=DEFINITION).scale(DEFINITION_SCALE),
+            Tex('One player moves first and the other sees the choice.', color=INK).scale(0.65),
+            Tex("Solve it backward: the last move's best responses, then the first move.", color=INK).scale(0.65),
+        ).arrange(DOWN, buff=0.12).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
+        self.play(FadeIn(sequential_definition))
+        self.pause('7.j')
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
 
