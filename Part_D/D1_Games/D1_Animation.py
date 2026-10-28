@@ -1131,7 +1131,7 @@ class EpisodeD1(Scene):
         teaching = Tex('If Player 1 chose Movie, what does Player 2 do?', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         self.play(first_branches[0].animate.set_stroke(width=2).set_opacity(0.3), branch_labels[0].animate.set_opacity(0.3),
-                  upper_subtree.animate.set_opacity(0.3), response_play.animate.set_opacity(0.3),
+                  upper_subtree.animate.set_opacity(0.3), response_play.animate.set_stroke(opacity=0.3),
                   first_branches[1].animate.set_opacity(1).set_stroke(width=4), branch_labels[1].animate.set_opacity(1),
                   lower_subtree.animate.set_opacity(1), FadeIn(teaching))
         self.pause('7.e')
@@ -1147,10 +1147,11 @@ class EpisodeD1(Scene):
         self.remove(teaching)
         teaching = Tex('Player 1 works backward: Play leads to 2, Movie to 1. Play.', color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
-        reachable = VGroup(second_branches[0], node_dots[0], leaf_dots[0], leaf_payoffs[0], branch_labels[2], tree_p2[0], response_play)
+        reachable = VGroup(second_branches[0], node_dots[0], leaf_dots[0], leaf_payoffs[0], branch_labels[2], tree_p2[0])
         choice_play = SurroundingRectangle(leaf_payoffs[0][0], buff=0.08, color=ROW_PLAYER)
         self.play(first_branches[0].animate.set_opacity(1).set_stroke(width=4), branch_labels[0].animate.set_opacity(1),
-                  reachable.animate.set_opacity(1), first_branches[1].animate.set_stroke(width=2).set_opacity(0.3),
+                  reachable.animate.set_opacity(1), response_play.animate.set_stroke(opacity=1),
+                  first_branches[1].animate.set_stroke(width=2).set_opacity(0.3),
                   branch_labels[1].animate.set_opacity(0.3), run_time=0.8)
         self.play(Create(choice_play), FadeIn(teaching))
         self.pause('7.g')
@@ -1160,7 +1161,7 @@ class EpisodeD1(Scene):
         teaching = Tex("Moving first selects an equilibrium: the first mover's favorite.", color=DEFINITION)
         teaching.scale(DEFINITION_SCALE).to_edge(DOWN, buff=DEFINITION_BOTTOM).set_x(0)
         outcome = SurroundingRectangle(leaf_payoffs[0], buff=0.14, color=NASH)
-        self.play(Create(outcome), equilibria[1].animate.set_opacity(0.25), FadeIn(teaching))
+        self.play(Create(outcome), equilibria[1].animate.set_stroke(opacity=0.25), FadeIn(teaching))
         self.pause('7.h')
 
         # ---- 7.i · The contrast the other way: with a dominant strategy, order changes nothing.

@@ -28,7 +28,7 @@ Hogsmeade residents were considering whether to install a memorial of Dobby, the
 
 :::
 
-Any of the five are able to enjoy the statue, regardless of whether they helped pay for it. And it costs 100 galleons per year to operate and maintain the memorial.
+Any of the five are able to enjoy the statue, regardless of whether they helped pay for it. And it costs 100 coins per year to operate and maintain the memorial.
 
 a) How many of these five residents would visit the memorial if it were built?
 
@@ -40,13 +40,13 @@ All will visit.
 
 :::
 
-b) Dean proposes a referendum that would raise residents’ taxes by 20 galleons per year, and puts it to a vote. If each of the five Hogsmeade citizens voted in their own private interests, would this referendum receive a majority vote?
+b) Dean proposes a referendum that would raise residents’ taxes by 20 coins per year, and puts it to a vote. If each of the five Hogsmeade citizens voted in their own private interests, would this referendum receive a majority vote?
 
  
 
 ::: solution
 
-Yes! Harry, Ron and Neville each value the memorial above the 20 galleon tax.
+Yes! Harry, Ron and Neville each value the memorial above the 20 coin tax.
 
 :::
 
@@ -70,7 +70,7 @@ Yes. $MSB > MSC$.
 
 :::
 
-e) Would the proposal receive a majority vote if the tax were 25 galleons?
+e) Would the proposal receive a majority vote if the tax were 25 coins?
 
  
 

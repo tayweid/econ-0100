@@ -32,7 +32,7 @@ See Q1 | Annual Yule Ball on the HW D3 handout (the PDF on the course page). Ent
 ( ) No
 ```
 
-### Q1.2: `Evaluating a Tuition Rise: Would the 2.5 galleon tuition rise receive a majority vote?`
+### Q1.2: `Evaluating a Tuition Rise: Would the 2.5 coin tuition rise receive a majority vote?`
 
 ```
 (x) Yes
@@ -48,8 +48,8 @@ See Q1 | Annual Yule Ball on the HW D3 handout (the PDF on the course page). Ent
 ### Q1.4: `Evaluating Tickets: Could the student administration generate enough ticket sales to cover their costs? If so, what price would work?`
 
 ```
-( ) Yes, at 2 galleons
-( ) Yes, at 3 galleons
-( ) Yes, at 4 galleons
+( ) Yes, at 2 coins
+( ) Yes, at 3 coins
+( ) Yes, at 4 coins
 (x) No single ticket price covers the cost
 ```

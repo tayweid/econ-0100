@@ -20,7 +20,7 @@ Homework is designed to both test your knowledge and challenge you to apply fami
 
 ## Q1 | Annual Yule Ball
 
-Due to budget cuts, Hogwarts School of Witchcraft and Wizardry has decided not to hold the annual Yule Ball, which costs 1000 galleons to host. In response, the student administration has come up with two proposals to fund the event. The first proposal is to sell tickets to students, and the second proposal is to raise everyone’s tuition to cover the cost of the ball.
+Due to budget cuts, Hogwarts School of Witchcraft and Wizardry has decided not to hold the annual Yule Ball, which costs 1000 coins to host. In response, the student administration has come up with two proposals to fund the event. The first proposal is to sell tickets to students, and the second proposal is to raise everyone’s tuition to cover the cost of the ball.
 
 To evaluate these proposals, the student administration has collected data on each student’s willingness to pay for a ticket to the Yule Ball by house. This data is presented in the table below. There are 100 students per house.
 
@@ -38,7 +38,7 @@ To evaluate these proposals, the student administration has collected data on ea
 
 :::
 
-a) **Social Efficiency**    Would the social planner choose to hold the Yule Ball? Remember, each house has 100 students, with each student’s willingness to pay represented in the table. So for example, Gryffindor’s total willingness to pay is 200 galleons.
+a) **Social Efficiency**    Would the social planner choose to hold the Yule Ball? Remember, each house has 100 students, with each student’s willingness to pay represented in the table. So for example, Gryffindor’s total willingness to pay is 200 coins.
 
  
 
@@ -46,11 +46,11 @@ a) **Social Efficiency**    Would the social planner choose to hold the Yule Bal
 
 ::: solution
 
-Yes. Total willingness to pay is $200 + 300 + 300 + 400 = 1200$ galleons, more than the $1000$ galleon cost.
+Yes. Total willingness to pay is $200 + 300 + 300 + 400 = 1200$ coins, more than the $1000$ coin cost.
 
 :::
 
-b) **Evaluating a Tuition Rise**     The first proposal would raise everyone’s tuition by 2.5 galleons to cover the cost of the Yule Ball. If this proposal were voted on by the student body, would it receive a majority vote? Would you consider it fair?
+b) **Evaluating a Tuition Rise**     The first proposal would raise everyone’s tuition by 2.5 coins to cover the cost of the Yule Ball. If this proposal were voted on by the student body, would it receive a majority vote? Would you consider it fair?
 
  
 
@@ -60,7 +60,7 @@ b) **Evaluating a Tuition Rise**     The first proposal would raise everyone’s
 
 ::: solution
 
-Yes, it passes. The 300 students in Hufflepuff, Ravenclaw and Slytherin value the ball above 2.5 galleons and vote for it; the 100 Gryffindors vote against. Fairness is a judgment call: each Gryffindor pays 2.5 galleons for a ball worth 2 to them, so they are made worse off by 0.5 each while the other houses gain.
+Yes, it passes. The 300 students in Hufflepuff, Ravenclaw and Slytherin value the ball above 2.5 coins and vote for it; the 100 Gryffindors vote against. Fairness is a judgment call: each Gryffindor pays 2.5 coins for a ball worth 2 to them, so they are made worse off by 0.5 each while the other houses gain.
 
 :::
 
@@ -74,6 +74,6 @@ c) **Evaluating Tickets**     Instead, could the student administration generate
 
 ::: solution
 
-No. At 4 galleons only Slytherin buys: $400$. At 3, Hufflepuff, Ravenclaw and Slytherin buy: $900$. At 2, everyone buys: $800$. No single price raises the $1000$ galleons.
+No. At 4 coins only Slytherin buys: $400$. At 3, Hufflepuff, Ravenclaw and Slytherin buy: $900$. At 2, everyone buys: $800$. No single price raises the $1000$ coins.
 
 :::

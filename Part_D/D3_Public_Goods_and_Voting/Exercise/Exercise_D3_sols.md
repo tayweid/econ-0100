@@ -26,7 +26,7 @@ Three Dumbledores were considering whether to install a memorial of their brothe
 
 :::
 
-Since the statue will be installed in public space, any of the three are able to enjoy the statue regardless of whether they helped pay for it. It costs 90 galleons per year to operate and maintain the memorial.
+Since the statue will be installed in public space, any of the three are able to enjoy the statue regardless of whether they helped pay for it. It costs 90 coins per year to operate and maintain the memorial.
 
 ### a) Visit Count
 
@@ -58,7 +58,7 @@ None. This is a classic free rider problem.
 
 ### c) The Referendum
 
-Aurelius proposes a referendum that would raise residents’ taxes by 30 galleons per year, and puts it to a vote. If each ~~Dumbledor~~{++Dumbledore++} voted in their own private interests, would this referendum receive a majority vote?
+Aurelius proposes a referendum that would raise residents’ taxes by 30 coins per year, and puts it to a vote. If each ~~Dumbledor~~{++Dumbledore++} voted in their own private interests, would this referendum receive a majority vote?
 
  
 
@@ -99,3 +99,106 @@ If the referendum passed, would it lead to an efficient outcome?
 Yes. The $MSB$ is greater than the $MSC = 90$. So unlike with Dobby's Memorial, this one will not be built even though it is socially efficient. Referenda don't always implement the social planner.
 
 :::
+
+\newpage
+
+## Q2 | A Memorial to Dobby
+
+<!-- Editor. Q2 is Vignette D3 Q1 with the names from the October 30 notes and the D3 animation (Harry, Ron, Hermione, Ginny, Neville), added 2026-10-28 so the class works the memorial together alongside the animation, which teaches it without an exercise card. The vignette keeps its own names; the numbers are the same. -->
+
+Hogsmeade residents were considering whether to install a memorial of Dobby, the heroic house elf, in their town. The individual marginal benefits for five recently graduated residents is below.
+
+::: {.table style=grid columns="auto auto auto auto auto"}
+
+| **Harry** | **Ron** | **Hermione** | **Ginny** | **Neville** |
+| :---: | :---: | :---: | :---: | :---: |
+| 34 | 29 | 24 | 19 | 14 |
+
+:::
+
+Any of the five are able to enjoy the statue, regardless of whether they helped pay for it. And it costs 100 coins per year to operate and maintain the memorial.
+
+### a) Visit Count
+
+How many of these five residents would visit the memorial if it were built?
+
+ 
+
+ 
+
+::: solution
+
+All five will visit: each has a positive marginal benefit, and no one can be kept out.
+
+:::
+
+### b) The Referendum
+
+Neville proposes a referendum that would raise residents’ taxes by 20 coins per year, and puts it to a vote. If each of the five Hogsmeade citizens voted in their own private interests, would this referendum receive a majority vote?
+
+ 
+
+ 
+
+::: solution
+
+Yes! Harry, Ron and Hermione each value the memorial above the 20 coin tax: 3 to 2.
+
+:::
+
+### c) Marginal Social Benefit
+
+What is the marginal social benefit from the memorial?
+
+ 
+
+ 
+
+::: solution
+
+$MSB = 34 + 29 + 24 + 19 + 14 = 120$
+
+:::
+
+### d) Efficiency
+
+Would this referendum lead to an efficient outcome?
+
+ 
+
+ 
+
+::: solution
+
+Yes. $MSB = 120 > MSC = 100$.
+
+:::
+
+### e) A Higher Tax
+
+Would the proposal receive a majority vote if the tax were 25 coins?
+
+ 
+
+ 
+
+::: solution
+
+No. Hermione would vote no, and only Harry and Ron value it above 25: 2 to 3. It fails even though the memorial is still efficient.
+
+:::
+
+### f) Admission
+
+Hermione proposes allowing a private company to build the memorial and charge residents a lump-sum fee to visit the memorial as they like. If the private company were allowed to set a single fee, would the company be able to cover its costs?
+
+ 
+
+ 
+
+::: solution
+
+No. There's no price that would cover the costs, that's high enough to cover costs and low enough so that enough residents would participate: a fee of 20 collects $3 \times 20 = 60$, a fee of 24 collects $3 \times 24 = 72$, and a fee of 19 collects $4 \times 19 = 76$, all short of 100.
+
+:::
+

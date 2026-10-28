@@ -30,6 +30,7 @@ class EpisodeD3(Scene):
         TEACHING_SCALE, TEACHING_BOTTOM = 0.7443, 0.05
         RULE_POS = np.array([-3.7, 1.35, 0])            # the rule and its braces, top of the left panel
         ROWS_LEFT, ROW_Y = -6.7, (-0.35, -0.95, -1.55)  # worked lines under the rule, one per player
+        EQ_LEFT = ROWS_LEFT + 2.05                      # the expression starts here, after the "Player i (S):" label
         CHART_CENTER = np.array([4.2, -0.3, 0])         # two players: Player 2's contribution 0..15 on a 0..20 axis
         CHART_CENTER_3 = np.array([4.3, -0.3, 0])       # three players: the others' contributions 0..30 on a 0..35 axis
         PLAYER_COLORS = (ROW_PLAYER, COL_PLAYER, PURPLE)
@@ -47,13 +48,10 @@ class EpisodeD3(Scene):
         def teach(text):
             return Tex(text, color=DEFINITION).scale(TEACHING_SCALE).to_edge(DOWN, buff=TEACHING_BOTTOM).set_x(0)
 
-        # ---- 0.a · The bumper, as D1 opens: the wordmark flickers and the part label joins beneath it.
+        # ---- 0.a · The bumper, as Part A opens: the wordmark flickers, then "Part D | Episode 3" joins beneath it.
         squares = bumper_raster(self)
         flicker(self, squares, rounds=5)
-        part = Tex(r'{{Part D}} $|$ Public Goods', color=CAPTION).set_color_by_tex('Part D', TITLE).scale(1.5)
-        part.next_to(squares, DOWN, buff=0.5)
-        opening = VGroup(squares, part)
-        self.play(FadeIn(part), opening.animate.move_to(ORIGIN))
+        bumper_title(self, squares, 'D', 3)
         self.pause('0.a')
 
         # ---- 0.b · Warmup, before any model: the title, then Exercise D3 Q1 on an exercise card in D1's style, with
@@ -134,17 +132,40 @@ class EpisodeD3(Scene):
             fund_note = Tex('funding NPR', color=CAPTION).scale(0.5).next_to(fund_brace, DOWN, buff=0.08)
             return VGroup(rule, kept_brace, fund_brace, kept_note, fund_note)
 
+        def payoff_row(i, values, strategy=None, result=None):
+            """Player i's line: "Player i (S):" with the strategy in grey, then the rule's right-hand side in white with
+            the choices as isolated slots in the players' colors, then the result. `values` holds each player's c as
+            text ('c_1', '15' or '0'). The result is its own mobject so a copy of it can fly to the graph."""
+            color = PLAYER_COLORS[i - 1]
+            tag = r' {{\textsf{(' + strategy + ')}}}:' if strategy else ':'
+            label = Tex(r'{{Player ' + str(i) + '}}' + tag, color=CAPTION).set_color_by_tex(f'Player {i}', color).scale(0.58)
+            label.move_to([ROWS_LEFT, ROW_Y[i - 1], 0], aligned_edge=LEFT)
+            own = values[i - 1]
+            total = ' + '.join('{{' + v + '}}' for v in values)
+            eq = MathTex(rf'(15 - {{{{{own}}}}}) + ({total})\cdot\tfrac{{2}}{{3}}', color=INK).scale(0.58)
+            slots = []
+            for key in dict.fromkeys(values):
+                slots.extend(eq.get_parts_by_tex(key))
+            slots.sort(key=lambda part: part.get_center()[0])
+            for slot, slot_color in zip(slots, (color,) + PLAYER_COLORS[:len(values)]):
+                slot.set_color(slot_color)
+            eq.move_to([EQ_LEFT, ROW_Y[i - 1], 0], aligned_edge=LEFT)
+            row = VGroup(label, eq)
+            if result is not None:
+                row.add(MathTex(f'= {result}', color=color).scale(0.58).next_to(eq, RIGHT, buff=0.15))
+            return row
+
         def worked_rows(profile):
-            """One line per player, worked from the rule as on the board: (15 - c_i) + (sum)·2/3 = result.
-            The result is its own mobject, so a copy of it can fly to the graph."""
-            total = ' + '.join(str(c) for c in profile)
-            rows = VGroup()
-            for i, (c_i, color) in enumerate(zip(profile, PLAYER_COLORS)):
-                result = 15 - c_i + 2 * sum(profile) // 3
-                row = VGroup(MathTex(rf'\text{{Player {i + 1}:}}\hspace{{0.45em}}(15 - {c_i}) + ({total})\cdot\tfrac{{2}}{{3}} =', color=color),
-                             MathTex(str(result), color=color)).arrange(RIGHT, buff=0.15).scale(0.55)
-                rows.add(row.move_to([ROWS_LEFT, ROW_Y[i], 0], aligned_edge=LEFT))
-            return rows
+            """Every player's line with the profile's strategies, choices and results filled in."""
+            values = tuple(str(c) for c in profile)
+            return VGroup(*[payoff_row(i + 1, values, 'C' if c_i else 'DC', 15 - c_i + 2 * sum(profile) // 3)
+                            for i, c_i in enumerate(profile)])
+
+        def reprofile(rows, new_rows):
+            """Move from one profile's rows to the next: matching pieces slide, the changed slots and results swap."""
+            return ([ReplacementTransform(r[0], n[0]) for r, n in zip(rows, new_rows)]
+                    + [TransformMatchingTex(r[1], n[1]) for r, n in zip(rows, new_rows)]
+                    + [ReplacementTransform(r[2], n[2]) for r, n in zip(rows, new_rows)])
 
         def payoff_chart(x_max, y_max, x_caption, x_length, center, marks):
             """Player 1's payoff against what the others contribute: the rule's two cases are lines on it.
@@ -190,34 +211,74 @@ class EpisodeD3(Scene):
                   FadeIn(chart_captions), FadeIn(teaching), run_time=1.0)
         self.pause('1.b')
 
-        # ---- 1.d · The first profile, worked from the rule: Player 1 contributes, Player 2 does not.
+        # ---- 1.d · The first profile, one player at a time. Each player's equation is a copy of the rule; the choices
+        # drop into their slots in the players' colors, Player 1's first, then Player 2's; then the result.
         self.play(FadeOut(teaching), FadeOut(strategies))
-        rows = worked_rows((15, 0))
+        row1 = payoff_row(1, ('c_1', 'c_2'))
+        teaching = teach("Player 1's payoff: the rule, with $i = 1$.")
+        self.play(FadeIn(row1[0]), TransformFromCopy(rule, row1[1]), FadeIn(teaching))
+        self.pause('1.d.rule')
+        self.play(FadeOut(teaching))
+        new_row = payoff_row(1, ('15', 'c_2'), 'C')
+        teaching = teach('Player 1 contributes: $c_1 = 15$.')
+        self.play(ReplacementTransform(row1[0], new_row[0]), TransformMatchingTex(row1[1], new_row[1]), FadeIn(teaching))
+        row1 = new_row
+        self.pause('1.d.c1')
+        self.play(FadeOut(teaching))
+        new_row = payoff_row(1, ('15', '0'), 'C')
+        teaching = teach('Player 2 does not: $c_2 = 0$.')
+        self.play(ReplacementTransform(row1[0], new_row[0]), TransformMatchingTex(row1[1], new_row[1]), FadeIn(teaching))
+        row1 = new_row
+        self.pause('1.d.c2')
+        self.play(FadeOut(teaching))
+        result_1 = MathTex('= 10', color=ROW_PLAYER).scale(0.58).next_to(row1[1], RIGHT, buff=0.15)
+        teaching = teach('Player 1 keeps nothing and gets two thirds of 15.')
+        self.play(FadeIn(result_1), FadeIn(teaching))
+        row1.add(result_1)
+        self.pause('1.d.p1')
+        self.play(FadeOut(teaching))
+        row2 = payoff_row(2, ('c_1', 'c_2'))
+        teaching = teach("Player 2's payoff: the same rule, with $i = 2$.")
+        self.play(FadeIn(row2[0]), TransformFromCopy(rule, row2[1]), FadeIn(teaching))
+        self.pause('1.d.rule2')
+        self.play(FadeOut(teaching))
+        teaching = teach('Player 2 keeps 15: $c_2 = 0$. Player 1 put in $c_1 = 15$.')
+        new_row = payoff_row(2, ('c_1', '0'), 'DC')
+        self.play(ReplacementTransform(row2[0], new_row[0]), TransformMatchingTex(row2[1], new_row[1]), FadeIn(teaching), run_time=0.7)
+        row2 = new_row
+        new_row = payoff_row(2, ('15', '0'), 'DC')
+        self.play(ReplacementTransform(row2[0], new_row[0]), TransformMatchingTex(row2[1], new_row[1]), run_time=0.7)
+        row2 = new_row
+        self.pause('1.d.choices2')
+        self.play(FadeOut(teaching))
+        result_2 = MathTex('= 25', color=COL_PLAYER).scale(0.58).next_to(row2[1], RIGHT, buff=0.15)
         teaching = teach('A contribution costs me 15 and benefits each of us by 10.')
-        self.play(FadeIn(rows), FadeIn(teaching), run_time=0.6)
+        self.play(FadeIn(result_2), FadeIn(teaching))
+        row2.add(result_2)
+        rows = VGroup(row1, row2)
         self.pause('1.d.payoffs')
 
         # ---- 1.e · The results fly to the graph: the first point.
         self.play(FadeOut(teaching))
         dot, pair_label, numbers = plot_point(chart, 0, 10, 'C,DC', (25,))
         teaching = teach("Each run is a point: Player 1's payoff against Player 2's contribution.")
-        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
-                  TransformFromCopy(rows[1][1], numbers[2]), FadeIn(teaching), run_time=0.8)
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][-1], numbers[0]),
+                  TransformFromCopy(rows[1][-1], numbers[2]), FadeIn(teaching), run_time=0.8)
         self.pause('1.e.graph')
-        graph_points = VGroup(dot, pair_label)        # shrinks with the graph later; the numbers move into the matrix instead
+        graph_points = VGroup(dot, pair_label, numbers)   # shrinks with the graph later; copies of the numbers fill the matrix
         graph_numbers = {(0, 1): numbers}             # matrix cell (Player 1's row, Player 2's column) -> its pair of numbers
 
         # ---- 1.f · Nobody contributes: each keeps 15.
         self.play(FadeOut(teaching))
         new_rows = worked_rows((0, 0))
         teaching = teach('Nobody contributes: each keeps 15.')
-        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        self.play(*reprofile(rows, new_rows), FadeIn(teaching), run_time=0.6)
         rows = new_rows
         self.pause('1.f.payoffs')
         dot, pair_label, numbers = plot_point(chart, 0, 15, 'DC,DC', (15,))
-        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
-                  TransformFromCopy(rows[1][1], numbers[2]), run_time=0.8)
-        graph_points.add(dot, pair_label)
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][-1], numbers[0]),
+                  TransformFromCopy(rows[1][-1], numbers[2]), run_time=0.8)
+        graph_points.add(dot, pair_label, numbers)
         graph_numbers[(1, 1)] = numbers
         self.pause('1.f.graph')
 
@@ -225,16 +286,16 @@ class EpisodeD3(Scene):
         self.play(FadeOut(teaching))
         new_rows = worked_rows((15, 15))
         teaching = teach('Both contribute: each receives 20.')
-        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        self.play(*reprofile(rows, new_rows), FadeIn(teaching), run_time=0.6)
         rows = new_rows
         self.pause('1.g.payoffs')
         dot, pair_label, numbers = plot_point(chart, 15, 20, 'C,C', (20,))
         c_line = Line(chart.c2p(0, 10), chart.c2p(15, 20), color=INK, stroke_width=2)
         c_label = Tex(r'\textsf{C}', color=INK).scale(0.55).move_to(chart.c2p(7.5, 17))
-        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
-                  TransformFromCopy(rows[1][1], numbers[2]), run_time=0.8)
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][-1], numbers[0]),
+                  TransformFromCopy(rows[1][-1], numbers[2]), run_time=0.8)
         self.play(Create(c_line), FadeIn(c_label), run_time=0.6)
-        graph_points.add(dot, pair_label, c_line, c_label)
+        graph_points.add(dot, pair_label, numbers, c_line, c_label)
         graph_numbers[(0, 0)] = numbers
         self.pause('1.g.graph')
 
@@ -242,7 +303,7 @@ class EpisodeD3(Scene):
         self.play(FadeOut(teaching))
         new_rows = worked_rows((0, 15))
         teaching = teach('Switch the contributor; switch the payoffs.')
-        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        self.play(*reprofile(rows, new_rows), FadeIn(teaching), run_time=0.6)
         rows = new_rows
         self.pause('1.h.payoffs')
         self.play(FadeOut(teaching))
@@ -250,15 +311,15 @@ class EpisodeD3(Scene):
         dc_line = Line(chart.c2p(0, 15), chart.c2p(15, 25), color=INK, stroke_width=2)
         dc_label = Tex(r'\textsf{DC}', color=INK).scale(0.55).move_to(chart.c2p(7.5, 22))
         teaching = teach('Whatever Player 2 does, not contributing pays 5 more.')
-        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][1], numbers[0]),
-                  TransformFromCopy(rows[1][1], numbers[2]), run_time=0.8)
+        self.play(FadeIn(dot), FadeIn(pair_label), FadeIn(numbers[1]), TransformFromCopy(rows[0][-1], numbers[0]),
+                  TransformFromCopy(rows[1][-1], numbers[2]), run_time=0.8)
         self.play(Create(dc_line), FadeIn(dc_label), FadeIn(teaching), run_time=0.6)
-        graph_points.add(dot, pair_label, dc_line, dc_label)
+        graph_points.add(dot, pair_label, numbers, dc_line, dc_label)
         graph_numbers[(1, 0)] = numbers
         self.pause('1.h.graph')
 
         # ---- 1.i · D2's turn: the rule panel fades, the graph shrinks into the left panel, the matrix fades in on the
-        # right, and the pairs move from the points into their cells. The pair labels stay on the graph.
+        # right, and copies of the pairs fly from the points into their cells. The graph keeps its labels and numbers.
         self.play(FadeOut(teaching), FadeOut(rule_group), FadeOut(rows))
         npr = [[(20, 20), (10, 25)], [(25, 10), (15, 15)]]
         payoffs = [[VGroup(Tex(f'{a}', color=ROW_PLAYER), Tex(r'$\mid$', color=MUTED), Tex(f'{b}', color=COL_PLAYER))
@@ -284,7 +345,7 @@ class EpisodeD3(Scene):
         self.play(graph.animate.scale(0.85).move_to([-3.7, -0.4, 0]),
                   FadeIn(matrix.get_horizontal_lines()), FadeIn(matrix.get_vertical_lines()),
                   FadeIn(row_labels), FadeIn(col_labels), FadeIn(player_1), FadeIn(player_2),
-                  *[ReplacementTransform(graph_numbers[cell], payoffs[cell[0]][cell[1]]) for cell in graph_numbers],
+                  *[TransformFromCopy(graph_numbers[cell], payoffs[cell[0]][cell[1]]) for cell in graph_numbers],
                   FadeIn(teaching), run_time=1.2)
         self.add(*entries)
         self.pause('1.i.matrix')
@@ -387,34 +448,34 @@ class EpisodeD3(Scene):
                   Create(c_line), Create(dc_line), FadeIn(c_label), FadeIn(dc_label))
         self.play(FadeIn(rows), FadeIn(teaching), run_time=0.6)
         dot, pair_label, numbers = plot_point(chart, 0, 10, 'C,DC,DC')
-        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][1], numbers[0]), run_time=0.8)
+        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][-1], numbers[0]), run_time=0.8)
         self.pause('2.a.one')
 
         # ---- 2.b · Nobody contributes: 15 each.
         self.play(FadeOut(teaching))
         new_rows = worked_rows((0, 0, 0))
         teaching = teach('Nobody contributes: 15 each.')
-        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        self.play(*reprofile(rows, new_rows), FadeIn(teaching), run_time=0.6)
         rows = new_rows
         dot, pair_label, numbers = plot_point(chart, 0, 15, 'DC,DC,DC')
-        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][1], numbers[0]), run_time=0.8)
+        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][-1], numbers[0]), run_time=0.8)
         self.pause('2.b.none')
 
         # ---- 2.c · Everybody contributes: 30 each, at the far end of the C line.
         self.play(FadeOut(teaching))
         new_rows = worked_rows((15, 15, 15))
         teaching = teach('Everybody contributes: 30 each. Could a group arrange that?')
-        self.play(ReplacementTransform(rows, new_rows), FadeIn(teaching), run_time=0.6)
+        self.play(*reprofile(rows, new_rows), FadeIn(teaching), run_time=0.6)
         rows = new_rows
         dot, pair_label, numbers = plot_point(chart, 30, 30, 'C,C,C')
-        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][1], numbers[0]), run_time=0.8)
+        self.play(FadeIn(dot), FadeIn(pair_label), TransformFromCopy(rows[0][-1], numbers[0]), run_time=0.8)
         self.pause('2.c.all')
 
         # ---- 3.a · Five people, five benefits, one memorial. Who visits?
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.clear()
         head = title('A Memorial To Dobby')
-        context = subtitle(head, 'Annual benefits and costs, in galleons. Everyone can enjoy the memorial.')
+        context = subtitle(head, 'Annual benefits and costs, in coins. Everyone can enjoy the memorial.')
         chart = axes([0, 6, 1], [0, 40, 10], x_length=6.2, y_length=3.3).move_to([-3.75, -0.1, 0])
         chart_heading = Tex('Marginal benefit', color=CAPTION).scale(0.65).move_to([-3.75, 2.2, 0])
         bars = VGroup(*[Rectangle(width=0.62, height=3.3 * v / 40, color=DEMAND, fill_color=DEMAND, fill_opacity=0.3, stroke_width=2)

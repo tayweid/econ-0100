@@ -498,8 +498,8 @@ parts:
           description: >-
             Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
-            video: BYrsSbLdJuQ
             file: D1
+            name: Walkthrough
 
   E:
     title: Sellers

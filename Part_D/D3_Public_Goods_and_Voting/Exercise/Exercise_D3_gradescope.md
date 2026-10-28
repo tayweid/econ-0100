@@ -20,7 +20,7 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `The Dumbledore Memorial`
 
 ```
-See Q1 | The Dumbledore Memorial on the Exercise D3 handout. Marginal benefits: Aurelius 75, Aberforth 10, Ariana 20. The memorial costs 90 galleons per year to operate and maintain.
+See Q1 | The Dumbledore Memorial on the Exercise D3 handout. Marginal benefits: Aurelius 75, Aberforth 10, Ariana 20. The memorial costs 90 coins per year to operate and maintain.
 ```
 
 ### Q1.1: `How many of the three Dumbledores would visit the memorial if it were built?`
@@ -41,7 +41,7 @@ See Q1 | The Dumbledore Memorial on the Exercise D3 handout. Marginal benefits: 
 ( ) $$3$$
 ```
 
-### Q1.3: `Would the 30 galleon referendum receive a majority vote?`
+### Q1.3: `Would the 30 coin referendum receive a majority vote?`
 
 ```
 ( ) Yes
@@ -51,10 +51,10 @@ See Q1 | The Dumbledore Memorial on the Exercise D3 handout. Marginal benefits: 
 ### Q1.4: `What is the marginal social benefit from the memorial?`
 
 ```
-( ) $$75$$ galleons
-( ) $$90$$ galleons
-(x) $$105$$ galleons
-( ) $$135$$ galleons
+( ) $$75$$ coins
+( ) $$90$$ coins
+(x) $$105$$ coins
+( ) $$135$$ coins
 ```
 
 ### Q1.5: `If the referendum passed, would it lead to an efficient outcome?`
@@ -62,4 +62,56 @@ See Q1 | The Dumbledore Memorial on the Exercise D3 handout. Marginal benefits: 
 ```
 (x) Yes
 ( ) No
+```
+
+## Q2: `A Memorial to Dobby`
+
+```
+See Q2 | A Memorial to Dobby on the Exercise D3 handout. Marginal benefits: Harry 34, Ron 29, Hermione 24, Ginny 19, Neville 14. The memorial costs 100 coins per year to operate and maintain.
+```
+
+### Q2.1: `How many of the five residents would visit the memorial if it were built?`
+
+```
+( ) $$0$$
+( ) $$3$$
+( ) $$4$$
+(x) $$5$$
+```
+
+### Q2.2: `Would the 20 coin referendum receive a majority vote?`
+
+```
+(x) Yes
+( ) No
+```
+
+### Q2.3: `What is the marginal social benefit from the memorial?`
+
+```
+( ) $$34$$ coins
+( ) $$100$$ coins
+(x) $$120$$ coins
+( ) $$170$$ coins
+```
+
+### Q2.4: `Would the 20 coin referendum lead to an efficient outcome?`
+
+```
+(x) Yes
+( ) No
+```
+
+### Q2.5: `Would the proposal receive a majority vote if the tax were 25 coins?`
+
+```
+( ) Yes
+(x) No
+```
+
+### Q2.6: `Could a private company cover its costs with a single admission fee?`
+
+```
+( ) Yes
+(x) No
 ```

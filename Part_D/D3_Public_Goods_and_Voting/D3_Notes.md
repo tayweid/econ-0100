@@ -82,7 +82,7 @@ Each person still has an incentive not to contribute. Yet all three would benefi
 
 ## 3 | Memorial to Dobby
 
-The October 30 PDF’s second page turns to a memorial. Its five residents are Harry, Ron, Hermione, Ginny, and Neville, with annual benefits of 34, 29, 24, 19, and 14 galleons. The annual cost is 100. The vignette uses different names with the same benefits; the animation follows the PDF.
+The October 30 PDF’s second page turns to a memorial. Its five residents are Harry, Ron, Hermione, Ginny, and Neville, with annual benefits of 34, 29, 24, 19, and 14 ~~galleons~~{++coins++}. The annual cost is 100. The vignette uses different names with the same benefits; the animation follows the PDF.
 
 Everyone can enjoy the memorial whether or not they help pay for it. All five would visit if it were freely available. An equal tax of 20 is different from a voluntary contribution: if the referendum passes, everyone pays. Three people value the memorial above 20 and two below 20, so it passes 3–2. The tax raises exactly 100.
 
