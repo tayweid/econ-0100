@@ -7,8 +7,8 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 *People can benefit from a public good without contributing to its provision.*
 
 <!--
-NPR donation-game script and storyboard moved from D2 on 2026-10-21 at Taylor's request. Original D2 sections 6 and 7 are now D3 sections 1 and 2; the substantive examples and payoff values are unchanged. Not built: all beats below. Intended future animation: D3_Animation.py, scene EpisodeD3. D2_Animation.py contains common resources only.
-Source: ../D2_The_Commons/Class_On_Oct_30.pdf. Keep the two-player NPR matrix and three-player benefit formula from the October 30 notes. Use D1's diamond matrix, player-colored best-response boxes, single fixed-choice band, and separate question/answer pauses. Use the shared Graphite typography, 2:1 frame, and 15 fps conventions in ../../_Style_Guide.md. The legacy 01_Notes.md and code stubs remain preserved; memorial/voting material is not implemented here.
+NPR donation-game script and storyboard moved from D2 on 2026-10-21 at Taylor's request. Original D2 sections 6 and 7 are now D3 sections 1 and 2; the substantive examples and payoff values are unchanged. First runnable draft built October 27, 2026: D3_Animation.py, scene EpisodeD3. The original NPR narration below is retained; 02_Storyboard.md is the current animation choreography and 30-minute teaching plan. D2_Animation.py contains common resources only.
+Source: ../D2_The_Commons/Class_On_Oct_30.pdf. Keep the two-player NPR matrix and three-player benefit formula from the October 30 notes. Use D1's diamond matrix, player-colored best-response boxes, single fixed-choice band, and separate question/answer pauses. Use the shared Graphite typography, 2:1 frame, and 15 fps conventions in ../../_Style_Guide.md. The legacy 01_Notes.md and code stubs remain preserved. The new animation continues through Dobby, majority voting, a brief Condorcet cycle, and Arrow; see sections 3–5 below and 02_Storyboard.md.
 -->
 
 ## 1 | The NPR donation game
@@ -65,7 +65,7 @@ This is the **free rider problem**: people can benefit without contributing, so 
 
 In the pond, taking more leaves less for others. In the broadcast, contributing more benefits others. In both cases, the private decision leaves out part of its effect on other people. D1 gives us the same way to analyze both: find best responses, find the equilibrium, then compare it with what is best for the group.
 
-## 2 | Optional bridge to the three-player game
+## 2 | The three-player game
 
 <!--
 2.a · Title “Three Contributors”; add a third player and c_3 to the benefit sum; bottom “The private return stays below the contribution.”
@@ -79,3 +79,33 @@ The October 30 example also uses three players. A contribution of 15 still gives
 > **2.b.** Compare two complete outcome strips: nobody contributes, payoffs (15,15,15), total 45; everybody contributes, payoffs (30,30,30), total 90. Keep the same contribution units. End with the spoken question about institutions; do not begin the voting example here.
 
 Each person still has an incentive not to contribute. Yet all three would benefit if all contributed. Next we can ask how a group might arrange to fund the good, and what voting does or does not solve.
+
+## 3 | Memorial to Dobby
+
+The October 30 PDF’s second page turns to a memorial. Its five residents are Harry, Ron, Hermione, Ginny, and Neville, with annual benefits of 34, 29, 24, 19, and 14 galleons. The annual cost is 100. The vignette uses different names with the same benefits; the animation follows the PDF.
+
+Everyone can enjoy the memorial whether or not they help pay for it. All five would visit if it were freely available. An equal tax of 20 is different from a voluntary contribution: if the referendum passes, everyone pays. Three people value the memorial above 20 and two below 20, so it passes 3–2. The tax raises exactly 100.
+
+Is the project efficient? Add the five benefits from the same memorial, rather than treating them as separate quantities of memorials. The marginal social benefit is 120, greater than the marginal social cost of 100. Building it creates a net gain of 20. That does not mean everyone benefits under the equal tax: Ginny and Neville lose 1 and 6 respectively.
+
+The vignette also asks about a tax of 25. Only two residents favor that proposal. It fails 2–3. The project still costs 100; the hypothetical tax would raise 125 if passed, so it is not the same budget-balanced financing plan.
+
+Now suppose a private operator could restrict access and charge a single annual admission fee. This changes the exclusion assumption. At a fee of 20, three people buy and revenue is 60. At 24, three buy and revenue is 72. At 19, four buy and revenue is 76. These calculations assume buyers purchase at equality. To verify the maximum, the other candidate prices are 34, 29, and 14, generating revenues 34, 58, and 70. No uniform fee covers 100 even though total willingness to pay is 120. Private revenue and social benefit are different objects.
+
+The older outline mentions Lindahl and preference elicitation. A short bridge is enough here: payments of 30, 25, 20, 15, and 10 raise exactly 100 and leave every resident a net benefit of 4. Different payments can make all five favor funding the project. The hard part is learning their true willingness to pay when each has a reason to understate it. This is a simple feasible cost split, not a formal derivation of Lindahl equilibrium.
+
+## 4 | Majority voting and efficiency
+
+Dobby’s equal-tax vote happens to choose the efficient outcome. It need not always work that way. The Dumbledore exercise provides the counterexample: Aurelius, Aberforth, and Ariana have benefits 75, 10, and 20. The project costs 90, financed by a tax of 30 each. Only Aurelius votes Yes, so the proposal fails. Yet benefits total 105, exceeding cost by 15.
+
+Majority voting counts the number of people who gain or lose under a proposal. It does not count how large those gains and losses are. Keep the decision to build a project distinct from the question of how its cost is shared. The Yule Ball homework supplies another application for practice.
+
+## 5 | Brief limits of voting
+
+The old schedule lists contributions and a referendum before a later class on three-ballot voting, Condorcet cycles, and Arrow. The dated entries are from 2023 with Fall 2024 episode annotations, so they do not establish the exact Fall 2024 class order. The October 30, 2024 PDF itself covers tuna, NPR, then Dobby; it does not contain a voting-cycle example.
+
+Use a new, short illustration: voter 1 ranks A above B above C, voter 2 ranks B above C above A, and voter 3 ranks C above A above B. A beats B 2–1; B beats C 2–1; C beats A 2–1. Individual rankings are consistent, but the majority relation cycles. No alternative beats every other one. Voting on A against B, then the winner against C, selects C. Voting on B against C, then the winner against A, selects A, assuming sincere votes in each contest.
+
+Arrow’s theorem extends the warning beyond this particular majority rule. With three or more alternatives, no rule can accept every profile of individual rankings, respect unanimity, make each pairwise social comparison depend only on individual rankings of that pair, avoid a dictator, and always produce a complete, transitive social ranking. Here a dictator means one individual’s strict preferences always determine the social ranking, not a claim about a political regime. See [Geanakoplos’s statement and proofs](https://cowles.yale.edu/sites/default/files/2022-08/d1123-r4.pdf). Keep this to the statement and its meaning; there is no proof in the draft.
+
+Close by connecting the institutions to the incentives. Common resources can be overused; public goods can be underprovided. Voting can help fund a public good, but voting and efficient choice are not the same thing.
