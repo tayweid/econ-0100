@@ -409,6 +409,7 @@ parts:
           date: '2026-10-19'
           description: >-
             Checkpoint C covers everything in Part C. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
+          links: [{label: Solutions V1, file: Part_C/C_Demo/Checkpoint_C_1_sols.pdf}, {label: Solutions V2, file: Part_C/C_Demo/Checkpoint_C_2_sols.pdf}, {label: Solutions V3, file: Part_C/C_Demo/Checkpoint_C_3_sols.pdf}, {label: Solutions V4, file: Part_C/C_Demo/Checkpoint_C_4_sols.pdf}]
           steps:
             - name: Part C Overview
               where: Review Session
