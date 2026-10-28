@@ -8,7 +8,7 @@ plass:
 
 ## Q1 | The Dumbledore Memorial
 
-Three Dumbledores were considering whether to install a memorial of their brother Albus just outside their town. The individual marginal benefits for three ~~Dumbledors~~{++Dumbledores++} is below.
+Three Dumbledores were considering whether to install a memorial of their brother Albus just outside their town. The individual marginal benefits for three Dumbledores is below.
 
 ::: {.table style=grid columns="auto auto auto"}
 
@@ -30,7 +30,7 @@ How many of the three Dumbledores would visit the memorial if it were built?
 
 ### b) Continued Funding
 
-There's an endowment to fund the memorial for ~~it's~~{++its++} first year. Simply considering their financial interests, how many Dumbledores will contribute to the memorial's continued operation after the endowment runs out?
+There's an endowment to fund the memorial for its first year. Simply considering their financial interests, how many Dumbledores will contribute to the memorial's continued operation after the endowment runs out?
 
  
 
@@ -38,7 +38,7 @@ There's an endowment to fund the memorial for ~~it's~~{++its++} first year. Simp
 
 ### c) The Referendum
 
-Aurelius proposes a referendum that would raise residents’ taxes by 30 coins per year, and puts it to a vote. If each ~~Dumbledor~~{++Dumbledore++} voted in their own private interests, would this referendum receive a majority vote?
+Aurelius proposes a referendum that would raise residents’ taxes by 30 coins per year, and puts it to a vote. If each Dumbledore voted in their own private interests, would this referendum receive a majority vote?
 
  
 
