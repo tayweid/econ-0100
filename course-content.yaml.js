@@ -159,6 +159,10 @@ parts:
             - {label: Solutions V2, file: Part_A/A_Demo/Checkpoint_A_2_sols.pdf}
             - {label: Solutions V3, file: Part_A/A_Demo/Checkpoint_A_3_sols.pdf}
             - {label: Solutions V4, file: Part_A/A_Demo/Checkpoint_A_4_sols.pdf}
+            - label: Solutions V5
+              file: 'Part_A/A_Demo/Reattempt_A_5_sols.pdf'
+            - label: Solutions V5
+              file: 'Part_A/A_Demo/Reattempt_A_5_sols.pdf'
           description: >-
             Checkpoint A covers everything in Part A. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:

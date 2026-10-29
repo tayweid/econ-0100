@@ -62,9 +62,13 @@ See Q1 | Enforceable Permits on the HW D2 handout (the PDF on the course page). 
 [ ] (H, H)
 ```
 
-## Q2: `Plimpies in the Black Lake`
+Q2 is optional: set each Q2.1–Q2.6 sub-question to 0 points so it does not count toward the homework.
+
+## Q2: `Plimpies in the Black Lake (Optional)`
 
 ```
+Optional: this question is about sequential games and does not count toward the homework.
+
 See Q2 | Plimpies in the Black Lake on the HW D2 handout (the PDF on the course page). Firm A chooses first and Firm B sees that choice before choosing. Lifetime profits, listed (Firm A, Firm B): (L, L) 9, 9; (L, H) 2, 7; (H, L) 12, 1; (H, H) 4, 4. Enter your answers here.
 ```
 

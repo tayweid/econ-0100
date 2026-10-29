@@ -1,5 +1,6 @@
 ---
 margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
+linestretch: 1
 plass:
   number-equations: false
 ---
@@ -16,78 +17,107 @@ plass:
 
 *Due in Recitation. Vignettes are a certificate of the work done together in Recitation.*
 
-## Q1 | Memorial to Dobby
+### The Broom Shed Roof
 
-Hogsmeade residents were considering whether to install a memorial of Dobby, the heroic house elf, in their town. The individual marginal benefits for five recently graduated residents is below.
+Oliver Wood and Cedric Diggory, the Gryffindor and Hufflepuff Quidditch captains, each have 10 coins in their team fund. The broom shed the two teams share needs a new roof. Each captain chooses to contribute all 10 coins (C) or nothing (DC). Madam Hooch collects the money by owl over the holidays: each captain sends a sealed pledge, and she opens both on the first day of term, so neither knows what the other gave until it’s too late to change. Every 10 coins contributed buys repairs worth 6 coins to each team, whether or not that team contributed. Each team’s payoff is the coins it keeps plus the value of the repairs. Fill in the payoff matrix below.
 
-::: {.table style=grid columns="auto auto auto auto auto"}
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
 
-| **Harry** | **Ron** | **Neville** | **Seamus** | **Dean** |
-| :---: | :---: | :---: | :---: | :---: |
-| 34 | 29 | 24 | 19 | 14 |
+|   |   | **Diggory** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | C | DC |
+| **Wood** | C |   |   |
+|   | DC |   |   |
 
 :::
 
-Any of the five are able to enjoy the statue, regardless of whether they helped pay for it. And it costs 100 coins per year to operate and maintain the memorial.
+::::: solution
 
-a) How many of these five residents would visit the memorial if it were built?
+Payoff = coins kept + 6 for every 10 coins contributed. Both contribute: $0 + 12 = 12$ each. Only Wood contributes: he gets $0 + 6 = 6$ and Diggory gets $10 + 6 = 16$ (and the reverse when only Diggory contributes). Neither contributes: $10 + 0 = 10$ each.
+
+Best responses are boxed. The yellow cell is the Nash equilibrium, and the blue cell is socially efficient.
+
+::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" fills="r2c2:blue r3c3:yellow" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
+
+|   |   | **Diggory** |   |
+| ---: | ---: | :---: | :---: |
+|   |   | C | DC |
+| **Wood** | C | 12, 12 | 6, $\boxed{16}$ |
+|   | DC | $\boxed{16}$, 6 | $\boxed{10}$, $\boxed{10}$ |
+
+:::
+
+:::::
+
+a\) Identify the best responses of Wood and Diggory.
 
  
 
 ::: solution
 
-All will visit.
+$$
+BR_{Wood} = \begin{cases} DC & \text{if Diggory contributes } (16 > 12) \\ DC & \text{if Diggory doesn't } (10 > 6) \end{cases}
+$$
+
+Diggory faces the same payoffs, so his best response is also DC whatever Wood does.
 
 :::
 
-b) Dean proposes a referendum that would raise residents’ taxes by 20 coins per year, and puts it to a vote. If each of the five Hogsmeade citizens voted in their own private interests, would this referendum receive a majority vote?
+b\) Identify a Nash Equilibrium in this game if one exists.
 
  
 
 ::: solution
 
-Yes! Harry, Ron and Neville each value the memorial above the 20 coin tax.
+$(DC, DC)$. Diggory faces the same payoffs, so DC is dominant for him too. Neither contributes and the roof stays broken: the free rider problem.
 
 :::
 
-c) What is the marginal social benefit from the memorial?
+c\) Find the socially efficient strategies.
 
  
 
 ::: solution
 
-$MSB = 34 + 29 + 24 + 19 + 14 = 120$
+$(C, C)$. It totals 24 coins, against 22 when only one contributes and 20 when neither does.
 
 :::
 
-d) Would this referendum lead to an efficient outcome?
+The pledges fall short, so Madam Hooch puts the roof to a vote of the two captains and the Head of School, Professor Dumbledore, whose budget also pays for the shed. A full new roof costs 21 coins, paid by a levy of 7 coins each on Gryffindor, Hufflepuff, and the school if a majority votes yes. Each voter’s value of a new roof is below.
+
+::: {.table style=grid}
+
+| **Wood** | **Diggory** | **Dumbledore** |
+| :---: | :---: | :---: |
+| 9 | 8 | 1 |
+
+:::
+
+d\) Would the levy receive a majority vote?
 
  
 
 ::: solution
 
-Yes. $MSB > MSC$.
+Yes, 2–1. Wood (9 > 7) and Diggory (8 > 7) vote yes; Dumbledore (1 < 7) votes no.
 
 :::
 
-e) Would the proposal receive a majority vote if the tax were 25 coins?
+e\) What is the marginal social benefit of the new roof?
 
  
 
 ::: solution
 
-No. Neville would vote no.
+$MSB = 9 + 8 + 1 = 18$
 
 :::
 
-f) Neville proposes allowing a private company to build the memorial and charge residents a lump-sum fee to visit the memorial as they like. If the private company were allowed to set a single fee, would the company be able to cover its costs?
+f\) Would building the roof be efficient?
 
- 
-
- 
 
 ::: solution
 
-No. There's no price that would cover the costs, that's high enough to cover costs and low enough so that enough residents would participate.
+No. The marginal social benefit of 18 is below the cost of 21, so the vote builds a roof that is not worth its cost. Majority voting counts how many voters gain, not how much each gains or loses.
 
 :::

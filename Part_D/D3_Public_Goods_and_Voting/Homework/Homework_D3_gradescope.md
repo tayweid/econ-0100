@@ -53,3 +53,127 @@ See Q1 | Annual Yule Ball on the HW D3 handout (the PDF on the course page). Ent
 ( ) Yes, at 4 coins
 (x) No single ticket price covers the cost
 ```
+
+## Q2: `Lighting the High Street`
+
+```
+See Q2 | Lighting the High Street on the HW D3 handout (the PDF on the course page). Enter your answers here.
+```
+
+### Q2.1: `Payoff Matrix: Rosmerta's payoff if both contribute:`
+
+```
+( ) $$8$$ coins
+( ) $$12$$ coins
+(x) $$16$$ coins
+( ) $$20$$ coins
+```
+
+### Q2.2: `Payoff Matrix: Rosmerta's payoff if only Flume contributes:`
+
+```
+( ) $$8$$ coins
+( ) $$12$$ coins
+( ) $$16$$ coins
+(x) $$20$$ coins
+```
+
+### Q2.3: `Best Response: Rosmerta's best response if Flume contributes:`
+
+```
+( ) C
+(x) DC
+```
+
+### Q2.4: `Best Response: Rosmerta's best response if Flume doesn't contribute:`
+
+```
+( ) C
+(x) DC
+```
+
+### Q2.5: `Dominant Strategy: Identify Rosmerta's dominant strategy if one exists.`
+
+```
+( ) C
+(x) DC
+( ) Rosmerta has no dominant strategy
+```
+
+### Q2.6: `Nash Equilibrium: Identify the Nash Equilibria (Rosmerta, Flume). Select all that apply.`
+
+```
+[ ] (C, C)
+[ ] (C, DC)
+[ ] (DC, C)
+[x] (DC, DC)
+```
+
+### Q2.7: `Social Efficiency: Find the socially efficient strategies.`
+
+```
+Select all that apply, Rosmerta's choice first.
+
+[x] (C, C)
+[ ] (C, DC)
+[ ] (DC, C)
+[ ] (DC, DC)
+```
+
+## Q3: `All or Nothing`
+
+```
+See Q3 | All or Nothing on the HW D3 handout (the PDF on the course page). Enter your answers here.
+```
+
+### Q3.1: `Payoff Matrix: Rosmerta's payoff if both contribute:`
+
+```
+( ) $$0$$ coins
+( ) $$12$$ coins
+(x) $$16$$ coins
+( ) $$24$$ coins
+```
+
+### Q3.2: `Payoff Matrix: Rosmerta's payoff if only she contributes:`
+
+```
+(x) $$0$$ coins
+( ) $$8$$ coins
+( ) $$12$$ coins
+( ) $$16$$ coins
+```
+
+### Q3.3: `Best Responses: Rosmerta's best response if Flume contributes:`
+
+```
+(x) C
+( ) DC
+```
+
+### Q3.4: `Best Responses: Rosmerta's best response if Flume doesn't contribute:`
+
+```
+( ) C
+(x) DC
+```
+
+### Q3.5: `Nash Equilibrium: Find all Nash Equilibria (Rosmerta, Flume). Select all that apply.`
+
+```
+[x] (C, C)
+[ ] (C, DC)
+[ ] (DC, C)
+[x] (DC, DC)
+```
+
+### Q3.6: `Social Efficiency: Find the socially efficient strategies.`
+
+```
+Select all that apply, Rosmerta's choice first.
+
+[x] (C, C)
+[ ] (C, DC)
+[ ] (DC, C)
+[ ] (DC, DC)
+```

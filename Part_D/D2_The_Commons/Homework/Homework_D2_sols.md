@@ -92,7 +92,9 @@ Best responses are boxed. The yellow cell is the Nash equilibrium.
 
 ## Q2 | Plimpies in the Black Lake
 
-{++Two firms, Firm A and Firm B, fish for plimpies in the Black Lake. Firm A’s fleet sets out first each season, and Firm B’s scouts see Firm A’s nets before Firm B chooses low ($L$) or high ($H$) capacity. If Firm A fishes low, the stock stays healthy and Firm B prefers to keep it that way. If Firm A fishes high, the stock will collapse anyway, so Firm B harvests all it can. Each row of the table below is one path through the game tree. Lifetime profits are in Galleons.++}
+{++*Optional. This question is about sequential games, which we are not covering this semester. It is here for anyone who wants to try it; it does not count toward the homework.*++}
+
+{++Two firms, Firm A and Firm B, fish for plimpies in the Black Lake. Firm A’s fleet sets out first each season, and Firm B’s scouts see Firm A’s nets before Firm B chooses low ($L$) or high ($H$) capacity. If Firm A fishes low, the stock stays healthy and Firm B prefers to keep it that way. If Firm A fishes high, the stock will collapse anyway, so Firm B harvests all it can. Each row of the table below is one path through the game tree. Lifetime profits are in coins.++}
 
 ::: {.table style=plain inset=8pt columns="auto auto 112pt" borders="r1c0:all r1-4c1-2:all r3c0:all" valign=middle spans="r1c0:1x2 r3c0:1x2"}
 
