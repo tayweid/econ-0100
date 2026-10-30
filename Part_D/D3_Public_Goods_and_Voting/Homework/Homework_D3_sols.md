@@ -20,11 +20,11 @@ Homework is designed to both test your knowledge and challenge you to apply fami
 
 ## Q1 | Annual Yule Ball
 
-Due to budget cuts, Hogwarts School of Witchcraft and Wizardry has decided not to hold the annual Yule Ball, which costs 1000 coins to host. In response, the student administration has come up with two proposals to fund the event. The first proposal is to sell tickets to students, and the second proposal is to raise everyone’s tuition to cover the cost of the ball.
+Due to budget cuts, Hogwarts has decided not to hold the annual Yule Ball, which costs 1000 coins to host. In response, the student administration has come up with two proposals to fund the event. The first proposal is to raise everyone’s tuition to cover the cost of the ball, and the second proposal is to sell tickets to students.
 
 To evaluate these proposals, the student administration has collected data on each student’s willingness to pay for a ticket to the Yule Ball by house. This data is presented in the table below. There are 100 students per house.
 
-::: {.table style=grid columns="auto auto auto auto auto"}
+::: {.table style=grid}
 
 |   | **Gryffindor** | **Hufflepuff** | **Ravenclaw** | **Slytherin** |
 | :---: | :---: | :---: | :---: | :---: |
@@ -32,17 +32,7 @@ To evaluate these proposals, the student administration has collected data on ea
 
 :::
 
-::: solution
-
-*No solution notes exist for this question. These answers are Claude's, worked from the table.*
-
-:::
-
-a) **Social Efficiency**    Would the social planner choose to hold the Yule Ball? Remember, each house has 100 students, with each student’s willingness to pay represented in the table. So for example, Gryffindor’s total willingness to pay is 200 coins.
-
- 
-
- 
+a\) **Social Efficiency** Would the social planner choose to hold the Yule Ball? Remember, each house has 100 students, with each student’s willingness to pay represented in the table. So for example, Gryffindor’s total willingness to pay is 200 coins.
 
 ::: solution
 
@@ -50,13 +40,7 @@ Yes. Total willingness to pay is $200 + 300 + 300 + 400 = 1200$ coins, more than
 
 :::
 
-b) **Evaluating a Tuition Rise**     The first proposal would raise everyone’s tuition by 2.5 coins to cover the cost of the Yule Ball. If this proposal were voted on by the student body, would it receive a majority vote? Would you consider it fair?
-
- 
-
- 
-
- 
+b\) **Evaluating a Tuition Rise** The first proposal would raise everyone’s tuition by 2.5 coins to cover the cost of the Yule Ball. If this proposal were voted on by the student body, would it receive a majority vote? Would you consider it fair?
 
 ::: solution
 
@@ -64,13 +48,7 @@ Yes, it passes. The 300 students in Hufflepuff, Ravenclaw and Slytherin value th
 
 :::
 
-c) **Evaluating Tickets**     Instead, could the student administration generate enough ticket sales to cover their costs if they sold tickets to the Yule Ball? If so, what price would work?
-
- 
-
- 
-
- 
+c\) **Evaluating Tickets** Instead, could the student administration generate enough ticket sales to cover their costs if they sold tickets to the Yule Ball? If so, what price would work?
 
 ::: solution
 
@@ -78,11 +56,11 @@ No. At 4 coins only Slytherin buys: $400$. At 3, Hufflepuff, Ravenclaw and Slyth
 
 :::
 
-\newpage
+<!-- Q1 is the Fall 2024 Yule Ball question; its answers are Claude’s, worked from the table. Q2 and Q3 are Taylor’s (pulled 2026-10-29). -->
 
 ## Q2 | Lighting the High Street
 
-Madam Rosmerta of the Three Broomsticks and Ambrosius Flume of Honeydukes have each set aside 12 coins this winter for lighting Hogsmeade’s high street. Each chooses to contribute all 12 coins (C) or nothing (DC). {++The Hogsmeade Village Council asks each shop to send its contribution in a sealed envelope and opens both envelopes together at its next meeting, so neither shop knows what the other gave until it’s too late to change.++} Every 12 coins contributed lights lamps worth 8 coins to each shop, whether or not that shop contributed. Each shop’s payoff is the coins it keeps plus the value of the lamps.
+Madam Rosmerta of the Three Broomsticks and Ambrosius Flume of Honeydukes have each set aside 12 coins this winter for lighting Hogsmeade’s high street. Each chooses to contribute all 12 coins (C) or nothing (DC). The Hogsmeade Village Council asks each shop to send its contribution in a sealed envelope and opens both envelopes together at its next meeting, so neither shop knows what the other gave until it’s too late to change. Every 12 coins contributed lights lamps worth 8 coins to each shop, whether or not that shop contributed. Each shop’s payoff is the coins it keeps plus the value of the lamps.
 
 ::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
 
@@ -96,13 +74,7 @@ Madam Rosmerta of the Three Broomsticks and Ambrosius Flume of Honeydukes have e
 
 a\) **Payoff Matrix** Fill in the payoff matrix above.
 
- 
-
- 
-
- 
-
-::::: solution
+:::: solution
 
 Payoff = coins kept + 8 for every 12 coins contributed. Both contribute: $0 + 16 = 16$ each. Only Rosmerta contributes: she gets $0 + 8 = 8$ and Flume gets $12 + 8 = 20$ (and the reverse when only Flume contributes). Neither contributes: $12 + 0 = 12$ each.
 
@@ -118,13 +90,9 @@ Best responses are boxed. The yellow cell is the Nash equilibrium, and the blue 
 
 :::
 
-:::::
+::::
 
-b\) **Best Response** {++Identify Rosmerta’s best response.++}
-
- 
-
- 
+b\) **Best Response** Identify Rosmerta’s best response.
 
 ::: solution
 
@@ -134,23 +102,15 @@ $$
 
 :::
 
-c\) **Dominant Strategy** {++Identify Rosmerta’s dominant strategy if one exists.++}
-
- 
-
- 
+c\) **Dominant Strategy** Identify Rosmerta’s dominant strategy if one exists.
 
 ::: solution
 
-DC. Not contributing is her best response whatever Flume does: contributing costs her 12 coins and brings her only 8 back.
+$DC$. Not contributing is her best response whatever Flume does: contributing costs her 12 coins and brings her only 8 back.
 
 :::
 
-d\) **Nash Equilibrium** {++Identify a Nash Equilibrium in this game if one exists.++}
-
- 
-
- 
+d\) **Nash Equilibrium** Identify a Nash Equilibrium in this game if one exists.
 
 ::: solution
 
@@ -158,11 +118,7 @@ $(DC, DC)$. Flume faces the same payoffs, so DC is dominant for him too. Neither
 
 :::
 
-e\) **Social Efficiency** {++Find the socially efficient strategies.++}
-
- 
-
- 
+e\) **Social Efficiency** Find the socially efficient strategies.
 
 ::: solution
 
@@ -174,7 +130,7 @@ $(C, C)$. It totals 32 coins, against 28 when only one contributes and 24 when n
 
 ## Q3 | All or Nothing
 
-{++The council learns that the old lamps cannot be lit one at a time. A new lighting charm for the whole street costs 24 coins, and it only works if it is paid in full. If only one shop contributes, its 12 coins are spent on a charm that fails and the street stays dark. If both contribute, the whole street is lit, worth 16 coins to each shop. As before, each shop chooses to contribute all 12 coins (C) or nothing (DC), and the council opens both sealed envelopes together. Each shop’s payoff is the coins it keeps plus the value of the lights.++}
+The council learns that the old lamps cannot be lit one at a time. A new lighting charm for the whole street costs 24 coins, and it only works if it is paid in full. If only one shop contributes, its 12 coins are spent on a charm that fails and the street stays dark. If both contribute, the whole street is lit, worth 16 coins to each shop. As before, each shop chooses to contribute all 12 coins (C) or nothing (DC), and the council opens both sealed envelopes together. Each shop’s payoff is the coins it keeps plus the value of the lights.
 
 ::: {.table style=plain inset=8pt columns="auto auto 84pt 84pt" borders=r2-3c2-3:all valign=middle spans="r0c2:2x1 r2c0:1x2"}
 
@@ -186,15 +142,9 @@ $(C, C)$. It totals 32 coins, against 28 when only one contributes and 24 when n
 
 :::
 
-a\) **Payoff Matrix** {++Fill in the payoff matrix above.++}
+a\) **Payoff Matrix** Fill in the payoff matrix above.
 
- 
-
- 
-
- 
-
-::::: solution
+:::: solution
 
 Both contribute: $0 + 16 = 16$ each. Only Rosmerta contributes: her 12 coins are spent and nothing is lit, so she gets $0 + 0 = 0$ and Flume keeps $12 + 0 = 12$ (and the reverse when only Flume contributes). Neither contributes: $12 + 0 = 12$ each.
 
@@ -210,13 +160,9 @@ Best responses are boxed. The yellow cells are the two Nash equilibria; (C, C) i
 
 :::
 
-:::::
+::::
 
-b\) **Best Responses** {++Identify the best responses of Rosmerta and Flume.++}
-
- 
-
- 
+b\) **Best Responses** Identify the best responses of Rosmerta and Flume.
 
 ::: solution
 
@@ -228,11 +174,7 @@ Flume faces the same payoffs, so his best responses mirror hers. Neither shop ha
 
 :::
 
-c\) **Nash Equilibrium** {++Find all Nash Equilibria in this game.++}
-
- 
-
- 
+c\) **Nash Equilibrium** Find all Nash Equilibria in this game.
 
 ::: solution
 
@@ -240,11 +182,7 @@ There are two: $(C, C)$, where the street is lit, and $(DC, DC)$, where it stays
 
 :::
 
-d\) **Social Efficiency** {++Find the socially efficient strategies.++}
-
- 
-
- 
+d\) **Social Efficiency** Find the socially efficient strategies.
 
 ::: solution
 

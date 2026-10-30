@@ -20,9 +20,7 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `Enforceable Permits`
 
 ```
-Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Work through the questions on paper first, then enter your answers here as selections. You are welcomed and encouraged to work in groups so long as your work is your own.
-
-See Q1 | Enforceable Permits on the HW D2 handout (the PDF on the course page). Lifetime profits after the enforceable permits, listed (Firm A, Firm B): (L, L) 10, 6; (L, H) 2, 5; (H, L) 9, 0.5; (H, H) 1.5, 1.5. Enter your answers here.
+See Q1 | Enforceable Permits on the HW D2 handout (the PDF on the course page). Enter your answers here.
 ```
 
 ### Q1.1: `Firm A's best response if Firm B chooses L:`
@@ -67,9 +65,9 @@ Q2 is optional: set each Q2.1–Q2.6 sub-question to 0 points so it does not cou
 ## Q2: `Plimpies in the Black Lake (Optional)`
 
 ```
-Optional: this question is about sequential games and does not count toward the homework.
+Optional: this question is about sequential games and does not count toward the homework. Leave it blank if you skip it.
 
-See Q2 | Plimpies in the Black Lake on the HW D2 handout (the PDF on the course page). Firm A chooses first and Firm B sees that choice before choosing. Lifetime profits, listed (Firm A, Firm B): (L, L) 9, 9; (L, H) 2, 7; (H, L) 12, 1; (H, H) 4, 4. Enter your answers here.
+See Q2 | Plimpies in the Black Lake on the HW D2 handout (the PDF on the course page). Enter your answers here.
 ```
 
 ### Q2.1: `If Firm A chooses L, Firm B chooses:`
