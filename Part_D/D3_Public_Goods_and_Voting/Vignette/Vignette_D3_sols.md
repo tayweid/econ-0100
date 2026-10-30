@@ -31,7 +31,7 @@ Oliver Wood and Cedric Diggory, the Gryffindor and Hufflepuff Quidditch captains
 
 :::
 
-::::: solution
+:::: solution
 
 Payoff = coins kept + 6 for every 10 coins contributed. Both contribute: $0 + 12 = 12$ each. Only Wood contributes: he gets $0 + 6 = 6$ and Diggory gets $10 + 6 = 16$ (and the reverse when only Diggory contributes). Neither contributes: $10 + 0 = 10$ each.
 
@@ -47,7 +47,7 @@ Best responses are boxed. The yellow cell is the Nash equilibrium, and the blue 
 
 :::
 
-:::::
+::::
 
 a\) Identify the best responses of Wood and Diggory.
 
@@ -114,7 +114,6 @@ $MSB = 9 + 8 + 1 = 18$
 :::
 
 f\) Would building the roof be efficient?
-
 
 ::: solution
 
