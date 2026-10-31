@@ -161,7 +161,7 @@ parts:
             - {label: Solutions V4, file: Part_A/A_Demo/Checkpoint_A_4_sols.pdf}
             - label: Solutions V5
               file: 'Part_A/A_Demo/Reattempt_A_5_sols.pdf'
-            - label: Solutions V5
+            - label: Solutions V6
               file: 'Part_A/A_Demo/Reattempt_A_5_sols.pdf'
           description: >-
             Checkpoint A covers everything in Part A. If you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
@@ -502,8 +502,8 @@ parts:
           description: >-
             Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
-            file: D1
             name: Walkthrough
+            links: [{label: Demo D, file: Part_D/D_Demo/Demo_D.pdf}, {label: Solutions, file: Part_D/D_Demo/Demo_D_sols.pdf}]
 
   E:
     title: Sellers
