@@ -39,6 +39,8 @@ Everything in the table above is now used. Still here, not yet placed:
 
 Left for the Demo, Checkpoint and Reattempts: Hermione and Moonflowers, and Holiday Decorations (`ECON_0100/Checkpoints/D/`). Nothing covers D4 Voting beyond the referendum and majority-vote questions.
 
+Demo D (Fall 2026) uses Hermione and Moonflowers Question 1, Hermione’s Potion Ingredients. Question 2, Moonflower Management (`MiniExam_D_v5`–`v10`), is unused again: on 2026-10-31 Demo D’s D3 question became End-of-Term Fireworks, a new framing (Claude’s) with Question 2’s first table of numbers. Moonflower Management is a voting question (Hermione’s vote, the majority, total benefit, efficiency) and never asks about public goods or common resources, so it fits D3.2 on a Reattempt. Its second table (28, 24, 20, 14, 10 / 42, 38, 30, 18, 12), where the vote fails 2 to 3, is the other version.
+
 ## `_archive/` (used up)
 
 | File | Why |
