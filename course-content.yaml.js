@@ -503,6 +503,9 @@ parts:
             Checkpoint D covers everything in Part D. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             name: Walkthrough
+            description: >-
+              Attempt Demo D first, then walk through with me. (Note: I mistakenly wrote 3 instead of 0 in D3.1. The solutions are correct. :))
+            video: 69N9ruXGACI
             links: [{label: Demo D, file: Part_D/D_Demo/Demo_D.pdf}, {label: Solutions, file: Part_D/D_Demo/Demo_D_sols.pdf}]
 
   E:
