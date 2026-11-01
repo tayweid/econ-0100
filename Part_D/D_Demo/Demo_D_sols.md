@@ -30,7 +30,7 @@ Hermione and Draco share a garden plot growing moonflowers for their potions pro
 
 :::
 
-{++Outcomes are written (Hermione’s choice, Draco’s choice).++}
+Outcomes are written (Hermione’s choice, Draco’s choice).
 
 ### D1.1 | Best Responses
 
@@ -47,7 +47,7 @@ Hermione and Draco share a garden plot growing moonflowers for their potions pro
 |   | **Hermione** | **Draco** |
 | Best Response When the Other Harvests 1: | **[H2]{.red}** | **[H2]{.red}** |
 | Best Response When the Other Harvests 2: | **[H2]{.red}** | **[H2]{.red}** |
-| {++Dominant Strategy:++} | {++$\square$ H1 $\quad\boxtimes$ **[H2]{.red}** $\quad\square$ none++} | {++$\square$ H1 $\quad\boxtimes$ **[H2]{.red}** $\quad\square$ none++} |
+| Dominant Strategy: | $\square$ H1 $\quad\boxtimes$ **[H2]{.red}** $\quad\square$ none | $\square$ H1 $\quad\boxtimes$ **[H2]{.red}** $\quad\square$ none |
 
 :::
 
@@ -96,9 +96,9 @@ H2 is each player’s best response to everything the other could do, so H2 is a
 |   |   |
 | :--- | :--- |
 | Nash Equilibrium (*check all that apply*): | $\square$ (H1, H1) $\quad\square$ (H1, H2) $\quad\square$ (H2, H1) $\quad\boxtimes$ **[(H2, H2)]{.red}** |
-| Socially Efficient Outcome ({++*check all that apply*++}): | $\square$ (H1, H1) $\quad\boxtimes$ **[(H1, H2)]{.red}** $\quad\square$ (H2, H1) $\quad\square$ (H2, H2) |
-| {++Total Payoff, Nash Equilibrium / Efficient Outcome:++} | {++**[16]{.red}** / **[21]{.red}**++} |
-| {++An Outcome Both Prefer to the Nash Equilibrium:++} | {++$\boxtimes$ **[(H1, H1)]{.red}** $\quad\square$ (H1, H2) $\quad\square$ (H2, H1) $\quad\square$ none++} |
+| Socially Efficient Outcome (*check all that apply*): | $\square$ (H1, H1) $\quad\boxtimes$ **[(H1, H2)]{.red}** $\quad\square$ (H2, H1) $\quad\square$ (H2, H2) |
+| Total Payoff, Nash Equilibrium / Efficient Outcome: | **[16]{.red}** / **[21]{.red}** |
+| An Outcome Both Prefer to the Nash Equilibrium: | $\boxtimes$ **[(H1, H1)]{.red}** $\quad\square$ (H1, H2) $\quad\square$ (H2, H1) $\quad\square$ none |
 
 :::
 
@@ -146,9 +146,9 @@ The Nash equilibrium is not efficient: its total of $16$ is $5$ below $21$. Both
 
 |   |   |
 | :--- | :--- |
-| {++The Moonflowers in the Plot Are:++} | {++$\boxtimes$ **[rival]{.red}** $\quad\square$ non-rival++} |
-|   | {++$\square$ excludable $\quad\boxtimes$ **[non-excludable]{.red}**++} |
-| {++If Hermione Switches From (H1, H2) to (H2, H2):++} | {++Hermione: + **[2]{.red}** $\quad$ Draco: − **[7]{.red}**++} |
+| The Moonflowers in the Plot Are: | $\boxtimes$ **[rival]{.red}** $\quad\square$ non-rival |
+|   | $\square$ excludable $\quad\boxtimes$ **[non-excludable]{.red}** |
+| If Hermione Switches From (H1, H2) to (H2, H2): | Hermione: **[+2]{.red}** $\quad$ Draco: **[−7]{.red}** |
 
 :::
 
@@ -156,15 +156,15 @@ The Nash equilibrium is not efficient: its total of $16$ is $5$ below $21$. Both
 
 :::: column
 
-{++Professor Sprout begins checking the plot each week and fines anyone who harvests 2 flowers. The fine lowers that student’s payoff by 6. Fill in the payoff matrix with the fine.++}
+Professor Sprout begins checking the plot each week and fines anyone who harvests 2 flowers. The fine lowers that student’s payoff by 6. Fill in the payoff matrix with the fine.
 
 ::: {.table style=plain inset=4pt columns="auto 1fr" spans=r0c0:2x1 aligns=r0c0:default}
 
 |   |   |
 | :--- | :--- |
-| {++Nash Equilibrium With the Fine:++} |   |
-| {++$\boxtimes$ **[(H1, H1)]{.red}**++} | {++$\square$ (H1, H2)++} |
-| {++$\square$ (H2, H1)++} | {++$\square$ (H2, H2)++} |
+| Nash Equilibrium With the Fine: |   |
+| $\boxtimes$ **[(H1, H1)]{.red}** | $\square$ (H1, H2) |
+| $\square$ (H2, H1) | $\square$ (H2, H2) |
 
 :::
 
@@ -222,16 +222,16 @@ When the other harvests 1, harvesting 2 is still worth $4$ more to Hermione ($14
 
 \newpage
 
-## Moonflower Management
+## End-of-Term Fireworks
 
-In this question we will consider whether to impose a harvesting restriction. Five prefects harvest moonflowers from the Forbidden Forest. Without restrictions, the flowers will go extinct after this year. The table shows each prefect’s annual benefits (in coins), both under current harvesting and with proposed restrictions that would prevent extinction. The restrictions cost 60 coins yearly, split equally (12 coins each).
+Five prefects are planning the end-of-term celebration. A fireworks show over the lake would cost 60 coins, and it can be seen from anywhere on the grounds. The table shows each prefect’s benefit from the celebration (in coins), both without and with the fireworks.
 
-::: {.table style=grid columns="auto auto auto auto auto auto"}
+::: {.table style=grid}
 
 | **Benefits** (*in coins*) | **Hermione** | **Draco** | **Hannah** | **Cho** | **Padma** |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| Without restrictions | 25 | 22 | 18 | 16 | 12 |
-| With restrictions (*not including fee*) | 40 | 35 | 32 | 20 | 15 |
+| Without fireworks | 25 | 22 | 18 | 16 | 12 |
+| With fireworks | 40 | 35 | 32 | 20 | 15 |
 
 :::
 
@@ -239,7 +239,27 @@ In this question we will consider whether to impose a harvesting restriction. Fi
 
 ::: solution
 
-**Pass (D3.1):** Classify keeping the flowers from extinction as non-rival and non-excludable, see that no prefect pays voluntarily, add the five prefects’ gains to get a marginal social benefit of 49 coins, and compare it with the 60-coin cost.
+**Pass (D3.1):** Classify the fireworks show as non-rival and non-excludable, see that no prefect contributes voluntarily, find each prefect’s marginal benefit as the rise in their benefit, add them to get a marginal social benefit of 49 coins, and compare it with the 60-coin cost.
+
+:::
+
+The prefects first try to raise the 60 coins by splitting the cost into voluntary contributions of 12 coins. Each prefect decides in their own interest whether to contribute or not.
+
+::: {.table style=plain inset=4pt columns="auto 1fr"}
+
+|   |   |
+| :--- | :--- |
+| The Fireworks Show Is: | $\square$ rival $\quad\boxtimes$ **[non-rival]{.red}** |
+|   | $\square$ excludable $\quad\boxtimes$ **[non-excludable]{.red}** |
+| Prefects Who Would Contribute Voluntarily: | **[None]{.red}** |
+
+:::
+
+::: {.table style=grid inset=8pt}
+
+|   | **Hermione** | **Draco** | **Hannah** | **Cho** | **Padma** |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Marginal benefit of the fireworks | **[15]{.red}** | **[13]{.red}** | **[14]{.red}** | **[4]{.red}** | **[3]{.red}** |
 
 :::
 
@@ -247,28 +267,25 @@ In this question we will consider whether to impose a harvesting restriction. Fi
 
 |   |   |
 | :--- | :--- |
-| {++Keeping the Moonflowers From Extinction Is:++} | {++$\square$ rival $\quad\boxtimes$ **[non-rival]{.red}**++} |
-|   | {++$\square$ excludable $\quad\boxtimes$ **[non-excludable]{.red}**++} |
-| {++Prefects Who Would Pay Voluntarily, With No Fee:++} | {++**[None]{.red}**++} |
-| {++Marginal Social Benefit of the Restrictions:++} | {++**[49 coins]{.red}**++} |
-| {++Providing the Restrictions Is:++} | {++$\square$ efficient $\quad\boxtimes$ **[not efficient]{.red}**++} |
+| Marginal Social Benefit of the Fireworks: | **[49 coins]{.red}** |
+| Providing the Fireworks Is: | $\square$ efficient $\quad\boxtimes$ **[not efficient]{.red}** |
 
 :::
 
 :::: solution
 
-Keeping the flowers alive is non-rival: one prefect’s benefit from the flowers surviving takes nothing from another’s. It is non-excludable: a prefect who pays nothing can’t be kept from that benefit. So it is a public good. The flowers themselves, picked one at a time, are rival: a common resource.
+The fireworks show is non-rival: one prefect watching takes nothing away from another’s view. It is non-excludable: the show can be seen from anywhere on the grounds, so a prefect who pays nothing can’t be kept from watching. A non-rival, non-excludable good is a public good.
 
-Every prefect enjoys the restrictions whether or not they pay, and no prefect’s own gain, at most $15$, comes close to the $60$ cost. Simply considering their own interests, none pays. This is a classic free rider problem.
+No prefect contributes. Every prefect sees the show whether or not they pay, so each would rather keep their 12 coins and let the others pay. This is the free rider problem. Cho and Padma would not pay even if their 12 coins were the only way to get the show, since it is worth just $4$ and $3$ to them. Without them the 60 coins can’t be raised, so a contribution from anyone else buys nothing.
 
-Each prefect’s marginal benefit from the restrictions is the rise in their benefit:
+Each prefect’s marginal benefit from the fireworks is the rise in their benefit, with the fireworks minus without:
 
 ::: {.table style=grid columns="auto auto auto auto auto auto auto"}
 
 |   | **Hermione** | **Draco** | **Hannah** | **Cho** | **Padma** | **Total** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Without restrictions | 25 | 22 | 18 | 16 | 12 | 93 |
-| With restrictions, before the fee | 40 | 35 | 32 | 20 | 15 | 142 |
+| Without fireworks | 25 | 22 | 18 | 16 | 12 | 93 |
+| With fireworks | 40 | 35 | 32 | 20 | 15 | 142 |
 | Marginal benefit | 15 | 13 | 14 | 4 | 3 | 49 |
 
 :::
@@ -277,7 +294,7 @@ $$
 MSB = 15 + 13 + 14 + 4 + 3 = 49 < 60 = MC
 $$
 
-The restrictions cost $11$ coins more than they are worth to the prefects, so providing them is not efficient. Don’t compare the with-restrictions total, $142$, with the cost: the prefects get most of that benefit without the restrictions.
+The show costs $11$ coins more than it is worth to the prefects, so providing it is not efficient. Don’t compare the with-fireworks total, $142$, with the cost: the prefects get $93$ of that from the celebration without the fireworks.
 
 ::::
 
@@ -287,38 +304,40 @@ The restrictions cost $11$ coins more than they are worth to the prefects, so pr
 
 ::: solution
 
-**Pass (D3.2):** Compare Hermione’s 28 coins with the restrictions, after the fee, with her 25 without them to find her vote; count 3 for and 2 against; total 93 coins without and 82 with; and conclude that the restrictions pass but are not efficient.
+**Pass (D3.2):** Compare Hermione’s 28 coins with the fireworks, after the fee, with her 25 without them to find her vote; count 3 for and 2 against; total 93 coins without and 82 with; and conclude that the fireworks pass but are not efficient.
 
 :::
+
+Instead, the prefects put the fireworks to a vote. If a majority votes for them, each prefect pays a fee of 12 coins (60 coins total).
 
 ::: {.table style=plain inset=4pt columns="auto 1fr"}
 
 |   |   |
 | :--- | :--- |
-| Hermione’s Benefit Without Restrictions: | **[25 coins]{.red}** |
-| Hermione’s Benefit With Restrictions (*after the fee*): | **[28 coins]{.red}** |
+| Hermione’s Benefit Without Fireworks: | **[25 coins]{.red}** |
+| Hermione’s Benefit With Fireworks (*after the fee*): | **[28 coins]{.red}** |
 | Hermione’s Vote: | $\boxtimes$ **[for]{.red}** $\quad\square$ against |
 | Prefects Voting For / Against: | **[3]{.red}** / **[2]{.red}** |
-| Total Benefit Without Restrictions: | **[93 coins]{.red}** |
-| Total Benefit With Restrictions (*after the fees*): | **[82 coins]{.red}** |
-| Restrictions With a 12-Coin Fee: | $\square$ efficient $\quad\boxtimes$ **[not efficient]{.red}** |
+| Total Benefit Without Fireworks: | **[93 coins]{.red}** |
+| Total Benefit With Fireworks (*after the fees*): | **[82 coins]{.red}** |
+| Fireworks With a 12-Coin Fee: | $\square$ efficient $\quad\boxtimes$ **[not efficient]{.red}** |
 
 :::
 
 :::: solution
 
-Each prefect votes for the restrictions if their benefit with them, after the 12-coin fee, is higher than their benefit without them. Hermione’s is $40 - 12 = 28 > 25$, so she votes for them.
+Each prefect votes for the fireworks if their benefit with them, after the 12-coin fee, is higher than their benefit without them. Hermione’s is $40 - 12 = 28 > 25$, so she votes for them.
 
 ::: {.table style=grid columns="auto auto auto auto auto auto auto"}
 
 |   | **Hermione** | **Draco** | **Hannah** | **Cho** | **Padma** | **Total** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Without restrictions | 25 | 22 | 18 | 16 | 12 | 93 |
-| With restrictions, after the fee | 28 | 23 | 20 | 8 | 3 | 82 |
+| Without fireworks | 25 | 22 | 18 | 16 | 12 | 93 |
+| With fireworks, after the fee | 28 | 23 | 20 | 8 | 3 | 82 |
 | Vote | for | for | for | against | against | 3 to 2 |
 
 :::
 
-The restrictions pass 3 to 2, but total benefit falls from $93$ to $82$, so they are not efficient. The three prefects in favor gain $3 + 1 + 2 = 6$ coins, while Cho and Padma lose $8 + 9 = 17$. The vote makes Cho and Padma pay a 12-coin fee for restrictions worth only $4$ and $3$ to them. The $11$-coin loss is the same gap as between the restrictions’ marginal social benefit, $49$, and their $60$-coin cost.
+The fireworks pass 3 to 2, but total benefit falls from $93$ to $82$, so they are not efficient. The three prefects in favor gain $3 + 1 + 2 = 6$ coins, while Cho and Padma lose $8 + 9 = 17$. The vote makes Cho and Padma pay a 12-coin fee for a show worth only $4$ and $3$ to them. The $11$-coin loss is the same gap as between the show’s marginal social benefit, $49$, and its $60$-coin cost.
 
 ::::
