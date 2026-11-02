@@ -8,6 +8,24 @@ How sellers choose
 
 This video introduces costs as a way of measuring the tradeoffs firms face.
 
+### Class on March 23
+
+start with production data from last time
+
+show the marginal product of labor
+
+talk about Cobb Douglas
+
+do the thing on the board with the increase in labor and the increase in output
+
+show how this relates to costs through wages and fixed costs
+
+talk about TC and VC and FC
+
+then do averages
+
+then do marginal cost
+
 ## Intro
 
 In this sequence of videos, we’re going to ask the question: how should sellers choose how much to make, how many workers to hire, and how to set prices?

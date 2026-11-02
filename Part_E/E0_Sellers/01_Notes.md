@@ -4,7 +4,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 # Episode E0 | Overview
 
-*Introduction to how sellers make decisions and construct the supply curve.*
+*The nuances of the decisions of sellers behind the supply curve show us that market power breaks the efficiency of markets.*
 
 <!--
 Animation storyboard for E0_Animation.py, scene EpisodeE0 (maniml E0_Animation.py EpisodeE0). Built 2026-11-02 from these notes and Taylor's animator brief (taxonomy and market through Parts A to D, then arrows to Part E and Part F). One comment per section lists its beats in playback order; every beat ends on a named self.pause.
@@ -42,7 +42,7 @@ In Part C we showed that externalities lead to misalignment between what the mar
 
 In Part D we just extended this idea of externalities a little further into markets with strategic interaction, where players’ actions depend on what others are doing. We showed that the non-excludability of common resources and public goods in this light leads to the problems of over-extraction of common resources, much like with negative externalities, and the under-provision of public goods, much like with positive externalities.
 
-Next we’re turning to another way markets can succeed or fail, the market power of sellers. To do this, we need a more complete understanding of how sellers choose. How sellers choose starts with what they can make: how inputs like labor turn into output. I’ll warn you, the next class is about the least interesting class for me. But that should tell you something, that if we’re covering something as uninteresting as ‘Costs’, there’s an even better reason why we’re doing it. 
+Next we’re turning to another way markets can succeed or fail, the market power of sellers. To do this, we need a more complete understanding of how sellers choose. How sellers choose starts with what they can make: how inputs like labor turn into output. I’ll warn you, the next class is about the least interesting class of the semester for me. But that should tell you something, that if we’re covering something as uninteresting as ‘Costs’, there’s an even better reason why we’re doing it. 
 
 Today we’re going to run a simulation to collect data to build a more sophisticated model of the PPF, which will approach the bowed out nature of the PPF from another direction.
 
@@ -64,66 +64,39 @@ Today we’re going to run a simulation to collect data to build a more sophisti
 Not built here: the Four Quadrant PPF (his last paragraph) is the stub E0_Four_Quadrant.py.
 -->
 
-Have four volunteers and two goods, Widgets (W) and Airplanes (A). A Widget is made by stapling a piece of paper in half. An Airplane is a piece of paper that can be flown at least five feet. Start with a trial period where each gets a chance to learn how to make both. Then start with all four making W and none making A for 30 seconds. Then one by one switch one to making A.
+We’re going to make two goods in class today, Widgets (W) and Airplanes (A). We’ll talk about the technical specifications for the two goods. To make these two goods I need 8 volunteers. You job will be turning these pieces of paper into the two goods. 
 
-Set up a table to store the data.
+- A Widget is made by stapling a piece of paper in half.
+- An Airplane is a piece of paper that can be flown at least five feet.
 
-When everyone is done plot both Production Functions. Talk about diminishing marginal returns. Talk about what happens when technology changes.
+As you’re thinking about whether to volunteer, let me tell you a bit about the data we’re about to collect. We’re going to measure how many of each of these two goods we make with different levels of Labor (L) input into the production lines for Widgets (W) and Airplanes (A). 
 
-Then plot the Labor curve, the relationship between inputs. Talk about being fundamentally constrained by the total labor.
+The table for this data will be a column for Labor for Widgets, then Quantity of Widgets, then the same for Airplanes. 
 
-And we have the PPF!
+ 
 
-You can see now that we have a relationship between four different variables. Working with all four at the same time is what we call the Four Quadrant PPF. Plot the data on the Four Quadrant PPF. Talk about the different shapes of the production functions.
+| $L_W$ | $Q_W$ | $L_A$ | $Q_A$ |
+| --- | --- | --- | --- |
+| 8 |   | 0 |   |
+| 6 |   | 2 |   |
+| 4 |   | 4 |   |
+| 2 |   | 6 |   |
+| 0 |   | 8 |   |
 
-{++Materials: a stack of scrap paper, one stapler for the whole widget line, a five-foot line taped on the floor, and a timer. The single stapler is the fixed input. As more workers share it, each extra worker adds fewer widgets, which should make the flattening easier to see. It is also the capital that comes back in E1.++}
+We’ll start with a trial period where each gets a chance to learn how to make both W and A. Then start with all four making W and none making A for 20 seconds. Then two by two we’ll switch to making A.
 
-{++Roles: the workers, one inspector for each good, and a recorder at the board. Only finished items count: a widget is stapled, and an airplane crosses the tape line. The inspectors' counts are the ones that go in the table, which keeps the counting out of the workers' hands.++}
+When everyone is done:
 
-{++Make the practice round long enough that airplane times settle, about a minute on each good, so the counted rounds measure the switch and not the learning.++}
+Plot both Production Functions. Talk about diminishing marginal returns. Talk about what happens when technology changes.
 
-{++After each round, type it into ROUNDS at the top of E0_Animation.py and save; the table and every graph redraw in the viewer. Change DATA_NOTE from “Example numbers” to the class's label. With 8 workers moved 2 at a time, the rows change and the rules screen follows.++}
+ 
 
-{++Next class opens from these numbers.++}
+Plot the Labor curve, the relationship between inputs. Talk about being fundamentally constrained by the total labor.
 
-## Post-Class Notes
+Plot the PPF, the relationship between outputs.[^1] Talk about the how the constraint on labor inputs gives us the frontier, and how the technology bends it out. And sometimes students will switch groups because they’re good at airplanes, so that’s specialization at work.
 
-This became sort of competitive and rowdy in the last class. It might have been just one student, but it kind of got in the way. Maybe I was just tired…. But if there’s a way to calm things down I think that’d be good.
+Next class we’ll open with these numbers.
 
-Also it might be better to have more widget makers. There were two issues with data collection. The first is learning effects for airplanes. The second is we couldn’t quite see the flattening out with widgets. So it might be better to start with 8 instead of 4 workers and switch 2 at a time, starting with widgets…. Not sure.
+Materials: a stack of scrap paper, one stapler for the whole widget line, a five-foot line taped on the floor, and a timer. The single stapler is the fixed input. As more workers share it, each extra worker adds fewer widgets, which should make the flattening easier to see. It is also the capital that comes back in E1.
 
-### Part E | Production Simulation
-
-this requires understanding what goes into the sellers incentives in a more nuanced way
-
-this means understanding where costs come from
-
-simulation
-
-make the connection to Molly’s supply curve
-
-it depends on what we call the production function
-
-in the basic setup for the class, her production function for both goods was linear
-
-but it isn’t always the case
-
-marginal product of labor
-
-### Class on March 23
-
-start with production data from last time
-
-show the marginal product of labor
-
-talk about Cobb Douglas
-
-do the thing on the board with the increase in labor and the increase in output
-
-show how this relates to costs through wages and fixed costs
-
-talk about TC and VC and FC
-
-then do averages
-
-then do marginal cost
+[^1]: This is where I’ve talked about the four quadrant PPF in the past. It gives a picture of the relationship between four different variables. 
