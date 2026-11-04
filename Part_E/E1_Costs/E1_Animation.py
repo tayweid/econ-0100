@@ -60,11 +60,10 @@ class EpisodeE1(Scene):
         MAX_BARS, BAR_OUTLINE = 20, 1.0         # B2 polygons: adjoining edges, colored outline, 35% fill
         # Taxonomy grid, E4's object: a label column and two cell columns; a header row and three seller rows.
         LABEL_W, CELL_W, HEADER_H, CELL_H, TAXONOMY_X = 2.9, 3.3, 0.8, 1.25, 0.4
-        TAXONOMY_SIDE_SCALE, CHECKLIST_LEFT = 0.72, 0.6
-        BOX_BUFF = 0.12                          # E2-E4's 0.22 would meet the cell rules on the shrunk grid
+        BOX_BUFF = 0.12                          # keep each selection clear of the table rules
 
         # The model, as one-line functions. shape is the production function's exponent: 0.5 gives
-        # F(L) = 10 sqrt(L); 1 gives the straight line of 2.p.linear. Every other section has shape = 0.5.
+        # F(L) = 10 sqrt(L). Keep that same technology throughout the production and cost views.
         WAGE, FIXED = 100, 1000
         shape = ValueTracker(0.5)
         output = lambda L: 100 * (L / 100) ** shape.get_value()             # Q = F(L)
@@ -76,7 +75,7 @@ class EpisodeE1(Scene):
         avc = lambda Q: COST_ALPHA * Q
         atc = lambda Q: avc(Q) + FIXED / Q
         MIN_Q = np.sqrt(FIXED / COST_ALPHA)
-        TOTAL_MAX, AVERAGE_MAX = total(100), 1.2 * mc(100)
+        TOTAL_MAX, AVERAGE_MAX = 12000, 1.2 * mc(100)
         AVERAGE_TOP = 0.875 * AVERAGE_MAX
         ATC_START = (AVERAGE_TOP - np.sqrt(AVERAGE_TOP**2 - 4*COST_ALPHA*FIXED)) / (2*COST_ALPHA)
         AFC_START = FIXED / AVERAGE_TOP
@@ -162,44 +161,24 @@ class EpisodeE1(Scene):
         self.play(FadeIn(head), FadeIn(grid))
         self.pause('1.c')
 
-        # ---- 1.d · Competitive firms: the grid steps left, its first cell fills and is boxed, then his three conditions.
-        # The grid and its (unseen) cells take the same scale about the grid's left edge, then the same shift.
-        side_about = np.array([grid_left, BODY_MID, 0])
-        side_shift = LEFT * (grid_left + 7.4)
-        cells.scale(TAXONOMY_SIDE_SCALE, about_point=side_about).shift(side_shift)
-        self.remove(head)
-        head = title('Competitive Firms')
-        self.play(FadeIn(head), grid.animate.scale(TAXONOMY_SIDE_SCALE, about_point=side_about).shift(side_shift), run_time=1.2)
+        # ---- 1.d · Keep the full-size matrix and its title; fill and select perfect competition.
         box = SurroundingRectangle(perfect, buff=BOX_BUFF, color=NASH)
-        checklist = numbered('Many sellers', 'Many buyers', 'Homogeneous goods').align_to(np.array([CHECKLIST_LEFT, 0, 0]), LEFT)
-        self.play(FadeIn(perfect), FadeIn(box))
-        self.play(FadeIn(checklist[0]), run_time=0.6)
-        self.play(FadeIn(checklist[1]), run_time=0.6)
-        self.play(FadeIn(checklist[2]), run_time=0.6)
+        self.play(FadeIn(perfect), FadeIn(box), run_time=0.8)
         self.pause('1.d')
 
-        # ---- 1.e · Monopoly: the one-seller row, the box moves, the three conditions from his sentence.
-        self.remove(head, checklist)
-        head = title('Monopoly')
-        checklist = numbered('One seller', 'Many buyers', "Differentiation isn't important").align_to(np.array([CHECKLIST_LEFT, 0, 0]), LEFT)
-        self.play(FadeIn(head), FadeIn(monopoly), Transform(box, SurroundingRectangle(monopoly, buff=BOX_BUFF, color=NASH)),
-                  FadeIn(checklist), run_time=0.8)
+        # ---- 1.e · Reveal monopoly in the one-seller row and move the same selection box.
+        self.play(FadeIn(monopoly), Transform(box, SurroundingRectangle(monopoly, buff=BOX_BUFF, color=NASH)),
+                  run_time=0.8, rate_func=smooth)
         self.pause('1.e')
 
-        # ---- 1.f · Monopolistic competition: many sellers, slightly differentiated goods.
-        self.remove(head, checklist)
-        head = title('Monopolistic Competition')
-        checklist = numbered('Many sellers', 'Many buyers', 'Slightly differentiated goods').align_to(np.array([CHECKLIST_LEFT, 0, 0]), LEFT)
-        self.play(FadeIn(head), FadeIn(monopolistic), Transform(box, SurroundingRectangle(monopolistic, buff=BOX_BUFF, color=NASH)),
-                  FadeIn(checklist), run_time=0.8)
+        # ---- 1.f · Reveal monopolistic competition; earlier entries remain in the matrix.
+        self.play(FadeIn(monopolistic), Transform(box, SurroundingRectangle(monopolistic, buff=BOX_BUFF, color=NASH)),
+                  run_time=0.8, rate_func=smooth)
         self.pause('1.f')
 
-        # ---- 1.g · Oligopoly: few sellers, homogeneous goods.
-        self.remove(head, checklist)
-        head = title('Oligopoly')
-        checklist = numbered('Few sellers', 'Many buyers', 'Homogeneous goods').align_to(np.array([CHECKLIST_LEFT, 0, 0]), LEFT)
-        self.play(FadeIn(head), FadeIn(oligopoly), Transform(box, SurroundingRectangle(oligopoly, buff=BOX_BUFF, color=NASH)),
-                  FadeIn(checklist), run_time=0.8)
+        # ---- 1.g · Complete the matrix with oligopoly, keeping the same frame and title.
+        self.play(FadeIn(oligopoly), Transform(box, SurroundingRectangle(oligopoly, buff=BOX_BUFF, color=NASH)),
+                  run_time=0.8, rate_func=smooth)
         self.pause('1.g')
 
         # ---- 2.a · The production function on the left: workers across, units up, F(L) in white.
@@ -366,14 +345,21 @@ class EpisodeE1(Scene):
         newest_labor = DecimalNumber(0, num_decimal_places=2, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         newest_labor.add_updater(lambda m: m.set_value(round(labor_for(current_quantity()), 4))
             .move_to(zp(labor_for(current_quantity()), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        newest_down = DashedLine(zp(labor_for(0.01), 0.01), zp(labor_for(0.01), 0), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        newest_down.add_updater(lambda m: m.become(DashedLine(
-            zp(labor_for(current_quantity()), current_quantity()), zp(labor_for(current_quantity()), 0),
-            color=GUIDE, stroke_width=GUIDE_WIDTH)))
-        newest_across = DashedLine(zp(labor_for(0.01), 0.01), zp(0, 0.01), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        newest_across.add_updater(lambda m: m.become(DashedLine(
-            zp(labor_for(current_quantity()), current_quantity()), zp(0, current_quantity()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH)))
+        # Reuse dash segments. become(DashedLine(...)) can hang while aligning an almost-zero guide.
+        newest_down_length = lambda: GRAPH_SIZE * current_quantity() / q_span.get_value()
+        newest_across_length = lambda: GRAPH_SIZE * labor_for(current_quantity()) / labor_for(q_span.get_value())
+        newest_down = VGroup(*[Line(ORIGIN, UP, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE / 0.1)))])
+        newest_down.add_updater(lambda group: [dash.set_points_as_corners([
+            zp(labor_for(current_quantity()), 0) + UP * min(i*0.1, newest_down_length()),
+            zp(labor_for(current_quantity()), 0) + UP * min(i*0.1+0.05, newest_down_length())])
+            .set_opacity(float(i*0.1 < newest_down_length())) for i, dash in enumerate(group)])
+        newest_across = VGroup(*[Line(ORIGIN, RIGHT, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE / 0.1)))])
+        newest_across.add_updater(lambda group: [dash.set_points_as_corners([
+            zp(0, current_quantity()) + RIGHT * min(i*0.1, newest_across_length()),
+            zp(0, current_quantity()) + RIGHT * min(i*0.1+0.05, newest_across_length())])
+            .set_opacity(float(i*0.1 < newest_across_length())) for i, dash in enumerate(group)])
         newest_marks = VGroup(newest_down, newest_across, newest_dot, newest_quantity, newest_labor).set_z_index(DOT_LAYER)
         self.remove(note)
         note = teaching('Start small: how much labor does each output level require?')
@@ -396,8 +382,7 @@ class EpisodeE1(Scene):
         newest_marks.clear_updaters(recurse=True)
         self.pause('2.k')
 
-        # ---- 2.l · Return to the first five units to map hours into variable cost at a legible scale.
-        # The only stored text is the wage; fixed cost joins the bars later, at 2.p.
+        # ---- 2.l · Return to the first five units to map hours into costs. The only stored text is the wage.
         cost_ax = style_axes([0, 100, 10], [0, TOTAL_MAX, 1000], x_length=GRAPH_SIZE, y_length=GRAPH_SIZE)
         cost_ax.shift(RIGHT_ORIGIN - cost_ax.c2p(0, 0))
         cost_words = VGroup(
@@ -420,15 +405,18 @@ class EpisodeE1(Scene):
         self.play(FadeIn(cost_ax), FadeIn(cost_words), run_time=0.6)
         self.pause('2.l')
 
-        # ---- 2.m · Unit 1 stays visible as a horizontal labor bar and a vertical VC bar.
-        # No algebra row: just the matching red output, hours, and dollar readouts with dashed guides.
-        cost_span, fixed_amount = ValueTracker(variable(6)), ValueTracker(0)
-        cp = lambda Q, C: cost_ax.c2p(100 * Q / q_span.get_value(), TOTAL_MAX * C / cost_span.get_value())
-        cost_bars, mapped_hours = VGroup(), VGroup()
+        # ---- 2.m · Include the grey fixed-cost base from the first unit. The vertical scale follows the output window.
+        # No algebra row: just matching red output, hours, and total-cost readouts with dashed guides.
+        fixed_amount = ValueTracker(FIXED)
+        cost_span = lambda: min(TOTAL_MAX, max(1.2*FIXED, 1.1*total(q_span.get_value())))
+        cp = lambda Q, C: cost_ax.c2p(100 * Q / q_span.get_value(), TOTAL_MAX * C / cost_span())
+        cost_bars, mapped_hours, fixed_bars = VGroup(), VGroup(), VGroup()
         for Q in range(1, 6):
             mapped_hours.add(Polygon(zp(0, Q-1), zp(labor_for(Q), Q-1), zp(labor_for(Q), Q), zp(0, Q),
                 color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY))
-            cost_bars.add(Polygon(cp(Q-1, 0), cp(Q, 0), cp(Q, variable(Q)), cp(Q-1, variable(Q)),
+            fixed_bars.add(Polygon(cp(Q-1, 0), cp(Q, 0), cp(Q, FIXED), cp(Q-1, FIXED),
+                color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY))
+            cost_bars.add(Polygon(cp(Q-1, FIXED), cp(Q, FIXED), cp(Q, total(Q)), cp(Q-1, total(Q)),
                 color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY))
         unit_marks = VGroup(
             Tex('1', color=GUIDE).scale(READOUT_SCALE).next_to(zp(0, 1), LEFT, buff=0.2),
@@ -436,14 +424,14 @@ class EpisodeE1(Scene):
             Tex('0.01', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(zp(labor_for(1), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         cost_marks = VGroup(
             Tex('1', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(cp(1, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-            DashedLine(cp(1, variable(1)), cp(0, variable(1)), color=GUIDE, stroke_width=GUIDE_WIDTH),
-            Tex(f'{variable(1):.0f}', color=GUIDE).scale(READOUT_SCALE).next_to(cp(0, variable(1)), LEFT, buff=0.2))
+            DashedLine(cp(1, total(1)), cp(0, total(1)), color=GUIDE, stroke_width=GUIDE_WIDTH),
+            Tex(f'{total(1):,.0f}', color=GUIDE).scale(READOUT_SCALE).next_to(cp(0, total(1)), LEFT, buff=0.2))
         unit_marks.set_z_index(DOT_LAYER)
         cost_marks.set_z_index(DOT_LAYER)
         self.remove(note)
-        note = teaching('One unit: 0.01 labor hours, one dollar in variable cost.')
+        note = teaching(r'One unit: \$1 in labor cost, plus \$1,000 in fixed cost.')
         self.play(FadeIn(mapped_hours[0]), FadeIn(unit_marks), FadeIn(note), run_time=0.6)
-        self.play(TransformFromCopy(mapped_hours[0], cost_bars[0]), FadeIn(cost_marks), run_time=1.0)
+        self.play(FadeIn(fixed_bars[0]), TransformFromCopy(mapped_hours[0], cost_bars[0]), FadeIn(cost_marks), run_time=1.0)
         self.pause('2.m')
 
         # ---- 2.n · Add unit 2 beside unit 1; both outlined rectangles remain on both graphs.
@@ -453,12 +441,12 @@ class EpisodeE1(Scene):
             Tex('0.04', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(zp(labor_for(2), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         second_costs = VGroup(
             Tex('2', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(cp(2, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-            DashedLine(cp(2, variable(2)), cp(0, variable(2)), color=GUIDE, stroke_width=GUIDE_WIDTH),
-            Tex(f'{variable(2):.0f}', color=GUIDE).scale(READOUT_SCALE).next_to(cp(0, variable(2)), LEFT, buff=0.2))
+            DashedLine(cp(2, total(2)), cp(0, total(2)), color=GUIDE, stroke_width=GUIDE_WIDTH),
+            Tex(f'{total(2):,.0f}', color=GUIDE).scale(READOUT_SCALE).next_to(cp(0, total(2)), LEFT, buff=0.2))
         self.remove(note)
-        note = teaching('Two units: 0.04 labor hours, four dollars in variable cost.')
+        note = teaching(r'Two units: \$4 in labor cost, plus \$1,000 in fixed cost.')
         self.play(FadeIn(mapped_hours[1]), Transform(unit_marks, second_units), FadeIn(note), run_time=0.6)
-        self.play(TransformFromCopy(mapped_hours[1], cost_bars[1]), Transform(cost_marks, second_costs), run_time=1.0)
+        self.play(FadeIn(fixed_bars[1]), TransformFromCopy(mapped_hours[1], cost_bars[1]), Transform(cost_marks, second_costs), run_time=1.0)
         self.pause('2.n')
 
         # ---- 2.o · Finish the five units before opening the view to 100; larger bands group five units each.
@@ -467,9 +455,9 @@ class EpisodeE1(Scene):
         self.play(FadeOut(unit_marks), FadeOut(cost_marks), FadeIn(note), run_time=0.4)
         for Q in range(3, 6):
             self.play(FadeIn(mapped_hours[Q-1]), run_time=0.25)
-            self.play(TransformFromCopy(mapped_hours[Q-1], cost_bars[Q-1]), run_time=0.45)
+            self.play(FadeIn(fixed_bars[Q-1]), TransformFromCopy(mapped_hours[Q-1], cost_bars[Q-1]), run_time=0.45)
         self.wait(0.5)
-        self.remove(hour_bars, mapped_hours, cost_bars)
+        self.remove(hour_bars, mapped_hours, cost_bars, fixed_bars)
         shown.set_value(5)
         # Allocate a fixed pool once; update points rather than rebuilding bars or TeX on every frame.
         hour_bars, cost_bars, fixed_bars = VGroup(), VGroup(), VGroup()
@@ -490,28 +478,28 @@ class EpisodeE1(Scene):
             fixed = Polygon(ORIGIN, RIGHT, UR, UP, color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
             fixed.add_updater(lambda m, i=i: m.set_points_as_corners([
                 cp(band_low(i), 0), cp(band_high(i), 0), cp(band_high(i), fixed_amount.get_value()),
-                cp(band_low(i), fixed_amount.get_value()), cp(band_low(i), 0)]))
+                cp(band_low(i), fixed_amount.get_value()), cp(band_low(i), 0)])
+                .set_stroke(FC_COLOR, BAR_OUTLINE, opacity=float(band_visible(i)))
+                .set_fill(FC_COLOR, AREA_OPACITY if band_visible(i) else 0))
             hour_bars.add(hours)
             cost_bars.add(costs)
             fixed_bars.add(fixed)
-        self.add(hour_bars, cost_bars)
-        self.play(q_span.animate.set_value(100), shown.animate.set_value(100), cost_span.animate.set_value(TOTAL_MAX), run_time=3, rate_func=smooth)
+        self.add(hour_bars, fixed_bars, cost_bars)
+        self.play(q_span.animate.set_value(100), shown.animate.set_value(100), run_time=3, rate_func=smooth)
         for bar in hour_bars:
             bar.clear_updaters()
         self.pause('2.o')
 
-        # ---- 2.p · Fixed cost supplies the grey base; TC joins the upper-right corners of the stacked bars.
+        # ---- 2.p · Every bar already includes FC. Draw both cost curves in the settled frame, with no extra rescale.
         self.remove(note)
-        note = teaching('Add fixed cost to variable cost to get total cost.')
-        self.add(fixed_bars)
-        self.play(fixed_amount.animate.set_value(FIXED), FadeIn(note), run_time=1.5)
+        note = teaching('Total cost includes fixed cost and variable cost.')
         for bar in (*cost_bars, *fixed_bars):
             bar.clear_updaters()
         tc_curve = polyline([cost_ax.c2p(q, total(q)) for q in np.linspace(0, 100, 121)], TC_COLOR, CURVE_WIDTH).set_z_index(DOT_LAYER)
         tc_word = Tex('TC', color=INK).scale(CURVE_WORD_SCALE).next_to(cost_ax.c2p(100, total(100)), RIGHT, buff=0.15)
         fc_line = Line(cost_ax.c2p(0, FIXED), cost_ax.c2p(100, FIXED), color=FC_COLOR, stroke_width=CURVE_WIDTH).set_z_index(GUIDE_LAYER)
         fc_word = Tex('FC', color=INK).scale(CURVE_WORD_SCALE).next_to(cost_ax.c2p(100, FIXED), RIGHT, buff=0.15)
-        self.play(Create(tc_curve), FadeIn(tc_word), Create(fc_line), FadeIn(fc_word), run_time=1.5)
+        self.play(Create(tc_curve), FadeIn(tc_word), Create(fc_line), FadeIn(fc_word), FadeIn(note), run_time=1.5)
         self.pause('2.p')
 
         # ---- 3.a · Keep the pan; fade and translate the bars during the same movement. TC and FC travel together.

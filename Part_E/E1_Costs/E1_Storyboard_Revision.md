@@ -8,6 +8,10 @@ Keep the semester’s graphite background, azure topic titles, fixed-size gold t
 
 Reuse B2′s axis-coordinate polygons: adjoining rectangles, colored one-point outlines, and 35% colored fill. Unselected choices use B2′s grey 10% fill and a grey one-point outline at 35% opacity. The close-up uses individual units. The overview uses twenty five-unit bands, keeping boundaries visible without generating a hundred bars. Each production bar’s upper-right corner lies on F; each cost bar’s upper-right corner lies on its cost curve. Band heights and lengths are sampled levels, not sums of the rectangle areas. Geometry updates in place during zooms.
 
+## 1.c–1.g · Fill the market-structures matrix
+
+Keep the full-size centered matrix and the title “Market Structures” unchanged throughout. Reveal Perfect Competition, Monopoly, Monopolistic Competition, then Oligopoly in their cells, retaining earlier entries. Move the same close-fitting selection box between them with smooth easing. Keep the existing pauses 1.c–1.g. No side checklist, shrinking, repositioning, or title swaps.
+
 ## 2.a–2.g · Read output back to labor
 
 2.a · Retain the title “Costs From The Production Function” and add the grey subtitle “One example of a production function with diminishing marginal product.” Keep it through 2.k, then replace it with the wage at 2.l.
@@ -28,19 +32,19 @@ Reuse B2′s axis-coordinate polygons: adjoining rectangles, colored one-point o
 
 ## 2.j–2.p · From hours to costs
 
-2.j · Clear the comparison marks and show a six-unit output window, with labor from 0 to 0.36 hours. Slide a red point and red quantity number up the curve from 0 to 5 over 3.5 seconds; its dashed guides to both axes and hours readout follow. Use smooth easing for this sweep and its continuation. Reveal each adjoining pink rectangle as the point reaches its unit. Hold at 5. Bottom: “Start small: how much labor does each output level require?”
+2.j · Clear the comparison marks and show a six-unit output window, with labor from 0 to 0.36 hours. Slide a red point and red quantity number up the curve from 0 to 5 over 3.5 seconds; its dashed guides to both axes and hours readout follow. Use smooth easing for this sweep and its continuation. Reuse a fixed pool of dash segments so the guides grow safely from zero without rebuilding their object hierarchy. Reveal each adjoining pink rectangle as the point reaches its unit. Hold at 5. Bottom: “Start small: how much labor does each output level require?”
 
 2.k · After the hold at 5, zoom out to a window of 100 output units and 100 labor hours while retaining the red point. Continue its sweep from 5 to 100 over four seconds, revealing each band as it is reached. Hide the F label during this sweep so the quantity number has room, then restore it as the temporary marks fade. Cap the view at twenty bars, grouping five units per band at the full scale. Keep F above the fills. Bottom: “Each additional unit takes more hours than the last.”
 
-2.l · Return to the first five units for a legible mapping. Resting production bars become faint grey. Reveal the cost axes on the right. Replace the equation row with one grey subtitle: “Wage: \$100 per hour”. The initial right window is six output units and \$36 of variable cost. Bottom: “The same labor hours become variable cost at \$100 per hour.”
+2.l · Return to the first five units for a legible mapping. Resting production bars become faint grey. Reveal the cost axes on the right. Replace the equation row with one grey subtitle: “Wage: \$100 per hour”. The initial right window is six output units and \$1,200. Bottom: “The same labor hours become variable cost at \$100 per hour.”
 
-2.m · Color the first production rectangle pink. Show 1 unit and 0.01 hours in red with the dashed guide. Copy that rectangle into the first vertical variable-cost rectangle, with the red readout 1. No worked algebra. Bottom: “One unit: 0.01 labor hours, one dollar in variable cost.”
+2.m · Color the first production rectangle pink. Show 1 unit and 0.01 hours in red with the dashed guide. Place the grey fixed-cost base and copy the labor rectangle into the pink variable-cost cap of the first cost bar; total cost reads 1,001. The \$1 cap is small relative to \$1,000 fixed cost, as the model requires. No worked algebra. Bottom: “One unit: \$1 in labor cost, plus \$1,000 in fixed cost.”
 
-2.n · Add the second pink rectangle while retaining the first on both graphs. Move the red readouts to 2 units, 0.04 hours and 4 dollars. Bottom: “Two units: 0.04 labor hours, four dollars in variable cost.”
+2.n · Add the second rectangle while retaining the first on both graphs. The second cost bar also includes its grey fixed-cost base. Move the readouts to 2 units, 0.04 hours and 1,004 dollars. Bottom: “Two units: \$4 in labor cost, plus \$1,000 in fixed cost.”
 
-2.o · Add units 3, 4 and 5 in sequence, mapping each horizontal rectangle into its own vertical bar. Clear the temporary readouts, then zoom both views out together. Retain at most twenty bands per graph; the cost axes settle at 0–100 output and \$0–11,000. Bottom: “More output needs more labor, so variable cost rises.”
+2.o · Add units 3, 4 and 5 in sequence with fixed cost included each time. Continue to the wider output range while both scales adjust with the arriving quantities. The cost scale follows the displayed output window and leaves headroom above total cost, settling at \$12,000. Retain at most twenty bands per graph. There is no separate rescaling play after the bars are complete. Bottom: “More output needs more labor, so variable cost rises.”
 
-2.p · Add the \$1,000 grey base under every cost bar, lifting the pink variable-cost portions together. Draw TC and the horizontal FC line in the same play, with their white labels. Bottom: “Add fixed cost to variable cost to get total cost.”
+2.p · Draw TC and the horizontal FC line together across the already stacked cost bars. Neither the bars nor the scales move again. Bottom: “Total cost includes fixed cost and variable cost.”
 
 ## 3.a–3.d · Preserve the pan and explain variable cost
 
@@ -60,4 +64,4 @@ Reuse B2′s axis-coordinate polygons: adjoining rectangles, colored one-point o
 
 ## Wage-dependent cost curves
 
-At a wage of \$100 per hour, MC = 2Q, AVC = Q, and ATC = Q + 1,000/Q. Cost axes extend to \$11,000; per-unit axes to \$240. The minimum of ATC is at Q = √1,000, about 31.6, so the below-minimum demonstration holds at 20 units. Keep the ATC and AVC endpoint labels separated. The illustrative marginal-revenue panels use the same MC and proportional vertical scales; the separate Part C market recap retains its original model.
+At a wage of \$100 per hour, MC = 2Q, AVC = Q, and ATC = Q + 1,000/Q. Cost axes extend to \$12,000; per-unit axes to \$240. The minimum of ATC is at Q = √1,000, about 31.6, so the below-minimum demonstration holds at 20 units. Keep the ATC and AVC endpoint labels separated. The illustrative marginal-revenue panels use the same MC and proportional vertical scales; the separate Part C market recap retains its original model.
