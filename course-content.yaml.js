@@ -528,7 +528,7 @@ parts:
         vignette:
           description: "*Production costs practice problems*"
         dates:
-          class: '2026-11-02'
+          class: '2026-11-04'
           recitation: '2026-11-06'
           homework: '2026-11-08'
 
