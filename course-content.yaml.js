@@ -529,8 +529,8 @@ parts:
           description: "*Production costs practice problems*"
         dates:
           class: '2026-11-04'
-          recitation: '2026-11-06'
-          homework: '2026-11-08'
+          recitation: '2026-11-13'
+          homework: '2026-11-15'
 
       - block: E2
         folder: Part_E/E2_Competition
@@ -547,8 +547,8 @@ parts:
           description: "*Competitive firms practice problems*"
         dates:
           class: '2026-11-04'
-          recitation: '2026-11-06'
-          homework: '2026-11-08'
+          recitation: '2026-11-13'
+          homework: '2026-11-15'
 
       - block: E3
         folder: Part_E/E3_Monopoly
