@@ -6,51 +6,45 @@ plass:
 
 # ECON 0100 | Exercise E2 | Competition
 
-*Exercises are a certificate of the work done together in class and offers extra practice outside class.*
+Use the animation’s competitive firm: $TC = 1000 + q^2$ and $MC = 2q$. Costs include opportunity costs. Answer alone, then compare with a neighbor.
 
-## Q1 | Economic Sudoku Sells
+## Q1 | Choosing Output
 
-<!-- Editor. Q1 is new, written 2026-11-09 so the class has an exercise part it can do early, before the Profit section (E2_Storyboard_Revision.md, Open for Taylor 6, asks for a card that reads q* and profit off known curves). The firm is Exercise E1's Economic Sudoku table with its blanks filled in (A = 60, B = 90, C = 100, D = 130, E = 140), so the Exercises keep one firm across Part E. The prices 135 and 100 are mine: 135 sits between the marginal costs 130 and 140 and gives a small profit, 100 sits between 90 and 130 and gives a loss that is smaller than the fixed cost. Strike the question if the exercise should be the toffee story alone. -->
-
-The firm from Exercise E1 sells in a competitive market, so it takes the market price as given. Its costs are below, with the blanks from last time filled in.
-
-::: {.table style=grid inset=6pt columns="auto 72pt 72pt 72pt 72pt" valign=middle}
-
-| **OUTPUT** | **AFC** | **AVC** | **ATC** | **MC** |
-| :---: | :---: | :---: | :---: | :---: |
-| **1** | 120 | 100 | 220 |   |
-|   |   |   |   | 80 |
-| **2** | 60 | 90 | 150 |   |
-|   |   |   |   | 90 |
-| **3** | 40 | 90 | 130 |   |
-|   |   |   |   | 130 |
-| **4** | 30 | 100 | 130 |   |
-|   |   |   |   | 140 |
-| **5** | 24 | 108 | 132 |   |
-
-:::
-
-a\) The market price is 135 per unit. How many units does the firm produce, and what is its profit?
+a\) The market price is 90. Find total revenue from selling 20 units and from selling 21 units. What is marginal revenue? Explain why it equals the price.
 
  
 
-Quantity: \_\_\_\_\_\_\_\_\_\_ Profit: \_\_\_\_\_\_\_\_\_\_
-
-b\) The market price falls to 100 per unit. How many units does the firm produce now, and what is its profit? Should it keep operating in the short run?
+b\) At that price, how much should the firm produce? Explain why it should increase output from 40 units but decrease output from 50 units.
 
  
 
-Quantity: \_\_\_\_\_\_\_\_\_\_ Profit: \_\_\_\_\_\_\_\_\_\_ Keep operating? \_\_\_\_\_\_\_\_\_\_
-
-c\) Firms like this one enter the market when there is profit to be made and exit when there is a loss. What price does the market settle at in the long run?
+c\) Calculate the firm’s profit at its chosen quantity.
 
  
 
-Long-run price: \_\_\_\_\_\_\_\_\_\_
+## Q2 | Operating or Leaving
 
-## Q2 | Traditional Toffee Specific Tax
+At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry.
 
-Due to longstanding tradition, all toffees are made the same way, anyone could easily start making them, and the number of toffee makers had been constant over the past couple of years. This changed when the Ministry imposed a specific (*i.e. per-unit*) tax on all toffee sales. Using a couple of graphs to illustrate your answer, explain what happened in the market because of this tax.
+a\) Calculate profit from operating and from shutting down this period. Which should the firm choose?
+
+ 
+
+b\) If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).
+
+c\) Return to the profitable price of 90 in Q1. Would firms enter or exit? What happens to market supply and price?
+
+\newpage
+
+## Q3 | A Higher Fixed Cost
+
+Start again, with the market in long-run equilibrium and every firm earning zero economic profit. Firms have the original costs above. Firms are identical, entry and exit are free, and market demand slopes down.
+
+Every firm must now pay an additional fixed expense of 600 each period, regardless of its output. This period’s payment is unavoidable; future payments can be avoided by exiting. Demand and input prices do not change.
+
+a\) On the graphs, show the initial equilibrium and the immediate effect of the expense on costs. What happens immediately to price, each firm’s output, and profit?
+
+b\) Show the adjustment as firms enter or exit. Compared with before the expense, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment?
 
 :::: {.columns gutter=1em}
 
@@ -64,7 +58,7 @@ Due to longstanding tradition, all toffees are made the same way, anyone could e
 
 ::: column
 
-**One Toffee Maker**
+**One Firm**
 
 ![](data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjU0IDE5NCIgd2lkdGg9IjI1NHB0IiBoZWlnaHQ9IjE5NHB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpoNT0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNIDAgMHYgMTk0aCAyNTR2IC0xOTRaICIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIgMikiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTY0KSIgZD0iTSAwIDBoIDIwOCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTY0KSIgZD0iTSAwIDB2IC0xNDgiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAyMzcgMTY2Ljk5MTEpIj48dXNlIHhsaW5rOmhyZWY9IiNnQUZFNURGNDEzRTIyMUEzQzYyMEE1QjY2MEQzMDU3MDQiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAyMiA5Ljk5MTEpIj48dXNlIHhsaW5rOmhyZWY9IiNnOTFDRThFMjM5NUE2RUNGQkE0NDE3NzI5MjIwQTBEREQiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L2c+PGRlZnM+PHN5bWJvbCBpZD0iZ0FGRTVERjQxM0UyMjFBM0M2MjBBNUI2NjBEMzA1NzA0IiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDQuMzUyNCA0LjQxMDljIC0wLjIzNCAwLjUwMzEgLTAuNTk2NyAwLjc2MDUgLTEuMDc2NCAwLjc2MDVjIC0wLjc2MDUgMCAtMS40Mjc0IC0wLjM4NjEgLTIuMDAwNyAtMS4xN2MgLTAuNTM4MiAtMC43MjU0IC0wLjgwNzMgLTEuNDc0MiAtMC44MDczIC0yLjI1ODFjIDAgLTEuMDE3OSAwLjU4NSAtMS44OTU0IDEuNTU2MSAtMS44OTU0YyAwLjQyMTIgMCAwLjg0MjQgMC4xOTg5IDEuMjc1MyAwLjU5NjdsIC0wLjQ3OTcgLTEuOTE4OGMgLTAuMDM1MSAtMC4xNzU1IC0wLjE0MDQgLTAuMjgwOCAtMC4zMDQyIC0wLjMxNTljIC0wLjA1ODUgLTAuMDExNyAtMC4yMTA2IC0wLjAyMzQgLTAuNDc5NyAtMC4wMjM0YyAtMC4wNzAyIC0wLjAxMTcgLTAuMTE3IC0wLjAxMTcgLTAuMTQwNCAtMC4wMTE3YyAtMC4xMDUzIC0wLjAxMTcgLTAuMTYzOCAtMC4xMDUzIC0wLjE2MzggLTAuMjY5MXYgLTAuMDQ2OGMgMC4wMzUxIC0wLjA4MTkgMC4xMDUzIC0wLjEyODcgMC4xOTg5IC0wLjEyODdjIDAuMjIyMyAwIDAuOTI0MyAwLjAzNTEgMS4xNDY2IDAuMDM1MWMgMC4yMjIzIDAgMC45NTk0IC0wLjAzNTEgMS4xODE3IC0wLjAzNTFjIDAuMTYzOCAwIDAuMjQ1NyAwLjA5MzYgMC4yNDU3IDAuMjgwOGMgMCAwLjExNyAtMC4xMTcgMC4xNzU1IC0wLjMzOTMgMC4xNzU1YyAtMC4yMTA2IDAgLTAuNTAzMSAtMC4wMTE3IC0wLjUwMzEgMC4xMjg3YyAwIDAuMDQ2OCAwLjAxMTcgMC4xMjg3IDAuMDQ2OCAwLjI0NTdsIDEuNTc5NSA2LjQzNWMgMCAwLjEwNTMgLTAuMDU4NSAwLjE2MzggLTAuMTYzOCAwLjE2MzhjIC0wLjIxMDYgMCAtMC42NTUyIC0wLjU4NSAtMC43NzIyIC0wLjc0ODhaIG0gLTAuMzc0NCAtMC4wNDY4YyAwLjEwNTMgLTAuMjQ1NyAwLjE2MzggLTAuNDA5NSAwLjE2MzggLTAuNTE0OGMgMCAtMC4wMTE3IC0wLjAxMTcgLTAuMDgxOSAtMC4wMzUxIC0wLjE4NzJsIC0wLjI4MDggLTEuMTM0OWMgLTAuMjIyMyAtMC44NDI0IC0wLjMyNzYgLTEuMjc1MyAtMC4zMzkzIC0xLjI5ODdjIC0wLjIyMjMgLTAuNDA5NSAtMC44NjU4IC0xLjA0MTMgLTEuNDI3NCAtMS4wNDEzYyAtMC40NTYzIDAgLTAuNjkwMyAwLjM1MSAtMC42OTAzIDEuMDQxM2MgMCAwLjUzODIgMC4zNjI3IDEuODQ4NiAwLjUyNjUgMi4yODE1YyAwLjIyMjMgMC41NDk5IDAuNzM3MSAxLjMxMDQgMS4zODA2IDEuMzEwNGMgMC4zMTU5IDAgMC41NDk5IC0wLjE1MjEgMC43MDIgLTAuNDU2M1ogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZzkxQ0U4RTIzOTVBNkVDRkJBNDQxNzcyOTIyMEEwREREIiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDYuNDkzNSA3Ljk5MTFoIC0zLjc0NGMgLTAuMjY5MSAwIC0wLjM5NzggLTAuMDExNyAtMC4zOTc4IC0wLjI2OTFjIDAgLTAuMTI4NyAwLjEyODcgLTAuMTg3MiAwLjM4NjEgLTAuMTg3MmMgMC4yMzQgMCAwLjcwMiAwLjAzNTEgMC43MDIgLTAuMTUyMWMgMCAtMC4wMjM0IC0wLjAxMTcgLTAuMDkzNiAtMC4wNDY4IC0wLjIxMDZsIC0xLjU0NDQgLTYuMjEyN2MgLTAuMDcwMiAtMC4yNTc0IC0wLjE4NzIgLTAuNDA5NSAtMC4zNTEgLTAuNDY4YyAtMC4wODE5IC0wLjAyMzQgLTAuMjkyNSAtMC4wMzUxIC0wLjY1NTIgLTAuMDM1MWMgLTAuMjU3NCAwIC0wLjM3NDQgLTAuMDIzNCAtMC4zNzQ0IC0wLjI2OTFjIDAgLTAuMTI4NyAwLjA3MDIgLTAuMTg3MiAwLjIyMjMgLTAuMTg3MmwgMS40NjI1IDAuMDM1MWwgMC43NDg4IC0wLjAxMTdjIDAuMTI4NyAwIDAuNTk2NyAtMC4wMjM0IDAuNzQ4OCAtMC4wMjM0YyAwLjE4NzIgMCAwLjI4MDggMC4wOTM2IDAuMjgwOCAwLjI4MDhjIDAgMC4xMTcgLTAuMTI4NyAwLjE3NTUgLTAuMzc0NCAwLjE3NTVjIC0wLjQ2OCAwIC0wLjcwMiAwLjA0NjggLTAuNzAyIDAuMTUyMWMgMCAwIDAuMDExNyAwLjAzNTEgMC4wMzUxIDAuMTg3MmwgMC43MDIgMi44NTQ4aCAxLjkzMDVjIDAuNzYwNSAwIDEuNDg1OSAwLjIzNCAyLjE2NDUgMC42OTAzYyAwLjc2MDUgMC41MDMxIDEuMTM0OSAxLjEyMzIgMS4xMzQ5IDEuODYwM2MgMCAxLjE1ODMgLTEuMDk5OCAxLjc5MDEgLTIuMzI4MyAxLjc5MDFaIG0gLTAuMzYyNyAtMC40NTYzYyAxLjAxNzkgMCAxLjUyMSAtMC4zNTEgMS41MjEgLTEuMDUzYyAwIC0wLjY1NTIgLTAuMzI3NiAtMS41MzI3IC0wLjY2NjkgLTEuODM2OWMgLTAuNDQ0NiAtMC4zOTc4IC0xLjAyOTYgLTAuNTk2NyAtMS43NTUgLTAuNTk2N2ggLTEuNTY3OGwgMC43NzIyIDMuMDg4OGMgMC4wOTM2IDAuMzk3OCAwLjA5MzYgMC4zOTc4IDAuNTg1IDAuMzk3OFogIi8+PC9zeW1ib2w+PC9kZWZzPjwvc3ZnPg==){width=100%}
 
@@ -72,27 +66,7 @@ Due to longstanding tradition, all toffees are made the same way, anyone could e
 
 ::::
 
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
+c\) Explain how fewer firms can each produce more while the market produces less in total.
 
  
 
@@ -101,18 +75,13 @@ Due to longstanding tradition, all toffees are made the same way, anyone could e
  
 
 <!--
-// GRAPH CODE: keep this note. It draws the blank axes above; delete it and they can't be redrawn.
-// Each image above is one page of this code, in order. To change a graph, edit it here and
-// run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
+// GRAPH CODE: keep this note. It draws the embedded graphs in order.
+// Run scripts/render-sols-figures on this file after editing the code.
 #import "/_Assets/sols.typ": *
 #set page(width: auto, height: auto, margin: 2pt)
 #set text(font: "New Computer Modern", size: 10pt)
 #fig-text.update(1.3)
-
-// 1: the toffee market, blank axes
 #graph(100, 100, w: 250pt, h: 190pt, xlabel: [$Q$], ylabel: [$P$])
 #pagebreak()
-
-// 2: one toffee maker, blank axes
 #graph(100, 100, w: 250pt, h: 190pt, xlabel: [$q$], ylabel: [$P$])
 -->
