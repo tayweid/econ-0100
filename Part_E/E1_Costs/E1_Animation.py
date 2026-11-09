@@ -57,7 +57,7 @@ class EpisodeE1(Scene):
         PAN = RIGHT_ORIGIN[0] - LEFT_ORIGIN[0]
         DIVIDER_X = -0.55                      # grey divider right of the cost graph's curve words (3.d, 3.e)
         STEP_GAP, STEP_OFFSET, STEP_WIDTH = 0.04, 0.14, 3  # scene units; slim interval marks outside the axes
-        MAX_BARS, BAR_OUTLINE = 20, 1.0         # B2 polygons: adjoining edges, colored outline, 35% fill
+        MAX_BARS, BAR_OUTLINE = 60, 1.0         # B2 polygons: adjoining edges, colored outline, 35% fill
         # Taxonomy grid, E4's object: a label column and two cell columns; a header row and three seller rows.
         LABEL_W, CELL_W, HEADER_H, CELL_H, TAXONOMY_X = 2.9, 3.3, 0.8, 1.25, 0.4
         BOX_BUFF = 0.12                          # keep each selection clear of the table rules
@@ -75,7 +75,8 @@ class EpisodeE1(Scene):
         avc = lambda Q: COST_ALPHA * Q
         atc = lambda Q: avc(Q) + FIXED / Q
         MIN_Q = np.sqrt(FIXED / COST_ALPHA)
-        TOTAL_MAX, AVERAGE_MAX = 12000, 1.2 * mc(100)
+        COST_Q_MAX, COST_X_MAX = 60, 70
+        TOTAL_MAX, AVERAGE_MAX = 5000, 1.2 * mc(COST_Q_MAX)
         AVERAGE_TOP = 0.875 * AVERAGE_MAX
         ATC_START = (AVERAGE_TOP - np.sqrt(AVERAGE_TOP**2 - 4*COST_ALPHA*FIXED)) / (2*COST_ALPHA)
         AFC_START = FIXED / AVERAGE_TOP
@@ -114,10 +115,12 @@ class EpisodeE1(Scene):
         supply_ax = style_axes([0, 10, 1], [0, 10, 1], x_length=3.6, y_length=3.6)
         supply_ax.shift(np.array([1.0, BODY_MID - 1.8, 0]) - supply_ax.c2p(0, 0))
         supply_words = VGroup(
-            Tex('P', color=INK).scale(0.8).next_to(supply_ax.c2p(0, 10), LEFT, buff=0.23),
+            Tex('P', color=INK).scale(0.8).next_to(supply_ax.c2p(0, 10), LEFT, buff=0.25),
             Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55).next_to(supply_ax.c2p(0, 10), RIGHT, buff=0.22),
-            Tex('Q', color=INK).scale(0.8).next_to(supply_ax.c2p(10, 0), DOWN, buff=0.23),
+            Tex('Q', color=INK).scale(0.8).next_to(supply_ax.c2p(10, 0), DOWN, buff=0.35),
             Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(supply_ax.c2p(10, 0), DOWN, buff=0.73))
+        supply_words[1].next_to(supply_words[0], RIGHT, buff=0.35)
+        supply_words[3].next_to(supply_words[2], RIGHT, buff=0.3)
         supply_line = Line(supply_ax.c2p(0, 2), supply_ax.c2p(10, 8), color=SUPPLY, stroke_width=CURVE_WIDTH)
         supply_word = Tex('S / MC', color=INK).scale(CURVE_WORD_SCALE).next_to(supply_ax.c2p(10, 8), RIGHT, buff=0.15)
         note = teaching('What are the incentives that give rise to the supply curve?')
@@ -190,10 +193,12 @@ class EpisodeE1(Scene):
         f_ax = style_axes([0, 100, 10], [0, 100, 10], x_length=GRAPH_SIZE, y_length=GRAPH_SIZE)
         f_ax.shift(LEFT_ORIGIN - f_ax.c2p(0, 0))
         f_words = VGroup(
-            Tex('Q', color=INK).scale(0.8).next_to(f_ax.c2p(0, 100), LEFT, buff=0.23),
+            Tex('Q', color=INK).scale(0.8).next_to(f_ax.c2p(0, 100), LEFT, buff=0.25),
             Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(f_ax.c2p(0, 100), RIGHT, buff=0.22).shift(UP * 0.30),
-            Tex('L', color=INK).scale(0.8).next_to(f_ax.c2p(100, 0), DOWN, buff=0.23),
+            Tex('L', color=INK).scale(0.8).next_to(f_ax.c2p(100, 0), DOWN, buff=0.35),
             Tex(r'\textsf{worker hours}', color=CAPTION).scale(0.55).next_to(f_ax.c2p(100, 0), DOWN, buff=0.73))
+        f_words[1].next_to(f_words[0], RIGHT, buff=0.35)
+        f_words[3].next_to(f_words[2], RIGHT, buff=0.3)
         # Sampled densely near zero, where the square root is steep; redrawn from shape every frame.
         f_curve = polyline([f_ax.c2p(100 * t ** 2, output(100 * t ** 2)) for t in np.linspace(0, 1, 121)], F_COLOR, CURVE_WIDTH)
         f_curve.add_updater(lambda m: m.set_points_as_corners(
@@ -314,206 +319,204 @@ class EpisodeE1(Scene):
         self.play(FadeOut(capital), FadeIn(note))
         self.pause('2.i')
 
-        # ---- 2.j · Five touching one-unit rectangles, as in B2's cost slices, viewed close up.
-        # Each upper-right corner lies on F. At wider scales a band groups adjacent units (never more than 20).
+        # ---- 2.j · Keep the production scale. Start the cost graph with the first unit's fixed-cost base.
         step_marks = VGroup(*labor_marks, double_up, double_dot, double_across, double_work, double_made,
                             triple_up, triple_dot, triple_across, triple_work, triple_made, input_braces, output_braces,
                             input_differences, output_differences)
-        q_span, shown = ValueTracker(100), ValueTracker(0)
-        zp = lambda L, Q: f_ax.c2p(100 * L / labor_for(q_span.get_value()), 100 * Q / q_span.get_value())
-        band_step = lambda: max(1, q_span.get_value() / MAX_BARS)
-        band_low = lambda i: min(i * band_step(), q_span.get_value())
-        band_high = lambda i: min((i+1) * band_step(), q_span.get_value())
-        band_visible = lambda i: band_high(i) <= shown.get_value() + 1e-6 and band_low(i) < q_span.get_value()
-        zoom_curve = f_curve
-        zoom_curve.clear_updaters()  # the normalized power function has the same shape at each scale
-        zoom_curve.set_z_index(GUIDE_LAYER)
-        hour_bars = VGroup()
-        for i in range(MAX_BARS):
-            bar = Polygon(ORIGIN, RIGHT, UR, UP, color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
-            bar.add_updater(lambda m, i=i: m.set_points_as_corners([
-                zp(0, band_low(i)), zp(labor_for(band_high(i)), band_low(i)),
-                zp(labor_for(band_high(i)), band_high(i)), zp(0, band_high(i)), zp(0, band_low(i))])
-                .set_stroke(VC_COLOR, BAR_OUTLINE, opacity=float(band_visible(i)))
-                .set_fill(VC_COLOR, AREA_OPACITY if band_visible(i) else 0))
-            hour_bars.add(bar)
-        current_quantity = lambda: max(min(shown.get_value(), q_span.get_value()), 0.01)
-        newest_dot = Dot(zp(labor_for(0.01), 0.01), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
-        newest_dot.add_updater(lambda m: m.move_to(zp(labor_for(current_quantity()), current_quantity())))
-        newest_quantity = DecimalNumber(0, num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
-        newest_quantity.add_updater(lambda m: m.set_value(round(current_quantity(), 4)).next_to(newest_dot, RIGHT, buff=0.15))
-        newest_labor = DecimalNumber(0, num_decimal_places=2, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
-        newest_labor.add_updater(lambda m: m.set_value(round(labor_for(current_quantity()), 4))
-            .move_to(zp(labor_for(current_quantity()), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        # Reuse dash segments. become(DashedLine(...)) can hang while aligning an almost-zero guide.
-        newest_down_length = lambda: GRAPH_SIZE * current_quantity() / q_span.get_value()
-        newest_across_length = lambda: GRAPH_SIZE * labor_for(current_quantity()) / labor_for(q_span.get_value())
-        newest_down = VGroup(*[Line(ORIGIN, UP, color=GUIDE, stroke_width=GUIDE_WIDTH)
-            for _ in range(int(np.ceil(GRAPH_SIZE / 0.1)))])
-        newest_down.add_updater(lambda group: [dash.set_points_as_corners([
-            zp(labor_for(current_quantity()), 0) + UP * min(i*0.1, newest_down_length()),
-            zp(labor_for(current_quantity()), 0) + UP * min(i*0.1+0.05, newest_down_length())])
-            .set_opacity(float(i*0.1 < newest_down_length())) for i, dash in enumerate(group)])
-        newest_across = VGroup(*[Line(ORIGIN, RIGHT, color=GUIDE, stroke_width=GUIDE_WIDTH)
-            for _ in range(int(np.ceil(GRAPH_SIZE / 0.1)))])
-        newest_across.add_updater(lambda group: [dash.set_points_as_corners([
-            zp(0, current_quantity()) + RIGHT * min(i*0.1, newest_across_length()),
-            zp(0, current_quantity()) + RIGHT * min(i*0.1+0.05, newest_across_length())])
-            .set_opacity(float(i*0.1 < newest_across_length())) for i, dash in enumerate(group)])
-        newest_marks = VGroup(newest_down, newest_across, newest_dot, newest_quantity, newest_labor).set_z_index(DOT_LAYER)
+        f_curve.clear_updaters()
+        f_curve.set_z_index(GUIDE_LAYER)
+        BUILD_UNITS, BUILD_X_MAX, BUILD_COST_MAX = COST_Q_MAX, COST_X_MAX, TOTAL_MAX
+        shown = ValueTracker(1)
+        cost_x_span, cost_y_span = ValueTracker(1.2), ValueTracker(1200)
+        vc_reveal = ValueTracker(0)
+        cost_ax = style_axes([0, COST_X_MAX, 10], [0, TOTAL_MAX, 1000], x_length=GRAPH_SIZE, y_length=GRAPH_SIZE)
+        cost_ax.shift(RIGHT_ORIGIN - cost_ax.c2p(0, 0))
+        cp = lambda Q, C: cost_ax.c2p(COST_X_MAX*Q/cost_x_span.get_value(), TOTAL_MAX*C/cost_y_span.get_value())
+        cost_words = VGroup(
+            Tex(r'\$', color=INK).scale(0.8).next_to(cost_ax.c2p(0, TOTAL_MAX), LEFT, buff=0.25),
+            Tex(r'\textsf{dollars}', color=CAPTION).scale(0.55).next_to(cost_ax.c2p(0, TOTAL_MAX), RIGHT, buff=0.22),
+            Tex('Q', color=INK).scale(0.8).next_to(cost_ax.c2p(COST_X_MAX, 0), DOWN, buff=0.35),
+            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(cost_ax.c2p(COST_X_MAX, 0), DOWN, buff=0.73))
+        cost_words[1].next_to(cost_words[0], RIGHT, buff=0.35)
+        cost_words[3].next_to(cost_words[2], RIGHT, buff=0.3)
+        stored_wage = subtitle(head, rf'Wage: \${WAGE} per hour', book=True)
+        first_heading = Tex('First unit', color=CAPTION).scale(0.65).move_to([3.9, 2.5, 0])
+        hour_bars = VGroup(*[Polygon(f_ax.c2p(0, Q-1), f_ax.c2p(labor_for(Q), Q-1),
+            f_ax.c2p(labor_for(Q), Q), f_ax.c2p(0, Q),
+            color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
+            for Q in range(1, BUILD_UNITS+1)])
+        fixed_bars, cost_bars = VGroup(), VGroup()
+        for Q in range(1, BUILD_UNITS+1):
+            fixed = Polygon(ORIGIN, RIGHT, UR, UP, color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
+            fixed.add_updater(lambda m, Q=Q: m.set_points_as_corners([
+                cp(Q-1, 0), cp(Q, 0), cp(Q, FIXED), cp(Q-1, FIXED), cp(Q-1, 0)])
+                .set_stroke(FC_COLOR, BAR_OUTLINE, opacity=float(Q <= shown.get_value()+1e-6))
+                .set_fill(FC_COLOR, AREA_OPACITY if Q <= shown.get_value()+1e-6 else 0))
+            costs = Polygon(ORIGIN, RIGHT, UR, UP, color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
+            costs.add_updater(lambda m, Q=Q: m.set_points_as_corners([
+                cp(Q-1, FIXED), cp(Q, FIXED), cp(Q, total(Q)), cp(Q-1, total(Q)), cp(Q-1, FIXED)])
+                .set_stroke(VC_COLOR, BAR_OUTLINE, opacity=vc_reveal.get_value()*float(Q <= shown.get_value()+1e-6))
+                .set_fill(VC_COLOR, AREA_OPACITY*vc_reveal.get_value() if Q <= shown.get_value()+1e-6 else 0))
+            fixed_bars.add(fixed)
+            cost_bars.add(costs)
+        fc_line = Line(cp(0, FIXED), cp(cost_x_span.get_value(), FIXED), color=FC_COLOR, stroke_width=CURVE_WIDTH).set_z_index(GUIDE_LAYER)
+        fc_line.add_updater(lambda m: m.put_start_and_end_on(cp(0, FIXED), cp(cost_x_span.get_value(), FIXED)))
+        fc_word = Tex('FC', color=INK).scale(CURVE_WORD_SCALE)
+        fc_word.add_updater(lambda m: m.next_to(cp(cost_x_span.get_value(), FIXED), RIGHT, buff=0.15))
+        fc_number = Tex('1,000', color=CAPTION).scale(READOUT_SCALE)
+        fc_number.add_updater(lambda m: m.next_to(cp(0, FIXED), LEFT, buff=0.2))
+        first_fixed = Tex(r'FC: \$1,000', color=CAPTION).scale(0.62).next_to(cp(1, FIXED/2), RIGHT, buff=0.15)
+        first_variable = Tex(r'VC: \$1', color=VC_COLOR).scale(0.62).next_to(cp(1, total(1)), RIGHT, buff=0.15).shift(UP*0.25)
+
+        # One quantity drives both graphs. Fixed dash pools remain safe at tiny labor quantities.
+        trace_labor = lambda: labor_for(shown.get_value())
+        production_point = lambda: f_ax.c2p(trace_labor(), shown.get_value())
+        cost_point = lambda: cp(shown.get_value(), total(shown.get_value()))
+        trace_dot = Dot(production_point(), radius=DOT_RADIUS, color=GUIDE)
+        trace_dot.add_updater(lambda m: m.move_to(production_point()))
+        trace_output = DecimalNumber(1, num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
+        trace_output.add_updater(lambda m: m.set_value(round(shown.get_value(), 4))
+            .next_to(f_ax.c2p(0, shown.get_value()), LEFT, buff=0.2))
+        trace_hours = DecimalNumber(0.01, num_decimal_places=2, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        trace_hours.add_updater(lambda m: m.set_value(round(trace_labor(), 4))
+            .move_to(f_ax.c2p(trace_labor(), 0)+DOWN*QUANTITY_NUMBER_OFFSET))
+        cost_dot = Dot(cost_point(), radius=DOT_RADIUS, color=GUIDE)
+        cost_dot.add_updater(lambda m: m.move_to(cost_point()))
+        trace_quantity = DecimalNumber(1, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        trace_quantity.add_updater(lambda m: m.set_value(round(shown.get_value(), 4))
+            .move_to(cp(shown.get_value(), 0)+DOWN*QUANTITY_NUMBER_OFFSET))
+        trace_total = DecimalNumber(total(1), num_decimal_places=0, group_with_commas=True, color=GUIDE).scale(READOUT_SCALE)
+        trace_total.add_updater(lambda m: m.set_value(round(total(shown.get_value()), 4))
+            .next_to(cp(0, total(shown.get_value())), LEFT, buff=0.2)
+            .shift(UP*max(0, 0.35-(cp(0, total(shown.get_value()))[1]-cp(0, FIXED)[1]))))
+        trace_guides = []
+        for start, length, direction in (
+            (lambda: f_ax.c2p(0, shown.get_value()), lambda: GRAPH_SIZE*trace_labor()/100, RIGHT),
+            (lambda: f_ax.c2p(trace_labor(), 0), lambda: GRAPH_SIZE*shown.get_value()/100, UP),
+            (lambda: cp(0, total(shown.get_value())), lambda: GRAPH_SIZE*shown.get_value()/cost_x_span.get_value(), RIGHT),
+            (lambda: cp(shown.get_value(), 0), lambda: GRAPH_SIZE*total(shown.get_value())/cost_y_span.get_value(), UP)):
+            guide = VGroup(*[Line(ORIGIN, direction, color=GUIDE, stroke_width=GUIDE_WIDTH)
+                for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+            guide.add_updater(lambda group, start=start, length=length, direction=direction: [dash.set_points_as_corners([
+                start()+direction*min(i*0.1, length()), start()+direction*min(i*0.1+0.05, length())])
+                .set_opacity(float(i*0.1 < length())) for i, dash in enumerate(group)])
+            trace_guides.append(guide)
+        production_marks = VGroup(*trace_guides[:2], trace_dot, trace_output, trace_hours).set_z_index(DOT_LAYER)
+        cost_marks = VGroup(*trace_guides[2:], cost_dot, trace_quantity, trace_total).set_z_index(DOT_LAYER)
+        for group in (fixed_bars, cost_bars, production_marks, cost_marks, fc_line, fc_word, fc_number):
+            group.update()
         self.remove(note)
-        note = teaching('Start small: how much labor does each output level require?')
-        self.play(FadeOut(step_marks), FadeIn(note), run_time=0.5)
-        q_span.set_value(6)
-        hour_bars.update()
-        self.add(hour_bars)
-        newest_marks.update()
-        self.play(FadeIn(newest_marks), run_time=0.4)
-        self.play(shown.animate.set_value(5), run_time=3.5, rate_func=smooth)
+        note = teaching(r'Even the first unit includes \$1,000 in fixed cost.')
+        self.play(FadeOut(step_marks), FadeOut(wage_equation), FadeOut(production_subtitle),
+                  FadeIn(stored_wage), FadeIn(cost_ax), FadeIn(cost_words), FadeIn(first_heading), FadeIn(note), run_time=0.7)
+        self.add(fixed_bars, cost_bars, hour_bars[0])
+        self.play(FadeIn(production_marks), FadeIn(first_fixed), FadeIn(fc_number), Create(fc_line), run_time=0.7)
         self.pause('2.j')
 
-        # ---- 2.k · Expand the window. Geometry updates in place; only 20 bands are ever allocated.
-        self.remove(note)
-        note = teaching('Each additional unit takes more hours than the last.')
-        self.play(FadeOut(f_word), FadeIn(note), run_time=0.4)
-        self.play(q_span.animate.set_value(100), run_time=2, rate_func=smooth)
-        self.play(shown.animate.set_value(100), run_time=SWEEP_TIME, rate_func=smooth)
-        self.play(FadeOut(newest_marks), FadeIn(f_word), run_time=0.4)
-        newest_marks.clear_updaters(recurse=True)
-        self.pause('2.k')
-
-        # ---- 2.l · Return to the first five units to map hours into costs. The only stored text is the wage.
-        cost_ax = style_axes([0, 100, 10], [0, TOTAL_MAX, 1000], x_length=GRAPH_SIZE, y_length=GRAPH_SIZE)
-        cost_ax.shift(RIGHT_ORIGIN - cost_ax.c2p(0, 0))
-        cost_words = VGroup(
-            Tex(r'\$', color=INK).scale(0.8).next_to(cost_ax.c2p(0, TOTAL_MAX), LEFT, buff=0.23),
-            Tex(r'\textsf{dollars}', color=CAPTION).scale(0.55).next_to(cost_ax.c2p(0, TOTAL_MAX), RIGHT, buff=0.22),
-            Tex('Q', color=INK).scale(0.8).next_to(cost_ax.c2p(100, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(cost_ax.c2p(100, 0), DOWN, buff=0.73))
-        stored_wage = subtitle(head, rf'Wage: \${WAGE} per hour', book=True)
-        self.remove(note)
-        note = teaching(f'The same labor hours become variable cost at ${WAGE} per hour.'.replace('$', r'\$'))
-        self.play(FadeOut(wage_equation), FadeOut(production_subtitle), FadeIn(stored_wage), FadeIn(note), run_time=0.6)
-        self.play(q_span.animate.set_value(6), shown.animate.set_value(5), run_time=2, rate_func=smooth)
-        shown.set_value(5)
-        hour_bars.update()
-        for bar in hour_bars:
-            bar.clear_updaters()
-        hour_bars.set_stroke(MUTED, 1, opacity=0.35).set_fill(MUTED, 0.10)
-        for bar in hour_bars[5:]:
-            bar.set_opacity(0)
-        self.play(FadeIn(cost_ax), FadeIn(cost_words), run_time=0.6)
-        self.pause('2.l')
-
-        # ---- 2.m · Include the grey fixed-cost base from the first unit. The vertical scale follows the output window.
-        # No algebra row: just matching red output, hours, and total-cost readouts with dashed guides.
-        fixed_amount = ValueTracker(FIXED)
-        cost_span = lambda: min(TOTAL_MAX, max(1.2*FIXED, 1.1*total(q_span.get_value())))
-        cp = lambda Q, C: cost_ax.c2p(100 * Q / q_span.get_value(), TOTAL_MAX * C / cost_span())
-        cost_bars, mapped_hours, fixed_bars = VGroup(), VGroup(), VGroup()
-        for Q in range(1, 6):
-            mapped_hours.add(Polygon(zp(0, Q-1), zp(labor_for(Q), Q-1), zp(labor_for(Q), Q), zp(0, Q),
-                color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY))
-            fixed_bars.add(Polygon(cp(Q-1, 0), cp(Q, 0), cp(Q, FIXED), cp(Q-1, FIXED),
-                color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY))
-            cost_bars.add(Polygon(cp(Q-1, FIXED), cp(Q, FIXED), cp(Q, total(Q)), cp(Q-1, total(Q)),
-                color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY))
-        unit_marks = VGroup(
-            Tex('1', color=GUIDE).scale(READOUT_SCALE).next_to(zp(0, 1), LEFT, buff=0.2),
-            DashedLine(zp(labor_for(1), 1), zp(labor_for(1), 0), color=GUIDE, stroke_width=GUIDE_WIDTH),
-            Tex('0.01', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(zp(labor_for(1), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        cost_marks = VGroup(
-            Tex('1', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(cp(1, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-            DashedLine(cp(1, total(1)), cp(0, total(1)), color=GUIDE, stroke_width=GUIDE_WIDTH),
-            Tex(f'{total(1):,.0f}', color=GUIDE).scale(READOUT_SCALE).next_to(cp(0, total(1)), LEFT, buff=0.2))
-        unit_marks.set_z_index(DOT_LAYER)
-        cost_marks.set_z_index(DOT_LAYER)
+        # ---- 2.k · The first unit's labor becomes its variable-cost cap; keep the numerical sum explicit.
         self.remove(note)
         note = teaching(r'One unit: \$1 in labor cost, plus \$1,000 in fixed cost.')
-        self.play(FadeIn(mapped_hours[0]), FadeIn(unit_marks), FadeIn(note), run_time=0.6)
-        self.play(FadeIn(fixed_bars[0]), TransformFromCopy(mapped_hours[0], cost_bars[0]), FadeIn(cost_marks), run_time=1.0)
+        self.play(vc_reveal.animate.set_value(1), TransformFromCopy(trace_hours, first_variable),
+                  FadeIn(cost_marks), FadeIn(note), run_time=1.0, rate_func=smooth)
+        self.pause('2.k')
+
+        # ---- 2.l · Settle the cost scale once. The production graph never changes scale.
+        self.play(FadeOut(first_heading), FadeOut(first_fixed), FadeOut(first_variable), run_time=0.4)
+        self.remove(note)
+        note = teaching('Now follow the same output quantities: 20, 40, and 60.')
+        self.play(cost_x_span.animate.set_value(BUILD_X_MAX), cost_y_span.animate.set_value(BUILD_COST_MAX),
+                  FadeIn(note), run_time=1.8, rate_func=smooth)
+        self.play(FadeIn(fc_word), run_time=0.4)
+        self.pause('2.l')
+
+        # Freeze the mapping before adding units. Each completed bar stays at its own quantity.
+        for group in (fixed_bars, cost_bars):
+            group.update()
+            group.clear_updaters(recurse=True)
+        self.remove(fixed_bars, cost_bars)
+        self.add(fixed_bars[0], cost_bars[0])
+        for bar in fixed_bars:
+            bar.set_stroke(FC_COLOR, BAR_OUTLINE, opacity=1).set_fill(FC_COLOR, AREA_OPACITY)
+        for bar in cost_bars:
+            bar.set_stroke(VC_COLOR, BAR_OUTLINE, opacity=1).set_fill(VC_COLOR, AREA_OPACITY)
+
+        # ---- 2.l.five · Finish the first five units individually before continuing the same transfer.
+        self.remove(note)
+        note = teaching('Labor hours become variable cost at the same wage.')
+        self.play(FadeIn(note))
+        for Q in range(2, 6):
+            self.play(shown.animate.set_value(Q), FadeIn(hour_bars[Q-1]),
+                      hour_bars[Q-2].animate.set_stroke(MUTED, opacity=0.35).set_fill(MUTED, 0.10),
+                      run_time=0.45, rate_func=smooth)
+            self.play(FadeIn(fixed_bars[Q-1]), TransformFromCopy(hour_bars[Q-1], cost_bars[Q-1]),
+                      run_time=0.65, rate_func=smooth)
+        self.pause('2.l.five')
+
+        # ---- 2.m · Transfer every unit, not a handful of representative bars. Both scales stay fixed.
+        for Q in range(6, 21):
+            self.play(shown.animate.set_value(Q), FadeIn(hour_bars[Q-1]),
+                      hour_bars[Q-2].animate.set_stroke(MUTED, opacity=0.35).set_fill(MUTED, 0.10),
+                      run_time=0.2, rate_func=smooth)
+            self.play(FadeIn(fixed_bars[Q-1]), TransformFromCopy(hour_bars[Q-1], cost_bars[Q-1]),
+                      run_time=0.3, rate_func=smooth)
+        self.remove(note)
+        note = teaching(r'20 units need 4 labor hours: \$400 in variable cost.')
+        self.play(FadeIn(note))
         self.pause('2.m')
 
-        # ---- 2.n · Add unit 2 beside unit 1; both outlined rectangles remain on both graphs.
-        second_units = VGroup(
-            Tex('2', color=GUIDE).scale(READOUT_SCALE).next_to(zp(0, 2), LEFT, buff=0.2),
-            DashedLine(zp(labor_for(2), 2), zp(labor_for(2), 0), color=GUIDE, stroke_width=GUIDE_WIDTH),
-            Tex('0.04', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(zp(labor_for(2), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        second_costs = VGroup(
-            Tex('2', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(cp(2, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-            DashedLine(cp(2, total(2)), cp(0, total(2)), color=GUIDE, stroke_width=GUIDE_WIDTH),
-            Tex(f'{total(2):,.0f}', color=GUIDE).scale(READOUT_SCALE).next_to(cp(0, total(2)), LEFT, buff=0.2))
+        # ---- 2.n · Continue unit by unit to the second familiar output level.
         self.remove(note)
-        note = teaching(r'Two units: \$4 in labor cost, plus \$1,000 in fixed cost.')
-        self.play(FadeIn(mapped_hours[1]), Transform(unit_marks, second_units), FadeIn(note), run_time=0.6)
-        self.play(FadeIn(fixed_bars[1]), TransformFromCopy(mapped_hours[1], cost_bars[1]), Transform(cost_marks, second_costs), run_time=1.0)
+        note = teaching('Each additional unit requires more labor than the one before.')
+        self.play(FadeIn(note))
+        for Q in range(21, 41):
+            self.play(shown.animate.set_value(Q), FadeIn(hour_bars[Q-1]),
+                      hour_bars[Q-2].animate.set_stroke(MUTED, opacity=0.35).set_fill(MUTED, 0.10),
+                      run_time=0.2, rate_func=smooth)
+            self.play(FadeIn(fixed_bars[Q-1]), TransformFromCopy(hour_bars[Q-1], cost_bars[Q-1]),
+                      run_time=0.3, rate_func=smooth)
+        self.remove(note)
+        note = teaching(r'The next 20 units need 12 more hours: \$1,200 more cost.')
+        self.play(FadeIn(note))
         self.pause('2.n')
 
-        # ---- 2.o · Finish the five units before opening the view to 100; larger bands group five units each.
+        # ---- 2.o · Sixty adjoining one-unit bars, with no zoom or regrouping during the buildup.
         self.remove(note)
-        note = teaching('More output needs more labor, so variable cost rises.')
-        self.play(FadeOut(unit_marks), FadeOut(cost_marks), FadeIn(note), run_time=0.4)
-        for Q in range(3, 6):
-            self.play(FadeIn(mapped_hours[Q-1]), run_time=0.25)
-            self.play(FadeIn(fixed_bars[Q-1]), TransformFromCopy(mapped_hours[Q-1], cost_bars[Q-1]), run_time=0.45)
-        self.wait(0.5)
-        self.remove(hour_bars, mapped_hours, cost_bars, fixed_bars)
-        shown.set_value(5)
-        # Allocate a fixed pool once; update points rather than rebuilding bars or TeX on every frame.
-        hour_bars, cost_bars, fixed_bars = VGroup(), VGroup(), VGroup()
-        for i in range(MAX_BARS):
-            hours = Polygon(ORIGIN, RIGHT, UR, UP, color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
-            hours.add_updater(lambda m, i=i: m.set_points_as_corners([
-                zp(0, band_low(i)), zp(labor_for(band_high(i)), band_low(i)),
-                zp(labor_for(band_high(i)), band_high(i)), zp(0, band_high(i)), zp(0, band_low(i))])
-                .set_stroke(VC_COLOR, BAR_OUTLINE, opacity=float(band_visible(i)))
-                .set_fill(VC_COLOR, AREA_OPACITY if band_visible(i) else 0))
-            costs = Polygon(ORIGIN, RIGHT, UR, UP, color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
-            costs.add_updater(lambda m, i=i: m.set_points_as_corners([
-                cp(band_low(i), fixed_amount.get_value()), cp(band_high(i), fixed_amount.get_value()),
-                cp(band_high(i), fixed_amount.get_value()+variable(band_high(i))),
-                cp(band_low(i), fixed_amount.get_value()+variable(band_high(i))), cp(band_low(i), fixed_amount.get_value())])
-                .set_stroke(VC_COLOR, BAR_OUTLINE, opacity=float(band_visible(i)))
-                .set_fill(VC_COLOR, AREA_OPACITY if band_visible(i) else 0))
-            fixed = Polygon(ORIGIN, RIGHT, UR, UP, color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
-            fixed.add_updater(lambda m, i=i: m.set_points_as_corners([
-                cp(band_low(i), 0), cp(band_high(i), 0), cp(band_high(i), fixed_amount.get_value()),
-                cp(band_low(i), fixed_amount.get_value()), cp(band_low(i), 0)])
-                .set_stroke(FC_COLOR, BAR_OUTLINE, opacity=float(band_visible(i)))
-                .set_fill(FC_COLOR, AREA_OPACITY if band_visible(i) else 0))
-            hour_bars.add(hours)
-            cost_bars.add(costs)
-            fixed_bars.add(fixed)
+        note = teaching('More labor for the next unit means a higher cost of producing it.')
+        self.play(FadeIn(note))
+        for Q in range(41, BUILD_UNITS+1):
+            self.play(shown.animate.set_value(Q), FadeIn(hour_bars[Q-1]),
+                      hour_bars[Q-2].animate.set_stroke(MUTED, opacity=0.35).set_fill(MUTED, 0.10),
+                      run_time=0.2, rate_func=smooth)
+            self.play(FadeIn(fixed_bars[Q-1]), TransformFromCopy(hour_bars[Q-1], cost_bars[Q-1]),
+                      run_time=0.3, rate_func=smooth)
+        for group in (production_marks, cost_marks, fc_line, fc_word, fc_number):
+            group.update()
+            group.clear_updaters(recurse=True)
         self.add(hour_bars, fixed_bars, cost_bars)
-        self.play(q_span.animate.set_value(100), shown.animate.set_value(100), run_time=3, rate_func=smooth)
-        for bar in hour_bars:
-            bar.clear_updaters()
+        self.remove(note)
+        note = teaching(r'The next 20 units need 20 more hours: \$2,000 more cost.')
+        self.play(FadeIn(note))
         self.pause('2.o')
 
-        # ---- 2.p · Every bar already includes FC. Draw both cost curves in the settled frame, with no extra rescale.
+        # ---- 2.p · Draw TC along the settled bar tops. FC has been present since the first unit.
         self.remove(note)
-        note = teaching('Total cost includes fixed cost and variable cost.')
-        for bar in (*cost_bars, *fixed_bars):
-            bar.clear_updaters()
-        tc_curve = polyline([cost_ax.c2p(q, total(q)) for q in np.linspace(0, 100, 121)], TC_COLOR, CURVE_WIDTH).set_z_index(DOT_LAYER)
-        tc_word = Tex('TC', color=INK).scale(CURVE_WORD_SCALE).next_to(cost_ax.c2p(100, total(100)), RIGHT, buff=0.15)
-        fc_line = Line(cost_ax.c2p(0, FIXED), cost_ax.c2p(100, FIXED), color=FC_COLOR, stroke_width=CURVE_WIDTH).set_z_index(GUIDE_LAYER)
-        fc_word = Tex('FC', color=INK).scale(CURVE_WORD_SCALE).next_to(cost_ax.c2p(100, FIXED), RIGHT, buff=0.15)
-        self.play(Create(tc_curve), FadeIn(tc_word), Create(fc_line), FadeIn(fc_word), FadeIn(note), run_time=1.5)
+        note = teaching('More labor for each additional unit means increasing marginal cost.')
+        tc_curve = polyline([cp(q, total(q)) for q in np.linspace(0, BUILD_UNITS, 121)], TC_COLOR, CURVE_WIDTH).set_z_index(DOT_LAYER)
+        tc_word = Tex('TC', color=INK).scale(CURVE_WORD_SCALE).next_to(cp(BUILD_UNITS, total(BUILD_UNITS)), RIGHT, buff=0.15)
+        self.play(FadeOut(production_marks), FadeOut(cost_marks), FadeIn(note), run_time=0.5)
+        self.play(Create(tc_curve), FadeIn(tc_word), run_time=1.5)
         self.pause('2.p')
 
-        # ---- 3.a · Keep the pan; fade and translate the bars during the same movement. TC and FC travel together.
-        zoom_curve.clear_updaters()
-        f_curve = zoom_curve
-        self.remove(*[m for m in self.mobjects if isinstance(m, ValueTracker)])
+        # ---- 3.a · A translation only: preserve the scale, curve, FC height, and all sixty cost bars.
         self.remove(head, stored_wage, note)
         head = title('Cost Curves')
-        production = VGroup(f_ax, f_words, f_curve, f_word)
-        costs = VGroup(cost_ax, cost_words, tc_curve, tc_word, fc_line, fc_word)
-        self.play(FadeIn(head), production.animate.shift(LEFT * PAN), costs.animate.shift(LEFT * PAN),
-                  FadeOut(hour_bars, shift=LEFT * PAN), FadeOut(cost_bars, shift=LEFT * PAN), FadeOut(fixed_bars, shift=LEFT * PAN),
+        production = VGroup(f_ax, f_words, f_curve, f_word, hour_bars)
+        costs = VGroup(cost_ax, cost_words, tc_curve, tc_word, fc_line, fc_word, fc_number)
+        self.play(FadeIn(head), production.animate.shift(LEFT*PAN), costs.animate.shift(LEFT*PAN),
+                  cost_bars.animate.shift(LEFT*PAN).set_stroke(MUTED, opacity=0.25).set_fill(MUTED, 0.08),
+                  fixed_bars.animate.shift(LEFT*PAN).set_stroke(MUTED, opacity=0.25).set_fill(MUTED, 0.08),
                   run_time=2, rate_func=smooth)
-        self.remove(production)
+        self.remove(production, *[m for m in self.mobjects if isinstance(m, ValueTracker)])
         self.pause('3.a')
 
         # ---- 3.b · FC is already present; only its teaching line enters.
@@ -522,21 +525,22 @@ class EpisodeE1(Scene):
         self.pause('3.b')
 
         # ---- 3.c · Stationary cost bands; only the active highlight switches while the dot and guides move.
-        rest_cost_bars = VGroup(*[Polygon(cost_ax.c2p(q-5, 0), cost_ax.c2p(q, 0),
-            cost_ax.c2p(q, total(q)), cost_ax.c2p(q-5, total(q)),
-            color=MUTED, stroke_width=1, stroke_opacity=0.35, fill_color=MUTED, fill_opacity=0.10)
-            for q in range(5, 101, 5)])
-        bar_q = ValueTracker(70)
-        selected_bar = lambda: max(0, min(MAX_BARS-1, int(np.ceil(bar_q.get_value()/5))-1))
+        rest_cost_bars = VGroup(*[Polygon(cost_ax.c2p(q-1, 0), cost_ax.c2p(q, 0),
+            cost_ax.c2p(q, total(q)), cost_ax.c2p(q-1, total(q)),
+            color=MUTED, stroke_width=1, stroke_opacity=0.25, fill_color=MUTED, fill_opacity=0.08)
+            for q in range(1, MAX_BARS+1)])
+        self.remove(cost_bars, fixed_bars)
+        bar_q = ValueTracker(50)
+        selected_bar = lambda: max(0, min(MAX_BARS-1, int(np.ceil(bar_q.get_value()))-1))
         bar_fixed, bar_variable = VGroup(), VGroup()
-        for i, right in enumerate(range(5, 101, 5)):
-            fixed = Polygon(cost_ax.c2p(right-5, 0), cost_ax.c2p(right, 0),
-                cost_ax.c2p(right, FIXED), cost_ax.c2p(right-5, FIXED),
+        for i, right in enumerate(range(1, MAX_BARS+1)):
+            fixed = Polygon(cost_ax.c2p(right-1, 0), cost_ax.c2p(right, 0),
+                cost_ax.c2p(right, FIXED), cost_ax.c2p(right-1, FIXED),
                 color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
             fixed.add_updater(lambda m, i=i: m.set_stroke(FC_COLOR, BAR_OUTLINE, opacity=float(i == selected_bar()))
                 .set_fill(FC_COLOR, AREA_OPACITY if i == selected_bar() else 0))
-            variable_bar = Polygon(cost_ax.c2p(right-5, FIXED), cost_ax.c2p(right, FIXED),
-                cost_ax.c2p(right, total(right)), cost_ax.c2p(right-5, total(right)),
+            variable_bar = Polygon(cost_ax.c2p(right-1, FIXED), cost_ax.c2p(right, FIXED),
+                cost_ax.c2p(right, total(right)), cost_ax.c2p(right-1, total(right)),
                 color=VC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
             variable_bar.add_updater(lambda m, i=i: m.set_stroke(VC_COLOR, BAR_OUTLINE, opacity=float(i == selected_bar()))
                 .set_fill(VC_COLOR, AREA_OPACITY if i == selected_bar() else 0))
@@ -544,16 +548,16 @@ class EpisodeE1(Scene):
             bar_variable.add(variable_bar)
         bar_word = Tex('VC', color=INK).scale(CURVE_WORD_SCALE)
         bar_word.add_updater(lambda m: m.next_to(bar_variable[selected_bar()], RIGHT, buff=0.12))
-        bar_across = DashedLine(cost_ax.c2p(70, total(70)), cost_ax.c2p(0, total(70)), color=GUIDE, stroke_width=GUIDE_WIDTH)
+        bar_across = DashedLine(cost_ax.c2p(50, total(50)), cost_ax.c2p(0, total(50)), color=GUIDE, stroke_width=GUIDE_WIDTH)
         bar_across.add_updater(lambda m: m.become(DashedLine(
             cost_ax.c2p(bar_q.get_value(), total(bar_q.get_value())), cost_ax.c2p(0, total(bar_q.get_value())),
             color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
-        bar_dot = Dot(cost_ax.c2p(70, total(70)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
+        bar_dot = Dot(cost_ax.c2p(50, total(50)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
         bar_dot.add_updater(lambda m: m.move_to(cost_ax.c2p(bar_q.get_value(), total(bar_q.get_value()))))
-        bar_total = DecimalNumber(total(70), num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
+        bar_total = DecimalNumber(total(50), num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
         bar_total.add_updater(lambda m: m.set_value(round(total(bar_q.get_value()), 4))
             .next_to(cost_ax.c2p(0, total(bar_q.get_value())), LEFT, buff=0.2))
-        bar_quantity = DecimalNumber(70, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        bar_quantity = DecimalNumber(50, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         bar_quantity.add_updater(lambda m: m.set_value(round(bar_q.get_value(), 4))
             .move_to(cost_ax.c2p(bar_q.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         bar_guides = VGroup(bar_across, bar_dot, bar_total, bar_quantity)
@@ -563,20 +567,20 @@ class EpisodeE1(Scene):
         self.remove(note)
         note = teaching('Variable costs are the costs that do change with inputs.')
         self.play(FadeIn(rest_cost_bars), *[FadeIn(m) for m in bar_marks], FadeIn(note))
-        self.play(bar_q.animate.set_value(95), run_time=ROLL_TIME, rate_func=smooth)
+        self.play(bar_q.animate.set_value(58), run_time=ROLL_TIME, rate_func=smooth)
         self.play(bar_q.animate.set_value(40), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.c')
 
-        # ---- 3.d · Keep the cost bands; the pink portion above FC explains TC = FC + VC.
+        # ---- 3.d · Keep the cost bands; the pink portion above FC explains TC = VC + FC.
         for m in bar_marks:
             m.update()
             m.clear_updaters(recurse=True)
-        vc_curve = polyline([cost_ax.c2p(q, variable(q)) for q in np.linspace(0, 100, 121)], VC_COLOR, CURVE_WIDTH)
-        vc_word = Tex('VC', color=INK).scale(CURVE_WORD_SCALE).next_to(cost_ax.c2p(100, variable(100)), RIGHT, buff=0.15)
+        vc_curve = polyline([cost_ax.c2p(q, variable(q)) for q in np.linspace(0, COST_Q_MAX, 121)], VC_COLOR, CURVE_WIDTH)
+        vc_word = Tex('VC', color=INK).scale(CURVE_WORD_SCALE).next_to(cost_ax.c2p(COST_Q_MAX, variable(COST_Q_MAX)), RIGHT, buff=0.15)
         divider = Line([DIVIDER_X, -3.0, 0], [DIVIDER_X, 2.3, 0], color=MUTED, stroke_width=1.5)
-        sum_row = MathTex(r'{{\mathrm{TC}}} = {{\mathrm{FC}}} + {{\mathrm{VC}}}')
-        divided_row = MathTex(r'{{\frac{\mathrm{TC}}{Q}}} = {{\frac{\mathrm{FC}}{Q}}} + {{\frac{\mathrm{VC}}{Q}}}')
-        average_row = MathTex(r'{{\mathrm{ATC}}} = {{\mathrm{AFC}}} + {{\mathrm{AVC}}}')
+        sum_row = MathTex(r'{{\mathrm{TC}}} = {{\mathrm{VC}}} + {{\mathrm{FC}}}')
+        divided_row = MathTex(r'{{\frac{\mathrm{TC}}{Q}}} = {{\frac{\mathrm{VC}}{Q}}} + {{\frac{\mathrm{FC}}{Q}}}')
+        average_row = MathTex(r'{{\mathrm{ATC}}} = {{\mathrm{AVC}}} + {{\mathrm{AFC}}}')
         for row, parts in [(sum_row, (r'\mathrm{FC}', r'\mathrm{VC}', r'\mathrm{TC}')),
                            (divided_row, (r'\frac{\mathrm{FC}}{Q}', r'\frac{\mathrm{VC}}{Q}', r'\frac{\mathrm{TC}}{Q}')),
                            (average_row, (r'\mathrm{AFC}', r'\mathrm{AVC}', r'\mathrm{ATC}'))]:
@@ -599,173 +603,327 @@ class EpisodeE1(Scene):
         self.play(FadeIn(average_row))
         self.pause('3.e')
 
-        # ---- 3.f · A second graph on the right for the averages. The average equation moves under the title as a
-        # stored result, and ATC is traced as one tracker moves a point along TC: each cost divided by its quantity.
-        # The same marks divide VC in 3.g and FC in 3.h: they read the cost being divided, and its average, from
-        # `divided`.
-        avg_ax = style_axes([0, 100, 10], [0, AVERAGE_MAX, 20], x_length=GRAPH_SIZE, y_length=GRAPH_SIZE)
+        # ---- 3.f.setup · Place both identities above their graphs, then pause.
+        # Teach AVC, AFC, then ATC, retaining each concept's existing pause ID.
+        # One quantity tracker drives both points, their guides, and the curve endpoint.
+        avg_ax = style_axes([0, COST_X_MAX, 10], [0, AVERAGE_MAX, 20], x_length=GRAPH_SIZE, y_length=GRAPH_SIZE)
         avg_ax.shift(RIGHT_ORIGIN - avg_ax.c2p(0, 0))
         avg_words = VGroup(
-            Tex(r'\$', color=INK).scale(0.8).next_to(avg_ax.c2p(0, AVERAGE_MAX), LEFT, buff=0.23),
+            Tex(r'\$', color=INK).scale(0.8).next_to(avg_ax.c2p(0, AVERAGE_MAX), LEFT, buff=0.25),
             Tex(r'\textsf{dollars per unit}', color=CAPTION).scale(0.55).next_to(avg_ax.c2p(0, AVERAGE_MAX), RIGHT, buff=0.22),
-            Tex('Q', color=INK).scale(0.8).next_to(avg_ax.c2p(100, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(avg_ax.c2p(100, 0), DOWN, buff=0.73))
-        stored_average = subtitle(head, r'$\mathrm{ATC} = \mathrm{AFC} + \mathrm{AVC}$', book=True)
+            Tex('Q', color=INK).scale(0.8).next_to(avg_ax.c2p(COST_X_MAX, 0), DOWN, buff=0.35),
+            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(avg_ax.c2p(COST_X_MAX, 0), DOWN, buff=0.73))
+        avg_words[1].next_to(avg_words[0], RIGHT, buff=0.35)
+        avg_words[3].next_to(avg_words[2], RIGHT, buff=0.3)
+        stored_total = sum_row.copy().scale(0.72/ROW_SCALE).move_to(cost_ax.c2p(COST_X_MAX/2, TOTAL_MAX)+UP*0.58)
+        stored_average = average_row.copy().scale(0.72/ROW_SCALE).move_to(avg_ax.c2p(COST_X_MAX/2, AVERAGE_MAX)+UP*0.58)
         self.remove(note)
-        self.play(FadeOut(divider), FadeOut(sum_row), FadeOut(divided_row), FadeOut(bar_fixed), FadeOut(bar_variable), FadeOut(rest_cost_bars),
+        self.play(FadeOut(divider), Transform(sum_row, stored_total), FadeOut(divided_row), FadeOut(bar_fixed), FadeOut(bar_variable),
                   Transform(average_row, stored_average), FadeIn(avg_ax), FadeIn(avg_words), run_time=1.2)
-        self.remove(average_row)
-        self.add(stored_average)
-        divided = {'cost': total, 'average': atc}
-        per_unit = ValueTracker(10)
-        average_reach = ValueTracker(10)   # how far along Q the average curve being traced is drawn
+        self.remove(sum_row, average_row)
+        self.add(stored_total, stored_average)
+        self.pause('3.f.setup')
+        divided = {'cost': variable, 'average': avc}
+        per_unit = ValueTracker(0)
         cost_now = lambda: divided['cost'](per_unit.get_value())            # the cost being divided, at the point
-        average_now = lambda: divided['average'](per_unit.get_value())      # and that cost per unit
-        div_up = DashedLine(cost_ax.c2p(10, 0), cost_ax.c2p(10, total(10)), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        div_up.add_updater(lambda m: m.become(DashedLine(
-            cost_ax.c2p(per_unit.get_value(), 0), cost_ax.c2p(per_unit.get_value(), cost_now()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
-        div_point = Dot(cost_ax.c2p(10, total(10)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
+        # Average cost is undefined at Q=0 and above the visible range for very small quantities.
+        fc_number.add_updater(lambda m: m.set_opacity(0.22*float(abs(cost_now()-FIXED) > TOTAL_MAX*0.07)))
+        self.add(fc_number)
+        average_now = lambda: divided['average'](per_unit.get_value()) if per_unit.get_value() > 0 else AVERAGE_TOP
+        average_visible = lambda: per_unit.get_value() > 0 and average_now() <= AVERAGE_TOP
+        average_display = lambda: min(AVERAGE_TOP, max(0, average_now()))
+        div_up = VGroup(*[Line(ORIGIN, UP, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+        div_up.add_updater(lambda group: [dash.set_points_as_corners([
+            cost_ax.c2p(per_unit.get_value(), 0)+UP*min(i*0.1, GRAPH_SIZE*cost_now()/TOTAL_MAX),
+            cost_ax.c2p(per_unit.get_value(), 0)+UP*min(i*0.1+0.05, GRAPH_SIZE*cost_now()/TOTAL_MAX)])
+            .set_opacity(float(i*0.1 < GRAPH_SIZE*cost_now()/TOTAL_MAX)) for i, dash in enumerate(group)])
+        div_point = Dot(cost_ax.c2p(0, total(0)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
         div_point.add_updater(lambda m: m.move_to(cost_ax.c2p(per_unit.get_value(), cost_now())))
-        div_across = DashedLine(cost_ax.c2p(10, total(10)), cost_ax.c2p(0, total(10)), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        div_across.add_updater(lambda m: m.become(DashedLine(
-            cost_ax.c2p(per_unit.get_value(), cost_now()), cost_ax.c2p(0, cost_now()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
-        div_cost = DecimalNumber(total(10), num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
+        div_across = VGroup(*[Line(ORIGIN, RIGHT, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+        div_across.add_updater(lambda group: [dash.set_points_as_corners([
+            cost_ax.c2p(0, cost_now())+RIGHT*min(i*0.1, GRAPH_SIZE*per_unit.get_value()/COST_X_MAX),
+            cost_ax.c2p(0, cost_now())+RIGHT*min(i*0.1+0.05, GRAPH_SIZE*per_unit.get_value()/COST_X_MAX)])
+            .set_opacity(float(i*0.1 < GRAPH_SIZE*per_unit.get_value()/COST_X_MAX)) for i, dash in enumerate(group)])
+        div_cost = DecimalNumber(total(0), num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
         div_cost.add_updater(lambda m: m.set_value(round(cost_now(), 4))
                              .next_to(cost_ax.c2p(0, cost_now()), LEFT, buff=0.2))
-        div_units = DecimalNumber(10, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        div_units = DecimalNumber(0, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         div_units.add_updater(lambda m: m.set_value(round(per_unit.get_value(), 4))
                               .move_to(cost_ax.c2p(per_unit.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        avg_up = DashedLine(avg_ax.c2p(10, 0), avg_ax.c2p(10, atc(10)), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        avg_up.add_updater(lambda m: m.become(DashedLine(
-            avg_ax.c2p(per_unit.get_value(), 0), avg_ax.c2p(per_unit.get_value(), average_now()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
-        avg_point = Dot(avg_ax.c2p(10, atc(10)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
-        avg_point.add_updater(lambda m: m.move_to(avg_ax.c2p(per_unit.get_value(), average_now())))
-        avg_across = DashedLine(avg_ax.c2p(10, atc(10)), avg_ax.c2p(0, atc(10)), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        avg_across.add_updater(lambda m: m.become(DashedLine(
-            avg_ax.c2p(per_unit.get_value(), average_now()), avg_ax.c2p(0, average_now()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
-        avg_cost = DecimalNumber(atc(10), num_decimal_places=0, color=GUIDE).scale(READOUT_SCALE)
+        avg_up = VGroup(*[Line(ORIGIN, UP, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+        avg_up.add_updater(lambda group: [dash.set_points_as_corners([
+            avg_ax.c2p(per_unit.get_value(), 0)+UP*min(i*0.1, GRAPH_SIZE*average_display()/AVERAGE_MAX),
+            avg_ax.c2p(per_unit.get_value(), 0)+UP*min(i*0.1+0.05, GRAPH_SIZE*average_display()/AVERAGE_MAX)])
+            .set_opacity(float(average_visible() and i*0.1 < GRAPH_SIZE*average_display()/AVERAGE_MAX))
+            for i, dash in enumerate(group)])
+        avg_point = Dot(avg_ax.c2p(0, AVERAGE_TOP), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
+        avg_point.add_updater(lambda m: m.move_to(avg_ax.c2p(per_unit.get_value(), average_display()))
+            .set_opacity(float(average_visible())))
+        avg_across = VGroup(*[Line(ORIGIN, RIGHT, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+        avg_across.add_updater(lambda group: [dash.set_points_as_corners([
+            avg_ax.c2p(0, average_display())+RIGHT*min(i*0.1, GRAPH_SIZE*per_unit.get_value()/COST_X_MAX),
+            avg_ax.c2p(0, average_display())+RIGHT*min(i*0.1+0.05, GRAPH_SIZE*per_unit.get_value()/COST_X_MAX)])
+            .set_opacity(float(average_visible() and i*0.1 < GRAPH_SIZE*per_unit.get_value()/COST_X_MAX))
+            for i, dash in enumerate(group)])
+        avg_cost = DecimalNumber(atc(10), num_decimal_places=1, color=GUIDE).scale(READOUT_SCALE)
         avg_cost.add_updater(lambda m: m.set_value(round(average_now(), 4))
-                             .next_to(avg_ax.c2p(0, average_now()), LEFT, buff=0.2))
+                             .next_to(avg_ax.c2p(0, average_display()), LEFT, buff=0.2).set_opacity(float(average_visible())))
         avg_units = DecimalNumber(10, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         avg_units.add_updater(lambda m: m.set_value(round(per_unit.get_value(), 4))
-                              .move_to(avg_ax.c2p(per_unit.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        atc_curve = polyline([avg_ax.c2p(ATC_START, atc(ATC_START)), avg_ax.c2p(10, atc(10))], ATC_COLOR, CURVE_WIDTH)
-        atc_curve.add_updater(lambda m: m.set_points_as_corners(
-            [avg_ax.c2p(q, atc(q)) for q in np.linspace(ATC_START, max(average_reach.get_value(), per_unit.get_value()), 121)]))
-        atc_word = Tex('ATC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(100, atc(100)), RIGHT, buff=0.15).shift(UP * 0.10)
+                              .move_to(avg_ax.c2p(per_unit.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET).set_opacity(float(average_visible())))
         division_marks = [div_up, div_point, div_across, div_cost, div_units, avg_up, avg_point, avg_across, avg_cost, avg_units]
-        for m in [*division_marks, atc_curve]:
-            m.update()
-        note = teaching('Average total cost: the cost associated with each unit of output.')
-        self.play(*[FadeIn(m) for m in division_marks], FadeIn(atc_curve), FadeIn(note))
-        self.play(per_unit.animate.set_value(90), run_time=SWEEP_TIME, rate_func=smooth)
-        average_reach.set_value(90)
-        self.play(per_unit.animate.set_value(50), average_reach.animate.set_value(100), FadeIn(atc_word),
-                  run_time=ROLL_TIME, rate_func=smooth)
-        self.pause('3.f')
 
-        # ---- 3.g · AVC traced the same way: the point moves along VC and each variable cost is divided by its quantity.
-        atc_curve.update()
-        atc_curve.clear_updaters()
-        avc_curve = polyline([avg_ax.c2p(q, avc(q)) for q in np.linspace(0, 10, 121)], AVC_COLOR, CURVE_WIDTH)
+        # ---- 3.g · Start with VC and AVC. Dim the other costs and retain the stationary grey TC bars.
+        # Keep averages uncluttered while tracing; their one stacked bar enters only at the sum.
+        avc_curve = polyline([avg_ax.c2p(0, 0), avg_ax.c2p(0, 0)], AVC_COLOR, CURVE_WIDTH)
         avc_curve.add_updater(lambda m: m.set_points_as_corners(
-            [avg_ax.c2p(q, avc(q)) for q in np.linspace(0, max(average_reach.get_value(), per_unit.get_value()), 121)]))
-        avc_word = Tex('AVC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(100, avc(100)), RIGHT, buff=0.15).shift(DOWN * 0.10)
-        self.remove(note)
-        note = teaching('Average variable cost: the costs from variable inputs for each unit of output.')
-        self.play(*[FadeOut(m) for m in division_marks], run_time=0.5)
-        divided['cost'], divided['average'] = variable, avc
-        per_unit.set_value(10)
-        average_reach.set_value(10)
-        for m in [*division_marks, avc_curve]:
+            [avg_ax.c2p(q, avc(q)) for q in np.linspace(0, per_unit.get_value(), 121)]))
+        avc_word = Tex('AVC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(COST_Q_MAX, avc(COST_Q_MAX)), RIGHT, buff=0.15).shift(DOWN * 0.10)
+        avc_word.add_updater(lambda m: m.set_opacity(smooth(np.clip((per_unit.get_value()-(COST_Q_MAX-10))/10, 0, 1))))
+        for m in [*division_marks, avc_curve, avc_word]:
             m.update()
-        self.play(Create(vc_curve), FadeIn(vc_word), run_time=1.0)
-        self.play(*[FadeIn(m) for m in division_marks], FadeIn(avc_curve), FadeIn(note))
-        self.play(per_unit.animate.set_value(90), run_time=SWEEP_TIME, rate_func=smooth)
-        average_reach.set_value(90)
-        self.play(per_unit.animate.set_value(50), average_reach.animate.set_value(100), FadeIn(avc_word),
-                  run_time=ROLL_TIME, rate_func=smooth)
+        note = teaching('Average variable cost: variable cost divided by output.')
+        self.play(tc_curve.animate.set_stroke(opacity=0.22), tc_word.animate.set_opacity(0.22),
+                  fc_line.animate.set_stroke(opacity=0.22), fc_word.animate.set_opacity(0.22),
+                  stored_total.get_part_by_tex(r'\mathrm{TC}').animate.set_opacity(0.22),
+                  stored_total.get_part_by_tex(r'\mathrm{FC}').animate.set_opacity(0.22),
+                  stored_average.get_part_by_tex(r'\mathrm{ATC}').animate.set_opacity(0.22),
+                  stored_average.get_part_by_tex(r'\mathrm{AFC}').animate.set_opacity(0.22),
+                  Create(vc_curve), FadeIn(vc_word), FadeIn(note), run_time=1.0)
+        self.play(*[FadeIn(m) for m in division_marks], FadeIn(avc_curve))
+        self.add(avc_word)
+        self.play(per_unit.animate.set_value(COST_Q_MAX), run_time=SWEEP_TIME, rate_func=smooth)
+        for m in (avc_curve, avc_word):
+            m.update()
+            m.clear_updaters(recurse=True)
         self.pause('3.g')
 
-        # ---- 3.h · AFC traced the same way, from the FC line: $1,000 divided by each quantity.
-        avc_curve.update()
-        avc_curve.clear_updaters()
-        afc_curve = polyline([avg_ax.c2p(q, FIXED / q) for q in np.linspace(AFC_START, 10, 121)], AFC_COLOR, CURVE_WIDTH)
-        afc_curve.add_updater(lambda m: m.set_points_as_corners(
-            [avg_ax.c2p(q, FIXED / q) for q in np.linspace(AFC_START, max(average_reach.get_value(), per_unit.get_value()), 121)]))
-        afc_word = Tex('AFC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(100, FIXED / 100), RIGHT, buff=0.15)
-        self.remove(note)
-        note = teaching('And the less important average fixed cost.')
-        self.play(*[FadeOut(m) for m in division_marks], run_time=0.5)
+        # ---- 3.h · VC leaves; FC is the source for AFC. The completed AVC stays subdued.
+        self.play(*[FadeOut(m) for m in division_marks], FadeOut(note), FadeOut(vc_curve), FadeOut(vc_word), run_time=0.5)
         divided['cost'], divided['average'] = lambda Q: FIXED, lambda Q: FIXED / Q
-        per_unit.set_value(10)
-        average_reach.set_value(10)
-        for m in [*division_marks, afc_curve]:
+        per_unit.set_value(0)
+        afc_curve = polyline([avg_ax.c2p(AFC_START, AVERAGE_TOP), avg_ax.c2p(AFC_START, AVERAGE_TOP)], AFC_COLOR, CURVE_WIDTH)
+        afc_curve.add_updater(lambda m: m.set_points_as_corners(
+            [avg_ax.c2p(q, FIXED / q) for q in np.linspace(AFC_START, max(AFC_START, per_unit.get_value()), 121)])
+            .set_stroke(opacity=float(per_unit.get_value() >= AFC_START)))
+        afc_word = Tex('AFC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(COST_Q_MAX, FIXED / COST_Q_MAX), RIGHT, buff=0.15)
+        afc_word.add_updater(lambda m: m.set_opacity(smooth(np.clip((per_unit.get_value()-(COST_Q_MAX-10))/10, 0, 1))))
+        for m in [*division_marks, afc_curve, afc_word]:
             m.update()
-        self.play(*[FadeIn(m) for m in division_marks], FadeIn(afc_curve), FadeIn(note))
-        self.play(per_unit.animate.set_value(90), run_time=SWEEP_TIME, rate_func=smooth)
-        average_reach.set_value(90)
-        self.play(per_unit.animate.set_value(50), average_reach.animate.set_value(100), FadeIn(afc_word),
-                  run_time=ROLL_TIME, rate_func=smooth)
+        note = teaching('Average fixed cost: the same fixed cost spread over more units.')
+        self.play(avc_curve.animate.set_stroke(opacity=0.22), avc_word.animate.set_opacity(0.22),
+                  fc_line.animate.set_stroke(opacity=1), fc_word.animate.set_opacity(1),
+                  stored_total.get_part_by_tex(r'\mathrm{VC}').animate.set_opacity(0.22),
+                  stored_total.get_part_by_tex(r'\mathrm{FC}').animate.set_opacity(1),
+                  stored_average.get_part_by_tex(r'\mathrm{AVC}').animate.set_opacity(0.22),
+                  stored_average.get_part_by_tex(r'\mathrm{AFC}').animate.set_opacity(1),
+                  *[FadeIn(m) for m in division_marks], FadeIn(afc_curve), FadeIn(note))
+        self.add(afc_word)
+        self.play(per_unit.animate.set_value(COST_Q_MAX), run_time=SWEEP_TIME, rate_func=smooth)
+        for m in (afc_curve, afc_word):
+            m.update()
+            m.clear_updaters(recurse=True)
         self.pause('3.h')
 
-        # ---- 3.i · The division marks and AFC fade out.
-        for m in [*division_marks, afc_curve]:
+        # ---- 3.f · TC now gives ATC. The two previously traced averages remain as dim context.
+        self.play(*[FadeOut(m) for m in division_marks], FadeOut(note), run_time=0.5)
+        divided['cost'], divided['average'] = total, atc
+        per_unit.set_value(0)
+        atc_curve = polyline([avg_ax.c2p(ATC_START, atc(ATC_START)), avg_ax.c2p(ATC_START, atc(ATC_START))], ATC_COLOR, CURVE_WIDTH)
+        atc_curve.add_updater(lambda m: m.set_points_as_corners(
+            [avg_ax.c2p(q, atc(q)) for q in np.linspace(ATC_START, max(ATC_START, per_unit.get_value()), 121)])
+            .set_stroke(opacity=float(per_unit.get_value() >= ATC_START)))
+        atc_word = Tex('ATC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(COST_Q_MAX, atc(COST_Q_MAX)), RIGHT, buff=0.15).shift(UP * 0.10)
+        atc_word.add_updater(lambda m: m.set_opacity(smooth(np.clip((per_unit.get_value()-(COST_Q_MAX-10))/10, 0, 1))))
+        for m in [*division_marks, atc_curve, atc_word]:
+            m.update()
+        note = teaching('Average total cost: total cost divided by output.')
+        self.play(tc_curve.animate.set_stroke(opacity=1), tc_word.animate.set_opacity(1),
+                  fc_line.animate.set_stroke(opacity=0.22), fc_word.animate.set_opacity(0.22),
+                  afc_curve.animate.set_stroke(opacity=0.22), afc_word.animate.set_opacity(0.22),
+                  stored_total.get_part_by_tex(r'\mathrm{FC}').animate.set_opacity(0.22),
+                  stored_total.get_part_by_tex(r'\mathrm{TC}').animate.set_opacity(1),
+                  stored_average.get_part_by_tex(r'\mathrm{AFC}').animate.set_opacity(0.22),
+                  stored_average.get_part_by_tex(r'\mathrm{ATC}').animate.set_opacity(1),
+                  *[FadeIn(m) for m in division_marks], FadeIn(atc_curve), FadeIn(note))
+        self.add(atc_word)
+        # Curve, point, and label finish together; no separate extension or backward settling motion.
+        self.play(per_unit.animate.set_value(COST_Q_MAX), run_time=SWEEP_TIME, rate_func=smooth)
+        for m in (atc_curve, atc_word):
+            m.update()
+            m.clear_updaters(recurse=True)
+        self.pause('3.f')
+
+        # ---- 3.i · The heights add: AVC plus the AFC gap reaches ATC at the same quantity.
+        for m in division_marks:
             m.update()
             m.clear_updaters()
+        fc_number.clear_updaters()
+        sum_avc = Polygon(avg_ax.c2p(COST_Q_MAX-1, 0), avg_ax.c2p(COST_Q_MAX, 0),
+            avg_ax.c2p(COST_Q_MAX, avc(COST_Q_MAX)), avg_ax.c2p(COST_Q_MAX-1, avc(COST_Q_MAX)),
+            color=AVC_COLOR, stroke_width=BAR_OUTLINE, fill_color=AVC_COLOR, fill_opacity=AREA_OPACITY).set_z_index(GUIDE_LAYER)
+        sum_afc = Polygon(avg_ax.c2p(COST_Q_MAX-1, avc(COST_Q_MAX)), avg_ax.c2p(COST_Q_MAX, avc(COST_Q_MAX)),
+            avg_ax.c2p(COST_Q_MAX, atc(COST_Q_MAX)), avg_ax.c2p(COST_Q_MAX-1, atc(COST_Q_MAX)),
+            color=CAPTION, stroke_width=BAR_OUTLINE, fill_color=AFC_COLOR, fill_opacity=AREA_OPACITY).set_z_index(GUIDE_LAYER)
+        sum_afc_word = Tex('AFC', color=CAPTION).scale(0.55).next_to(sum_afc, LEFT, buff=0.15).shift(DOWN*0.08)
+        sum_quantity = DecimalNumber(COST_Q_MAX, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        sum_quantity.move_to(avg_ax.c2p(COST_Q_MAX, 0)+DOWN*QUANTITY_NUMBER_OFFSET)
+        average_sum = VGroup(sum_avc, sum_afc, sum_afc_word, sum_quantity)
         self.remove(note)
-        note = teaching("We'll focus on average total cost and average variable cost.")
-        self.play(*[FadeOut(m) for m in division_marks], FadeOut(afc_curve), FadeOut(afc_word), FadeIn(note))
+        note = teaching('Average total cost is average variable cost plus average fixed cost.')
+        self.play(*[FadeOut(m) for m in division_marks],
+                  avc_curve.animate.set_stroke(opacity=1), avc_word.animate.set_opacity(1),
+                  afc_curve.animate.set_stroke(opacity=1), afc_word.animate.set_opacity(1),
+                  fc_line.animate.set_stroke(opacity=1), fc_word.animate.set_opacity(1), fc_number.animate.set_opacity(1),
+                  stored_total.animate.set_opacity(1), stored_average.animate.set_opacity(1), FadeIn(note),
+                  GrowFromEdge(sum_avc, DOWN), FadeIn(sum_quantity))
+        self.play(GrowFromEdge(sum_afc, DOWN), FadeIn(sum_afc_word), run_time=0.7)
         self.pause('3.i')
 
-        # ---- 3.j · The MC equation in the open space above the TC curve.
-        mc_equation = MathTex(r'{{\mathrm{MC}}} = {{\frac{\Delta \mathrm{TC}}{\Delta Q}}}')
-        mc_equation.get_part_by_tex(r'\mathrm{MC}').set_color(MC_COLOR)
-        mc_equation.move_to(cost_ax.c2p(27, TOTAL_MAX * 47/60))
+        # ---- 3.j · Read the increase between adjacent TC bars. Other curves recede.
+        # Adjacent bars differ by one unit; the finite increment equals MC at the interval midpoint.
+        marginal_q = ValueTracker(40.5)
+        marginal_index = lambda: max(0, min(MAX_BARS-1, int(marginal_q.get_value())))
+        marginal_left = lambda: marginal_index()
+        marginal_right = lambda: marginal_left()+1
+        marginal_middle = lambda: marginal_left()+0.5
+        marginal_extra = lambda: total(marginal_right())-total(marginal_left())
+        marginal_unit_cost = lambda: marginal_extra()
+        tc_steps = VGroup()
+        for i, right in enumerate(range(1, MAX_BARS+1)):
+            bar = Polygon(cost_ax.c2p(right-1, 0), cost_ax.c2p(right, 0),
+                cost_ax.c2p(right, total(right)), cost_ax.c2p(right-1, total(right)),
+                color=MUTED, stroke_width=BAR_OUTLINE, fill_opacity=0.08)
+            bar.add_updater(lambda m, i=i: m.set_stroke(MUTED, BAR_OUTLINE,
+                opacity=0.9 if i in (marginal_index()-1, marginal_index()) else 0.25)
+                .set_fill(MUTED, 0.28 if i in (marginal_index()-1, marginal_index()) else 0.08))
+            tc_steps.add(bar)
+        marginal_quantities = lambda: (marginal_left(), marginal_right())
+        cost_pair, quantity_pair, cost_pair_guides, pair_dots = VGroup(), VGroup(), VGroup(), VGroup()
+        cost_label_leaders, quantity_leaders = VGroup(), VGroup()
+        for side in range(2):
+            # Separate close labels with leaders, while keeping their guide endpoints at the true values.
+            price = DecimalNumber(0, num_decimal_places=0, color=GUIDE).scale(0.60)
+            price.add_updater(lambda m, side=side: m.set_value(round(total(marginal_quantities()[side])))
+                .next_to(cost_ax.c2p(0, total(marginal_quantities()[side])), LEFT, buff=0.95)
+                .shift(UP*(0.24 if side else -0.24))
+                .set_y(min(m.get_y(), cost_words[0].get_bottom()[1]-0.08)))
+            cost_pair.add(price)
+            number = DecimalNumber(0, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+            number.add_updater(lambda m, side=side: m.set_value(marginal_quantities()[side])
+                .move_to(cost_ax.c2p(marginal_quantities()[side], 0)
+                    +RIGHT*(0.22 if side else -0.22)+DOWN*QUANTITY_NUMBER_OFFSET))
+            quantity_pair.add(number)
+            dot = Dot(ORIGIN, radius=0.045, color=GUIDE).set_z_index(DOT_LAYER)
+            dot.add_updater(lambda m, side=side: m.move_to(cost_ax.c2p(marginal_quantities()[side], total(marginal_quantities()[side]))))
+            pair_dots.add(dot)
+            guide = VGroup(*[Line(ORIGIN, RIGHT, color=GUIDE, stroke_width=1.5)
+                for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+            guide.add_updater(lambda group, side=side: [dash.set_points_as_corners([
+                cost_ax.c2p(0, total(marginal_quantities()[side]))+RIGHT*min(i*0.1, GRAPH_SIZE*marginal_quantities()[side]/COST_X_MAX),
+                cost_ax.c2p(0, total(marginal_quantities()[side]))+RIGHT*min(i*0.1+0.05, GRAPH_SIZE*marginal_quantities()[side]/COST_X_MAX)])
+                .set_stroke(opacity=float(i*0.1 < GRAPH_SIZE*marginal_quantities()[side]/COST_X_MAX))
+                for i, dash in enumerate(group)])
+            cost_pair_guides.add(guide)
+            price_leader = Line(ORIGIN, LEFT, color=MUTED, stroke_width=1)
+            price_leader.add_updater(lambda m, side=side: m.set_points_as_corners([
+                cost_ax.c2p(0, total(marginal_quantities()[side]))+LEFT*0.025,
+                np.array([cost_ax.c2p(0, 0)[0]-0.10, cost_pair[side].get_center()[1], 0]),
+                cost_pair[side].get_right()+RIGHT*0.06]))
+            cost_label_leaders.add(price_leader)
+            quantity_leader = Line(ORIGIN, DOWN, color=MUTED, stroke_width=1)
+            quantity_leader.add_updater(lambda m, side=side: m.set_points_as_corners([
+                cost_ax.c2p(marginal_quantities()[side], 0)+DOWN*0.04,
+                quantity_pair[side].get_top()+UP*0.04]))
+            quantity_leaders.add(quantity_leader)
+        cost_step = Line(ORIGIN, UP, color=MC_COLOR, stroke_width=STEP_WIDTH)
+        cost_step.add_updater(lambda m: m.set_points_as_corners([
+            cost_ax.c2p(0, total(marginal_left()))+LEFT*STEP_OFFSET,
+            cost_ax.c2p(0, total(marginal_right()))+LEFT*STEP_OFFSET]))
+        extra_cost = DecimalNumber(81, num_decimal_places=0, include_sign=True, color=MC_COLOR).scale(0.55)
+        extra_cost.add_updater(lambda m: m.set_value(round(marginal_extra(), 4)).next_to(cost_step, LEFT, buff=0.12))
+        tc_probe = VGroup(cost_pair, quantity_pair, cost_pair_guides, pair_dots,
+            cost_label_leaders, quantity_leaders, cost_step, extra_cost).set_z_index(GUIDE_LAYER)
+        for m in (tc_steps, tc_probe):
+            m.update()
         self.remove(note)
-        note = teaching('Marginal cost: the cost of adding another unit.')
-        self.play(FadeIn(mc_equation), FadeIn(note))
+        note = teaching(r'One more unit adds \$81 to total cost.')
+        self.play(FadeOut(average_sum), FadeOut(afc_curve), FadeOut(afc_word),
+                  FadeOut(tc_curve), FadeOut(tc_word), FadeOut(fc_line), FadeOut(fc_word), FadeOut(fc_number),
+                  FadeOut(stored_total), FadeOut(stored_average),
+                  atc_curve.animate.set_stroke(opacity=0.22), atc_word.animate.set_opacity(0.22),
+                  avc_curve.animate.set_stroke(opacity=0.22), avc_word.animate.set_opacity(0.22),
+                  FadeOut(rest_cost_bars), FadeIn(tc_steps), FadeIn(tc_probe), FadeIn(note), run_time=0.8)
         self.pause('3.j')
 
-        # ---- 3.k · Twenty adjoining outlined bands; each height is the average extra cost per unit
-        # over its five-unit interval. With quadratic TC, that equals MC at the interval midpoint.
-        swept = ValueTracker(0)
-        strips = VGroup()
-        for left in range(0, 100, 5):
-            right = left + 5
-            strip = Polygon(avg_ax.c2p(left, 0), avg_ax.c2p(right, 0),
-                avg_ax.c2p(right, (total(right)-total(left))/5), avg_ax.c2p(left, (total(right)-total(left))/5),
-                color=MC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
-            strip.add_updater(lambda m, right=right: m.set_stroke(MC_COLOR, BAR_OUTLINE, opacity=float(swept.get_value() >= right))
-                .set_fill(MC_COLOR, AREA_OPACITY if swept.get_value() >= right else 0))
-            strips.add(strip)
-        tc_rider = Dot(cost_ax.c2p(0, total(0)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
-        tc_rider.add_updater(lambda m: m.move_to(cost_ax.c2p(swept.get_value(), total(swept.get_value()))))
+        # ---- 3.k · Transfer only the extra cost per unit to the right; no bars over the average curves.
+        marginal_dot = Dot(avg_ax.c2p(40.5, 81), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
+        marginal_dot.add_updater(lambda m: m.move_to(avg_ax.c2p(marginal_middle(), marginal_unit_cost())))
+        marginal_price = DecimalNumber(81, num_decimal_places=0, color=MC_COLOR).scale(READOUT_SCALE)
+        marginal_price.add_updater(lambda m: m.set_value(round(marginal_unit_cost(), 4))
+            .next_to(avg_ax.c2p(0, marginal_unit_cost()), LEFT, buff=0.2))
+        marginal_across = VGroup(*[Line(ORIGIN, RIGHT, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+        marginal_across.add_updater(lambda group: [dash.set_points_as_corners([
+            avg_ax.c2p(0, marginal_unit_cost())+RIGHT*min(i*0.1, GRAPH_SIZE*marginal_middle()/COST_X_MAX),
+            avg_ax.c2p(0, marginal_unit_cost())+RIGHT*min(i*0.1+0.05, GRAPH_SIZE*marginal_middle()/COST_X_MAX)])
+            .set_stroke(opacity=float(i*0.1 < GRAPH_SIZE*marginal_middle()/COST_X_MAX)) for i, dash in enumerate(group)])
+        marginal_down = VGroup(*[Line(ORIGIN, UP, color=GUIDE, stroke_width=GUIDE_WIDTH)
+            for _ in range(int(np.ceil(GRAPH_SIZE/0.1)))])
+        marginal_down.add_updater(lambda group: [dash.set_points_as_corners([
+            avg_ax.c2p(marginal_middle(), 0)+UP*min(i*0.1, GRAPH_SIZE*marginal_unit_cost()/AVERAGE_MAX),
+            avg_ax.c2p(marginal_middle(), 0)+UP*min(i*0.1+0.05, GRAPH_SIZE*marginal_unit_cost()/AVERAGE_MAX)])
+            .set_stroke(opacity=float(i*0.1 < GRAPH_SIZE*marginal_unit_cost()/AVERAGE_MAX)) for i, dash in enumerate(group)])
+        marginal_marks = VGroup(marginal_across, marginal_down, marginal_dot, marginal_price).set_z_index(DOT_LAYER)
+        marginal_marks.update()
         self.remove(note)
-        note = teaching('How much does total cost rise per additional unit?')
-        strips.update()
-        self.add(strips)
-        self.play(FadeIn(tc_rider), FadeIn(note))
-        self.play(swept.animate.set_value(100), run_time=SWEEP_TIME, rate_func=linear)
+        note = teaching('Marginal cost is the cost of producing one more unit.')
+        self.play(FadeIn(marginal_marks), FadeIn(note), run_time=0.8)
         self.pause('3.k')
 
-        # ---- 3.m · MC passes through the band midpoints; the rider clears, then the bands fade.
-        for m in (strips, tc_rider):
-            m.clear_updaters(recurse=True)
-        mc_trace = Line(avg_ax.c2p(0, 0), avg_ax.c2p(100, mc(100)), color=MC_COLOR, stroke_width=CURVE_WIDTH)
-        mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(avg_ax.c2p(100, mc(100)), RIGHT, buff=0.15)
+        # ---- 3.m · Trace MC in both directions, retaining every interval already visited.
         self.remove(note)
-        note = teaching('The cost of one more unit lands right on MC.')
-        self.play(FadeOut(tc_rider), run_time=0.4)
-        self.play(Create(mc_trace), FadeIn(mc_word), FadeIn(note), run_time=1.5)
+        note = teaching('At higher output, each increase costs more per unit.')
+        mc_start = marginal_middle()
+        mc_trace = Line(avg_ax.c2p(mc_start, mc(mc_start)), avg_ax.c2p(mc_start, mc(mc_start)),
+            color=MC_COLOR, stroke_width=CURVE_WIDTH)
+        mc_trace.add_updater(lambda m: m.set_points_as_corners([
+            avg_ax.c2p(marginal_middle(), marginal_unit_cost()), avg_ax.c2p(mc_start, mc(mc_start))]))
+        mc_trace.set_z_index(GUIDE_LAYER)
+        self.add(mc_trace)
+        self.play(FadeIn(note), marginal_q.animate.set_value(0.5), run_time=ROLL_TIME, rate_func=smooth)
+        mc_trace.update()
+        mc_trace.clear_updaters()
+        mc_trace.add_updater(lambda m: m.set_points_as_corners([
+            avg_ax.c2p(0.5, mc(0.5)),
+            avg_ax.c2p(max(mc_start, marginal_middle()), mc(max(mc_start, marginal_middle())))]))
+        mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(
+            avg_ax.c2p(COST_Q_MAX-0.5, mc(COST_Q_MAX-0.5)), RIGHT, buff=0.15)
+        mc_word.add_updater(lambda m: m.set_opacity(smooth(np.clip((marginal_middle()-(COST_Q_MAX-10.5))/10, 0, 1))))
+        mc_word.update()
+        self.add(mc_word)
+        self.play(marginal_q.animate.set_value(COST_Q_MAX-0.5), run_time=SWEEP_TIME, rate_func=smooth)
+        for m in (tc_steps, tc_probe, marginal_marks, mc_trace, mc_word):
+            m.update()
+            m.clear_updaters(recurse=True)
         self.pause('3.m')
-        self.play(FadeOut(strips), run_time=0.6)
 
         # ---- 3.n.below · Movement: one tracker moves a point along ATC with the MC point at the same quantity.
+        # The construction is finished: keep only the average-cost graph, centered at the same scale.
+        AVERAGE_PAN = RIGHT_ORIGIN[0] + GRAPH_SIZE/2
+        self.play(FadeOut(tc_steps), FadeOut(tc_probe), FadeOut(marginal_marks),
+                  FadeOut(cost_ax), FadeOut(cost_words),
+                  avg_ax.animate.shift(LEFT*AVERAGE_PAN), avg_words.animate.shift(LEFT*AVERAGE_PAN),
+                  atc_curve.animate.shift(LEFT*AVERAGE_PAN).set_stroke(opacity=1),
+                  atc_word.animate.shift(LEFT*AVERAGE_PAN).set_opacity(1),
+                  avc_curve.animate.shift(LEFT*AVERAGE_PAN).set_stroke(opacity=1),
+                  avc_word.animate.shift(LEFT*AVERAGE_PAN).set_opacity(1),
+                  mc_trace.animate.shift(LEFT*AVERAGE_PAN), mc_word.animate.shift(LEFT*AVERAGE_PAN),
+                  run_time=1.2, rate_func=smooth)
         # Below the lowest point MC lies under ATC and ATC falls. The hold is at 20 units, where the gap is plain.
         moving_q = ValueTracker(15)
         move_up = DashedLine(avg_ax.c2p(15, 0), avg_ax.c2p(15, atc(15)), color=GUIDE, stroke_width=GUIDE_WIDTH)
@@ -777,289 +935,115 @@ class EpisodeE1(Scene):
         move_atc.add_updater(lambda m: m.move_to(avg_ax.c2p(moving_q.get_value(), atc(moving_q.get_value()))))
         move_mc = Dot(avg_ax.c2p(15, mc(15)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
         move_mc.add_updater(lambda m: m.move_to(avg_ax.c2p(moving_q.get_value(), mc(moving_q.get_value()))))
-        move_marks = [move_up, move_atc, move_mc]
+        move_across, move_labels = VGroup(), VGroup()
+        # Fade the separate labels as their levels meet; the minimum gets one equality label.
+        comparison_label_opacity = lambda: smooth(np.clip(
+            (GRAPH_SIZE*abs(atc(moving_q.get_value())-mc(moving_q.get_value()))/AVERAGE_MAX-0.16)/0.20, 0, 1))
+        for label, function in [(r'\mathrm{ATC}_q', atc), (r'\mathrm{MC}_q', mc)]:
+            across = DashedLine(avg_ax.c2p(0, function(15)), avg_ax.c2p(15, function(15)),
+                color=GUIDE, stroke_width=GUIDE_WIDTH)
+            across.add_updater(lambda m, function=function: m.become(DashedLine(
+                avg_ax.c2p(0, function(moving_q.get_value())),
+                avg_ax.c2p(moving_q.get_value(), function(moving_q.get_value())),
+                color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
+            move_across.add(across)
+            word = MathTex(label, color=GUIDE).scale(READOUT_SCALE)
+            word.add_updater(lambda m, function=function: m.next_to(
+                avg_ax.c2p(0, function(moving_q.get_value())), LEFT, buff=0.2)
+                .set_opacity(comparison_label_opacity()))
+            move_labels.add(word)
+        move_quantity = MathTex('q', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+        move_quantity.add_updater(lambda m: m.move_to(
+            avg_ax.c2p(moving_q.get_value(), 0)+DOWN*QUANTITY_NUMBER_OFFSET))
+        move_marks = [move_up, move_atc, move_mc, move_across, move_labels, move_quantity]
         for m in move_marks:
             m.update()
         self.remove(note)
         note = teaching('When MC lies below ATC, ATC bends downward.')
-        self.play(FadeOut(mc_equation), *[FadeIn(m) for m in move_marks], FadeIn(note))
+        self.play(*[FadeIn(m) for m in move_marks], FadeIn(note))
         self.play(moving_q.animate.set_value(20), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.n.below')
 
         # ---- 3.n · Past the lowest point MC lies above ATC and ATC rises.
         self.remove(note)
         note = teaching('When MC lies above ATC, ATC bends upward.')
-        self.play(FadeIn(note), moving_q.animate.set_value(90), run_time=SWEEP_TIME, rate_func=smooth)
+        self.play(FadeIn(note), moving_q.animate.set_value(55), run_time=SWEEP_TIME, rate_func=smooth)
         self.pause('3.n')
 
-        # ---- 3.o · Back to where they meet: a yellow point at ATC's lowest point, on MC.
-        lowest = Dot(avg_ax.c2p(MIN_Q, atc(MIN_Q)), radius=0.085, color=FOCUS).set_z_index(DOT_LAYER + 1)
+        # ---- 3.o · Back to where they meet: a red point at ATC's lowest point, on MC.
+        lowest = Dot(avg_ax.c2p(MIN_Q, atc(MIN_Q)), radius=0.085, color=GUIDE).set_z_index(DOT_LAYER + 1)
         self.remove(note)
         note = teaching('The marginal cost curve runs through the minimum of ATC.')
         self.play(moving_q.animate.set_value(MIN_Q), run_time=ROLL_TIME, rate_func=smooth)
         for m in move_marks:
             m.update()
-            m.clear_updaters()
-        self.play(*[FadeOut(m) for m in move_marks], FadeIn(lowest), FadeIn(note))
+            m.clear_updaters(recurse=True)
+        minimum_across = DashedLine(avg_ax.c2p(0, atc(MIN_Q)), avg_ax.c2p(MIN_Q, atc(MIN_Q)),
+            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
+        minimum_label = MathTex(r'\mathrm{ATC}_q = \mathrm{MC}_q', color=GUIDE).scale(READOUT_SCALE)
+        minimum_label.next_to(avg_ax.c2p(0, atc(MIN_Q)), LEFT, buff=0.2)
+        minimum_marks = VGroup(move_up, move_quantity, minimum_across, minimum_label)
+        self.play(FadeOut(move_atc), FadeOut(move_mc), FadeOut(move_across), FadeOut(move_labels),
+                  FadeIn(minimum_across), FadeIn(minimum_label), FadeIn(lowest), FadeIn(note))
         self.pause('3.o')
 
-        # ---- 3.p · AFC fades back in: the fixed cost is the gap between ATC and AVC.
+        # ---- 3.p · Keep the focus on the gap between ATC and AVC; AFC stays off the graph.
         self.remove(note)
         note = teaching('ATC is higher than AVC in the short run because we have fixed costs like rent.')
-        self.play(FadeOut(lowest), FadeIn(afc_curve), FadeIn(afc_word), FadeIn(note))
+        self.play(FadeOut(lowest), FadeOut(minimum_marks), FadeIn(note))
         self.pause('3.p')
 
         # ---- 3.q · The long-run line.
         self.remove(note)
         note = teaching('In the long run, all costs are variable.')
-        self.play(FadeIn(note))
+        # Fade the small-output tail before the rise, so the 1/q term never shoots up at zero.
+        avc_tail = polyline([avg_ax.c2p(q, avc(q)) for q in np.linspace(0, ATC_START, 41)], AVC_COLOR, CURVE_WIDTH)
+        avc_curve.set_points_as_corners([avg_ax.c2p(q, avc(q)) for q in np.linspace(ATC_START, COST_Q_MAX, 121)])
+        self.add(avc_tail)
+        self.play(FadeIn(note), FadeOut(avc_tail))
         self.pause('3.q')
 
-        # ---- 3.r · One tracker (the fixed part of cost) rolls from $1,000 to zero: FC drops to the axis and VC rises
-        # onto TC; AFC drops to the axis and AVC rises onto ATC. Total cost is unchanged. VC's and AVC's words stop
-        # just under TC's and ATC's; FC's and AFC's fade.
+        # ---- 3.r · AVC rises onto ATC at fixed quantities, on the same centered graph.
         fixed_part = ValueTracker(FIXED)
-        fc_line.add_updater(lambda m: m.put_start_and_end_on(cost_ax.c2p(0, fixed_part.get_value()),
-                                                             cost_ax.c2p(100, fixed_part.get_value())))
-        fc_word.add_updater(lambda m: m.next_to(cost_ax.c2p(100, fixed_part.get_value()), RIGHT, buff=0.15)
-                            .set_opacity(fixed_part.get_value() / FIXED))
-        vc_curve.add_updater(lambda m: m.set_points_as_corners(
-            [cost_ax.c2p(q, variable(q) + FIXED - fixed_part.get_value()) for q in np.linspace(0, 100, 121)]))
-        vc_word.add_updater(lambda m: m.next_to(cost_ax.c2p(100, variable(100) + FIXED - fixed_part.get_value()), RIGHT, buff=0.15)
-                            .set_y(min(cost_ax.c2p(100, variable(100) + FIXED - fixed_part.get_value())[1], tc_word.get_y() - 0.32)))
-        afc_curve.add_updater(lambda m: m.set_points_as_corners(
-            [avg_ax.c2p(q, fixed_part.get_value() / q) for q in np.linspace(max(fixed_part.get_value() / AVERAGE_TOP, 0.01), 100, 121)]))
-        afc_word.add_updater(lambda m: m.next_to(avg_ax.c2p(100, fixed_part.get_value() / 100), RIGHT, buff=0.15)
-                             .set_opacity(fixed_part.get_value() / FIXED))
-        # AVC = (w/100)Q + (the part of the fixed cost now counted as variable)/Q; it starts where that reaches AVERAGE_TOP.
+        # Preserve each point's quantity throughout the transition, over ATC's visible domain.
         avc_curve.add_updater(lambda m: m.set_points_as_corners(
             [avg_ax.c2p(q, avc(q) + (FIXED - fixed_part.get_value()) / q)
-             for q in np.linspace(max((AVERAGE_TOP - np.sqrt(AVERAGE_TOP**2 - 4*COST_ALPHA*(FIXED-fixed_part.get_value()))) / (2*COST_ALPHA),
-                                       0.01), 100, 121)]))
-        avc_word.add_updater(lambda m: m.next_to(avg_ax.c2p(100, avc(100)), RIGHT, buff=0.15)
-                             .set_y(min(avg_ax.c2p(100, avc(100) + (FIXED - fixed_part.get_value()) / 100)[1], atc_word.get_y() - 0.32)))
-        long_run = [fc_line, fc_word, vc_curve, vc_word, afc_curve, afc_word, avc_curve, avc_word]
+             for q in np.linspace(ATC_START, COST_Q_MAX, 121)]))
+        avc_word.add_updater(lambda m: m.next_to(avg_ax.c2p(COST_Q_MAX, avc(COST_Q_MAX)), RIGHT, buff=0.15)
+                             .set_y(min(avg_ax.c2p(COST_Q_MAX, avc(COST_Q_MAX) + (FIXED - fixed_part.get_value()) / COST_Q_MAX)[1], atc_word.get_y() - 0.32)))
+        long_run = [avc_curve, avc_word]
         for m in long_run:
             m.update()
         self.remove(note)
-        note = teaching('Fixed cost, and therefore average fixed cost as well, go to zero.')
+        note = teaching('With all costs variable, average variable cost equals average total cost.')
         self.play(FadeIn(note), fixed_part.animate.set_value(0), run_time=SWEEP_TIME, rate_func=smooth)
         for m in long_run:
             m.update()
             m.clear_updaters()
-        # The two pairs now share a curve, so each pair takes one word instead of two stacked ones.
-        tc_vc = MathTex(r'\mathrm{TC} = \mathrm{VC}').scale(CURVE_WORD_SCALE).move_to(tc_word, aligned_edge=LEFT)
+        # The two averages now share a curve, so use one label.
         atc_avc = MathTex(r'\mathrm{ATC} = \mathrm{AVC}').scale(CURVE_WORD_SCALE)
-        atc_avc.next_to(avg_ax.c2p(100, atc(100)), UP, buff=0.2).set_x(7.35 - atc_avc.width / 2)   # inside the safe margin
-        self.play(FadeOut(vc_word), FadeOut(avc_word), FadeOut(tc_word), FadeOut(atc_word), FadeIn(tc_vc), FadeIn(atc_avc),
+        atc_avc.next_to(avg_ax.c2p(COST_Q_MAX, atc(COST_Q_MAX)), RIGHT, buff=0.15)
+        self.play(FadeOut(avc_word), FadeOut(atc_word), FadeIn(atc_avc),
                   run_time=0.6)
         self.pause('3.r')
 
-        # ---- 4.a · The firm's objective, the first line of the firm's-problem card.
+        # ---- 4.a · The firm's objective, with revenue minus cost identified as profit.
         self.remove(*[m for m in self.mobjects if isinstance(m, ValueTracker)])   # trackers join the scene when animated
         FadeAll(self)
         self.clear()
         head = title('Marginal Revenue')
-        objective = MathTex(r'\max_{q}\ \pi = \mathrm{TR} - \mathrm{TC}').move_to([0, BODY_MID + 0.5, 0])
+        objective = MathTex(r'\max_{q}\ {{\mathrm{TR} - \mathrm{TC}}}').move_to([0, BODY_MID + 0.5, 0])
+        profit_brace = Brace(objective.get_part_by_tex(r'\mathrm{TR} - \mathrm{TC}'), UP, buff=0.12, color=INK)
+        profit_word = Tex('Profit', color=CAPTION).scale(0.65).next_to(profit_brace, UP, buff=0.12)
         note = teaching('In this class, firms aim to maximize profit.')
-        self.play(FadeIn(head), FadeIn(objective), FadeIn(note))
+        self.play(FadeIn(head), FadeIn(objective), FadeIn(profit_brace), FadeIn(profit_word), FadeIn(note))
         self.pause('4.a')
 
-        # ---- 4.b · The punch line under it: MC = MR.
-        rule = MathTex(r'{{\mathrm{MC}}} = {{\mathrm{MR}}}').move_to([0, BODY_MID - 0.6, 0])
+        # ---- 4.b · End on the solution to the maximization problem: MC = MR.
+        rule = MathTex(r'\Longrightarrow\quad {{\mathrm{MC}}} = {{\mathrm{MR}}}').move_to([0, BODY_MID - 0.9, 0])
         rule.get_part_by_tex(r'\mathrm{MC}').set_color(MC_COLOR)
         rule.get_part_by_tex(r'\mathrm{MR}').set_color(MR_COLOR)
         self.remove(note)
-        note = teaching('A firm maximizes profit where marginal cost equals marginal revenue.')
+        note = teaching('A firm maximizes profit by choosing quantity where marginal cost equals marginal revenue.')
         self.play(FadeIn(rule), FadeIn(note))
         self.pause('4.b')
-
-        # ---- 4.c · Both lines move under the title as stored results. On the firm's cost graph (MC, ATC; AVC left out
-        # because MR shares its pink), MR is an illustrative line whose slope one tracker tilts:
-        # flat, steep, and back. The red point where MC = MR and its quantity follow.
-        stored_objective = subtitle(head, r'$\max_{q}\ \pi = \mathrm{TR} - \mathrm{TC}$', book=True)
-        stored_rule = Tex(r'$\mathrm{MC} = \mathrm{MR}$', color=CAPTION).scale(SCALE_CAPTION)
-        stored_rule.next_to(stored_objective, RIGHT, buff=0.6)
-        stored_rule.shift(UP * (stored_objective.family_members_with_points()[-1].get_bottom()[1]
-                                - stored_rule.family_members_with_points()[0].get_bottom()[1]))
-        firm_ax = style_axes([0, 100, 10], [0, AVERAGE_MAX, 20], x_length=5.6, y_length=GRAPH_SIZE)
-        firm_ax.shift(np.array([-2.8, LEFT_ORIGIN[1], 0]) - firm_ax.c2p(0, 0))
-        firm_words = VGroup(
-            Tex(r'\$', color=INK).scale(0.8).next_to(firm_ax.c2p(0, AVERAGE_MAX), LEFT, buff=0.23),
-            Tex(r'\textsf{dollars per unit}', color=CAPTION).scale(0.55).next_to(firm_ax.c2p(0, AVERAGE_MAX), RIGHT, buff=0.22),
-            Tex('Q', color=INK).scale(0.8).next_to(firm_ax.c2p(100, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(firm_ax.c2p(100, 0), DOWN, buff=0.73))
-        firm_mc = Line(firm_ax.c2p(0, 0), firm_ax.c2p(100, mc(100)), color=MC_COLOR, stroke_width=CURVE_WIDTH)
-        firm_mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(100, mc(100)), RIGHT, buff=0.15)
-        firm_atc = polyline([firm_ax.c2p(q, atc(q)) for q in np.linspace(ATC_START, 100, 121)], ATC_COLOR, CURVE_WIDTH)
-        firm_atc_word = Tex('ATC', color=INK).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(100, atc(100)), RIGHT, buff=0.15)
-        MR_INTERCEPT = 0.8 * mc(100)
-        tilt = ValueTracker(2 * COST_ALPHA)
-        mr_end = lambda: 100 if tilt.get_value() <= MR_INTERCEPT/100 else MR_INTERCEPT / tilt.get_value()
-        best_q = lambda: MR_INTERCEPT / (2 * COST_ALPHA + tilt.get_value())
-        mr_line = Line(firm_ax.c2p(0, MR_INTERCEPT), firm_ax.c2p(80, 0), color=MR_COLOR, stroke_width=CURVE_WIDTH)
-        mr_line.add_updater(lambda m: m.put_start_and_end_on(
-            firm_ax.c2p(0, MR_INTERCEPT), firm_ax.c2p(mr_end(), MR_INTERCEPT - tilt.get_value() * mr_end())))
-        mr_word = Tex('MR', color=INK).scale(CURVE_WORD_SCALE)
-        mr_word.add_updater(lambda m: m.next_to(firm_ax.c2p(mr_end(), MR_INTERCEPT - tilt.get_value() * mr_end()),
-                                                RIGHT if mr_end() == 100 else UR, buff=0.12))
-        best_point = Dot(firm_ax.c2p(40, mc(40)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
-        best_point.add_updater(lambda m: m.move_to(firm_ax.c2p(best_q(), mc(best_q()))))
-        best_drop = DashedLine(firm_ax.c2p(40, 0), firm_ax.c2p(40, mc(40)), color=GUIDE, stroke_width=GUIDE_WIDTH)
-        best_drop.add_updater(lambda m: m.become(DashedLine(firm_ax.c2p(best_q(), 0), firm_ax.c2p(best_q(), mc(best_q())),
-                                                            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
-        best_number = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
-        best_number.add_updater(lambda m: m.set_value(round(best_q(), 4))
-                                .move_to(firm_ax.c2p(best_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        best_symbol = Tex('$q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
-        best_symbol.add_updater(lambda m: m.move_to(firm_ax.c2p(best_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
-        tilt_marks = [mr_line, mr_word, best_point, best_drop, best_number, best_symbol]
-        for m in tilt_marks:
-            m.update()
-        self.remove(note)
-        self.play(Transform(objective, stored_objective), Transform(rule, stored_rule), run_time=1.0)
-        self.remove(objective, rule)
-        self.add(stored_objective, stored_rule)
-        note = teaching('Think of marginal revenue as some abstract curve that can take many shapes.')
-        self.play(FadeIn(firm_ax), FadeIn(firm_words), FadeIn(firm_mc), FadeIn(firm_mc_word), FadeIn(firm_atc),
-                  FadeIn(firm_atc_word), FadeIn(note))
-        self.play(*[FadeIn(m) for m in tilt_marks])
-        self.play(tilt.animate.set_value(0), run_time=ROLL_TIME, rate_func=smooth)
-        self.play(tilt.animate.set_value(6 * COST_ALPHA), run_time=SWEEP_TIME, rate_func=smooth)
-        self.play(tilt.animate.set_value(2 * COST_ALPHA), run_time=ROLL_TIME, rate_func=smooth)
-        self.pause('4.c')
-
-        # ---- 4.d.market · Back to buyers and sellers: Part C's market, supply and demand, MB = 12 - Q/5 and
-        # MC = 2 + Q/20, crossing at 40 units and $4 (a red point).
-        for m in tilt_marks:
-            m.update()
-            m.clear_updaters()
-        market_ax = style_axes([0, 60, 10], [0, 13, 2], x_length=5.0, y_length=GRAPH_SIZE)
-        market_ax.shift(np.array([-5.4, LEFT_ORIGIN[1], 0]) - market_ax.c2p(0, 0))
-        market_words = VGroup(
-            Tex('P', color=INK).scale(0.8).next_to(market_ax.c2p(0, 13), LEFT, buff=0.23),
-            Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55).next_to(market_ax.c2p(0, 13), RIGHT, buff=0.22),
-            Tex('Q', color=INK).scale(0.8).next_to(market_ax.c2p(60, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(market_ax.c2p(60, 0), DOWN, buff=0.73))
-        mb = lambda q: 12 - q / 5
-        market_mc = lambda q: 2 + q / 20
-        demand = Line(market_ax.c2p(0, 12), market_ax.c2p(60, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
-        supply = Line(market_ax.c2p(0, 2), market_ax.c2p(60, 5), color=SUPPLY, stroke_width=CURVE_WIDTH)
-        demand_word = Tex('D / MB', color=INK).scale(CURVE_WORD_SCALE).next_to(market_ax.c2p(60, 0), UR, buff=0.12)
-        supply_word = Tex('S / MC', color=INK).scale(CURVE_WORD_SCALE).next_to(market_ax.c2p(60, 5), RIGHT, buff=0.15)
-        # The crossing sits above the unit's two dots, so it stays red when the unit reaches it in 4.d.
-        crossing = Dot(market_ax.c2p(40, 4), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER + 1)
-        self.remove(note)
-        note = teaching('Markets set quantity where marginal benefits equal marginal costs.')
-        self.play(FadeOut(firm_ax), FadeOut(firm_words), FadeOut(firm_mc), FadeOut(firm_mc_word), FadeOut(firm_atc),
-                  FadeOut(firm_atc_word), *[FadeOut(m) for m in tilt_marks], run_time=0.6)
-        self.play(FadeIn(market_ax), FadeIn(market_words), FadeIn(demand), FadeIn(supply), FadeIn(demand_word),
-                  FadeIn(supply_word), FadeIn(note))
-        self.play(FadeIn(crossing), run_time=0.5)
-        self.pause('4.d.market')
-
-        # ---- 4.d.unit · One unit, the 10th: a white line up from Q = 10 with its benefit and cost marked on the
-        # curves, and alongside the graph two columns at the same price scale: MB ($10.00) above MC ($2.50).
-        unit = ValueTracker(10)
-        price_y = lambda p: market_ax.c2p(0, p)[1]
-        unit_line = Line(market_ax.c2p(10, 0), market_ax.c2p(10, 10), color=INK, stroke_width=2.5)
-        unit_line.add_updater(lambda m: m.put_start_and_end_on(market_ax.c2p(unit.get_value(), 0),
-                                                               market_ax.c2p(unit.get_value(), mb(unit.get_value()))))
-        unit_dots = VGroup(Dot(radius=0.065, color=DEMAND), Dot(radius=0.065, color=SUPPLY)).set_z_index(DOT_LAYER)
-        unit_dots.add_updater(lambda m: (m[0].move_to(market_ax.c2p(unit.get_value(), mb(unit.get_value()))),
-                                         m[1].move_to(market_ax.c2p(unit.get_value(), market_mc(unit.get_value())))))
-        unit_number = DecimalNumber(10, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
-        unit_number.add_updater(lambda m: m.set_value(round(unit.get_value(), 4))
-                                .move_to(market_ax.c2p(unit.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
-        # The two columns: faint fill, a solid value edge on top, value outside, name under the base.
-        BENEFIT_LEFT, COST_LEFT, COLUMN_W = 1.9, 2.6, 0.5
-        base_y = market_ax.c2p(0, 0)[1]
-        COLUMN_FILL = 0.4
-        benefit_column = Polygon([0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], stroke_width=0, fill_color=DEMAND, fill_opacity=COLUMN_FILL)
-        benefit_column.add_updater(lambda m: m.set_points_as_corners([
-            [BENEFIT_LEFT, base_y, 0], [BENEFIT_LEFT + COLUMN_W, base_y, 0],
-            [BENEFIT_LEFT + COLUMN_W, price_y(mb(unit.get_value())), 0], [BENEFIT_LEFT, price_y(mb(unit.get_value())), 0],
-            [BENEFIT_LEFT, base_y, 0]]))
-        cost_column = Polygon([0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], stroke_width=0, fill_color=SUPPLY, fill_opacity=COLUMN_FILL)
-        cost_column.add_updater(lambda m: m.set_points_as_corners([
-            [COST_LEFT, base_y, 0], [COST_LEFT + COLUMN_W, base_y, 0],
-            [COST_LEFT + COLUMN_W, price_y(market_mc(unit.get_value())), 0], [COST_LEFT, price_y(market_mc(unit.get_value())), 0],
-            [COST_LEFT, base_y, 0]]))
-        benefit_edge = Line([BENEFIT_LEFT, 0, 0], [BENEFIT_LEFT + COLUMN_W, 0, 0], color=DEMAND, stroke_width=CURVE_WIDTH)
-        benefit_edge.add_updater(lambda m: m.set_y(price_y(mb(unit.get_value()))))
-        cost_edge = Line([COST_LEFT, 0, 0], [COST_LEFT + COLUMN_W, 0, 0], color=SUPPLY, stroke_width=CURVE_WIDTH)
-        cost_edge.add_updater(lambda m: m.set_y(price_y(market_mc(unit.get_value()))))
-        column_base = Line([BENEFIT_LEFT - 0.15, base_y, 0], [COST_LEFT + COLUMN_W + 0.15, base_y, 0], color=MUTED)
-        column_names = VGroup(
-            Tex('MB', color=DEMAND).scale(0.6).move_to([BENEFIT_LEFT + COLUMN_W / 2, base_y - 0.3, 0]),
-            Tex('MC', color=SUPPLY).scale(0.6).move_to([COST_LEFT + COLUMN_W / 2, base_y - 0.3, 0]))
-        benefit_value = VGroup(Tex(r'\$', color=DEMAND), DecimalNumber(10, num_decimal_places=2, color=DEMAND)).scale(0.6)
-        benefit_value.add_updater(lambda m: (m[1].set_value(mb(unit.get_value())), m.arrange(RIGHT, buff=0.04),
-                                             m.next_to([BENEFIT_LEFT, price_y(mb(unit.get_value())), 0], LEFT, buff=0.15)))
-        cost_value = VGroup(Tex(r'\$', color=SUPPLY), DecimalNumber(2.5, num_decimal_places=2, color=SUPPLY)).scale(0.6)
-        cost_value.add_updater(lambda m: (m[1].set_value(market_mc(unit.get_value())), m.arrange(RIGHT, buff=0.04),
-                                          m.next_to([COST_LEFT + COLUMN_W, price_y(market_mc(unit.get_value())), 0], RIGHT, buff=0.15)))
-        unit_marks = [unit_line, unit_dots, unit_number, benefit_column, cost_column, benefit_edge, cost_edge,
-                      benefit_value, cost_value]
-        for m in unit_marks:
-            m.update()
-        self.remove(note)
-        note = teaching('Sellers make one more unit while the benefits exceed the cost of adding it.')
-        self.play(FadeIn(unit_line), FadeIn(unit_dots), FadeIn(unit_number))
-        self.play(FadeIn(column_base), FadeIn(column_names), FadeIn(benefit_column), FadeIn(cost_column),
-                  FadeIn(benefit_edge), FadeIn(cost_edge), FadeIn(benefit_value), FadeIn(cost_value), FadeIn(note))
-        self.pause('4.d.unit')
-
-        # ---- 4.d · Units are added until the columns are equal: the 40th unit breaks even at $4.00.
-        self.remove(note)
-        note = teaching('Keep adding units until an additional unit breaks even.')
-        self.play(FadeIn(note), unit.animate.set_value(40), run_time=SWEEP_TIME, rate_func=smooth)
-        self.pause('4.d')
-
-        # ---- 4.e · MC = MR on the screen, right of the equal columns.
-        for m in unit_marks:
-            m.update()
-            m.clear_updaters()
-        big_rule = MathTex(r'{{\mathrm{MC}}} = {{\mathrm{MR}}}').scale(1.3).move_to([5.6, BODY_MID + 0.3, 0])
-        big_rule.get_part_by_tex(r'\mathrm{MC}').set_color(MC_COLOR)
-        big_rule.get_part_by_tex(r'\mathrm{MR}').set_color(MR_COLOR)
-        self.remove(note)
-        note = teaching('The best decision is the quantity where marginal cost equals marginal revenue.')
-        self.play(FadeIn(big_rule), FadeIn(note))
-        self.pause('4.e')
-
-        # ---- 4.f · Next time: the two models side by side, the competitive firm's flat P = MR and the monopolist's
-        # sloped MR, each with MC and the red point where MC = MR. No numbers.
-        self.remove(*[m for m in self.mobjects if isinstance(m, ValueTracker)])   # trackers join the scene when animated
-        FadeAll(self)
-        self.clear()
-        head = title('Next Time')
-        pc_ax = style_axes([0, 100, 10], [0, AVERAGE_MAX, 20], x_length=4.6, y_length=3.6)
-        pc_ax.shift(np.array([-6.6, BODY_MID - 1.95, 0]) - pc_ax.c2p(0, 0))
-        mono_ax = style_axes([0, 100, 10], [0, AVERAGE_MAX, 20], x_length=4.6, y_length=3.6)
-        mono_ax.shift(np.array([1.4, BODY_MID - 1.95, 0]) - mono_ax.c2p(0, 0))
-        pc_panel = VGroup(
-            pc_ax,
-            Tex('Perfect Competition', color=INK).scale(0.8).next_to(pc_ax.c2p(50, AVERAGE_MAX), UP, buff=0.35),
-            Tex(r'\$', color=INK).scale(0.8).next_to(pc_ax.c2p(0, AVERAGE_MAX), LEFT, buff=0.23),
-            Tex('Q', color=INK).scale(0.8).next_to(pc_ax.c2p(100, 0), DOWN, buff=0.23),
-            Line(pc_ax.c2p(0, 0), pc_ax.c2p(100, mc(100)), color=MC_COLOR, stroke_width=CURVE_WIDTH),
-            Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(pc_ax.c2p(100, mc(100)), RIGHT, buff=0.15),
-            Line(pc_ax.c2p(0, mc(60)), pc_ax.c2p(100, mc(60)), color=DEMAND, stroke_width=CURVE_WIDTH),
-            Tex('P = MR', color=INK).scale(CURVE_WORD_SCALE).next_to(pc_ax.c2p(100, mc(60)), RIGHT, buff=0.15),
-            Dot(pc_ax.c2p(60, mc(60)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER))
-        mono_panel = VGroup(
-            mono_ax,
-            Tex('Monopoly', color=INK).scale(0.8).next_to(mono_ax.c2p(50, AVERAGE_MAX), UP, buff=0.35),
-            Tex(r'\$', color=INK).scale(0.8).next_to(mono_ax.c2p(0, AVERAGE_MAX), LEFT, buff=0.23),
-            Tex('Q', color=INK).scale(0.8).next_to(mono_ax.c2p(100, 0), DOWN, buff=0.23),
-            Line(mono_ax.c2p(0, 0), mono_ax.c2p(100, mc(100)), color=MC_COLOR, stroke_width=CURVE_WIDTH),
-            Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(mono_ax.c2p(100, mc(100)), RIGHT, buff=0.15),
-            Line(mono_ax.c2p(0, AVERAGE_MAX), mono_ax.c2p(100, mc(20)), color=DEMAND, stroke_width=CURVE_WIDTH),
-            Tex('D', color=INK).scale(CURVE_WORD_SCALE).next_to(mono_ax.c2p(100, mc(20)), RIGHT, buff=0.15),
-            Line(mono_ax.c2p(0, AVERAGE_MAX), mono_ax.c2p(60, 0), color=MR_COLOR, stroke_width=CURVE_WIDTH),
-            Tex('MR', color=INK).scale(CURVE_WORD_SCALE).next_to(mono_ax.c2p(60, 0), UR, buff=0.12),
-            Dot(mono_ax.c2p(40, mc(40)), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER))
-        note = teaching('Marginal revenue in monopoly and perfect competition.')
-        self.play(FadeIn(head), FadeIn(pc_panel), FadeIn(mono_panel), FadeIn(note))
-        self.pause('4.f')

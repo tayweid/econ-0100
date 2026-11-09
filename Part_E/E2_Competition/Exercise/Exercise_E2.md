@@ -1,0 +1,118 @@
+---
+margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
+plass:
+  number-equations: false
+---
+
+# ECON 0100 | Exercise E2 | Competition
+
+*Exercises are a certificate of the work done together in class and offers extra practice outside class.*
+
+## Q1 | Economic Sudoku Sells
+
+<!-- Editor. Q1 is new, written 2026-11-09 so the class has an exercise part it can do early, before the Profit section (E2_Storyboard_Revision.md, Open for Taylor 6, asks for a card that reads q* and profit off known curves). The firm is Exercise E1's Economic Sudoku table with its blanks filled in (A = 60, B = 90, C = 100, D = 130, E = 140), so the Exercises keep one firm across Part E. The prices 135 and 100 are mine: 135 sits between the marginal costs 130 and 140 and gives a small profit, 100 sits between 90 and 130 and gives a loss that is smaller than the fixed cost. Strike the question if the exercise should be the toffee story alone. -->
+
+The firm from Exercise E1 sells in a competitive market, so it takes the market price as given. Its costs are below, with the blanks from last time filled in.
+
+::: {.table style=grid inset=6pt columns="auto 72pt 72pt 72pt 72pt" valign=middle}
+
+| **OUTPUT** | **AFC** | **AVC** | **ATC** | **MC** |
+| :---: | :---: | :---: | :---: | :---: |
+| **1** | 120 | 100 | 220 |   |
+|   |   |   |   | 80 |
+| **2** | 60 | 90 | 150 |   |
+|   |   |   |   | 90 |
+| **3** | 40 | 90 | 130 |   |
+|   |   |   |   | 130 |
+| **4** | 30 | 100 | 130 |   |
+|   |   |   |   | 140 |
+| **5** | 24 | 108 | 132 |   |
+
+:::
+
+a\) The market price is 135 per unit. How many units does the firm produce, and what is its profit?
+
+ 
+
+Quantity: \_\_\_\_\_\_\_\_\_\_ Profit: \_\_\_\_\_\_\_\_\_\_
+
+b\) The market price falls to 100 per unit. How many units does the firm produce now, and what is its profit? Should it keep operating in the short run?
+
+ 
+
+Quantity: \_\_\_\_\_\_\_\_\_\_ Profit: \_\_\_\_\_\_\_\_\_\_ Keep operating? \_\_\_\_\_\_\_\_\_\_
+
+c\) Firms like this one enter the market when there is profit to be made and exit when there is a loss. What price does the market settle at in the long run?
+
+ 
+
+Long-run price: \_\_\_\_\_\_\_\_\_\_
+
+## Q2 | Traditional Toffee Specific Tax
+
+Due to longstanding tradition, all toffees are made the same way, anyone could easily start making them, and the number of toffee makers had been constant over the past couple of years. This changed when the Ministry imposed a specific (*i.e. per-unit*) tax on all toffee sales. Using a couple of graphs to illustrate your answer, explain what happened in the market because of this tax.
+
+:::: {.columns gutter=1em}
+
+::: column
+
+**The Market**
+
+![](data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjU0IDE5NCIgd2lkdGg9IjI1NHB0IiBoZWlnaHQ9IjE5NHB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpoNT0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNIDAgMHYgMTk0aCAyNTR2IC0xOTRaICIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIgMikiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTY0KSIgZD0iTSAwIDBoIDIwOCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTY0KSIgZD0iTSAwIDB2IC0xNDgiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAyMzcgMTY2Ljk5MTEpIj48dXNlIHhsaW5rOmhyZWY9IiNnNUIxMzVCRjI4Njk1NjU2NzFBNTE3RDREQjJDMTdGQ0EiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAyMiA5Ljk5MTEpIj48dXNlIHhsaW5rOmhyZWY9IiNnOTFDRThFMjM5NUE2RUNGQkE0NDE3NzI5MjIwQTBEREQiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L2c+PGRlZnM+PHN5bWJvbCBpZD0iZzVCMTM1QkYyODY5NTY1NjcxQTUxN0Q0REIyQzE3RkNBIiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDMuNTgwMiAtMC4yODA4YyAwLjMzOTMgMCAwLjcwMiAwLjA1ODUgMS4wODgxIDAuMTYzOGMgLTAuMDM1MSAtMC40NDQ2IC0wLjA0NjggLTAuNzI1NCAtMC4wNDY4IC0wLjgzMDdjIDAgLTAuODc3NSAwLjMzOTMgLTEuMzIyMSAxLjAwNjIgLTEuMzIyMWMgMC43MTM3IDAgMS4yNjM2IDAuNTczMyAxLjUzMjcgMS4wOTk4YyAwLjI5MjUgMC42MDg0IDAuNDQ0NiAxLjAwNjIgMC40NDQ2IDEuMTkzNGMgMCAwLjEwNTMgLTAuMDU4NSAwLjE2MzggLTAuMTc1NSAwLjE2MzhjIC0wLjA4MTkgMCAtMC4xNDA0IC0wLjA0NjggLTAuMTc1NSAtMC4xNTIxYyAtMC4xNzU1IC0wLjUzODIgLTAuNjU1MiAtMS4wODgxIC0xLjMxMDQgLTEuMDg4MWMgLTAuNTk2NyAwIC0wLjY3ODYgMC40Nzk3IC0wLjc3MjIgMS4xMjMyYyAwLjk4MjggMC4zODYxIDEuODEzNSAxLjA1MyAyLjQ4MDQgMi4wMTI0YyAwLjY2NjkgMC45NTk0IDEuMDA2MiAxLjk1MzkgMS4wMDYyIDIuOTk1MmMgMCAwLjkyNDMgLTAuMjY5MSAxLjY3MzEgLTAuODE5IDIuMjY5OGMgLTAuNTQ5OSAwLjU5NjcgLTEuMjc1MyAwLjkwMDkgLTIuMTc2MiAwLjkwMDljIC0wLjYyMDEgMCAtMS4yNDAyIC0wLjE1MjEgLTEuODYwMyAtMC40NjhjIC0xLjI2MzYgLTAuNjIwMSAtMi4xODc5IC0xLjYwMjkgLTIuNzg0NiAtMi45MjVjIC0wLjI5MjUgLTAuNjY2OSAtMC40NDQ2IC0xLjMyMjEgLTAuNDQ0NiAtMS45ODljIDAgLTEuODM2OSAxLjE5MzQgLTMuMTQ3MyAzLjAwNjkgLTMuMTQ3M1ogbSAzLjk2NjMgNS43MzNjIDAgLTAuNzEzNyAtMC4xNzU1IC0xLjUzMjcgLTAuNTI2NSAtMi40ODA0YyAtMC40MDk1IC0xLjA4ODEgLTEuMDQxMyAtMS44OTU0IC0xLjkxODggLTIuNDEwMmMgLTAuMDQ2OCAwLjI1NzQgLTAuMTE3IDAuNDkxNCAtMC4yMTA2IDAuNzAyYyAtMC4xNTIxIDAuMzUxIC0wLjQzMjkgMC41MjY1IC0wLjg0MjQgMC41MjY1YyAtMC42NDM1IDAgLTEuMjI4NSAtMC41ODUgLTEuMjI4NSAtMS4yMjg1YyAwIC0wLjEwNTMgMC4wMTE3IC0wLjIxMDYgMC4wMzUxIC0wLjI5MjVjIC0wLjc4MzkgMC4zNjI3IC0xLjE3IDEuMDk5OCAtMS4xNyAyLjIyM2MgMCAwLjQ5MTQgMC4wOTM2IDEuMDg4MSAwLjI5MjUgMS43OTAxYyAwLjQwOTUgMS40ODU5IDEuMTQ2NiAyLjUzODkgMi4yMTEzIDMuMTU5YyAwLjUwMzEgMC4yODA4IDAuOTcxMSAwLjQyMTIgMS40MDQgMC40MjEyYyAxLjI4NyAwIDEuOTUzOSAtMS4wNjQ3IDEuOTUzOSAtMi40MTAyWiBtIC0zLjQ5ODMgLTQuMDEzMWMgMC40MzI5IDAgMC42NTUyIC0wLjMxNTkgMC42NTUyIC0wLjkzNmMgMCAtMC4xMDUzIC0wLjAzNTEgLTAuMTYzOCAtMC4xMDUzIC0wLjE4NzJjIC0wLjMyNzYgLTAuMTQwNCAtMC42NDM1IC0wLjIxMDYgLTAuOTQ3NyAtMC4yMTA2YyAtMC4zMjc2IDAgLTAuNDkxNCAwLjE1MjEgLTAuNDkxNCAwLjQ1NjNjIDAgMC40NDQ2IDAuNDQ0NiAwLjg3NzUgMC44ODkyIDAuODc3NVogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZzkxQ0U4RTIzOTVBNkVDRkJBNDQxNzcyOTIyMEEwREREIiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDYuNDkzNSA3Ljk5MTFoIC0zLjc0NGMgLTAuMjY5MSAwIC0wLjM5NzggLTAuMDExNyAtMC4zOTc4IC0wLjI2OTFjIDAgLTAuMTI4NyAwLjEyODcgLTAuMTg3MiAwLjM4NjEgLTAuMTg3MmMgMC4yMzQgMCAwLjcwMiAwLjAzNTEgMC43MDIgLTAuMTUyMWMgMCAtMC4wMjM0IC0wLjAxMTcgLTAuMDkzNiAtMC4wNDY4IC0wLjIxMDZsIC0xLjU0NDQgLTYuMjEyN2MgLTAuMDcwMiAtMC4yNTc0IC0wLjE4NzIgLTAuNDA5NSAtMC4zNTEgLTAuNDY4YyAtMC4wODE5IC0wLjAyMzQgLTAuMjkyNSAtMC4wMzUxIC0wLjY1NTIgLTAuMDM1MWMgLTAuMjU3NCAwIC0wLjM3NDQgLTAuMDIzNCAtMC4zNzQ0IC0wLjI2OTFjIDAgLTAuMTI4NyAwLjA3MDIgLTAuMTg3MiAwLjIyMjMgLTAuMTg3MmwgMS40NjI1IDAuMDM1MWwgMC43NDg4IC0wLjAxMTdjIDAuMTI4NyAwIDAuNTk2NyAtMC4wMjM0IDAuNzQ4OCAtMC4wMjM0YyAwLjE4NzIgMCAwLjI4MDggMC4wOTM2IDAuMjgwOCAwLjI4MDhjIDAgMC4xMTcgLTAuMTI4NyAwLjE3NTUgLTAuMzc0NCAwLjE3NTVjIC0wLjQ2OCAwIC0wLjcwMiAwLjA0NjggLTAuNzAyIDAuMTUyMWMgMCAwIDAuMDExNyAwLjAzNTEgMC4wMzUxIDAuMTg3MmwgMC43MDIgMi44NTQ4aCAxLjkzMDVjIDAuNzYwNSAwIDEuNDg1OSAwLjIzNCAyLjE2NDUgMC42OTAzYyAwLjc2MDUgMC41MDMxIDEuMTM0OSAxLjEyMzIgMS4xMzQ5IDEuODYwM2MgMCAxLjE1ODMgLTEuMDk5OCAxLjc5MDEgLTIuMzI4MyAxLjc5MDFaIG0gLTAuMzYyNyAtMC40NTYzYyAxLjAxNzkgMCAxLjUyMSAtMC4zNTEgMS41MjEgLTEuMDUzYyAwIC0wLjY1NTIgLTAuMzI3NiAtMS41MzI3IC0wLjY2NjkgLTEuODM2OWMgLTAuNDQ0NiAtMC4zOTc4IC0xLjAyOTYgLTAuNTk2NyAtMS43NTUgLTAuNTk2N2ggLTEuNTY3OGwgMC43NzIyIDMuMDg4OGMgMC4wOTM2IDAuMzk3OCAwLjA5MzYgMC4zOTc4IDAuNTg1IDAuMzk3OFogIi8+PC9zeW1ib2w+PC9kZWZzPjwvc3ZnPg==){width=100%}
+
+:::
+
+::: column
+
+**One Toffee Maker**
+
+![](data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjU0IDE5NCIgd2lkdGg9IjI1NHB0IiBoZWlnaHQ9IjE5NHB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4bWxuczpoNT0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNIDAgMHYgMTk0aCAyNTR2IC0xOTRaICIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIgMikiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTY0KSIgZD0iTSAwIDBoIDIwOCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIwLjgiIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2UtbWl0ZXJsaW1pdD0iNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYgMTY0KSIgZD0iTSAwIDB2IC0xNDgiLz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAyMzcgMTY2Ljk5MTEpIj48dXNlIHhsaW5rOmhyZWY9IiNnQUZFNURGNDEzRTIyMUEzQzYyMEE1QjY2MEQzMDU3MDQiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48ZyB0cmFuc2Zvcm09Im1hdHJpeCgxIDAgMCAtMSAyMiA5Ljk5MTEpIj48dXNlIHhsaW5rOmhyZWY9IiNnOTFDRThFMjM5NUE2RUNGQkE0NDE3NzI5MjIwQTBEREQiIHg9IjAiIHk9IjAiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L2c+PGRlZnM+PHN5bWJvbCBpZD0iZ0FGRTVERjQxM0UyMjFBM0M2MjBBNUI2NjBEMzA1NzA0IiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDQuMzUyNCA0LjQxMDljIC0wLjIzNCAwLjUwMzEgLTAuNTk2NyAwLjc2MDUgLTEuMDc2NCAwLjc2MDVjIC0wLjc2MDUgMCAtMS40Mjc0IC0wLjM4NjEgLTIuMDAwNyAtMS4xN2MgLTAuNTM4MiAtMC43MjU0IC0wLjgwNzMgLTEuNDc0MiAtMC44MDczIC0yLjI1ODFjIDAgLTEuMDE3OSAwLjU4NSAtMS44OTU0IDEuNTU2MSAtMS44OTU0YyAwLjQyMTIgMCAwLjg0MjQgMC4xOTg5IDEuMjc1MyAwLjU5NjdsIC0wLjQ3OTcgLTEuOTE4OGMgLTAuMDM1MSAtMC4xNzU1IC0wLjE0MDQgLTAuMjgwOCAtMC4zMDQyIC0wLjMxNTljIC0wLjA1ODUgLTAuMDExNyAtMC4yMTA2IC0wLjAyMzQgLTAuNDc5NyAtMC4wMjM0YyAtMC4wNzAyIC0wLjAxMTcgLTAuMTE3IC0wLjAxMTcgLTAuMTQwNCAtMC4wMTE3YyAtMC4xMDUzIC0wLjAxMTcgLTAuMTYzOCAtMC4xMDUzIC0wLjE2MzggLTAuMjY5MXYgLTAuMDQ2OGMgMC4wMzUxIC0wLjA4MTkgMC4xMDUzIC0wLjEyODcgMC4xOTg5IC0wLjEyODdjIDAuMjIyMyAwIDAuOTI0MyAwLjAzNTEgMS4xNDY2IDAuMDM1MWMgMC4yMjIzIDAgMC45NTk0IC0wLjAzNTEgMS4xODE3IC0wLjAzNTFjIDAuMTYzOCAwIDAuMjQ1NyAwLjA5MzYgMC4yNDU3IDAuMjgwOGMgMCAwLjExNyAtMC4xMTcgMC4xNzU1IC0wLjMzOTMgMC4xNzU1YyAtMC4yMTA2IDAgLTAuNTAzMSAtMC4wMTE3IC0wLjUwMzEgMC4xMjg3YyAwIDAuMDQ2OCAwLjAxMTcgMC4xMjg3IDAuMDQ2OCAwLjI0NTdsIDEuNTc5NSA2LjQzNWMgMCAwLjEwNTMgLTAuMDU4NSAwLjE2MzggLTAuMTYzOCAwLjE2MzhjIC0wLjIxMDYgMCAtMC42NTUyIC0wLjU4NSAtMC43NzIyIC0wLjc0ODhaIG0gLTAuMzc0NCAtMC4wNDY4YyAwLjEwNTMgLTAuMjQ1NyAwLjE2MzggLTAuNDA5NSAwLjE2MzggLTAuNTE0OGMgMCAtMC4wMTE3IC0wLjAxMTcgLTAuMDgxOSAtMC4wMzUxIC0wLjE4NzJsIC0wLjI4MDggLTEuMTM0OWMgLTAuMjIyMyAtMC44NDI0IC0wLjMyNzYgLTEuMjc1MyAtMC4zMzkzIC0xLjI5ODdjIC0wLjIyMjMgLTAuNDA5NSAtMC44NjU4IC0xLjA0MTMgLTEuNDI3NCAtMS4wNDEzYyAtMC40NTYzIDAgLTAuNjkwMyAwLjM1MSAtMC42OTAzIDEuMDQxM2MgMCAwLjUzODIgMC4zNjI3IDEuODQ4NiAwLjUyNjUgMi4yODE1YyAwLjIyMjMgMC41NDk5IDAuNzM3MSAxLjMxMDQgMS4zODA2IDEuMzEwNGMgMC4zMTU5IDAgMC41NDk5IC0wLjE1MjEgMC43MDIgLTAuNDU2M1ogIi8+PC9zeW1ib2w+PHN5bWJvbCBpZD0iZzkxQ0U4RTIzOTVBNkVDRkJBNDQxNzcyOTIyMEEwREREIiBvdmVyZmxvdz0idmlzaWJsZSI+PHBhdGggZD0iTSAwIDBtIDYuNDkzNSA3Ljk5MTFoIC0zLjc0NGMgLTAuMjY5MSAwIC0wLjM5NzggLTAuMDExNyAtMC4zOTc4IC0wLjI2OTFjIDAgLTAuMTI4NyAwLjEyODcgLTAuMTg3MiAwLjM4NjEgLTAuMTg3MmMgMC4yMzQgMCAwLjcwMiAwLjAzNTEgMC43MDIgLTAuMTUyMWMgMCAtMC4wMjM0IC0wLjAxMTcgLTAuMDkzNiAtMC4wNDY4IC0wLjIxMDZsIC0xLjU0NDQgLTYuMjEyN2MgLTAuMDcwMiAtMC4yNTc0IC0wLjE4NzIgLTAuNDA5NSAtMC4zNTEgLTAuNDY4YyAtMC4wODE5IC0wLjAyMzQgLTAuMjkyNSAtMC4wMzUxIC0wLjY1NTIgLTAuMDM1MWMgLTAuMjU3NCAwIC0wLjM3NDQgLTAuMDIzNCAtMC4zNzQ0IC0wLjI2OTFjIDAgLTAuMTI4NyAwLjA3MDIgLTAuMTg3MiAwLjIyMjMgLTAuMTg3MmwgMS40NjI1IDAuMDM1MWwgMC43NDg4IC0wLjAxMTdjIDAuMTI4NyAwIDAuNTk2NyAtMC4wMjM0IDAuNzQ4OCAtMC4wMjM0YyAwLjE4NzIgMCAwLjI4MDggMC4wOTM2IDAuMjgwOCAwLjI4MDhjIDAgMC4xMTcgLTAuMTI4NyAwLjE3NTUgLTAuMzc0NCAwLjE3NTVjIC0wLjQ2OCAwIC0wLjcwMiAwLjA0NjggLTAuNzAyIDAuMTUyMWMgMCAwIDAuMDExNyAwLjAzNTEgMC4wMzUxIDAuMTg3MmwgMC43MDIgMi44NTQ4aCAxLjkzMDVjIDAuNzYwNSAwIDEuNDg1OSAwLjIzNCAyLjE2NDUgMC42OTAzYyAwLjc2MDUgMC41MDMxIDEuMTM0OSAxLjEyMzIgMS4xMzQ5IDEuODYwM2MgMCAxLjE1ODMgLTEuMDk5OCAxLjc5MDEgLTIuMzI4MyAxLjc5MDFaIG0gLTAuMzYyNyAtMC40NTYzYyAxLjAxNzkgMCAxLjUyMSAtMC4zNTEgMS41MjEgLTEuMDUzYyAwIC0wLjY1NTIgLTAuMzI3NiAtMS41MzI3IC0wLjY2NjkgLTEuODM2OWMgLTAuNDQ0NiAtMC4zOTc4IC0xLjAyOTYgLTAuNTk2NyAtMS43NTUgLTAuNTk2N2ggLTEuNTY3OGwgMC43NzIyIDMuMDg4OGMgMC4wOTM2IDAuMzk3OCAwLjA5MzYgMC4zOTc4IDAuNTg1IDAuMzk3OFogIi8+PC9zeW1ib2w+PC9kZWZzPjwvc3ZnPg==){width=100%}
+
+:::
+
+::::
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+<!--
+// GRAPH CODE: keep this note. It draws the blank axes above; delete it and they can't be redrawn.
+// Each image above is one page of this code, in order. To change a graph, edit it here and
+// run scripts/render-sols-figures on this file. Plass leaves this note out of the PDF.
+#import "/_Assets/sols.typ": *
+#set page(width: auto, height: auto, margin: 2pt)
+#set text(font: "New Computer Modern", size: 10pt)
+#fig-text.update(1.3)
+
+// 1: the toffee market, blank axes
+#graph(100, 100, w: 250pt, h: 190pt, xlabel: [$Q$], ylabel: [$P$])
+#pagebreak()
+
+// 2: one toffee maker, blank axes
+#graph(100, 100, w: 250pt, h: 190pt, xlabel: [$q$], ylabel: [$P$])
+-->

@@ -68,3 +68,18 @@
 #let lbl(x, y, body, color: sol-color) = (px, py) => {
   place(dx: px(x), dy: py(y), context text(size: fig-size(8pt), fill: color, body))
 }
+
+// A smooth curve y = f(x) from x0 to x1, drawn as n short segments, e.g. an ATC curve:
+// fcurve(q => q / 2 + 1250 / q, 14, 90, label: [$A T C$], at: (90, 59))
+#let fcurve(f, x0, x1, n: 48, color: black, label: none, at: none) = (px, py) => {
+  for i in range(n) {
+    let a = x0 + (x1 - x0) * i / n
+    let b = x0 + (x1 - x0) * (i + 1) / n
+    place(line(start: (px(a), py(f(a))), end: (px(b), py(f(b))),
+               stroke: (paint: color, thickness: 1.2pt)))
+  }
+  if label != none {
+    let a = if at == none { (x1, f(x1)) } else { at }
+    place(dx: px(a.at(0)) + 4pt, dy: py(a.at(1)) - 5pt, context text(size: fig-size(8pt), fill: color, label))
+  }
+}

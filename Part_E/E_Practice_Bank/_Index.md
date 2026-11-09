@@ -15,6 +15,7 @@ How to read a name:
 | Built | Uses | Source | Solutions |
 |---|---|---|---|
 | Exercise E1 | Economic Sudoku | `Classwork_E1_economic-sudoku_F24` (the Fall 2024 Classwork E1), verbatim | worked in the guide; checked against the ink key `Classwork_E1_economic-sudoku_sols.pdf` / `.png` |
+| Exercise E2 | Q2 Traditional Toffee Specific Tax | `Classwork_E2_toffee-tax_F23` (Q1 of the Fall 2023 Classwork E2), verbatim; Q1 Economic Sudoku Sells is new, the E1 table with a market price (2026-11-09) | the story and graphs in the guide follow the ink key `Classwork_E2_toffee-tax_sols.pdf` |
 
 Economic Sudoku is now **used**. The same table (AFC 120/–/40/30/24, AVC 100/–/90/–/108, ATC 220/150/130/–/132, MC 80/90/130/–) is every copy below. So it is used up everywhere: Classwork E1 F23 and F24, and Vignette E1 F22, S23, F23 and F24. The ink key is printed "Econ 101 | Vignette E1" (a Spring 2023 print, scanned 2023-03-30). It is the same table, so it is the key for every copy.
 
@@ -36,7 +37,7 @@ Economic Sudoku is now **used**. The same table (AFC 120/–/40/30/24, AVC 100/�
 
 | Files | What's in it |
 |---|---|
-| `Classwork_E2_toffee-tax_F23` and `_F23_source` (+pdf, ink key `Classwork_E2_toffee-tax_sols.pdf`) | Traditional Toffee Specific Tax: a per-unit tax in a market anyone can enter; tell the story to the long run. The key is a two-question print: Q2, **Traditional Toffee Lump-Sum Tax**, exists only in that PDF. No .md, and it was not transcribed. |
+| `Classwork_E2_toffee-tax_F23` and `_F23_source` (+pdf, ink key `Classwork_E2_toffee-tax_sols.pdf`) | **Used** (Exercise E2 Q2). Traditional Toffee Specific Tax: a per-unit tax in a market anyone can enter; tell the story to the long run. The key is a two-question print: Q2, **Traditional Toffee Lump-Sum Tax**, exists only in that PDF. No .md, and it was not transcribed. |
 | `Vignette_E2_toffee-subsidy_F22` (+pdf, ink key `_sols_F22.pdf`) | Traditional Toffee Subsidy, the F22 Vignette E3 (November 8, 2022). |
 | `Vignette_E2_toffee-subsidy_F21` (+pdf) | The same question as Honors Vignette 6, from the "Lecture Map" of November 2, 2021. It says "cauldron manufacturers" where it means toffee makers, struck by hand. The PDF carries in-class ink. |
 | `Vignette_E2_broomstick-history_F24` and `_F24_source` (+pdf; Katie's PDF below) | The History of the Broomstick Market, the 24F Vignette E5. Shooting Star's patent runs out, and many makers produce *identical* brooms; tell the story to the long run. |
@@ -102,7 +103,7 @@ Part D's convention, kept here: **Exercises come from past Classwork, Vignettes 
 | Vignette E3 | Unicorn Horn (F21, F22 keys; reworded F24) |
 | Vignette E4 | The Wandmaker's Dilemma, 2×2 game + Cournot (no key); symmetric wandmakers, 200 − Q (F21) |
 | Vignette E5 | Numbus 2000 (F21, F22 keys); Command of Costs; Cauldron Costs Q2–Q4 (key) |
-| Exercise E2 | Traditional Toffee Specific Tax (Classwork E2 F23, key); its Lump-Sum Tax twin is in the key PDF only |
+| Exercise E2 | Built (2026-11-09). Traditional Toffee Specific Tax is used; its Lump-Sum Tax twin (key PDF only) stays unused, kept for Exercise E5 |
 | Exercise E3 | No past Classwork. The nearest are Golden Snitches or Wizard's Chess (Homework), or Unicorn Horn (Vignette). |
 | Exercise E4 | Big Flue Networks (Classwork E3 F23/F24, key); the 2023 tutorial (duopoly, triopoly) |
 | Exercise E5 | No past Classwork. Toffee Lump-Sum Tax (key PDF only) is the closest. |
