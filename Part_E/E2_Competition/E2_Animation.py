@@ -1,5 +1,5 @@
 # maniml E2_Animation.py EpisodeE2
-# Storyboard: E2_Notes.md; current review overrides in E2_Storyboard_Revision.md. All choreography stays in construct().
+# Teaching notes and current hold references: E2_Notes.md. Earlier storyboards are archived. All choreography stays in construct().
 # Competitive firms: E1's firm takes the market price, profit built from one unit (TR, TC, the box, q(P - ATC)),
 # the next unit decides the quantity (MC = MR), then the market beside the firm: entry and exit until profit is zero.
 # One firm throughout, E1's: TC = 1000 + q^2 (a $100 wage, a $1,000 fixed cost), MC = 2q, AVC = q, ATC = q + 1000/q,

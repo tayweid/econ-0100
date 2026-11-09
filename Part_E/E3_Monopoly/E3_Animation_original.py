@@ -15,7 +15,7 @@
 #                      zero, then a per-unit tax of 20 (MC + Tax, ATC + Tax, GOV box) and entry/exit
 #                      again, with alpha growing back to about 0.91 as firms exit.
 #   MonopolisticCompB  5.4 outro: the title and four result bullets.
-# Sources: Part_E/E2_Competition/03_Code.py (class Monopoly) and Part_E/E3_Monopoly/03_Code.py
+# Sources: Part_E/E2_Competition/_archive/2026-11-09_consolidation/03_Code.py (class Monopoly) and Part_E/E3_Monopoly/03_Code.py
 # (MonopolisticComp, MonopolisticCompB). Comments starting "# PORT" (PORT:, PORT note:, PORT
 # PREVIEW) and the shim block are the port's own; the scene classes are the old code unchanged.
 # The old helper module tutorials.py (metaConfig* dicts) is lost; the metaConfigMonopoly dict
@@ -402,7 +402,7 @@ class GraphScene(Scene):
 
 
 # ----------------------------------------------------------------------------
-# Old E2 file (Part_E/E2_Competition/03_Code.py): class Monopoly, Tutorial 5.3 | Monopoly
+# Old E2 file (Part_E/E2_Competition/_archive/2026-11-09_consolidation/03_Code.py): class Monopoly, Tutorial 5.3 | Monopoly
 # ----------------------------------------------------------------------------
 # PORT: reconstructed; tutorials.metaConfig* is lost
 # Measured from the old 5.3 video (N0mbUXYMwdw): black ground, axes 8 units (Q 0-100) by 5 units

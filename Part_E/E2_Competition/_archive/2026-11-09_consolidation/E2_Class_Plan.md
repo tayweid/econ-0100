@@ -9,7 +9,7 @@ plass:
 
 The animations introduce the ideas. Students attempt the exercise individually, compare briefly, and work through the answers with you on the whiteboard. The outside example opens a question that the final board problem resolves. No exercise prompts, worked answers, or new exercise scenes are added to the animation.
 
-Use [Exercise E2](Exercise/Exercise_E2.md) throughout class. It uses the animation’s firm with different prices: $TC = 1000 + q^2$, $MC = 2q$, $AVC = q$. All exercise work stays on the board. The original toffee-tax activity remains in the Part E practice bank.
+Use [Exercise E2](../../Exercise/Exercise_E2.md) throughout class. It uses the animation’s firm with different prices: $TC = 1000 + q^2$, $MC = 2q$, $AVC = q$. All exercise work stays on the board. The original toffee-tax activity remains in the Part E practice bank.
 
 ## Sequence for a 50 minute class
 
