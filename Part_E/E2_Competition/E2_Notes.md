@@ -47,7 +47,11 @@ Give everyone 30–60 seconds alone, then 30 seconds with a neighbor. Ask for a 
 
 In 2006, an E. coli outbreak was linked to ~~the~~ spinach.[^1] ~~Like other parts of the government,~~ California introduced a leafy-greens food-safety program a year later to make it harder for foodborne illness to spread through crops like spinach. Afterward, growers reported higher costs from this program. What impact ~~did this program~~ {++ would a higher recurring fixed cost ++} have on the market? 
 
-> {++ 0.a · Play the E2 bumper, “Competitive Firms,” after the spoken opener. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 0.a ++} | {++ Play the E2 bumper, “Competitive Firms,” after the spoken opener. ++} |
+-->
 
 <!-- Editor. The source establishes higher food-safety costs. A recurring fixed expense is the model assumption, not a finding about the program's full market effect. -->
 
@@ -55,41 +59,81 @@ In 2006, an E. coli outbreak was linked to ~~the~~ spinach.[^1] ~~Like other par
 
 We’re going to start with perfect competition.
 
-> {++ 1.a · Show the market-structures grid with Perfect Competition boxed. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.a ++} | {++ Show the market-structures grid with Perfect Competition boxed. ++} |
+-->
 
 We ~~also~~ have many buyers.
 
-> {++ 1.b.buyers · SHOW THE DEMAND CURVE; reveal “Many buyers.” ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.b.buyers ++} | {++ SHOW THE DEMAND CURVE; reveal “Many buyers.” ++} |
+-->
 
 We have many identical firms, ~~low barriers to entry,~~ selling a homogeneous good.
 
-> {++ 1.b.sellers · SHOW THE SUPPLY CURVE; reveal “Many identical sellers.” ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.b.sellers ++} | {++ SHOW THE SUPPLY CURVE; reveal “Many identical sellers.” ++} |
+-->
 
-> {++ 1.b.good · Reveal “A homogeneous good.” ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.b.good ++} | {++ Reveal “A homogeneous good.” ++} |
+-->
 
 ~~And even though we haven’t introduced externalities in these videos yet, it’s important to mention that we’re assuming they don’t exist.~~ {++ We’re also assuming there are no externalities. ++}
 
-> {++ 1.b.externalities · Reveal “No externalities.” ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.b.externalities ++} | {++ Reveal “No externalities.” ++} |
+-->
 
 {++ We also have low barriers to entry. ++}
 
-> {++ 1.b · Reveal “Low barriers to entry.” ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.b ++} | {++ Reveal “Low barriers to entry.” ++} |
+-->
 
-> {++ 1.c · SET UP THE FIRM’S COSTS beside the market: MC and ATC. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.c ++} | {++ SET UP THE FIRM’S COSTS beside the market: MC and ATC. ++} |
+-->
 
 Firms in competitive markets are just one of many, which means their choice of quantity has no real effect on the market price.
 
-> {++ 1.d · DRAW IN THE DEMAND CURVE, WHICH IS ALSO THE PRICE: carry the market price of 100 across to the firm. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.d ++} | {++ DRAW IN THE DEMAND CURVE, WHICH IS ALSO THE PRICE: carry the market price of 100 across to the firm. ++} |
+-->
 
 This means competitive firms are what we call price takers. So ~~despite the law of demand, because there are many buyers and sellers,~~ the demand curve looks flat when we’re zoomed in on one firm. This firm changing quantity has no real effect on the price.
 
 > ~~TRY TO ZOOM OUT AND WIGGLE THE INDIVIDUAL FIRM TO SHOW ITS SMALL~~
 
-> {++ 1.e · Change the firm’s quantity while the market price stays fixed. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.e ++} | {++ Change the firm’s quantity while the market price stays fixed. ++} |
+-->
 
 {++ So what does one more unit add to revenue? It sells for the market price, and we still get the same price for all the other units. That means the additional revenue from selling one more unit is the price. For a competitive firm, marginal revenue equals price. ++}
 
-> {++ 1.e.mr · Show the equal revenue added by each unit, then label the price line P = MR. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 1.e.mr ++} | {++ Show the equal revenue added by each unit, then label the price line P = MR. ++} |
+-->
 
 ### ~~Whiteboard Q1a after 1.e.mr~~ {++ Class only — Q1a after 1.e.mr ++}
 
@@ -103,55 +147,115 @@ This means competitive firms are what we call price takers. So ~~despite the law
 
 At this price, what quantity maximizes the firm’s profits? Profit is everything left over after we’ve paid our costs, which is TR - TC.
 
-> {++ 2.a · Bring the firm to the center; introduce profit as revenue minus cost. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.a ++} | {++ Bring the firm to the center; introduce profit as revenue minus cost. ++} |
+-->
 
 > ~~SHOW THE TWO AREAS ON THE COST GRAPH, THEN HAVE THEM TRANSITION TO A TWO VERTICAL LINES TO THE RIGHT OF THE GRAPH~~
 
-> {++ 2.b.revenue · At q = 20 and P = 100, build the revenue area one unit at a time. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.b.revenue ++} | {++ At q = 20 and P = 100, build the revenue area one unit at a time. ++} |
+-->
 
-> {++ 2.b.atc.point · Locate ATC at q = 20. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.b.atc.point ++} | {++ Locate ATC at q = 20. ++} |
+-->
 
-> {++ 2.b.atc · Trace to the price axis and read ATC = 70. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.b.atc ++} | {++ Trace to the price axis and read ATC = 70. ++} |
+-->
 
-> {++ 2.b.cost · Build the cost area one unit at a time. Both areas stay on the graph. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.b.cost ++} | {++ Build the cost area one unit at a time. Both areas stay on the graph. ++} |
+-->
 
 Profit is the difference between these two areas, so we usually just look at the difference on the graph.
 
-> {++ 2.c.area · SHOW THE DIFFERENCE AREA between price and ATC. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.c.area ++} | {++ SHOW THE DIFFERENCE AREA between price and ATC. ++} |
+-->
 
 Which is mathematically equivalent to Q(P-ATC)
 
 > ~~ADD TO THE PROFIT EQUATION~~
 
-> {++ 2.c · Mark the height P − ATC and width q; the bottom line gives q(P − ATC). ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.c ++} | {++ Mark the height P − ATC and width q; the bottom line gives q(P − ATC). ++} |
+-->
 
 If we start with a small quantity, we wonder whether we should increase quantity.
 
-> {++ 2.d.mc · Read MC at the current quantity. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.d.mc ++} | {++ Read MC at the current quantity. ++} |
+-->
 
-> {++ 2.d.unit · Show MR and MC in the Next Unit panel. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.d.unit ++} | {++ Show MR and MC in the Next Unit panel. ++} |
+-->
 
-> {++ 2.d.ten · MOVE QUANTITY UP, SHIFT THE AREAS: stop at q = 35. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.d.ten ++} | {++ MOVE QUANTITY UP, SHIFT THE AREAS: stop at q = 35. ++} |
+-->
 
 And as I hinted, profit will continue to rise until MR = MC, then it will fall.
 
 > ~~MOVE QUANTITY UP AND DOWN, SHIFTING THE AREAS~~
 
-> {++ 2.d.equal · Increase quantity to 50, where MC = MR. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.d.equal ++} | {++ Increase quantity to 50, where MC = MR. ++} |
+-->
 
-> {++ 2.d.past · Continue to 60, where MC exceeds MR and profit falls. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.d.past ++} | {++ Continue to 60, where MC exceeds MR and profit falls. ++} |
+-->
 
 Back to our question: How much should the firm choose to produce? At MC = MR!
 
-> {++ 2.d · Return to q = 50; SHOW MC = MR ON SCREEN. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.d ++} | {++ Return to q = 50; SHOW MC = MR ON SCREEN. ++} |
+-->
 
-> {++ 2.e · Remove the Next Unit panel, mark q\*, and emphasize the MC–MR intersection. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 2.e ++} | {++ Remove the Next Unit panel, mark q\*, and emphasize the MC–MR intersection. ++} |
+-->
 
 This is an example of marginal thinking. Our best decision involves thinking on the margin, thinking about the more or one less. When we choose based on whether we should change in little steps instead of big chunks, we can add clarity our decisionmaking.
 
 > ~~MOVE PRICE AROUND, AND SHOW HOW PROFIT CHANGES~~
 
-> {++ Hold the chosen quantity. There is no price sweep here in the current animation. ++}
+<!--
+|   |   |
+| --- | --- |
+|  | {++ Hold the chosen quantity. There is no price sweep here in the current animation. ++} |
+-->
 
 ### Whiteboard Q1b–c after 2.e
 
@@ -169,7 +273,11 @@ To think about how the firm’s decisions relate to equilibrium, we need to thin
 
 > ~~TRANSFORM THE FLAT DEMAND CURVE INTO A COMPETITIVE MARKET ON THE LEFT~~
 
-> {++ 3.a · Bring back the existing market beside the firm and reconnect their price guides. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.a ++} | {++ Bring back the existing market beside the firm and reconnect their price guides. ++} |
+-->
 
 The demand curve is just the willingness to pay of many people all added together.
 
@@ -187,7 +295,11 @@ This is where the price for the firm comes from.
 
 > PAUSE
 
-> {++ Use the existing market picture for this recap; no additional curve reveals or pulses are built here. ++}
+<!--
+|   |   |
+| --- | --- |
+|  | {++ Use the existing market picture for this recap; no additional curve reveals or pulses are built here. ++} |
+-->
 
 At this price, the firm is making a profit, which is nice for them.
 
@@ -195,15 +307,27 @@ At this price, the firm is making a profit, which is nice for them.
 
 But profit is nice for everyone, so new firms open up to get in on some of that profit. New firms means the supply curve shifts out.
 
-> {++ 3.d.entry · SHIFT THE SUPPLY CURVE OUT; price falls from 100 to 80 and firm output falls to 40. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.d.entry ++} | {++ SHIFT THE SUPPLY CURVE OUT; price falls from 100 to 80 and firm output falls to 40. ++} |
+-->
 
 This lowers the price, which lowers profit for the firm. Firms will continue to enter until there is no profit left.
 
-> {++ 3.d.zero · SHIFT THE SUPPLY CURVE TOWARD ZERO PROFIT; price reaches about 63.25. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.d.zero ++} | {++ SHIFT THE SUPPLY CURVE TOWARD ZERO PROFIT; price reaches about 63.25. ++} |
+-->
 
 When price is low, firms are making a negative profit, or what we sometimes call a loss.
 
-> {++ 3.d · SHIFT SUPPLY OUT, SHIFTING PRICE DOWN to 50; the firm produces 25 and earns a loss. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.d ++} | {++ SHIFT SUPPLY OUT, SHIFTING PRICE DOWN to 50; the firm produces 25 and earns a loss. ++} |
+-->
 
 Firms earning a loss will shut down in the short run if price is below their AVC at the best positive output.
 
@@ -211,15 +335,27 @@ Firms earning a loss will shut down in the short run if price is below their AVC
 
 > ~~ADD A FC LINE NEXT TO THE TC, TR LINES~~
 
-> {++ 3.e.avc · Add AVC below the price line. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.e.avc ++} | {++ Add AVC below the price line. ++} |
+-->
 
 The firm needs to decide whether operating with a loss is better than shutting down and still paying this period’s fixed cost.
 
-> {++ 3.e.fc · Show fixed cost as the area between AVC and ATC over the chosen output. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.e.fc ++} | {++ Show fixed cost as the area between AVC and ATC over the chosen output. ++} |
+-->
 
 {++ Here, the price is above average variable cost. By operating, the firm earns enough to cover its variable costs and part of its fixed cost. It loses 375 instead of the full fixed cost of 1000. So it keeps operating. ++}
 
-> {++ 3.e · SHOW THE LOSS IS SMALLER THAN FIXED COST WHEN P > AVC; emphasize the loss area. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.e ++} | {++ SHOW THE LOSS IS SMALLER THAN FIXED COST WHEN P > AVC; emphasize the loss area. ++} |
+-->
 
 ### Whiteboard Q2a after 3.e
 
@@ -235,17 +371,29 @@ In the long run, if price is below the firm’s ATC, they’re making a loss in 
 
 > ~~DO SOMETHING~~
 
-> {++ 3.f.exit · Exit shifts supply inward; price rises from 50 to about 63.25. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.f.exit ++} | {++ Exit shifts supply inward; price rises from 50 to about 63.25. ++} |
+-->
 
 And if the price is above the firm’s ATC, they’re making a profit, and new firms enter, shifting the supply curve out, and the price down.
 
 > ~~SHIFT SUPPLY IN AND OUT~~
 
-> {++ Hold the equilibrium picture; entry was shown earlier. No further supply cycle is built here. ++}
+<!--
+|   |   |
+| --- | --- |
+|  | {++ Hold the equilibrium picture; entry was shown earlier. No further supply cycle is built here. ++} |
+-->
 
 Combined, the only long-run stable position is when price is equal to ATC and MC, which also corresponds with zero profit. This gives us the zero profit condition: In the long run, firms earn zero profit.
 
-> {++ 3.f · Emphasize the minimum of ATC where P = MC = ATC and profit is zero. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 3.f ++} | {++ Emphasize the minimum of ATC where P = MC = ATC and profit is zero. ++} |
+-->
 
 ### Whiteboard Q2b–c after 3.f
 
@@ -289,6 +437,10 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 
 Resume to `4.a`: “What happens to marginal revenue when demand slopes down?”
 
-> {++ 4.a · Remove the market and replace the firm’s flat price line with downward-sloping demand. ++}
+<!--
+|   |   |
+| --- | --- |
+| {++ 4.a ++} | {++ Remove the market and replace the firm’s flat price line with downward-sloping demand. ++} |
+-->
 
 [^1]: Source: [UC Small Farms Network](https://ucanr.edu/program/uc-small-farms-network/growers-report-food-safety-costs).
