@@ -203,6 +203,8 @@ When price is low, firms are making a negative profit, or what we sometimes call
 
 Firms earning a loss will shut down in the short run if price is below their AVC at the best positive output.
 
+{++ Shutting down means producing nothing this period. We still have to pay the fixed cost. Exiting the industry is a different decision: it lets us avoid those costs in future periods. ++}
+
 > ~~ADD A FC LINE NEXT TO THE TC, TR LINES~~
 
 > {++ 3.e.avc · Add AVC below the price line. ++}
@@ -211,15 +213,9 @@ The firm needs to decide whether operating with a loss is better than shutting d
 
 > {++ 3.e.fc · Show fixed cost as the area between AVC and ATC over the chosen output. ++}
 
+{++ Here, the price is above average variable cost. By operating, the firm earns enough to cover its variable costs and part of its fixed cost. It loses 375 instead of the full fixed cost of 1000. So it keeps operating. ++}
+
 > {++ 3.e · SHOW THE LOSS IS SMALLER THAN FIXED COST WHEN P > AVC; emphasize the loss area. ++}
-
-<!--
-Editor. Spoken wording corrections
-
-At `3.e.avc`, the screen says firms “exit” below AVC. Say **shut down in the short run**. The usual shutdown threshold is minimum AVC; at equality the firm is indifferent. At `3.e.fc`, replace “exiting and paying the fixed cost” aloud with **shutting down and still paying this period’s fixed cost**. Long-run exit avoids future fixed costs. The animation is unchanged.
-
-This firm’s $AVC = q$ has a minimum of zero. The positive-price loss example demonstrates continued operation, not a positive shutdown-price threshold.
--->
 
 ### Whiteboard Q2a after 3.e
 
