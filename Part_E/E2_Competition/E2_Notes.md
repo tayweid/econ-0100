@@ -87,9 +87,9 @@ This means competitive firms are what we call price takers. So ~~despite the law
 
 > {++ 1.e · Change the firm’s quantity while the market price stays fixed. ++}
 
-> {++ 1.e.mr · Show the equal revenue added by each unit, then label the price line P = MR. ++}
+{++ So what does one more unit add to revenue? It sells for the market price, and we still get the same price for all the other units. That means the additional revenue from selling one more unit is the price. For a competitive firm, marginal revenue equals price. ++}
 
-<!-- Editor. Spoken gap: explain why an additional sale adds the price to revenue without changing revenue on earlier sales. Write that explanation before the Q1a classroom stop. -->
+> {++ 1.e.mr · Show the equal revenue added by each unit, then label the price line P = MR. ++}
 
 ### ~~Whiteboard Q1a after 1.e.mr~~ {++ Class only — Q1a after 1.e.mr ++}
 
