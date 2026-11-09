@@ -566,70 +566,40 @@ class EpisodeE2(Scene):
         self.play(Indicate(mc_dot, color=FOCUS, scale_factor=1.6))
         self.pause('2.e')
 
-        # ---- 3.a · The market: the firm pans back beside the market, which returns where it was, then its marks and the
-        # price guide to the firm; the ATC guide and the firm's own price number leave.
+        # ---- 3.a · Entry and exit: the subtitle changes; the firm pans back beside the market, which returns where it was,
+        # then its marks and the price guide to the firm; the ATC guide and the firm's own price number leave.
         for m in (atc_guide, atc_number, atc_dot, price_number):
             m.update()
             m.clear_updaters()
-        self.remove(head, context, note)
-        head = title('The Market')
-        note = teaching('So we need to zoom back out to see the whole market.')
+        self.remove(context, note)
+        context = subtitle(head, 'Entry and exit: long run dynamics.')
+        note = teaching('The price comes from the market.')
         self.play(FadeOut(atc_guide), FadeOut(atc_number), FadeOut(atc_dot), FadeOut(price_number), run_time=0.5)
         self.remove(price_word)
         price_word = mr_word                                   # P = MR again, with the price back on the market's axis
-        self.play(FadeIn(head), firm.animate.shift(RIGHT * (FIRM_X_PAIR - FIRM_X_ALONE)), FadeIn(market_picture), FadeIn(price_word),
+        self.play(FadeIn(context), firm.animate.shift(RIGHT * (FIRM_X_PAIR - FIRM_X_ALONE)), FadeIn(market_picture), FadeIn(price_word),
                   firm_label.animate.set_opacity(1), run_time=1.6, rate_func=smooth)
         for m in market_marks:
             m.update()
         self.play(*[FadeIn(m) for m in market_marks], FadeIn(note))
         self.pause('3.a')
 
-        # ---- 3.b.demand · Wiggle demand: many buyers' willingness to pay.
-        self.remove(note)
-        note = teaching('The demand curve is just the willingness to pay of many people all added together.')
-        self.play(FadeIn(note))
-        self.play(Indicate(market_demand, color=FOCUS), run_time=0.5)
-        self.pause('3.b.demand')
-
-        # ---- 3.b.supply · Wiggle supply: many sellers' willingness to sell.
-        self.remove(note)
-        note = teaching('And the supply curve is the willingness to sell of many sellers all added together.')
-        self.play(FadeIn(note))
-        self.play(Indicate(market_supply, color=FOCUS), run_time=0.5)
-        self.pause('3.b.supply')
-
-        # ---- 3.b · Where they cross is the firm's price.
-        self.remove(note)
-        note = teaching('This is where the price for the firm comes from.')
-        self.play(FadeIn(note), Indicate(market_dot, color=FOCUS, scale_factor=1.6))
-        self.pause('3.b')
-
-        # ---- 3.c · At this price the firm makes a profit: the box pulses.
-        self.remove(note)
-        note = teaching('At this price, the firm is making a profit, which is nice for them.')
-        self.play(FadeIn(note))
-        self.play(Indicate(profit_box, color=FOCUS, scale_factor=1), run_time=0.8)
-        self.pause('3.c')
-
         # ---- 3.d.entry · Entry: supply shifts out in parallel, the price falls to 80, and the firm's line and box follow.
-        self.remove(head, note)
-        head = title('Entry And Exit')
-        note = teaching('New firms open up, so the supply curve shifts out.')
-        self.play(FadeIn(head), FadeIn(note))
+        self.remove(note)
+        note = teaching('With profit, more firms enter, shifting the supply curve.')
+        self.play(FadeIn(note))
         self.play(price.animate.set_value(80), quantity.animate.set_value(40), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.d.entry')
 
         # ---- 3.d.zero · Entry continues until the box closes onto the minimum of ATC: 63.25, zero profit.
-        self.remove(note)
-        note = teaching('Firms will continue to enter until there is no profit left.')
-        self.play(FadeIn(note), FadeIn(lowest_atc))          # the grey dot at ATC's minimum, where the bars will close
+        self.play(FadeIn(lowest_atc))                        # the grey dot at ATC's minimum, where the bars will close
         self.play(price.animate.set_value(LONG_RUN_P), quantity.animate.set_value(LONG_RUN_P / 2), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.d.zero')
 
         # ---- 3.d · Too far: at 50 the price is below ATC, the box flips above the price and turns red.
         LOSS_P = 50
         self.remove(note)
-        note = teaching('A negative profit is what we sometimes call a loss.')
+        note = teaching('A negative profit is a loss.')
         self.play(FadeIn(note))
         self.play(price.animate.set_value(LOSS_P), quantity.animate.set_value(LOSS_P / 2), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.d')
@@ -662,24 +632,16 @@ class EpisodeE2(Scene):
         self.pause('3.e')
 
         # ---- 3.f.exit · The long run: below ATC firms exit, supply shifts back in, and the price rises to 63.25.
-        self.remove(head, note)
-        head = title('The Long Run')
-        note = teaching('In the long run, if price is below ATC, firms exit, shifting supply in and the price up.')
+        self.remove(note)
+        note = teaching('With a loss, firms exit, shifting the supply curve.')
         self.play(FadeOut(avc_line), FadeOut(avc_word), FadeOut(avc_dot), FadeOut(fixed_box), FadeOut(fixed_name), run_time=0.6)
-        self.play(FadeIn(head), FadeIn(note))
+        self.play(FadeIn(note))
         self.play(price.animate.set_value(LONG_RUN_P), quantity.animate.set_value(LONG_RUN_P / 2), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.f.exit')
 
-        # ---- 3.f.cycle · In and out: a little entry past the long run (a small loss) and back, one eased motion there and back.
-        self.remove(note)
-        note = teaching('If price is above ATC, new firms enter, shifting supply out and the price down.')
-        self.play(FadeIn(note))
-        self.play(price.animate.set_value(57), quantity.animate.set_value(28.5), run_time=3.5, rate_func=there_and_back)
-        self.pause('3.f.cycle')
-
         # ---- 3.f · The long run: P = MC = ATC at its minimum, and profit is zero.
         self.remove(note)
-        note = teaching('Zero profit condition: in the long run, firms earn zero profit.')
+        note = teaching('The only place with no change is where there is no profit.')
         self.play(FadeIn(note), Indicate(lowest_atc, color=FOCUS, scale_factor=1.6))
         self.pause('3.f')
 
@@ -689,7 +651,7 @@ class EpisodeE2(Scene):
         for m in leaving + [price_line]:
             m.update()
             m.clear_updaters()
-        self.remove(head, note)
+        self.remove(head, context, note)
         head = title('Next Time')
         note = teaching('What happens to marginal revenue when demand slopes down?')
         self.play(*[FadeOut(m) for m in leaving], FadeOut(market_ax), FadeOut(market_words), FadeOut(market_demand),
