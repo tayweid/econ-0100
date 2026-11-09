@@ -43,17 +43,11 @@ At each stop, pause playback and hide the projection without advancing. Name the
 
 Give everyone 30–60 seconds alone, then 30 seconds with a neighbor. Ask for a decision and a reason; build the board solution from their answers. Students correct their own work. For Q3, allow two minutes alone and one minute together before discussing. If answers diverge, offer one targeted cue and require another individual answer before explaining.
 
-## Opening question
+## Opener
 
-Before starting the animation, say:
+In 2006, an E. coli outbreak was linked to ~~the~~ spinach.[^1] ~~Like other parts of the government,~~ California introduced a leafy-greens food-safety program a year later to make it harder for foodborne illness to spread through crops like spinach. Afterward, growers reported higher costs from this program. What impact ~~did this program~~ {++ would a higher recurring fixed cost ++} have on the market? 
 
-> In 2006, an E. coli outbreak was linked to spinach. California introduced a leafy-greens food-safety program the following year, and growers surveyed afterward reported higher food-safety costs. That gives us a question about competition: how can a higher cost push some firms out of a market while the firms that stay eventually produce more?
-
-> We’ll isolate one kind of cost: a recurring expense that doesn’t depend on how much a firm produces. We’ll come back to that question once we have the pieces.
-
-Write **Higher fixed cost: fewer firms, but more output per surviving firm?** in a corner of the board. Leave it there. Use “the firm” and “the market” through the rest of the lesson; no agricultural detail is needed in the exercise.
-
-Source: [UC Small Farms Network](https://ucanr.edu/program/uc-small-farms-network/growers-report-food-safety-costs). The report documents higher seasonal food-safety costs. The pure recurring fixed expense and resulting exit are the classroom model, not claims about measured spinach-industry outcomes.
+<!-- Editor. The opening keeps your story and question. The source establishes higher food-safety costs, not a pure fixed-cost shock or the program's full effect on the market. The proposed question narrows the episode to the mechanism the final exercise can answer. A recurring fixed expense is our model assumption. The program is voluntary for handlers, with compliance required for growers selling to participating handlers; avoid implying a blanket government mandate. The existing source footnote stays in place. -->
 
 ## Competitive markets
 
@@ -72,31 +66,45 @@ Current animation holds. Repeated bottom text remains visible across successive 
 1.e.mr · Bottom: “One more unit sells for the price: marginal revenue is the price.”
 -->
 
-We’re going to start with perfect competition. We have many identical firms, low barriers to entry, selling a homogeneous good.
+We’re going to start with perfect competition.
 
-*SHOW THE SUPPLY CURVE*
+We ~~also~~ have many buyers.
 
-We also have many buyers.
+> SHOW THE DEMAND CURVE
 
-*SHOW THE DEMAND CURVE*
+We have many identical firms, low barriers to entry, selling a homogeneous good.
 
-And even though we haven’t introduced externalities in these videos yet, it’s important to mention that we’re assuming they don’t exist.
+> SHOW THE SUPPLY CURVE
 
-*SET UP THE FIRM’S COSTS*
+<!-- Editor. Moved your buyer sentence and its direction before the seller sentence to follow the existing animation. Directions are now blockquotes; the detailed holds remain in the section's storyboard comment. No animation change is proposed. -->
+
+~~And even though we haven’t introduced externalities in these videos yet, it’s important to mention that we’re assuming they don’t exist.~~ {++ We’re also assuming there are no externalities. ++}
+
+> SET UP THE FIRM’S COSTS
 
 Firms in competitive markets are just one of many, which means their choice of quantity has no real effect on the market price.
 
-*DRAW IN THE DEMAND CURVE, WHICH IS ALSO THE PRICE*
+> DRAW IN THE DEMAND CURVE, WHICH IS ALSO THE PRICE
 
-This means competitive firms are what we call price takers. So despite the law of demand, because there are many buyers and sellers, the demand curve looks flat when we’re zoomed in on one firm. This firm changing quantity has no real effect on the price.
+This means competitive firms are what we call price takers. So ~~despite the law of demand, because there are many buyers and sellers,~~ the demand curve looks flat when we’re zoomed in on one firm. This firm changing quantity has no real effect on the price.
 
-*TRY TO ZOOM OUT AND WIGGLE THE INDIVIDUAL FIRM TO SHOW ITS SMALL*
+> ~~TRY TO ZOOM OUT AND WIGGLE THE INDIVIDUAL FIRM TO SHOW ITS SMALL~~ {++ Change the firm’s quantity while the market price stays fixed. ++}
 
-### Whiteboard Q1a after 1.e.mr
+<!--
+Editor. Keep the distinction on the size of the individual firm: market demand still slopes down; this price-taking firm can vary its own sales without changing the market price. The shorter visual cue describes the existing 1.e movement. The externalities sentence above retains the assumption without the outdated claim that the course has not introduced it.
 
-Say: “Now close the picture. At a price of 90, what does one more sale add to revenue?”
+Editor. There is still a spoken-script gap before Q1a: why does one more sale add exactly the price to revenue? The animation supplies this at 1.e.mr. Add your explanation here, including that the firm receives the same price on the units it was already selling. I have left this as a comment rather than supplying a new passage in your voice.
+-->
 
-Q1a: write $TR(20) = 1800$, $TR(21) = 1890$, so $MR = 90$. Ask why the earlier units still sell for 90. The explanation is price taking, not just the multiplication. Then resume: “Knowing what one more unit brings in lets us compare it with what that unit costs.”
+> {++ Show the equal revenue added by each unit, then label the price line P = MR. ++}
+
+### ~~Whiteboard Q1a after 1.e.mr~~ {++ Class only — Q1a after 1.e.mr ++}
+
+<!-- Editor. The following classroom directions are my earlier drafting, not your script. They are marked as proposals so that unmarked narration remains distinguishable from assistant-written text. For a video, continue from the MR explanation to Profit and output; this classroom stop is omitted. -->
+
+{++ Say: “Now close the picture. At a price of 90, what does one more sale add to revenue?” ++}
+
+{++ Q1a: write $TR(20) = 1800$, $TR(21) = 1890$, so $MR = 90$. Ask why the earlier units still sell for 90. The explanation is price taking, not just the multiplication. Then resume: “Knowing what one more unit brings in lets us compare it with what that unit costs.” ++}
 
 ## Profit and output
 
@@ -281,3 +289,5 @@ Current animation holds. Repeated bottom text remains visible across successive 
 -->
 
 Resume to `4.a`: “What happens to marginal revenue when demand slopes down?”
+
+[^1]: Source: [UC Small Farms Network](https://ucanr.edu/program/uc-small-farms-network/growers-report-food-safety-costs).
