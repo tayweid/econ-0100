@@ -36,15 +36,15 @@ c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What 
 
 \newpage
 
-## Q3 | A Higher Fixed Cost
+## Q3 | A Higher Marginal Cost
 
-Start again, with the market in long-run equilibrium and every firm earning zero economic profit. Firms have the original costs above. Firms are identical, entry and exit are free, and market demand slopes down.
+Now suppose every firm’s marginal costs go up.
 
-Every firm must now pay an additional fixed expense of 600 each period, regardless of its output. This period’s payment is unavoidable; future payments can be avoided by exiting. Demand and input prices do not change.
+{++ Start with identical firms earning zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free. ++}
 
-a\) On the graphs, show the initial equilibrium and the immediate effect of the expense on costs. What happens immediately to price, each firm’s output, and profit?
+~~a\) Show the initial equilibrium and the immediate effect of the expense on costs. What happens immediately to price, each firm’s output, and profit?~~ {++ a\) Show the initial equilibrium and the new cost curves. With the number of firms initially fixed, how does market supply change? What happens to price, each firm’s output, and profit? ++}
 
-b\) Show the adjustment as firms enter or exit. Compared with before the expense, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment?
+~~b\) Show the adjustment as firms enter or exit. Compared with before the expense, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment?~~ {++ b\) Show the adjustment as firms enter or exit. Compared with before the cost increase, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment? ++}
 
 :::: {.columns gutter=1em}
 
@@ -66,13 +66,7 @@ b\) Show the adjustment as firms enter or exit. Compared with before the expense
 
 ::::
 
-c\) Explain how fewer firms can each produce more while the market produces less in total.
-
- 
-
- 
-
- 
+~~c\) Explain how fewer firms can each produce more while the market produces less in total.~~ {++ c\) Explain how total market output can fall even though each remaining firm returns to its original output. ++}
 
 <!--
 // GRAPH CODE: keep this note. It draws the embedded graphs in order.

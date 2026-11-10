@@ -31,7 +31,7 @@ This is a working time budget, not a video runtime. Stop IDs refer to the curren
 | 28–32 | Hide projection; Q2a | Compare two losses at a new price. |
 | 32–35 | Resume through `3.f` | Long-run exit and zero economic profit. |
 | 35–37 | Hide projection; Q2b–c | Distinguish exit from shutdown; retrieve entry. |
-| 37–47 | Keep projection hidden; Q3 | Apply the theory to the fixed-cost shock on the board. |
+| 37–47 | Keep projection hidden; Q3 | Apply the theory to the marginal-cost shock on the board. |
 | 47–49 | Return to the opening question | Students explain the whole adjustment. |
 | 49–50 | Resume to `4.a` | Preview downward-sloping firm demand and E3. |
 
@@ -45,7 +45,7 @@ Give everyone 30–60 seconds alone, then 30 seconds with a neighbor. Ask for a 
 
 ## Opener
 
-In 2006, an E. coli outbreak was linked to ~~the~~ spinach.[^1] ~~Like other parts of the government,~~ California introduced a leafy-greens food-safety program a year later to make it harder for foodborne illness to spread through crops like spinach. Afterward, growers reported higher costs from this program. What impact ~~did this program~~ {++ would a higher recurring fixed cost ++} have on the market? 
+In 2006, an E. coli outbreak was linked to ~~the~~ spinach.[^1] ~~Like other parts of the government,~~ California introduced a leafy-greens food-safety program a year later to make it harder for foodborne illness to spread through crops like spinach. Afterward, growers reported higher costs from this program. What impact ~~did this program~~ {++ would a higher cost per unit ++} have on the market? 
 
 <!--
 |   |   |
@@ -53,7 +53,7 @@ In 2006, an E. coli outbreak was linked to ~~the~~ spinach.[^1] ~~Like other par
 | {++ 0.a ++} | {++ Play the E2 bumper, “Competitive Firms,” after the spoken opener. ++} |
 -->
 
-<!-- Editor. The source establishes higher food-safety costs. A recurring fixed expense is the model assumption, not a finding about the program's full market effect. -->
+<!-- Editor. The source establishes higher food-safety costs. A uniform extra cost per unit is the model assumption, not a finding about the program's full market effect. -->
 
 ## Competitive markets
 
@@ -418,7 +418,7 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 
 ## Final board problem
 
-{++ Exercise Q3: start at zero profit, raise fixed cost, and draw the immediate and long-run responses. ++}
+~~{++ Exercise Q3: start at zero profit, raise fixed cost, and draw the immediate and long-run responses. ++}~~ {++ Exercise Q3: start at zero profit, add the same cost to every unit with fixed cost unchanged, and draw the short-run and long-run responses. ++}
 
 ~~Q3 resets the market to long-run equilibrium, not the price of 40 or 90. The recurring fixed expense raises fixed cost from 1000 to 1600. This period’s payment is unavoidable; future payments can be avoided by exiting. Demand and input prices stay fixed; firms are identical and entry and exit are free.~~
 
@@ -434,7 +434,7 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 
 ## Resolve the episode question
 
-{++ Return to the opener: why do some firms leave while the survivors produce more? ++}
+~~{++ Return to the opener: why do some firms leave while the survivors produce more? ++}~~ {++ Return to the opener: what happens to the market when each unit costs more to produce? ++}
 
 ~~Point to the opening question. Give students 30 seconds alone to finish:~~
 
@@ -444,7 +444,7 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 
 ~~**Optional transfer:** “Would a one-time payment already made, with no future payment required, create the same ongoing incentive to exit?” No: exiting cannot recover a sunk payment, and future operating costs have not changed.~~
 
-> A recurring cost can make staying in the industry less attractive without making the next unit more expensive. Exit changes the market price, and that changes the remaining firms’ production decisions. This is one mechanism that can matter when businesses face new compliance costs.
+> ~~A recurring cost can make staying in the industry less attractive without making the next unit more expensive. Exit changes the market price, and that changes the remaining firms’ production decisions. This is one mechanism that can matter when businesses face new compliance costs.~~ {++ If each unit costs more to produce, firms are willing to sell less at any given price. Market supply shifts in, price rises, and firms produce less. They make losses, so some leave. As firms exit, price rises further until the remaining firms cover their average total cost. With the same extra cost on every unit, survivors return to their original output, but fewer firms remain and the market produces less. ++}
 
 ## Next time
 

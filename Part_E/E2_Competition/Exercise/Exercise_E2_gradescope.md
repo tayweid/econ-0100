@@ -71,36 +71,37 @@ Use Q2 on the handout. The price is now 40 and the best positive output is 20. T
 ( ) Entry decreases market supply and raises price
 ```
 
-## Q3: `A Higher Fixed Cost`
+## Q3: `A Higher Marginal Cost`
 
 ```
-Use Q3 and your graphs. Initially identical firms earn zero economic profit. Each now faces an additional recurring fixed expense of 600. This period's expense is unavoidable; future expenses can be avoided by exiting. Demand and input prices are unchanged, demand slopes down, and entry and exit are free.
+Use Q3 and your graphs. Initially identical firms earn zero economic profit. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
 ```
 
 ### Q3.1: `a) Which cost curves change?`
 
 ```
-(x) ATC rises; MC and AVC are unchanged
-( ) ATC, MC, and AVC all rise
+( ) ATC rises; MC and AVC are unchanged
+(x) ATC, MC, and AVC all shift up by the same amount
 ( ) MC rises; ATC and AVC are unchanged
 ```
 
-### Q3.2: `a) What happens immediately?`
+### Q3.2: `a) What happens in the short run, before firms exit?`
 
 ```
-(x) Price and output stay unchanged; each firm loses 600
-( ) Price rises immediately by 600; profit stays zero
-( ) Every firm immediately shuts down
+(x) Market supply shifts in; price rises, output per firm falls, and firms make losses
+( ) Price and output stay unchanged; only fixed cost rises
+( ) Price rises by the full extra cost per unit, so profit immediately stays zero
 ```
 
-### Q3.3: `b) Which changes occur in the long run, compared with before the expense? Select all that apply.`
+### Q3.3: `b) Which changes occur in the long run, compared with before the cost increase? Select all that apply.`
 
 ```
 [x] The market price is higher
-[x] Each surviving firm produces more
+[ ] Each surviving firm produces more than before the cost increase
+[x] Each surviving firm returns to its original output
 [x] Total market output is lower
 [x] There are fewer firms
-[ ] Marginal cost is higher at every output
+[x] Marginal cost is higher at every output
 ```
 
 ### Q3.4: `b) What stops exit?`
@@ -108,7 +109,7 @@ Use Q3 and your graphs. Initially identical firms earn zero economic profit. Eac
 ```
 (x) Price reaches minimum ATC on the new cost curve, restoring zero economic profit
 ( ) Price returns to its original level
-( ) Firms recover the unavoidable payment from the first period
+( ) Fixed cost returns to its original level
 ```
 
 ## Q4: `Explain the Adjustment`
@@ -117,7 +118,7 @@ Use Q3 and your graphs. Initially identical firms earn zero economic profit. Eac
 This concept check uses Q3c on the handout. Grade by hand for completion.
 ```
 
-### Q4.1: `Explain how fewer firms can each produce more while the market produces less in total.`
+### Q4.1: `Explain how total market output can fall even though each remaining firm returns to its original output.`
 
 ```
 |____|
