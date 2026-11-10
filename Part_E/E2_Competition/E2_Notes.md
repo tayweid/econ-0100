@@ -25,7 +25,7 @@ plass:
 
 ## Opener
 
-In 2006, an E. coli outbreak was linked to spinach.[^1] California introduced a leafy-greens food-safety program a year later to make it harder for foodborne illness to spread through crops like spinach. Afterward, growers reported higher costs from this program. What impact would a higher recurring cost have on the market? {++ For our model, suppose the extra cost is the same on every unit produced. ++} 
+In 2006, an E. coli outbreak was linked to spinach.[^1] California introduced a leafy-greens food-safety program a year later to make it harder for foodborne illness to spread through crops like spinach. Afterward, growers reported higher costs from this program. Suppose the extra cost is the same on every unit produced. What impact would a higher recurring cost have on the market?
 
 <!--
 |   |   |
