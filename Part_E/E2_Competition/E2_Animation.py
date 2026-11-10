@@ -301,7 +301,7 @@ class EpisodeE2(Scene):
         exercise_question = Tex(
             r'\begin{minipage}{27em}'
             r'\setlength{\parindent}{0pt}'
-            r'If the market price is 90, find:'
+            r'If the market price is 80, find:'
             r'\begin{itemize}\setlength{\itemsep}{0.35em}'
             r'\item Total revenue from selling 20 units: $TR_{20}$'
             r'\item Total revenue selling 21 units: $TR_{21}$'

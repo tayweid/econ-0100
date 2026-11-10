@@ -139,7 +139,7 @@ This means competitive firms are what we call price takers. So ~~despite the law
 
 {++ Exercise Q1a: why is MR the price? ++}
 
-~~{++ Say: “Now close the picture. At a price of 90, what does one more sale add to revenue?” ++}~~
+~~{++ Say: “Now close the picture. At a price of 80, what does one more sale add to revenue?” ++}~~
 
 ~~{++ Q1a: write $TR(20) = 1800$, $TR(21) = 1890$, so $MR = 90$. Ask why the earlier units still sell for 90. The explanation is price taking, not just the multiplication. Then resume: “Knowing what one more unit brings in lets us compare it with what that unit costs.” ++}~~
 

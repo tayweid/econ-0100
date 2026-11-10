@@ -18,21 +18,21 @@ Use the animation’s competitive firm: $TC = 1000 + q^2$ and $MC = 2q$. Costs i
 
 ## Q1 | Choosing Output
 
-a\) The market price is 90. Find total revenue from selling 20 units and from selling 21 units. What is marginal revenue? Explain why it equals the price.
+a\) The market price is 80. Find total revenue from selling 20 units and from selling 21 units. What is marginal revenue? Explain why it equals the price.
 
-b\) At that price, how much should the firm produce? Explain why it should increase output from 40 units but decrease output from 50 units.
+b\) At that price, how much should the firm produce? Explain why it should increase output from 30 units but decrease output from 50 units.
 
-c\) Calculate the firm’s profit at its chosen quantity.
+c\) Calculate the firm’s profit at its chosen quantity. (*Hint: $ATC$ at the profit-maximizing quantity is 65.*)
 
 ::: solution
 
-**a)** Revenue is 1800 at 20 units and 1890 at 21; marginal revenue is 90. **b)** Produce 45 units. **c)** Economic profit is 1025.
+**a)** Revenue is 1600 at 20 units and 1680 at 21; marginal revenue is 80. **b)** Produce 40 units. **c)** Economic profit is 600.
 
-**a)** $TR = Pq$, so $TR(20) = 90(20) = 1800$ and $TR(21) = 90(21) = 1890$. The additional unit adds $1890 - 1800 = 90$ to revenue. The firm takes the market price as given: selling one more unit does not lower the price received on its other units.
+**a)** $TR = Pq$, so $TR(20) = 80(20) = 1600$ and $TR(21) = 80(21) = 1680$. The additional unit adds $1680 - 1600 = 80$ to revenue. The firm takes the market price as given: selling one more unit does not lower the price received on its other units.
 
-**b)** At 40 units, $MC = 80 < MR = 90$, so increasing output raises profit. At 50 units, $MC = 100 > MR = 90$, so decreasing output raises profit. On rising MC, the best positive output satisfies $2q = 90$, giving $q = 45$.
+**b)** At 30 units, $MC = 60 < MR = 80$, so increasing output raises profit. At 50 units, $MC = 100 > MR = 80$, so decreasing output raises profit. On rising MC, the best positive output satisfies $2q = 80$, giving $q = 40$.
 
-**c)** $TR = 90(45) = 4050$ and $TC = 1000 + 45^2 = 3025$. Profit is $4050 - 3025 = 1025$. It is positive, so operating is better than shutting down. Equivalently, $ATC = 3025/45$ and profit is $45(90 - 3025/45) = 1025$.
+**c)** Using the supplied $ATC = 65$, profit is $q(P - ATC) = 40(80 - 65) = 600$. Equivalently, $TR = 80(40) = 3200$ and $TC = 1000 + 40^2 = 2600$, so profit is $3200 - 2600 = 600$. It is positive, so operating is better than shutting down.
 
 :::
 
@@ -46,17 +46,17 @@ a\) Calculate profit from operating and from shutting down this period. Which sh
 
 b\) If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).
 
-c\) Return to the profitable price of 90 in Q1. Would firms enter or exit? What happens to market supply and price?
+c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What happens to market supply and price?
 
 ::: solution
 
-**a)** Operate: lose 600 instead of 1000. **b)** Exit in the long run if the price persists. **c)** At the profitable price of 90, firms enter, supply increases, and price falls.
+**a)** Operate: lose 600 instead of 1000. **b)** Exit in the long run if the price persists. **c)** At the profitable price of 80, firms enter, supply increases, and price falls.
 
 **a)** At $q = 20$, revenue is $40(20) = 800$, variable cost is $20^2 = 400$, and total cost is $1000 + 400 = 1400$. Operating profit is $800 - 1400 = -600$. With zero output, revenue and variable cost are zero but fixed cost is still 1000, so shutdown profit is $-1000$. Operating contributes 400 toward that unavoidable cost. Price is above $AVC = 20$, even though it is below $ATC = 70$.
 
 **b)** A continuing price of 40 does not cover all economic costs. The firm exits when it can avoid future fixed costs. A short-run loss does not by itself imply shutdown; a persistent economic loss does motivate long-run exit.
 
-**c)** The profit of 1025 attracts entry. More firms increase market supply and lower price, reducing the incumbent firm’s profit. With identical firms, free entry and exit, and unchanged input prices, entry stops at zero economic profit: $P = MC = \min ATC$. Zero economic profit includes compensation for the owner’s opportunity costs.
+**c)** The profit of 600 attracts entry. More firms increase market supply and lower price, reducing the incumbent firm’s profit. With identical firms, free entry and exit, and unchanged input prices, entry stops at zero economic profit: $P = MC = \min ATC$. Zero economic profit includes compensation for the owner’s opportunity costs.
 
 :::
 

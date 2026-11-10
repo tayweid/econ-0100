@@ -20,25 +20,25 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `Choosing Output`
 
 ```
-Use Q1 on the Exercise E2 handout. The competitive firm has TC = 1000 + q^2 and MC = 2q. The market price is 90.
+Use Q1 on the Exercise E2 handout. The competitive firm has TC = 1000 + q^2 and MC = 2q. The market price is 80. ATC at the profit-maximizing quantity is 65.
 ```
 
 ### Q1.1: `a) What is marginal revenue?`
 
 ```
-[____](=90+-0)
+[____](=80+-0)
 ```
 
 ### Q1.2: `b) How much should the firm produce?`
 
 ```
-[____](=45+-0)
+[____](=40+-0)
 ```
 
 ### Q1.3: `c) What is economic profit at that output?`
 
 ```
-[____](=1025+-0)
+[____](=600+-0)
 ```
 
 ## Q2: `Operating or Leaving`
@@ -63,7 +63,7 @@ Use Q2 on the handout. The price is now 40 and the best positive output is 20. T
 ( ) Stay because fixed costs can never be avoided
 ```
 
-### Q2.3: `c) At the profitable price of 90 from Q1, what adjustment occurs?`
+### Q2.3: `c) At the profitable price of 80 from Q1, what adjustment occurs?`
 
 ```
 (x) Entry increases market supply and lowers price
