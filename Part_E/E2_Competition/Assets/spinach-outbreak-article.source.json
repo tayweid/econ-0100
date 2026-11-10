@@ -1,0 +1,21 @@
+{
+  "file": "spinach-outbreak-article.jpg",
+  "title": "Outbreak Linked to Spinach Forces Reassessment of Food Safety Practices",
+  "author": "Linda Calvin",
+  "publication": "Amber Waves, USDA Economic Research Service",
+  "date": "2007-06-01",
+  "source": "https://www.ers.usda.gov/amber-waves/2007/june/outbreak-linked-to-spinach-forces-reassessment-of-food-safety-practices",
+  "captured": "2026-11-10",
+  "capture": "Screenshot of the live article page, cropped immediately above the title to include the headline, author, date, and article tags without the Amber Waves masthead. Original page content and styling preserved.",
+  "viewport_pixels": [
+    1280,
+    720
+  ],
+  "crop_pixels": {
+    "x": 214,
+    "y": 431,
+    "width": 852,
+    "height": 224
+  },
+  "use": "Historical article headline for the spinach-market opener, connecting the 2006 outbreak with the food-safety response."
+}
