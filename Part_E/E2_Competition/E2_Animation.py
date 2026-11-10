@@ -296,13 +296,20 @@ class EpisodeE2(Scene):
         # Keep the lecture objects in place so advancing resumes the existing sequence.
         exercise_ground = Rectangle(width=config.frame_width, height=config.frame_height,
                                     stroke_width=0, fill_color=BG, fill_opacity=1).set_z_index(100)
-        exercise_label = Tex(r'Exercise E2 $\cdot$ Q1a', color=CAPTION).scale(0.64)
-        exercise_question = VGroup(
-            Tex('At a price of 90,', color=INK),
-            Tex('what does one more sale add to revenue?', color=INK),
-        ).arrange(DOWN, aligned_edge=LEFT, buff=0.18).scale(0.95)
-        exercise_why = Tex('Why is MR the price?', color=DEFINITION).scale(0.85)
-        exercise_text = VGroup(exercise_label, exercise_question, exercise_why)
+        exercise_label = Tex(r'Exercise E2 \textbar{} Q1a', color=INK).scale(0.64)
+        # Q1a wording from Exercise/Exercise_E2.md; TeX handles paragraph justification and wrapping.
+        exercise_question = Tex(
+            r'\begin{minipage}{27em}'
+            r'\setlength{\parindent}{0pt}'
+            r'If the market price is 90, find:'
+            r'\begin{itemize}\setlength{\itemsep}{0.35em}'
+            r'\item Total revenue from selling 20 units: $TR_{20}$'
+            r'\item Total revenue selling 21 units: $TR_{21}$'
+            r'\end{itemize}'
+            r'What is marginal revenue?'
+            r'\end{minipage}', color=INK,
+        ).scale(0.95)
+        exercise_text = VGroup(exercise_label, exercise_question)
         exercise_text.arrange(DOWN, aligned_edge=LEFT, buff=0.6)
         exercise_text.set_y(BODY_MID).to_edge(LEFT, buff=1.5).set_z_index(101)
         self.play(FadeIn(exercise_ground), run_time=0.4)
