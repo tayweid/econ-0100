@@ -291,6 +291,26 @@ class EpisodeE2(Scene):
         price_word = mr_word
         self.pause('1.e.mr')
 
+        # ---- 1.f.exercise · Q1a stays on screen while students work on the board.
+        # An open prompt on the same graphite ground; cover the graph and its answer.
+        # Keep the lecture objects in place so advancing resumes the existing sequence.
+        exercise_ground = Rectangle(width=config.frame_width, height=config.frame_height,
+                                    stroke_width=0, fill_color=BG, fill_opacity=1).set_z_index(100)
+        exercise_label = Tex(r'Exercise E2 $\cdot$ Q1a', color=CAPTION).scale(0.64)
+        exercise_question = VGroup(
+            Tex('At a price of 90,', color=INK),
+            Tex('what does one more sale add to revenue?', color=INK),
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.18).scale(0.95)
+        exercise_why = Tex('Why is MR the price?', color=DEFINITION).scale(0.85)
+        exercise_text = VGroup(exercise_label, exercise_question, exercise_why)
+        exercise_text.arrange(DOWN, aligned_edge=LEFT, buff=0.6)
+        exercise_text.set_y(BODY_MID).to_edge(LEFT, buff=1.5).set_z_index(101)
+        self.play(FadeIn(exercise_ground), run_time=0.4)
+        self.play(FadeIn(exercise_text), run_time=0.4)
+        self.pause('1.f.exercise')
+        self.play(FadeOut(exercise_text), run_time=0.3)
+        self.play(FadeOut(exercise_ground), run_time=0.4)
+
         # ---- 2.a · Profit: zoomed in on the firm. The market leaves and the firm pans to the centre; the subtitle says what
         # profit is, and the firm's price reads on its own axis while the market is away.
         for m in market_marks:
