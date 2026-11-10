@@ -35,7 +35,7 @@ In 2006, an E. coli outbreak was linked to spinach.[^1] California introduced a 
 
 ## Competitive Markets
 
-Competitive markets have many buyers, many sellers, selling a homogeneous good with no externalities. 
+Competitive markets have many buyers, many sellers, low barriers to entry, selling a homogeneous good with no externalities.
 
 <!--
 |   |   |
@@ -43,16 +43,16 @@ Competitive markets have many buyers, many sellers, selling a homogeneous good w
 | 1.a | Show the market-structures grid with Perfect Competition boxed. |
 | 1.b.buyers | SHOW THE DEMAND CURVE; reveal “Many buyers.” |
 | 1.b.sellers | SHOW THE SUPPLY CURVE; reveal “Many identical sellers.” |
+| 1.b | Reveal “Low barriers to entry.” |
 | 1.b.good | Reveal “A homogeneous good.” |
 | 1.b.externalities | Reveal “No externalities.” |
 -->
 
-We also have low barriers to entry.
+We’ve just built up a model of the costs of production for the firm. The two most important cost curves for our 
 
 <!--
 |   |   |
 | --- | --- |
-| 1.b | Reveal “Low barriers to entry.” |
 | 1.c | SET UP THE FIRM’S COSTS beside the market: MC and ATC. |
 -->
 
