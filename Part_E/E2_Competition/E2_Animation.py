@@ -593,6 +593,41 @@ class EpisodeE2(Scene):
         self.play(Indicate(mc_dot, color=FOCUS, scale_factor=1.6))
         self.pause('2.e')
 
+        # ---- 2.f.exercise.b · Retrieve the output decision after MC = MR, with work on the board.
+        # The graph stays covered through both questions; no solution is revealed on screen.
+        exercise_b_label = Tex(r'Exercise E2 \textbar{} Q1b', color=CAPTION).scale(0.64)
+        exercise_b_question = Tex(
+            r'\begin{minipage}{27em}\setlength{\parindent}{0pt}'
+            r'Use $MC = 2q$.\par\vspace{0.6em}'
+            r'At $P = 80$, what quantity maximizes the firm\textquotesingle s profit?'
+            r'\par\vspace{0.4em}Why not 30 or 50 units?'
+            r'\end{minipage}', color=INK,
+        ).scale(0.95)
+        exercise_b_text = VGroup(exercise_b_label, exercise_b_question)
+        exercise_b_text.arrange(DOWN, aligned_edge=LEFT, buff=0.6)
+        exercise_b_text.set_y(BODY_MID).to_edge(LEFT, buff=1.5).set_z_index(101)
+        self.play(FadeIn(exercise_ground), run_time=0.4)
+        self.play(FadeIn(exercise_b_text), run_time=0.4)
+        self.pause('2.f.exercise.b')
+
+        # ---- 2.f.exercise.c · Keep the chosen quantity on the board; supply ATC for profit.
+        exercise_c_label = Tex(r'Exercise E2 \textbar{} Q1c', color=CAPTION).scale(0.64)
+        exercise_c_question = Tex(
+            r'\begin{minipage}{27em}\setlength{\parindent}{0pt}'
+            r'At $P = 80$, calculate the firm\textquotesingle s maximal profit.'
+            r'\par\vspace{0.6em}'
+            r'\textit{Hint: $ATC$ at the profit-maximizing quantity is 65.}'
+            r'\end{minipage}', color=INK,
+        ).scale(0.95)
+        exercise_c_text = VGroup(exercise_c_label, exercise_c_question)
+        exercise_c_text.arrange(DOWN, aligned_edge=LEFT, buff=0.6)
+        exercise_c_text.set_y(BODY_MID).to_edge(LEFT, buff=1.5).set_z_index(101)
+        self.play(FadeOut(exercise_b_text), run_time=0.3)
+        self.play(FadeIn(exercise_c_text), run_time=0.4)
+        self.pause('2.f.exercise.c')
+        self.play(FadeOut(exercise_c_text), run_time=0.3)
+        self.play(FadeOut(exercise_ground), run_time=0.4)
+
         # ---- 3.a · Entry and exit: the subtitle changes; the firm pans back beside the market, which returns where it was,
         # then its marks and the price guide to the firm; the ATC guide and the firm's own price number leave.
         for m in (atc_guide, atc_number, atc_dot, price_number):
@@ -636,7 +671,7 @@ class EpisodeE2(Scene):
         avc_word = Tex('AVC', color=AVC_COLOR).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(FIRM_Q_MAX, avc(FIRM_Q_MAX)), RIGHT, buff=0.15)
         avc_dot = Dot(firm_ax.c2p(LOSS_P / 2, avc(LOSS_P / 2)), radius=DOT_RADIUS, color=AVC_COLOR).set_z_index(DOT_LAYER)
         self.remove(note)
-        note = teaching('Firms earning a loss will exit the market if price is below their AVC.')
+        note = teaching('Shut down this period if price is below AVC at the best positive output.')
         self.play(FadeIn(avc_line), FadeIn(avc_word), FadeIn(avc_dot), FadeIn(note))
         self.pause('3.e.avc')
 
@@ -648,7 +683,7 @@ class EpisodeE2(Scene):
                              for u in range(int(q_loss))]).set_z_index(-1)
         fixed_name = Tex('FC', color=FC_WORD).scale(AREA_WORD_SCALE).move_to(firm_ax.c2p(q_loss / 2, (avc(q_loss) + LOSS_P) / 2))
         self.remove(note)
-        note = teaching('Is operating with a loss better than exiting and paying the fixed cost?')
+        note = teaching('Is operating with a loss better than shutting down and paying the fixed cost?')
         self.play(FadeIn(fixed_box), FadeIn(fixed_name), FadeIn(note))
         self.pause('3.e.fc')
 

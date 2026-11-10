@@ -24,9 +24,9 @@ This is a working time budget, not a video runtime. Stop IDs refer to the curren
 | --- | --- | --- |
 | 0–2 | Opening story and board question | Establish the episode’s question. |
 | 2–7 | Play through `1.e.mr` | Market price, price taking, and why MR equals price. |
-| 7–9 | Hide projection; Q1a | Retrieve MR with a different price. |
+| 7–9 | Hold `1.f.exercise`; Q1a on board | Retrieve MR with a different price. |
 | 9–16 | Resume through `2.e` | Profit, the next-unit comparison, and the chosen quantity. |
-| 16–21 | Hide projection; Q1b–c | Choose output and calculate profit. |
+| 16–21 | Hold `2.f.exercise.b`, then `2.f.exercise.c`; work on board | Choose output and calculate profit. |
 | 21–28 | Resume through `3.e` | Entry, losses, and operating versus shutting down. |
 | 28–32 | Hide projection; Q2a | Compare two losses at a new price. |
 | 32–35 | Resume through `3.f` | Long-run exit and zero economic profit. |
@@ -138,6 +138,12 @@ This means competitive firms are what we call price takers. So ~~despite the law
 ### ~~Whiteboard Q1a after 1.e.mr~~ {++ Class only — Q1a after 1.e.mr ++}
 
 {++ Exercise Q1a: why is MR the price? ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 1.f.exercise | Hide the graph; show Exercise E2 ∣ Q1a in grey and the price-80 revenue question in white. Hold for board work, then resume the lecture graph. |
+-->
 
 ~~{++ Say: “Now close the picture. At a price of 80, what does one more sale add to revenue?” ++}~~
 
@@ -261,6 +267,13 @@ This is an example of marginal thinking. Our best decision involves thinking on 
 
 {++ Exercise Q1b–c: choose output, then find profit. ++}
 
+<!--
+|   |   |
+| --- | --- |
+| 2.f.exercise.b | After 2.e, hide the graph; show Exercise E2 ∣ Q1b in grey. Give MC = 2q and P = 80; ask for the profit-maximizing quantity and why not 30 or 50. Hold for board work. |
+| 2.f.exercise.c | Advance to Exercise E2 ∣ Q1c on the same page layout. Ask for maximal profit at P = 80; supply ATC = 65 at the chosen quantity. Hold for board work, then return to the lecture graph before 3.a. |
+-->
+
 ~~Q1b–c: write $P = 90$, $MC = 2q$, and $TC = 1000 + q^2$. Students choose $q = 45$. At $q = 40$, $MC = 80 < MR$; at $q = 50$, $MC = 100 > MR$. Increase from 40; decrease from 50. At 45, revenue is 4050, cost is 3025, and economic profit is 1025.~~
 
 ~~Draw a small firm graph with MC, ATC, and the price line, locating output first and profit second. Ask: “Why don’t we choose the bottom of ATC?” Quantity maximizes the difference between revenue and cost; minimum ATC is not the general output rule. Use $MC = MR$ on rising MC, subject to the shutdown decision.~~
@@ -338,7 +351,7 @@ Firms earning a loss will shut down in the short run if price is below their AVC
 <!--
 |   |   |
 | --- | --- |
-| {++ 3.e.avc ++} | {++ Add AVC below the price line. ++} |
+| {++ 3.e.avc ++} | {++ Add AVC below the price line. Caption: “Shut down this period if price is below AVC at the best positive output.” ++} |
 -->
 
 The firm needs to decide whether operating with a loss is better than shutting down and still paying this period’s fixed cost.
@@ -346,7 +359,7 @@ The firm needs to decide whether operating with a loss is better than shutting d
 <!--
 |   |   |
 | --- | --- |
-| {++ 3.e.fc ++} | {++ Show fixed cost as the area between AVC and ATC over the chosen output. ++} |
+| {++ 3.e.fc ++} | {++ Show fixed cost between AVC and ATC. Caption: “Is operating with a loss better than shutting down and paying the fixed cost?” ++} |
 -->
 
 {++ Here, the price is above average variable cost. By operating, the firm earns enough to cover its variable costs and part of its fixed cost. It loses 375 instead of the full fixed cost of 1000. So it keeps operating. ++}
