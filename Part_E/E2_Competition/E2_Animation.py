@@ -296,7 +296,7 @@ class EpisodeE2(Scene):
         # Keep the lecture objects in place so advancing resumes the existing sequence.
         exercise_ground = Rectangle(width=config.frame_width, height=config.frame_height,
                                     stroke_width=0, fill_color=BG, fill_opacity=1).set_z_index(100)
-        exercise_label = Tex(r'Exercise E2 \textbar{} Q1a', color=INK).scale(0.64)
+        exercise_label = Tex(r'Exercise E2 \textbar{} Q1a', color=CAPTION).scale(0.64)
         # Q1a wording from Exercise/Exercise_E2.md; TeX handles paragraph justification and wrapping.
         exercise_question = Tex(
             r'\begin{minipage}{27em}'
