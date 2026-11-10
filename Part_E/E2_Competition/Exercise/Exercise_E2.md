@@ -4,37 +4,34 @@ plass:
   number-equations: false
 ---
 
-# ECON 0100 | Exercise E2 | Competition
+# ECON 0100 | Exercise E2 | Competitive Firms
 
-Use the animation’s competitive firm: $TC = 1000 + q^2$ and $MC = 2q$. Costs include opportunity costs. Answer alone, then compare with a neighbor.
+*Exercises are a certificate of the work done together in class and offers extra practice outside class.*
 
-## Q1 | Choosing Output
+## Q1 | Choosing Quantity
 
-a\) The market price is 80. Find total revenue from selling 20 units and from selling 21 units. What is marginal revenue? Explain why it equals the price.
+The animation’s competitive firm has cost functions: $TC = 1000 + q^2$ and $MC = 2q$.
 
- 
+a\) If the market price is $P = 80$, find:
 
-b\) At that price, how much should the firm produce? Explain why it should increase output from 30 units but decrease output from 50 units.
+- Total revenue from selling 20 units: $TR_{20}$
+- Total revenue selling 21 units: $TR_{21}$
 
- 
+What is marginal revenue?
+
+b\) At $P = 80$, what quantity maximizes the firm’s profit? Why not 30 or 50 units?
 
 c\) Calculate the firm’s maximal profit. (*Hint: $ATC$ at the profit-maximizing quantity is 65.*)
 
- 
-
 ## Q2 | Operating or Leaving
 
-At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry.
+At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry. 
 
 a\) Calculate profit from operating and from shutting down this period. Which should the firm choose?
-
- 
 
 b\) If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).
 
 c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What happens to market supply and price?
-
-\newpage
 
 ## Q3 | A Higher Marginal Cost
 
