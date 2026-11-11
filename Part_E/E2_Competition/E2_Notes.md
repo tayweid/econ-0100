@@ -61,7 +61,7 @@ Competitive markets have many buyers, many sellers, low barriers to entry, selli
 <!--
 |   |   |
 | --- | --- |
-| 1.b.buyers | Go directly from the bumper to “Competitive Markets,” with the market graph and the first condition, “Many buyers.” Draw demand. Start the subtitle: “Many buyers”. |
+| 1.b.buyers | Go directly from the bumper to “Competitive Markets,” with the market graph and the first condition, “Many buyers.” Draw demand. The market quantity axis is labeled Q without a units caption; its selected quantity is shown only as Q\*, with no numerical quantity readout throughout the animation. Start the subtitle: “Many buyers”. |
 | 1.b.sellers | Draw supply; reveal “Many sellers.” Append to the subtitle: “Many buyers, many sellers”. |
 | 1.b | Reveal “Low barriers to entry” immediately after many sellers. Extend the subtitle to “Many buyers, many sellers, low barriers”. |
 | 1.b.good | Reveal “A homogeneous good.” Extend the subtitle to “Many buyers, many sellers, low barriers, selling a homogeneous good”. |
@@ -73,7 +73,7 @@ We’ve just built up a model of the costs of production for the firm. From last
 <!--
 |   |   |
 | --- | --- |
-| 1.c | SET UP THE FIRM’S COSTS beside the market: MC and ATC. Keep the completed Competitive Markets subtitle through the price-taking section, until the profit subtitle replaces it at 2.a. |
+| 1.c | SET UP THE FIRM’S COSTS beside the market: MC and ATC. Center Market and Firm over their respective axes, at the same height with a 0.34-unit gap above the graphs. Keep the completed Competitive Markets subtitle through the price-taking section, until the profit subtitle replaces it at 2.a. |
 -->
 
 Firms in competitive markets are just one of many. Since competitive firms like this are very small relative to the market, their choices have no real effect on the market. The firm graph essentially gives us a zoomed in view on the demand curve. And because we’re so zoomed in, it doesn’t have any meaningful slope. 
@@ -81,7 +81,7 @@ Firms in competitive markets are just one of many. Since competitive firms like 
 <!--
 |   |   |
 | --- | --- |
-| 1.d.equilibrium | Mark the market equilibrium with the red dot, dashed guides, P\* = 100, and Q\* = 30. Pause before connecting it to the firm. Display prices and costs as rounded integers throughout E2; retain the precise model values for the curves and calculations. |
+| 1.d.equilibrium | Mark the market equilibrium with the red dot, dashed guides, P\* = 100, and Q\* alone beneath the quantity guide. Pause before connecting it to the firm. Display prices and costs as rounded integers throughout E2; retain the precise model values for the curves and calculations. |
 | 1.d | Draw a red dashed connection from the market equilibrium to the firm’s price axis, then draw the firm’s horizontal demand line as a solid line in the same color as market demand. Leave the firm’s line unlabeled until 1.e.mr. |
 -->
 
@@ -194,10 +194,23 @@ As will likely feel familiar at this point in the semester, this is an example o
 |   |   |
 | --- | --- |
 | 2.f.exercise.b | After 2.e, hide the graph; show Exercise E2 ∣ Q1b in gold at the shared heading position, with the supplied MC = 2q setup in grey sans serif and the questions as white serif bullet points. At P = 80, ask for the profit-maximizing quantity and why not 30 or 50. Hold for board work. |
-| 2.f.exercise.c | Advance to Exercise E2 ∣ Q1c in gold on the same open layout, with the hint in the shared grey sans-serif context band and the question as a white serif bullet point below. Ask for maximal profit at P = 80; supply ATC = 65 at the chosen quantity. Hold for board work, then return to the lecture graph before 3.a. |
+| 2.f.exercise.c | Advance to Exercise E2 ∣ Q1c in gold on the same open layout, with the hint in the shared grey sans-serif context band and the question as a white serif bullet point below. Ask for maximal profit at P = 80; supply ATC = 65 at the chosen quantity. Hold for board work, then return to the centered firm for 3.short_run before entry and exit. |
 -->
 
 Why don’t we choose at the minimum of ATC? 
+
+<!--
+Animation playback update: shutdown now precedes entry and exit. The lecture prose, section headings, and timing table below still need the author's reconciliation to this order. Existing beat IDs remain stable when moved.
+
+Playback order after 2.f.exercise.c: 3.short_run → 3.short_run.zero → 3.d → 3.e.avc → 3.e.fc → 3.e.vc → 3.e.revenue → 3.e → 3.e.shutdown → 3.g.supply.zero → 3.g.loss_range → 3.g.break_even → 3.g.profit_range → 3.g.supply → 3.g.compare → 3.g.alt.profit → 3.g.alt.break_even → 3.g.alt.loss → 3.g.alt.threshold → 3.g.alt.below → 3.g.alt.costs → 3.g.alt.fixed_only → 3.g.alt.shutdown → 3.a → 3.d.entry → 3.d.zero → 3.f.loss → 3.f.exit → 3.f.
+
+|   |   |
+| --- | --- |
+| 3.short_run | Keep the firm centered at price 100 and quantity 50, with the market hidden. Fade the ATC axis readout and guide so it cannot overlap price at break-even; retain the purple ATC dot and blue MR dot. Subtitle: “Profit, loss, and the short-run shutdown decision.” Yellow note: “When price is above Average Total Cost, the firm makes a profit.” |
+| 3.short_run.zero | Lower price smoothly to about 63.25 and quantity to about 31.62. Add the grey minimum-ATC dot, anchored to the moving firm graph. The profit area closes to zero. Yellow note: “When price equals Average Total Cost, the firm breaks even.” |
+
+Not built in this pass: the spinach per-unit-cost policy closer.
+-->
 
 ## Entry and Exit
 
@@ -206,7 +219,7 @@ At this price, the firm is making a profit, which is nice for them. But profit i
 <!--
 |   |   |
 | --- | --- |
-| 3.a | Bring back the existing market beside the firm and reconnect their price guides. Keep the purple ATC dot visible and following the chosen quantity throughout the remaining animation, including at the minimum of ATC. Keep the blue MR dot at that same quantity on MR; when the dots coincide, show the purple center with a blue rim so both remain visible. |
+| 3.a | Immediately switch the subtitle to “Entry and exit: long run dynamics.” and the yellow note to “The price comes from the market.” Remove the second graph, divider, both firms’ price-range marks, supply traces, and the original firm’s AVC without separate exit animations. Restore the original firm’s hidden selection directly at price 100 and quantity 50, with MR, colored dots, the profit area, and yellow measurements. In one 1.6-second move, slide the complete original firm directly from the left comparison position to its final right-hand position while the existing market and its marks fade in. Center Market and Firm over their respective axes at the same height; show only Q\* beneath the market quantity guide, without a number or units caption. The connecting price guide follows the moving firm. No intermediate recentering, price sweep, or separate readout reveals. Keep the purple ATC dot visible and following the chosen quantity throughout the remaining animation, including at the minimum of ATC. Keep the blue MR dot at that same quantity on MR; when the dots coincide, show the purple center with a blue rim so both remain visible. |
 -->
 
 The demand curve is just the willingness to pay of many people all added together. And the supply curve is the willingness to sell of many sellers all added together. We find equilibrium by intersecting the supply and demand curves. This is where the price for the firm comes from. But profit is nice for everyone, so new firms open up to get in on some of that profit. New firms means the supply curve pivots out. More firms are willing to sell at each price.
@@ -230,7 +243,7 @@ When price is low, firms are making a negative profit, or what we call a loss.
 <!--
 |   |   |
 | --- | --- |
-| 3.d | Continue pivoting supply outward around the origin, lowering price to 50; the firm produces 25 and earns a loss. Yellow note: “When price is low firms make a negative profit, called a loss.” |
+| 3.d | Before long-run dynamics, keep the firm centered and the market hidden. Lower price from the break-even level to 50 and the chosen quantity to 25; the profit rectangle becomes a red loss. Yellow note: “When price is low firms make a negative profit, called a loss.” |
 -->
 
 Firms earning a loss will shut down in the short run if price is below their AVC at the best positive output. Shutting down means producing nothing this period. We still have to pay the fixed cost. Exiting the industry is a different decision: it lets us avoid those costs in future periods.
@@ -238,7 +251,7 @@ Firms earning a loss will shut down in the short run if price is below their AVC
 <!--
 |   |   |
 | --- | --- |
-| 3.e.avc | Add AVC below the price line. Caption: “Shut down this period if price is below AVC at the best positive output.” |
+| 3.e.avc | Still in the short-run sequence, add AVC below price with its pink dot at quantity 25. Yellow note: “Is operating with a loss better than shutting down and paying the Fixed Cost?” |
 -->
 
 The firm needs to decide whether operating with a loss is better than shutting down and still paying this period’s fixed cost.
@@ -246,7 +259,9 @@ The firm needs to decide whether operating with a loss is better than shutting d
 <!--
 |   |   |
 | --- | --- |
-| 3.e.fc | Show fixed cost between AVC and ATC. Caption: “Is operating with a loss better than shutting down and paying the fixed cost?” |
+| 3.e.fc | Hold price at 50 and quantity at 25. Hide the price readout and its horizontal guide; dim MR and its blue dot while highlighting ATC and AVC. Temporarily remove the red loss fill and yellow measurements; keep MC dim. Show the full grey fixed-cost band from AVC = 25 to ATC = 65, with FC centered inside it. No bracket. Red horizontal guides mark AVC and ATC. Yellow note: “The firm pays the full Fixed Cost even if it shuts down.” |
+| 3.e.vc | Add the pink variable-cost rectangle from zero to AVC, with VC centered inside it; retain the full grey FC band and its label. Yellow note: “Operating adds Variable Costs, but also brings in revenue.” |
+| 3.e.revenue | Draw one teal outline around all Total Revenue: from zero to quantity 25 and from the baseline to price 50, with a faint blue tint on the unit bars inside it and a white TR label inside the box, just above the AVC guide. Reduce the pink VC fill to 0.08 and its strokes to 0.25; fade both VC and FC labels, keeping the grey fixed-cost band in place. Keep the price readout hidden, MR dim, and ATC and AVC highlighted. Pause before labeling the remaining region. Yellow note: “Revenue covers all Variable Costs and part of the Fixed Cost.” |
 -->
 
 Here, the price is above average variable cost. By operating, the firm earns enough to cover its variable costs and part of its fixed cost. It loses 375 instead of the full fixed cost of 1000. So it keeps operating.
@@ -254,7 +269,33 @@ Here, the price is above average variable cost. By operating, the firm earns eno
 <!--
 |   |   |
 | --- | --- |
-| 3.e | SHOW THE LOSS IS SMALLER THAN FIXED COST WHEN P > AVC; emphasize the loss area. |
+| 3.e | After the revenue-box pause, add a white Loss label and red outline to the remaining grey region between MR and ATC. Keep TR inside the revenue box, the faint pink VC region, and the preceding yellow note; omit the numerical operating-versus-shutdown note. Quantity stays at 25 as the reference for measuring costs. |
+| 3.e.shutdown | Pan the operating graph left to x = −4.9, label it “Operate”, and add a grey divider at x = 0.4. Slide only a copy of the full grey FC box horizontally to x = 3.2 under “Shut down”, preserving its size and exact vertical position. Add a red outline around that full area and label it “Loss / (FC)”, with q = 0 below and a grey sans caption “No revenue or Variable Costs”. Do not copy revenue or VC or animate their removal. The right panel compares total amounts, without quantity axes; the left graph retains the smaller operating loss. Yellow note: “Shutting down removes revenue and Variable Costs; Fixed Cost remains.” |
+-->
+
+<!--
+Alternative-cost sequence after 3.e; before the market returns at 3.a. Original firm's model is unchanged. The new firm uses TC = 1600 + 75q − 3q² + q³/20, AVC = 75 − 3q + q²/20, and MC = 75 − 6q + 3q²/20. Fixed Cost is \$1,600; minimum AVC is 30 at q = 30; minimum ATC is 75 at q = 40. MC is below AVC for 0 < q < 30 and crosses it at its minimum. The best positive output solves the rising-MC branch, q = 20 + sqrt((P − 15)/0.15); compare its profit with −1600 before selecting shutdown. These formulas specify the model, not a new on-screen calculation panel.
+
+Use the existing 4-unit-square graphs and price scale 0–130; the original quantity scale remains 0–70 and the new firm uses 0–60. Original graph pans to x = −5.6, new graph starts at x = 2.3, and a grey divider stands at x = 0. Lift both graph headings to 0.34 units above their graphs. Price ranges are solid vertical segments 0.25 units left of each price axis, with 0.7-scale serif labels outside them. Green means profit, red means operate at a loss, grey means shut down. Red dashed guides connect the range boundaries to minimum ATC and AVC. The new firm’s rolling price readout follows MR at its actual height, just outside the colored range line with a 0.18-unit gap. Reveal Profit only after price enters the loss range, and Operate / at a loss only after price falls below the shutdown threshold, leaving the active range clear for price. Keep background MC dim at 0.2 and ATC, AVC, and MR at 0.25, with subdued curve labels. Bright orange supply traces carry the emphasis. The new trace follows rising MC from the initial price 100 down to minimum AVC at price 30 and quantity 30; it stops there when price falls further. ATC/AVC markers and the loss area leave before quantity reaches zero, where average costs are undefined; the blue MR dot and quantity readout travel to q = 0. Once shutdown is selected, fade the price readout and reveal the completed grey Shut down range label in its place.
+
+|   |   |
+| --- | --- |
+| 3.g.supply.zero | Remove the shutdown comparison, divider, operating cost/revenue regions and labels. Recenter the original graph smoothly, keeping the same MR line, its outside label, blue dot, and quantity markers. Restore the ordinary price readout beside the vertical axis, then lower the existing price and quantity smoothly from 50 and 25 to zero. The orange MC dot sits inside the larger blue MR dot. Dim ATC, AVC, MR, and their labels to 0.25; dim the untraced MC line to 0.2 so the orange supply trace is the focus. MR stays outside the right end of its line at the same height; MC keeps its ordinary outside position. No selected ATC marker or cost rectangle is shown at zero, where average cost is undefined. Reuse the existing profit/loss area and labels for the upward sweep; keep them hidden through q = 10, then fade them in smoothly from q = 10 to q = 15, with area labels also waiting until the rectangle is wide enough. Yellow note: “As price rises, the firm chooses quantity where MR = MC.” |
+| 3.g.loss_range | Raise the same price tracker smoothly from 0 to 50 over four seconds; chosen quantity follows q = P/2 to 25. Move MR and its blue/orange intersection along MC, with red horizontal and vertical projection guides and the price readout beside the vertical axis at its actual height. Leave a bright orange trace from the origin to the moving point. Show the red loss area between price and ATC across the chosen quantity, with Loss inside. Grow a red price-range line 1.6 units left of the axis, leaving space for the price readout; reveal “Operate / at a loss” beside it. Yellow note: “Below minimum Average Total Cost, the firm operates at a loss.” |
+| 3.g.break_even | Raise price from 50 to minimum ATC, about 63.25, and quantity to about 31.62; extend the trace and red price-range line together. Pause where MR = MC = ATC, then retain a red dashed boundary guide at this price. Yellow note: “At minimum Average Total Cost, the firm breaks even.” |
+| 3.g.profit_range | Continue the same sweep from minimum ATC to price 120 and quantity 60 over four seconds. Extend the orange trace along MC; keep the completed red loss range and grow a green price-range segment above it, labeled “Profit”. The loss area shrinks to zero at break-even, then becomes a growing green profit area between ATC and price, with the white Profit label centered inside it. Yellow note: “Above minimum Average Total Cost, the firm makes a profit.” |
+| 3.g.supply | Keep the completed orange trace and both labeled price ranges. Fade the profit/loss area and its labels together with MR, price/quantity readouts, guides, and intersection dots. Move the range lines and their labels inward to 0.25 units left of the axis now that the price readout is gone, and change the ordinary outside MC label to “MC = S”. Yellow note: “These price and quantity choices trace the firm’s supply curve.” |
+| 3.g.compare | Freeze and retain the orange supply trace and price ranges as the original graph moves left, keeping its cost curves dim. Label it “Original firm” and add a grey vertical divider and a right-hand graph labeled “Different costs”, with subdued MC, ATC, and U-shaped AVC. Include both minimum-cost markers and grey dashed horizontal guides immediately: minimum ATC at P = 75, q = 40, and minimum AVC at P = 30, q = 30. Both headings sit slightly higher, with 0.34-unit gaps above the graphs. Yellow note: “Different costs change the curves, but the decision is the same.” Restore the original cost-curve emphasis when leaving this comparison for entry and exit. |
+| 3.g.alt.profit | On the new firm, add dim MR at price 120, level with the top of MC, the profit area, chosen quantity about 46.5, colored dots, and price/quantity guides. Price sits just outside the colored range line at MR’s height. Start the green range at price 120 with zero length; leave its label hidden. As price falls, retain the bright orange supply path along rising MC and grow the green range down to the current price. Yellow note: “At a high price, this firm makes a profit.” |
+| 3.g.alt.break_even | Smoothly lower price to 75 and chosen quantity to 40, extending the orange supply trace and growing the green range from 120 down to 75. Profit closes to zero at minimum ATC. Retain the existing grey minimum-cost guides and markers; keep the Profit range label hidden. Yellow note: “At minimum Average Total Cost, the firm breaks even.” |
+| 3.g.alt.loss | Lower price to 50 and output to about 35.3, maintaining P = MC and extending the trace at each frame. Grow the red price range downward from 75 to the moving price, with its label still hidden; retain the completed green segment. Once price reaches 50, fade in the green Profit range label above it. The red loss area appears. Yellow note: “Between minimum AVC and minimum ATC, the firm operates at a loss.” |
+| 3.g.alt.threshold | Lower price to 30 and output to 30, extending the red range down to 30. MR and rising MC meet minimum AVC, completing the positive-output supply trace. Retain the existing minimum markers and grey guides; keep the loss range label hidden. Yellow note: “At minimum AVC, producing or shutting down gives the same loss.” |
+| 3.g.alt.below | Lower price to 20 and show the best positive output, about 25.8, still on rising MC. Keep the retained supply trace ending at minimum AVC. Change the quantity label from q\* to q because this candidate is no longer the best choice overall. Grow a grey range downward from 30 to the moving price, without its label. Once price reaches 20, fade in Operate / at a loss beside the completed red range. Yellow note: “Below minimum AVC, revenue cannot cover Variable Costs.” |
+| 3.g.alt.costs | Hold price at 20 and quantity about 25.8. Crossfade the red loss bars to grey FC bars from AVC to ATC and pink uncovered-VC bars from price to AVC, preserving the full loss footprint. Replace Loss with white FC and VC labels inside their respective regions. The pink strip is only the variable cost left uncovered by revenue. Keep the Shut down range label hidden. Yellow note: “Operating loses Fixed Cost plus uncovered Variable Costs.” |
+| 3.g.alt.fixed_only | Keep price and quantity fixed. Draw a red outline around only the grey FC region, and subdue the pink uncovered-VC strip and its label. Hold the comparison before announcing shutdown on the price range. Yellow note: “Shutting down loses only Fixed Cost, so the loss is smaller.” |
+| 3.g.alt.shutdown | Remove the candidate cost regions, labels, FC outline, and cost markers, then move the blue MR dot and quantity guide smoothly to zero. Continue the orange supply trace horizontally left from (30, 30) to (0, 30), then straight down the vertical axis to the current price of 20. Label the chosen output q\*. Keep dim MR at price 20, grey threshold guides, the completed orange supply trace, and all three price ranges. Fade the price readout, then reveal the grey Shut down range label so the two do not overlap. Yellow note: “Shut down: produce nothing and pay only Fixed Cost.” |
+
+Prose/timing reconciliation remains pending; the existing author text is unchanged.
 -->
 
 ### Whiteboard | Exercise Q2a
@@ -268,6 +309,7 @@ In the long run, if price is below the firm’s ATC, they’re making a loss in 
 <!--
 |   |   |
 | --- | --- |
+| 3.f.loss | After entry reaches zero profit, pivot supply outward to price 50 and firm quantity 25 to set up the exit comparison. Yellow note: “When price is low firms make a negative profit, called a loss.” |
 | 3.f.exit | Exit pivots supply inward around the origin, increasing its slope; price rises from 50 to about 63.25. Yellow note: “With a loss, firms exit, pivoting the supply curve inward.” |
 -->
 

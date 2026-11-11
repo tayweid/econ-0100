@@ -1,7 +1,7 @@
 # maniml E2_Animation.py EpisodeE2
 # Teaching notes and current hold references: E2_Notes.md. Earlier storyboards are archived. All choreography stays in construct().
 # Competitive firms: E1's firm takes the market price, profit built from one unit (TR, TC, the box, q(P - ATC)),
-# the next unit decides the quantity (MC = MR), then the market beside the firm: entry and exit until profit is zero.
+# the next unit decides quantity (MC = MR), short-run profit/loss and shutdown, then market entry and exit until profit is zero.
 # One firm throughout, E1's: TC = 1000 + q^2 (a $100 wage, a $1,000 fixed cost), MC = 2q, AVC = q, ATC = q + 1000/q,
 # lowest at q = sqrt(1000) = 31.6 where ATC = MC = 63.25. Market (Q in thousands): D: P = 120 - 2Q/3, S: P = kQ,
 # k = P*/Q* falls with entry and rises with exit. The firm's price is 100: q* = 50, ATC 70, TR 5,000, TC 3,500, profit 1,500.
@@ -142,15 +142,13 @@ class EpisodeE2(Scene):
         head = title('Competitive Markets')
         market_ax = style_axes([0, MARKET_Q_MAX, 10], [0, PRICE_MAX, 10], x_length=MARKET_WIDTH, y_length=GRAPH_HEIGHT)
         market_ax.shift(np.array([MARKET_X_PAIR, ORIGIN_Y, 0]) - market_ax.c2p(0, 0))
-        market_label = Tex('Market', color=INK).scale(0.8).next_to(market_ax.c2p(MARKET_Q_MAX / 2, PRICE_MAX), UP, buff=0.12)
+        market_label = Tex('Market', color=INK).scale(0.8).next_to(market_ax.c2p(MARKET_Q_MAX / 2, PRICE_MAX), UP, buff=0.34)
         market_words = VGroup(
             market_label,
             Tex('P', color=INK).scale(0.8).next_to(market_ax.c2p(0, PRICE_MAX), LEFT, buff=0.25),
             Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55),
-            Tex('Q', color=INK).scale(0.8).next_to(market_ax.c2p(MARKET_Q_MAX, 0), DOWN, buff=0.35),
-            Tex(r'\textsf{1,000 units}', color=CAPTION).scale(0.55))
+            Tex('Q', color=INK).scale(0.8).next_to(market_ax.c2p(MARKET_Q_MAX, 0), DOWN, buff=0.35))
         market_words[2].next_to(market_words[1], RIGHT, buff=0.35)
-        market_words[4].next_to(market_words[3], RIGHT, buff=0.3)
         DEMAND_END = 110                                           # D stops short of the axis end so its name clears the firm's P
         market_demand = Line(market_ax.c2p(0, 120), market_ax.c2p(DEMAND_END, 120 - 2 * DEMAND_END / 3), color=DEMAND, stroke_width=CURVE_WIDTH)
         demand_word = Tex('D', color=DEMAND).scale(CURVE_WORD_SCALE).next_to(market_ax.c2p(DEMAND_END, 120 - 2 * DEMAND_END / 3), RIGHT, buff=0.12)
@@ -197,7 +195,7 @@ class EpisodeE2(Scene):
         # ---- 1.c · The list leaves; the market stays. E1's firm beside it: MC, ATC, a grey dot at ATC's minimum.
         firm_ax = style_axes([0, FIRM_Q_MAX, 10], [0, PRICE_MAX, 10], x_length=FIRM_WIDTH, y_length=GRAPH_HEIGHT)
         firm_ax.shift(np.array([FIRM_X_PAIR, ORIGIN_Y, 0]) - firm_ax.c2p(0, 0))
-        firm_label = Tex('Firm', color=INK).scale(0.8).next_to(firm_ax.c2p(FIRM_Q_MAX / 2, PRICE_MAX), UP, buff=0.12)
+        firm_label = Tex('Firm', color=INK).scale(0.8).next_to(firm_ax.c2p(FIRM_Q_MAX / 2, PRICE_MAX), UP, buff=0.34)
         firm_words = VGroup(
             firm_label,
             Tex('P', color=INK).scale(0.8).next_to(firm_ax.c2p(0, PRICE_MAX), LEFT, buff=0.25),
@@ -212,7 +210,7 @@ class EpisodeE2(Scene):
         # ATC is named where it enters at the upper left; its right end shares heights with MR and AVC.
         atc_word = Tex('ATC', color=ATC_COLOR).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(ATC_START, ATC_TOP), RIGHT, buff=0.15)
         lowest_atc = Dot(firm_ax.c2p(np.sqrt(FIXED), LONG_RUN_P), radius=0.085, color=MUTED).set_z_index(DOT_LAYER + 1)   # grey, not yellow (Taylor)
-        firm = VGroup(firm_ax, firm_words, mc_line, mc_word, atc_curve, atc_word)      # the grey dot joins only at zero profit (3.d.zero)
+        firm = VGroup(firm_ax, firm_words, mc_line, mc_word, atc_curve, atc_word)      # the grey dot joins at short-run break-even
         self.play(FadeOut(checklist), FadeOut(checklist_divider), run_time=0.5)
         self.play(FadeIn(firm), FadeIn(market_label))
         self.pause('1.c')
@@ -236,12 +234,9 @@ class EpisodeE2(Scene):
         market_price = VGroup(Tex('$P^*=$', color=GUIDE), DecimalNumber(FIRM_P, num_decimal_places=0, color=GUIDE)).scale(0.65)
         market_price.add_updater(lambda m: (m[1].set_value(price.get_value()), m.arrange(RIGHT, buff=0.06),
                                             m.next_to(market_ax.c2p(0, price.get_value()), LEFT, buff=0.2)))
-        market_quantity = VGroup(DecimalNumber(market_q(FIRM_P), num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE),
-                                 Tex('$Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE))
-        market_quantity.add_updater(lambda m: (
-            m[0].set_value(float(np.round(market_q(price.get_value()))))
-                .move_to(market_ax.c2p(market_q(price.get_value()), 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-            m[1].move_to(market_ax.c2p(market_q(price.get_value()), 0) + DOWN * QUANTITY_LABEL_OFFSET)))
+        market_quantity = Tex('$Q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+        market_quantity.add_updater(lambda m: m.move_to(
+            market_ax.c2p(market_q(price.get_value()), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         price_bridge = DashedLine(market_ax.c2p(market_q(FIRM_P), FIRM_P), firm_ax.c2p(0, FIRM_P), color=GUIDE,
                                   stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
         price_bridge.add_updater(lambda m: m.become(DashedLine(
@@ -278,8 +273,8 @@ class EpisodeE2(Scene):
         price_guide = DashedLine(firm_ax.c2p(0, FIRM_P), firm_ax.c2p(quantity.get_value(), FIRM_P), color=GUIDE,
                                  stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
         price_guide.add_updater(lambda m: m.become(DashedLine(
-            firm_ax.c2p(0, price.get_value()), firm_ax.c2p(quantity.get_value(), price.get_value()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
+            firm_ax.c2p(0, price.get_value()), firm_ax.c2p(max(quantity.get_value(), 0.001), price.get_value()),
+            color=GUIDE, stroke_width=GUIDE_WIDTH).set_stroke(opacity=float(quantity.get_value() > 0)).set_z_index(GUIDE_LAYER)))
         # Revenue reads at the price; include ATC only once the cost area is introduced.
         show_average_cost = [False]
         show_unit_mc = [False]                                   # True while the next unit's MC dot is on the graph (2.d)
@@ -287,8 +282,8 @@ class EpisodeE2(Scene):
                                 mc(quantity.get_value()) if show_unit_mc[0] else 0)
         q_drop = DashedLine(firm_ax.c2p(60, 0), firm_ax.c2p(60, FIRM_P), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
         q_drop.add_updater(lambda m: m.become(DashedLine(
-            firm_ax.c2p(quantity.get_value(), 0), firm_ax.c2p(quantity.get_value(), guide_top()),
-            color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
+            firm_ax.c2p(quantity.get_value(), 0), firm_ax.c2p(quantity.get_value(), max(guide_top(), 0.001)),
+            color=GUIDE, stroke_width=GUIDE_WIDTH).set_stroke(opacity=float(guide_top() > 0)).set_z_index(GUIDE_LAYER)))
         q_number = DecimalNumber(60, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         q_number.add_updater(lambda m: m.set_value(float(np.round(quantity.get_value())))
                              .move_to(firm_ax.c2p(quantity.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
@@ -524,12 +519,13 @@ class EpisodeE2(Scene):
         self.add(cost_result)
         self.pause('2.b.cost')
 
-        # ---- 2.c.area · The difference: one-unit bars from ATC to P over 0 to q, orange for a profit, red for a loss, the name
+        # ---- 2.c.area · The difference: one-unit bars from ATC to P over 0 to q, green for a profit, red for a loss, the name
         # centred over them (it fades when the bars are thinner than 0.3 units). The curves recede while profit is the subject.
         box_low = lambda: min(price.get_value(), atc(max(quantity.get_value(), 1)))
         box_high = lambda: max(price.get_value(), atc(max(quantity.get_value(), 1)))
         in_profit = lambda: price.get_value() >= atc(max(quantity.get_value(), 1))
         box_color = lambda: PROFIT_COLOR if in_profit() else LOSS_COLOR
+        box_visibility = lambda: float(np.clip((quantity.get_value() - 10) / 5, 0, 1)) if box_high() <= PRICE_MAX else 0
         # One bar per unit from ATC to P; bar u shows while u < q, and the last one is cut at q as q rolls.
         bar_right = lambda u: max(u, min(u + 1, quantity.get_value()))
         bar_shape = lambda u: [firm_ax.c2p(u, box_low()), firm_ax.c2p(bar_right(u), box_low()), firm_ax.c2p(bar_right(u), box_high()),
@@ -537,10 +533,11 @@ class EpisodeE2(Scene):
         profit_box = VGroup(*[Polygon(ORIGIN, RIGHT, UP, stroke_width=BAR_OUTLINE, fill_opacity=0) for u in range(FIRM_Q_MAX)])
         for u, bar in enumerate(profit_box):
             bar.add_updater(lambda m, u=u: m.set_points_as_corners(bar_shape(u))
-                            .set_stroke(box_color(), BAR_OUTLINE, opacity=float(u < quantity.get_value()))
-                            .set_fill(box_color(), AREA_OPACITY * float(u < quantity.get_value())))
+                            .set_stroke(box_color(), BAR_OUTLINE, opacity=box_visibility() * float(u < quantity.get_value()))
+                            .set_fill(box_color(), AREA_OPACITY * box_visibility() * float(u < quantity.get_value())))
         box_height = lambda: (box_high() - box_low()) * GRAPH_HEIGHT / PRICE_MAX
-        box_name_opacity = lambda: float(np.clip((box_height() - 0.3) / 0.15, 0, 1))
+        box_name_opacity = lambda: box_visibility() * float(np.clip((box_height() - 0.3) / 0.15, 0, 1)) * float(
+            np.clip((quantity.get_value() * FIRM_WIDTH / FIRM_Q_MAX - 0.6) / 0.3, 0, 1))
         name_spot = lambda: firm_ax.c2p(quantity.get_value() / 2, (box_low() + box_high()) / 2)
         profit_name = Tex('Profit', color=INK).scale(AREA_WORD_SCALE).set_z_index(DOT_LAYER)
         profit_name.add_updater(lambda m: m.move_to(name_spot()).set_opacity(box_name_opacity() if in_profit() else 0))
@@ -794,7 +791,8 @@ class EpisodeE2(Scene):
         q_star.add_updater(lambda m: m.move_to(firm_ax.c2p(quantity.get_value(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
         q_star.update()
         for m in unit_marks:
-            m.clear_updaters()
+            if m is not unit_cost_dot:                      # reuse the MC marker when tracing the firm's supply
+                m.clear_updaters()
         price_number.remove_updater(price_visibility)
         self.remove(q_symbol)
         self.play(*[FadeOut(m) for m in unit_marks], price_number.animate.set_opacity(1), run_time=0.5)
@@ -850,39 +848,23 @@ class EpisodeE2(Scene):
         self.play(FadeOut(exercise_c_text), run_time=0.3)
         self.play(FadeOut(exercise_ground), run_time=0.4)
 
-        # ---- 3.a · Entry and exit: the subtitle changes; the firm pans back beside the market, which returns where it was,
-        # then its marks and the price guide to the firm; the ATC dot keeps tracking quantity as the axis readouts leave.
-        for m in (atc_guide, atc_number, price_number):
-            m.update()
-            m.clear_updaters()
+        # ---- 3.short_run · Establish profit, break-even, and loss before considering entry or exit.
         self.remove(context, note)
-        context = subtitle(head, 'Entry and exit: long run dynamics.')
-        note = teaching('The price comes from the market.')
-        self.play(FadeOut(atc_guide), FadeOut(atc_number), FadeOut(price_number), run_time=0.5)
-        self.remove(price_word)
-        price_word = mr_word                                   # MR stays the label when the market returns.
-        self.play(FadeIn(context), firm.animate.shift(RIGHT * (FIRM_X_PAIR - FIRM_X_ALONE)), FadeIn(market_picture), FadeIn(price_word),
-                  firm_label.animate.set_opacity(1), run_time=1.6, rate_func=smooth)
-        for m in market_marks:
-            m.update()
-        self.play(*[FadeIn(m) for m in market_marks], FadeIn(note))
-        self.pause('3.a')
+        context = subtitle(head, 'Profit, loss, and the short-run shutdown decision.')
+        note = teaching('When price is above Average Total Cost, the firm makes a profit.')
+        self.play(FadeOut(atc_guide), FadeOut(atc_number), FadeIn(context), FadeIn(note))
+        self.pause('3.short_run')
 
-        # ---- 3.d.entry · Entry: supply pivots outward around the origin, the price falls to 80, and the firm's line and box follow.
+        # ---- 3.short_run.zero · At the minimum of ATC, the profit rectangle closes to zero.
+        lowest_atc.add_updater(lambda m: m.move_to(firm_ax.c2p(np.sqrt(FIXED), LONG_RUN_P)))
+        lowest_atc.update()
         self.remove(note)
-        note = teaching('With profit, more firms enter, pivoting the supply curve outward.')
-        self.play(FadeIn(note))
-        self.play(price.animate.set_value(80), quantity.animate.set_value(40), run_time=ROLL_TIME, rate_func=smooth)
-        self.pause('3.d.entry')
-
-        # ---- 3.d.zero · Entry continues until the box closes onto the minimum of ATC: 63.25, zero profit.
-        self.remove(note)
-        note = teaching("Firms continue to enter until price is low enough that there's no more profit.")
-        self.play(FadeIn(note), FadeIn(lowest_atc))           # the grey dot at ATC's minimum, where the bars will close
+        note = teaching('When price equals Average Total Cost, the firm breaks even.')
+        self.play(FadeIn(note), FadeIn(lowest_atc))
         self.play(price.animate.set_value(LONG_RUN_P), quantity.animate.set_value(LONG_RUN_P / 2), run_time=ROLL_TIME, rate_func=smooth)
-        self.pause('3.d.zero')
+        self.pause('3.short_run.zero')
 
-        # ---- 3.d · Too far: at 50 the price is below ATC, the box flips above the price and turns red.
+        # ---- 3.d · Still in the short run: at 50 the price is below ATC and the firm earns a loss.
         LOSS_P = 50
         self.remove(note)
         note = teaching('When price is low firms make a negative profit, called a loss.')
@@ -895,32 +877,503 @@ class EpisodeE2(Scene):
         avc_word = Tex('AVC', color=AVC_COLOR).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(FIRM_Q_MAX, avc(FIRM_Q_MAX)), RIGHT, buff=0.15)
         avc_dot = Dot(firm_ax.c2p(LOSS_P / 2, avc(LOSS_P / 2)), radius=DOT_RADIUS, color=AVC_COLOR).set_z_index(DOT_LAYER)
         self.remove(note)
-        note = teaching('Shut down this period if price is below AVC at the best positive output.')
+        note = teaching('Is operating with a loss better than shutting down and paying the Fixed Cost?')
         self.play(FadeIn(avc_line), FadeIn(avc_word), FadeIn(avc_dot), FadeIn(note))
         self.pause('3.e.avc')
 
-        # ---- 3.e.fc · The fixed cost on the graph: grey bars between AVC and ATC over 0 to q* make q(ATC - AVC) = FC, and
-        # the red loss bars are their upper part.
+        # ---- 3.e.fc · Keep q = 25 as the reference: the entire AVC-to-ATC band is the $1,000 fixed cost.
+        # Hide the loss fill briefly so it cannot make the fixed-cost region look smaller than it is.
         q_loss = LOSS_P / 2
         fixed_box = VGroup(*[Polygon(firm_ax.c2p(u, avc(q_loss)), firm_ax.c2p(u + 1, avc(q_loss)), firm_ax.c2p(u + 1, atc(q_loss)),
-                                     firm_ax.c2p(u, atc(q_loss)), color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=0.15)
-                             for u in range(int(q_loss))]).set_z_index(-1)
-        fixed_name = Tex('FC', color=FC_WORD).scale(AREA_WORD_SCALE).move_to(firm_ax.c2p(q_loss / 2, (avc(q_loss) + LOSS_P) / 2))
-        self.remove(note)
-        note = teaching('Is operating with a loss better than shutting down and paying the fixed cost?')
-        self.play(FadeIn(fixed_box), FadeIn(fixed_name), FadeIn(note))
+                                     firm_ax.c2p(u, atc(q_loss)), color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=0.25)
+                             for u in range(int(q_loss))]).set_z_index(-2)
+        fixed_name = Tex('FC', color=INK).scale(AREA_WORD_SCALE)
+        fixed_name.move_to(firm_ax.c2p(q_loss / 2, (avc(q_loss) + atc(q_loss)) / 2)).set_z_index(DOT_LAYER)
+        cost_guides = VGroup(*[
+            DashedLine(firm_ax.c2p(0, cost), firm_ax.c2p(q_loss, cost), color=GUIDE,
+                       stroke_width=GUIDE_WIDTH, dash_length=0.05)
+            for cost in (avc(q_loss), atc(q_loss))
+        ]).set_z_index(GUIDE_LAYER)
+        self.remove(note, profit_name)       # remove the hidden label with its area; restore both together during the supply trace
+        note = teaching('The firm pays the full Fixed Cost even if it shuts down.')
+        self.play(FadeOut(profit_box), FadeOut(loss_name), *[FadeOut(m) for m in measure_marks],
+                  FadeOut(price_number), FadeOut(price_guide), price_line.animate.set_stroke(opacity=0.25),
+                  price_word.animate.set_opacity(0.25), firm_dot.animate.set_opacity(0.35),
+                  mc_line.animate.set_stroke(opacity=0.2), atc_curve.animate.set_stroke(opacity=1),
+                  avc_line.animate.set_stroke(opacity=1), run_time=0.5)
+        self.play(FadeIn(fixed_box), FadeIn(fixed_name), Create(cost_guides), FadeIn(note))
         self.pause('3.e.fc')
 
-        # ---- 3.e · The loss is the top of the fixed-cost box: smaller than the fixed cost, so the firm keeps operating.
+        # ---- 3.e.vc · Operating adds $625 of variable cost below the fixed-cost band.
+        variable_box = VGroup(*[
+            Polygon(firm_ax.c2p(u, 0), firm_ax.c2p(u + 1, 0), firm_ax.c2p(u + 1, avc(q_loss)),
+                    firm_ax.c2p(u, avc(q_loss)), color=AVC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
+            for u in range(int(q_loss))
+        ]).set_z_index(-2)
+        variable_name = Tex('VC', color=INK).scale(AREA_WORD_SCALE)
+        variable_name.move_to(firm_ax.c2p(q_loss / 2, avc(q_loss) / 2)).set_z_index(DOT_LAYER)
         self.remove(note)
-        note = teaching('Price is above AVC, so the loss is smaller than the fixed cost.')
-        self.play(FadeIn(note), Indicate(profit_box, color=FOCUS, scale_factor=1), run_time=0.8)
+        note = teaching('Operating adds Variable Costs, but also brings in revenue.')
+        self.play(FadeIn(variable_box), FadeIn(variable_name), FadeIn(note))
+        self.pause('3.e.vc')
+
+        # ---- 3.e.revenue · Faint blue revenue bars cover VC and part of the unchanged fixed-cost band.
+        revenue_bars = VGroup(*[
+            Polygon(firm_ax.c2p(u, 0), firm_ax.c2p(u + 1, 0), firm_ax.c2p(u + 1, LOSS_P),
+                    firm_ax.c2p(u, LOSS_P), color=REVENUE_COLOR, stroke_width=BAR_OUTLINE,
+                    stroke_opacity=0.35, fill_opacity=0.08)
+            for u in range(int(q_loss))
+        ]).set_z_index(-1)
+        revenue_outline = Polygon(
+            firm_ax.c2p(0, 0), firm_ax.c2p(q_loss, 0), firm_ax.c2p(q_loss, LOSS_P), firm_ax.c2p(0, LOSS_P),
+            stroke_color=REVENUE_COLOR, stroke_width=4, fill_opacity=0,
+        ).set_z_index(GUIDE_LAYER + 1)
+        revenue_name = Tex('TR', color=INK).scale(AREA_WORD_SCALE)
+        revenue_name.move_to(firm_ax.c2p(q_loss / 2, LOSS_P / 2)).shift(UP * 0.25).set_z_index(DOT_LAYER)
+        self.remove(note)
+        note = teaching('Revenue covers all Variable Costs and part of the Fixed Cost.')
+        self.play(variable_box.animate.set_fill(opacity=0.08).set_stroke(opacity=0.25),
+                  FadeOut(variable_name), FadeOut(fixed_name), FadeIn(revenue_bars),
+                  Create(revenue_outline), FadeIn(revenue_name), FadeIn(note), run_time=1.2)
+        self.pause('3.e.revenue')
+
+        # ---- 3.e · After a separate hold, name the cost left uncovered by revenue.
+        loss_outline = Polygon(firm_ax.c2p(0, LOSS_P), firm_ax.c2p(q_loss, LOSS_P),
+                               firm_ax.c2p(q_loss, atc(q_loss)), firm_ax.c2p(0, atc(q_loss)),
+                               stroke_color=LOSS_COLOR, stroke_width=3, fill_opacity=0).set_z_index(GUIDE_LAYER + 1)
+        loss_name.update()
+        self.play(FadeIn(loss_name), Create(loss_outline))
         self.pause('3.e')
 
-        # ---- 3.f.exit · The long run: below ATC firms exit, supply pivots inward around the origin, and the price rises to 63.25.
+        # ---- 3.e.shutdown · Slide a copy of FC horizontally; shutting down leaves its full amount uncovered.
+        # The detached comparison has no quantity axis: the retained FC area does not imply positive output.
+        SHUTDOWN_FIRM_X, SHUTDOWN_STACK_X = -4.9, 3.2
+        shutdown_divider = Line([0.4, -3.0, 0], [0.4, 2.3, 0], color=MUTED, stroke_width=1.5)
+        operating_heading = Tex('Operate', color=INK).scale(0.8)
+        operating_heading.next_to(firm_ax.c2p(FIRM_Q_MAX / 2, PRICE_MAX), UP, buff=0.12)
+        operating_heading.shift(RIGHT * (SHUTDOWN_FIRM_X - FIRM_X_ALONE))
+        shutdown_heading = Tex('Shut down', color=INK).scale(0.8).set_x(SHUTDOWN_STACK_X).set_y(operating_heading.get_y())
+        operating_picture = VGroup(firm, avc_line, avc_word, fixed_box, variable_box, revenue_bars,
+                                   revenue_outline, revenue_name, cost_guides, avc_dot, loss_outline)
+        self.remove(note)
+        note = teaching('Shutting down removes revenue and Variable Costs; Fixed Cost remains.')
+        self.play(operating_picture.animate.shift(RIGHT * (SHUTDOWN_FIRM_X - FIRM_X_ALONE)),
+                  FadeIn(operating_heading), FadeIn(shutdown_divider), FadeIn(shutdown_heading), FadeIn(note),
+                  run_time=1.6, rate_func=smooth)
+        shutdown_fixed = fixed_box.copy().set_x(SHUTDOWN_STACK_X)
+        self.play(TransformFromCopy(fixed_box, shutdown_fixed), run_time=1.2, rate_func=smooth)
+        shutdown_loss_outline = Polygon(shutdown_fixed.get_corner(DL), shutdown_fixed.get_corner(DR),
+                                       shutdown_fixed.get_corner(UR), shutdown_fixed.get_corner(UL),
+                                       stroke_color=LOSS_COLOR, stroke_width=3, fill_opacity=0).set_z_index(GUIDE_LAYER + 1)
+        shutdown_loss_label = Tex(r'\shortstack{Loss\\(FC)}', color=INK).scale(AREA_WORD_SCALE)
+        shutdown_loss_label.move_to(shutdown_fixed).set_z_index(DOT_LAYER)
+        shutdown_zero = MathTex('q=0', color=GUIDE).scale(READOUT_SCALE).next_to(shutdown_fixed, DOWN, buff=0.35)
+        shutdown_caption = Tex(r'\textsf{No revenue or Variable Costs}', color=CAPTION).scale(0.55)
+        shutdown_caption.next_to(shutdown_heading, DOWN, buff=0.25)
+        self.play(FadeIn(shutdown_loss_outline), FadeIn(shutdown_loss_label), FadeIn(shutdown_zero), FadeIn(shutdown_caption), run_time=0.5)
+        self.pause('3.e.shutdown')
+
+        # ---- 3.g.supply.zero · Begin at zero, then trace each price/quantity choice along MC.
+        original_selection = [price_line, price_guide, price_word, price_number, firm_dot, atc_dot, q_drop, q_number, q_star]
+        self.remove(note)
+        self.play(FadeOut(shutdown_fixed), FadeOut(shutdown_loss_outline), FadeOut(shutdown_loss_label),
+                  FadeOut(shutdown_zero), FadeOut(shutdown_caption), FadeOut(shutdown_heading),
+                  FadeOut(operating_heading), FadeOut(shutdown_divider),
+                  FadeOut(fixed_box), FadeOut(variable_box), FadeOut(loss_name), FadeOut(loss_outline),
+                  FadeOut(revenue_bars), FadeOut(revenue_name),
+                  FadeOut(revenue_outline), FadeOut(cost_guides), FadeOut(avc_dot),
+                  FadeOut(atc_dot),
+                  mc_line.animate.set_stroke(opacity=0.2),
+                  atc_curve.animate.set_stroke(opacity=0.25), atc_word.animate.set_opacity(0.25),
+                  avc_line.animate.set_stroke(opacity=0.25), avc_word.animate.set_opacity(0.25), run_time=0.7)
+        self.play(VGroup(firm, avc_line, avc_word).animate.shift(RIGHT * (FIRM_X_ALONE - SHUTDOWN_FIRM_X)),
+                  run_time=1.2, rate_func=smooth)
+        # Carry the existing MR line, labels, and selected quantity down to zero before tracing MC upward.
+        show_average_cost[0] = False
+        for m in (price_number, price_guide, unit_cost_dot):
+            m.update()
+        note = teaching('As price rises, the firm chooses quantity where MR = MC.')
+        self.play(FadeIn(price_number), FadeIn(price_guide), FadeIn(unit_cost_dot),
+                  firm_dot.animate.set_opacity(1), FadeIn(note))
+        self.play(price.animate.set_value(0), quantity.animate.set_value(0), run_time=ROLL_TIME, rate_func=smooth)
+        for m in (profit_box, profit_name, loss_name):
+            m.update()
+        self.add(profit_box, profit_name, loss_name)
+        supply_selection = [price_line, price_word, price_number, firm_dot, unit_cost_dot, price_guide, q_drop, q_number, q_star,
+                            profit_box, profit_name, loss_name]
+        # MC is linear, so the retained trace is an exact segment rather than a frame-history-dependent path.
+        original_supply_trace = Line(ORIGIN, RIGHT, color=MC_COLOR, stroke_width=4.5).set_z_index(GUIDE_LAYER + 1)
+        original_supply_trace.add_updater(lambda m: m.put_start_and_end_on(firm_ax.c2p(0, 0),
+            firm_ax.c2p(max(quantity.get_value(), 0.001), max(price.get_value(), 0.002)))
+            .set_stroke(opacity=float(quantity.get_value() > 0)))
+        RANGE_OFFSET, RANGE_LABEL_GAP, RANGE_SCALE = 0.25, 0.18, 0.7
+        TRACE_RANGE_OFFSET = 1.6                              # leave the ordinary axis-price readout unobstructed
+        original_loss_range = Line(firm_ax.c2p(0, 0) + LEFT * TRACE_RANGE_OFFSET,
+                                   firm_ax.c2p(0, LONG_RUN_P) + LEFT * TRACE_RANGE_OFFSET, color=LOSS_COLOR, stroke_width=4)
+        original_loss_label = Tex(r'\shortstack[r]{Operate\\at a loss}', color=LOSS_COLOR).scale(RANGE_SCALE)
+        original_loss_label.next_to(original_loss_range, LEFT, buff=RANGE_LABEL_GAP)
+        original_loss_range.add_updater(lambda m: m.put_start_and_end_on(firm_ax.c2p(0, 0) + LEFT * TRACE_RANGE_OFFSET,
+            firm_ax.c2p(0, max(0.001, min(price.get_value(), LONG_RUN_P))) + LEFT * TRACE_RANGE_OFFSET)
+            .set_stroke(opacity=float(price.get_value() > 0)))
+        original_loss_label.add_updater(lambda m: m.next_to(original_loss_range, LEFT, buff=RANGE_LABEL_GAP)
+            .set_opacity(float(np.clip(price.get_value() / 20, 0, 1))))
+        for m in (original_supply_trace, original_loss_range, original_loss_label):
+            m.update()
+        self.add(original_supply_trace, original_loss_range, original_loss_label)
+        self.pause('3.g.supply.zero')
+
+        # ---- 3.g.loss_range · MR rises; the chosen point traces MC while the red price range grows with it.
+        self.remove(note)
+        note = teaching('Below minimum Average Total Cost, the firm operates at a loss.')
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(LOSS_P), quantity.animate.set_value(LOSS_P / 2), run_time=SWEEP_TIME, rate_func=smooth)
+        self.pause('3.g.loss_range')
+
+        # ---- 3.g.break_even · The red range stops at minimum ATC, where profit reaches zero.
+        self.remove(note)
+        note = teaching('At minimum Average Total Cost, the firm breaks even.')
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(LONG_RUN_P), quantity.animate.set_value(LONG_RUN_P / 2), run_time=ROLL_TIME, rate_func=smooth)
+        original_break_guide = DashedLine(firm_ax.c2p(0, LONG_RUN_P), firm_ax.c2p(np.sqrt(FIXED), LONG_RUN_P),
+                                          color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
+        self.add(original_break_guide)
+        self.pause('3.g.break_even')
+
+        # ---- 3.g.profit_range · Continue the same trace, now adding green prices above minimum ATC.
+        original_profit_range = Line(firm_ax.c2p(0, LONG_RUN_P) + LEFT * TRACE_RANGE_OFFSET,
+                                     firm_ax.c2p(0, CURVE_TOP) + LEFT * TRACE_RANGE_OFFSET, color=PROFIT_COLOR, stroke_width=4)
+        original_profit_label = Tex('Profit', color=PROFIT_COLOR).scale(RANGE_SCALE)
+        original_profit_label.next_to(original_profit_range, LEFT, buff=RANGE_LABEL_GAP)
+        original_profit_range.add_updater(lambda m: m.put_start_and_end_on(firm_ax.c2p(0, LONG_RUN_P) + LEFT * TRACE_RANGE_OFFSET,
+            firm_ax.c2p(0, max(LONG_RUN_P + 0.001, price.get_value())) + LEFT * TRACE_RANGE_OFFSET)
+            .set_stroke(opacity=float(price.get_value() > LONG_RUN_P)))
+        original_profit_label.add_updater(lambda m: m.next_to(original_profit_range, LEFT, buff=RANGE_LABEL_GAP)
+            .set_opacity(float(np.clip((price.get_value() - LONG_RUN_P) / 20, 0, 1))))
+        original_profit_range.update()
+        original_profit_label.update()
+        original_ranges = VGroup(original_loss_range, original_loss_label, original_profit_range, original_profit_label, original_break_guide)
+        self.remove(note)
+        note = teaching('Above minimum Average Total Cost, the firm makes a profit.')
+        self.add(original_profit_range, original_profit_label)
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(CURVE_TOP), quantity.animate.set_value(CURVE_TOP / 2), run_time=SWEEP_TIME, rate_func=smooth)
+        self.pause('3.g.profit_range')
+
+        # ---- 3.g.supply · Name the completed path: this firm's MC is its supply curve.
+        self.remove(note)
+        note = teaching('These price and quantity choices trace the firm\'s supply curve.')
+        for m in (original_supply_trace, original_ranges):
+            m.clear_updaters()
+        self.play(*[FadeOut(m) for m in supply_selection], run_time=0.5)
+        self.play(Transform(mc_word, Tex('MC = S', color=MC_COLOR).scale(CURVE_WORD_SCALE)
+                            .next_to(mc_line.get_end(), RIGHT, buff=0.15)),
+                  VGroup(original_loss_range, original_loss_label, original_profit_range, original_profit_label)
+                      .animate.shift(RIGHT * (TRACE_RANGE_OFFSET - RANGE_OFFSET)), FadeIn(note))
+        self.pause('3.g.supply')
+
+        # ---- 3.g.compare · A second firm: falling-then-rising AVC, crossed by MC at its minimum.
+        # TC = 1600 + 75q - 3q^2 + q^3/20. min AVC = 30 at q = 30; min ATC = 75 at q = 40.
+        ALT_FIXED, ALT_Q_MAX, ALT_X = 1600, 60, 2.3
+        ALT_START_P, ALT_BREAK_P, ALT_SHUT_P = CURVE_TOP, 75, 30
+        alt_avc = lambda q: 75 - 3 * q + q ** 2 / 20
+        alt_mc = lambda q: 75 - 6 * q + 3 * q ** 2 / 20
+        alt_atc = lambda q: alt_avc(q) + ALT_FIXED / q
+        alt_best_positive = lambda p: 20 + np.sqrt((p - 15) / 0.15)
+        alt_ax = style_axes([0, ALT_Q_MAX, 10], [0, PRICE_MAX, 10], x_length=FIRM_WIDTH, y_length=GRAPH_HEIGHT)
+        alt_ax.shift(np.array([ALT_X, ORIGIN_Y, 0]) - alt_ax.c2p(0, 0))
+        alt_heading = Tex('Different costs', color=INK).scale(0.8).next_to(alt_ax.c2p(ALT_Q_MAX / 2, PRICE_MAX), UP, buff=0.34)
+        alt_words = VGroup(
+            alt_heading,
+            Tex('P', color=INK).scale(0.8).next_to(alt_ax.c2p(0, PRICE_MAX), LEFT, buff=0.25),
+            Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55),
+            Tex('q', color=INK).scale(0.8).next_to(alt_ax.c2p(ALT_Q_MAX, 0), DOWN, buff=0.35),
+            Tex(r'\textsf{units}', color=CAPTION).scale(0.55))
+        alt_words[2].next_to(alt_words[1], RIGHT, buff=0.35)
+        alt_words[4].next_to(alt_words[3], RIGHT, buff=0.3)
+        alt_mc_curve = polyline([alt_ax.c2p(q, alt_mc(q)) for q in np.linspace(0, alt_best_positive(CURVE_TOP), 240)], MC_COLOR, CURVE_WIDTH)
+        alt_mc_word = Tex('MC', color=MC_COLOR).scale(CURVE_WORD_SCALE).next_to(alt_mc_curve.get_end(), RIGHT, buff=0.15)
+        alt_atc_start = min(r.real for r in np.roots([0.05, -3, 75 - ATC_TOP, ALT_FIXED]) if abs(r.imag) < 1e-6 and r.real > 0)
+        alt_atc_curve = polyline([alt_ax.c2p(q, alt_atc(q)) for q in np.linspace(alt_atc_start, ALT_Q_MAX, 240)], ATC_COLOR, CURVE_WIDTH)
+        alt_atc_word = Tex('ATC', color=ATC_COLOR).scale(CURVE_WORD_SCALE).next_to(alt_atc_curve.get_start(), RIGHT, buff=0.15)
+        alt_avc_curve = polyline([alt_ax.c2p(q, alt_avc(q)) for q in np.linspace(0, ALT_Q_MAX, 240)], AVC_COLOR, CURVE_WIDTH)
+        alt_avc_word = Tex('AVC', color=AVC_COLOR).scale(CURVE_WORD_SCALE).next_to(alt_avc_curve.get_end(), RIGHT, buff=0.15).shift(DOWN * 0.45)
+        alt_mc_curve.set_stroke(opacity=0.2)
+        for curve in (alt_atc_curve, alt_avc_curve):
+            curve.set_stroke(opacity=0.25)
+        for word in (alt_mc_word, alt_atc_word, alt_avc_word):
+            word.set_opacity(0.25)
+        alt_graph = VGroup(alt_ax, alt_words, alt_mc_curve, alt_mc_word, alt_atc_curve, alt_atc_word, alt_avc_curve, alt_avc_word)
+        alt_min_atc = Dot(alt_ax.c2p(40, ALT_BREAK_P), radius=0.085, color=MUTED).set_z_index(DOT_LAYER + 1)
+        alt_break_guide = DashedLine(alt_ax.c2p(0, ALT_BREAK_P), alt_ax.c2p(40, ALT_BREAK_P), color=MUTED,
+                                    stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
+        alt_min_avc = Dot(alt_ax.c2p(30, ALT_SHUT_P), radius=0.105, color=AVC_COLOR).set_z_index(DOT_LAYER + 1)
+        alt_shutdown_guide = DashedLine(alt_ax.c2p(0, ALT_SHUT_P), alt_ax.c2p(30, ALT_SHUT_P), color=MUTED,
+                                       stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
+        variation_divider = Line([0, -3.0, 0], [0, 2.3, 0], color=MUTED, stroke_width=1.5)
+        original_heading = Tex('Original firm', color=INK).scale(0.8).next_to(firm_ax.c2p(FIRM_Q_MAX / 2, PRICE_MAX), UP, buff=0.34)
+        original_range_picture = VGroup(firm, avc_line, avc_word, original_ranges, original_supply_trace, original_heading)
+        self.remove(note)
+        note = teaching('Different costs change the curves, but the decision is the same.')
+        # The original trackers and their updaters are ready for the later return to entry and exit.
+        price.set_value(LOSS_P)
+        quantity.set_value(q_loss)
+        show_average_cost[0] = True
+        self.add(original_heading)
+        self.play(original_range_picture.animate.shift(RIGHT * (MARKET_X_PAIR - FIRM_X_ALONE)),
+                  FadeIn(variation_divider), FadeIn(alt_graph), FadeIn(alt_min_atc), FadeIn(alt_break_guide),
+                  FadeIn(alt_min_avc), FadeIn(alt_shutdown_guide), FadeIn(note), run_time=1.6, rate_func=smooth)
+        self.pause('3.g.compare')
+
+        # ---- 3.g.alt.profit · The new firm's high price covers ATC; its profit-price range begins at 75.
+        alt_price = ValueTracker(ALT_START_P)
+        alt_quantity = ValueTracker(alt_best_positive(ALT_START_P))
+        alt_quantity.add_updater(lambda m: m.set_value(alt_best_positive(alt_price.get_value())))
+        self.add(alt_price, alt_quantity)
+        alt_show_cost = [True]
+        alt_guide_top = lambda: max(alt_price.get_value(), alt_atc(max(alt_quantity.get_value(), 1))) if alt_show_cost[0] else alt_price.get_value()
+        alt_mr = Line(alt_ax.c2p(0, ALT_START_P), alt_ax.c2p(ALT_Q_MAX, ALT_START_P), color=REVENUE_COLOR, stroke_width=CURVE_WIDTH).set_stroke(opacity=0.25)
+        alt_mr.add_updater(lambda m: m.put_start_and_end_on(alt_ax.c2p(0, alt_price.get_value()), alt_ax.c2p(ALT_Q_MAX, alt_price.get_value())))
+        alt_mr_word = Tex('MR', color=REVENUE_COLOR).scale(CURVE_WORD_SCALE).set_opacity(0.25)
+        alt_mr_word.add_updater(lambda m: m.next_to(alt_ax.c2p(ALT_Q_MAX, alt_price.get_value()), RIGHT, buff=0.15))
+        alt_price_number = VGroup(MathTex('P=', color=GUIDE), DecimalNumber(ALT_START_P, num_decimal_places=0, color=GUIDE)).scale(READOUT_SCALE)
+        alt_price_number.add_updater(lambda m: (m[1].set_value(alt_price.get_value()), m.arrange(RIGHT, buff=0.08),
+                                                m.next_to(alt_ax.c2p(0, alt_price.get_value()) + LEFT * RANGE_OFFSET,
+                                                          LEFT, buff=RANGE_LABEL_GAP)))
+        alt_price_guide = DashedLine(ORIGIN, RIGHT, color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
+        alt_price_guide.add_updater(lambda m: m.become(DashedLine(alt_ax.c2p(0, alt_price.get_value()),
+            alt_ax.c2p(max(alt_quantity.get_value(), 0.001), alt_price.get_value()), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
+        alt_q_drop = DashedLine(ORIGIN, UP, color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)
+        alt_q_drop.add_updater(lambda m: m.become(DashedLine(alt_ax.c2p(alt_quantity.get_value(), 0),
+            alt_ax.c2p(alt_quantity.get_value(), alt_guide_top()), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(GUIDE_LAYER)))
+        alt_q_number = DecimalNumber(alt_quantity.get_value(), num_decimal_places=1, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        alt_q_number.add_updater(lambda m: m.set_value(alt_quantity.get_value()).move_to(alt_ax.c2p(alt_quantity.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        alt_q_symbol = Tex('$q^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+        alt_q_symbol.add_updater(lambda m: m.move_to(alt_ax.c2p(alt_quantity.get_value(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        alt_mr_dot = Dot(radius=DOT_RADIUS * 1.3, color=REVENUE_COLOR).set_z_index(DOT_LAYER + 2)
+        alt_mr_dot.add_updater(lambda m: m.move_to(alt_ax.c2p(alt_quantity.get_value(), alt_price.get_value())))
+        alt_atc_dot = Dot(radius=DOT_RADIUS, color=ATC_COLOR).set_z_index(DOT_LAYER + 3)
+        alt_atc_dot.add_updater(lambda m: m.move_to(alt_ax.c2p(alt_quantity.get_value(), alt_atc(max(alt_quantity.get_value(), 1)))))
+        alt_avc_dot = Dot(radius=DOT_RADIUS, color=AVC_COLOR).set_z_index(DOT_LAYER + 3)
+        alt_avc_dot.add_updater(lambda m: m.move_to(alt_ax.c2p(alt_quantity.get_value(), alt_avc(alt_quantity.get_value()))))
+        alt_mc_dot = Dot(radius=DOT_RADIUS, color=MC_COLOR).set_z_index(DOT_LAYER + 4)
+        alt_mc_dot.add_updater(lambda m: m.move_to(alt_ax.c2p(alt_quantity.get_value(), alt_mc(alt_quantity.get_value()))))
+        alt_low = lambda: min(alt_price.get_value(), alt_atc(max(alt_quantity.get_value(), 1)))
+        alt_high = lambda: max(alt_price.get_value(), alt_atc(max(alt_quantity.get_value(), 1)))
+        alt_profitable = lambda: alt_price.get_value() >= alt_atc(max(alt_quantity.get_value(), 1))
+        alt_area_color = lambda: PROFIT_COLOR if alt_profitable() else LOSS_COLOR
+        alt_bar_right = lambda u: max(u, min(u + 1, alt_quantity.get_value()))
+        alt_bar_shape = lambda u: [alt_ax.c2p(u, alt_low()), alt_ax.c2p(alt_bar_right(u), alt_low()),
+                                  alt_ax.c2p(alt_bar_right(u), alt_high()), alt_ax.c2p(u, alt_high()), alt_ax.c2p(u, alt_low())]
+        alt_area = VGroup(*[Polygon(ORIGIN, RIGHT, UP, stroke_width=BAR_OUTLINE, fill_opacity=0) for u in range(ALT_Q_MAX)]).set_z_index(-2)
+        for u, bar in enumerate(alt_area):
+            bar.add_updater(lambda m, u=u: m.set_points_as_corners(alt_bar_shape(u))
+                            .set_stroke(alt_area_color(), BAR_OUTLINE, opacity=float(u < alt_quantity.get_value()))
+                            .set_fill(alt_area_color(), AREA_OPACITY * float(u < alt_quantity.get_value())))
+        alt_area_opacity = lambda: float(np.clip(((alt_high() - alt_low()) * GRAPH_HEIGHT / PRICE_MAX - 0.3) / 0.15, 0, 1))
+        alt_name_spot = lambda: alt_ax.c2p(alt_quantity.get_value() / 2, (alt_low() + alt_high()) / 2)
+        alt_profit_name = Tex('Profit', color=INK).scale(AREA_WORD_SCALE).set_z_index(DOT_LAYER)
+        alt_profit_name.add_updater(lambda m: m.move_to(alt_name_spot()).set_opacity(alt_area_opacity() if alt_profitable() else 0))
+        alt_loss_name = Tex('Loss', color=INK).scale(AREA_WORD_SCALE).set_z_index(DOT_LAYER)
+        alt_loss_name.add_updater(lambda m: m.move_to(alt_name_spot()).set_opacity(0 if alt_profitable() else alt_area_opacity()))
+        alt_selection = [alt_mr, alt_mr_word, alt_price_number, alt_price_guide, alt_q_drop, alt_q_number, alt_q_symbol,
+                         alt_mr_dot, alt_atc_dot, alt_avc_dot, alt_mc_dot, alt_area, alt_profit_name, alt_loss_name]
+        for m in alt_selection:
+            m.update()
+        alt_profit_range = Line(alt_ax.c2p(0, ALT_BREAK_P) + LEFT * RANGE_OFFSET,
+                                alt_ax.c2p(0, ALT_START_P) + LEFT * RANGE_OFFSET, color=PROFIT_COLOR, stroke_width=4)
+        alt_profit_range.add_updater(lambda m: m.put_start_and_end_on(
+            alt_ax.c2p(0, max(ALT_BREAK_P, min(alt_price.get_value(), ALT_START_P - 0.001))) + LEFT * RANGE_OFFSET,
+            alt_ax.c2p(0, ALT_START_P) + LEFT * RANGE_OFFSET).set_stroke(opacity=float(alt_price.get_value() < ALT_START_P)))
+        alt_profit_label = Tex('Profit', color=PROFIT_COLOR).scale(RANGE_SCALE).next_to(alt_profit_range, LEFT, buff=RANGE_LABEL_GAP)
+        alt_profit_label.add_updater(lambda m: m.next_to(alt_profit_range, LEFT, buff=RANGE_LABEL_GAP))
+        alt_profit_range.update()
+        # Retain only actual positive-output supply choices, stopping at minimum AVC.
+        alt_trace_start_q = alt_best_positive(ALT_START_P)
+        alt_supply_trace = polyline([alt_ax.c2p(q, alt_mc(q)) for q in
+                                    np.linspace(alt_trace_start_q - 0.001, alt_trace_start_q, 120)], MC_COLOR, 4.5).set_z_index(GUIDE_LAYER + 1)
+        alt_supply_trace.add_updater(lambda m: m.set_points_as_corners([
+            alt_ax.c2p(q, alt_mc(q)) for q in np.linspace(
+                min(alt_best_positive(max(alt_price.get_value(), ALT_SHUT_P)), alt_trace_start_q - 0.001), alt_trace_start_q, 120)
+        ]).set_stroke(opacity=float(alt_price.get_value() < ALT_START_P)))
+        alt_supply_trace.update()
+        self.add(alt_supply_trace, alt_profit_range)
+        self.remove(note)
+        note = teaching('At a high price, this firm makes a profit.')
+        self.play(*[FadeIn(m) for m in alt_selection], FadeIn(note))
+        self.pause('3.g.alt.profit')
+
+        # ---- 3.g.alt.break_even · Price reaches minimum ATC, at quantity 40.
+        self.remove(note)
+        note = teaching('At minimum Average Total Cost, the firm breaks even.')
+        self.play(FadeIn(note))
+        self.play(alt_price.animate.set_value(ALT_BREAK_P), run_time=ROLL_TIME, rate_func=smooth)
+        self.pause('3.g.alt.break_even')
+
+        # ---- 3.g.alt.loss · Revenue covers AVC but not ATC: producing reduces the loss.
+        alt_loss_range = Line(alt_ax.c2p(0, ALT_SHUT_P) + LEFT * RANGE_OFFSET,
+                              alt_ax.c2p(0, ALT_BREAK_P) + LEFT * RANGE_OFFSET, color=LOSS_COLOR, stroke_width=4)
+        alt_loss_range.add_updater(lambda m: m.put_start_and_end_on(
+            alt_ax.c2p(0, max(ALT_SHUT_P, min(alt_price.get_value(), ALT_BREAK_P - 0.001))) + LEFT * RANGE_OFFSET,
+            alt_ax.c2p(0, ALT_BREAK_P) + LEFT * RANGE_OFFSET).set_stroke(opacity=float(alt_price.get_value() < ALT_BREAK_P)))
+        alt_loss_label = Tex(r'\shortstack[r]{Operate\\at a loss}', color=LOSS_COLOR).scale(RANGE_SCALE).next_to(alt_loss_range, LEFT, buff=RANGE_LABEL_GAP)
+        alt_loss_label.add_updater(lambda m: m.next_to(alt_loss_range, LEFT, buff=RANGE_LABEL_GAP))
+        alt_loss_range.update()
+        self.remove(note)
+        note = teaching('Between minimum AVC and minimum ATC, the firm operates at a loss.')
+        self.add(alt_loss_range)
+        self.play(FadeIn(note))
+        self.play(alt_price.animate.set_value(50), run_time=ROLL_TIME, rate_func=smooth)
+        self.play(FadeIn(alt_profit_label), run_time=0.5)
+        self.pause('3.g.alt.loss')
+
+        # ---- 3.g.alt.threshold · At minimum AVC, q = 30 and q = 0 both lose the fixed cost.
+        self.remove(note)
+        note = teaching('At minimum AVC, producing or shutting down gives the same loss.')
+        self.play(FadeIn(note))
+        self.play(alt_price.animate.set_value(ALT_SHUT_P), run_time=ROLL_TIME, rate_func=smooth)
+        self.pause('3.g.alt.threshold')
+
+        # ---- 3.g.alt.below · Even the best positive output now fails to cover variable cost.
+        alt_shutdown_range = Line(alt_ax.c2p(0, 0) + LEFT * RANGE_OFFSET,
+                                  alt_ax.c2p(0, ALT_SHUT_P) + LEFT * RANGE_OFFSET, color=CAPTION, stroke_width=4)
+        alt_shutdown_range.add_updater(lambda m: m.put_start_and_end_on(
+            alt_ax.c2p(0, max(0, min(alt_price.get_value(), ALT_SHUT_P - 0.001))) + LEFT * RANGE_OFFSET,
+            alt_ax.c2p(0, ALT_SHUT_P) + LEFT * RANGE_OFFSET).set_stroke(opacity=float(alt_price.get_value() < ALT_SHUT_P)))
+        alt_shutdown_label = Tex('Shut down', color=CAPTION).scale(RANGE_SCALE).next_to(alt_shutdown_range, LEFT, buff=RANGE_LABEL_GAP)
+        alt_shutdown_label.add_updater(lambda m: m.next_to(alt_shutdown_range, LEFT, buff=RANGE_LABEL_GAP))
+        alt_shutdown_range.update()
+        alt_q_candidate = Tex('$q$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
+        alt_q_candidate.add_updater(lambda m: m.move_to(alt_ax.c2p(alt_quantity.get_value(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
+        alt_q_candidate.update()
+        self.remove(alt_q_symbol, note)
+        note = teaching('Below minimum AVC, revenue cannot cover Variable Costs.')
+        self.add(alt_shutdown_range)
+        self.play(FadeIn(alt_q_candidate), FadeIn(note))
+        self.play(alt_price.animate.set_value(20), run_time=ROLL_TIME, rate_func=smooth)
+        self.play(FadeIn(alt_loss_label), run_time=0.5)
+        self.pause('3.g.alt.below')
+
+        # ---- 3.g.alt.costs · Separate the full fixed cost from variable cost left uncovered by revenue.
+        alt_candidate_q = alt_quantity.get_value()
+        alt_candidate_avc, alt_candidate_atc = alt_avc(alt_candidate_q), alt_atc(alt_candidate_q)
+        alt_fixed_box = VGroup(*[
+            Polygon(alt_ax.c2p(u, alt_candidate_avc), alt_ax.c2p(min(u + 1, alt_candidate_q), alt_candidate_avc),
+                    alt_ax.c2p(min(u + 1, alt_candidate_q), alt_candidate_atc), alt_ax.c2p(u, alt_candidate_atc),
+                    color=FC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=0.25)
+            for u in range(int(np.ceil(alt_candidate_q)))
+        ]).set_z_index(-2)
+        alt_variable_loss_box = VGroup(*[
+            Polygon(alt_ax.c2p(u, alt_price.get_value()), alt_ax.c2p(min(u + 1, alt_candidate_q), alt_price.get_value()),
+                    alt_ax.c2p(min(u + 1, alt_candidate_q), alt_candidate_avc), alt_ax.c2p(u, alt_candidate_avc),
+                    color=AVC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
+            for u in range(int(np.ceil(alt_candidate_q)))
+        ]).set_z_index(-2)
+        alt_fixed_name = Tex('FC', color=INK).scale(AREA_WORD_SCALE).set_z_index(DOT_LAYER)
+        alt_fixed_name.move_to(alt_ax.c2p(alt_candidate_q / 2, (alt_candidate_avc + alt_candidate_atc) / 2))
+        alt_variable_loss_name = Tex('VC', color=INK).scale(AREA_WORD_SCALE).set_z_index(DOT_LAYER)
+        alt_variable_loss_name.move_to(alt_ax.c2p(alt_candidate_q / 2, (alt_price.get_value() + alt_candidate_avc) / 2))
+        alt_area.clear_updaters()
+        alt_loss_name.clear_updaters()
+        self.remove(note)
+        note = teaching('Operating loses Fixed Cost plus uncovered Variable Costs.')
+        self.play(FadeOut(alt_area), FadeOut(alt_loss_name), FadeIn(alt_fixed_box), FadeIn(alt_variable_loss_box),
+                  FadeIn(alt_fixed_name), FadeIn(alt_variable_loss_name), FadeIn(note), run_time=1.2)
+        self.pause('3.g.alt.costs')
+
+        # ---- 3.g.alt.fixed_only · The fixed-cost loss alone is smaller than the two uncovered costs together.
+        alt_fixed_outline = Polygon(
+            alt_ax.c2p(0, alt_candidate_avc), alt_ax.c2p(alt_candidate_q, alt_candidate_avc),
+            alt_ax.c2p(alt_candidate_q, alt_candidate_atc), alt_ax.c2p(0, alt_candidate_atc),
+            stroke_color=LOSS_COLOR, stroke_width=3, fill_opacity=0,
+        ).set_z_index(GUIDE_LAYER + 1)
+        self.remove(note)
+        note = teaching('Shutting down loses only Fixed Cost, so the loss is smaller.')
+        self.play(Create(alt_fixed_outline), alt_variable_loss_box.animate.set_fill(opacity=0.08).set_stroke(opacity=0.25),
+                  alt_variable_loss_name.animate.set_opacity(0.35), FadeIn(note))
+        self.pause('3.g.alt.fixed_only')
+
+        # ---- 3.g.alt.shutdown · The choice is zero output; average-cost markers leave before q reaches zero.
+        self.remove(note)
+        note = teaching('Shut down: produce nothing and pay only Fixed Cost.')
+        alt_candidate_marks = [alt_fixed_box, alt_variable_loss_box, alt_fixed_name, alt_variable_loss_name, alt_fixed_outline,
+                               alt_profit_name, alt_atc_dot, alt_avc_dot, alt_mc_dot]
+        self.play(*[FadeOut(m) for m in alt_candidate_marks], FadeIn(note), run_time=0.6)
+        alt_quantity.clear_updaters()
+        alt_show_cost[0] = False
+        alt_shutdown_cross = Line(alt_ax.c2p(30, ALT_SHUT_P), alt_ax.c2p(0, ALT_SHUT_P),
+                                  color=MC_COLOR, stroke_width=4.5).set_z_index(GUIDE_LAYER + 1)
+        alt_shutdown_axis = Line(alt_ax.c2p(0, ALT_SHUT_P), alt_ax.c2p(0, alt_price.get_value()),
+                                 color=MC_COLOR, stroke_width=4.5).set_z_index(GUIDE_LAYER + 1)
+        self.play(Create(alt_shutdown_cross), alt_quantity.animate.set_value(0), run_time=ROLL_TIME, rate_func=smooth)
+        self.play(Create(alt_shutdown_axis), run_time=0.8, rate_func=smooth)
+        alt_q_symbol.update()
+        self.remove(alt_q_candidate)
+        self.play(FadeIn(alt_q_symbol), FadeOut(alt_price_number), run_time=0.4)
+        self.play(FadeIn(alt_shutdown_label), run_time=0.5)
+        self.pause('3.g.alt.shutdown')
+
+        # ---- 3.a · Switch the teaching text immediately, then move the complete firm directly beside the returning market.
+        self.remove(context, note)
+        context = subtitle(head, 'Entry and exit: long run dynamics.')
+        note = teaching('The price comes from the market.')
+        self.add(context, note)
+        alt_leaving = [alt_graph, variation_divider, alt_min_atc, alt_min_avc, alt_break_guide, alt_shutdown_guide,
+                       alt_profit_range, alt_profit_label, alt_loss_range, alt_loss_label, alt_shutdown_range, alt_shutdown_label,
+                       alt_mr, alt_mr_word, alt_price_guide, alt_q_drop, alt_q_number, alt_q_symbol, alt_mr_dot, alt_supply_trace,
+                       alt_shutdown_cross, alt_shutdown_axis]
+        for m in alt_leaving:
+            m.clear_updaters()
+        self.remove(*alt_leaving, alt_price, alt_quantity, original_ranges, original_heading,
+                    avc_line, avc_word, original_supply_trace, price_word)
+        # These readouts are still hidden after the supply trace; prepare the market example before revealing them.
+        price.set_value(FIRM_P)
+        quantity.set_value(FIRM_P / 2)
+        mc_line.set_stroke(opacity=1)
+        atc_curve.set_stroke(opacity=1)
+        atc_word.set_opacity(1)
+        mc_word.become(Tex('MC', color=MC_COLOR).scale(CURVE_WORD_SCALE).next_to(mc_line.get_end(), RIGHT, buff=0.15))
+        firm_label.next_to(firm_ax.c2p(FIRM_Q_MAX / 2, PRICE_MAX), UP, buff=0.34).set_opacity(1)
+        market_label.next_to(market_ax.c2p(MARKET_Q_MAX / 2, PRICE_MAX), UP, buff=0.34)
+        price_line.set_stroke(opacity=1)
+        price_word = mr_word
+        price_word.set_opacity(1)
+        firm_dot.set_opacity(1)
+        atc_dot.set_opacity(1)
+        for m in (atc_guide, atc_number, price_number):
+            m.clear_updaters()
+        returning_selection = [price_line, price_guide, price_word, firm_dot, atc_dot, q_drop, q_number, q_star,
+                               profit_box, profit_name, loss_name, *measure_marks]
+        for m in (market_picture, *market_marks, *returning_selection):
+            m.update()
+        self.add(*returning_selection, price_bridge)
+        self.play(firm.animate.shift(RIGHT * (FIRM_X_PAIR - MARKET_X_PAIR)), FadeIn(market_picture),
+                  *[FadeIn(m) for m in market_marks if m is not price_bridge], run_time=1.6, rate_func=smooth)
+        self.pause('3.a')
+
+        # ---- 3.d.entry · Entry: supply pivots outward around the origin, the price falls to 80, and the firm's line and box follow.
+        self.remove(note)
+        note = teaching('With profit, more firms enter, pivoting the supply curve outward.')
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(80), quantity.animate.set_value(40), run_time=ROLL_TIME, rate_func=smooth)
+        self.pause('3.d.entry')
+
+        # ---- 3.d.zero · Entry continues until the box closes onto the minimum of ATC: 63.25, zero profit.
+        self.remove(note)
+        note = teaching("Firms continue to enter until price is low enough that there's no more profit.")
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(LONG_RUN_P), quantity.animate.set_value(LONG_RUN_P / 2), run_time=ROLL_TIME, rate_func=smooth)
+        self.pause('3.d.zero')
+
+        # ---- 3.f.loss · Revisit the low-price market to explain the separate long-run exit response.
+        self.remove(note)
+        note = teaching('When price is low firms make a negative profit, called a loss.')
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(LOSS_P), quantity.animate.set_value(LOSS_P / 2), run_time=ROLL_TIME, rate_func=smooth)
+        self.pause('3.f.loss')
+
+        # ---- 3.f.exit · With losses, exit pivots supply inward and raises price to the break-even level.
         self.remove(note)
         note = teaching('With a loss, firms exit, pivoting the supply curve inward.')
-        self.play(FadeOut(avc_line), FadeOut(avc_word), FadeOut(avc_dot), FadeOut(fixed_box), FadeOut(fixed_name), run_time=0.6)
         self.play(FadeIn(note))
         self.play(price.animate.set_value(LONG_RUN_P), quantity.animate.set_value(LONG_RUN_P / 2), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.f.exit')

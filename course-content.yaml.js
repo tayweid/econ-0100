@@ -543,6 +543,9 @@ parts:
         reading:
           chapter: 8
           topic: Perfect competition
+        exercise:
+          post: never                 # held off the page while Exercise E2 is revised; delete these three lines to post it again
+          solutions: never
         vignette:
           description: "*Competitive firms practice problems*"
         dates:
