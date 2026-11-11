@@ -982,7 +982,8 @@ class EpisodeE2(Scene):
             r'\begin{minipage}{32em}\sffamily\raggedright '
             r'At a price of 40, the best positive output is 20 units.\\'
             r'Fixed cost is unavoidable this period but avoidable in\\'
-            r'future periods by leaving the industry.\end{minipage}', color=CAPTION,
+            r'future periods by leaving the industry.\\'
+            r'Hint: $ATC$ at the profit-maximizing quantity is 70.\end{minipage}', color=CAPTION,
         ).scale(EXERCISE_CONTEXT_SCALE)
         exercise_q2a_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         exercise_q2a_question = Tex(
@@ -1465,10 +1466,10 @@ class EpisodeE2(Scene):
         self.play(FadeIn(exercise_q2b_text), run_time=0.4)
         self.pause('3.f.exercise.b')
 
-        # ---- 3.f.exercise.c · Retrieve entry and its market effects at the profitable price from Q1.
+        # ---- 3.f.exercise.c · Follow the same loss through exit and its market effects.
         exercise_q2c_label = Tex(r'Exercise E2 \textbar{} Q2c', color=DEFINITION).scale(EXERCISE_SCALE)
         exercise_q2c_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
-        exercise_q2c_context = Tex(r'\sffamily Return to the profitable price of 80 in Q1.', color=CAPTION).scale(EXERCISE_CONTEXT_SCALE)
+        exercise_q2c_context = Tex(r'\sffamily Start from the same price of 40.', color=CAPTION).scale(EXERCISE_CONTEXT_SCALE)
         exercise_q2c_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         exercise_q2c_question = Tex(
             r'\begin{minipage}{30em}\raggedright '

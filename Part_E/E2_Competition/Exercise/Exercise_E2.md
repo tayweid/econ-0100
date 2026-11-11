@@ -27,11 +27,11 @@ c\) Calculate the firm’s maximal profit. (*Hint: $ATC$ at the profit-maximizin
 
 At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry. 
 
-a\) Calculate profit from operating and from shutting down this period. Which should the firm choose?
+a\) Calculate profit from operating and from shutting down this period. Which should the firm choose? (*Hint: $ATC$ at the profit-maximizing quantity is 70.*)
 
 b\) If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).
 
-c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What happens to market supply and price?
+c\) At a price of 40, would firms enter or exit? What happens to market supply and price?
 
 ## Q3 | A Higher Marginal Cost
 

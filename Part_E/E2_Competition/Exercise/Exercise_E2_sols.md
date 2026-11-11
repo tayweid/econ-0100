@@ -47,21 +47,21 @@ c\) Calculate the firm’s maximal profit. (*Hint: $ATC$ at the profit-maximizin
 
 At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry.
 
-a\) Calculate profit from operating and from shutting down this period. Which should the firm choose?
+a\) Calculate profit from operating and from shutting down this period. Which should the firm choose? (*Hint: $ATC$ at the profit-maximizing quantity is 70.*)
 
 b\) If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).
 
-c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What happens to market supply and price?
+c\) At a price of 40, would firms enter or exit? What happens to market supply and price?
 
 ::: solution
 
-**a)** Operate: lose 600 instead of 1000. **b)** Exit in the long run if the price persists. **c)** At the profitable price of 80, firms enter, supply increases, and price falls.
+**a)** Operate: lose 600 instead of 1000. **b)** Exit in the long run if the price persists. **c)** At a price of 40, firms exit, supply decreases, and price rises.
 
 **a)** At $q = 20$, revenue is $40(20) = 800$, variable cost is $20^2 = 400$, and total cost is $1000 + 400 = 1400$. Operating profit is $800 - 1400 = -600$. With zero output, revenue and variable cost are zero but fixed cost is still 1000, so shutdown profit is $-1000$. Operating contributes 400 toward that unavoidable cost. Price is above $AVC = 20$, even though it is below $ATC = 70$.
 
 **b)** A continuing price of 40 does not cover all economic costs. The firm exits when it can avoid future fixed costs. A short-run loss does not by itself imply shutdown; a persistent economic loss does motivate long-run exit.
 
-**c)** The profit of 600 attracts entry. More firms increase market supply and lower price, reducing the incumbent firm’s profit. With identical firms, free entry and exit, and unchanged input prices, entry stops at zero economic profit: $P = MC = \min ATC$. Zero economic profit includes compensation for the owner’s opportunity costs.
+**c)** The loss of 600 prompts exit. As firms leave, market supply decreases and price rises, reducing the remaining firms’ losses. With identical firms, free entry and exit, and unchanged input prices, exit stops at zero economic profit: $P = MC = \min ATC$. Zero economic profit includes compensation for the owner’s opportunity costs.
 
 :::
 
@@ -129,7 +129,7 @@ b\) What happens in the long run to price, each remaining firm’s output, total
 
 ::: solution
 
-Black shows the original equilibrium, grey dashed curves show the short-run market supply after the cost increase, and red shows the new long-run equilibrium after exit. The firm's MC and ATC both shift up. Its long-run output returns to the same $q_0$, at a higher price. The figures use an illustrative uniform per-unit increase; no numerical shock calculation is required.
+Black shows the original equilibrium, grey dashed curves show the short-run market supply after the cost increase, and red shows the new long-run equilibrium after exit. The firm’s MC and ATC both shift up. Its long-run output returns to the same $q_0$, at a higher price. The figures use an illustrative uniform per-unit increase; no numerical shock calculation is required.
 
 :::
 

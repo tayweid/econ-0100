@@ -307,7 +307,7 @@ Prose/timing reconciliation remains pending; the existing author text is unchang
 <!--
 |   |   |
 | --- | --- |
-| 3.e.exercise.a | Immediately after 3.e.shutdown and before the original supply trace, cover both comparison panels with the existing graphite exercise ground. Gold heading: “Exercise E2 ∣ Q2a”. Grey setup: “At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry.” White prompt: “Calculate profit from operating and from shutting down this period. Which should the firm choose?” Hold for board work, then fade the prompt and cover to reveal the unchanged comparison before continuing to 3.g.supply.zero. Use Q1’s heading, setup, indentation, and font scales; wrap the longer text. |
+| 3.e.exercise.a | Immediately after 3.e.shutdown and before the original supply trace, cover both comparison panels with the existing graphite exercise ground. Gold heading: “Exercise E2 ∣ Q2a”. Grey setup: “At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry. Hint: ATC at the profit-maximizing quantity is 70.” White prompt: “Calculate profit from operating and from shutting down this period. Which should the firm choose?” Hold for board work, then fade the prompt and cover to reveal the unchanged comparison before continuing to 3.g.supply.zero. Use Q1’s heading, setup, indentation, and font scales; wrap the longer text. |
 -->
 
 Compare operating with shutting down.
@@ -344,8 +344,8 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 <!--
 |   |   |
 | --- | --- |
-| 3.f.exercise.b | After 3.f, cover the equilibrium graphs with the same exercise ground. Gold heading: “Exercise E2 ∣ Q2b”. Repeat Q2a’s grey setup so the price of 40 and the avoidability of future fixed costs are explicit. White prompt: “If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).” Hold for board work without showing a solution. |
-| 3.f.exercise.c | Keep the graph covered and switch to gold “Exercise E2 ∣ Q2c”. Grey setup: “Return to the profitable price of 80 in Q1.” White prompt: “Would firms enter or exit? What happens to market supply and price?” Hold for board work, then fade the text and cover to restore the unchanged zero-profit equilibrium before the policy closer at 4.a. |
+| 3.f.exercise.b | After 3.f, cover the equilibrium graphs with the same exercise ground. Gold heading: “Exercise E2 ∣ Q2b”. Repeat Q2a’s grey setup, including the ATC = 70 hint, so the price of 40 and the avoidability of future fixed costs are explicit. White prompt: “If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).” Hold for board work without showing a solution. |
+| 3.f.exercise.c | Keep the graph covered and switch to gold “Exercise E2 ∣ Q2c”. Grey setup: “Start from the same price of 40.” White prompt: “Would firms enter or exit? What happens to market supply and price?” Hold for board work, then fade the text and cover to restore the unchanged zero-profit equilibrium before the policy closer at 4.a. |
 -->
 
 Entry or exit, and the effect on price.

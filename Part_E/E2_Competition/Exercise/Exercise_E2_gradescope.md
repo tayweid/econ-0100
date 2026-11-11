@@ -64,7 +64,7 @@ The animation’s competitive firm has cost functions TC = 1000 + q^2 and MC = 2
 ## Q2: `Operating or Leaving`
 
 ```
-Use Q2 on the handout. The price is now 40 and the best positive output is 20. This period's fixed cost of 1000 is unavoidable, but future fixed costs can be avoided by exiting.
+Use Q2 on the handout. The price is now 40 and the best positive output is 20. This period's fixed cost of 1000 is unavoidable, but future fixed costs can be avoided by exiting. Hint: ATC at the profit-maximizing quantity is 70.
 ```
 
 ### Q2.1: `a) What should the firm do this period?`
@@ -83,11 +83,11 @@ Use Q2 on the handout. The price is now 40 and the best positive output is 20. T
 ( ) Stay because fixed costs can never be avoided
 ```
 
-### Q2.3: `c) At the profitable price of 80 from Q1, what adjustment occurs?`
+### Q2.3: `c) At a price of 40, what adjustment occurs?`
 
 ```
-(x) Entry increases market supply and lowers price
-( ) Exit decreases market supply and raises price
+( ) Entry increases market supply and lowers price
+(x) Exit decreases market supply and raises price
 ( ) Entry decreases market supply and raises price
 ```
 
