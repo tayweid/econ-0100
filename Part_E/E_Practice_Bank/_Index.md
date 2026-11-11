@@ -16,8 +16,38 @@ How to read a name:
 |---|---|---|---|
 | Exercise E1 | Economic Sudoku | `Classwork_E1_economic-sudoku_F24` (the Fall 2024 Classwork E1), verbatim | worked in the guide; checked against the ink key `Classwork_E1_economic-sudoku_sols.pdf` / `.png` |
 | Exercise E2 | Q2 Traditional Toffee Specific Tax | `Classwork_E2_toffee-tax_F23` (Q1 of the Fall 2023 Classwork E2), verbatim; Q1 Economic Sudoku Sells is new, the E1 table with a market price (2026-11-09) | the story and graphs in the guide follow the ink key `Classwork_E2_toffee-tax_sols.pdf` |
+| Vignette E1 (draft, 2026-11-11) | Q1 Careful Consideration of Cauldron Costs | `Vignette_E1_cauldron-costs_F24` Q1, verbatim | written for the guide; not yet checked against the ink key `Vignette_E1_cauldron-costs_sols_F24.pdf` |
+| Homework E1 (draft, 2026-11-11) | Q1 Cost Structures | `Homework_E1_broomstick-costs_F24` Q1, verbatim; Row 1 of the matrix redrawn as three graphs | written for the guide; not yet checked against the ink key `Homework_E1_broomstick-costs_sols_F24.pdf` |
+| Vignette E2 (draft, 2026-11-11) | Q1 Traditional Toffee Subsidy | `Vignette_E2_toffee-subsidy_F22`, verbatim | written for the guide; not yet checked against the ink key `Vignette_E2_toffee-subsidy_sols_F22.pdf` |
+| Homework E2 (draft, 2026-11-11) | Q1 Subsidizing Bludgers | `Homework_E2_bludgers-snitches_F21` Q1, verbatim | written for the guide; no key in the bank |
+| Vignette E3 (draft, 2026-11-11) | Q1 Unicorn Horn | `Vignette_E3_unicorn-horn_F24`, spelling corrected | written for the guide; not yet checked against the ink keys `Vignette_E3_unicorn-horn_sols_F21.pdf` / `_F22.pdf` |
+| Homework E3 (draft, 2026-11-11) | Q1 The Cauldron Consolidation | `Homework_E3_cauldron-consolidation_F24`, spelling corrected | agrees with the ink key `Homework_E3_cauldron-consolidation_sols_F23.pdf` |
+| Vignette E4 (draft, 2026-11-11) | Q1 The Wandmaker's Dilemma | `Vignette_E4_wandmakers-dilemma_F24`, spelling corrected | written for the guide; no key in the bank |
+| Homework E4 (draft, 2026-11-11) | Q1 Wandmaker's Dilemma (P = 200 - Q, MC 20) | `Vignette_E4_wandmaker-symmetric_F21`, spelling corrected | written for the guide; no key in the bank |
 
 Economic Sudoku is now **used**. The same table (AFC 120/–/40/30/24, AVC 100/–/90/–/108, ATC 220/150/130/–/132, MC 80/90/130/–) is every copy below. So it is used up everywhere: Classwork E1 F23 and F24, and Vignette E1 F22, S23, F23 and F24. The ink key is printed "Econ 101 | Vignette E1" (a Spring 2023 print, scanned 2023-03-30). It is the same table, so it is the key for every copy.
+
+## Practice and checkpoint allocation (Fall 2026, draft 2026-11-11)
+
+The working skill list is in `../E_Skillsheet.md` (a draft; the codes below are its codes, not the older E2.1 to E5.1 tags on the stems in `../../ECON_0100/Checkpoints/E/`). **Reserved** means held out of every Exercise, Vignette and Homework so the Demo and the Checkpoint versions can use it. Stories and numbers below are the ones to keep out of practice.
+
+| Skill | Exercise | Vignette | Homework | Reserved for Demo and Checkpoint E |
+|---|---|---|---|---|
+| E1.1 Production Functions | to write (Simulation E's table is the natural source) | to write | to write | **none exist**; all new writing |
+| E1.2 Cost Curves | Economic Sudoku (posted) | Cauldron costs (graph the curves) | Broomstick costs (match the curves) | **none exist**; a cost table with new numbers is the natural stem |
+| E2.1 The Competitive Firm | Exercise E2 Q1 to Q2a | to write | Cauldron Consolidation a, b (in HW E3) | Dwindling Dealers Q1 to Q2 (23F MiniExam, three number sets). **One story only** |
+| E2.2 Entry, Exit & the Long Run | Exercise E2 Q2b to Q3 | Toffee subsidy | Subsidizing Bludgers | Taxing Cauldrons (`E2.1_cauldron-tax-competitive`); Toffee lump-sum tax (`E2.1_toffee-competitive-policy`); Cauldron Conundrum subsidy (`From_C`); Pumpkin Pasty article, a demand fall (`MiniExam_4`). All four are written stories and need a do-form |
+| E3.1 Monopoly Price & Quantity | to write | Unicorn Horn | Cauldron Consolidation c, d | Golden Snitches A to C (`E3.1_golden-snitch-monopoly`); Wizard's Chess a to c (`E3.1_wizards-chess-monopoly`); Racing Broom Q1 to Q2 (24F MiniExam); Flue merger (`E3.1_flue-network-duopoly`); Breaking Up A Monopoly, monopoly half |
+| E3.2 Market Power & Deadweight Loss | to write | to write | Cauldron Consolidation e | Racing Broom Q3 (24F MiniExam). **One only**; Golden Snitches and Wizard's Chess each need a deadweight-loss part added |
+| E4.1 Best Responses in a Duopoly | Big Flue Networks a, b (`Classwork_E4_flue-networks_F24`, P = 200 - Q, MC 10) if used | Wandmaker's Dilemma (matrix; P = 100 - Q, MC 10) | not asked directly in HW E4 | Big Flue merger exam numbers (P = 400 - Q, MC 40; `MiniExam_6`); Parallel Wandmaker, different marginal costs (`E4.1_wandmakers-dilemma`); Breaking Up A Monopoly Q4 (23S, `MiniExam_E2`) |
+| E4.2 Duopoly Equilibrium | Big Flue Networks c to e if used | Wandmaker's Dilemma c | Wandmaker's Dilemma (P = 200 - Q, MC 20) | Big Flue (P = 400 - Q, MC 40); Dwindling Dealers Q4 to Q5 (23F); Racing Broom Q4 to Q5 (24F); three-firm wandmakers (`Tutorial_E4_wandmakers-triopoly_F23`) |
+
+Collisions to keep in mind:
+- `E4.1_flue-network-duopoly` uses the Classwork's numbers (P = 200 - Q, MC 10). If Big Flue Networks is Exercise E4, the Checkpoint must use the exam numbers (P = 400 - Q, MC 40) instead.
+- Breaking Up A Monopoly (P = 100 - Q, MC 10) shares its numbers with Vignette E4. Its duopoly half is the same problem under another story.
+- Vignette E4 and Homework E4 share a story (Olivander and Gregorovitch) with different numbers.
+- The past MiniExams chain monopoly, duopoly and competition in one question. Under one question per skill each reserved item above is only the named parts, given its own numbers.
+
 
 ## What's in the bank, by block
 
