@@ -12,7 +12,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | 0–3 | Bumper (`0.a`), then `1.a.last` through `1.c` | One seller; the same costs as E2; downward-sloping demand. |
 | 3–11 | Play through `2.c` | Marginal revenue from two points, then the whole MR curve. |
 | 11–15 | Hide projection; Q1 on board | Compute MR between two other points. |
-| 15–22 | Resume through `3.e` | MR = MC, then price, average total cost, and profit; check 50 and 30. |
+| 15–22 | Resume through `3.e` | MR = MC, then price, average total cost, and profit; check 40 and 20. |
 | 22–27 | Hide projection; Q2 on board | Solve the monopolist’s problem with a different demand. |
 | 27–29 | Resume to `4.a` | A fall in demand. |
 | 29–34 | Resume through `5.a`; Q3 on board | The efficient quantity and deadweight loss. |
@@ -26,41 +26,42 @@ E3 consolidation, 2026-11-11. This file now follows E2_Notes.md: a timing table,
 
 Where the earlier material went. The October 30 build log, its "Choices left for Taylor" and the old per-section beat lists are in _archive/2026-11-11_consolidation/E3_Notes_before_consolidation.md. The same folder holds 01_Notes.md (the same prose without comments), 02_Storyboard.md (an empty stub), 03_Code.py and E3_Animation_original.py (the old code and its runnable port), and E3_Animation_before_cost_switch.py (the October 30 animation on the old model). The port's monopolistic-competition scenes, the only part of it this episode does not use, have a live copy beside their notes at E5_Policy_and_Market_Power/E3_Animation_original.py. The old _Unplaced.md (the monopolistic-competition opening line and the Broomsticks vignette) is now E5_Policy_and_Market_Power/_Unplaced_from_E3.md.
 
-Model of record, changed 2026-11-11 to E1 and E2's firm. Costs: TC = 1000 + q^2, MC = 2q, ATC = q + 1000/q. Demand: P = 120 - Q/2, so MR = 120 - Q. MR = MC: 120 - q = 2q, q\* = 40; P\* = 100; ATC\* = 65 (the value students found in Exercise E2 Q1c); profit (100 - 65) x 40 = 1,400. Marginal revenue from two points: 20 units at 110 and 30 units at 105; TR 2,200 and 3,150; change 10 x 105 - 20 x 5 = 950; MR = 95 = MR(25). Check: q = 50 gives P 95, ATC 70, profit 1,250; q = 30 gives P 105, ATC 63.33, profit 1,250. Demand down to P = 120 - Q (MR = 120 - 2Q): q\* = 30, P\* = 90, ATC\* = 63.33, profit 800. Efficient quantity Q_sp = 48, where demand meets MC at 96; deadweight loss 80, never shown as a number. Per-unit tax 30 (E2's spinach cost): q\* = 30, P\* = 105, ATC\* = 93.33, profit 350, government 900. Lump-sum tax 1,000: q\* = 40, ATC\* = 90, profit 400, government 1,000. Subsidy 24 per unit: q\* = 48 = Q_sp, P\* = 96, ATC\* = 44.83, profit 2,456, government cost 1,152. Subsidy with a lump-sum tax of 2,000: ATC\* = 86.50, profit 456, government 2,000 - 1,152 = 848. Every one of these was read off the rendered holds on 2026-11-11 and matches. Graph: 0 to 120 units by 0 to 140 \$/unit; MR runs to its foot at 120 units, where demand is still at 60.
+Model of record, changed 2026-11-11: one firm and one demand line for E2, E3 and E4. Costs are E1 and E2's: TC = 1000 + q^2, MC = 2q, ATC = q + 1000/q. Demand: P = 120 - Q, so MR = 120 - 2Q; E4 uses the same line. MR = MC: 120 - 2q = 2q, q\* = 30; P\* = 90; ATC\* = 63.33; profit (90 - 63.33) x 30 = 800. Marginal revenue from two points: 20 units at 100 and 30 units at 90; TR 2,000 and 2,700; change 10 x 90 - 20 x 10 = 700; MR = 70 = MR(25). Check: q = 40 gives P 80, ATC 65, profit 600; q = 20 gives P 100, ATC 70, profit 600. Demand down to P = 120 - 2Q (MR = 120 - 4Q): q\* = 20, P\* = 80, ATC\* = 70, profit 200. Efficient quantity Q_sp = 40, where demand meets MC at 80; deadweight loss 150, never shown as a number. Per-unit tax 20: q\* = 25, P\* = 95, ATC\* = 85, profit 250, government 500. Lump-sum tax 500: q\* = 30, ATC\* = 80, profit 300, government 500. Subsidy 40 per unit: q\* = 40 = Q_sp, P\* = 80, ATC\* = 25, profit 2,200, government cost 1,600. Subsidy with a lump-sum tax of 1,800: ATC\* = 70, profit 400, government 1,800 - 1,600 = 200. These were read off the rendered holds on 2026-11-11 and match. Graph: 0 to 120 units by 0 to 140 \$/unit; demand runs to its foot at 120 units and MR to its foot at 60. An earlier build the same day used P = 120 - Q/2 (q\* = 40, P\* = 100); it is in the archive as E3_Animation_demand_120_minus_half_Q.py. It was dropped because the duopoly on that line does not come out whole.
 
 STUCK. These need Taylor; nothing here was decided for him.
 1. The opening. The first paragraph ("But to get a better handle on the marginal revenue curve") continues a preview that E2 no longer gives: E2 now ends on the spinach closer. A bridge sentence is offered before it.
 2. The prose is the 2020 dictation, false starts included (the fourth to eighth paragraphs of Monopoly, "from a quantity of 90 to a quantity of 85", the first three Deadweight Loss paragraphs). All of it is kept as is; the rewrite is Taylor's.
-3. Numbers the cost switch moved. The two points now sit at prices 110 and 105 (the notes say 90 and 85), and the check quantities are 50 and 30 (the notes say 60 and 40). Three strikes mark these. The hold names 3.e.sixty and 3.e.forty keep their old names so the IDs stay stable.
+3. Numbers the cost switch moved. The two points now sit at prices 100 and 90 (the notes say 90 and 85), and the check quantities are 40 and 20 (the notes say 60 and 40). Three strikes mark these. The hold names 3.e.sixty and 3.e.forty keep their old names so the IDs stay stable.
 4. No opener story, no warmup hold, and no exercise cards exist in the animation, and there is no Exercise folder. The warmup and Q1 to Q3 below exist only in these notes.
 5. Time. Decided 2026-11-11: all four policies stay in E3. What is still open is the fit: the timing table is a proposal, and Taxes and Subsidies is seven holds in thirteen minutes.
 6. E2's conventions have not been applied: E3 keeps one gold line at the bottom (E2 uses yellow notes), two-decimal readouts (E2 rounds), the side-panel card (E2 builds calculations line by line), and the taxonomy opening.
-7. Changes In Demand pivots demand about 120, down to P = 120 - Q. The notes say "shifts in". The size of the pivot is Claude's pick.
-8. Policy sizes are Claude's picks, except the subsidy of 24, which Q_sp = 48 forces: tax 30, lump sums 1,000 and 2,000.
+7. Changes In Demand pivots demand about 120, down to P = 120 - 2Q. The notes say "shifts in". The size of the pivot is Claude's pick.
+8. Policy sizes are Claude's picks, except the subsidy of 40, which Q_sp = 40 forces: tax 20, lump sums 500 and 1,800.
 9. "The yellow area" in the subsidy paragraph is green on screen.
 10. The two Next Video paragraphs describe monopolistic competition, which this semester does not teach; they are struck, not removed. That material's notes are E5_Policy_and_Market_Power/01_Notes.md.
 11. The earlier thesis, "The fewer sellers, the worse.", left the bumper for Taylor's new one. E5 Wrap-Up has no thesis line yet and it may fit there.
-12. Layout to look at: in 6.a the Profit, GOV and DWL names and three dots crowd around 30 units; the dashed policy curves brush MC's name in 6.a and 6.c; D / MB sits under the demand line with the policy names above it.
-13. Still open from the October 30 build: the subtitle "One seller, many buyers." and the other lines written for the build; q\*, P\*, ATC\* and Q_sp against Part C's hats; step 5 of the firm's card (stay or exit) is left out; E4 and E5 still use the handwritten sheet's market (D: P = 200 - Q/2, MC = 20 + q), so E3's monopoly is not E5's.
+12. Layout to look at: in 6.a the Profit, GOV and DWL names and three dots crowd around 25 units; in 6.d the green band is thin and its name small.
+13. Still open from the October 30 build: the subtitle "One seller, many buyers." and the other lines written for the build; q\*, P\*, ATC\* and Q_sp against Part C's hats; step 5 of the firm's card (stay or exit) is left out; E5 still uses the handwritten sheet's market (D: P = 200 - Q/2, MC = 20 + q), so E3's monopoly is not E5's.
 14. Plass's round-trip check was not run on this file: the importer is no longer in the Trash. The syntax copies E2_Notes.md.
+15. E2 still draws its market demand as P = 120 - 2Q/3 with Q in thousands. Taylor's plan is to move it to this episode's line, P = 120 - Q read in thousands, after class. Nothing E2 displays changes: its market quantity is never shown as a number, and its prices, firm quantities, profits and the spinach closer's numbers do not depend on the slope of demand.
 
 ADDITIONS, all Claude's and all marked: the bridge sentence at the top of Monopoly; the warmup; Whiteboard Q1, Q2 and Q3; the Next time line. Each is a suggestion to cut or rewrite.
 -->
 
 ## {++ Exercise E3 | Warmup ++}
 
-{++ You sell 20 units at \$110 each. To sell 30 units, you have to lower the price to \$105 on every unit. ++}
+{++ You sell 20 units at \$100 each. To sell 30 units, you have to lower the price to \$90 on every unit. ++}
 
 {++ a\) What is revenue at 20 units? At 30 units? ++}
 
 {++ b\) How much revenue did each of the 10 extra units add? ++}
 
-{++ c\) Each extra unit sold for \$105. Why did it add less than \$105? ++}
+{++ c\) Each extra unit sold for \$90. Why did it add less than \$90? ++}
 
 <!--
 Not built: the animation has no warmup hold. The numbers are the ones Marginal Revenue uses, so the animation answers the warmup at 2.b.
 
-Answers: a) \$2,200 and \$3,150; b) \$950 over 10 units, \$95 each; c) the 20 units already being sold each lost \$5, \$100 in all.
+Answers: a) \$2,000 and \$2,700; b) \$700 over 10 units, \$70 each; c) the 20 units already being sold each lost \$10, \$200 in all.
 -->
 
 ## Monopoly
@@ -117,7 +118,7 @@ So the MPB satisfies the law of demand.
 <!--
 |   |   |
 | --- | --- |
-| 1.c | Draw demand in teal from 120 on the price axis to (120, 60) at the right edge of the graph; its foot, 240 units, is off the graph. Name it D / MB under the line near the right edge, and mark the teal 120 on the price axis. Add the row D: P = 120 − ½Q. Gold line: “Unlike competitive firms, a monopolist faces downward-sloping demand.” |
+| 1.c | Draw demand in teal from 120 on the price axis to its foot at 120 units, the right edge of the graph. Name it D / MB just above its lower end, and mark the teal 120 on the price axis. Add the row D: P = 120 − Q. Gold line: “Unlike competitive firms, a monopolist faces downward-sloping demand.” |
 -->
 
 ## Marginal Revenue
@@ -143,19 +144,19 @@ Here we’re going from a quantity of 20 to a quantity of 30.
 <!--
 |   |   |
 | --- | --- |
-| 2.b.first | Mark the first point on demand: a teal dot at (20, 110), a red dashed drop to the quantity axis with 20 over Q₁, and a teal dashed guide to the price axis with P₁ = 110. Fill its revenue, 20 units by 110, with teal one-unit strips. Row: TR₁ = 110 × 20 = 2,200. Gold line: “Here we’re going from a quantity of 20 to a quantity of 30.” |
+| 2.b.first | Mark the first point on demand: a teal dot at (20, 100), a red dashed drop to the quantity axis with 20 over Q₁, and a teal dashed guide to the price axis with P₁ = 100. Fill its revenue, 20 units by 100, with teal one-unit strips. Row: TR₁ = 100 × 20 = 2,000. Gold line: “Here we’re going from a quantity of 20 to a quantity of 30.” |
 -->
 
 And you can see the price is going down due to the law of demand.
 
-It’s going down from ~~90 to 85~~ {++ 110 to 105 ++}, respectively.
+It’s going down from ~~90 to 85~~ {++ 100 to 90 ++}, respectively.
 
 So we see the price go down, but the quantity go up.
 
 <!--
 |   |   |
 | --- | --- |
-| 2.b.second | A second dot rides demand from the first point to (30, 105). The revenue strips split as it moves: the band from 105 to 110 over the first 20 units turns red, the price cut on the units already sold, and the 10 new units at 105 fill in strong teal. Then show P₂ = 105 under P₁, 30 over Q₂, and the row TR₂ = 105 × 30 = 3,150. Gold line: “So we see the price go down, but the quantity go up.” |
+| 2.b.second | A second dot rides demand from the first point to (30, 90). The revenue strips split as it moves: the band from 90 to 100 over the first 20 units turns red, the price cut on the units already sold, and the 10 new units at 90 fill in strong teal. Then show P₂ = 90 under P₁, 30 over Q₂, and the row TR₂ = 90 × 30 = 2,700. Gold line: “So we see the price go down, but the quantity go up.” |
 -->
 
 So these two factors are moving in opposite directions.
@@ -163,7 +164,7 @@ So these two factors are moving in opposite directions.
 <!--
 |   |   |
 | --- | --- |
-| 2.b.split | Row: ΔTR = 10 × 105 − 20 × 5 = 950, with the gain in teal and the loss in red to match the strips. The red band flashes yellow once. Gold line: “So these two factors are moving in opposite directions.” |
+| 2.b.split | Row: ΔTR = 10 × 90 − 20 × 10 = 700, with the gain in teal and the loss in red to match the strips. The red band flashes yellow once. Gold line: “So these two factors are moving in opposite directions.” |
 -->
 
 And this is different than perfectly competitive firms because.
@@ -175,7 +176,7 @@ Where they had very little effect on the market monopolists are the only seller 
 <!--
 |   |   |
 | --- | --- |
-| 2.b | Row: MR = 950 / 10 = 95, with MR and 95 in pink. Add a pink dot at (25, 95), halfway between the two quantities. Gold line: “Monopolists are the only seller in the market, so they control the price.” |
+| 2.b | Row: MR = 700 / 10 = 70, with MR and 70 in pink. Add a pink dot at (25, 70), halfway between the two quantities. Gold line: “Monopolists are the only seller in the market, so they control the price.” |
 -->
 
 Using this equation gives us the value for the marginal revenue curve and you can sort of see where it’s coming from.
@@ -183,18 +184,18 @@ Using this equation gives us the value for the marginal revenue curve and you ca
 <!--
 |   |   |
 | --- | --- |
-| 2.c.trace | Fade the readouts and the four worked rows. One four-second sweep moves the pair along demand from 20 and 30 to 90 and 100, the red and teal strips following, while the pink dot traces a line from (25, 95) to (95, 25). Gold line: “Using this equation gives us the value for the marginal revenue curve.” |
-| 2.c | Replace the pair, its strips and the trace with the whole MR line in pink from (0, 120) to (120, 0), named MR at its foot. Add the row MR = 120 − Q under the demand row. Gold line: “MR starts with demand at 120 and falls twice as fast.” |
+| 2.c.trace | Fade the readouts and the four worked rows. One four-second sweep moves the pair along demand from 20 and 30 to 50 and 60, the red and teal strips following, while the pink dot traces a line from (25, 70) to (55, 10). Gold line: “Using this equation gives us the value for the marginal revenue curve.” |
+| 2.c | Replace the pair, its strips and the trace with the whole MR line in pink from (0, 120) to (60, 0), half of demand’s 120 units, named MR at its foot. Add the row MR = 120 − 2Q under the demand row. Gold line: “MR starts with demand at 120 and falls twice as fast.” |
 -->
 
 ### {++ Whiteboard | Exercise Q1 ++}
 
-{++ > Demand is still $P = 120 - \tfrac{1}{2}Q$. Find marginal revenue between 60 and 70 units. ++}
+{++ > Demand is still $P = 120 - Q$. Find marginal revenue between 40 and 50 units. ++}
 
 <!--
-Not built: no exercise card in the animation. The prices at these two quantities are 90 and 85, the pair in the dictated notes.
+Not built: no exercise card in the animation.
 
-Answer: TR goes from 90 × 60 = 5,400 to 85 × 70 = 5,950. ΔTR = 10 × 85 − 60 × 5 = 550, so MR = 55, which is 120 − 65.
+Answer: the prices are 80 and 70. TR goes from 80 × 40 = 3,200 to 70 × 50 = 3,500. ΔTR = 10 × 70 − 40 × 10 = 300, so MR = 30, which is 120 − 2 · 45.
 -->
 
 ## The Monopolist’s Problem
@@ -210,7 +211,7 @@ This gets this gives us quantity. And using quantity we can then use.
 <!--
 |   |   |
 | --- | --- |
-| 3.a | Title: The Monopolist’s Problem. The panel becomes the firm’s card: max over q of π = TR − TC, then step 1, MC = MR → q\*. Put a red dot where MR meets MC at (40, 80), show the worked row 2q = 120 − q, so q\* = 40, then draw the red dashed drop with 40 over q\* under the axis. Gold line: “To solve any firm’s problem, set marginal cost equal to marginal revenue.” |
+| 3.a | Title: The Monopolist’s Problem. The panel becomes the firm’s card: max over q of π = TR − TC, then step 1, MC = MR → q\*. Put a red dot where MR meets MC at (30, 60), show the worked row 2q = 120 − 2q, so q\* = 30, then draw the red dashed drop with 30 over q\* under the axis. Gold line: “To solve any firm’s problem, set marginal cost equal to marginal revenue.” |
 -->
 
 Using quantity with the demand curve allows us to find price. And similarly with the average total cost curve allows us to find the average total cost.
@@ -218,8 +219,8 @@ Using quantity with the demand curve allows us to find price. And similarly with
 <!--
 |   |   |
 | --- | --- |
-| 3.b | Step 2: q\* → D → P\*. The drop rises from the red dot to demand at (40, 100). Add a teal dot, a teal dashed guide to the price axis and P\* = 100.00. Worked row: P\* = 120 − ½ · 40 = 100. Gold line: “Using quantity with the demand curve allows us to find price.” |
-| 3.c | Step 3: q\* → ATC → ATC\*. Add a purple dot on ATC at (40, 65), a purple dashed guide and ATC\* = 65.00. Worked row: ATC\* = 40 + 1000/40 = 65. Gold line: “Quantity with the average total cost curve gives the average total cost.” |
+| 3.b | Step 2: q\* → D → P\*. The drop rises from the red dot to demand at (30, 90). Add a teal dot, a teal dashed guide to the price axis and P\* = 90.00. Worked row: P\* = 120 − 30 = 90. Gold line: “Using quantity with the demand curve allows us to find price.” |
+| 3.c | Step 3: q\* → ATC → ATC\*. Add a purple dot on ATC at (30, 63.33), a purple dashed guide and ATC\* = 63.33. Worked row: ATC\* = 30 + 1000/30 = 63.33. Gold line: “Quantity with the average total cost curve gives the average total cost.” |
 -->
 
 Using price average total cost and. Quantity allows us to find the firms profits.
@@ -227,25 +228,25 @@ Using price average total cost and. Quantity allows us to find the firms profits
 <!--
 |   |   |
 | --- | --- |
-| 3.d | Step 4: π\* = (P\* − ATC\*) · q\*. Fill orange one-unit strips from ATC\* up to P\* over the 40 units and name the area Profit. Worked row: π\* = (100 − 65) · 40 = 1,400. Gold line: “Price, average total cost and quantity give us the firm’s profits.” |
+| 3.d | Step 4: π\* = (P\* − ATC\*) · q\*. Fill orange one-unit strips from ATC\* up to P\* over the 30 units and name the area Profit. Worked row: π\* = (90 − 63.33) · 30 = 800. Gold line: “Price, average total cost and quantity give us the firm’s profits.” |
 -->
 
 And here we can verify that marginal cost equally marginal revenue actually solves the firms profit maximization problem.
 
-If we increase the quantity to ~~60~~ {++ 50 ++}. Their profit goes down.
+If we increase the quantity to ~~60~~ {++ 40 ++}. Their profit goes down.
 
 <!--
 |   |   |
 | --- | --- |
-| 3.e.sixty | The stars come off the readouts and the worked profit row becomes a live row with every number rolling. Move the quantity from 40 to 50: the drop, the teal and purple dots and guides, P and ATC on the axis and the profit strips all follow, while the red MR = MC dot stays at (40, 80). The row ends at π = (95.00 − 70.00) · 50 = 1,250. Gold line: “If we increase the quantity to 50, their profit goes down.” The hold keeps its name from the old model, where this quantity was 60. |
+| 3.e.sixty | The stars come off the readouts and the worked profit row becomes a live row with every number rolling. Move the quantity from 30 to 40: the drop, the teal and purple dots and guides, P and ATC on the axis and the profit strips all follow, while the red MR = MC dot stays at (30, 60). The row ends at π = (80.00 − 65.00) · 40 = 600. Gold line: “If we increase the quantity to 40, their profit goes down.” The hold keeps its name from the old model, where this quantity was 60. |
 -->
 
-And if we lower the quantity to ~~40~~ {++ 30 ++} their profit also goes down.
+And if we lower the quantity to ~~40~~ {++ 20 ++} their profit also goes down.
 
 <!--
 |   |   |
 | --- | --- |
-| 3.e.forty | Roll the quantity to 30: P = 105.00, ATC = 63.33, profit 1,250 again. Gold line: “If we lower the quantity to 30, their profit also goes down.” The hold keeps its name from the old model, where this quantity was 40. |
+| 3.e.forty | Roll the quantity to 20: P = 100.00, ATC = 70.00, profit 600 again. Gold line: “If we lower the quantity to 20, their profit also goes down.” The hold keeps its name from the old model, where this quantity was 40. |
 -->
 
 And this is really coming from the fact that as we increase quantity price also goes down from the law of demand and if we decrease quantity prices going up by the law of demand but not fast enough to compensate for the lower quantity.
@@ -253,17 +254,17 @@ And this is really coming from the fact that as we increase quantity price also 
 <!--
 |   |   |
 | --- | --- |
-| 3.e | Return to 40 and restore the stars: P\* = 100.00, ATC\* = 65.00, q\*, and π\* = (100.00 − 65.00) · 40 = 1,400. Gold line: “MC = MR solves the firm’s profit maximization problem.” |
+| 3.e | Return to 30 and restore the stars: P\* = 90.00, ATC\* = 63.33, q\*, and π\* = (90.00 − 63.33) · 30 = 800. Gold line: “MC = MR solves the firm’s profit maximization problem.” |
 -->
 
 ### {++ Whiteboard | Exercise Q2 ++}
 
-{++ > Demand rises to $P = 150 - \tfrac{1}{2}Q$, so $MR = 150 - Q$. Costs are unchanged. Find the monopolist’s quantity, price, and profit. ++}
+{++ > Demand rises to $P = 160 - Q$, so $MR = 160 - 2Q$. Costs are unchanged. Find the monopolist’s quantity, price, and profit. ++}
 
 <!--
 Not built: no exercise card in the animation.
 
-Answer: 150 − q = 2q, so q\* = 50; P\* = 150 − 25 = 125; ATC\* = 50 + 1000/50 = 70; profit (125 − 70) × 50 = 2,750.
+Answer: 160 − 2q = 2q, so q\* = 40; P\* = 160 − 40 = 120; ATC\* = 40 + 1000/40 = 65; profit (120 − 65) × 40 = 2,200.
 -->
 
 ## Changes In Demand
@@ -275,7 +276,7 @@ When the demand curve shifts in. Quantity. The firms quantity also shifts in and
 <!--
 |   |   |
 | --- | --- |
-| 4.a | Title: Changes In Demand. The worked rows for steps 1 to 3 leave and the card closes up around the four steps and the live profit row. Leave a thin grey ghost of demand where it was, then pivot demand down about 120 to P = 120 − Q: demand now reaches the axis at 120 units and MR at 60, D / MB slides along its line and MR rides its foot, and the red dot slides down MC. The readouts roll: q\* 40 → 30, P\* 100.00 → 90.00, ATC\* 65.00 → 63.33 and π\* 1,400 → 800. Gold line: “When demand shifts down, the firm’s quantity and profit go down.” |
+| 4.a | Title: Changes In Demand. The worked rows for steps 1 to 3 leave and the card closes up around the four steps and the live profit row. Leave a thin grey ghost of demand where it was, then pivot demand down about 120 to P = 120 − 2Q: demand now reaches the axis at 60 units and MR at 30, D / MB and MR ride their curves, and the red dot slides down MC. The readouts roll: q\* 30 → 20, P\* 90.00 → 80.00, ATC\* 63.33 → 70.00 and π\* 800 → 200. Gold line: “When demand shifts down, the firm’s quantity and profit go down.” |
 -->
 
 ## Deadweight Loss
@@ -291,18 +292,18 @@ And the great triangle in this model is dead weight loss, which is associated wi
 <!--
 |   |   |
 | --- | --- |
-| 5.a.efficient | Roll demand back and fade the ghost. Title: Deadweight Loss. Gold line: “The socially efficient quantity: where the MC and MB curves intersect.” Then add a yellow dot where MC meets demand at (48, 96), a yellow dashed drop, and 48 over Q_sp under the axis, beside the red 40 over q\*. |
-| 5.a | Fill grey strips from MC up to demand over every unit from 40 to 48, and name the area DWL just above demand. Gold line: “Deadweight loss: the quantity not provided where MB exceeds MC.” |
+| 5.a.efficient | Roll demand back and fade the ghost. Title: Deadweight Loss. Gold line: “The socially efficient quantity: where the MC and MB curves intersect.” Then add a yellow dot where MC meets demand at (40, 80), a yellow dashed drop, and 40 over Q_sp under the axis, beside the red 30 over q\*. |
+| 5.a | Fill grey strips from MC up to demand over every unit from 30 to 40, and name the area DWL just above demand. Gold line: “Deadweight loss: the quantity not provided where MB exceeds MC.” |
 -->
 
 ### {++ Whiteboard | Exercise Q3 ++}
 
-{++ > At 40 units, buyers will pay about \$100 for the next unit and it costs about \$80 to make. Why doesn’t the monopolist sell it? ++}
+{++ > At 30 units, buyers will pay about \$90 for the next unit and it costs about \$60 to make. Why doesn’t the monopolist sell it? ++}
 
 <!--
 Not built: no exercise card in the animation.
 
-Answer: to sell one more unit the monopolist lowers the price on all 40 units already being sold. The next unit adds about \$80 to revenue (MR = 120 − 40 = 80) and about \$80 to cost. Beyond 40, each further unit adds less to revenue than to cost, even though buyers value it above its cost.
+Answer: to sell one more unit the monopolist lowers the price on all 30 units already being sold. The next unit adds about \$60 to revenue (MR = 120 − 2 · 30 = 60) and about \$60 to cost. Beyond 30, each further unit adds less to revenue than to cost, even though buyers value it above its cost.
 -->
 
 ## Taxes and Subsidies
@@ -330,7 +331,7 @@ Four trackers (a per-unit tax, a lump-sum tax, a per-unit subsidy, and demand) d
 
 |   |   |
 | --- | --- |
-| 6.a.shift | Title: A Per-Unit Tax. Add a green row under the profit row: Tax per unit = \$0. Gold line: “We shift marginal cost and average total cost up by the tax.” Roll the tax from 0 to 30, the cost E2’s spinach closer puts on each unit. A dashed orange copy of MC rises by 30, named MC + tax, and a dashed purple copy of ATC rises by 30, named ATC + tax. The red dot slides up MR to (30, 90). The readouts roll: q\* 40 → 30, P\* 100.00 → 105.00, ATC\* 65.00 → 93.33, now on the dashed ATC, and π\* 1,400 → 350. The profit strips shrink to the band from 93.33 to 105 over 30 units, a green band fills 63.33 to 93.33, and the grey DWL widens to the units from 30 to 48, its name moving inside it. |
+| 6.a.shift | Title: A Per-Unit Tax. Add a green row under the profit row: Tax per unit = \$0. Gold line: “We shift marginal cost and average total cost up by the tax.” Roll the tax from 0 to 20. A dashed orange copy of MC rises by 20, named MC + tax, and a dashed purple copy of ATC rises by 20, named ATC + tax. The red dot slides up MR to (25, 70). The readouts roll: q\* 30 → 25, P\* 90.00 → 95.00, ATC\* 63.33 → 85.00, now on the dashed ATC, and π\* 800 → 250. The profit strips shrink to the band from 85 to 95 over 25 units, a green band fills 65 to 85, and the grey DWL widens to the units from 25 to 40, its name moving inside it. |
 | 6.a | Name the green band GOV. Gold line: “As the tax goes up, quantity goes down and deadweight loss goes up.” |
 -->
 
@@ -353,7 +354,7 @@ So this ship’s only the average total cost.
 <!--
 |   |   |
 | --- | --- |
-| 6.b.shift | Remove GOV’s name and roll the tax back to 0. Title: A Lump-Sum Tax. Row: Lump-sum tax = \$0. Gold line: “A lump-sum tax shifts only the average total cost.” Roll the lump sum from 0 to 1,000. The dashed ATC rises as ATC + 1000/q, a fixed cost, named ATC + lump sum. MC does not move and q\* stays 40. ATC\* rolls 65.00 → 90.00 and π\* 1,400 → 400, and the green band fills 65 to 90 over 40 units. |
+| 6.b.shift | Remove GOV’s name and roll the tax back to 0. Title: A Lump-Sum Tax. Row: Lump-sum tax = \$0. Gold line: “A lump-sum tax shifts only the average total cost.” Roll the lump sum from 0 to 500. The dashed ATC rises as ATC + 500/q, a fixed cost, named ATC + lump sum. MC does not move and q\* stays 30. ATC\* rolls 63.33 → 80.00 and π\* 800 → 300, and the green band fills 63.33 to 80 over 30 units. |
 -->
 
 And what this does is essentially transfer some of the firms profits to the government. So one of the worries.
@@ -377,7 +378,7 @@ Where quantity is equal to the socially efficient quantity giving us zero dead w
 <!--
 |   |   |
 | --- | --- |
-| 6.c.shift | Remove GOV’s name and roll the lump sum back to 0. Title: A Per-Unit Subsidy. Row: Subsidy per unit = \$0. Gold line: “Subsidies tend to increase the quantity exchanged in the market.” Roll the subsidy from 0 to 24. Dashed MC − subsidy and ATC − subsidy move down, and the red dot slides down MR to (48, 72). The readouts roll: q\* 40 → 48, its red quantity row fading as it reaches the yellow 48 over Q_sp, P\* 100.00 → 96.00, ATC\* 65.00 → 44.83 and π\* 1,400 → 2,456. The DWL strips close to nothing. The green band now lies below ATC, from 44.83 to 68.83 over 48 units, inside the profit, and the name Profit sits on the part above ATC. Then change the gold line: “Quantity reaches the socially efficient quantity: zero deadweight loss.” |
+| 6.c.shift | Remove GOV’s name and roll the lump sum back to 0. Title: A Per-Unit Subsidy. Row: Subsidy per unit = \$0. Gold line: “Subsidies tend to increase the quantity exchanged in the market.” Roll the subsidy from 0 to 40. Dashed MC − subsidy and ATC − subsidy move down, and the red dot slides down MR to (40, 40). The readouts roll: q\* 30 → 40, its red quantity row fading as it reaches the yellow 40 over Q_sp, P\* 90.00 → 80.00, ATC\* 63.33 → 25.00 and π\* 800 → 2,200. The DWL strips close to nothing. The green band now lies below ATC, from 25 to 65 over 40 units, inside the profit, and the name Profit sits on the part above ATC. Then change the gold line: “Quantity reaches the socially efficient quantity: zero deadweight loss.” |
 -->
 
 But one of the problems here is that we’re transferring wealth from the government to the firm.
@@ -405,7 +406,7 @@ But we’ve also taken away some of their profits using a lump, sum tax.
 <!--
 |   |   |
 | --- | --- |
-| 6.d | Title: A Subsidy And A Lump-Sum Tax. Add a second row under the subsidy row: Lump-sum tax = \$0. Keep the subsidy and roll the lump sum from 0 to 2,000. The dashed curve becomes ATC − subsidy + lump sum, a two-line name under ATC’s own. q\* stays 48. ATC\* rolls 44.83 → 86.50 and π\* 2,456 → 456. The green band shrinks to nothing at a lump sum of 1,152 and grows again above ATC, from 68.83 to 86.50: positive revenue. Gold line: “No deadweight loss, positive government revenue, and less profit.” |
+| 6.d | Title: A Subsidy And A Lump-Sum Tax. Add a second row under the subsidy row: Lump-sum tax = \$0. Keep the subsidy and roll the lump sum from 0 to 1,800. The dashed curve becomes ATC − subsidy + lump sum, a two-line name under ATC’s own. q\* stays 40. ATC\* rolls 25.00 → 70.00 and π\* 2,200 → 400. The green band shrinks to nothing at a lump sum of 1,600 and grows again above ATC, from 65 to 70: positive revenue. Gold line: “No deadweight loss, positive government revenue, and less profit.” |
 -->
 
 ## Next Video

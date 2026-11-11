@@ -1,8 +1,10 @@
 # maniml E4_Animation.py EpisodeE4
 # Storyboard: E4_Notes.md. All lesson choreography stays in construct().
-# Duopoly from Taylor's handwritten sheet (04_Handwritten.pdf): market demand P = 200 - Q/2, every firm MC = 20 + q.
-# Monopoly MR = 200 - q, q* = 90, P* = 155; duopoly MR_A = 200 - q_A - q_B/2, BR_A: q_A = 90 - q_B/4,
-# Nash q_A* = q_B* = 72, Q = 144, P* = 128.
+# Duopoly, following the steps of Taylor's handwritten sheet (04_Handwritten.pdf) on E2 and E3's market: demand
+# P = 120 - Q, every firm MC = 2q. Monopoly MR = 120 - 2q, q* = 30, P* = 90 (E3's answer); duopoly
+# MR_A = 120 - 2q_A - q_B, BR_A: q_A = 30 - q_B/4, Nash q_A* = q_B* = 24, Q = 48, P* = 72.
+# (Until 2026-11-11 this used the sheet's own market, P = 200 - Q/2 and MC = 20 + q: 90 and 155, then 72 each and
+# 128. That build is _archive/2026-11-11_consolidation/E4_Animation_handwritten_sheet_market.py.)
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
@@ -53,14 +55,18 @@ class EpisodeE4(Scene):
         # Taxonomy grid: a label column and two cell columns; a header row and three seller rows.
         LABEL_W, CELL_W, HEADER_H, CELL_H, TAXONOMY_X = 2.9, 3.3, 0.8, 1.25, 0.4
 
-        # The model (the sheet), as one-line functions.
-        demand = lambda Q: 200 - Q / 2
-        mc = lambda q: 20 + q
-        start_a = lambda q_b: 200 - q_b / 2           # where firm A's demand and MR_A meet the price axis
-        best_a = lambda q_b: 90 - q_b / 4             # BR_A: MR_A = MC_A
-        MONOPOLY_Q, NASH_Q = 90, 72                   # the sheet's boxed answers
-        MARKET_Q = 2 * NASH_Q                         # 144
-        MONOPOLY_P, MARKET_P = demand(MONOPOLY_Q), demand(MARKET_Q)   # 155 and 128, read from demand
+        # The model (E2 and E3's market), as one-line functions.
+        TOP_PRICE = 120                               # demand's start on the price axis, and its foot in units
+        X_END, Y_TOP, BR_END = 120, 140, 140          # the market graph's axes; the best-response graph's axes
+        demand = lambda Q: TOP_PRICE - Q
+        mc = lambda q: 2 * q
+        MC_END = 60                                   # MC is drawn to (60, 120)
+        start_a = lambda q_b: TOP_PRICE - q_b         # where firm A's demand and MR_A meet the price axis
+        best_a = lambda q_b: 30 - q_b / 4             # BR_A: MR_A = MC_A
+        MONOPOLY_Q, NASH_Q = 30, 24                   # the boxed answers
+        MARKET_Q = 2 * NASH_Q                         # 48
+        LAST_Q_B = 120                                # the sweep's end: firm A's best response is 0
+        MONOPOLY_P, MARKET_P = demand(MONOPOLY_Q), demand(MARKET_Q)   # 90 and 72, read from demand
 
         # The one object factory: the yellow bottom line.
         teaching = lambda text: Tex(text, color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -145,40 +151,39 @@ class EpisodeE4(Scene):
         self.play(FadeIn(step_five), FadeIn(step_five_exit), run_time=0.6)
         self.pause('2.a')
 
-        # ---- 3.a · The sheet's market: demand and every firm's marginal cost, with the model rows beside it.
+        # ---- 3.a · The market: demand and every firm's marginal cost, with the model rows beside it.
         self.play(FadeOut(card), FadeOut(head))
         head = title('Monopoly')
         context = subtitle(head, 'All firms are similar.')
-        ax = style_axes([0, 400, 100], [0, 220, 50], x_length=5.6, y_length=4.6)
+        ax = style_axes([0, X_END, 20], [0, Y_TOP, 20], x_length=5.6, y_length=4.6)
         ax.shift(MARKET_ORIGIN - ax.c2p(0, 0))
-        price_word = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, 220), LEFT, buff=0.23)
-        price_unit = Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, 220), RIGHT, buff=0.22)
-        quantity_word = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(400, 0), DOWN, buff=0.23)
-        quantity_unit = Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(ax.c2p(400, 0), DOWN, buff=0.73)
-        demand_start = Tex('$200$', color=DEMAND).scale(0.65).next_to(ax.c2p(0, 200), LEFT, buff=0.15)
-        cost_start = Tex('$20$', color=MC_COLOR).scale(0.65).next_to(ax.c2p(0, 20), LEFT, buff=0.15)
-        demand_line = Line(ax.c2p(0, 200), ax.c2p(400, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
-        mc_line = Line(ax.c2p(0, 20), ax.c2p(200, 220), color=MC_COLOR, stroke_width=CURVE_WIDTH)
-        demand_word = Tex('D', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(400, 0), UR, buff=0.12)
-        mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(200, 220), RIGHT, buff=0.15)
+        price_word = Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, Y_TOP), LEFT, buff=0.23)
+        price_unit = Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, Y_TOP), RIGHT, buff=0.22)
+        quantity_word = Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(X_END, 0), DOWN, buff=0.23)
+        quantity_unit = Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(ax.c2p(X_END, 0), DOWN, buff=0.73)
+        demand_start = Tex('$120$', color=DEMAND).scale(0.65).next_to(ax.c2p(0, TOP_PRICE), LEFT, buff=0.15)
+        demand_line = Line(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
+        mc_line = Line(ax.c2p(0, 0), ax.c2p(MC_END, mc(MC_END)), color=MC_COLOR, stroke_width=CURVE_WIDTH)
+        demand_word = Tex('D', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(X_END, 0), UR, buff=0.12)
+        mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(MC_END, mc(MC_END)), RIGHT, buff=0.15)
         divider = Line([2.45, 2.3, 0], [2.45, -3.0, 0], color=MUTED, stroke_width=1.5)
         # The panel's rows are arranged once so each row has a fixed slot; later phases reuse the slots.
         panel_rows = VGroup(
-            MathTex(r'\mathrm{D}\colon P = 200 - \tfrac{1}{2}Q', color=DEMAND),
-            MathTex(r'\mathrm{MC} = 20 + q', color=MC_COLOR),
-            MathTex(r'{{\mathrm{MR}_A = 200 - q_A}} \qquad {{Q = q_A}}'),
-            MathTex(r'{{20 + q_A}} = {{200 - q_A}}'),
-            MathTex(r'2q_A = 180'),
-            MathTex(r'q_A = {{90}} = {{q^*}}'),
-            MathTex(r'{{P^*}} = {{200 - \tfrac{1}{2}\cdot 90}} = {{155}}'))
-        panel_rows[2].get_part_by_tex(r'\mathrm{MR}_A = 200 - q_A').set_color(MR_COLOR)
-        panel_rows[3].get_part_by_tex('20 + q_A').set_color(MC_COLOR)
-        panel_rows[3].get_part_by_tex('200 - q_A').set_color(MR_COLOR)
-        panel_rows[5].get_part_by_tex('90').set_color(GUIDE)
+            MathTex(r'\mathrm{D}\colon P = 120 - Q', color=DEMAND),
+            MathTex(r'\mathrm{MC} = 2q', color=MC_COLOR),
+            MathTex(r'{{\mathrm{MR}_A = 120 - 2q_A}} \qquad {{Q = q_A}}'),
+            MathTex(r'{{2q_A}} = {{120 - 2q_A}}'),
+            MathTex(r'4q_A = 120'),
+            MathTex(r'q_A = {{30}} = {{q^*}}'),
+            MathTex(r'{{P^*}} = {{120 - 30}} = {{90}}'))
+        panel_rows[2].get_part_by_tex(r'\mathrm{MR}_A = 120 - 2q_A').set_color(MR_COLOR)
+        panel_rows[3].get_part_by_tex('2q_A').set_color(MC_COLOR)
+        panel_rows[3].get_part_by_tex('120 - 2q_A').set_color(MR_COLOR)
+        panel_rows[5].get_part_by_tex('30').set_color(GUIDE)
         panel_rows[5].get_part_by_tex('q^*').set_color(GUIDE)
         panel_rows[6].get_part_by_tex('P^*').set_color(GUIDE)
-        panel_rows[6].get_part_by_tex(r'200 - \tfrac{1}{2}\cdot 90').set_color(DEMAND)
-        panel_rows[6].get_part_by_tex('155').set_color(GUIDE)
+        panel_rows[6].get_part_by_tex('120 - 30').set_color(DEMAND)
+        panel_rows[6].get_part_by_tex('90').set_color(GUIDE)
         panel_rows.arrange(DOWN, buff=ROW_GAP).scale(ROW_SCALE)
         panel_rows[2:].shift(DOWN * 0.15)
         panel_rows.move_to([PANEL_X, BODY_MID, 0])
@@ -186,19 +191,19 @@ class EpisodeE4(Scene):
         model_rows, monopoly_rows = panel_rows[:2], panel_rows[2:]
         note = teaching('Costs come from the production function, not the structure of the market.')
         self.play(FadeIn(head), FadeIn(context), FadeIn(ax), FadeIn(price_word), FadeIn(price_unit),
-                  FadeIn(quantity_word), FadeIn(quantity_unit), FadeIn(demand_start), FadeIn(cost_start),
+                  FadeIn(quantity_word), FadeIn(quantity_unit), FadeIn(demand_start),
                   FadeIn(demand_line), FadeIn(mc_line), FadeIn(demand_word), FadeIn(mc_word))
         self.play(FadeIn(divider), FadeIn(model_rows), FadeIn(note))
         self.pause('3.a')
 
         # ---- 3.b · One seller: firm A's marginal revenue, half of demand's quantity.
-        mr_line = Line(ax.c2p(0, 200), ax.c2p(200, 0), color=MR_COLOR, stroke_width=CURVE_WIDTH)
-        mr_word = Tex('MR$_A$', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(200, 0), UR, buff=0.12)
+        mr_line = Line(ax.c2p(0, TOP_PRICE), ax.c2p(TOP_PRICE / 2, 0), color=MR_COLOR, stroke_width=CURVE_WIDTH)
+        mr_word = Tex('MR$_A$', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(TOP_PRICE / 2, 0), UR, buff=0.12)
         self.remove(note)
         self.play(FadeIn(mr_line), FadeIn(mr_word), FadeIn(monopoly_rows[0]))
         self.pause('3.b')
 
-        # ---- 3.c · Step 1: MR = MC. The crossing first, then the algebra, then 90 carried to the axis.
+        # ---- 3.c · Step 1: MR = MC. The crossing first, then the algebra, then 30 carried to the axis.
         mono_dot = Dot(ax.c2p(MONOPOLY_Q, mc(MONOPOLY_Q)), radius=DOT_RADIUS, color=GUIDE).set_z_index(30)
         mono_drop = DashedLine(ax.c2p(MONOPOLY_Q, mc(MONOPOLY_Q)), ax.c2p(MONOPOLY_Q, 0),
                                color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
@@ -209,7 +214,7 @@ class EpisodeE4(Scene):
         self.play(GrowFromCenter(mono_dot), FadeIn(monopoly_rows[1]), FadeIn(note))
         self.play(FadeIn(monopoly_rows[2]))
         self.play(FadeIn(monopoly_rows[3]))
-        self.play(Create(mono_drop), TransformFromCopy(monopoly_rows[3].get_part_by_tex('90'), mono_number),
+        self.play(Create(mono_drop), TransformFromCopy(monopoly_rows[3].get_part_by_tex('30'), mono_number),
                   FadeIn(mono_symbol), run_time=1.2)
         self.pause('3.c')
 
@@ -219,13 +224,13 @@ class EpisodeE4(Scene):
         mono_price_dot = Dot(ax.c2p(MONOPOLY_Q, MONOPOLY_P), radius=DOT_RADIUS, color=GUIDE).set_z_index(30)
         mono_across = DashedLine(ax.c2p(MONOPOLY_Q, MONOPOLY_P), ax.c2p(0, MONOPOLY_P),
                                  color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
-        mono_price_number = Tex('155', color=GUIDE).scale(PRICE_SCALE).next_to(ax.c2p(0, MONOPOLY_P), LEFT, buff=0.2)
+        mono_price_number = Tex('90', color=GUIDE).scale(PRICE_SCALE).next_to(ax.c2p(0, MONOPOLY_P), LEFT, buff=0.2)
         mono_price_prefix = Tex('$P^*=$', color=GUIDE).scale(PRICE_SCALE).next_to(mono_price_number, LEFT, buff=0.12)
         self.remove(note)
         note = teaching(r'2. $q^* \rightarrow \mathrm{D} \rightarrow P^*$')
         self.play(Create(mono_rise), FadeIn(note))
         self.play(GrowFromCenter(mono_price_dot), FadeIn(monopoly_rows[4]))
-        self.play(Create(mono_across), TransformFromCopy(monopoly_rows[4].get_part_by_tex('155'), mono_price_number),
+        self.play(Create(mono_across), TransformFromCopy(monopoly_rows[4].get_part_by_tex('90'), mono_price_number),
                   FadeIn(mono_price_prefix), run_time=1.2)
         self.pause('3.d')
 
@@ -234,8 +239,8 @@ class EpisodeE4(Scene):
         head = title('Duopoly')
         duopoly_rows = VGroup(
             MathTex(r'Q = q_A + q_B'),
-            MathTex(r'P = 200 - \tfrac{1}{2}(q_A + q_B)', color=DEMAND),
-            MathTex(r'\mathrm{MR}_A = 200 - q_A - \tfrac{1}{2}q_B', color=MR_COLOR))
+            MathTex(r'P = 120 - (q_A + q_B)', color=DEMAND),
+            MathTex(r'\mathrm{MR}_A = 120 - 2q_A - q_B', color=MR_COLOR))
         for row, slot in zip(duopoly_rows, slots[2:5]):
             row.scale(ROW_SCALE).move_to([PANEL_X, slot[1], 0])
         note = teaching('Both of you are trying to sell into the same market.')
@@ -249,28 +254,28 @@ class EpisodeE4(Scene):
         firm_q = lambda: best_a(q_b.get_value())
         top = lambda: start_a(q_b.get_value())
         # Labels near the origin collide at the end of the 5.b sweep: firm A's D and MR names fade there.
-        name_fade = lambda: smooth(np.clip((320 - q_b.get_value()) / 40, 0, 1))
-        ghost_fade = lambda: smooth(np.clip((q_b.get_value() - 15) / 30, 0, 1))
-        ghost_demand = Line(ax.c2p(0, 200), ax.c2p(400, 0), color=MUTED, stroke_width=2).set_z_index(-1)
-        ghost_word = Tex('D', color=CAPTION).scale(CURVE_WORD_SCALE).next_to(ax.c2p(400, 0), UR, buff=0.12)
+        name_fade = lambda: smooth(np.clip((96 - q_b.get_value()) / 12, 0, 1))
+        ghost_fade = lambda: smooth(np.clip((q_b.get_value() - 5) / 10, 0, 1))
+        ghost_demand = Line(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, 0), color=MUTED, stroke_width=2).set_z_index(-1)
+        ghost_word = Tex('D', color=CAPTION).scale(CURVE_WORD_SCALE).next_to(ax.c2p(X_END, 0), UR, buff=0.12)
         ghost_word.add_updater(lambda m: m.set_opacity(ghost_fade()))
-        firm_demand = Line(ax.c2p(0, 200), ax.c2p(400, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
-        firm_demand.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, top()), ax.c2p(2 * top(), 0)))
+        firm_demand = Line(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
+        firm_demand.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, top()), ax.c2p(top() + 1e-4, 0)))
         firm_demand_word = Tex('D$_A$', color=INK).scale(CURVE_WORD_SCALE)
-        firm_demand_word.add_updater(lambda m: m.next_to(ax.c2p(2 * top(), 0), UR, buff=0.12).set_opacity(name_fade()))
-        mr_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, top()), ax.c2p(top(), 0)))
-        mr_word.add_updater(lambda m: m.next_to(ax.c2p(top(), 0), UR, buff=0.12).set_opacity(name_fade()))
+        firm_demand_word.add_updater(lambda m: m.next_to(ax.c2p(top(), 0), UR, buff=0.12).set_opacity(name_fade()))
+        mr_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, top()), ax.c2p(top() / 2 + 1e-4, 0)))
+        mr_word.add_updater(lambda m: m.next_to(ax.c2p(top() / 2, 0), UR, buff=0.12).set_opacity(name_fade()))
         mono_dot.add_updater(lambda m: m.move_to(ax.c2p(firm_q(), mc(firm_q()))))
         mono_drop.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(firm_q(), mc(firm_q())), ax.c2p(firm_q(), 0) + DOWN * 1e-4))
         mono_number.add_updater(lambda m: m.set_value(round(firm_q(), 4))
                                 .move_to(ax.c2p(firm_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         firm_symbol = Tex('$q_A^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
         firm_symbol.add_updater(lambda m: m.move_to(ax.c2p(firm_q(), 0) + DOWN * QUANTITY_LABEL_OFFSET))
-        firm_quantity_word = Tex('$q_A$', color=INK).scale(0.8).next_to(ax.c2p(400, 0), DOWN, buff=0.23)
-        # Firm A's demand starts at 200 - q_B/2: its teal intercept rolls with q_B (and fades where it would meet
-        # MC's 20 at the end of the 5.b sweep); the market's 200 turns grey with the ghost demand and shows once
-        # firm A's intercept has moved off it.
-        firm_start = DecimalNumber(200, num_decimal_places=0, color=DEMAND).scale(0.65)
+        firm_quantity_word = Tex('$q_A$', color=INK).scale(0.8).next_to(ax.c2p(X_END, 0), DOWN, buff=0.23)
+        # Firm A's demand starts at 120 - q_B: its teal intercept rolls with q_B (and fades as it nears the origin
+        # at the end of the 5.b sweep); the market's 120 turns grey with the ghost demand and shows once firm A's
+        # intercept has moved off it.
+        firm_start = DecimalNumber(TOP_PRICE, num_decimal_places=0, color=DEMAND).scale(0.65)
         firm_start.add_updater(lambda m: m.set_value(round(top(), 4)).next_to(ax.c2p(0, top()), LEFT, buff=0.15)
                                .set_opacity(name_fade()))
         demand_start.set_color(CAPTION)
@@ -292,16 +297,17 @@ class EpisodeE4(Scene):
         self.add(ghost_word)
         self.pause('4.b.zero')
 
-        # ---- 4.b.seventy_two · Firm B sells 72: firm A's demand and MR slide down; its best quantity falls to 72.
+        # ---- 4.b.seventy_two · Firm B sells 24: firm A's demand and MR slide down; its best quantity falls to 24.
+        # (The beat keeps its name from the sheet's market, where firm B's quantity here was 72.)
         self.remove(note)
-        self.play(q_b.animate.set_value(72), run_time=ROLL_TIME, rate_func=smooth)
+        self.play(q_b.animate.set_value(NASH_Q), run_time=ROLL_TIME, rate_func=smooth)
         note = teaching('Your marginal revenue also depends on how much the other firm sells.')
         self.play(FadeIn(note))
         self.pause('4.b.seventy_two')
 
-        # ---- 4.b · Firm B sells 144: firm A's best quantity falls to 54.
+        # ---- 4.b · Firm B sells 48: firm A's best quantity falls to 18.
         self.remove(note)
-        self.play(q_b.animate.set_value(144), run_time=ROLL_TIME, rate_func=smooth)
+        self.play(q_b.animate.set_value(MARKET_Q), run_time=ROLL_TIME, rate_func=smooth)
         note = teaching('The more the other firm sells, the less you want to sell.')
         self.play(FadeIn(note))
         self.pause('4.b')
@@ -316,13 +322,13 @@ class EpisodeE4(Scene):
         context = subtitle(head, 'The strategies are quantities.')
         br_rows = VGroup(
             MathTex(r'{{\mathrm{MR}_A}} = {{\mathrm{MC}_A}}'),
-            MathTex(r'{{200 - q_A - \tfrac{1}{2}q_B}} = {{20 + q_A}}'),
-            MathTex(r'180 - \tfrac{1}{2}q_B = 2q_A'),
-            MathTex(r'\mathrm{BR}_A:\ q_A = 90 - \tfrac{1}{4}q_B', color=FIRM_A))
+            MathTex(r'{{120 - 2q_A - q_B}} = {{2q_A}}'),
+            MathTex(r'120 - q_B = 4q_A'),
+            MathTex(r'\mathrm{BR}_A:\ q_A = 30 - \tfrac{1}{4}q_B', color=FIRM_A))
         br_rows[0].get_part_by_tex(r'\mathrm{MR}_A').set_color(MR_COLOR)
         br_rows[0].get_part_by_tex(r'\mathrm{MC}_A').set_color(MC_COLOR)
-        br_rows[1].get_part_by_tex(r'200 - q_A - \tfrac{1}{2}q_B').set_color(MR_COLOR)
-        br_rows[1].get_part_by_tex('20 + q_A').set_color(MC_COLOR)
+        br_rows[1].get_part_by_tex('120 - 2q_A - q_B').set_color(MR_COLOR)
+        br_rows[1].get_part_by_tex('2q_A').set_color(MC_COLOR)
         for row, slot in zip(br_rows, slots[2:6]):
             row.scale(ROW_SCALE).move_to([PANEL_X, slot[1], 0])
         q_b_value.clear_updaters()
@@ -344,25 +350,25 @@ class EpisodeE4(Scene):
         self.pause('5.a')
 
         # ---- 5.b.trace · The best-response graph replaces the algebra; one sweep of q_B traces BR_A.
-        br_ax = style_axes([0, 400, 100], [0, 400, 100], x_length=4.6, y_length=4.6)
+        br_ax = style_axes([0, BR_END, 20], [0, BR_END, 20], x_length=4.6, y_length=4.6)
         br_ax.shift(BR_ORIGIN - br_ax.c2p(0, 0))
         br_words = VGroup(
-            Tex('$q_A$', color=INK).scale(0.8).next_to(br_ax.c2p(400, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{firm A}', color=FIRM_A).scale(0.55).next_to(br_ax.c2p(400, 0), DOWN, buff=0.73),
-            Tex('$q_B$', color=INK).scale(0.8).next_to(br_ax.c2p(0, 400), LEFT, buff=0.23),
-            Tex(r'\textsf{firm B}', color=FIRM_B).scale(0.55).next_to(br_ax.c2p(0, 400), RIGHT, buff=0.22))
-        br_a_equation = MathTex(r'\mathrm{BR}_A:\ q_A = 90 - \tfrac{1}{4}q_B', color=FIRM_A).scale(EQUATION_SCALE)
-        br_a_equation.move_to(br_ax.c2p(265, 370))
-        br_point = Dot(br_ax.c2p(90, 0), radius=0.08, color=FIRM_A).set_z_index(31)
+            Tex('$q_A$', color=INK).scale(0.8).next_to(br_ax.c2p(BR_END, 0), DOWN, buff=0.23),
+            Tex(r'\textsf{firm A}', color=FIRM_A).scale(0.55).next_to(br_ax.c2p(BR_END, 0), DOWN, buff=0.73),
+            Tex('$q_B$', color=INK).scale(0.8).next_to(br_ax.c2p(0, BR_END), LEFT, buff=0.23),
+            Tex(r'\textsf{firm B}', color=FIRM_B).scale(0.55).next_to(br_ax.c2p(0, BR_END), RIGHT, buff=0.22))
+        br_a_equation = MathTex(r'\mathrm{BR}_A:\ q_A = 30 - \tfrac{1}{4}q_B', color=FIRM_A).scale(EQUATION_SCALE)
+        br_a_equation.move_to(br_ax.c2p(93, 129))
+        br_point = Dot(br_ax.c2p(MONOPOLY_Q, 0), radius=0.08, color=FIRM_A).set_z_index(31)
         br_point.add_updater(lambda m: m.move_to(br_ax.c2p(firm_q(), q_b.get_value())))
-        br_across = DashedLine(br_ax.c2p(0, 0), br_ax.c2p(90, 0), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
+        br_across = DashedLine(br_ax.c2p(0, 0), br_ax.c2p(MONOPOLY_Q, 0), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
         br_across.add_updater(lambda m: m.put_start_and_end_on(br_ax.c2p(0, q_b.get_value()),
                                                                br_ax.c2p(firm_q(), q_b.get_value()) + RIGHT * 1e-4))
-        br_down = DashedLine(br_ax.c2p(90, 0), br_ax.c2p(90, 0) + UP * 1e-4, color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
+        br_down = DashedLine(br_ax.c2p(MONOPOLY_Q, 0), br_ax.c2p(MONOPOLY_Q, 0) + UP * 1e-4, color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
         br_down.add_updater(lambda m: m.put_start_and_end_on(br_ax.c2p(firm_q(), 0),
                                                              br_ax.c2p(firm_q(), q_b.get_value()) + UP * 1e-4))
-        br_trace = Line(br_ax.c2p(90, 0), br_ax.c2p(90, 0) + UP * 1e-4, color=FIRM_A, stroke_width=CURVE_WIDTH).set_z_index(5)
-        br_trace.add_updater(lambda m: m.put_start_and_end_on(br_ax.c2p(90, 0),
+        br_trace = Line(br_ax.c2p(MONOPOLY_Q, 0), br_ax.c2p(MONOPOLY_Q, 0) + UP * 1e-4, color=FIRM_A, stroke_width=CURVE_WIDTH).set_z_index(5)
+        br_trace.add_updater(lambda m: m.put_start_and_end_on(br_ax.c2p(MONOPOLY_Q, 0),
                                                               br_ax.c2p(firm_q(), q_b.get_value()) + UP * 1e-4))
         br_q_b_number = DecimalNumber(0, num_decimal_places=0, color=GUIDE).scale(PRICE_SCALE)
         br_q_b_number.add_updater(lambda m: m.set_value(round(q_b.get_value(), 4))
@@ -370,7 +376,7 @@ class EpisodeE4(Scene):
         br_q_b_prefix = MathTex(r'q_B =', color=GUIDE).scale(PRICE_SCALE)
         br_q_b_prefix.add_updater(lambda m: m.next_to(br_q_b_number, LEFT, buff=0.12)
                                   .shift(UP * (br_q_b_number.get_y() - m[-1].get_y())))
-        br_q_a_number = DecimalNumber(90, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        br_q_a_number = DecimalNumber(MONOPOLY_Q, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         br_q_a_number.add_updater(lambda m: m.set_value(round(firm_q(), 4))
                                   .move_to(br_ax.c2p(firm_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         br_q_a_symbol = Tex('$q_A^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
@@ -384,12 +390,12 @@ class EpisodeE4(Scene):
         self.add(br_trace)
         self.play(FadeIn(br_point), FadeIn(br_across), FadeIn(br_down), FadeIn(br_q_b_number), FadeIn(br_q_b_prefix),
                   FadeIn(br_q_a_number), FadeIn(br_q_a_symbol))
-        self.play(q_b.animate.set_value(360), run_time=SWEEP_TIME, rate_func=smooth)
-        br_a_word = Tex('BR$_A$', color=INK).scale(CURVE_WORD_SCALE).next_to(br_ax.c2p(0, 360), RIGHT, buff=0.22)
+        self.play(q_b.animate.set_value(LAST_Q_B), run_time=SWEEP_TIME, rate_func=smooth)
+        br_a_word = Tex('BR$_A$', color=INK).scale(CURVE_WORD_SCALE).next_to(br_ax.c2p(0, LAST_Q_B), RIGHT, buff=0.22)
         for m in tracing:
             m.update()
             m.clear_updaters()
-        # The point and its readouts stay through the hold, so q_B = 360 explains the market graph's q_A* = 0.
+        # The point and its readouts stay through the hold, so q_B = 120 explains the market graph's q_A* = 0.
         self.play(FadeIn(br_a_word))
         self.pause('5.b.trace')
 
@@ -399,7 +405,7 @@ class EpisodeE4(Scene):
             m.update()
             m.clear_updaters()
         market_view = [ax, price_word, price_unit, firm_quantity_word, quantity_unit, demand_start, firm_start,
-                       cost_start, ghost_demand, ghost_word, firm_demand, firm_demand_word, mc_line, mc_word, mr_line,
+                       ghost_demand, ghost_word, firm_demand, firm_demand_word, mc_line, mc_word, mr_line,
                        mr_word, mono_dot, mono_drop, mono_number, firm_symbol]
         br_graph = VGroup(br_ax, br_words, br_trace, br_a_word, br_a_equation)
         self.remove(*br_graph)
@@ -418,11 +424,11 @@ class EpisodeE4(Scene):
         self.pause('5.b')
 
         # ---- 5.c · Symmetry: firm B's best response is firm A's mirrored across the 45-degree line.
-        diagonal = DashedLine(br_ax.c2p(0, 0), br_ax.c2p(250, 250), color=MUTED, stroke_width=1.5)
-        symmetry_word = Tex(r'\textsf{symmetry}', color=CAPTION).scale(0.55).next_to(br_ax.c2p(250, 250), RIGHT, buff=0.1)
-        br_b_line = Line(br_ax.c2p(0, 90), br_ax.c2p(360, 0), color=FIRM_B, stroke_width=CURVE_WIDTH).set_z_index(5)
-        br_b_word = Tex('BR$_B$', color=INK).scale(CURVE_WORD_SCALE).next_to(br_ax.c2p(360, 0), UR, buff=0.12)
-        br_b_equation = MathTex(r'\mathrm{BR}_B:\ q_B = 90 - \tfrac{1}{4}q_A', color=FIRM_B).scale(EQUATION_SCALE)
+        diagonal = DashedLine(br_ax.c2p(0, 0), br_ax.c2p(87, 87), color=MUTED, stroke_width=1.5)
+        symmetry_word = Tex(r'\textsf{symmetry}', color=CAPTION).scale(0.55).next_to(br_ax.c2p(87, 87), RIGHT, buff=0.1)
+        br_b_line = Line(br_ax.c2p(0, MONOPOLY_Q), br_ax.c2p(LAST_Q_B, 0), color=FIRM_B, stroke_width=CURVE_WIDTH).set_z_index(5)
+        br_b_word = Tex('BR$_B$', color=INK).scale(CURVE_WORD_SCALE).next_to(br_ax.c2p(LAST_Q_B, 0), UR, buff=0.12)
+        br_b_equation = MathTex(r'\mathrm{BR}_B:\ q_B = 30 - \tfrac{1}{4}q_A', color=FIRM_B).scale(EQUATION_SCALE)
         br_b_equation.next_to(br_a_equation, DOWN, buff=0.22, aligned_edge=LEFT)
         self.play(FadeIn(diagonal), FadeIn(symmetry_word))
         self.play(TransformFromCopy(br_trace, br_b_line), run_time=1.4)
@@ -448,8 +454,8 @@ class EpisodeE4(Scene):
         q_a_slot = br_ax.c2p(NASH_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET
         q_a_unknown = Tex('?', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(q_a_slot)
         q_a_symbol = Tex('$q_A^*$', color=GUIDE).scale(QUANTITY_LABEL_SCALE).move_to(br_ax.c2p(NASH_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)
-        q_a_value = Tex('72', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(q_a_slot)
-        q_b_value_slot = Tex('72', color=GUIDE).scale(PRICE_SCALE).next_to(br_ax.c2p(0, NASH_Q), LEFT, buff=0.2)
+        q_a_value = Tex('24', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(q_a_slot)
+        q_b_value_slot = Tex('24', color=GUIDE).scale(PRICE_SCALE).next_to(br_ax.c2p(0, NASH_Q), LEFT, buff=0.2)
         q_b_unknown = Tex('?', color=GUIDE).scale(PRICE_SCALE).move_to(q_b_value_slot)
         q_b_star = MathTex(r'q_B^* =', color=GUIDE).scale(PRICE_SCALE).next_to(q_b_value_slot, LEFT, buff=0.12)
         q_b_star.shift(UP * (q_b_value_slot.get_y() - q_b_star[-1].get_y()))
@@ -459,15 +465,15 @@ class EpisodeE4(Scene):
                   FadeIn(q_b_unknown), FadeIn(q_b_star))
         self.pause('6.a')
 
-        # ---- 6.b.substitute · The sheet's solve: symmetric firms, so substitute q_B* = q_A* into BR_A.
+        # ---- 6.b.substitute · The sheet's solve on this market: symmetric firms, so substitute q_B* = q_A* into BR_A.
         solve_rows = VGroup(
             VGroup(Tex(r'\textsf{symmetric}', color=CAPTION), MathTex(r'\rightarrow\ q_A^* = q_B^*')).arrange(RIGHT, buff=0.18),
-            MathTex(r'q_A^* = 90 - \tfrac{1}{4}q_A^*'),
-            MathTex(r'\tfrac{5}{4}\,q_A^* = 90'),
-            MathTex(r'q_A^* = 90\cdot\tfrac{4}{5} = {{72}} = q_B^*'),
-            MathTex(r'Q = q_A^* + q_B^* = {{144}}'))
-        solve_rows[3].get_part_by_tex('72').set_color(GUIDE)
-        solve_rows[4].get_part_by_tex('144').set_color(GUIDE)
+            MathTex(r'q_A^* = 30 - \tfrac{1}{4}q_A^*'),
+            MathTex(r'\tfrac{5}{4}\,q_A^* = 30'),
+            MathTex(r'q_A^* = 30\cdot\tfrac{4}{5} = {{24}} = q_B^*'),
+            MathTex(r'Q = q_A^* + q_B^* = {{48}}'))
+        solve_rows[3].get_part_by_tex('24').set_color(GUIDE)
+        solve_rows[4].get_part_by_tex('48').set_color(GUIDE)
         solve_rows.arrange(DOWN, buff=ROW_GAP + 0.08).scale(ROW_SCALE).move_to([SOLVE_X, BODY_MID, 0])
         self.play(FadeOut(nash_definition))
         self.play(FadeIn(solve_rows[0]))
@@ -479,14 +485,14 @@ class EpisodeE4(Scene):
         self.play(FadeIn(solve_rows[3]))
         self.pause('6.b.solve')
 
-        # ---- 6.b · The 72 goes to both axes; both firms together sell 144.
-        self.play(TransformFromCopy(solve_rows[3].get_part_by_tex('72'), q_a_value),
-                  TransformFromCopy(solve_rows[3].get_part_by_tex('72'), q_b_value_slot),
+        # ---- 6.b · The 24 goes to both axes; both firms together sell 48.
+        self.play(TransformFromCopy(solve_rows[3].get_part_by_tex('24'), q_a_value),
+                  TransformFromCopy(solve_rows[3].get_part_by_tex('24'), q_b_value_slot),
                   FadeOut(q_a_unknown), FadeOut(q_b_unknown), run_time=1.2)
         self.play(FadeIn(solve_rows[4]))
         self.pause('6.b')
 
-        # ---- 6.c.price · Back in the market: 144 units, up to demand, across to the price axis.
+        # ---- 6.c.price · Back in the market: 48 units, up to demand, across to the price axis.
         self.remove(head, context)
         head = title('Duopoly')
         context = subtitle(head, 'All firms are similar.')
@@ -494,28 +500,28 @@ class EpisodeE4(Scene):
                      q_b_value_slot, q_b_star)
         self.remove(*br_graph)
         self.add(br_graph)
-        market_demand = Line(ax.c2p(0, 200), ax.c2p(400, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
+        market_demand = Line(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
         demand_start.set_color(DEMAND)
         monopoly_reference = VGroup(
             DashedLine(ax.c2p(MONOPOLY_Q, MONOPOLY_P), ax.c2p(MONOPOLY_Q, 0), color=MUTED, stroke_width=GUIDE_WIDTH),
             DashedLine(ax.c2p(MONOPOLY_Q, MONOPOLY_P), ax.c2p(0, MONOPOLY_P), color=MUTED, stroke_width=GUIDE_WIDTH),
             Dot(ax.c2p(MONOPOLY_Q, MONOPOLY_P), radius=DOT_RADIUS, color=MUTED),
-            Tex('155', color=CAPTION).scale(PRICE_SCALE).next_to(ax.c2p(0, MONOPOLY_P), LEFT, buff=0.2),
-            Tex('90', color=CAPTION).scale(QUANTITY_NUMBER_SCALE).move_to(ax.c2p(MONOPOLY_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            Tex('90', color=CAPTION).scale(PRICE_SCALE).next_to(ax.c2p(0, MONOPOLY_P), LEFT, buff=0.2),
+            Tex('30', color=CAPTION).scale(QUANTITY_NUMBER_SCALE).move_to(ax.c2p(MONOPOLY_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
             Tex(r'\textsf{Monopoly}', color=CAPTION).scale(0.55).next_to(ax.c2p(MONOPOLY_Q, MONOPOLY_P), UR, buff=0.08))
         monopoly_reference.set_z_index(2)
-        market_number = Tex('144', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET)
+        market_number = Tex('48', color=GUIDE).scale(QUANTITY_NUMBER_SCALE).move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_NUMBER_OFFSET)
         market_symbol = Tex('$Q$', color=GUIDE).scale(QUANTITY_LABEL_SCALE).move_to(ax.c2p(MARKET_Q, 0) + DOWN * QUANTITY_LABEL_OFFSET)
         market_rise = DashedLine(ax.c2p(MARKET_Q, 0), ax.c2p(MARKET_Q, MARKET_P), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
         market_dot = Dot(ax.c2p(MARKET_Q, MARKET_P), radius=DOT_RADIUS, color=GUIDE).set_z_index(30)
         market_across = DashedLine(ax.c2p(MARKET_Q, MARKET_P), ax.c2p(0, MARKET_P), color=GUIDE, stroke_width=GUIDE_WIDTH).set_z_index(10)
-        market_price = Tex('$P^*=128$', color=GUIDE).scale(PRICE_SCALE).next_to(ax.c2p(0, MARKET_P), LEFT, buff=0.2)
+        market_price = Tex('$P^*=72$', color=GUIDE).scale(PRICE_SCALE).next_to(ax.c2p(0, MARKET_P), LEFT, buff=0.2)
         self.play(FadeOut(solve_rows), FadeOut(definition_divider), br_graph.animate.shift(-BR_SHIFT),
                   FadeIn(head), FadeIn(context), run_time=1.2)
         self.play(FadeIn(ax), FadeIn(price_word), FadeIn(price_unit), FadeIn(quantity_word), FadeIn(quantity_unit),
                   FadeIn(demand_start), FadeIn(market_demand), FadeIn(demand_word), FadeIn(monopoly_reference))
         self.play(FadeIn(market_number), FadeIn(market_symbol))
-        note = teaching(r'$P = 200 - \tfrac{1}{2}(72 + 72) = 200 - 72 = 128$')
+        note = teaching(r'$P = 120 - (24 + 24) = 120 - 48 = 72$')
         self.play(Create(market_rise), GrowFromCenter(market_dot), FadeIn(note))
         self.play(Create(market_across), FadeIn(market_price))
         self.pause('6.c.price')
@@ -529,7 +535,7 @@ class EpisodeE4(Scene):
         # ---- 7.a · Next time: more sellers, further down the demand curve.
         self.remove(head, context, note)
         head = title('Next Time')
-        along = (ax.c2p(400, 0) - ax.c2p(0, 200)) / np.linalg.norm(ax.c2p(400, 0) - ax.c2p(0, 200))
+        along = (ax.c2p(X_END, 0) - ax.c2p(0, TOP_PRICE)) / np.linalg.norm(ax.c2p(X_END, 0) - ax.c2p(0, TOP_PRICE))
         above = np.array([-along[1], along[0], 0])
         hint = Arrow(ax.c2p(MARKET_Q, MARKET_P) + along * 0.35 + above * 0.28,
                      ax.c2p(MARKET_Q, MARKET_P) + along * 1.9 + above * 0.28,
