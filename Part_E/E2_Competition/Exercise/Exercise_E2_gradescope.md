@@ -17,25 +17,45 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `Choosing Output`
+## Q1: `Choosing Quantity`
 
 ```
-Use Q1 on the Exercise E2 handout. The competitive firm has TC = 1000 + q^2 and MC = 2q. The market price is 80. ATC at the profit-maximizing quantity is 65.
+The animation’s competitive firm has cost functions TC = 1000 + q^2 and MC = 2q. The market price is P = 80. ATC at the profit-maximizing quantity is 65.
 ```
 
-### Q1.1: `a) What is marginal revenue?`
+### Q1.1: `a) Total revenue from selling 20 units:`
+
+```
+[____](=1600+-0)
+```
+
+### Q1.2: `a) Total revenue selling 21 units:`
+
+```
+[____](=1680+-0)
+```
+
+### Q1.3: `a) What is marginal revenue?`
 
 ```
 [____](=80+-0)
 ```
 
-### Q1.2: `b) How much should the firm produce?`
+### Q1.4: `b) What quantity maximizes the firm's profit?`
 
 ```
 [____](=40+-0)
 ```
 
-### Q1.3: `c) What is economic profit at that output?`
+### Q1.5: `b) Why not 30 or 50 units?`
+
+```
+(x) At 30, MC is below MR, so producing more raises profit; at 50, MC is above MR, so producing less raises profit
+( ) At 30, MC is above MR, so producing less raises profit; at 50, MC is below MR, so producing more raises profit
+( ) The firm earns a loss at both 30 and 50 units
+```
+
+### Q1.6: `c) What is the firm's maximal profit?`
 
 ```
 [____](=600+-0)
@@ -74,18 +94,10 @@ Use Q2 on the handout. The price is now 40 and the best positive output is 20. T
 ## Q3: `A Higher Marginal Cost`
 
 ```
-Use Q3 and your graphs. Initially identical firms earn zero economic profit. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
+Use Q3 and your graphs. Every firm’s marginal costs go up. Initially identical firms earn zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
 ```
 
-### Q3.1: `a) Which cost curves change?`
-
-```
-( ) ATC rises; MC and AVC are unchanged
-(x) ATC, MC, and AVC all shift up by the same amount
-( ) MC rises; ATC and AVC are unchanged
-```
-
-### Q3.2: `a) What happens in the short run, before firms exit?`
+### Q3.1: `a) What happens to price, each firm's output, and profit after the new cost, before firms exit?`
 
 ```
 (x) Market supply shifts in; price rises, output per firm falls, and firms make losses
@@ -93,7 +105,7 @@ Use Q3 and your graphs. Initially identical firms earn zero economic profit. Eve
 ( ) Price rises by the full extra cost per unit, so profit immediately stays zero
 ```
 
-### Q3.3: `b) Which changes occur in the long run, compared with before the cost increase? Select all that apply.`
+### Q3.2: `b) What happens in the long run, compared with before the cost increase? Select all that apply.`
 
 ```
 [x] The market price is higher
@@ -101,25 +113,4 @@ Use Q3 and your graphs. Initially identical firms earn zero economic profit. Eve
 [x] Each surviving firm returns to its original output
 [x] Total market output is lower
 [x] There are fewer firms
-[x] Marginal cost is higher at every output
-```
-
-### Q3.4: `b) What stops exit?`
-
-```
-(x) Price reaches minimum ATC on the new cost curve, restoring zero economic profit
-( ) Price returns to its original level
-( ) Fixed cost returns to its original level
-```
-
-## Q4: `Explain the Adjustment`
-
-```
-This concept check uses Q3c on the handout. Grade by hand for completion.
-```
-
-### Q4.1: `Explain how total market output can fall even though each remaining firm returns to its original output.`
-
-```
-|____|
 ```

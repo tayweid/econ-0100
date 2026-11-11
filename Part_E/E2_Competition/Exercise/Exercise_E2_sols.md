@@ -4,7 +4,7 @@ plass:
   number-equations: false
 ---
 
-# ECON 0100 | Exercise E2 | Competition
+# ECON 0100 | Exercise E2 | Competitive Firms
 
 ::: solution
 
@@ -14,23 +14,28 @@ plass:
 
 *Answers and work are shown in the red blocks.*
 
-Use the animation’s competitive firm: $TC = 1000 + q^2$ and $MC = 2q$. Costs include opportunity costs. Answer alone, then compare with a neighbor.
+## Q1 | Choosing Quantity
 
-## Q1 | Choosing Output
+The animation’s competitive firm has cost functions: $TC = 1000 + q^2$ and $MC = 2q$.
 
-a\) The market price is 80. Find total revenue from selling 20 units and from selling 21 units. What is marginal revenue? Explain why it equals the price.
+a\) If the market price is $P = 80$, find:
 
-b\) At that price, how much should the firm produce? Explain why it should increase output from 30 units but decrease output from 50 units.
+- Total revenue from selling 20 units: $TR_{20}$
+- Total revenue selling 21 units: $TR_{21}$
 
-c\) Calculate the firm’s profit at its chosen quantity. (*Hint: $ATC$ at the profit-maximizing quantity is 65.*)
+What is marginal revenue?
+
+b\) At $P = 80$, what quantity maximizes the firm’s profit? Why not 30 or 50 units?
+
+c\) Calculate the firm’s maximal profit. (*Hint: $ATC$ at the profit-maximizing quantity is 65.*)
 
 ::: solution
 
-**a)** Revenue is 1600 at 20 units and 1680 at 21; marginal revenue is 80. **b)** Produce 40 units. **c)** Economic profit is 600.
+**a)** $TR_{20} = 1600$, $TR_{21} = 1680$, and marginal revenue is 80. **b)** 40 units. **c)** The maximal profit is 600.
 
-**a)** $TR = Pq$, so $TR(20) = 80(20) = 1600$ and $TR(21) = 80(21) = 1680$. The additional unit adds $1680 - 1600 = 80$ to revenue. The firm takes the market price as given: selling one more unit does not lower the price received on its other units.
+**a)** $TR = Pq$, so $TR_{20} = 80(20) = 1600$ and $TR_{21} = 80(21) = 1680$. The additional unit adds $MR = TR_{21} - TR_{20} = 80$ to revenue, which is the price. The firm takes the market price as given: selling one more unit does not lower the price received on its other units.
 
-**b)** At 30 units, $MC = 60 < MR = 80$, so increasing output raises profit. At 50 units, $MC = 100 > MR = 80$, so decreasing output raises profit. On rising MC, the best positive output satisfies $2q = 80$, giving $q = 40$.
+**b)** Profit is highest where $MC = MR$: $2q = 80$, giving $q = 40$. Not 30 units: there $MC = 60 < MR = 80$, so another unit adds more revenue than cost and increasing output raises profit. Not 50 units: there $MC = 100 > MR = 80$, so the last units cost more than they bring in and decreasing output raises profit. As a check, profit is $80(30) - 1900 = 500$ at 30 units and $80(50) - 3500 = 500$ at 50 units, both below the 600 at 40.
 
 **c)** Using the supplied $ATC = 65$, profit is $q(P - ATC) = 40(80 - 65) = 600$. Equivalently, $TR = 80(40) = 3200$ and $TC = 1000 + 40^2 = 2600$, so profit is $3200 - 2600 = 600$. It is positive, so operating is better than shutting down.
 
@@ -64,11 +69,11 @@ c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What 
 
 ## Q3 | A Higher Marginal Cost
 
-Start with identical firms earning zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
+Now suppose every firm’s marginal costs go up. Start with identical firms earning zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
 
-a\) Show the initial equilibrium and the new cost curves. With the number of firms initially fixed, how does market supply change? What happens to price, each firm’s output, and profit?
+a\) What happens to price, each firm’s output, and profit after the new cost?
 
-b\) Show the adjustment as firms enter or exit. Compared with before the cost increase, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment?
+b\) What happens in the long run to price, each remaining firm’s output, total market output, and the number of firms?
 
 :::: {.columns gutter=1em}
 
@@ -90,17 +95,15 @@ b\) Show the adjustment as firms enter or exit. Compared with before the cost in
 
 ::::
 
-c\) Explain how total market output can fall even though each remaining firm returns to its original output.
-
 \newpage
 
 ::: solution
 
-**a)** MC, AVC, and ATC shift up by the same amount. Short-run market supply shifts up/in: price rises, market output and output per firm fall, and firms make losses. **b)** Firms exit. In the new long-run equilibrium price is higher, each survivor produces its original quantity, and total output and the number of firms are lower. Exit stops at zero economic profit. **c)** With output per firm back at its original level, fewer firms mean less total output.
+**a)** Price rises, but by less than the extra cost; each firm’s output falls; and profit falls from zero to a loss. **b)** Price is higher, by the full extra cost; each remaining firm’s output is back at its original level; total market output is lower; and there are fewer firms.
 
-**Short run, before exit.** Write the extra cost per unit as $t$. Then $TC_1 = 1000 + q^2 + tq$, $MC_1 = 2q + t$, $AVC_1 = q + t$, and $ATC_1 = q + 1000/q + t$. All three per-unit cost curves shift upward in parallel by $t$. With the same number of firms, market supply also shifts upward by $t$. The new market price rises by less than $t$ along downward-sloping demand, so each firm reduces its output. Price remains below the new minimum ATC, so firms make losses. They continue operating because price covers AVC at the chosen positive output.
+**a) Short run, before exit.** Write the extra cost per unit as $t$. Then $TC_1 = 1000 + q^2 + tq$, $MC_1 = 2q + t$, $AVC_1 = q + t$, and $ATC_1 = q + 1000/q + t$. All three per-unit cost curves shift upward in parallel by $t$. With the same number of firms, market supply also shifts upward by $t$. The new market price rises by less than $t$ along downward-sloping demand, so each firm reduces its output. Price remains below the new minimum ATC, so firms make losses. They continue operating because price covers AVC at the chosen positive output.
 
-**After exit.** Losses induce exit, shifting market supply farther inward and raising price. Exit stops at $P_1 = \min ATC_1 = 2\sqrt{1000} + t$. Adding a constant to ATC raises its minimum without changing the quantity at that minimum, so $q_1 = q_0 = \sqrt{1000}$. Survivors expand from their short-run output back to their original scale. Demand is lower at the higher price, and $N = Q/q$ is lower because $q$ returns to its original level.
+**b) Long run, after exit.** Losses induce exit, shifting market supply farther inward and raising price. Exit stops at $P_1 = \min ATC_1 = 2\sqrt{1000} + t$. Adding a constant to ATC raises its minimum without changing the quantity at that minimum, so $q_1 = q_0 = \sqrt{1000}$. Survivors expand from their short-run output back to their original scale. Quantity demanded is lower at the higher price, so total market output $Q$ is lower. Since $Q = Nq$ and each remaining firm is back at its original $q$, the whole fall in total output comes from having fewer firms: $N = Q/q$ is lower.
 
 :::
 
@@ -127,8 +130,6 @@ c\) Explain how total market output can fall even though each remaining firm ret
 ::: solution
 
 Black shows the original equilibrium, grey dashed curves show the short-run market supply after the cost increase, and red shows the new long-run equilibrium after exit. The firm's MC and ATC both shift up. Its long-run output returns to the same $q_0$, at a higher price. The figures use an illustrative uniform per-unit increase; no numerical shock calculation is required.
-
-**c)** $Q = Nq$. Each remaining firm returns to its original output, so the fall in total quantity comes from having fewer firms.
 
 :::
 

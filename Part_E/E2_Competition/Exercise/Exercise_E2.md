@@ -35,13 +35,11 @@ c\) Return to the profitable price of 80 in Q1. Would firms enter or exit? What 
 
 ## Q3 | A Higher Marginal Cost
 
-Now suppose every firm’s marginal costs go up.
+Now suppose every firm’s marginal costs go up. Start with identical firms earning zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
 
-{++ Start with identical firms earning zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free. ++}
+a\) What happens to price, each firm’s output, and profit after the new cost?
 
-~~a\) Show the initial equilibrium and the immediate effect of the expense on costs. What happens immediately to price, each firm’s output, and profit?~~ {++ a\) Show the initial equilibrium and the new cost curves. With the number of firms initially fixed, how does market supply change? What happens to price, each firm’s output, and profit? ++}
-
-~~b\) Show the adjustment as firms enter or exit. Compared with before the expense, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment?~~ {++ b\) Show the adjustment as firms enter or exit. Compared with before the cost increase, what happens in the long run to price, each remaining firm’s output, total market output, and the number of firms? What stops the adjustment? ++}
+b\) What happens in the long run to price, each remaining firm’s output, total market output, and the number of firms?
 
 :::: {.columns gutter=1em}
 
@@ -62,8 +60,6 @@ Now suppose every firm’s marginal costs go up.
 :::
 
 ::::
-
-~~c\) Explain how fewer firms can each produce more while the market produces less in total.~~ {++ c\) Explain how total market output can fall even though each remaining firm returns to its original output. ++}
 
 <!--
 // GRAPH CODE: keep this note. It draws the embedded graphs in order.

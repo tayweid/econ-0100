@@ -62,15 +62,16 @@ class EpisodeE2(Scene):
 
         # The model, as one-line functions (q one firm's output in units, Q market output in thousands).
         FIXED = 1000
-        total = lambda q: FIXED + q ** 2
-        mc = lambda q: 2 * q
-        avc = lambda q: q
-        atc = lambda q: q + FIXED / q
+        policy_cost = ValueTracker(0)                            # stays zero until the spinach-policy closer
+        total = lambda q: FIXED + q ** 2 + policy_cost.get_value() * q
+        mc = lambda q: 2 * q + policy_cost.get_value()
+        avc = lambda q: q + policy_cost.get_value()
+        atc = lambda q: q + FIXED / q + policy_cost.get_value()
         FIRM_P, LONG_RUN_P = 100, 2 * np.sqrt(FIXED)              # 100, and 63.25 where MC = ATC
         ATC_TOP = 118                                              # ATC is drawn from where it comes down to 118
         ATC_START = (ATC_TOP - np.sqrt(ATC_TOP ** 2 - 4 * FIXED)) / 2
         market_q = lambda p: 1.5 * (120 - p)                       # D: P = 120 - 2Q/3, from the axis at 120
-        supply_slope = lambda p: p / market_q(p)                  # identical firms' MC sums horizontally: entry flattens S through the origin
+        supply_slope = lambda p: (p - policy_cost.get_value()) / market_q(p)  # entry/exit change the slope; unit cost sets the price intercept
         START_Q = 20
 
         teaching = lambda text: Tex(text, color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -152,9 +153,10 @@ class EpisodeE2(Scene):
         DEMAND_END = 110                                           # D stops short of the axis end so its name clears the firm's P
         market_demand = Line(market_ax.c2p(0, 120), market_ax.c2p(DEMAND_END, 120 - 2 * DEMAND_END / 3), color=DEMAND, stroke_width=CURVE_WIDTH)
         demand_word = Tex('D', color=DEMAND).scale(CURVE_WORD_SCALE).next_to(market_ax.c2p(DEMAND_END, 120 - 2 * DEMAND_END / 3), RIGHT, buff=0.12)
-        # Supply pivots at the origin and passes through the market equilibrium; clip its far end to the graph bounds.
-        supply_top_q = lambda p: min(MARKET_Q_MAX, CURVE_TOP / supply_slope(p))
-        supply_ends = lambda p: (market_ax.c2p(0, 0), market_ax.c2p(supply_top_q(p), supply_slope(p) * supply_top_q(p)))
+        # Supply pivots about its price intercept and passes through equilibrium; unit cost is zero until the closer.
+        supply_top_q = lambda p: min(MARKET_Q_MAX, (CURVE_TOP - policy_cost.get_value()) / supply_slope(p))
+        supply_ends = lambda p: (market_ax.c2p(0, policy_cost.get_value()), market_ax.c2p(
+            supply_top_q(p), policy_cost.get_value() + supply_slope(p) * supply_top_q(p)))
         market_supply = Line(*supply_ends(FIRM_P), color=SUPPLY, stroke_width=CURVE_WIDTH)
         supply_word = Tex('S', color=SUPPLY).scale(CURVE_WORD_SCALE).next_to(supply_ends(FIRM_P)[1], RIGHT, buff=0.12)
         checklist = VGroup()
@@ -973,6 +975,33 @@ class EpisodeE2(Scene):
         self.play(FadeIn(shutdown_loss_outline), FadeIn(shutdown_loss_label), FadeIn(shutdown_zero), FadeIn(shutdown_caption), run_time=0.5)
         self.pause('3.e.shutdown')
 
+        # ---- 3.e.exercise.a · Compare operating and shutting down at the exercise's price of 40.
+        exercise_q2a_label = Tex(r'Exercise E2 \textbar{} Q2a', color=DEFINITION).scale(EXERCISE_SCALE)
+        exercise_q2a_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
+        exercise_q2a_context = Tex(
+            r'\begin{minipage}{32em}\sffamily\raggedright '
+            r'At a price of 40, the best positive output is 20 units.\\'
+            r'Fixed cost is unavoidable this period but avoidable in\\'
+            r'future periods by leaving the industry.\end{minipage}', color=CAPTION,
+        ).scale(EXERCISE_CONTEXT_SCALE)
+        exercise_q2a_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
+        exercise_q2a_question = Tex(
+            r'\begin{minipage}{30em}\raggedright '
+            r'Calculate profit from operating and from shutting down\\'
+            r'this period. Which should the firm choose?\end{minipage}', color=INK,
+        ).scale(EXERCISE_SCALE)
+        exercise_q2a_question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
+            exercise_q2a_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
+        exercise_q2a_marker = Tex(r'$\bullet$', color=INK).scale(EXERCISE_SCALE)
+        exercise_q2a_marker.next_to(exercise_q2a_question, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
+        exercise_q2a_text = VGroup(exercise_q2a_label, exercise_q2a_context, exercise_q2a_question,
+                                  exercise_q2a_marker).set_z_index(101)
+        self.play(FadeIn(exercise_ground), run_time=0.4)
+        self.play(FadeIn(exercise_q2a_text), run_time=0.4)
+        self.pause('3.e.exercise.a')
+        self.play(FadeOut(exercise_q2a_text), run_time=0.3)
+        self.play(FadeOut(exercise_ground), run_time=0.4)
+
         # ---- 3.g.supply.zero · Begin at zero, then trace each price/quantity choice along MC.
         original_selection = [price_line, price_guide, price_word, price_number, firm_dot, atc_dot, q_drop, q_number, q_star]
         self.remove(note)
@@ -1314,7 +1343,7 @@ class EpisodeE2(Scene):
 
         # ---- 3.a · Switch the teaching text immediately, then move the complete firm directly beside the returning market.
         self.remove(context, note)
-        context = subtitle(head, 'Entry and exit: long run dynamics.')
+        context = subtitle(head, 'Long run dynamics: entry and exit.')
         note = teaching('The price comes from the market.')
         self.add(context, note)
         alt_leaving = [alt_graph, variation_divider, alt_min_atc, alt_min_avc, alt_break_guide, alt_shutdown_guide,
@@ -1350,6 +1379,39 @@ class EpisodeE2(Scene):
                   *[FadeIn(m) for m in market_marks if m is not price_bridge], run_time=1.6, rate_func=smooth)
         self.pause('3.a')
 
+        # ---- 3.a.avc · Recall the short-run gap before entry: AVC sits below ATC on this same firm graph.
+        avc_line.put_start_and_end_on(firm_ax.c2p(0, 0), firm_ax.c2p(FIRM_Q_MAX, avc(FIRM_Q_MAX)))
+        avc_line.set_stroke(opacity=1)
+        avc_word.next_to(avc_line.get_end(), RIGHT, buff=0.15).set_opacity(1)
+        atc_curve.set_z_index(1)
+        atc_word.set_z_index(2)
+        self.remove(note)
+        note = teaching('In the short run, fixed costs put ATC above AVC.')
+        self.play(FadeIn(avc_line), FadeIn(avc_word), FadeIn(note))
+        self.pause('3.a.avc')
+
+        # ---- 3.a.long_run · E1's motion: each AVC point rises at fixed q until all total cost is variable.
+        self.remove(note)
+        note = teaching('In the long run, all costs are variable.')
+        avc_tail = Line(firm_ax.c2p(0, 0), firm_ax.c2p(ATC_START, avc(ATC_START)),
+                        color=AVC_COLOR, stroke_width=CURVE_WIDTH)
+        avc_line.set_points_as_corners([firm_ax.c2p(q, avc(q)) for q in np.geomspace(ATC_START, FIRM_Q_MAX, 240)])
+        self.add(avc_tail)
+        self.play(FadeOut(avc_tail), FadeIn(note), run_time=0.6)
+        long_run_fixed = ValueTracker(FIXED)
+        avc_line.add_updater(lambda m: m.set_points_as_corners(
+            [firm_ax.c2p(q, avc(q) + (FIXED - long_run_fixed.get_value()) / q)
+             for q in np.geomspace(ATC_START, FIRM_Q_MAX, 240)]))
+        avc_word.add_updater(lambda m: m.next_to(
+            firm_ax.c2p(FIRM_Q_MAX, avc(FIRM_Q_MAX) + (FIXED - long_run_fixed.get_value()) / FIRM_Q_MAX), RIGHT, buff=0.15))
+        self.play(long_run_fixed.animate.set_value(0), run_time=SWEEP_TIME, rate_func=smooth)
+        for m in (avc_line, avc_word):
+            m.update()
+            m.clear_updaters()
+        self.remove(long_run_fixed)
+        self.play(FadeOut(avc_line), FadeOut(avc_word), run_time=0.6)
+        self.pause('3.a.long_run')
+
         # ---- 3.d.entry · Entry: supply pivots outward around the origin, the price falls to 80, and the firm's line and box follow.
         self.remove(note)
         note = teaching('With profit, more firms enter, pivoting the supply curve outward.')
@@ -1366,7 +1428,7 @@ class EpisodeE2(Scene):
 
         # ---- 3.f.loss · Revisit the low-price market to explain the separate long-run exit response.
         self.remove(note)
-        note = teaching('When price is low firms make a negative profit, called a loss.')
+        note = teaching('When price is low firms make a loss.')
         self.play(FadeIn(note))
         self.play(price.animate.set_value(LOSS_P), quantity.animate.set_value(LOSS_P / 2), run_time=ROLL_TIME, rate_func=smooth)
         self.pause('3.f.loss')
@@ -1384,19 +1446,108 @@ class EpisodeE2(Scene):
         self.play(FadeIn(note), Indicate(lowest_atc, color=FOCUS, scale_factor=1.6))
         self.pause('3.f')
 
-        # ---- 4.a · Next time: the market and the readouts leave; the firm stays, and its flat line gives way to a sloped D.
-        leaving = [price_word, q_drop, q_number, q_star, profit_box, profit_name, loss_name, *measure_marks, *market_marks,
-                   market_supply, supply_word]
-        for m in leaving + [price_line, price_guide, firm_dot]:
-            m.update()
-            m.clear_updaters()
-        self.remove(head, context, note)
-        head = title('Next Time')
-        note = teaching('What happens to Marginal Revenue when demand slopes down?')
-        self.play(*[FadeOut(m) for m in leaving], FadeOut(market_ax), FadeOut(market_words), FadeOut(market_demand),
-                  FadeOut(demand_word), FadeOut(lowest_atc), run_time=0.8)
-        sloped = Line(firm_ax.c2p(0, 120), firm_ax.c2p(60, 0), color=DEMAND, stroke_width=CURVE_WIDTH)
-        sloped_word = Tex('D', color=DEMAND).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(60, 0), UR, buff=0.12)
-        self.play(FadeIn(head), FadeOut(price_line), FadeOut(price_guide), FadeOut(firm_dot), FadeIn(sloped), FadeIn(sloped_word), FadeOut(firm_label),
-                  FadeIn(note), run_time=1.6)
+        # ---- 3.f.exercise.b · Revisit the same loss after distinguishing long-run exit from shutdown.
+        exercise_q2b_label = Tex(r'Exercise E2 \textbar{} Q2b', color=DEFINITION).scale(EXERCISE_SCALE)
+        exercise_q2b_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
+        exercise_q2b_context = exercise_q2a_context.copy()
+        exercise_q2b_question = Tex(
+            r'\begin{minipage}{30em}\raggedright '
+            r'If this price persists, should the firm stay in the industry\\'
+            r'in the long run? Explain why this answer can differ from (a).\end{minipage}', color=INK,
+        ).scale(EXERCISE_SCALE)
+        exercise_q2b_question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
+            exercise_q2b_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
+        exercise_q2b_marker = Tex(r'$\bullet$', color=INK).scale(EXERCISE_SCALE)
+        exercise_q2b_marker.next_to(exercise_q2b_question, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
+        exercise_q2b_text = VGroup(exercise_q2b_label, exercise_q2b_context, exercise_q2b_question,
+                                  exercise_q2b_marker).set_z_index(101)
+        self.play(FadeIn(exercise_ground), run_time=0.4)
+        self.play(FadeIn(exercise_q2b_text), run_time=0.4)
+        self.pause('3.f.exercise.b')
+
+        # ---- 3.f.exercise.c · Retrieve entry and its market effects at the profitable price from Q1.
+        exercise_q2c_label = Tex(r'Exercise E2 \textbar{} Q2c', color=DEFINITION).scale(EXERCISE_SCALE)
+        exercise_q2c_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
+        exercise_q2c_context = Tex(r'\sffamily Return to the profitable price of 80 in Q1.', color=CAPTION).scale(EXERCISE_CONTEXT_SCALE)
+        exercise_q2c_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
+        exercise_q2c_question = Tex(
+            r'\begin{minipage}{30em}\raggedright '
+            r'Would firms enter or exit?\\'
+            r'What happens to market supply and price?\end{minipage}', color=INK,
+        ).scale(EXERCISE_SCALE)
+        exercise_q2c_question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
+            exercise_q2c_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
+        exercise_q2c_marker = Tex(r'$\bullet$', color=INK).scale(EXERCISE_SCALE)
+        exercise_q2c_marker.next_to(exercise_q2c_question, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
+        exercise_q2c_text = VGroup(exercise_q2c_label, exercise_q2c_context, exercise_q2c_question,
+                                  exercise_q2c_marker).set_z_index(101)
+        self.play(FadeOut(exercise_q2b_text), run_time=0.3)
+        self.play(FadeIn(exercise_q2c_text), run_time=0.4)
+        self.pause('3.f.exercise.c')
+        self.play(FadeOut(exercise_q2c_text), run_time=0.3)
+        self.play(FadeOut(exercise_ground), run_time=0.4)
+
+        # ---- 4.a · Return to the spinach question on the same zero-profit market and firm.
+        POLICY_COST = 30                                        # illustrative dollars per unit, not a measured policy estimate
+        POLICY_SLOPE = supply_slope(LONG_RUN_P)                 # fixed number of firms during the initial cost increase
+        POLICY_SHORT_P = (120 * POLICY_SLOPE + 2 * POLICY_COST / 3) / (POLICY_SLOPE + 2 / 3)
+        # The exercise asks for directions of change, so keep only symbolic readouts in this closer.
+        market_price.clear_updaters()
+        market_price.remove(*market_price.submobjects)
+        market_price.add(Tex('$P^*$', color=GUIDE).scale(0.65))
+        market_price.add_updater(lambda m: m.next_to(market_ax.c2p(0, price.get_value()), LEFT, buff=0.2))
+        market_price.update()
+        q_number.clear_updaters()
+        self.remove(q_number)
+        q_star.clear_updaters()
+        q_star.add_updater(lambda m: m.move_to(
+            firm_ax.c2p(quantity.get_value(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
+        q_star.update()
+        policy_original = VGroup(market_supply.copy(), mc_line.copy(), atc_curve.copy())
+        policy_original.clear_updaters()
+        policy_original.set_stroke(MUTED, opacity=0.35).set_z_index(-1)
+        self.add(policy_original)
+        # Reuse the curves and readouts; clip the visible endpoints as costs rise within the same axes.
+        policy_atc_start = lambda: ((ATC_TOP - policy_cost.get_value()) - np.sqrt(
+            (ATC_TOP - policy_cost.get_value()) ** 2 - 4 * FIXED)) / 2
+        mc_line.add_updater(lambda m: m.put_start_and_end_on(
+            firm_ax.c2p(0, mc(0)), firm_ax.c2p((CURVE_TOP - policy_cost.get_value()) / 2, CURVE_TOP)))
+        mc_word.add_updater(lambda m: m.next_to(mc_line.get_end(), RIGHT, buff=0.15))
+        atc_curve.add_updater(lambda m: m.set_points_as_corners([
+            firm_ax.c2p(q, atc(q)) for q in np.geomspace(policy_atc_start(), FIRM_Q_MAX, 240)]))
+        atc_word.add_updater(lambda m: m.next_to(atc_curve.get_start(), RIGHT, buff=0.15))
+        lowest_atc.clear_updaters()
+        lowest_atc.add_updater(lambda m: m.move_to(firm_ax.c2p(np.sqrt(FIXED), atc(np.sqrt(FIXED)))))
+        self.remove(context, note)
+        context = subtitle(head, 'The spinach market: a higher cost per unit.')
+        note = teaching('Suppose the safety policy raises the cost of each unit.')
+        self.play(FadeIn(context), FadeIn(note))
         self.pause('4.a')
+
+        # ---- 4.b.cost · With the same firms, a uniform unit cost shifts supply up in parallel.
+        self.remove(note)
+        note = teaching('Higher costs shift MC, ATC, and market supply upward.')
+        self.play(FadeIn(note))
+        self.play(policy_cost.animate.set_value(POLICY_COST), price.animate.set_value(POLICY_SHORT_P),
+                  quantity.animate.set_value((POLICY_SHORT_P - POLICY_COST) / 2), run_time=SWEEP_TIME, rate_func=smooth)
+        self.pause('4.b.cost')
+
+        # ---- 4.c.loss · The price increase is smaller than the added cost; the remaining gap is a loss.
+        self.remove(note)
+        note = teaching('Price rises, but firms still make a loss.')
+        self.play(FadeIn(note))
+        self.pause('4.c.loss')
+
+        # ---- 4.d.exit · Exit pivots supply about the new cost intercept until the shifted minimum ATC is covered.
+        self.remove(note)
+        note = teaching('Losses lead firms to exit; price rises until profit is zero.')
+        self.play(FadeIn(note))
+        self.play(price.animate.set_value(LONG_RUN_P + POLICY_COST), quantity.animate.set_value(np.sqrt(FIXED)),
+                  run_time=SWEEP_TIME, rate_func=smooth)
+        self.pause('4.d.exit')
+
+        # ---- 4.e · Resolve the opener: unchanged output per survivor, fewer firms, and lower total output.
+        self.remove(note)
+        note = teaching('Each firm returns to its original output; fewer firms remain.')
+        self.play(FadeIn(note))
+        self.pause('4.e')

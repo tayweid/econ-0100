@@ -202,14 +202,16 @@ Why don’t we choose at the minimum of ATC? 
 <!--
 Animation playback update: shutdown now precedes entry and exit. The lecture prose, section headings, and timing table below still need the author's reconciliation to this order. Existing beat IDs remain stable when moved.
 
-Playback order after 2.f.exercise.c: 3.short_run → 3.short_run.zero → 3.d → 3.e.avc → 3.e.fc → 3.e.vc → 3.e.revenue → 3.e → 3.e.shutdown → 3.g.supply.zero → 3.g.loss_range → 3.g.break_even → 3.g.profit_range → 3.g.supply → 3.g.compare → 3.g.alt.profit → 3.g.alt.break_even → 3.g.alt.loss → 3.g.alt.threshold → 3.g.alt.below → 3.g.alt.costs → 3.g.alt.fixed_only → 3.g.alt.shutdown → 3.a → 3.d.entry → 3.d.zero → 3.f.loss → 3.f.exit → 3.f.
+Playback order after 2.f.exercise.c: 3.short_run → 3.short_run.zero → 3.d → 3.e.avc → 3.e.fc → 3.e.vc → 3.e.revenue → 3.e → 3.e.shutdown → 3.g.supply.zero → 3.g.loss_range → 3.g.break_even → 3.g.profit_range → 3.g.supply → 3.g.compare → 3.g.alt.profit → 3.g.alt.break_even → 3.g.alt.loss → 3.g.alt.threshold → 3.g.alt.below → 3.g.alt.costs → 3.g.alt.fixed_only → 3.g.alt.shutdown → 3.a → 3.a.avc → 3.a.long_run → 3.d.entry → 3.d.zero → 3.f.loss → 3.f.exit → 3.f.
 
 |   |   |
 | --- | --- |
 | 3.short_run | Keep the firm centered at price 100 and quantity 50, with the market hidden. Fade the ATC axis readout and guide so it cannot overlap price at break-even; retain the purple ATC dot and blue MR dot. Subtitle: “Profit, loss, and the short-run shutdown decision.” Yellow note: “When price is above Average Total Cost, the firm makes a profit.” |
 | 3.short_run.zero | Lower price smoothly to about 63.25 and quantity to about 31.62. Add the grey minimum-ATC dot, anchored to the moving firm graph. The profit area closes to zero. Yellow note: “When price equals Average Total Cost, the firm breaks even.” |
 
-Not built in this pass: the spinach per-unit-cost policy closer.
+Exercise pauses interrupt this playback without changing the underlying graphs: 3.e.exercise.a follows 3.e.shutdown, and 3.f.exercise.b → 3.f.exercise.c follow 3.f. They use the same full-screen graphite cover, gold exercise heading, grey sans-serif setup, and white serif prompts as Q1. No solutions appear on screen.
+
+The spinach per-unit-cost policy closer follows 3.f.exercise.c as 4.a → 4.b.cost → 4.c.loss → 4.d.exit → 4.e. It replaces the former Next Time animation; the author’s prose and lecture timing table still need reconciliation.
 -->
 
 ## Entry and Exit
@@ -219,7 +221,9 @@ At this price, the firm is making a profit, which is nice for them. But profit i
 <!--
 |   |   |
 | --- | --- |
-| 3.a | Immediately switch the subtitle to “Entry and exit: long run dynamics.” and the yellow note to “The price comes from the market.” Remove the second graph, divider, both firms’ price-range marks, supply traces, and the original firm’s AVC without separate exit animations. Restore the original firm’s hidden selection directly at price 100 and quantity 50, with MR, colored dots, the profit area, and yellow measurements. In one 1.6-second move, slide the complete original firm directly from the left comparison position to its final right-hand position while the existing market and its marks fade in. Center Market and Firm over their respective axes at the same height; show only Q\* beneath the market quantity guide, without a number or units caption. The connecting price guide follows the moving firm. No intermediate recentering, price sweep, or separate readout reveals. Keep the purple ATC dot visible and following the chosen quantity throughout the remaining animation, including at the minimum of ATC. Keep the blue MR dot at that same quantity on MR; when the dots coincide, show the purple center with a blue rim so both remain visible. |
+| 3.a | Immediately switch the subtitle to “Long run dynamics: entry and exit.” and the yellow note to “The price comes from the market.” Remove the second graph, divider, both firms’ price-range marks, supply traces, and the original firm’s AVC without separate exit animations. Restore the original firm’s hidden selection directly at price 100 and quantity 50, with MR, colored dots, the profit area, and yellow measurements. In one 1.6-second move, slide the complete original firm directly from the left comparison position to its final right-hand position while the existing market and its marks fade in. Center Market and Firm over their respective axes at the same height; show only Q\* beneath the market quantity guide, without a number or units caption. The connecting price guide follows the moving firm. No intermediate recentering, price sweep, or separate readout reveals. Keep the purple ATC dot visible and following the chosen quantity throughout the remaining animation, including at the minimum of ATC. Keep the blue MR dot at that same quantity on MR; when the dots coincide, show the purple center with a blue rim so both remain visible. |
+| 3.a.avc | After the market connection and before entry, reveal the original pink AVC line on the firm graph at its current right-hand position, with its ordinary outside label. Keep price at 100, quantity at 50, and all existing market, firm, profit-area, and dot positions fixed. Yellow note: “In the short run, fixed costs put ATC above AVC.” |
+| 3.a.long_run | Repeat E1’s long-run treatment: switch the yellow note to “In the long run, all costs are variable.” Fade the small-output AVC tail below ATC’s visible domain. Over four seconds, transfer the fixed portion from 1000 to zero, raising each AVC point at the same quantity by (1000 − remaining fixed cost)/q until AVC coincides with the unchanged ATC curve. Draw the purple ATC curve and its original upper-left label above AVC throughout. The pink AVC label follows the right endpoint during the rise. Once the upward motion stops, fade out the AVC curve and its label together over 0.6 seconds, leaving the original ATC curve and label for entry and exit. The market, MC, MR, and profit area do not move during this explanation. |
 -->
 
 The demand curve is just the willingness to pay of many people all added together. And the supply curve is the willingness to sell of many sellers all added together. We find equilibrium by intersecting the supply and demand curves. This is where the price for the firm comes from. But profit is nice for everyone, so new firms open up to get in on some of that profit. New firms means the supply curve pivots out. More firms are willing to sell at each price.
@@ -300,6 +304,12 @@ Prose/timing reconciliation remains pending; the existing author text is unchang
 
 ### Whiteboard | Exercise Q2a
 
+<!--
+|   |   |
+| --- | --- |
+| 3.e.exercise.a | Immediately after 3.e.shutdown and before the original supply trace, cover both comparison panels with the existing graphite exercise ground. Gold heading: “Exercise E2 ∣ Q2a”. Grey setup: “At a price of 40, the best positive output is 20 units. Fixed cost is unavoidable this period but avoidable in future periods by leaving the industry.” White prompt: “Calculate profit from operating and from shutting down this period. Which should the firm choose?” Hold for board work, then fade the prompt and cover to reveal the unchanged comparison before continuing to 3.g.supply.zero. Use Q1’s heading, setup, indentation, and font scales; wrap the longer text. |
+-->
+
 Compare operating with shutting down.
 
 ## Long Run
@@ -309,7 +319,7 @@ In the long run, if price is below the firm’s ATC, they’re making a loss in 
 <!--
 |   |   |
 | --- | --- |
-| 3.f.loss | After entry reaches zero profit, pivot supply outward to price 50 and firm quantity 25 to set up the exit comparison. Yellow note: “When price is low firms make a negative profit, called a loss.” |
+| 3.f.loss | After entry reaches zero profit, pivot supply outward to price 50 and firm quantity 25 to set up the exit comparison. Yellow note: “When price is low firms make a loss.” |
 | 3.f.exit | Exit pivots supply inward around the origin, increasing its slope; price rises from 50 to about 63.25. Yellow note: “With a loss, firms exit, pivoting the supply curve inward.” |
 -->
 
@@ -331,6 +341,13 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 
 ### Whiteboard | Exercise Q2b–c
 
+<!--
+|   |   |
+| --- | --- |
+| 3.f.exercise.b | After 3.f, cover the equilibrium graphs with the same exercise ground. Gold heading: “Exercise E2 ∣ Q2b”. Repeat Q2a’s grey setup so the price of 40 and the avoidability of future fixed costs are explicit. White prompt: “If this price persists, should the firm stay in the industry in the long run? Explain why this answer can differ from (a).” Hold for board work without showing a solution. |
+| 3.f.exercise.c | Keep the graph covered and switch to gold “Exercise E2 ∣ Q2c”. Grey setup: “Return to the profitable price of 80 in Q1.” White prompt: “Would firms enter or exit? What happens to market supply and price?” Hold for board work, then fade the text and cover to restore the unchanged zero-profit equilibrium before the policy closer at 4.a. |
+-->
+
 Entry or exit, and the effect on price.
 
 ### Whiteboard | Exercise Q3
@@ -348,9 +365,15 @@ Entry or exit, and the effect on price.
 Resume to `4.a`: “What happens to Marginal Revenue when demand slopes down?”
 
 <!--
+Spinach policy closer, replacing the former Next Time scene. Keep the existing market and firm graphs in place after the zero-profit equilibrium at 3.f. Use symbolic price and quantity labels throughout this closer, matching the qualitative exercise question. The numerical values below specify internal geometry only and are not displayed. Use an illustrative $30 cost on each unit: TC = 1000 + q² + tq, MC = 2q + t, and ATC = q + 1000/q + t. Fixed cost and demand do not change. Preserve all earlier beats and author prose.
+
 |   |   |
 | --- | --- |
-| 4.a | Remove the market and replace the firm’s flat price line with downward-sloping demand. The blue MR dot and red dashed price guide leave together with the flat line. |
+| 4.a | Keep “Competitive Markets” and both graphs. Replace the subtitle with “The spinach market: a higher cost per unit.” Yellow note: “Suppose the safety policy raises the cost of each unit.” Start at the existing zero-profit equilibrium, P ≈ 63.25 and q ≈ 31.62. Replace the numerical price and firm quantity readouts with P\* and q\*, retaining Q\* on the market graph. Keep these symbols beside their moving guides throughout the closer. Retain faint grey copies of the original supply, MC, and ATC curves for comparison. Reuse the existing colored curves, labels, MR, guides, dots, and profit/loss area. |
+| 4.b.cost | Yellow note: “Higher costs shift MC, ATC, and market supply upward.” Over four seconds, raise the per-unit cost from 0 to 30, keeping the number of firms fixed. MC and ATC shift up by the same amount; market supply shifts up in parallel by 30, with its price intercept rising from 0 to 30. Move equilibrium continuously along unchanged demand: price rises to about 77.43, market quantity falls by 25%, and each firm’s chosen quantity falls to about 23.72. MR, its blue dot, the purple ATC dot, and the red guides follow; the loss area grows to \$437.50. Clip cost curves at their existing top boundaries, keep MC and S labels to their right and ATC at its upper-left endpoint, and move the grey minimum-ATC dot upward with ATC. |
+| 4.c.loss | Hold the short-run outcome with the red loss region visible. Yellow note: “Price rises, but firms still make a loss.” Price remains above short-run AVC at the chosen output; this is an exit incentive rather than an immediate shutdown. |
+| 4.d.exit | Yellow note: “Losses lead firms to exit; price rises until profit is zero.” Keep the extra unit cost at 30. Over four seconds, pivot supply inward around its new price intercept of 30. Raise price to about 93.25 and each surviving firm’s quantity back to about 31.62. The loss area shrinks to zero as MR meets the shifted minimum ATC. Total market quantity falls further; keep only Q\* on the market quantity axis. |
+| 4.e | Hold the new long-run equilibrium and the faint original curves. Yellow note: “Each firm returns to its original output; fewer firms remain.” The final price is 30 higher, each surviving firm produces its original quantity, total market output is lower, and economic profit is zero. End here, with no Next Time title or downward-sloping firm-demand preview. |
 -->
 
 [^1]: Source: [UC Small Farms Network](https://ucanr.edu/program/uc-small-farms-network/growers-report-food-safety-costs).
