@@ -538,7 +538,7 @@ let’s look at a referendum
 
 Simulation E | Production Functions
 
-The simulation steps and post-class notes have moved to [Episode E0 | Overview](Part_E/E0_Sellers/01_Notes.md).
+The simulation steps and post-class notes have moved to [Episode E0 | Overview](Part_E/E0_Sellers/E0_Notes.md).
 
 ## Class 21 | Wed | Nov. 4
 

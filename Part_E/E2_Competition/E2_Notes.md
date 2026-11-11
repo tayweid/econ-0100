@@ -258,7 +258,9 @@ Firms earning a loss will shut down in the short run if price is below their AVC
 | 3.e.avc | Still in the short-run sequence, add AVC below price with its pink dot at quantity 25. Yellow note: “Is operating with a loss better than shutting down and paying the Fixed Cost?” |
 -->
 
-The firm needs to decide whether operating with a loss is better than shutting down and still paying this period’s fixed cost.
+The firm needs to decide whether operating with a loss is better than shutting down and still paying this period’s fixed cost. 
+
+> *There might be a better way of doing this with AVC directly, just saying that we have fixed costs either way. All we need to do is cover the Variable Costs with Total Revenue. But it’s pretty good as it is.*
 
 <!--
 |   |   |
@@ -268,7 +270,7 @@ The firm needs to decide whether operating with a loss is better than shutting d
 | 3.e.revenue | Draw one teal outline around all Total Revenue: from zero to quantity 25 and from the baseline to price 50, with a faint blue tint on the unit bars inside it and a white TR label inside the box, just above the AVC guide. Reduce the pink VC fill to 0.08 and its strokes to 0.25; fade both VC and FC labels, keeping the grey fixed-cost band in place. Keep the price readout hidden, MR dim, and ATC and AVC highlighted. Pause before labeling the remaining region. Yellow note: “Revenue covers all Variable Costs and part of the Fixed Cost.” |
 -->
 
-Here, the price is above average variable cost. By operating, the firm earns enough to cover its variable costs and part of its fixed cost. It loses 375 instead of the full fixed cost of 1000. So it keeps operating.
+Here, the price is above average variable cost. By operating, the firm earns enough to cover its variable costs and part of its fixed cost. So it keeps operating.
 
 <!--
 |   |   |

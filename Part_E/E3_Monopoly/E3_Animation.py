@@ -1,7 +1,8 @@
 # maniml E3_Animation.py EpisodeE3
 # Storyboard: E3_Notes.md. All lesson choreography stays in construct().
-# Monopoly on the old 5.3/5.4 model (MonopolisticComp): demand P = 100 - Q/2, MR = 100 - Q, MC = q,
-# ATC = q/2 + 1000/q. MR = MC at q* = 50, P* = 75, ATC* = 45, profit 1,500; Q_sp = 200/3 where MC meets demand.
+# Monopoly on E1 and E2's firm: TC = 1000 + q^2, MC = 2q, ATC = q + 1000/q. Demand P = 120 - Q/2, MR = 120 - Q.
+# MR = MC at q* = 40, P* = 100, ATC* = 65, profit 1,400; Q_sp = 48 where MC meets demand. (Until 2026-11-11 this
+# ran on the old 5.3/5.4 model, MC = q and D: P = 100 - Q/2; that build is in _archive/2026-11-11_consolidation/.)
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
@@ -48,28 +49,30 @@ class EpisodeE3(Scene):
         # Top-level z order (the engine sorts top-level mobjects by z_index): fills under curves, the government's
         # band over profit, then curves, words, guides and dots. A group's set_z_index does not set its children's.
         FILL_LAYER, GOV_LAYER, CURVE_LAYER, POLICY_LAYER, WORD_LAYER, GUIDE_LAYER, DOT_LAYER = -3, -2, 0, 1, 6, 10, 30
-        # Layout: the market graph on the left, D drawn to its foot at 200 so MR visibly ends at half of it;
-        # the side panel right of C2's grey divider.
+        # Layout: the market graph on the left, 0 to 120 units: MR runs to its foot at 120, where demand is still
+        # at 60, half its starting height (demand's own foot, 240, is off the graph); the side panel right of C2's
+        # grey divider.
         GRAPH_ORIGIN = np.array([-5.5, BODY_MID - 2.15, 0])
-        X_LENGTH, Y_LENGTH, Y_TOP = 6.8, 4.6, 120
+        X_LENGTH, Y_LENGTH, X_END, Y_TOP = 6.8, 4.6, 120, 140
         DIVIDER_X, PANEL_LEFT, WORK_INDENT = 2.45, 2.75, 0.25
         ROLL_TIME, SWEEP_TIME = 2.4, 4.0
-        # Curve ends: MC to (110, 110); ATC from its 110 level to q = 140; the dashed policy curves end inside the
-        # graph so their names never meet the solid curves' names.
-        MC_END, ATC_TO, POLICY_TOP = 110, 140, 110
+        # Curve ends: MC to (60, 120); ATC from its 118 level to q = 85; the dashed policy MC runs up to 134, above
+        # MC's own name, and the dashed policy ATC stops there too.
+        MC_END, ATC_TO, POLICY_TOP = 60, 85, 134
         # Taxonomy grid (E4's object): a label column and two cell columns; a header row and three seller rows.
         LABEL_W, CELL_W, HEADER_H, CELL_H, TAXONOMY_X = 2.9, 3.3, 0.8, 1.25, 0.4
 
-        # The model (MonopolisticComp), as one-line functions of quantity.
+        # The model (E1 and E2's firm, and this episode's demand), as one-line functions of quantity.
         FIXED_COST = 1000
-        demand = lambda Q, a=2: 100 - Q / a
-        marginal_revenue = lambda Q, a=2: 100 - 2 * Q / a
-        mc = lambda q: q
-        atc = lambda q: q / 2 + FIXED_COST / q
-        ATC_FROM = 9.6                                  # ATC(9.6) = 109, just under MC's top
-        FIRST_Q, STEP_Q, LAST_Q = 20, 10, 90           # section 2: the notes' two points; the sweep's end
-        LOW_ALPHA = 4 / 3                               # section 4: demand pivots down, q* 50 -> 40
-        TAX, LUMP_SUM, SUBSIDY, LUMP_WITH_SUBSIDY = 20, 1000, 100 / 3, 3000
+        TOP_PRICE = 120                                 # demand's and MR's start on the price axis
+        demand = lambda Q, a=2: TOP_PRICE - Q / a
+        marginal_revenue = lambda Q, a=2: TOP_PRICE - 2 * Q / a
+        mc = lambda q: 2 * q
+        atc = lambda q: q + FIXED_COST / q
+        ATC_FROM = 9.2                                  # ATC(9.2) = 118, just under demand's start
+        FIRST_Q, STEP_Q, LAST_Q = 20, 10, 90           # section 2: the notes' two quantities; the sweep's end
+        LOW_ALPHA = 1                                   # section 4: demand pivots down to P = 120 - Q, q* 40 -> 30
+        TAX, LUMP_SUM, SUBSIDY, LUMP_WITH_SUBSIDY = 30, 1000, 24, 2000   # the tax is E2's spinach cost; 24 reaches Q_sp
 
         teaching = lambda text: Tex(text, color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
         dashed = lambda start, end, color: DashedLine(start, end + UP * 1e-4, color=color, stroke_width=GUIDE_WIDTH)
@@ -78,7 +81,7 @@ class EpisodeE3(Scene):
         squares = bumper_raster(self)
         flicker(self, squares)
         episode = bumper_title(self, squares, 'E', 3)
-        thesis = Tex(r'\textit{The fewer sellers, the worse.}', color=CAPTION).scale(0.9)
+        thesis = Tex(r'\textit{Market power breaks the efficiency of markets.}', color=CAPTION).scale(0.9)
         thesis.next_to(episode, DOWN, buff=0.55)
         self.play(FadeIn(thesis))
         self.pause('0.a')
@@ -127,25 +130,25 @@ class EpisodeE3(Scene):
         self.pause('1.a')
 
         # ---- 1.b · The graph: MC and ATC from the production function, with their rows beside it.
-        ax = style_axes([0, 200, 50], [0, Y_TOP, 20], x_length=X_LENGTH, y_length=Y_LENGTH)
+        ax = style_axes([0, X_END, 20], [0, Y_TOP, 20], x_length=X_LENGTH, y_length=Y_LENGTH)
         ax.shift(GRAPH_ORIGIN - ax.c2p(0, 0))
         axis_words = VGroup(
             Tex('P', color=INK).scale(0.8).next_to(ax.c2p(0, Y_TOP), LEFT, buff=0.23),
             Tex(r'\textsf{\$/unit}', color=CAPTION).scale(0.55).next_to(ax.c2p(0, Y_TOP), RIGHT, buff=0.22),
-            Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(200, 0), DOWN, buff=0.23),
-            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(ax.c2p(200, 0), DOWN, buff=0.73))
-        mc_line = Line(ax.c2p(0, 0), ax.c2p(MC_END, MC_END), color=MC_COLOR, stroke_width=CURVE_WIDTH).set_z_index(CURVE_LAYER)
+            Tex('Q', color=INK).scale(0.8).next_to(ax.c2p(X_END, 0), DOWN, buff=0.23),
+            Tex(r'\textsf{units}', color=CAPTION).scale(0.55).next_to(ax.c2p(X_END, 0), DOWN, buff=0.73))
+        mc_line = Line(ax.c2p(0, 0), ax.c2p(MC_END, mc(MC_END)), color=MC_COLOR, stroke_width=CURVE_WIDTH).set_z_index(CURVE_LAYER)
         atc_curve = polyline([ax.c2p(q, atc(q)) for q in np.geomspace(ATC_FROM, ATC_TO, 200)],
                              ATC_COLOR, CURVE_WIDTH).set_z_index(CURVE_LAYER)
-        mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(MC_END, MC_END), RIGHT, buff=0.15)
+        mc_word = Tex('MC', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(MC_END, mc(MC_END)), RIGHT, buff=0.15)
         atc_word = Tex('ATC', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(ATC_TO, atc(ATC_TO)), RIGHT, buff=0.15)
         # One subtitle from 1.b to 6.d: it stays in place while the titles change around it.
         context = subtitle(head, 'One seller, many buyers.')
         divider = Line([DIVIDER_X, 2.3, 0], [DIVIDER_X, -3.0, 0], color=MUTED, stroke_width=1.5)
         # The model rows, one fixed slot each: costs first (1.b), then demand (1.c).
-        mc_row = MathTex(r'\mathrm{MC} = q', color=MC_COLOR)
-        atc_row = MathTex(r'\mathrm{ATC} = \tfrac{1}{2}q + 1000/q', color=ATC_COLOR)
-        demand_row = MathTex(r'\mathrm{D}\colon P = 100 - \tfrac{1}{2}Q', color=DEMAND)
+        mc_row = MathTex(r'\mathrm{MC} = 2q', color=MC_COLOR)
+        atc_row = MathTex(r'\mathrm{ATC} = q + 1000/q', color=ATC_COLOR)
+        demand_row = MathTex(r'\mathrm{D}\colon P = 120 - \tfrac{1}{2}Q', color=DEMAND)
         model_rows = VGroup(mc_row, atc_row, demand_row).scale(ROW_SCALE).arrange(DOWN, buff=ROW_GAP + 0.1, aligned_edge=LEFT)
         model_rows.move_to([PANEL_LEFT, 1.2, 0], aligned_edge=LEFT)
         self.remove(note)
@@ -157,10 +160,12 @@ class EpisodeE3(Scene):
         self.pause('1.b')
 
         # ---- 1.c · Demand: the monopolist faces the whole market's downward-sloping demand.
-        demand_line = Line(ax.c2p(0, 100), ax.c2p(200, 0), color=DEMAND, stroke_width=CURVE_WIDTH).set_z_index(CURVE_LAYER)
-        # Demand's name rides just above its lower end (its foot is too close to the divider for C4's foot label).
-        demand_word = Tex('D / MB', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(170, demand(170)), UR, buff=0.1)
-        demand_start = Tex('$100$', color=DEMAND).scale(0.65).next_to(ax.c2p(0, 100), LEFT, buff=0.15)
+        demand_line = Line(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, demand(X_END)), color=DEMAND, stroke_width=CURVE_WIDTH).set_z_index(CURVE_LAYER)
+        # Demand's name sits under the line where demand is at 64, near the graph's right edge: the policy curves'
+        # names take the room above it. It slides along the line when demand pivots (4.a).
+        demand_word_at = lambda a=2: ax.c2p((TOP_PRICE - 64) * a, 64)
+        demand_word = Tex('D / MB', color=INK).scale(CURVE_WORD_SCALE).next_to(demand_word_at(), DOWN, buff=0.16)
+        demand_start = Tex('$120$', color=DEMAND).scale(0.65).next_to(ax.c2p(0, TOP_PRICE), LEFT, buff=0.15)
         self.remove(note)
         note = teaching('Unlike competitive firms, a monopolist faces downward-sloping demand.')
         self.play(FadeIn(demand_line), FadeIn(demand_word), FadeIn(demand_start), FadeIn(demand_row), FadeIn(note))
@@ -169,17 +174,17 @@ class EpisodeE3(Scene):
         # ---- 2.a · Marginal revenue: its definition joins demand in the panel; the cost rows step aside.
         self.remove(head, note)
         head = title('Marginal Revenue')
-        mr_row = MathTex(r'\mathrm{MR} = 100 - Q', color=MR_COLOR)
+        mr_row = MathTex(r'\mathrm{MR} = 120 - Q', color=MR_COLOR)
         mr_definition = MathTex(r'{{\mathrm{MR}}} = \Delta \mathrm{TR} \,/\, \Delta Q')
         mr_definition.get_part_by_tex(r'\mathrm{MR}').set_color(MR_COLOR)
-        tr_one_row = MathTex(r'{{\mathrm{TR}_1}} = 90 \times 20 = 1{,}800')
-        tr_two_row = MathTex(r'{{\mathrm{TR}_2}} = 85 \times 30 = 2{,}550')
-        change_row = MathTex(r'\Delta \mathrm{TR} = {{10 \times 85}} - {{20 \times 5}} = 750')
-        mr_value_row = MathTex(r'{{\mathrm{MR}}} = 750 \,/\, 10 = {{75}}')
-        change_row.get_part_by_tex(r'10 \times 85').set_color(DEMAND)
+        tr_one_row = MathTex(r'{{\mathrm{TR}_1}} = 110 \times 20 = 2{,}200')
+        tr_two_row = MathTex(r'{{\mathrm{TR}_2}} = 105 \times 30 = 3{,}150')
+        change_row = MathTex(r'\Delta \mathrm{TR} = {{10 \times 105}} - {{20 \times 5}} = 950')
+        mr_value_row = MathTex(r'{{\mathrm{MR}}} = 950 \,/\, 10 = {{95}}')
+        change_row.get_part_by_tex(r'10 \times 105').set_color(DEMAND)
         change_row.get_part_by_tex(r'20 \times 5').set_color(GUIDE)
         mr_value_row.get_part_by_tex(r'\mathrm{MR}').set_color(MR_COLOR)
-        mr_value_row.get_part_by_tex('75').set_color(MR_COLOR)
+        mr_value_row.get_part_by_tex('95').set_color(MR_COLOR)
         revenue_rows = VGroup(demand_row.copy(), mr_row, mr_definition, tr_one_row, tr_two_row, change_row, mr_value_row)
         for row in revenue_rows[1:]:
             row.scale(ROW_SCALE)
@@ -193,7 +198,7 @@ class EpisodeE3(Scene):
         self.play(FadeIn(mr_definition), FadeIn(note))
         self.pause('2.a')
 
-        # ---- 2.b.first · The first of the notes' two points on demand: 20 units at 90, and its revenue.
+        # ---- 2.b.first · The first of the notes' two points on demand: 20 units at 110, and its revenue.
         first_q, step_q = ValueTracker(FIRST_Q), ValueTracker(0)
         q_one = lambda: first_q.get_value()
         q_two = lambda: first_q.get_value() + step_q.get_value()
@@ -221,13 +226,13 @@ class EpisodeE3(Scene):
 
         # Revenue at the first point is P1 x Q1; at the second it keeps the common part, loses the price cut on
         # the first Q1 units (red) and gains the new units at the new price (strong teal).
-        revenue_common = strip_group(100, DEMAND, PROFIT_OPACITY, FILL_LAYER)
+        revenue_common = strip_group(LAST_Q, DEMAND, PROFIT_OPACITY, FILL_LAYER)
         revenue_common.span = lambda: (0, q_one())
         revenue_common.low, revenue_common.high = (lambda x: 0), (lambda x: demand(q_two()))
-        revenue_loss = strip_group(100, GUIDE, SURPLUS_OPACITY, FILL_LAYER)
+        revenue_loss = strip_group(LAST_Q, GUIDE, SURPLUS_OPACITY, FILL_LAYER)
         revenue_loss.span = lambda: (0, q_one())
         revenue_loss.low, revenue_loss.high = (lambda x: demand(q_two())), (lambda x: demand(q_one()))
-        revenue_gain = strip_group(101, DEMAND, SURPLUS_OPACITY, FILL_LAYER)
+        revenue_gain = strip_group(LAST_Q + STEP_Q + 1, DEMAND, SURPLUS_OPACITY, FILL_LAYER)
         revenue_gain.span = lambda: (q_one(), q_two())
         revenue_gain.low, revenue_gain.high = (lambda x: 0), (lambda x: demand(q_two()))
         revenue_strips = [revenue_common, revenue_loss, revenue_gain]
@@ -237,10 +242,10 @@ class EpisodeE3(Scene):
         # Each point: a teal dot on demand, a red drop to its quantity, a teal guide to its price.
         dot_one = Dot(ax.c2p(FIRST_Q, demand(FIRST_Q)), radius=DOT_RADIUS, color=DEMAND).set_z_index(DOT_LAYER)
         dot_one.add_updater(lambda m: m.move_to(ax.c2p(q_one(), demand(q_one()))))
-        drop_one = dashed(ax.c2p(FIRST_Q, 0), ax.c2p(FIRST_Q, 90), GUIDE).set_z_index(GUIDE_LAYER)
+        drop_one = dashed(ax.c2p(FIRST_Q, 0), ax.c2p(FIRST_Q, demand(FIRST_Q)), GUIDE).set_z_index(GUIDE_LAYER)
         drop_one.add_updater(lambda m: m.become(dashed(ax.c2p(q_one(), 0), ax.c2p(q_one(), demand(q_one())), GUIDE))
                              .set_z_index(GUIDE_LAYER))
-        across_one = dashed(ax.c2p(0, 90), ax.c2p(FIRST_Q, 90), DEMAND).set_z_index(GUIDE_LAYER)
+        across_one = dashed(ax.c2p(0, demand(FIRST_Q)), ax.c2p(FIRST_Q, demand(FIRST_Q)), DEMAND).set_z_index(GUIDE_LAYER)
         across_one.add_updater(lambda m: m.become(dashed(ax.c2p(0, demand(q_one())), ax.c2p(q_one(), demand(q_one())), DEMAND))
                                .set_z_index(GUIDE_LAYER))
         dot_two = dot_one.copy().clear_updaters()
@@ -253,10 +258,10 @@ class EpisodeE3(Scene):
                                .set_z_index(GUIDE_LAYER))
         # Readouts: prices on the price axis (the second nudged down when the two are close), quantities as two rows.
         price_gap = lambda: ax.c2p(0, demand(q_one()))[1] - ax.c2p(0, demand(q_two()))[1]
-        price_one = VGroup(MathTex('P_1=', color=DEMAND), DecimalNumber(90, num_decimal_places=0, color=DEMAND)).scale(PRICE_SCALE)
+        price_one = VGroup(MathTex('P_1=', color=DEMAND), DecimalNumber(110, num_decimal_places=0, color=DEMAND)).scale(PRICE_SCALE)
         price_one.add_updater(lambda m: (m[1].set_value(round(demand(q_one()), 4)), m.arrange(RIGHT, buff=0.1),
                                          m.next_to(ax.c2p(0, demand(q_one())), LEFT, buff=0.2)))
-        price_two = VGroup(MathTex('P_2=', color=DEMAND), DecimalNumber(90, num_decimal_places=0, color=DEMAND)).scale(PRICE_SCALE)
+        price_two = VGroup(MathTex('P_2=', color=DEMAND), DecimalNumber(110, num_decimal_places=0, color=DEMAND)).scale(PRICE_SCALE)
         price_two.add_updater(lambda m: (m[1].set_value(round(demand(q_two()), 4)), m.arrange(RIGHT, buff=0.1),
                                          m.next_to(ax.c2p(0, demand(q_two())), LEFT, buff=0.2)
                                          .shift(DOWN * max(0, 0.36 - price_gap()))))
@@ -286,7 +291,7 @@ class EpisodeE3(Scene):
         self.add(*revenue_strips)
         self.pause('2.b.first')
 
-        # ---- 2.b.second · The second point rides demand from 20 to 30: the price falls from 90 to 85.
+        # ---- 2.b.second · The second point rides demand from 20 to 30: the price falls from 110 to 105.
         tr_two_row.move_to(revenue_slots[4], aligned_edge=LEFT)
         tr_two_row.get_part_by_tex(r'\mathrm{TR}_2').set_color(DEMAND)
         for m in (dot_two, drop_two, across_two):
@@ -307,9 +312,9 @@ class EpisodeE3(Scene):
         self.play(FadeIn(change_row), Indicate(revenue_loss, color=FOCUS, scale_factor=1.0), FadeIn(note))
         self.pause('2.b.split')
 
-        # ---- 2.b · MR for this step: 750 over 10 units, a pink dot halfway between the two quantities.
+        # ---- 2.b · MR for this step: 950 over 10 units, a pink dot halfway between the two quantities.
         arc_mr = lambda: (marginal_revenue(q_one() + step_q.get_value() / 2))
-        mr_dot = Dot(ax.c2p(25, 75), radius=DOT_RADIUS, color=MR_COLOR).set_z_index(DOT_LAYER)
+        mr_dot = Dot(ax.c2p(25, 95), radius=DOT_RADIUS, color=MR_COLOR).set_z_index(DOT_LAYER)
         mr_dot.add_updater(lambda m: m.move_to(ax.c2p(q_one() + step_q.get_value() / 2, arc_mr())))
         mr_value_row.move_to(revenue_slots[6], aligned_edge=LEFT)
         self.remove(note)
@@ -318,9 +323,9 @@ class EpisodeE3(Scene):
         self.pause('2.b')
 
         # ---- 2.c.trace · One sweep moves the pair along demand; the MR dot traces the marginal revenue curve.
-        mr_trace = Line(ax.c2p(25, 75), ax.c2p(25, 75) + RIGHT * 1e-4, color=MR_COLOR, stroke_width=CURVE_WIDTH)
+        mr_trace = Line(ax.c2p(25, 95), ax.c2p(25, 95) + RIGHT * 1e-4, color=MR_COLOR, stroke_width=CURVE_WIDTH)
         mr_trace.set_z_index(CURVE_LAYER)
-        mr_trace.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(25, 75), ax.c2p(q_one() + STEP_Q / 2, arc_mr()) + RIGHT * 1e-4))
+        mr_trace.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(25, 95), ax.c2p(q_one() + STEP_Q / 2, arc_mr()) + RIGHT * 1e-4))
         for m in (price_one, price_two, quantity_one, quantity_two):
             m.clear_updaters()
         self.remove(note)
@@ -332,33 +337,33 @@ class EpisodeE3(Scene):
         self.play(FadeIn(note))
         self.pause('2.c.trace')
 
-        # ---- 2.c · The whole MR curve: from demand's start at 100 down to zero at 100 units, half of demand's 200.
-        mr_line = Line(ax.c2p(0, 100), ax.c2p(100, 0), color=MR_COLOR, stroke_width=CURVE_WIDTH).set_z_index(CURVE_LAYER)
-        mr_word = Tex('MR', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(100, 0), UR, buff=0.12)
+        # ---- 2.c · The whole MR curve: from demand's start at 120 down to zero at 120 units, half of demand's 240.
+        mr_line = Line(ax.c2p(0, TOP_PRICE), ax.c2p(TOP_PRICE, 0), color=MR_COLOR, stroke_width=CURVE_WIDTH).set_z_index(CURVE_LAYER)
+        mr_word = Tex('MR', color=INK).scale(CURVE_WORD_SCALE).next_to(ax.c2p(TOP_PRICE, 0), UR, buff=0.12)
         mr_row.move_to(revenue_slots[1], aligned_edge=LEFT)
         window = [dot_one, drop_one, across_one, dot_two, drop_two, across_two, mr_dot, *revenue_strips]
         for m in window + [mr_trace]:
             m.clear_updaters()
         self.remove(note)
-        note = teaching('MR starts with demand at 100 and falls twice as fast.')
+        note = teaching('MR starts with demand at 120 and falls twice as fast.')
         self.play(*[FadeOut(m) for m in window], FadeIn(mr_line), FadeIn(mr_word), FadeIn(mr_row), run_time=1.2)
         self.remove(mr_trace)
         self.play(FadeIn(note))
         self.pause('2.c')
 
-        # ---- 3.a · The monopolist's problem: the firm's card in the panel; step 1, MR = MC, gives q* = 50.
+        # ---- 3.a · The monopolist's problem: the firm's card in the panel; step 1, MR = MC, gives q* = 40.
         # From here one set of trackers drives every mark: demand (alpha, the old code's demand share), the
         # per-unit tax, the subsidy, the lump-sum tax, and an offset from the best quantity (3.e).
         alpha, tax, subsidy, lump, offset = [ValueTracker(v) for v in (2, 0, 0, 0, 0)]
         rise = ValueTracker(0)                           # 3.b: the quantity guide rises from MR = MC to demand
-        best_q = lambda: alpha.get_value() * (100 - tax.get_value() + subsidy.get_value()) / (alpha.get_value() + 2)
+        best_q = lambda: alpha.get_value() * (TOP_PRICE - tax.get_value() + subsidy.get_value()) / (2 * alpha.get_value() + 2)
         chosen_q = lambda: best_q() + offset.get_value()
         price_now = lambda: demand(chosen_q(), alpha.get_value())
         cost_shift = lambda q: tax.get_value() - subsidy.get_value() + lump.get_value() / q
         policy_mc = lambda q: mc(q) + tax.get_value() - subsidy.get_value()
         policy_atc = lambda q: atc(q) + cost_shift(q)
         profit_now = lambda: (price_now() - policy_atc(chosen_q())) * chosen_q()
-        efficient_q = lambda: 100 * alpha.get_value() / (alpha.get_value() + 1)
+        efficient_q = lambda: TOP_PRICE * alpha.get_value() / (2 * alpha.get_value() + 1)
         guide_top = lambda: policy_mc(best_q()) + rise.get_value() * (price_now() - policy_mc(best_q()))
 
         self.remove(head, note)
@@ -372,16 +377,16 @@ class EpisodeE3(Scene):
         step_three = MathTex(r'3.\enspace q^* \rightarrow {{\mathrm{ATC}}} \rightarrow \mathrm{ATC}^*')
         step_three.get_part_by_tex(r'\mathrm{ATC}').set_color(ATC_COLOR)
         step_four = MathTex(r'4.\enspace \pi^* = (P^* - \mathrm{ATC}^*)\cdot q^*')
-        work_one = MathTex(r'{{q}} = {{100 - q}}, \text{ so } {{q^* = 50}}')
-        work_one.get_part_by_tex('q').set_color(MC_COLOR)
-        work_one.get_part_by_tex('100 - q').set_color(MR_COLOR)
-        work_one.get_part_by_tex('q^* = 50').set_color(GUIDE)
-        work_two = MathTex(r'P^* = 100 - \tfrac{1}{2}\cdot 50 = {{75}}')
-        work_two.get_part_by_tex('75').set_color(DEMAND)
-        work_three = MathTex(r'\mathrm{ATC}^* = \tfrac{1}{2}\cdot 50 + 1000/50 = {{45}}')
-        work_three.get_part_by_tex('45').set_color(ATC_COLOR)
-        work_four = MathTex(r'\pi^* = (75 - 45)\cdot 50 = {{1{,}500}}')
-        work_four.get_part_by_tex('1{,}500').set_color(SUPPLY)
+        work_one = MathTex(r'{{2q}} = {{120 - q}}, \text{ so } {{q^* = 40}}')
+        work_one.get_part_by_tex('2q').set_color(MC_COLOR)
+        work_one.get_part_by_tex('120 - q').set_color(MR_COLOR)
+        work_one.get_part_by_tex('q^* = 40').set_color(GUIDE)
+        work_two = MathTex(r'P^* = 120 - \tfrac{1}{2}\cdot 40 = {{100}}')
+        work_two.get_part_by_tex('100').set_color(DEMAND)
+        work_three = MathTex(r'\mathrm{ATC}^* = 40 + 1000/40 = {{65}}')
+        work_three.get_part_by_tex('65').set_color(ATC_COLOR)
+        work_four = MathTex(r'\pi^* = (100 - 65)\cdot 40 = {{1{,}400}}')
+        work_four.get_part_by_tex('1{,}400').set_color(SUPPLY)
         card = VGroup(objective, step_one, work_one, step_two, work_two, step_three, work_three, step_four, work_four)
         card.scale(ROW_SCALE).arrange(DOWN, buff=ROW_GAP, aligned_edge=LEFT)
         for work in (work_one, work_two, work_three, work_four):
@@ -392,14 +397,14 @@ class EpisodeE3(Scene):
             VGroup(*card[k:]).shift(DOWN * PAIR_GAP / 2)
         card.move_to([PANEL_LEFT, BODY_MID, 0], aligned_edge=LEFT)
         # The answer marks: a red dot where MR meets (policy) MC, its drop, and the two-row quantity readout.
-        choice_dot = Dot(ax.c2p(50, 50), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
+        choice_dot = Dot(ax.c2p(40, 80), radius=DOT_RADIUS, color=GUIDE).set_z_index(DOT_LAYER)
         choice_dot.add_updater(lambda m: m.move_to(ax.c2p(best_q(), policy_mc(best_q()))))
-        quantity_guide = dashed(ax.c2p(50, 0), ax.c2p(50, 50), GUIDE).set_z_index(GUIDE_LAYER)
+        quantity_guide = dashed(ax.c2p(40, 0), ax.c2p(40, 80), GUIDE).set_z_index(GUIDE_LAYER)
         quantity_guide.add_updater(lambda m: m.become(dashed(ax.c2p(chosen_q(), 0), ax.c2p(chosen_q(), guide_top()), GUIDE))
                                    .set_z_index(GUIDE_LAYER))
         # The red quantity row steps aside where the yellow efficient quantity sits (6.c).
         near_efficient = lambda: smooth(np.clip((abs(efficient_q() - chosen_q()) - 4) / 4, 0, 1))
-        quantity_number = DecimalNumber(50, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
+        quantity_number = DecimalNumber(40, num_decimal_places=0, color=GUIDE).scale(QUANTITY_NUMBER_SCALE)
         quantity_number.add_updater(lambda m: m.set_value(round(chosen_q(), 4))
                                     .move_to(ax.c2p(chosen_q(), 0) + DOWN * QUANTITY_NUMBER_OFFSET))
         quantity_star = MathTex('q^*', color=GUIDE).scale(QUANTITY_LABEL_SCALE)
@@ -415,13 +420,13 @@ class EpisodeE3(Scene):
         self.play(Create(quantity_guide), FadeIn(quantity_number), FadeIn(quantity_star))
         self.pause('3.a')
 
-        # ---- 3.b · Step 2: up from q* to demand; P* = 75, dashed in demand's color.
-        price_dot = Dot(ax.c2p(50, 75), radius=DOT_RADIUS, color=DEMAND).set_z_index(DOT_LAYER)
+        # ---- 3.b · Step 2: up from q* to demand; P* = 100, dashed in demand's color.
+        price_dot = Dot(ax.c2p(40, 100), radius=DOT_RADIUS, color=DEMAND).set_z_index(DOT_LAYER)
         price_dot.add_updater(lambda m: m.move_to(ax.c2p(chosen_q(), price_now())))
-        price_guide = dashed(ax.c2p(0, 75), ax.c2p(50, 75), DEMAND).set_z_index(GUIDE_LAYER)
+        price_guide = dashed(ax.c2p(0, 100), ax.c2p(40, 100), DEMAND).set_z_index(GUIDE_LAYER)
         price_guide.add_updater(lambda m: m.become(dashed(ax.c2p(0, price_now()), ax.c2p(chosen_q(), price_now()), DEMAND))
                                 .set_z_index(GUIDE_LAYER))
-        price_number = DecimalNumber(75, num_decimal_places=2, color=DEMAND).scale(PRICE_SCALE)
+        price_number = DecimalNumber(100, num_decimal_places=2, color=DEMAND).scale(PRICE_SCALE)
         price_number.add_updater(lambda m: m.set_value(price_now()).next_to(ax.c2p(0, price_now()), LEFT, buff=0.2))
         price_star = MathTex('P^*=', color=DEMAND).scale(PRICE_SCALE)
         price_star.add_updater(lambda m: m.next_to(price_number, LEFT, buff=0.08))
@@ -436,15 +441,15 @@ class EpisodeE3(Scene):
         self.play(GrowFromCenter(price_dot), Create(price_guide), FadeIn(price_number), FadeIn(price_star), FadeIn(work_two))
         self.pause('3.b')
 
-        # ---- 3.c · Step 3: q* meets ATC; ATC* = 45, dashed in ATC's color (kept clear of P* when the two are close).
+        # ---- 3.c · Step 3: q* meets ATC; ATC* = 65, dashed in ATC's color (kept clear of P* when the two are close).
         atc_y = lambda: min(ax.c2p(0, policy_atc(chosen_q()))[1], ax.c2p(0, price_now())[1] - 0.34)
-        atc_dot = Dot(ax.c2p(50, 45), radius=DOT_RADIUS, color=ATC_COLOR).set_z_index(DOT_LAYER)
+        atc_dot = Dot(ax.c2p(40, 65), radius=DOT_RADIUS, color=ATC_COLOR).set_z_index(DOT_LAYER)
         atc_dot.add_updater(lambda m: m.move_to(ax.c2p(chosen_q(), policy_atc(chosen_q()))))
-        atc_guide = dashed(ax.c2p(0, 45), ax.c2p(50, 45), ATC_COLOR).set_z_index(GUIDE_LAYER)
+        atc_guide = dashed(ax.c2p(0, 65), ax.c2p(40, 65), ATC_COLOR).set_z_index(GUIDE_LAYER)
         atc_guide.add_updater(lambda m: m.become(dashed(ax.c2p(0, policy_atc(chosen_q())),
                                                         ax.c2p(chosen_q(), policy_atc(chosen_q())), ATC_COLOR))
                               .set_z_index(GUIDE_LAYER))
-        atc_number = DecimalNumber(45, num_decimal_places=2, color=ATC_COLOR).scale(PRICE_SCALE)
+        atc_number = DecimalNumber(65, num_decimal_places=2, color=ATC_COLOR).scale(PRICE_SCALE)
         atc_number.add_updater(lambda m: m.set_value(policy_atc(chosen_q())).next_to(ax.c2p(0, 0), LEFT, buff=0.2).set_y(atc_y()))
         atc_star = MathTex(r'\mathrm{ATC}^*=', color=ATC_COLOR).scale(PRICE_SCALE)
         atc_star.add_updater(lambda m: m.next_to(atc_number, LEFT, buff=0.08))
@@ -458,7 +463,7 @@ class EpisodeE3(Scene):
         self.play(GrowFromCenter(atc_dot), Create(atc_guide), FadeIn(atc_number), FadeIn(atc_star), FadeIn(work_three))
         self.pause('3.c')
 
-        # ---- 3.d · Step 4: profit, (75 - 45) x 50 = 1,500, as one-unit strips between ATC* and P*.
+        # ---- 3.d · Step 4: profit, (100 - 65) x 40 = 1,400, as one-unit strips between ATC* and P*.
         profit_strips = strip_group(80, SUPPLY, PROFIT_OPACITY, FILL_LAYER)
         profit_strips.span = lambda: (0, chosen_q())
         profit_strips.low, profit_strips.high = (lambda x: policy_atc(chosen_q())), (lambda x: price_now())
@@ -483,17 +488,18 @@ class EpisodeE3(Scene):
         self.play(FadeIn(profit_word), FadeIn(work_four))
         self.pause('3.d')
 
-        # ---- 3.e.sixty · Check the answer: one tracker moves the quantity to 60; profit falls to 1,400.
+        # ---- 3.e.sixty · Check the answer: one tracker moves the quantity to 50; profit falls to 1,250.
+        # (The beat names 3.e.sixty and 3.e.forty are kept from the old model, where the quantities were 60 and 40.)
         # The live profit row: (P - ATC) x q = profit, every number rolling with the trackers, at the anchor where
         # step 4's worked row was (the anchor moves when section 4 closes up the card).
         profit_anchor = VectorizedPoint(work_four.get_left())
 
 
         def profit_row(prefix, quantity_places=0):
-            row = VGroup(MathTex(prefix), DecimalNumber(75, num_decimal_places=2, color=DEMAND), MathTex('-'),
-                         DecimalNumber(45, num_decimal_places=2, color=ATC_COLOR), MathTex(r')\hspace{2.5pt}\cdot'),
-                         DecimalNumber(50, num_decimal_places=quantity_places, color=GUIDE), MathTex('='),
-                         DecimalNumber(1500, num_decimal_places=0, color=SUPPLY)).scale(ROW_SCALE)
+            row = VGroup(MathTex(prefix), DecimalNumber(100, num_decimal_places=2, color=DEMAND), MathTex('-'),
+                         DecimalNumber(65, num_decimal_places=2, color=ATC_COLOR), MathTex(r')\hspace{2.5pt}\cdot'),
+                         DecimalNumber(40, num_decimal_places=quantity_places, color=GUIDE), MathTex('='),
+                         DecimalNumber(1400, num_decimal_places=0, color=SUPPLY)).scale(ROW_SCALE)
             row.add_updater(lambda m: (m[1].set_value(price_now()), m[3].set_value(policy_atc(chosen_q())),
                                        m[5].set_value(round(chosen_q(), 4)), m[7].set_value(round(profit_now(), 4)),
                                        [m[k + 1].next_to(m[k], RIGHT, buff=ROW_GAPS[k]) for k in range(7)],
@@ -501,8 +507,6 @@ class EpisodeE3(Scene):
             return row
         live_profit_free = profit_row(r'\pi = (')
         live_profit = profit_row(r'\pi^* = (')
-        # The subsidy's quantity is 200/3: from 6.c the row shows it to two places so its product checks.
-        live_profit_exact = profit_row(r'\pi^* = (', 2)
         moving = [quantity_guide, quantity_number, quantity_free, price_dot, price_guide, price_number, price_free,
                   atc_dot, atc_guide, atc_number, atc_free, profit_strips, profit_word, live_profit_free]
         for m in moving:
@@ -510,18 +514,18 @@ class EpisodeE3(Scene):
         self.remove(note, quantity_star, price_star, atc_star, work_four)
         self.add(quantity_free, price_free, atc_free, live_profit_free)
         self.play(offset.animate.set_value(10), run_time=ROLL_TIME, rate_func=smooth)
-        note = teaching('If we increase the quantity to 60, their profit goes down.')
+        note = teaching('If we increase the quantity to 50, their profit goes down.')
         self.play(FadeIn(note))
         self.pause('3.e.sixty')
 
-        # ---- 3.e.forty · Then to 40: profit is 1,400 again.
+        # ---- 3.e.forty · Then to 30: profit is 1,250 again.
         self.remove(note)
         self.play(offset.animate.set_value(-10), run_time=ROLL_TIME, rate_func=smooth)
-        note = teaching('If we lower the quantity to 40, their profit also goes down.')
+        note = teaching('If we lower the quantity to 30, their profit also goes down.')
         self.play(FadeIn(note))
         self.pause('3.e.forty')
 
-        # ---- 3.e · Back to 50, where MR = MC: the highest profit, 1,500.
+        # ---- 3.e · Back to 40, where MR = MC: the highest profit, 1,400.
         self.remove(note)
         self.play(offset.animate.set_value(0), run_time=ROLL_TIME, rate_func=smooth)
         live_profit.update()
@@ -531,17 +535,16 @@ class EpisodeE3(Scene):
         self.play(FadeIn(note))
         self.pause('3.e')
 
-        # ---- 4.a · Demand shifts down (the old code's demand share, 2 to 4/3): D and MR pivot down from 100,
-        # and q*, P*, ATC* and profit roll to 40, 70, 45 and 1,000. A grey ghost keeps the old demand.
-        demand_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, 100), ax.c2p(100 * alpha.get_value(), 0)))
-        demand_word.add_updater(lambda m: m.next_to(ax.c2p(85 * alpha.get_value(), demand(85 * alpha.get_value(), alpha.get_value())),
-                                                    UR, buff=0.1))
-        mr_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, 100), ax.c2p(50 * alpha.get_value(), 0)))
-        mr_word.add_updater(lambda m: m.next_to(ax.c2p(50 * alpha.get_value(), 0), UR, buff=0.12))
-        ghost_demand = Line(ax.c2p(0, 100), ax.c2p(200, 0), color=MUTED, stroke_width=2).set_opacity(0.55).set_z_index(-1)
+        # ---- 4.a · Demand shifts down (the demand share alpha, 2 to 1: P = 120 - Q): D and MR pivot down from 120,
+        # and q*, P*, ATC* and profit roll to 30, 90, 63.33 and 800. A grey ghost keeps the old demand.
+        demand_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, demand(X_END, alpha.get_value()))))
+        demand_word.add_updater(lambda m: m.next_to(demand_word_at(alpha.get_value()), DOWN, buff=0.16))
+        mr_line.add_updater(lambda m: m.put_start_and_end_on(ax.c2p(0, TOP_PRICE), ax.c2p(TOP_PRICE / 2 * alpha.get_value(), 0)))
+        mr_word.add_updater(lambda m: m.next_to(ax.c2p(TOP_PRICE / 2 * alpha.get_value(), 0), UR, buff=0.12))
+        ghost_demand = Line(ax.c2p(0, TOP_PRICE), ax.c2p(X_END, demand(X_END)), color=MUTED, stroke_width=2).set_opacity(0.55).set_z_index(-1)
         self.remove(head, note)
         head = title('Changes In Demand')
-        # The card closes up: the worked rows for 50 leave and the four steps and the live profit row move together.
+        # The card closes up: the worked rows for 40 leave and the four steps and the live profit row move together.
         compact = VGroup(objective.copy(), step_one.copy(), step_two.copy(), step_three.copy(), step_four.copy(),
                          work_four.copy()).arrange(DOWN, buff=ROW_GAP + 0.16, aligned_edge=LEFT)
         compact[1:].shift(DOWN * 0.12)
@@ -562,11 +565,11 @@ class EpisodeE3(Scene):
         self.play(alpha.animate.set_value(2), FadeOut(ghost_demand), run_time=ROLL_TIME, rate_func=smooth)
         self.remove(head)
         head = title('Deadweight Loss')
-        efficient_dot = Dot(ax.c2p(200 / 3, 200 / 3), radius=FOCUS_RADIUS, color=FOCUS).set_z_index(DOT_LAYER - 1)
-        efficient_drop = dashed(ax.c2p(200 / 3, 0), ax.c2p(200 / 3, 200 / 3), FOCUS).set_z_index(GUIDE_LAYER - 1)
+        efficient_dot = Dot(ax.c2p(48, 96), radius=FOCUS_RADIUS, color=FOCUS).set_z_index(DOT_LAYER - 1)
+        efficient_drop = dashed(ax.c2p(48, 0), ax.c2p(48, 96), FOCUS).set_z_index(GUIDE_LAYER - 1)
         efficient_words = VGroup(
-            Tex('66.7', color=FOCUS).scale(QUANTITY_NUMBER_SCALE).move_to(ax.c2p(200 / 3, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
-            MathTex('Q_{sp}', color=FOCUS).scale(QUANTITY_LABEL_SCALE).move_to(ax.c2p(200 / 3, 0) + DOWN * QUANTITY_LABEL_OFFSET))
+            Tex('48', color=FOCUS).scale(QUANTITY_NUMBER_SCALE).move_to(ax.c2p(48, 0) + DOWN * QUANTITY_NUMBER_OFFSET),
+            MathTex('Q_{sp}', color=FOCUS).scale(QUANTITY_LABEL_SCALE).move_to(ax.c2p(48, 0) + DOWN * QUANTITY_LABEL_OFFSET))
         note = teaching('The socially efficient quantity: where the MC and MB curves intersect.')
         self.play(FadeIn(head), FadeIn(note))
         self.play(GrowFromCenter(efficient_dot), Create(efficient_drop), FadeIn(efficient_words))
@@ -580,22 +583,28 @@ class EpisodeE3(Scene):
         dwl_strips.update()
         dwl_width = lambda: efficient_q() - chosen_q()
         dwl_word = Tex('DWL', color=INK).scale(AREA_WORD_SCALE).set_backstroke(BG, 5).set_z_index(WORD_LAYER)
-        dwl_word.add_updater(lambda m: m.move_to(ax.c2p(chosen_q() + 0.6 * dwl_width(), demand(chosen_q() + 0.6 * dwl_width()) + 11))
+        # The name sits above a narrow triangle and moves inside it (to its centroid) once it is wide enough (6.a).
+        dwl_above = lambda: np.array([chosen_q() + 0.6 * dwl_width(), demand(chosen_q() + 0.6 * dwl_width()) + 13])
+        dwl_inside = lambda: np.array([(2 * chosen_q() + efficient_q()) / 3,
+                                       (demand(chosen_q()) + mc(chosen_q()) + demand(efficient_q())) / 3])
+        dwl_fit = lambda: smooth(np.clip((dwl_width() - 10) / 6, 0, 1))
+        dwl_word.add_updater(lambda m: m.move_to(ax.c2p(*((1 - dwl_fit()) * dwl_above() + dwl_fit() * dwl_inside())))
                              .set_opacity(np.clip((dwl_width() - 3) / 4, 0, 1)))
         dwl_word.update()
         self.remove(note)
         note = teaching('Deadweight loss: the quantity not provided where MB exceeds MC.')
-        self.play(LaggedStart(*[FadeIn(dwl_strips[k]) for k in range(50, 67)], lag_ratio=0.18), FadeIn(note), run_time=1.6)
+        self.play(LaggedStart(*[FadeIn(dwl_strips[k]) for k in range(40, 48)], lag_ratio=0.18), FadeIn(note), run_time=1.6)
         self.remove(*dwl_strips)
         self.add(dwl_strips)
         self.play(FadeIn(dwl_word))
         self.pause('5.a')
 
         # ---- 6.a.shift · A per-unit tax shifts MC and ATC up by the tax (dashed copies); q* falls, P* rises.
-        policy_mc_line = dashed(ax.c2p(0, 0), ax.c2p(100, 100), MC_COLOR).set_stroke(width=CURVE_WIDTH).set_z_index(POLICY_LAYER)
+        policy_mc_line = dashed(ax.c2p(0, 0), ax.c2p(POLICY_TOP / 2, POLICY_TOP), MC_COLOR).set_stroke(width=CURVE_WIDTH).set_z_index(POLICY_LAYER)
+        policy_mc_end = lambda: (POLICY_TOP - tax.get_value() + subsidy.get_value()) / 2   # where policy MC reaches the top
         policy_mc_line.add_updater(lambda m: m.become(DashedLine(
-            ax.c2p(max(0, subsidy.get_value() - tax.get_value()), max(0, tax.get_value() - subsidy.get_value())),
-            ax.c2p(100 + subsidy.get_value(), 100 + tax.get_value()), color=MC_COLOR, stroke_width=CURVE_WIDTH))
+            ax.c2p(max(0, subsidy.get_value() - tax.get_value()) / 2, max(0, tax.get_value() - subsidy.get_value())),
+            ax.c2p(policy_mc_end(), POLICY_TOP), color=MC_COLOR, stroke_width=CURVE_WIDTH))
             .set_z_index(POLICY_LAYER).set_opacity(np.clip(abs(tax.get_value() - subsidy.get_value()) / 3, 0, 1)))
         policy_atc_from = lambda: min([q for q in np.linspace(5, ATC_TO, 400) if policy_atc(q) <= POLICY_TOP])
         # Seeded with a real dashed ATC: an empty VMobject would align to its target by copying itself, updater and all.
@@ -611,7 +620,7 @@ class EpisodeE3(Scene):
                                    if policy_atc(ATC_TO) >= atc(ATC_TO) else
                                    min(ax.c2p(ATC_TO, policy_atc(ATC_TO))[1], atc_word.get_y() - name_room(m)))
         mc_tax_word = Tex(r'MC $+$ tax', color=INK).scale(CURVE_WORD_SCALE)
-        mc_tax_word.add_updater(lambda m: m.next_to(ax.c2p(100, 100 + tax.get_value()), RIGHT, buff=0.15)
+        mc_tax_word.add_updater(lambda m: m.next_to(ax.c2p(policy_mc_end(), POLICY_TOP), RIGHT, buff=0.15)
                                 .set_opacity(np.clip((tax.get_value() - 4) / 4, 0, 1)))
         atc_tax_word = Tex(r'ATC $+$ tax', color=INK).scale(CURVE_WORD_SCALE)
         atc_tax_word.add_updater(lambda m: m.next_to(ax.c2p(ATC_TO, policy_atc(ATC_TO)), RIGHT, buff=0.15).set_y(policy_name_y(m))
@@ -636,8 +645,8 @@ class EpisodeE3(Scene):
         lump_row = VGroup(Tex(r'Lump-sum tax $=$ \$', color=GOV), DecimalNumber(0, num_decimal_places=0, color=GOV)).scale(ROW_SCALE)
         lump_row.add_updater(lambda m: (m[1].set_value(round(lump.get_value(), 4)), m.arrange(RIGHT, buff=POLICY_GAP),
                                         m.move_to(policy_left, aligned_edge=LEFT)))
-        subsidy_row = VGroup(Tex(r'Subsidy per unit $=$ \$', color=GOV), DecimalNumber(0, num_decimal_places=2, color=GOV)).scale(ROW_SCALE)
-        subsidy_row.add_updater(lambda m: (m[1].set_value(subsidy.get_value()), m.arrange(RIGHT, buff=POLICY_GAP),
+        subsidy_row = VGroup(Tex(r'Subsidy per unit $=$ \$', color=GOV), DecimalNumber(0, num_decimal_places=0, color=GOV)).scale(ROW_SCALE)
+        subsidy_row.add_updater(lambda m: (m[1].set_value(round(subsidy.get_value(), 4)), m.arrange(RIGHT, buff=POLICY_GAP),
                                            m.move_to(policy_left, aligned_edge=LEFT)))
         policy_marks = [policy_mc_line, policy_atc_curve, mc_tax_word, atc_tax_word, gov_strips, gov_word, tax_row]
         for m in policy_marks:
@@ -656,7 +665,7 @@ class EpisodeE3(Scene):
         self.play(FadeIn(gov_word), FadeIn(note))
         self.pause('6.a')
 
-        # ---- 6.b.shift · The tax comes off; a lump-sum tax of 1,000 is a fixed cost: only ATC shifts, q* stays 50.
+        # ---- 6.b.shift · The tax comes off; a lump-sum tax of 1,000 is a fixed cost: only ATC shifts, q* stays 40.
         lump_word = Tex(r'ATC $+$ lump sum', color=INK).scale(CURVE_WORD_SCALE)
         lump_word.add_updater(lambda m: m.next_to(ax.c2p(ATC_TO, policy_atc(ATC_TO)), RIGHT, buff=0.15).set_y(policy_name_y(m))
                               .set_opacity(np.clip((lump.get_value() - 150) / 150, 0, 1)))
@@ -681,10 +690,11 @@ class EpisodeE3(Scene):
 
         # ---- 6.c.shift · The lump sum comes off; a per-unit subsidy shifts MC and ATC down until q* reaches Q_sp.
         mc_subsidy_word = Tex(r'MC $-$ subsidy', color=INK).scale(CURVE_WORD_SCALE)
-        mc_subsidy_word.add_updater(lambda m: m.next_to(ax.c2p(100 + subsidy.get_value(), 100), RIGHT, buff=0.15)
+        mc_subsidy_word.add_updater(lambda m: m.next_to(ax.c2p(policy_mc_end(), POLICY_TOP), RIGHT, buff=0.15)
                                     .set_opacity(np.clip((subsidy.get_value() - 6) / 6, 0, 1)))
-        atc_subsidy_word = Tex(r'ATC $-$ subsidy', color=INK).scale(CURVE_WORD_SCALE)
-        # It hands over to the two-line name once 6.d's lump sum starts.
+        atc_subsidy_word = Tex(r'ATC $-$ subsidy', color=INK).scale(CURVE_WORD_SCALE).set_backstroke(BG, 5).set_z_index(WORD_LAYER)
+        # It hands over to the two-line name once 6.d's lump sum starts. Demand runs behind both names, so they
+        # carry the area names' halo.
         atc_subsidy_word.add_updater(lambda m: m.next_to(ax.c2p(ATC_TO, policy_atc(ATC_TO)), RIGHT, buff=0.15).set_y(policy_name_y(m))
                                      .set_opacity(np.clip((subsidy.get_value() - 6) / 6, 0, 1)
                                                   * (1 - np.clip((lump.get_value() - 100) / 200, 0, 1))))
@@ -699,9 +709,7 @@ class EpisodeE3(Scene):
         self.remove(head, lump_row, lump_word)
         head = title('A Per-Unit Subsidy')
         note = teaching('Subsidies tend to increase the quantity exchanged in the market.')
-        live_profit_exact.update()
-        self.remove(live_profit)
-        self.add(mc_subsidy_word, atc_subsidy_word, live_profit_exact)
+        self.add(mc_subsidy_word, atc_subsidy_word)
         self.play(FadeIn(head), FadeIn(subsidy_row), FadeIn(note))
         self.play(subsidy.animate.set_value(SUBSIDY), run_time=ROLL_TIME + 0.8, rate_func=smooth)
         self.remove(note)
@@ -715,8 +723,8 @@ class EpisodeE3(Scene):
         self.play(FadeIn(gov_word), FadeIn(note))
         self.pause('6.c')
 
-        # ---- 6.d · Keep the subsidy and add a lump-sum tax of 3,000: profit shrinks and the band turns positive.
-        both_word = Tex(r'ATC $-$ subsidy\\$+$ lump sum', color=INK).scale(CURVE_WORD_SCALE)
+        # ---- 6.d · Keep the subsidy and add a lump-sum tax of 2,000: profit shrinks and the band turns positive.
+        both_word = Tex(r'ATC $-$ subsidy\\$+$ lump sum', color=INK).scale(CURVE_WORD_SCALE).set_backstroke(BG, 5).set_z_index(WORD_LAYER)
         both_word.room = 0.3                 # two lines under ATC's name: more room so they don't read as one stack
         both_word.add_updater(lambda m: m.next_to(ax.c2p(ATC_TO, policy_atc(ATC_TO)), RIGHT, buff=0.15).set_y(policy_name_y(m))
                               .set_opacity(np.clip((lump.get_value() - 300) / 300, 0, 1)))

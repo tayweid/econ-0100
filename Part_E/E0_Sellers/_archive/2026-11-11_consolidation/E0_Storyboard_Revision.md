@@ -1,6 +1,6 @@
 # E0 animation revision
 
-Separate working beat sheet for `E0_Animation.py`, scene `EpisodeE0`. The author’s `01_Notes.md` is not edited. This sheet supersedes the old animation comments there until the prose pass is finished.
+Separate working beat sheet for `E0_Animation.py`, scene `EpisodeE0`. The author’s `E0_Notes.md` is not edited. This sheet supersedes the old animation comments there until the prose pass is finished.
 
 ## Visual conventions
 

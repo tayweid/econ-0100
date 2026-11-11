@@ -1,5 +1,5 @@
 # maniml E0_Animation.py EpisodeE0
-# Working storyboard: E0_Storyboard_Revision.md (kept separate while the notes are edited).
+# Teaching notes and current hold references: E0_Notes.md. Earlier storyboards are archived.
 # All lesson choreography stays in construct().
 # The production simulation: eight workers make widgets and airplanes in 20-second rounds, two more workers
 # moving to airplanes each round. The class's numbers go in ROUNDS at the top of construct(); the table,

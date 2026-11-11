@@ -1,5 +1,5 @@
 # maniml E1_Animation.py EpisodeE1
-# Storyboard: E1_Notes.md; current review overrides in E1_Storyboard_Revision.md. All choreography stays in construct().
+# Teaching notes and current hold references: E1_Notes.md. Earlier storyboards are archived. All choreography stays in construct().
 # Costs of Production: the market structures ahead, costs from the production function, the cost curves, MC = MR.
 # One firm throughout: Q = F(L) = 10 sqrt(L) worker hours to units, a $100 wage and a $1,000 fixed cost, so VC = Q^2,
 # TC = 1000 + Q^2, MC = 2Q, AVC = Q, AFC = 1000/Q, ATC = Q + 1000/Q (lowest at Q = sqrt(1000), about 31.6).

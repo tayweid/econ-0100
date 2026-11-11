@@ -2,6 +2,8 @@
 
 E2 organization update, November 9: [E2_Notes.md](E2_Competition/E2_Notes.md) now contains the timing, lecture, and board-work cues. The earlier E2 notes, code, and storyboards are in [the dated archive](E2_Competition/_archive/2026-11-09_consolidation/). The rest of this document records the October 30 build.
 
+E3 organization update, November 11: [E3_Notes.md](E3_Monopoly/E3_Notes.md) now has E2's shape (timing table, lecture paragraphs, a beat table per paragraph) and lists what is stuck in its top comment. `E3_Animation.py` moved from the old code's firm to E1 and E2's (MC = 2q, ATC = q + 1000/q) with demand P = 120 − Q/2: q\* = 40, P\* = 100, ATC\* = 65, profit 1,400, Q_sp = 48. The earlier E3 notes, code, storyboard stub, the October 30 animation, and the original port are in [the dated archive](E3_Monopoly/_archive/2026-11-11_consolidation/). The port's monopolistic-competition scenes also have a live copy at `E5_Policy_and_Market_Power/E3_Animation_original.py`, and E3's `_Unplaced.md` is now `E5_Policy_and_Market_Power/_Unplaced_from_E3.md`. The E3 rows and model lines below describe the October 30 build.
+
 Five blocks, one animation each. Every file below renders headlessly in the ManimLive engine; nothing is committed. The old `01_Notes.md`, `02_Storyboard.md` and `03_Code.py` in each block are untouched.
 
 | Block | Class (course page) | Modern animation | Holds | Original port |
