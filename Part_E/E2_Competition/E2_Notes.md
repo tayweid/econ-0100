@@ -30,16 +30,32 @@ Producing 40 units costs \$2,600. Producing 41 units costs \$2,681.
 
 a\) What is average total cost at 40 units?
 
+::: solution
+
+\$65 per unit
+
+:::
+
 b\) How much does the 41st unit add to cost?
 
+::: solution
+
+\$81
+
+:::
+
 c\) What else do we need to know to tell whether producing the 41st unit increases profit?
+
+::: solution
+
+We’d need to know the additional revenue from selling the 41st unit, compared with its additional cost of \$81.
+
+:::
 
 <!--
 |   |   |
 | --- | --- |
 | 0.warmup | Show “Exercise E1 ∣ Warmup” in gold, the two cost statements on separate lines in grey sans serif, and the three questions in white serif. Every exercise shares the same heading and setup alignment; indent the questions beneath the setup, with single spacing and a larger gap between setup and questions. Place a), b), c) in the indented list’s hanging gutter, with wrapped text aligned to the question text. Use the open layout with no border. Hold for answers before the spinach opener. |
-
-Answers: a) $65 per unit; b) $81; c) the additional revenue from selling the 41st unit, compared with its additional cost of $81.
 -->
 
 ## Opener
