@@ -4,7 +4,7 @@
 # The production simulation: eight workers make widgets and airplanes in 20-second rounds, two more workers
 # moving to airplanes each round. The class's numbers go in ROUNDS at the top of construct(); the table,
 # both production functions, the labor line and the PPF are all drawn from them. The four-quadrant PPF
-# is a separate stub, E0_Four_Quadrant.py.
+# from the notes' last paragraph is not built.
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [

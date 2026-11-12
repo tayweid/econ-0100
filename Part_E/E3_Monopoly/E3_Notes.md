@@ -226,7 +226,7 @@ If we increase the quantity to ~~60~~ {++ 40 ++}. Their profit goes down.
 <!--
 |   |   |
 | --- | --- |
-| 3.e.sixty | The quantity rolls from 30 to 40 with a live profit row: π = (80.00 − 65.00) · 40 = 600. “If we increase the quantity to 40, their profit goes down.” The hold’s name is from the old model. |
+| 3.e.more | The quantity rolls from 30 to 40 with a live profit row: π = (80.00 − 65.00) · 40 = 600. “If we increase the quantity to 40, their profit goes down.” |
 -->
 
 And if we lower the quantity to ~~40~~ {++ 20 ++} their profit also goes down.
@@ -234,7 +234,7 @@ And if we lower the quantity to ~~40~~ {++ 20 ++} their profit also goes down.
 <!--
 |   |   |
 | --- | --- |
-| 3.e.forty | The quantity rolls to 20: π = (100.00 − 70.00) · 20 = 600. “If we lower the quantity to 20, their profit also goes down.” |
+| 3.e.less | The quantity rolls to 20: π = (100.00 − 70.00) · 20 = 600. “If we lower the quantity to 20, their profit also goes down.” |
 -->
 
 And this is really coming from the fact that as we increase quantity price also goes down from the law of demand and if we decrease quantity prices going up by the law of demand but not fast enough to compensate for the lower quantity.

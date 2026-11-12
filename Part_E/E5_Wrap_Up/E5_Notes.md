@@ -10,7 +10,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 |   |   |
 | --- | --- |
 | Model | The market E2 to E4 share: demand P = 120 − Q, MC = 2q, ATC = q + 1000/q. Monopoly 30 at 90, profit 800, Q_sp = 40. Duopoly 24 each at 72. Competitive: P = 100, q = 50, profit 1,500, then entry to the long run at 63. |
-| Open | All of the prose here is Claude’s, marked as additions; Taylor has not written notes for E5. The thesis line offered above is his earlier line from E3; the bumper shows none. |
+| Open | All of the prose here is Claude’s, marked as additions; Taylor has not written notes for E5. The thesis line offered above is his earlier line from E3; the bumper shows it. |
 | Open | Scale: many price takers need the demand line read in thousands, so 7.a marks the competitive outcome by its price only. |
 | Open | The competitive section was rebuilt around E2’s example at P = 100; step 5 then rolls to the long run. |
 | Open | More Sellers ignores the fixed cost: on this market a third seller would lose money. Whether the section stays is open. |
@@ -22,7 +22,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 <!--
 |   |   |
 | --- | --- |
-| 0.a | Bumper, with no thesis line. |
+| 0.a | Bumper, with the thesis line. |
 -->
 
 ### 1 | One Market
@@ -179,7 +179,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | --- | --- |
 | 6.b.two | n = 2: q 24, Q 48, P 72, P − MC 24. |
 | 6.b.three | n = 3: 20, 60, 60, 20. |
-| 6.b.six | n = 7: 12, 84, 36, 12. The hold’s name is from the sheet’s market. |
+| 6.b.seven | n = 7: 12, 84, 36, 12. |
 | 6.b | n = 17: 6, 102, 18, 6. “More sellers: more output, a lower price, a price closer to marginal cost.” |
 -->
 

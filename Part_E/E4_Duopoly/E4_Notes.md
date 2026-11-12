@@ -119,7 +119,7 @@ But because the *price* depends on how much the other firm sells, your *revenue*
 |   |   |
 | --- | --- |
 | 4.b.zero | The graph becomes firm A’s (q_A, D_A, q_A\*), with a grey copy of market demand behind it; rows MR_A = 120 − 2q_A − q_B and q_B = 0. “The price depends on how much the other firm sells.” |
-| 4.b.seventy_two | q_B rolls from 0 to 24: D_A and MR_A slide down (intercept 120 → 96) and q_A\* goes 30 → 24. “Your marginal revenue also depends on how much the other firm sells.” The hold’s name is from the sheet’s market. |
+| 4.b.twenty_four | q_B rolls from 0 to 24: D_A and MR_A slide down (intercept 120 → 96) and q_A\* goes 30 → 24. “Your marginal revenue also depends on how much the other firm sells.” |
 | 4.b | q_B rolls to 48: intercept 72, q_A\* 18. “The more the other firm sells, the less you want to sell.” |
 -->
 

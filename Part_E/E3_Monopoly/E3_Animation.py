@@ -487,9 +487,8 @@ class EpisodeE3(Scene):
         self.play(FadeIn(profit_word), FadeIn(work_four))
         self.pause('3.d')
 
-        # ---- 3.e.sixty · Check the answer: one tracker moves the quantity to 40; profit falls to 600.
-        # (The beat names 3.e.sixty and 3.e.forty are kept from the old model, where the quantities were 60 and 40;
-        # they are now 40 and 20.)
+        # ---- 3.e.more · Check the answer: one tracker moves the quantity to 40; profit falls to 600.
+        # (3.e.more and 3.e.less were 3.e.sixty and 3.e.forty until 2026-11-12, named for the old model's quantities.)
         # The live profit row: (P - ATC) x q = profit, every number rolling with the trackers, at the anchor where
         # step 4's worked row was (the anchor moves when section 4 closes up the card).
         profit_anchor = VectorizedPoint(work_four.get_left())
@@ -516,14 +515,14 @@ class EpisodeE3(Scene):
         self.play(offset.animate.set_value(10), run_time=ROLL_TIME, rate_func=smooth)
         note = teaching('If we increase the quantity to 40, their profit goes down.')
         self.play(FadeIn(note))
-        self.pause('3.e.sixty')
+        self.pause('3.e.more')
 
-        # ---- 3.e.forty · Then to 20: profit is 600 again.
+        # ---- 3.e.less · Then to 20: profit is 600 again.
         self.remove(note)
         self.play(offset.animate.set_value(-10), run_time=ROLL_TIME, rate_func=smooth)
         note = teaching('If we lower the quantity to 20, their profit also goes down.')
         self.play(FadeIn(note))
-        self.pause('3.e.forty')
+        self.pause('3.e.less')
 
         # ---- 3.e · Back to 30, where MR = MC: the highest profit, 800.
         self.remove(note)

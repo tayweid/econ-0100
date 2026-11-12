@@ -1,60 +1,44 @@
-# Part E animation push: where things stand (2026-10-30)
+# Part E animations: where things stand (2026-11-12)
 
-E2 organization update, November 9: [E2_Notes.md](E2_Competition/E2_Notes.md) now contains the timing, lecture, and board-work cues. The earlier E2 notes, code, and storyboards are in [the dated archive](E2_Competition/_archive/2026-11-09_consolidation/). The rest of this document records the October 30 build.
+This replaces the October 30 build record, which is in this file's git history. Each block has one animation and one notes file; the notes carry the storyboard as short comment tables after the paragraphs that cue them (`_Style_Guide.md` §8, storyboard and code).
 
-E3 organization update, November 11: [E3_Notes.md](E3_Monopoly/E3_Notes.md) now has E2's shape (timing table, lecture paragraphs, a beat table per paragraph) and lists what is stuck in its top comment. `E3_Animation.py` moved from the old code's firm to E1 and E2's (MC = 2q, ATC = q + 1000/q) with demand P = 120 − Q: q\* = 30, P\* = 90, ATC\* = 63.33, profit 800, Q_sp = 40. The earlier E3 notes, code, storyboard stub, the October 30 animation, and the original port are in [the dated archive](E3_Monopoly/_archive/2026-11-11_consolidation/). The port's monopolistic-competition scenes also have a live copy at `EX_Monopolistic_Competition/E3_Animation_original.py`, and E3's `_Unplaced.md` is now `EX_Monopolistic_Competition/_Unplaced_from_E3.md`. The E3 rows and model lines below describe the October 30 build.
-
-E4 organization update, November 11: [E4_Notes.md](E4_Duopoly/E4_Notes.md) has the same shape and its own stuck list; `E4_Animation.py` moved off the handwritten sheet's market to the same one as E3 (P = 120 − Q, MC = 2q): monopoly 30 at 90, BR_A: q_A = 30 − ¼q_B, Nash 24 each, Q = 48, P = 72; the sheet-market build is in the dated archive. One market for E2 to E4: E2 is to move its market demand to P = 120 − Q (Q in thousands) after class, which changes nothing it displays. E5 Wrap-Up moved to the same market on November 11 as well: its competitive section now solves E2's example at P = 100 on the demand line read in thousands and then rolls to the long run, and its notes list what that leaves open. The earlier E4 notes and the two empty stubs are in [the dated archive](E4_Duopoly/_archive/2026-11-11_consolidation/), and E4's `_Unplaced.md` is now `E_Practice_Bank/Unplaced_E4_wandmakers-dilemma_S23.md`.
-
-Five blocks, one animation each. Every file below renders headlessly in the ManimLive engine; nothing is committed. The old `01_Notes.md`, `02_Storyboard.md` and `03_Code.py` in each block are untouched.
-
-| Block | Class (course page) | Modern animation | Holds | Original port |
+| Block | Animation, scene | Holds | Notes | Market |
 | --- | --- | --- | --- | --- |
-| E1 Costs | Mon Nov 2 | `E1_Costs/E1_Animation.py`, `EpisodeE1` | 56 | `E1_Animation_original.py` |
-| E2 Competitive Firms | Wed Nov 4 | `E2_Competition/E2_Animation.py`, `EpisodeE2` | 43 | `E2_Competition/_archive/2026-11-09_consolidation/E2_Animation_original.py` |
-| E3 Monopoly | Mon Nov 9 | `E3_Monopoly/E3_Animation.py`, `EpisodeE3` | 30 | `E3_Animation_original.py` |
-| E4 Duopoly | Wed Nov 11 | `E4_Duopoly/E4_Animation.py`, `EpisodeE4` | 26 | none: the old episode was the handwritten sheet |
-| E5 Wrap-Up | if time | `E5_Wrap_Up/E5_Animation.py`, `EpisodeE5` (new folder) | 30 | none |
+| E0 Overview | `E0_Sellers/E0_Animation.py`, `EpisodeE0` | 33 | `E0_Notes.md` | none: the semester recap and the production simulation |
+| E1 Costs | `E1_Costs/E1_Animation.py`, `EpisodeE1` | 48 | `E1_Notes.md` | the firm only |
+| E2 Competitive Firms | `E2_Competition/E2_Animation.py`, `EpisodeE2` | 85 | `E2_Notes.md` | shared line, read in thousands |
+| E3 Monopoly | `E3_Monopoly/E3_Animation.py`, `EpisodeE3` | 30 | `E3_Notes.md` | shared line, in units |
+| E4 Duopoly | `E4_Duopoly/E4_Animation.py`, `EpisodeE4` | 26 | `E4_Notes.md` | shared line, in units |
+| E5 Wrap-Up | `E5_Wrap_Up/E5_Animation.py`, `EpisodeE5` | 30 | `E5_Notes.md` | shared line, in units and in thousands |
 
 Open one in the viewer from the repo root, for example:
 
 ```
-maniml Part_E/E1_Costs/E1_Animation.py EpisodeE1
+maniml Part_E/E3_Monopoly/E3_Animation.py EpisodeE3
 ```
 
-Each modern file has a storyboard companion, `E<n>_Notes.md`. For E1–E4 it is your `01_Notes.md`, byte for byte, plus Plass comments: a top comment (file and scene, model numbers, what came from the old animation, **Choices left for Taylor**) and one comment per section listing its beats as built and what is **Not built**. E5 has no notes yet, so its file is storyboard only (C4′s format). All five pass Plass’s round-trip check.
+## One firm and one demand line
 
-## The originals (`E<n>_Animation_original.py`)
+- **The firm (E1 to E5):** production Q = 10√L, a \$100 wage and \$1,000 fixed cost, so TC = 1,000 + q², MC = 2q, AVC = q, ATC = q + 1,000/q, lowest at 63.25 where q = 31.6.
+- **The demand line (E2 to E5):** P = 120 − Q. E2 reads Q in thousands, because many price takers need a large market. E3 and E4 read it in units, because one or two firms with these costs fit a small one. E5 uses both and says so.
+- **E2:** at a price of 100 the firm makes 50 units, ATC 70, profit 1,500. Entry lowers the price to 63.25 and profit to zero. No number E2 displays depends on the slope of demand.
+- **E3:** MR = 120 − 2Q. q\* = 30, P\* = 90, ATC\* = 63.33, profit 800; efficient quantity 40. Policies: tax 20, lump sum 500, subsidy 40, subsidy with a lump sum of 1,800.
+- **E4:** BR_A: q_A = 30 − ¼q_B. Nash equilibrium 24 each, 48 in total, price 72. The monopoly recap is E3's answer.
+- **E5:** the same monopoly and duopoly; the competitive section solves E2's example at 100 and rolls to the long run; n sellers give q = 120/(n + 3), shown for n = 1, 2, 3, 7, 17.
 
-The old code as it was, made to run: old manim’s `GraphScene` and `TextMobject` are rebuilt at the top of each file, and the lost `tutorials.py` settings are reconstructed from the 2020 video thumbnails. Choreography, wording, numbers and colors are unchanged; every judgment call is marked `# PORT`.
+## What is open
 
-- **E1**: `CostsA` (production function → total cost; its class header was lost, rebuilt), `CostsB` (the 2020 “Tutorial 5.1 | Production Costs” video: TC, the rise/run MC sweep, the cost equations, MC/ATC/AVC, “In the long run all costs are variable.”), and the later CE scenes `animation_0`–`animation_4` (0 is the stale “Part D | Sellers” outline; 1 is the production-function → costs rewrite; 2–4 are stubs).
-- **E2**: `PerfectCompA` (the 2020 “Tutorial 5.2” video: costs, P = 80, the profit box sweep) and `PerfectCompB` (firm beside market, entry/exit cycles).
-- **E3**: `Monopoly` (the old construct only ran its intro), `MonopolyPreview` (labeled: runs Monopoly’s uncalled methods, which turned out to be copies of the competitive-firm code), `MonopolisticComp` (the monopoly picture from the 2020 video, p = 75, q = 50, Π = 1500, then monopolistic-competition entry/exit with and without a tax) and `MonopolisticCompB` (its outro bullets).
+1. **Prose.** E3 is still the 2020 dictation. E4's prose stops at "best response", and E5 has none of Taylor's; both are filled with marked additions. E1 is the old video script with a few marked bridges. E0's checkpoint paragraphs are marked additions to check against the policy.
+2. **Exercises.** E1 and E2 have an `Exercise/` folder and exercise cards in the animation. E3 and E4 have warmups and board questions only in their notes.
+3. **E5 More Sellers.** The sweep to 17 sellers ignores the fixed cost; on this market a third seller would lose money. Whether the section stays is Taylor's call.
+4. **E4 naming.** The notes are titled Oligopoly; the folder and the animation say Duopoly.
+5. **Conventions.** E2 uses yellow notes, rounded readouts and exercise cards. E3 to E5 keep one gold line at the bottom, two-decimal readouts and a side panel.
+6. **Timing.** The timing tables in E3 and E4 are untested proposals; E2's later rows are estimates since its sections were reordered.
+7. **Plass.** The round-trip check has not been run on the notes since November 11.
 
-## Models of record
+## Where older material is
 
-- **E1–E3 (from the old code):** MC = q, ATC = q/2 + 1000/q, AVC = q/2, FC = 1,000. E1 derives these from F(L) = 10√L with w = \$50 per worker (new: chosen so the production function produces the old costs). E2: P = 80 → q = 80, profit 2,200; long run P = √2000 ≈ 44.72. E3: D: P = 100 − Q/2, MR = 100 − Q, q\* = 50, P\* = 75, ATC\* = 45, profit 1,500; Q_sp = 66.7.
-- **E4–E5 (your handwritten sheet):** D: P = 200 − Q/2, every firm MC = 20 + q. Monopoly 90 / 155; duopoly BR_A: q_A = 90 − ¼q_B, Nash 72 / 72, Q = 144, P = 128; competitive (10 firms) Q = 300, P = 50, q = 30. FC = 450 is inferred (not on the sheet) so the competitive firm’s long run sits at minimum ATC. E5′s “through n”: q = 360/(n + 3), and the markup P − MC = q/2 shrinks as sellers are added (n = 1, 2, 3, 6, 15).
-
-## Shared choices across the five files
-
-Each is a constant at the top of `construct()`, so it changes in one place:
-
-- Colors: MC orange; ATC and TC purple (“total”); AVC and VC pink; AFC and FC grey; demand / P = MR teal; monopoly MR pink; profit fill orange; loss red; tax revenue green; DWL grey. In E4, firm A is pink and firm B teal, as in Part D’s games.
-- The market-structures grid (sellers × homogeneous/differentiated) is built in E1 and reused at the top of E2–E4 with that block’s cell boxed (D2′s taxonomy pattern).
-- Your sheet’s five-step “Firm’s Problem” card appears in E4 and E5 with the same wording (E3 shows steps 1–4, since its notes have no entry/exit).
-
-## Decisions for you, roughly in order of impact
-
-1. **One market for all of Part E?** E1–E3 use the old code’s firm; E4–E5 use the sheet’s market. They could share one, so the monopoly in E3 is the monopoly in E5.
-2. **AVC is a straight line in the old model**, so “MC runs through the minimum of AVC” and a shutdown price below AVC can’t be shown (E1 and E2 build the ATC versions and say so). A cubic VC would fix both.
-3. **FC = 1,000 puts the long-run price at 44.72.** FC = 800 makes it exactly 40.
-4. **Marginal three-stage framing** (close-up → one unit on the graph → the market), the Part C core idea, is not built here. Natural places: E1 4.d (MB vs MC bars), E2 2.d (“should we increase our quantity by 10?”), E3 section 2 (MR from two points).
-5. **On-screen lines the builders wrote.** Every bottom line not taken from your notes is listed under “Choices left for Taylor” in that block’s storyboard.
-6. E5 has no thesis line yet. Its n = 15 stop lands on the same outcome as the sheet’s 10 price takers (a coincidence of the numbers); n = 12 is the suggested alternative.
-7. The colors above, and whether loss should be red.
-
-## Suggested order for the push
-
-E1 first (Monday): open `EpisodeE1` in the viewer beside `E1_Notes.md`, react to the beats, and keep the storyboard comments in step with each change. Then E2, E3, E4. E5 can wait until the four class blocks are settled.
+- Each block's `_archive/` has a dated folder with the notes, storyboards and builds that came before: `2026-11-09_consolidation` for E2 and `2026-11-11_consolidation` for E0, E1, E3, E4 and E5.
+- The ports of the old 2020 code that run in ManimL: `E1_Costs/_archive/2026-11-11_consolidation/E1_Animation_original.py`, `E2_Competition/_archive/2026-11-09_consolidation/E2_Animation_original.py`, and `E3_Monopoly/_archive/2026-11-11_consolidation/E3_Animation_original.py`.
+- Monopolistic competition is not taught this semester. Its notes, notebook, the unplaced fragments from E3 and a live copy of the E3 port (which holds the old entry-and-exit scenes) are in `EX_Monopolistic_Competition/`.
+- The handwritten sheet "Example: Three Market Structures" is `E5_Wrap_Up/E5_Handwritten_Three_Markets.pdf`. E4 and E5 follow its steps on the shared market; the builds on the sheet's own numbers are in their archives.

@@ -3,7 +3,7 @@
 # Competitive firms: E1's firm takes the market price, profit built from one unit (TR, TC, the box, q(P - ATC)),
 # the next unit decides quantity (MC = MR), short-run profit/loss and shutdown, then market entry and exit until profit is zero.
 # One firm throughout, E1's: TC = 1000 + q^2 (a $100 wage, a $1,000 fixed cost), MC = 2q, AVC = q, ATC = q + 1000/q,
-# lowest at q = sqrt(1000) = 31.6 where ATC = MC = 63.25. Market (Q in thousands): D: P = 120 - 2Q/3, S: P = kQ,
+# lowest at q = sqrt(1000) = 31.6 where ATC = MC = 63.25. Market (Q in thousands): D: P = 120 - Q, the line E3 to E5 read in units, S: P = kQ,
 # k = P*/Q* falls with entry and rises with exit. The firm's price is 100: q* = 50, ATC 70, TR 5,000, TC 3,500, profit 1,500.
 # /// script
 # requires-python = ">=3.11"
@@ -70,7 +70,8 @@ class EpisodeE2(Scene):
         FIRM_P, LONG_RUN_P = 100, 2 * np.sqrt(FIXED)              # 100, and 63.25 where MC = ATC
         ATC_TOP = 118                                              # ATC is drawn from where it comes down to 118
         ATC_START = (ATC_TOP - np.sqrt(ATC_TOP ** 2 - 4 * FIXED)) / 2
-        market_q = lambda p: 1.5 * (120 - p)                       # D: P = 120 - 2Q/3, from the axis at 120
+        DEMAND_SLOPE = 1                                           # D: P = 120 - Q, E3 to E5's demand line (2/3 until 2026-11-12)
+        market_q = lambda p: (120 - p) / DEMAND_SLOPE              # no displayed number depends on this slope
         supply_slope = lambda p: (p - policy_cost.get_value()) / market_q(p)  # entry/exit change the slope; unit cost sets the price intercept
         START_Q = 20
 
@@ -151,8 +152,8 @@ class EpisodeE2(Scene):
             Tex('Q', color=INK).scale(0.8).next_to(market_ax.c2p(MARKET_Q_MAX, 0), DOWN, buff=0.35))
         market_words[2].next_to(market_words[1], RIGHT, buff=0.35)
         DEMAND_END = 110                                           # D stops short of the axis end so its name clears the firm's P
-        market_demand = Line(market_ax.c2p(0, 120), market_ax.c2p(DEMAND_END, 120 - 2 * DEMAND_END / 3), color=DEMAND, stroke_width=CURVE_WIDTH)
-        demand_word = Tex('D', color=DEMAND).scale(CURVE_WORD_SCALE).next_to(market_ax.c2p(DEMAND_END, 120 - 2 * DEMAND_END / 3), RIGHT, buff=0.12)
+        market_demand = Line(market_ax.c2p(0, 120), market_ax.c2p(DEMAND_END, 120 - DEMAND_SLOPE * DEMAND_END), color=DEMAND, stroke_width=CURVE_WIDTH)
+        demand_word = Tex('D', color=DEMAND).scale(CURVE_WORD_SCALE).next_to(market_ax.c2p(DEMAND_END, 120 - DEMAND_SLOPE * DEMAND_END), RIGHT, buff=0.12)
         # Supply pivots about its price intercept and passes through equilibrium; unit cost is zero until the closer.
         supply_top_q = lambda p: min(MARKET_Q_MAX, (CURVE_TOP - policy_cost.get_value()) / supply_slope(p))
         supply_ends = lambda p: (market_ax.c2p(0, policy_cost.get_value()), market_ax.c2p(
@@ -1491,7 +1492,7 @@ class EpisodeE2(Scene):
         # ---- 4.a · Return to the spinach question on the same zero-profit market and firm.
         POLICY_COST = 30                                        # illustrative dollars per unit, not a measured policy estimate
         POLICY_SLOPE = supply_slope(LONG_RUN_P)                 # fixed number of firms during the initial cost increase
-        POLICY_SHORT_P = (120 * POLICY_SLOPE + 2 * POLICY_COST / 3) / (POLICY_SLOPE + 2 / 3)
+        POLICY_SHORT_P = (120 * POLICY_SLOPE + DEMAND_SLOPE * POLICY_COST) / (POLICY_SLOPE + DEMAND_SLOPE)
         # The exercise asks for directions of change, so keep only symbolic readouts in this closer.
         market_price.clear_updaters()
         market_price.remove(*market_price.submobjects)

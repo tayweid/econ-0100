@@ -76,12 +76,15 @@ class EpisodeE5(Scene):
         # One line of a side solve. Results are red and boxed, as on the sheet.
         work_line = lambda text, color=INK: Tex(text, color=color).scale(WORK_SCALE)
 
-        # ---- 0.a · The shared bumper. Thesis line left for Taylor (E5 has no notes header; C4's precedent).
+        # ---- 0.a · The shared bumper, with the thesis line the notes offer (Taylor's earlier line from E3).
         squares = bumper_raster(self)
         flicker(self, squares)
         episode = bumper_title(self, squares, 'E', 5)
+        thesis = Tex(r'\textit{The fewer sellers, the worse.}', color=CAPTION).scale(0.9)
+        thesis.next_to(episode, DOWN, buff=0.55)
+        self.play(FadeIn(thesis))
         self.pause('0.a')
-        self.play(FadeOut(squares), FadeOut(episode))
+        self.play(FadeOut(squares), FadeOut(episode), FadeOut(thesis))
         self.clear()
 
         # ---- 1.a · The sheet's header: one market, and every firm has the same marginal cost.
@@ -681,10 +684,10 @@ class EpisodeE5(Scene):
         self.play(FadeIn(rows[2]), run_time=0.5)
         self.pause('6.b.three')
 
-        # ---- 6.b.six · n = 7. (The beat keeps its name from the sheet's market, where this stop was n = 6.)
+        # ---- 6.b.seven · n = 7. (Named 6.b.six until 2026-11-12, for the sheet's market, where this stop was n = 6.)
         self.play(sellers.animate.set_value(7), run_time=2.6, rate_func=smooth)
         self.play(FadeIn(rows[3]), run_time=0.5)
-        self.pause('6.b.six')
+        self.pause('6.b.seven')
 
         # ---- 6.b · n = 17: more output, a lower price, a price closer to marginal cost.
         self.play(sellers.animate.set_value(17), run_time=3.0, rate_func=smooth)

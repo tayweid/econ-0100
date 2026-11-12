@@ -1,6 +1,6 @@
 # maniml E4_Animation.py EpisodeE4
 # Storyboard: E4_Notes.md. All lesson choreography stays in construct().
-# Duopoly, following the steps of Taylor's handwritten sheet (04_Handwritten.pdf) on E2 and E3's market: demand
+# Duopoly, following the steps of Taylor's handwritten sheet (E5_Wrap_Up/E5_Handwritten_Three_Markets.pdf) on E2 and E3's market: demand
 # P = 120 - Q, every firm MC = 2q. Monopoly MR = 120 - 2q, q* = 30, P* = 90 (E3's answer); duopoly
 # MR_A = 120 - 2q_A - q_B, BR_A: q_A = 30 - q_B/4, Nash q_A* = q_B* = 24, Q = 48, P* = 72.
 # (Until 2026-11-11 this used the sheet's own market, P = 200 - Q/2 and MC = 20 + q: 90 and 155, then 72 each and
@@ -297,13 +297,13 @@ class EpisodeE4(Scene):
         self.add(ghost_word)
         self.pause('4.b.zero')
 
-        # ---- 4.b.seventy_two · Firm B sells 24: firm A's demand and MR slide down; its best quantity falls to 24.
-        # (The beat keeps its name from the sheet's market, where firm B's quantity here was 72.)
+        # ---- 4.b.twenty_four · Firm B sells 24: firm A's demand and MR slide down; its best quantity falls to 24.
+        # (Named 4.b.seventy_two until 2026-11-12, for the sheet's market.)
         self.remove(note)
         self.play(q_b.animate.set_value(NASH_Q), run_time=ROLL_TIME, rate_func=smooth)
         note = teaching('Your marginal revenue also depends on how much the other firm sells.')
         self.play(FadeIn(note))
-        self.pause('4.b.seventy_two')
+        self.pause('4.b.twenty_four')
 
         # ---- 4.b · Firm B sells 48: firm A's best quantity falls to 18.
         self.remove(note)

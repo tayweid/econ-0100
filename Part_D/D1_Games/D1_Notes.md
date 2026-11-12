@@ -2,135 +2,6 @@
 margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 ---
 
-<!--
-Animation: D1_Animation.py · EpisodeD1
-First day of Part D: Strategic Interaction. Taxonomy, deadline simulation, then Baby Game Theory.
-Sources: ../D0_Strategic_Interaction/03_Code.py (taxonomy and A/B/C map)
-and _archive/03_Code_2026-10-19.py (definitions, four games, closing question).
-The old D0 fishing-simulation rules are outside this requested combined sequence;
-the original D0 source remains available. All four game matrices and all ties
-are preserved. The old D1 notes below are unreconciled author prose; no new
-lecture script has been substituted for them.
-
-Layout: Graphite 2:1, 15 fps; shared palette and serif Tex. Azure topic titles,
-optional grey context, 0.7443-scale gold bottom lines centered 0.05 from bottom.
-Taxonomy retains the original D0 layout and color-changing box choreography;
-the four game matrices use a 45-degree clockwise diamond layout. Each square
-cell is 1.5 units on a side; the board center is (0, -0.5). The original
-upper-left / upper-right / lower-left / lower-right outcomes now occupy the
-top / right / left / bottom of the diamond. All payoffs, strategy labels, and
-player names stay horizontal. Strategy labels use CMU Sans at scale 0.7 in
-CAPTION grey; player names retain serif type at scale 0.8 and their payoff
-colors, separating players from choices. Player 1's choices sit outside the upper-left
-edge, Player 2's outside the upper-right edge. Player names share y=2.0.
-During the Prisoner's Dilemma payoff reveals, background shading represents
-only the rival's fixed choice: a single band at 12% opacity behind the grid
-and numbers. Both players retain colored choice underlines. Start from
-Player 1's perspective with Player 2's Cooperate column shaded teal. Reveal
-both payoffs at Defect/Cooperate (5, then 0) before switching to Player 2's
-perspective: replace the teal shading with Player 1's Defect row in pink.
-Then introduce Player 2 switching to Defect. Reveal both payoffs at mutual
-Defect (Player 2's 1, then Player 1's 1) before returning to Player 1's
-perspective with Player 2's Defect column shaded teal. Complete the outcome's
-payoff pair before changing perspective; then consider Player 1 cooperating.
-Never retain both players' background bands at a pause.
-Introduce the payoff values without optimization claims first. Run the Vignette D1 deadline simulation between the taxonomy and the
-Prisoner’s Dilemma; there is no standalone definition scene. Then compare
-choices, show explicit best-response answers with the payoff boxes, and
-connect those comparisons to the definitions. Keep questions and answers on
-separate pauses; definition panels appear without a bottom yellow caption. Never retain both
-players' background bands at a pause.
-During best-response analysis in all four games, only the choice held fixed
-is underlined and shaded; remove both cues for the equilibrium summary.
-The background band and choice underline identify the fixed strategy.
-Use conditional language for hypothetical choices: “If Player 1 cooperates, …”.
-Individual best-response boxes remain upright.
-Nash and efficiency outlines are equal 1.35-unit squares rotated with the
-cells; their color and dashed overlay convention are unchanged. Payoff pairs
-use an upright grey pipe separator stretched to 130% height, with a 0.3-unit
-gap on each side before scaling to 0.85. Each line
-below names a click-through pause. New prose fades in only after old prose leaves.
-
-0.a · Original D0 opening: raster MICROECONOMICS, five flicker rounds; “Part D | Strategic Interaction” below it. Move this group to the top with a 1-unit margin and retain it through the taxonomy. The Part D label uses current title azure and the remaining title caption grey.
-1.a · Reveal the complete taxonomy Table in one fade, scale 0.7, directly below the retained opening and shifted 1 unit right. Preserve Rival / Non-Rival columns and Excludable / Non-Excludable rows, with red labels; Private Goods / Club Goods / Common Resources / Public Goods in white serif, grey rules. No separate taxonomy heading.
-1.b · Part A appears at the original upper-left anchor shifted 3 units down, scale 1.6, yellow. A yellow box with 0.5-unit padding surrounds Private Goods.
-1.c · The same box turns green without moving; green Part B appears one unit below Part A.
-1.d · The same box shifts DOWN exactly 0.5 units and turns teal; teal Part C appears one unit below Part B. This original offset is intentional and is not a new cell selection.
-1.e · Move the same box, without resizing, to Common Resources and turn it red. No added Part D label at left. After this pause, fade out the table, box, and A/B/C labels, then the retained opening, and continue to the Vignette D1 deadline simulation instead of the old fishing-simulation rules.
-2.a · Title “Vignette D1”, grey subtitle “A deadline decision”. Reveal three white context lines: recitations this week are for Reattempt B; Vignette D1 will be recorded; watch the recording and complete the vignette on your own. Pause before explaining the deadline rule.
-2.b · Fade out the context lines, retaining the title/subtitle. Start a deadline table with “Your choice” at x=-4.7 and “Default” at x=0. Show “Keep the standard deadline” (two lines) and Saturday on the first row (y=0). Grey table rules separate columns and rows; leave the extra-day row and right column unrevealed. Gold caption: “The usual deadline is Friday. Everyone starts with Saturday.” Pause.
-2.c · Add “Request one extra day” (two lines) and Sunday on the second row (y=-1.4). Gold caption: “You can request one extra day: Sunday.” Pause before revealing the catch.
-2.d · Replace “Default” with “30 or fewer requests”. Reveal the right column “31 or more requests” at x=4.6, with Friday for the standard deadline and Saturday for extra-day requests. Use 0.7-scale grey column/choice labels, white 1.0-scale days, and neutral grey rules. Gold caption: “With more than 30 requests, the standard deadline returns to Friday.” The threshold is an absolute count, including the student’s own request, not a share of the roughly 300-person room. Exactly 30 requests keeps Saturday/Sunday; 31 triggers Friday/Saturday. Pause with the full outcome table visible.
-2.e · Keep the full table visible, with the two choice labels unchanged. Gold caption: “Raise your hand for one extra day; keep it raised while I count.” Hold indefinitely for the instructor’s count and announcement. No invented class result, automated deadline change, payoff numbers, or game-theory solution. On the next click, clear the scene and begin the existing Prisoner’s Dilemma sequence.
-3.a1 · Prisoner's Dilemma: reveal the diamond grid, then Player 1's two choices. Gold caption: “Player 1 can choose Cooperate or Defect.”
-3.a2 · Reveal Player 2's two choices. Gold caption: “Player 2 has the same two choices.”
-3.a2r · What if Player 2 cooperates? Underline Cooperate in teal and shade only Player 2’s corresponding column. Pause before Player 1 chooses; no payoffs yet.
-3.a3q · If Player 1 also cooperates, what payoff do they receive? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
-3.a3 · If both cooperate, Player 1 receives 3. Reveal only Player 1’s payoff at cell (0, 0) and its grey pipe. Keep earlier numbers visible.
-3.a4 · If both cooperate, Player 2 receives 3. Reveal only Player 2’s payoff at cell (0, 0). Keep earlier numbers visible.
-3.a5q · If Player 2 cooperates, what if Player 1 defects? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
-3.a5 · If only Player 1 defects, Player 1 receives 5. Reveal only Player 1’s payoff at cell (1, 0) and its grey pipe. Keep earlier numbers visible.
-3.a6 · Gold caption: “If only Player 1 defects, Player 2 receives 0.” Reveal Player 2’s 0 immediately after Player 1’s 5, completing (5, 0) while Player 2’s Cooperate column remains shaded teal. Pause before changing perspective.
-3.a6q · With (5, 0) complete, switch to Player 2’s perspective: replace the teal column shading with Player 1’s Defect row in pink. Keep both choice underlines. Gold caption: “Now consider Player 2 switching to Defect.”
-3.a6r · Move Player 2's teal underline to Defect, retaining Player 1's pink Defect underline and row shading. Gold caption: “If Player 2 also defects, what payoff do they receive?” Pause with the new payoff hidden.
-3.a8 · Reveal Player 2's 1 and the grey pipe at cell (1, 1), before Player 1's payoff. Gold caption: “If both defect, Player 2 receives 1.” Retain only Player 1's Defect row shading.
-3.a7 · If both defect, Player 1 receives 1. Reveal Player 1’s 1 immediately after Player 2’s 1, completing (1, 1) while Player 1’s Defect row remains shaded pink. Pause before changing perspective.
-3.a7q · With (1, 1) complete, switch back to Player 1’s perspective: replace the pink row shading with Player 2’s Defect column in teal. Keep both Defect underlines. Gold caption: “If Player 2 defects, consider Player 1’s choice.”
-3.a9q · If Player 2 defects, what if Player 1 cooperates? Show Player 1’s pink choice underline; retain only Player 2’s background shading. Pause with the new payoff hidden.
-3.a9 · If only Player 2 defects, Player 1 receives 0. Reveal only Player 1’s payoff at cell (0, 1) and its grey pipe. Keep earlier numbers visible.
-3.a · If only Player 2 defects, Player 2 receives 5. Reveal only Player 2’s payoff at cell (0, 1). Keep earlier numbers visible.
-3.b · Teal shading and underline identify Player 2 choosing Cooperate; “If Player 2 cooperates, which choice gives Player 1 more?”
-3.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Defect: $5 > 3$.”
-3.d · Teal shading and underline identify Player 2 choosing Defect; “If Player 2 defects, which choice gives Player 1 more?”
-3.e · Add pink boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Defect: $1 > 0$.”
-3.e1 · Remove Player 2's fixed-choice shading and underline; retain both pink best-response payoff boxes. Gold caption: “Defect is best for Player 1 against either choice.” Pause to establish the result before defining it.
-3.e2 · Slide all visible game objects 3.7 units left at their existing size, retaining the title and fading out the bottom caption. Draw the familiar subtle grey vertical divider downward at x=0.3, from y=2.5 to -3.0 (MUTED, width 1, opacity 0.5). Fade in Best Response on the right: original definition wording reflowed at scale 0.7, gold term and white serif body. Pause. No bottom caption during this definition reveal.
-3.e3 · Fade in Dominant Strategy below Best Response, matching its typography, with a 0.65-unit gap. Pause with both definitions and the worked game visible. Then fade out the definitions/divider and return the game to its original centered position before continuing Player 2's best-response analysis. Keep the bottom caption area empty while the definitions are visible.
-3.f · Pink shading and underline identify Player 1 choosing Cooperate; “If Player 1 cooperates, what is Player 2's best response?”
-3.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Defect: $5 > 3$.”
-3.h · Pink shading and underline identify Player 1 choosing Defect; “If Player 1 defects, what is Player 2's best response?”
-3.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Defect: $1 > 0$.”
-3.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(1, 1)]. “At (Defect, Defect), neither player gains by switching alone.”
-3.j1 · Slide the highlighted game 3.7 units left, retaining the title and fading out the yellow caption. Drop the same subtle grey divider at x=0.3. Reveal Nash Equilibrium on the right at scale 0.7, gold term and white serif body: “A set of strategies such that no player can improve their payoff by unilaterally changing strategy.” Pause with the red equilibrium outline and both players’ best-response boxes visible; no bottom caption. Keep Nash, the divider, and the left-positioned game visible through the efficiency comparison.
-3.k · Add the green box around mutual cooperation [(0, 0)] in the left-positioned game. Keep Nash and its red outcome box visible. Pause before adding the social efficiency definition; no bottom caption.
-3.k1 · Reveal Social Efficiency directly below the retained Nash definition, aligned left with a 0.65-unit gap and matching typography: “An outcome is socially efficient if it maximizes the sum of all players' payoffs.” Pause with both definitions, the green cooperation outline, and red Nash outline visible; no bottom caption. Mutual cooperation remains (3, 3); it uniquely maximizes total payoff (6 versus 5, 5, and 2). This uses the total-payoff welfare criterion, treating payoffs as comparable and additive across players. Clear the scene before the next game.
-{++3.exercise · Exercise D1 card, B3 style: dim everything on screen to 5% and fade in a 13.6 × 5.4 rounded MUTED panel filled BG. Gold heading “Exercise D1 | Q1: Study Room Dynamics”; parts a)–e) from the handout at scale 0.7 on the left, c) being the proposed dominant-strategy part; on the right the study room game in the lecture's diamond (1.05-unit cells, upright text), Ravenclaw as Player 1 in pink and Hufflepuff as Player 2 in teal, payoffs [[(10, 10), (6, 12)], [(12, 6), (8, 8)]] with the grey pipe. No bottom caption. Students work Q1 here; then clear the scene before the next game.++}
-4.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 1), (0, 0)], [(0, 0), (1, 2)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
-4.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is Player 1's best response?”
-4.c · Add pink boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Play: $2 > 0$.”
-4.d · Teal shading and underline identify Player 2 choosing Movie; “If Player 2 chooses Movie, what is Player 1's best response?”
-4.e · Add pink boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Movie: $1 > 0$.”
-4.f · Pink shading and underline identify Player 1 choosing Play; “If Player 1 chooses Play, what is Player 2's best response?”
-4.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Play: $1 > 0$.”
-4.h · Pink shading and underline identify Player 1 choosing Movie; “If Player 1 chooses Movie, what is Player 2's best response?”
-4.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Movie: $2 > 0$.”
-4.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “Two pure-strategy Nash equilibria: both Play or both Movie.”
-5.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(2, 2), (1, 0)], [(0, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
-5.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is Player 1's best response?”
-5.c · Add pink boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Play: $2 > 0$.”
-5.d · Teal shading and underline identify Player 2 choosing Movie; “If Player 2 chooses Movie, what is Player 1's best response?”
-5.e · Add pink boxes to best-response payoffs at zero-based cells [(0, 1), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1 receives 1 either way: both choices are best responses.”
-5.f · Pink shading and underline identify Player 1 choosing Play; “If Player 1 chooses Play, what is Player 2's best response?”
-5.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 0)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Play: $2 > 0$.”
-5.h · Pink shading and underline identify Player 1 choosing Movie; “If Player 1 chooses Movie, what is Player 2's best response?”
-5.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 0), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2 receives 1 either way: both choices are best responses.”
-5.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(0, 0), (1, 1)]. “Both Play and both Movie are Nash equilibria.”
-5.k · Retain both red Nash boxes; overlay a same-size dashed green box on (Play, Play). “Both Play is socially efficient; both Movie is not.”
-6.a · Diamond layout (45 degrees clockwise, upright text). “Play Or Movie”: Player 2 column headers, then Player 1 row headers, then payoff cells in row order: [[(1, 0), (2, 1)], [(2, 1), (1, 1)]]. Row payoff is pink, column payoff teal. “Payoffs: Player 1 first, Player 2 second.”
-6.b · Teal shading and underline identify Player 2 choosing Play; “If Player 2 chooses Play, what is Player 1's best response?”
-6.c · Add pink boxes to best-response payoffs at zero-based cells [(1, 0)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Movie: $2 > 1$.”
-6.d · Teal shading and underline identify Player 2 choosing Movie; “If Player 2 chooses Movie, what is Player 1's best response?”
-6.e · Add pink boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 1's best response is Play: $2 > 1$.”
-6.f · Pink shading and underline identify Player 1 choosing Play; “If Player 1 chooses Play, what is Player 2's best response?”
-6.g · Add teal boxes to best-response payoffs at zero-based cells [(0, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2's best response is Movie: $1 > 0$.”
-6.h · Pink shading and underline identify Player 1 choosing Movie; “If Player 1 chooses Movie, what is Player 2's best response?”
-6.i · Add teal boxes to best-response payoffs at zero-based cells [(1, 0), (1, 1)]. Keep earlier response boxes visible; ties receive two boxes. Yellow caption: “Player 2 receives 1 either way: both choices are best responses.”
-6.j · Remove choice shading and underline; red equal-size boxes mark pure Nash cells [(0, 1), (1, 0)]. “Two pure-strategy Nash equilibria: different activities.”
-~~7.a · Gold “Question” heading and serif Ron-and-Harry room-cleaning prompt, copied verbatim from the old closing card.~~
-{++7.a–7.j · New on 2026-10-28, before the Date Night card (the struck 7.a above was the old closing card): Example 2 played one move at a time, for the contrast between a simultaneous and a sequential game. 7.a · Title “Play Or Movie”, grey subtitle “Example 2 again. Now Player 1 chooses first, and Player 2 sees the choice.” Left of a thin divider: the Example 2 diamond with its two red Nash boxes already on (Play, Play) and (Movie, Movie). Yellow: “At the same time: two Nash equilibria, and no way to say which.” 7.b · Right: the game tree, Player 1 as a pink root, Player 2 as two teal nodes labelled “Player 2”, branches labelled Play/Movie in grey sans, four leaves with the pairs 2|1, 0|0, 0|0, 1|2 in pink and teal. Yellow: “One at a time: Player 1 chooses, then Player 2 chooses knowing it.” 7.c · Player 1’s Play branch bold, the Movie branch and the lower subtree faint. Yellow: “If Player 1 chose Play, what does Player 2 do?” 7.d · Teal box on Player 2’s 1 at (Play, Play); that branch bold, the Movie branch faint. Yellow: “Player 2 plays Play: $1 > 0$.” 7.e · The emphasis moves to the Movie branch and the lower subtree. Yellow: “If Player 1 chose Movie, what does Player 2 do?” 7.f · Teal box on Player 2’s 2 at (Movie, Movie). Yellow: “Player 2 plays Movie: $2 > 0$.” 7.g · Both answered leaves back at full strength, Player 1’s Play branch bold, Movie faint; pink box on Player 1’s 2. Yellow: “Player 1 works backward: Play leads to 2, Movie to 1. Play.” 7.h · Red box around the (Play, Play) leaf; on the matrix the (Movie, Movie) Nash box fades to a quarter. Yellow: “Moving first selects an equilibrium: the first mover’s favorite.” 7.i · Yellow: “In the Prisoner’s Dilemma the order would not matter: Defect is best either way.” 7.j · Gold “Sequential Game” with two white lines: “One player moves first and the other sees the choice.” and “Solve it backward: the last move’s best responses, then the first move.” Then everything clears for the card.++}
-{++7.exercise · Replaces 7.a: the Ron-and-Harry card was a second shared-room cleaning story, overlapping Q1, and a story-to-matrix task, overlapping Q2 (its text stays in _archive/03_Code_2026-10-19.py). Same panel and layout as 3.exercise, nothing dimmed behind it: gold heading “Exercise D1 | Q2: Date Night” with the grey sans subtitle “Use the setup in the exercise file.”, parts a)–c) from the handout on the left, and an empty diamond on the right, Hagrid as Player 1 in pink and McGonagall as Player 2 in teal, choices Leaky Cauldron and Hog’s Head. Questions only: the story stays on the handout, to keep the screen light. Students build the matrix here. Final beat.++}
--->
-
 # D1 Games
 
 Public goods
@@ -140,3 +11,279 @@ This video does a simulation of public goods, and maps it into game theory, usin
 Instead of rival and non-excludable, what if a good were non-rival and excludable?
 
 Again markets don’t do well. But what if we tried another approach?
+
+<!--
+|   |   |
+| --- | --- |
+| Animation | D1_Animation.py, scene EpisodeD1, 86 holds: the taxonomy, the deadline simulation, the Prisoner’s Dilemma with its definitions, three Play Or Movie games, a sequential game, and two exercise cards. |
+| Model | Prisoner’s Dilemma: both cooperate 3 and 3; one defects 5 and 0; both defect 1 and 1. Example 2: Play, Play 2 and 1; Movie, Movie 1 and 2; otherwise 0 and 0. Example 3: Play, Play 2 and 2; Play, Movie 1 and 0; Movie, Play 0 and 1; Movie, Movie 1 and 1. Example 4: Play, Play 1 and 0; Play, Movie 2 and 1; Movie, Play 2 and 1; Movie, Movie 1 and 1. Player 1’s payoff is first. |
+| Open | There is no lecture prose of Taylor’s for D1. Every paragraph below is a marked addition by Claude, written from the animation. |
+| Open | The four lines under the title are older text about public goods, kept as found. |
+| Open | The deadline simulation’s details (Saturday, Sunday, 30 requests, Reattempt B) are this semester’s. |
+| Archive | The single long storyboard comment this file used to hold is in _archive/2026-11-12_consolidation/D1_Notes_before_consolidation.md. |
+-->
+
+## {++ Where we are ++}
+
+{++ So far the goods have been private: rival, and something you can keep other people from using. Parts A, B and C all lived in that one corner. Part D moves to goods that aren’t excludable, starting with common resources. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 0.a | Bumper: “Part D | Strategic Interaction”. |
+| 1.a | The taxonomy of goods: Rival and Non-Rival across, Excludable and Non-Excludable down, with Private Goods, Club Goods, Common Resources and Public Goods in the cells. |
+| 1.b | Part A, with a yellow box on Private Goods. |
+| 1.c | Part B: the same box turns green. |
+| 1.d | Part C: the box slides partway toward the non-excludable row and turns teal. |
+| 1.e | The box moves to Common Resources and turns red. |
+-->
+
+## {++ A deadline decision ++}
+
+{++ Before any theory, a decision for you. Recitations this week are for Reattempt B, so Vignette D1 will be recorded for you to do on your own. The usual deadline is Friday. Everyone starts with Saturday. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 2.a | Title “Vignette D1”; subtitle “A deadline decision”. Three lines of context about this week’s recitations and the recording. |
+| 2.b | A table begins: keep the standard deadline, Saturday. “The usual deadline is Friday. Everyone starts with Saturday.” |
+-->
+
+{++ You can ask for one more day. Here’s the catch: if more than 30 of you ask, the standard deadline goes back to Friday, and the extra day is only Saturday. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 2.c | A second row: request one extra day, Sunday. “You can request one extra day: Sunday.” |
+| 2.d | A second column, for 31 or more requests: Friday and Saturday. “With more than 30 requests, the standard deadline returns to Friday.” |
+-->
+
+{++ Raise your hand if you want the extra day. What’s best for you here depends on what everyone else does. That’s a game. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 2.e | “Raise your hand for one extra day; keep it raised while I count.” Hold for the count; no result is shown. |
+-->
+
+## {++ The Prisoner’s Dilemma ++}
+
+{++ Here is the simplest version of that. Two players, and each chooses to Cooperate or Defect. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.a1 | Title “Prisoner's Dilemma”. The diamond grid and Player 1’s choices. “Player 1 can choose Cooperate or Defect.” |
+| 3.a2 | “Player 2 has the same two choices.” |
+-->
+
+{++ The payoffs depend on both choices. Suppose Player 2 cooperates. If Player 1 cooperates too, each gets 3. If Player 1 defects instead, Player 1 gets 5 and Player 2 gets 0. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.a2r | What if Player 2 cooperates? Player 2’s Cooperate is shaded; no payoffs yet. |
+| 3.a3q | If Player 1 also cooperates, what payoff do they receive? |
+| 3.a3 | Player 1 receives 3. |
+| 3.a4 | Player 2 receives 3. |
+| 3.a5q | What if Player 1 defects? |
+| 3.a5 | Player 1 receives 5. |
+| 3.a6 | “If only Player 1 defects, Player 2 receives 0.” |
+-->
+
+{++ Now look at it from Player 2’s side. If Player 1 is defecting and Player 2 defects too, each gets 1. And if Player 2 defects while Player 1 cooperates, Player 1 gets 0 and Player 2 gets 5. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.a6q | The shading switches to Player 1’s Defect. “Now consider Player 2 switching to Defect.” |
+| 3.a6r | “If Player 2 also defects, what payoff do they receive?” |
+| 3.a8 | “If both defect, Player 2 receives 1.” |
+| 3.a7 | Player 1 receives 1 as well. |
+| 3.a7q | Back to Player 1’s side. “If Player 2 defects, consider Player 1’s choice.” |
+| 3.a9q | What if Player 1 cooperates? |
+| 3.a9 | Player 1 receives 0. |
+| 3.a | Player 2 receives 5. The matrix is complete. |
+-->
+
+## {++ Best responses ++}
+
+{++ What should Player 1 do? Hold Player 2’s choice fixed and compare. If Player 2 cooperates, 5 beats 3: defect. If Player 2 defects, 1 beats 0: defect. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.b | “If Player 2 cooperates, which choice gives Player 1 more?” |
+| 3.c | The 5 is boxed. “Player 1's best response is Defect: $5 > 3$.” |
+| 3.d | “If Player 2 defects, which choice gives Player 1 more?” |
+| 3.e | The 1 is boxed. “Player 1's best response is Defect: $1 > 0$.” |
+-->
+
+{++ Defect is best for Player 1 whatever Player 2 does. A choice that is best given what the other player does is a best response. A choice that is a best response to everything is a dominant strategy. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.e1 | “Defect is best for Player 1 against either choice.” |
+| 3.e2 | The game slides left, and the definition of Best Response appears beside it. |
+| 3.e3 | Dominant Strategy appears below it. |
+-->
+
+{++ Player 2 faces the same numbers, so the same two comparisons give the same answer. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.f | “If Player 1 cooperates, what is Player 2's best response?” |
+| 3.g | “Player 2's best response is Defect: $5 > 3$.” |
+| 3.h | “If Player 1 defects, what is Player 2's best response?” |
+| 3.i | “Player 2's best response is Defect: $1 > 0$.” |
+-->
+
+## {++ Nash equilibrium and efficiency ++}
+
+{++ So both defect. At that outcome neither player can do better by switching alone. That’s a Nash equilibrium. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.j | A red box on Defect, Defect. “At (Defect, Defect), neither player gains by switching alone.” |
+| 3.j1 | The game slides left, and the definition of Nash Equilibrium appears beside it. |
+-->
+
+{++ But look at mutual cooperation. Each would get 3 instead of 1. Adding the two payoffs, it gives 6, more than any other outcome: it is socially efficient. The equilibrium is not. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.k | A green box on Cooperate, Cooperate, beside the red one. |
+| 3.k1 | The definition of Social Efficiency appears below Nash: the outcome that maximizes the sum of the players’ payoffs. |
+-->
+
+### {++ Whiteboard | Exercise D1 Q1 ++}
+
+{++ > Study Room Dynamics: parts a) to e) on the handout. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 3.exercise | The Exercise D1 Q1 card: the questions on the left and the study room game in the lecture’s diamond on the right. Students work it here. |
+-->
+
+## {++ Three more games ++}
+
+{++ Same method, different payoffs. Two people choose between a play and a movie. They’d like to go together, but Player 1 prefers the play and Player 2 the movie. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 4.a | Title “Play Or Movie”; subtitle “Example 2”. The matrix. “Payoffs: Player 1 first, Player 2 second.” |
+-->
+
+{++ Hold one player fixed and find the other’s best response, four times. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 4.b | “If Player 2 chooses Play, what is Player 1's best response?” |
+| 4.c | “Player 1's best response is Play: $2 > 0$.” |
+| 4.d | “If Player 2 chooses Movie, what is Player 1's best response?” |
+| 4.e | “Player 1's best response is Movie: $1 > 0$.” |
+| 4.f | “If Player 1 chooses Play, what is Player 2's best response?” |
+| 4.g | “Player 2's best response is Play: $1 > 0$.” |
+| 4.h | “If Player 1 chooses Movie, what is Player 2's best response?” |
+| 4.i | “Player 2's best response is Movie: $2 > 0$.” |
+-->
+
+{++ Each wants to be where the other is, so there are two Nash equilibria: both at the play, or both at the movie. The method doesn’t tell us which. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 4.j | Red boxes on both. “Two pure-strategy Nash equilibria: both Play or both Movie.” |
+-->
+
+{++ Change the payoffs. Now both like the play together best. But if the other player goes to the movie, you get 1 whichever you choose. A tie means both choices are best responses. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 5.a | Subtitle “Example 3”. The new matrix. |
+| 5.b | “If Player 2 chooses Play, what is Player 1's best response?” |
+| 5.c | “Player 1's best response is Play: $2 > 0$.” |
+| 5.d | “If Player 2 chooses Movie, what is Player 1's best response?” |
+| 5.e | Two boxes. “Player 1 receives 1 either way: both choices are best responses.” |
+| 5.f | “If Player 1 chooses Play, what is Player 2's best response?” |
+| 5.g | “Player 2's best response is Play: $2 > 0$.” |
+| 5.h | “If Player 1 chooses Movie, what is Player 2's best response?” |
+| 5.i | Two boxes. “Player 2 receives 1 either way: both choices are best responses.” |
+-->
+
+{++ Again two equilibria. This time they aren’t equally good: both at the play is efficient, and both at the movie is not. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 5.j | “Both Play and both Movie are Nash equilibria.” |
+| 5.k | A dashed green box on Play, Play. “Both Play is socially efficient; both Movie is not.” |
+-->
+
+{++ One more. Here Player 1 would rather be at a different activity from Player 2. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 6.a | Subtitle “Example 4”. The new matrix. |
+| 6.b | “If Player 2 chooses Play, what is Player 1's best response?” |
+| 6.c | “Player 1's best response is Movie: $2 > 1$.” |
+| 6.d | “If Player 2 chooses Movie, what is Player 1's best response?” |
+| 6.e | “Player 1's best response is Play: $2 > 1$.” |
+| 6.f | “If Player 1 chooses Play, what is Player 2's best response?” |
+| 6.g | “Player 2's best response is Movie: $1 > 0$.” |
+| 6.h | “If Player 1 chooses Movie, what is Player 2's best response?” |
+| 6.i | Two boxes. “Player 2 receives 1 either way: both choices are best responses.” |
+| 6.j | “Two pure-strategy Nash equilibria: different activities.” |
+-->
+
+## {++ Moving first ++}
+
+{++ Back to Example 2, where we couldn’t say which equilibrium would happen. What if Player 1 chooses first, and Player 2 sees the choice? ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 7.a | Subtitle “Example 2 again. Now Player 1 chooses first, and Player 2 sees the choice.” The matrix with its two Nash boxes. “At the same time: two Nash equilibria, and no way to say which.” |
+| 7.b | A game tree beside it: Player 1, then Player 2, then four payoff pairs. “One at a time: Player 1 chooses, then Player 2 chooses knowing it.” |
+-->
+
+{++ Solve it backward. If Player 1 chose Play, Player 2 picks Play, 1 over 0. If Player 1 chose Movie, Player 2 picks Movie, 2 over 0. Knowing that, Player 1 compares 2 with 1 and chooses Play. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 7.c | “If Player 1 chose Play, what does Player 2 do?” |
+| 7.d | “Player 2 plays Play: $1 > 0$.” |
+| 7.e | “If Player 1 chose Movie, what does Player 2 do?” |
+| 7.f | “Player 2 plays Movie: $2 > 0$.” |
+| 7.g | “Player 1 works backward: Play leads to 2, Movie to 1. Play.” |
+-->
+
+{++ Moving first picks out one of the two equilibria: the first mover’s favorite. In the Prisoner’s Dilemma the order wouldn’t matter, because Defect is best either way. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 7.h | A red box on the Play, Play leaf; the other Nash box fades. “Moving first selects an equilibrium: the first mover’s favorite.” |
+| 7.i | “In the Prisoner’s Dilemma the order would not matter: Defect is best either way.” |
+| 7.j | “Sequential Game”: one player moves first and the other sees the choice; solve it backward. |
+-->
+
+### {++ Whiteboard | Exercise D1 Q2 ++}
+
+{++ > Date Night: build the matrix from the setup in the exercise file, parts a) to c). ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 7.exercise | The Exercise D1 Q2 card: the questions on the left and an empty diamond for Hagrid and McGonagall on the right. Students build the matrix. The animation ends here. |
+-->
