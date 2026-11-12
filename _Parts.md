@@ -100,7 +100,7 @@ econ-0100/
 ├── Part_A/
 │   ├── A0_Welcome/       # one directory per block, prefixed by part letter and block number
 │   ├── A1_The_PPF/
-│   └── A_Skillsheet.typ  # part-level material sits beside its blocks, prefixed by the letter
+│   └── A_Skillsheet.md   # part-level material sits beside its blocks, prefixed by the letter
 ├── Part_B/
 │   ├── B0_Markets/
 │   ├── ...

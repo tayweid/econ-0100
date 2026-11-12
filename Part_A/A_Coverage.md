@@ -1,6 +1,6 @@
 # Coverage A | Skillsheet standards vs. practice
 
-Which practice file exercises each standard bullet on `A_Skillsheet.typ`. Fall 2026 as built. Vignettes A1–A3 are the Colin Creevey / Katie Bell arc, run back to back in one recitation. A bullet is "covered" when a student who does the practice has actually been asked it, not when the setup merely has the property.
+Which practice file exercises each standard bullet on `A_Skillsheet.md`. Fall 2026 as built. Vignettes A1–A3 are the Colin Creevey / Katie Bell arc, run back to back in one recitation. A bullet is "covered" when a student who does the practice has actually been asked it, not when the setup merely has the property.
 
 | Skill | Standard bullet | Exercise | Vignette | Homework |
 |---|---|---|---|---|

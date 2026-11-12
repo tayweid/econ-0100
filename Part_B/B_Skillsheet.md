@@ -1,39 +1,37 @@
 ---
+margin: {top: 0.75in, right: 0.5in, bottom: 0.75in, left: 0.5in}
+linestretch: 1.3
 plass:
   number-equations: false
 ---
 
-## Skillsheet B | ECON 0100 | Fall 2026
+# Skillsheet B | ECON 0100 | Fall 2026
 
 *Coordination Using Competitive Markets*
 
-### How to use this sheet
+Use this Skillsheet to guide your studying. You’ll find a list of every skill in Part B, what practice unlocks it, and the standard you must meet to pass it on a Checkpoint.
 
-This sheet lists every assessed skill in Part B. Your grade is the percentage of skills you pass across the semester, so this sheet is the container for your studying: it tells you what each skill is, where we build it, what practice unlocks it, and the standard you must meet to pass it on Checkpoint B.
+Use the three types of practice to identify to yourself whether you understand the skill. Do each practice without much support from the solutions or other resources. This will tell you whether you understand the skill, and if not, it will give you a venue to get yourself unstuck. Do not simply submit the correct answers: since practice is graded for completion not correctness, there is no reason to submit perfect answers you do not fully understand.
 
-Each skill has three types of practice: the **Exercise** (done together in class), the **Vignette** (done together in recitation), and the **Homework** (done on your own time, due Sundays). Practice is graded for completion, not correctness. But you will get feedback on which Homework questions you got right and wrong. 
+Each skill has three types of practice: the **Exercise** (done together in class), the **Vignette** (done together in recitation), and the **Homework** (done on your own time, due Sundays).
 
 - Complete **2 of 3** practices for a skill to unlock the skill on Checkpoint B.
 - Complete **3 of 3** practices for a skill to unlock the Reattempt.
 
-Skills you pass stay passed. If you no-pass a skill on Checkpoint B, complete all three practices and take the Reattempt. 
+::: {.table style=grid columns="72pt auto auto auto auto" fills=r0:gray-dark valign="r0c0:middle r0c1:middle r0c2:middle r1c0:middle r1c1:middle r1c2:middle r2c0:middle r2c1:middle r2c2:middle r3c0:middle r3c1:middle r3c2:middle r4c0:middle r4c1:middle r4c2:middle r5c0:middle r5c1:middle r5c2:middle r6c0:middle r6c1:middle r6c2:middle r7c0:middle r7c1:middle r7c2:middle r8c0:middle r8c1:middle r8c2:middle r9c0:middle r9c1:middle r9c2:middle r10c0:middle r10c1:middle r10c2:middle" spans=r0c2:3x1}
 
-### The skills at a glance
-
-::: {.table style=grid inset=9pt columns="auto 1fr auto" fills=r0:gray-dark valign=middle}
-
-| **Code** | **Skill** | **Practice** |
-| :---: | :--- | :---: |
-| B1.1 | Demand | Exercise B1 · Vignette B1 · HW B1 |
-| B1.2 | Consumer Surplus | Exercise B1 · Vignette B1 · HW B1 |
-| B2.1 | Supply | Exercise B2 · Vignette B2 · HW B2 |
-| B2.2 | Producer Surplus | Exercise B2 · Vignette B2 · HW B2 |
-| B3.1 | Equilibrium | Exercise B3 · Vignette B3 · HW B3 |
-| B4.1 | Efficiency & Total Surplus | Exercise B4 · Vignette B4 · HW B4 |
-| B4.2 | Price Controls | Exercise B4 · Vignette B4 · HW B4 |
-| B5.1 | Supply & Demand Shifters | Exercise B5 · Vignette B5 · HW B5 |
-| B5.2 | Price Elasticity | Exercise B5 · Vignette B5 · HW B5 |
-| B5.3 | Comparative Statics | Exercise B5 · Vignette B5 · HW B5 |
+| **Code** | **Skill** | **Practice** |   |   |
+| :---: | :--- | :---: | --- | --- |
+| B1.1 | Demand | Exercise B1 | Vignette B1 | HW B1 |
+| B1.2 | Consumer Surplus | Exercise B1 | Vignette B1 | HW B1 |
+| B2.1 | Supply | Exercise B2 | Vignette B2 | HW B2 |
+| B2.2 | Producer Surplus | Exercise B2 | Vignette B2 | HW B2 |
+| B3.1 | Equilibrium | Exercise B3 | Vignette B3 | HW B3 |
+| B4.1 | Efficiency & Total Surplus | Exercise B4 | Vignette B4 | HW B4 |
+| B4.2 | Price Controls | Exercise B4 | Vignette B4 | HW B4 |
+| B5.1 | Supply & Demand Shifters | Exercise B5 | Vignette B5 | HW B5 |
+| B5.2 | Price Elasticity | Exercise B5 | Vignette B5 | HW B5 |
+| B5.3 | Comparative Statics | Exercise B5 | Vignette B5 | HW B5 |
 
 :::
 

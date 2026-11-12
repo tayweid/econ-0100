@@ -1,37 +1,34 @@
 ---
-margin: {top: 1in, right: 1in, bottom: 1in, left: 1in}
+margin: {top: 0.75in, right: 0.5in, bottom: 0.75in, left: 0.5in}
+linestretch: 1.3
 plass:
   number-equations: false
 ---
 
-## Skillsheet C | ECON 0100 | Fall 2026
+# Skillsheet C | ECON 0100 | Fall 2026
 
 *Externalities*
 
-### How to use this sheet
+Use this Skillsheet to guide your studying. You’ll find a list of every skill in Part C, what practice unlocks it, and the standard you must meet to pass it on a Checkpoint.
 
-This sheet lists every assessed skill in Part C. Your grade is the percentage of skills you pass across the semester, so this sheet is the container for your studying: it tells you what each skill is, where we build it, what practice unlocks it, and the standard you must meet to pass it on Checkpoint C.
+Use the three types of practice to identify to yourself whether you understand the skill. Do each practice without much support from the solutions or other resources. This will tell you whether you understand the skill, and if not, it will give you a venue to get yourself unstuck. Do not simply submit the correct answers: since practice is graded for completion not correctness, there is no reason to submit perfect answers you do not fully understand.
 
-Each skill has three types of practice: the **Exercise** (done together in class), the **Vignette** (done together in recitation), and the **Homework** (done on your own time, due Sundays). Practice is graded for completion, not correctness. But you will get feedback on which Homework questions you got right and wrong.
+Each skill has three types of practice: the **Exercise** (done together in class), the **Vignette** (done together in recitation), and the **Homework** (done on your own time, due Sundays).
 
 - Complete **2 of 3** practices for a skill to unlock the skill on Checkpoint C.
 - Complete **3 of 3** practices for a skill to unlock the Reattempt.
 
-Skills you pass stay passed. If you do not pass a skill on Checkpoint C, complete all three practices and take the Reattempt.
-
 **Assessment scope.** The standards below define the evidence required for each pass. Show calculation setups; minor arithmetic slips do not erase a correct method. Skills are judged separately. Deadweight loss is the one welfare measure you must calculate; consumer surplus, producer surplus, and government revenue or spending are not required.
 
-### The skills at a glance
+::: {.table style=grid columns="72pt auto auto auto auto" fills=r0:gray-dark valign="r0c0:middle r0c1:middle r0c2:middle r1c0:middle r1c1:middle r1c2:middle r2c0:middle r2c1:middle r2c2:middle r3c0:middle r3c1:middle r3c2:middle r4c0:middle r4c1:middle r4c2:middle r5c0:middle r5c1:middle r5c2:middle" spans=r0c2:3x1}
 
-::: {.table style=grid inset=9pt columns="auto 1fr auto" fills=r0:gray-dark valign=middle}
-
-| **Code** | **Skill** | **Practice** |
-| :---: | :--- | :---: |
-| C1.1 | Negative Externalities | Exercise C1 · Vignette C1 · HW C1 |
-| C1.2 | Positive Externalities | Exercise C1 · Vignette C1 · HW C1 |
-| C2.1 | Taxes & Incidence | Exercise C2 · Vignette C2 · HW C2 |
-| C2.2 | Subsidies | Exercise C2 · Vignette C2 · HW C2 |
-| C3.1 | Corrective Taxes & Subsidies | Exercise C3 · Vignette C3 · HW C3 |
+| **Code** | **Skill** | **Practice** |   |   |
+| :---: | :--- | :---: | --- | --- |
+| C1.1 | Negative Externalities | Exercise C1 | Vignette C1 | HW C1 |
+| C1.2 | Positive Externalities | Exercise C1 | Vignette C1 | HW C1 |
+| C2.1 | Taxes & Incidence | Exercise C2 | Vignette C2 | HW C2 |
+| C2.2 | Subsidies | Exercise C2 | Vignette C2 | HW C2 |
+| C3.1 | Corrective Taxes & Subsidies | Exercise C3 | Vignette C3 | HW C3 |
 
 :::
 

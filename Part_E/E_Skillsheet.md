@@ -1,42 +1,35 @@
 ---
-margin: {top: 1in, right: 1in, bottom: 1in, left: 1in}
+margin: {top: 0.75in, right: 0.5in, bottom: 0.75in, left: 0.5in}
+linestretch: 1.3
 plass:
   number-equations: false
 ---
 
-<!-- Editor. DRAFT, 2026-11-11. Skill names, the split into eight skills, and every standard below are proposals for Taylor, written from the E0 to E5 notes, Exercise E1 and E2, and the past Part E checkpoints. Open choices: (1) whether E1.1 Production Functions is assessed; (2) whether shutdown stays in E2.1; (3) whether monopoly and duopoly keep two skills each; (4) whether duopoly includes firms with different marginal costs. Policy on firms with market power and monopolistic competition are not skills here. The Practice column names handouts that exist or are drafted; see the practice record in E_Practice_Bank/_Index.md for what each one covers and what is still to be written. -->
+# Skillsheet E | ECON 0100 | Fall 2026
 
-## Skillsheet E | ECON 0100 | Fall 2026
+*Sellers and market power.*
 
-*Sellers*
+Use this Skillsheet to guide your studying. You’ll find a list of every skill in Part E, what practice unlocks it, and the standard you must meet to pass it on a Checkpoint. 
 
-### How to use this sheet
+Use the three types of practice to identify to yourself whether you understand the skill. Do each practice without much support from the solutions or other resources. This will tell you whether you understand the skill, and if not, it will give you a venue to get yourself unstuck. Do not simply submit the correct answers: since practice is graded for completion not correctness, there is no reason to submit perfect answers you do not fully understand. 
 
-This sheet lists every assessed skill in Part E. Your grade is the percentage of skills you pass across the semester, so this sheet is the container for your studying: it tells you what each skill is, where we build it, what practice unlocks it, and the standard you must meet to pass it on Checkpoint E.
-
-Each skill has three types of practice: the **Exercise** (done together in class), the **Vignette** (done together in recitation), and the **Homework** (done on your own time, due Sundays). Practice is graded for completion, not correctness. But you will get feedback on which Homework questions you got right and wrong.
+Each skill has three types of practice: the **Exercise** (done together in class), the **Vignette** (done together in recitation), and the **Homework** (done on your own time, due Sundays).
 
 - Complete **2 of 3** practices for a skill to unlock the skill on Checkpoint E.
 - Complete **3 of 3** practices for a skill to unlock the Reattempt.
 
-Skills you pass stay passed. If you do not pass a skill on Checkpoint E, complete all three practices and take the Reattempt.
+::: {.table style=grid columns="72pt auto auto auto auto" fills=r0:gray-dark valign="r0c0:middle r0c1:middle r0c2:middle r1c0:middle r1c1:middle r1c2:middle r2c0:middle r2c1:middle r2c2:middle r3c0:middle r3c1:middle r3c2:middle r4c0:middle r4c1:middle r4c2:middle r5c0:middle r5c1:middle r5c2:middle r6c0:middle r6c1:middle r6c2:middle r7c0:middle r7c1:middle r7c2:middle r8c0:middle r8c1:middle r8c2:middle" spans=r0c2:3x1}
 
-**Assessment scope.** The standards below define the evidence required for each pass. Skills are judged separately, and each question gives its own numbers. Demand and marginal cost are straight lines, and marginal revenue is given whenever it differs from the price. Duopoly questions have two sellers of an identical good who each choose a quantity.
-
-### The skills at a glance
-
-::: {.table style=grid inset=9pt columns="auto 1fr auto" fills=r0:gray-dark valign=middle}
-
-| **Code** | **Skill** | **Practice** |
-| :---: | :--- | :---: |
-| E1.1 | Production Functions | Exercise E1 · Vignette E1 · HW E1 |
-| E1.2 | Cost Curves | Exercise E1 · Vignette E1 · HW E1 |
-| E2.1 | The Competitive Firm | Exercise E2 · Vignette E2 · HW E2 |
-| E2.2 | Entry, Exit & the Long Run | Exercise E2 · Vignette E2 · HW E2 |
-| E3.1 | Monopoly Price & Quantity | Exercise E3 · Vignette E3 · HW E3 |
-| E3.2 | Market Power & Deadweight Loss | Exercise E3 · Vignette E3 · HW E3 |
-| E4.1 | Best Responses in a Duopoly | Exercise E4 · Vignette E4 · HW E4 |
-| E4.2 | Duopoly Equilibrium | Exercise E4 · Vignette E4 · HW E4 |
+| **Code** | **Skill** | **Practice** |   |   |
+| :---: | :--- | :---: | --- | --- |
+| E1.1 | Production Functions | Exercise E1 | Vignette E1 | HW E1 |
+| E1.2 | Cost Curves | Exercise E1 | Vignette E1 | HW E1 |
+| E2.1 | The Competitive Firm | Exercise E2 | Vignette E2 | HW E2 |
+| E2.2 | Entry, Exit & the Long Run | Exercise E2 | Vignette E2 | HW E2 |
+| E3.1 | Monopoly Price & Quantity | Exercise E3 | Vignette E3 | HW E3 |
+| E3.2 | Market Power & Deadweight Loss | Exercise E3 | Vignette E3 | HW E3 |
+| E4.1 | Best Responses in a Duopoly | Exercise E4 | Vignette E4 | HW E4 |
+| E4.2 | Duopoly Equilibrium | Exercise E4 | Vignette E4 | HW E4 |
 
 :::
 
