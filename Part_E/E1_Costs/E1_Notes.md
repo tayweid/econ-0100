@@ -26,6 +26,26 @@ then do averages
 
 then do marginal cost
 
+{++ From the November 1, 2023 class notes: ++}
+
+- Production Functions
+- Marginal Costs
+- Total Costs
+- Average and Marginal Costs
+- The Punchline
+
+{++ From the Week 9 introduction in the 2022 and 2023 notebooks: ++}
+
+In Week 9 we're turning to sellers, asking how they make choices by building up their costs and benefits. To do this (unfortunately in my mind) requires doing some accounting. So that's where we started last week, and where we'll continue this week.
+
+On Tuesday we'll continue discussing cost curves. Cost curves come from the relationship between inputs and outputs. The more productive we are, the less we need to spend on inputs for any quantity of output. The main cost curves we think about are Total Cost, Average Total Cost, Average Variable Cost, and Marginal Cost. We'll talk about the important relationships between these curves, especially that
+
+On Thursday we'll talk about our familiar model of supply and demand in competitive markets, but from the perspective to the seller's costs and benefits. We'll first talk about how the seller's benefits result from the market. And how monopoly firms face very different benefits from the market. We'll close by discussing the solution to the firm's profit maximization decision, what we call "The Firm's Problem".
+
+I'm trying a new thing for this section: interactives! I've spent some time putting together a cost interactive tool, so take a look and maybe spend 5 minutes playing around with the sliders to build up some sense of the relationship between cost curves.
+
+Homework 3 is due on Thursday, so plan accordingly. :)
+
 <!--
 |   |   |
 | --- | --- |
@@ -34,6 +54,8 @@ then do marginal cost
 | Order | The animation traces AVC, then AFC, then ATC (3.g, 3.h, 3.f); the sentence in Cost Curves names them ATC, AVC, AFC and is left in that order. |
 | Open | The paragraphs are the old video script and still need reconciling with the animation. “Can I do something with the Molly framing here?” is unanswered. |
 | Marked | Everything inside addition marks is Claude’s: short bridges where the animation’s numbers or direction differ from the script. |
+
+| Past notes | The November 1, 2023 class outline from _Schedule.md and the Week 9 introduction from the old notebooks are placed under the March 23 class list, unmarked. |
 | Archive | The October 30 comments and the November 9 review sheet are in _archive/2026-11-11_consolidation/. |
 -->
 

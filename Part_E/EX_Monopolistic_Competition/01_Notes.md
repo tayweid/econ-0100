@@ -133,3 +133,7 @@ If these two curves shift out far enough, we end up with positive profits again.
 And some process. Pushes the market toward smaller and smaller profits with negative profits or losses leading to exit and positive profits leading to entry.
 
 No matter how the dynamics play out in the long run. This market. This monopolistically competitive market with a tax ends up with zero profits in the long run.
+
+{++ From the Week 11 introduction in the 2022 and 2023 notebooks: ++}
+
+We'll then extend the model to look at branded goods. When firms sell differentiated products but who's products can be substituted for other similar goods, they aren't fully Monopolists but also aren't facing perfect competition. Think about restaurants in Oakland. Most places have their own brand, but you'd be willing to find another place to eat if your favorite spot doubled their prices. That's what we'll discuss, and it's probably my favorite model.

@@ -33,6 +33,8 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Open | The demand pivot and the policy sizes (20, 500, 1,800) are Claude’s picks. |
 | Open | E2 moves to this demand line after class; nothing it displays changes. |
 | Marked | Everything inside addition marks is Claude’s: the bridge sentence, the warmup, Q1 to Q3 and the next-time line. |
+
+| Past notes | Taylor’s class notes from November 2022 and 2023 in _Schedule.md, and the Week 11 introduction, are placed at the top of the Monopoly section, unmarked. The 2022 note is a plan for this lesson: MR from two quantities, the same steps as perfect competition, and the conclusions. |
 | Archive | Earlier notes, code and builds are in _archive/2026-11-11_consolidation/. |
 -->
 
@@ -53,6 +55,23 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 -->
 
 ## Monopoly
+
+{++ From the November 12, 2023 class notes: ++}
+
+- Firm’s problem algorithm
+- Monopoly
+- Monopolist MR: zoom in to see the slope
+- Monopolist’s Problem
+- Implications
+- Oligopoly Teaser
+
+{++ From the November 13, 2022 class notes: ++}
+
+the main idea is that monopolies have a very different mr curve put up the solution steps for perfect competition and the graphs introduce monopoly give the intuition for why MR isn’t a line do this by picking two quantities and asking the price that’s required to sell everything do some actual math here, showing MR then show the profit maximization thing again, that the only difference is that MR isn’t horizontal maybe emphasize that rationality happens on the margin then do the solution using the steps already on the board close with the conclusions that because firms have power, they pick quantity too low, this makes DWL, and they don’t operate at minATC but there are similar situations, but where we’re somewhere in between monopoly and perfect competition this is next class
+
+{++ From the Week 11 introduction in the 2022 and 2023 notebooks: ++}
+
+On Thursday we'll continue building our model of Monopoly Firms, firms with no competition. The main idea is that both the demand curve and marginal revenue curves are downward sloping, where for perfectly competitive firms both D and MR were flat lines at the market price. We'll use this model to discuss welfare implications and policy options.
 
 {++ Last time the firm was one of many: one more unit sold at the market price, so marginal revenue was the price. Today the firm is the only seller. ++}
 

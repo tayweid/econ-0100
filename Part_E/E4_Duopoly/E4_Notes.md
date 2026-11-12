@@ -33,6 +33,8 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Open | The title says Oligopoly; the folder and the animation say Duopoly. Only the first thesis line is on the bumper. |
 | Open | No opener or exercise cards: the warmup and Q1 to Q3 exist only here. The timing table is untested. |
 | Marked | Everything inside addition marks is Claude’s: the warmup, Q1 to Q3, and the paragraphs for the holds Taylor’s prose does not reach. |
+
+| Past notes | Taylor’s older oligopoly notes are placed at the top of the Oligopoly section, unmarked: the November 15, 2023 outline, the Week 12 introduction, and the older opening on cartels, the high and low quantity game, the advertising game and repeated games. None of that older material is in the animation. |
 | Archive | Earlier notes, stubs and the sheet-market build are in _archive/2026-11-11_consolidation/. |
 -->
 
@@ -51,6 +53,47 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 -->
 
 ## Oligopoly
+
+{++ From the November 15, 2023 class notes: ++}
+
+- Monopoly Refresh
+- Monopoly to Duopoly
+- Solving the Duopolist’s Problem
+- Implications
+
+{++ From the Week 12 introduction in the 2022 and 2023 notebooks: ++}
+
+On Thursday we'll introduce the Oligopoly market structure (ch. 17). The markets we've explored to this point have either had one or many sellers. What happens when there are a few firms? Similar to our model of Common Resources, firms in Oligopoly must consider strategic interaction between their market decisions. So to model Oligopolistic firms we need to turn back to Game Theory. Much of what we'll do here will remind you of Common Resources.
+
+{++ The older oligopoly notes, from _Schedule.md and the same notebooks: ++}
+
+We’ve just finished dealing with Monopoly markets, where there is one firm. These are pretty rare, outside the few cases of Natural Monopolies like Comcast, where there are very high barriers to entry. Its very uncommon for markets to have one seller, but it’s much more likely that markets have few sellers.
+
+And in a way, oligopoly is the most general form of market model.
+
+The limited set of competitors in the market can behave in two general types of ways: Cooperatively and Non-Cooperatively. If they cooperate, they are forming what we call a ‘Cartel’. The most famous example is OPEC (Organization of Petroleum Exporting Countries). And if you can get all the competitors to cooperate, you can essentially operate like a monopoly.
+
+But as we’ll see, it’s pretty difficult to get competitors to cooperate, difficult to sustain the cartel.
+
+So we can think about competitive markets on one extreme and Monopoly on the other, Oligopoly lives somewhere in between. And part of the story is about where in between we end up.
+
+And you’ve maybe already noticed there is strategic interaction between competitors.
+
+And we can see it with Demand. If my competitor is producing very little, I can produce a lot, move the price down and make a bunch of revenue. But this is bad for them, since the price goes down.
+
+We’ll talk about how we use the demand curve with this type of problem, but before we do, lets look at a simpler model. Instead of choosing any quantity, we’ll just think about a high and low quantity. And we’ll abstract away from the details of costs and revenue and construct a profit matrix.
+
+If I choose a high
+
+Advertising Game
+
+Repeated Game with one player playing Grimm in infinitely repeated. This doesn’t work if there’s a known last period.
+
+Terms:
+
+- Residual Demand
+- Response Function
+- Nash Equilibrium
 
 While markets can be great at organizing production and exchange, we’ve just shown that markets can start to break down when sellers have some influence on prices. We showed that competitive firms cannot benefit by moving their prices from market equilibrium prices, but that firms that do not have competitors actually can.
 
