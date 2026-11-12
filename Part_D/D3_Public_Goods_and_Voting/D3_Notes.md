@@ -6,6 +6,10 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 *People can benefit from a public good without contributing to its provision.*
 
+*Public goods create free-rider problems because they are non-excludable and non-rivalrous, leading to under-provision by private markets and the need for government intervention.*
+
+*Voting systems and collective choice reveal how individual preferences aggregate into social decisions, often leading to paradoxes and inefficiencies in democratic decision-making.*
+
 | Section | Minutes | Focus |
 | --- | --- | --- |
 | Opening | 6 | Bumper; Exercise D3 Q1’s setup with parts a) and b), in small groups, then discussed together |
@@ -23,7 +27,8 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Model | NPR game: each player has 15 and contributes all or none; Payoff_i = (15 − c_i) + (c_1 + c_2) · 2/3. Dobby: benefits 34, 29, 24, 19, 14 against an annual cost of 100. Dumbledore exercise: benefits 75, 10, 20 against a cost of 90. |
 | Open | The opening paragraph of “Brief limits of voting” is a research note about the old schedule, not lecture prose. |
 | Open | The names follow the October 30, 2024 handwritten notes (../D_Class_On_Oct_30_Dobby_plus_Tuna.pdf); the vignette uses different names with the same numbers. |
-| Marked | Everything inside addition marks is Claude’s: the warmup line and two bridges in the NPR game. |
+| Past notes | Taylor’s text from past semesters is placed under the title (the two older thesis lines, for public goods and for voting) and at the top of sections 1 and 5: the older public-goods lines that used to sit in D1’s notes, the public-goods paragraph from the October 14, 2023 class notes, and the 2023 class outlines from _Schedule.md. |
+| Marked | Everything inside addition marks is Claude’s: the warmup line, two bridges in the NPR game, and two labels. |
 | Archive | The October 28 storyboard, the earlier notes, the code stubs and the direction blocks that used to sit in this file are in _archive/2026-11-12_consolidation/. |
 -->
 
@@ -39,6 +44,29 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 -->
 
 ## 1 | The NPR donation game
+
+Public goods
+
+This video does a simulation of public goods, and maps it into game theory, using a Lindhal equilibrium, and using voting.
+
+Instead of rival and non-excludable, what if a good were non-rival and excludable?
+
+Again markets don’t do well. But what if we tried another approach?
+
+Public goods are goods or services with some unusual characteristics: 1) the good or service is not excludable and 2) it is not rival. Excludability is the the property of being able to prevent someone else from accessing the good or service. This is the bases of private production: a firm can sell a goods or services because they can prevent you from consuming the good or service if you do not pay for it. If a good or service is not excludable, people may consume the good or service without having to pay for it and the market will not be able to produce the optimal amount. If a good is not rival it means that one person’s consumption of the good or service does not reduce another person’s ability to consume the same good or service. GPS location services are a good example of a service that is not rival. When goods or services are not rival, it makes no sense to limit the consumption of the good or service by charging a price for consumption.
+
+{++ From the October 23 and 25, 2023 class notes: ++}
+
+- Public Goods Example: Parks
+- Free Rider Problem
+- Next Time: Referendum
+- Public Goods and the contribution game
+- Voting Example
+- Limits of voting
+
+here’s a public goods game you saw an example in recitation so what do we do?
+
+let’s look at a referendum
 
 In D2 we studied a shared fishery. Now change the resource. If I listen to a radio broadcast, that does not leave less broadcast for you. And, in our example, people can listen whether or not they help pay for it. The broadcast is **non-rival** and **non-excludable**: a **public good**.
 
@@ -235,6 +263,12 @@ Dobby’s equal-tax vote happens to choose the efficient outcome. It need not al
 Majority voting counts the number of people who gain or lose under a proposal. It does not count how large those gains and losses are. Keep the decision to build a project distinct from the question of how its cost is shared. The Yule Ball homework supplies another application for practice.
 
 ## 5 | Brief limits of voting
+
+{++ From the October 30, 2023 class notes: ++}
+
+- 3-Ballot
+- Condorcet Cycles
+- Arrow’s Impossibility
 
 The old schedule lists contributions and a referendum before a later class on three-ballot voting, Condorcet cycles, and Arrow. The dated entries are from 2023 with Fall 2024 episode annotations, so they do not establish the exact Fall 2024 class order. The October 30, 2024 PDF itself covers tuna, NPR, then Dobby; it does not contain a voting-cycle example.
 

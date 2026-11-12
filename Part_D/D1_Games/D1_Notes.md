@@ -4,26 +4,32 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 # D1 Games
 
-Public goods
-
-This video does a simulation of public goods, and maps it into game theory, using a Lindhal equilibrium, and using voting.
-
-Instead of rival and non-excludable, what if a good were non-rival and excludable?
-
-Again markets don’t do well. But what if we tried another approach?
-
 <!--
 |   |   |
 | --- | --- |
 | Animation | D1_Animation.py, scene EpisodeD1, 86 holds: the taxonomy, the deadline simulation, the Prisoner’s Dilemma with its definitions, three Play Or Movie games, a sequential game, and two exercise cards. |
 | Model | Prisoner’s Dilemma: both cooperate 3 and 3; one defects 5 and 0; both defect 1 and 1. Example 2: Play, Play 2 and 1; Movie, Movie 1 and 2; otherwise 0 and 0. Example 3: Play, Play 2 and 2; Play, Movie 1 and 0; Movie, Play 0 and 1; Movie, Movie 1 and 1. Example 4: Play, Play 1 and 0; Play, Movie 2 and 1; Movie, Play 2 and 1; Movie, Movie 1 and 1. Player 1’s payoff is first. |
-| Open | There is no lecture prose of Taylor’s for D1. Every paragraph below is a marked addition by Claude, written from the animation. |
-| Open | The four lines under the title are older text about public goods, kept as found. |
+| Past notes | Taylor’s unmarked text here comes from past semesters: the October 16, 2023 class notes in _Schedule.md (the Nash opening and the classic Prisoner’s Dilemma, also in the Week 8 notebooks), and the old video’s definitions and closing question from _archive/03_Code_2026-10-19.py. Each is placed where the animation reaches it. |
+| Open | The classic framing has the suspects Confess, with sentences as payoffs; the animation names the choices Cooperate and Defect, with payoffs 3, 5, 0 and 1. Everything in addition marks is Claude’s, written from the animation. |
+| Open | The four older lines about public goods that sat under the title are now in D3_Notes.md, where they belong. |
 | Open | The deadline simulation’s details (Saturday, Sunday, 30 requests, Reattempt B) are this semester’s. |
 | Archive | The single long storyboard comment this file used to hold is in _archive/2026-11-12_consolidation/D1_Notes_before_consolidation.md. |
 -->
 
 ## {++ Where we are ++}
+
+{++ From the October 14, 2023 class notes: ++}
+
+- Reminder of externalities
+- Some Notable People
+- Episode D1
+- Next time I want to do a simulation here
+
+{++ From the October 16, 2023 class notes: ++}
+
+- Reminder of externalities
+- Taxonomy
+- Game Theory, Ep1
 
 {++ So far the goods have been private: rival, and something you can keep other people from using. Parts A, B and C all lived in that one corner. Part D moves to goods that aren’t excludable, starting with common resources. ++}
 
@@ -68,7 +74,20 @@ Again markets don’t do well. But what if we tried another approach?
 
 ## {++ The Prisoner’s Dilemma ++}
 
-{++ Here is the simplest version of that. Two players, and each chooses to Cooperate or Defect. ++}
+John Nash grew up in a small WV town and came to Oakland, just across the bridge, for college. He’s the protagonist in the movie ‘A Beautiful Mind’. His PhD is the basis for what we’re talking about today: when what I do negatively affects you.
+
+Lets start with the canonical example: The Prisoner’s Dilemma.
+
+This is the classic framing, so we’ll use it even though its a bit problematic. Two suspects, A and B, are caught at the scene of the crime, arrested, and brought in for questioning. There’s not enough evidence to convict the suspects for the crime at hand, but there’s enough to convict of a lesser charge. The cops separate the two suspects and offer them both the same deal:
+
+1. If neither of you confess, you both get a month of community service for trespassing.
+2. If you confess and the other suspect doesn’t, you get to walk away with all charges dropped. And vice versa.
+3. If both of you confess, you get a year sentence.
+4. If you don’t confess and the other suspect does, you get a 10 year sentence.
+
+What should you do?
+
+{++ On screen the same game is drawn with payoffs in place of sentences, and the choices are named Cooperate, for staying quiet, and Defect, for confessing. ++}
 
 <!--
 |   |   |
@@ -108,6 +127,8 @@ Again markets don’t do well. But what if we tried another approach?
 
 ## {++ Best responses ++}
 
+Have them offer suggestions. Set up the Payoff Matrix as a tool for organizing decisionmaking. Ask about what we should do for either decision of the other suspect. Use this to define the Dominant Strategy: A strategy that is preferred no matter what the rival is doing. What is the Dominant Strategy here?
+
 {++ What should Player 1 do? Hold Player 2’s choice fixed and compare. If Player 2 cooperates, 5 beats 3: defect. If Player 2 defects, 1 beats 0: defect. ++}
 
 <!--
@@ -120,6 +141,10 @@ Again markets don’t do well. But what if we tried another approach?
 -->
 
 {++ Defect is best for Player 1 whatever Player 2 does. A choice that is best given what the other player does is a best response. A choice that is a best response to everything is a dominant strategy. ++}
+
+**Best Response**: the strategy that gives a player the highest payoff, given the strategies chosen by the other players in the game.
+
+**Dominant Strategy**: a strategy that yields the highest payoff for a player regardless of the strategies chosen by the other players in the game.
 
 <!--
 |   |   |
@@ -142,7 +167,13 @@ Again markets don’t do well. But what if we tried another approach?
 
 ## {++ Nash equilibrium and efficiency ++}
 
+So both players should choose Confess. This is what we call a Nash Equilibrium: when no player has an incentive to unilaterally deviate. Or in plain English, when no player wishes they had done something different after the fact.
+
+So what’s the NE here? It turns out we can always find NE by following the dominant strategies if they exist.
+
 {++ So both defect. At that outcome neither player can do better by switching alone. That’s a Nash equilibrium. ++}
+
+**Nash Equilibrium**: a set of strategies such that no player can improve their payoff by unilaterally changing strategy.
 
 <!--
 |   |   |
@@ -287,3 +318,9 @@ Again markets don’t do well. But what if we tried another approach?
 | --- | --- |
 | 7.exercise | The Exercise D1 Q2 card: the questions on the left and an empty diamond for Hagrid and McGonagall on the right. Students build the matrix. The animation ends here. |
 -->
+
+### {++ Earlier closing question ++}
+
+{++ This was the closing card until the Date Night exercise replaced it on October 28, 2026. It is kept here from the old video’s code. ++}
+
+> Ron and Harry share a room in the Gryffindor tower during the school year. Neither student is partial to chores, and would prefer not to tidy up their shared space. But both enjoy when the room is clean, and are more than willing to tidy the room if it means the space is neat.

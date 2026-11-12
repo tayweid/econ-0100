@@ -8,6 +8,21 @@ This week we are closing out our discussion of market failures, which includes e
 
 And we’re beginning a new section looking at how firm’s make the decisions underlying the supply curve.
 
+On Tuesday we'll look at a particular type of externality present in goods that are rival but not-excludable: common resources. To do this requires a bit of game theory, which we'll pair with a simulation to capture some of the frustration involved with common resources.
+
+On Thursday we'll kick of a new section, The Firm's Problem, by introducing on side of the firm's incentives: costs. We'll begin with the production function, which allows us to find their cost curves.
+
+## Reading
+
+- Chapter 13.
+
+## Tutorials
+
+In this tutorial sequence (labeled as Week 5, Tutorials 5.1 to 5.4) we begin to look at the "firm", a generic term for a seller, either an individual or a group of individuals.
+
+- Tutorial 5.1 Costs
+- Tutorial 5.2 Perfect Competition
+
 ## Simulation 2 | Common Resources and Game Theory
 
 Moved to [D2 | Commons Simulation](D2_Simulation.md), alongside the other original rules and capacity variants.

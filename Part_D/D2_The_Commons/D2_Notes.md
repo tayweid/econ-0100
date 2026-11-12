@@ -6,6 +6,12 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 *What makes sense for each of us can leave less for all of us.*
 
+*Common resources create market failures through the tragedy of the commons—when shared resources are overused because private incentives don’t align with social benefits.*
+
+The commons
+
+This video does a simulation of the tradgedy of the commons, and maps it into game theory.
+
 <!--
 |   |   |
 | --- | --- |
@@ -13,7 +19,8 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Model | Two firms share a pond of 20,000 fish for three months. Low takes ¼ of the starting stock and High takes ½; survivors double, up to 20,000. Three-month totals in thousands: both Low 15 and 15; High against Low 17.5 and 8.75; both High 10 and 10. |
 | Open | The simulation is five firms over four rounds; the model is two firms over three months. Simulation rules and teaching notes are in D2_Simulation.md. |
 | Open | The payoffs are calculated from the model and differ from the illustrative numbers in the October 30, 2024 handwritten notes (../D_Class_On_Oct_30_Dobby_plus_Tuna.pdf). |
-| Marked | Everything inside addition marks is Claude’s: three short paragraphs where holds had no prose. |
+| Past notes | Taylor’s lines from the old D2 video notes (the second thesis line, “The commons” and the taxonomy lead-in) and from the October 23, 2023 class notes in _Schedule.md are placed under the title and at the top of section 1. The simulation’s original text is in D2_Simulation.md. |
+| Marked | Everything inside addition marks is Claude’s: three short paragraphs where holds had no prose, and one label. |
 | Archive | The earlier notes, planning document, stubs and the direction blocks that used to sit in this file are in _archive/2026-11-12_consolidation/. |
 -->
 
@@ -40,6 +47,28 @@ For a ten-minute version, keep the graph discussion brief and use the symmetry o
 -->
 
 ## 1 | From the simulation to the model
+
+So far we’ve looked at markets for goods that are rival and one can lock up.
+
+But there are other types of goods.
+
+### ZOOM OUT TO SEE THE TAXONOMY
+
+Markets aren’t great at dealing with two other types of goods.
+
+In this video we’ll talk about why.
+
+{++ From the Week 8 introduction in the 2023 notebooks: ++}
+
+On Tuesday we'll look at a particular type of externality present in goods that are rival but not-excludable: common resources. To do this requires a bit of game theory, which we'll pair with a simulation to capture some of the frustration involved with common resources.
+
+{++ From the October 23, 2023 class notes: ++}
+
+- Market Game
+- Common Resource Example: Tuna
+- Tradgedy of the Commons
+
+here’s a common resource game you saw an example in recitation so what do we do? this one is really tricky
 
 A fish one firm catches is unavailable to the other. The catch is private, but the stock that produces future catches is shared.
 
