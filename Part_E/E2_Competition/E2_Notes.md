@@ -17,10 +17,10 @@ plass:
 | 9–16 | Resume through `2.e` | Profit, the next-unit comparison, and the chosen quantity. |
 | 16–21 | Hold `2.f.exercise.b`, then `2.f.exercise.c`; work on board | Choose output and calculate profit. |
 | 21–26 | Resume through `3.e.shutdown` | Profit and break-even, losses, and operating versus shutting down. |
-| 26–30 | Hold `3.e.exercise.a`; Q2a on board | Compare two losses at a new price. |
+| 26–30 | Hold `3.e.exercise.a`; Q2a–c on board | Compare two losses at a new price. |
 | 30–35 | Resume through `3.g.alt.shutdown` | The firm’s supply curve, and shutting down below minimum AVC. |
 | 35–40 | Resume through `3.f` | Entry, exit, and zero economic profit. |
-| 40–42 | Hold `3.f.exercise.b`, then `3.f.exercise.c`; Q2b–c on board | Distinguish exit from shutdown; retrieve entry. |
+| 40–42 | Hold `3.f.exercise.b`, then `3.f.exercise.c`; Q2d–e on board | Distinguish exit from shutdown; retrieve entry. |
 | 42–46 | Hide projection; Q3 | Apply the theory to the marginal-cost shock on the board. |
 | 46–50 | Resume `4.a` through `4.e`; return to the opening question | The spinach market adjusts; students explain the whole adjustment. |
 
@@ -217,8 +217,8 @@ As will likely feel familiar at this point in the semester, this is an example o
 <!--
 |   |   |
 | --- | --- |
-| 2.f.exercise.b | The Q1b card: at P = 80 with MC = 2q, the profit-maximizing quantity, and why not 30 or 50. Hold for board work. |
-| 2.f.exercise.c | The Q1c card: maximal profit at P = 80, with ATC = 65 supplied. Hold for board work. |
+| 2.f.exercise.b | The Q1b card: at P = 80 with MC = 2q, calculate and graph the firm’s best quantity. Hold for board work. |
+| 2.f.exercise.c | The Q1c card: calculate and graph the firm’s maximal profit, with ATC = 65 supplied. Hold for board work. |
 -->
 
 Why don’t we choose at the minimum of ATC? 
@@ -278,14 +278,14 @@ Here, the price is above average variable cost. By operating, the firm earns eno
 | 3.e.shutdown | Two panels, “Operate” and “Shut down”: a copy of the full FC box moves right, outlined in red as “Loss / (FC)”. “Shutting down removes revenue and Variable Costs; Fixed Cost remains.” |
 -->
 
-### Whiteboard | Exercise Q2a
+### Whiteboard | Exercise Q2a–c
 
-{++ > At a price of 40, the best positive output is 20 units, where ATC is 70. Find the profit from operating and the profit from shutting down this period. Which should the firm choose? ++}
+{++ > At a price of 40, the best positive output is 20 units, where ATC is 70. The fixed cost of 1,000 is paid either way this period. Find the profit from operating, then the profit from shutting down. Which should the firm choose? ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 3.e.exercise.a | The Q2a card, shown after 3.e.shutdown: at a price of 40 the best positive output is 20, with ATC = 70. Profit from operating and from shutting down. Hold for board work. |
+| 3.e.exercise.a | The Q2a–c card, shown after 3.e.shutdown: at a price of 40 the best positive output is 20, the fixed cost is 1,000, and ATC = 70. Three lettered parts: profit from operating, profit from shutting down, and which to choose. Hold for board work. |
 -->
 
 Compare operating with shutting down.
@@ -379,17 +379,17 @@ Combined, the only long-run stable position is when price is equal to ATC and MC
 | 3.f | The minimum of ATC is emphasized, where P = MC = ATC and profit is zero. |
 -->
 
-### Whiteboard | Exercise Q2b–c
+### Whiteboard | Exercise Q2d–e
 
-{++ > If the price stays at 40, should the firm stay in the industry in the long run? Why can this answer differ from Q2a? ++}
+{++ > In the long run at a price of 40, should the firm exit? Why can this answer differ from Q2c? ++}
 
-{++ > At this price, would firms enter or exit? What happens to market supply and to the price? ++}
+{++ > In the long run, how do market supply and the price change? ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 3.f.exercise.b | The Q2b card: if this price persists, should the firm stay in the long run? Hold for board work. |
-| 3.f.exercise.c | The Q2c card: would firms enter or exit, and what happens to supply and price? Hold for board work. |
+| 3.f.exercise.b | The Q2d card: in the long run at this price, should the firm exit? Hold for board work. |
+| 3.f.exercise.c | The Q2e card: in the long run, how does supply and price change? Hold for board work. |
 -->
 
 Entry or exit, and the effect on price.

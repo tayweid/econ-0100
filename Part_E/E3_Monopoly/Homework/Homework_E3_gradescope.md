@@ -20,7 +20,7 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `The Cauldron Consolidation`
 
 ```
-Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. Work through the questions on paper first, then enter your answers here as selections. You are welcomed and encouraged to work in groups so long as your work is your own.
+Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.
 
 See Q1 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course page). Enter your answers here.
 ```
@@ -71,3 +71,46 @@ See Q1 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course 
 [____](=20833+-1)
 ```
 
+## Q2: `The History of the Broomstick Market`
+
+```
+See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the selections, then upload your graphs and your story.
+```
+
+### Q2.1: `As other makers begin producing identical brooms, the price of a broom:`
+
+```
+( ) rises
+( ) stays the same
+(x) falls
+```
+
+### Q2.2: `As other makers enter, Shooting Star’s profit:`
+
+```
+( ) rises
+( ) stays the same
+(x) falls
+```
+
+### Q2.3: `In the long run, each maker’s economic profit is:`
+
+```
+( ) positive
+(x) zero
+( ) negative
+```
+
+### Q2.4: `In the long run, the price equals:`
+
+```
+( ) the monopoly price
+(x) the lowest point of average total cost
+( ) average fixed cost
+```
+
+### Q2.5: `Upload your graphs and your story.`
+
+```
+|files|
+```

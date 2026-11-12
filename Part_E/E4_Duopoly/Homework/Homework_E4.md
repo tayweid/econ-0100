@@ -6,9 +6,7 @@ plass:
 
 # ECON 0100 | HW E4 | Duopoly
 
-*Due: Sunday, Nov. 15*
-
-Homework is designed to both test your knowledge and challenge you to apply familiar concepts in new applications. You are welcomed and encouraged to work in groups as long as your work is your own. Submit your answers on Gradescope when you’re finished: each answer there is a selection.
+*Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.*
 
 <!-- Usage. Fall 2026 Homework E4. Q1 is Vignette_E4_wandmaker-symmetric_F21 from ../../E_Practice_Bank (the 2021 in-class Vignette 9; spelling of Olivander’s corrected). It practices the duopoly equilibrium (working skill E4.2). It shares its story with Vignette E4 but not its numbers. The due line follows course-content.yaml.js. -->
 

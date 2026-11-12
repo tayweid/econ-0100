@@ -20,42 +20,34 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `Choosing Quantity`
 
 ```
-The animation’s competitive firm has cost functions TC = 1000 + q^2 and MC = 2q. The market price is P = 80. ATC at the profit-maximizing quantity is 65.
+Use Q1 on the handout. The animation’s competitive firm has cost functions TC = 1000 + q^2 and MC = 2q. The market price is P = 80. Hint: ATC at the profit-maximizing quantity is 65.
 ```
 
-### Q1.1: `a) Total revenue from selling 20 units:`
+### Q1.1: `a) Total Revenue from selling 20 units:`
 
 ```
 [____](=1600+-0)
 ```
 
-### Q1.2: `a) Total revenue selling 21 units:`
+### Q1.2: `a) Total Revenue selling 21 units:`
 
 ```
 [____](=1680+-0)
 ```
 
-### Q1.3: `a) What is marginal revenue?`
+### Q1.3: `a) Marginal Revenue:`
 
 ```
 [____](=80+-0)
 ```
 
-### Q1.4: `b) What quantity maximizes the firm's profit?`
+### Q1.4: `b) The firm’s best quantity at P = 80:`
 
 ```
 [____](=40+-0)
 ```
 
-### Q1.5: `b) Why not 30 or 50 units?`
-
-```
-(x) At 30, MC is below MR, so producing more raises profit; at 50, MC is above MR, so producing less raises profit
-( ) At 30, MC is above MR, so producing less raises profit; at 50, MC is below MR, so producing more raises profit
-( ) The firm earns a loss at both 30 and 50 units
-```
-
-### Q1.6: `c) What is the firm's maximal profit?`
+### Q1.5: `c) The firm’s maximal profit:`
 
 ```
 [____](=600+-0)
@@ -64,10 +56,22 @@ The animation’s competitive firm has cost functions TC = 1000 + q^2 and MC = 2
 ## Q2: `Operating or Leaving`
 
 ```
-Use Q2 on the handout. The price is now 40 and the best positive output is 20. This period's fixed cost of 1000 is unavoidable, but future fixed costs can be avoided by exiting. Hint: ATC at the profit-maximizing quantity is 70.
+Use Q2 on the handout. At a price of 40, the firm’s best positive output is 20 units. Fixed cost of 1,000 is unavoidable this period but avoidable in future periods by leaving the industry. Hint: ATC at the profit-maximizing quantity is 70. Enter a loss as a negative number.
 ```
 
-### Q2.1: `a) What should the firm do this period?`
+### Q2.1: `a) Profit from operating this period (a loss is negative):`
+
+```
+[____](=-600+-0)
+```
+
+### Q2.2: `b) Profit from shutting down this period (a loss is negative):`
+
+```
+[____](=-1000+-0)
+```
+
+### Q2.3: `c) Should the firm operate or shut down this period?`
 
 ```
 (x) Operate: lose 600 instead of losing 1000 by shutting down
@@ -75,15 +79,15 @@ Use Q2 on the handout. The price is now 40 and the best positive output is 20. T
 ( ) Operate: the firm earns a profit of 600
 ```
 
-### Q2.2: `b) If the price of 40 persists, what should the firm do in the long run?`
+### Q2.4: `d) In the long run at this price, should the firm exit?`
 
 ```
-(x) Exit once future fixed costs can be avoided
-( ) Stay because price covers variable costs
-( ) Stay because fixed costs can never be avoided
+(x) Yes: exit once future fixed costs can be avoided
+( ) No: stay because price covers variable costs
+( ) No: stay because fixed costs can never be avoided
 ```
 
-### Q2.3: `c) At a price of 40, what adjustment occurs?`
+### Q2.5: `e) In the long run, how does supply and price change?`
 
 ```
 ( ) Entry increases market supply and lowers price
@@ -94,10 +98,10 @@ Use Q2 on the handout. The price is now 40 and the best positive output is 20. T
 ## Q3: `A Higher Marginal Cost`
 
 ```
-Use Q3 and your graphs. Every firm’s marginal costs go up. Initially identical firms earn zero economic profit in long-run equilibrium. Every unit now costs the same additional amount to produce. Fixed cost and market demand are unchanged, demand slopes down, and entry and exit are free.
+Use Q3 and your graphs. After being in long run equilibrium, suppose every firm’s marginal costs go up. Every unit now costs the same additional amount to produce.
 ```
 
-### Q3.1: `a) What happens to price, each firm's output, and profit after the new cost, before firms exit?`
+### Q3.1: `a) What happens to price, each firm’s output, and profit after the new cost?`
 
 ```
 (x) Market supply shifts in; price rises, output per firm falls, and firms make losses
@@ -105,7 +109,7 @@ Use Q3 and your graphs. Every firm’s marginal costs go up. Initially identical
 ( ) Price rises by the full extra cost per unit, so profit immediately stays zero
 ```
 
-### Q3.2: `b) What happens in the long run, compared with before the cost increase? Select all that apply.`
+### Q3.2: `b) What happens to the long run price, each firm’s output, market output, and the number of firms? Select all that apply.`
 
 ```
 [x] The market price is higher

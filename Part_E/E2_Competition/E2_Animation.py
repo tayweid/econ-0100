@@ -335,9 +335,9 @@ class EpisodeE2(Scene):
         exercise_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         # Q1a wording from Exercise/Exercise_E2.md; consistent left alignment and wrapping.
         exercise_question = VGroup(
-            Tex(r'Total revenue from selling 20 units: $TR_{20}$', color=INK),
-            Tex(r'Total revenue from selling 21 units: $TR_{21}$', color=INK),
-            Tex('What is marginal revenue?', color=INK),
+            Tex(r'Total Revenue from selling 20 units: $TR_{20}$', color=INK),
+            Tex(r'Total Revenue selling 21 units: $TR_{21}$', color=INK),
+            Tex('Marginal Revenue', color=INK),
         ).scale(EXERCISE_SCALE)
         for row, question in enumerate(exercise_question):
             question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
@@ -814,8 +814,7 @@ class EpisodeE2(Scene):
         exercise_b_context = Tex(r'\sffamily Use $MC = 2q$ and $P = 80$.', color=CAPTION).scale(EXERCISE_CONTEXT_SCALE)
         exercise_b_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         exercise_b_question = VGroup(
-            Tex(r'What quantity maximizes the firm\textquotesingle s profit?', color=INK),
-            Tex('Why not 30 or 50 units?', color=INK),
+            Tex(r'Calculate and graph the firm\textquotesingle s best quantity at $P = 80$.', color=INK),
         ).scale(EXERCISE_SCALE)
         for row, question in enumerate(exercise_b_question):
             question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
@@ -836,7 +835,7 @@ class EpisodeE2(Scene):
         ).scale(EXERCISE_CONTEXT_SCALE)
         exercise_c_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         exercise_c_question = VGroup(
-            Tex(r'At $P = 80$, calculate the firm\textquotesingle s maximal profit.', color=INK),
+            Tex(r'Calculate and graph the firm\textquotesingle s maximal profit.', color=INK),
         ).scale(EXERCISE_SCALE)
         for row, question in enumerate(exercise_c_question):
             question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
@@ -977,25 +976,28 @@ class EpisodeE2(Scene):
         self.pause('3.e.shutdown')
 
         # ---- 3.e.exercise.a · Compare operating and shutting down at the exercise's price of 40.
-        exercise_q2a_label = Tex(r'Exercise E2 \textbar{} Q2a', color=DEFINITION).scale(EXERCISE_SCALE)
+        exercise_q2a_label = Tex(r'Exercise E2 \textbar{} Q2a--c', color=DEFINITION).scale(EXERCISE_SCALE)
         exercise_q2a_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
         exercise_q2a_context = Tex(
             r'\begin{minipage}{32em}\sffamily\raggedright '
-            r'At a price of 40, the best positive output is 20 units.\\'
-            r'Fixed cost is unavoidable this period but avoidable in\\'
-            r'future periods by leaving the industry.\\'
+            r'At a price of 40, the firm\textquotesingle s best positive output is 20 units.\\'
+            r'Fixed cost of 1,000 is unavoidable this period but avoidable\\'
+            r'in future periods by leaving the industry.\\'
             r'Hint: $ATC$ at the profit-maximizing quantity is 70.\end{minipage}', color=CAPTION,
         ).scale(EXERCISE_CONTEXT_SCALE)
         exercise_q2a_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
-        exercise_q2a_question = Tex(
-            r'\begin{minipage}{30em}\raggedright '
-            r'Calculate profit from operating and from shutting down\\'
-            r'this period. Which should the firm choose?\end{minipage}', color=INK,
+        # Q2a to Q2c wording from Exercise/Exercise_E2.md, one row each.
+        exercise_q2a_question = VGroup(
+            Tex('Calculate and graph profit from operating this period.', color=INK),
+            Tex('Calculate the profit from shutting down this period.', color=INK),
+            Tex('Should the firm operate or shut down this period?', color=INK),
         ).scale(EXERCISE_SCALE)
-        exercise_q2a_question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
-            exercise_q2a_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
-        exercise_q2a_marker = Tex(r'$\bullet$', color=INK).scale(EXERCISE_SCALE)
-        exercise_q2a_marker.next_to(exercise_q2a_question, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
+        for row, question in enumerate(exercise_q2a_question):
+            question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
+                exercise_q2a_context.get_bottom()[1] - EXERCISE_SETUP_GAP - row * EXERCISE_LINE_STEP, direction=UP)
+        exercise_q2a_marker = VGroup(*[Tex(letter, color=INK).scale(EXERCISE_SCALE) for letter in ('a)', 'b)', 'c)')])
+        for marker, question in zip(exercise_q2a_marker, exercise_q2a_question):
+            marker.next_to(question, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
         exercise_q2a_text = VGroup(exercise_q2a_label, exercise_q2a_context, exercise_q2a_question,
                                   exercise_q2a_marker).set_z_index(101)
         self.play(FadeIn(exercise_ground), run_time=0.4)
@@ -1449,13 +1451,12 @@ class EpisodeE2(Scene):
         self.pause('3.f')
 
         # ---- 3.f.exercise.b · Revisit the same loss after distinguishing long-run exit from shutdown.
-        exercise_q2b_label = Tex(r'Exercise E2 \textbar{} Q2b', color=DEFINITION).scale(EXERCISE_SCALE)
+        exercise_q2b_label = Tex(r'Exercise E2 \textbar{} Q2d', color=DEFINITION).scale(EXERCISE_SCALE)
         exercise_q2b_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
         exercise_q2b_context = exercise_q2a_context.copy()
         exercise_q2b_question = Tex(
             r'\begin{minipage}{30em}\raggedright '
-            r'If this price persists, should the firm stay in the industry\\'
-            r'in the long run? Explain why this answer can differ from (a).\end{minipage}', color=INK,
+            r'In the long run at this price, should the firm exit?\end{minipage}', color=INK,
         ).scale(EXERCISE_SCALE)
         exercise_q2b_question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
             exercise_q2b_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
@@ -1468,14 +1469,13 @@ class EpisodeE2(Scene):
         self.pause('3.f.exercise.b')
 
         # ---- 3.f.exercise.c · Follow the same loss through exit and its market effects.
-        exercise_q2c_label = Tex(r'Exercise E2 \textbar{} Q2c', color=DEFINITION).scale(EXERCISE_SCALE)
+        exercise_q2c_label = Tex(r'Exercise E2 \textbar{} Q2e', color=DEFINITION).scale(EXERCISE_SCALE)
         exercise_q2c_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
         exercise_q2c_context = Tex(r'\sffamily Start from the same price of 40.', color=CAPTION).scale(EXERCISE_CONTEXT_SCALE)
         exercise_q2c_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         exercise_q2c_question = Tex(
             r'\begin{minipage}{30em}\raggedright '
-            r'Would firms enter or exit?\\'
-            r'What happens to market supply and price?\end{minipage}', color=INK,
+            r'In the long run, how does supply and price change?\end{minipage}', color=INK,
         ).scale(EXERCISE_SCALE)
         exercise_q2c_question.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
             exercise_q2c_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)

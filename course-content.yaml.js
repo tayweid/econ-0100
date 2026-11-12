@@ -531,6 +531,10 @@ parts:
           class: '2026-11-04'
           recitation: '2026-11-13'
           homework: '2026-11-15'
+        extras:
+          - name: Vignette E1 Long
+            description: Extra practice. Every cost curve and policy question on its own graph.
+            links: [{label: Vignette E1 Long, file: Part_E/E1_Costs/Vignette/Vignette_E1_Long.pdf}]
 
       - block: E2
         folder: Part_E/E2_Competition

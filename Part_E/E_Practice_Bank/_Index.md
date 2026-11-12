@@ -15,11 +15,12 @@ How to read a name:
 | Built | Uses | Source | Solutions |
 |---|---|---|---|
 | Exercise E1 | Economic Sudoku | `Classwork_E1_economic-sudoku_F24` (the Fall 2024 Classwork E1), verbatim | worked in the guide; checked against the ink key `Classwork_E1_economic-sudoku_sols.pdf` / `.png` |
-| Exercise E2 | Q2 Traditional Toffee Specific Tax | `Classwork_E2_toffee-tax_F23` (Q1 of the Fall 2023 Classwork E2), verbatim; Q1 Economic Sudoku Sells is new, the E1 table with a market price (2026-11-09) | the story and graphs in the guide follow the ink key `Classwork_E2_toffee-tax_sols.pdf` |
-| Vignette E1 (draft, 2026-11-11) | Q1 Careful Consideration of Cauldron Costs | `Vignette_E1_cauldron-costs_F24` Q1, verbatim | written for the guide; not yet checked against the ink key `Vignette_E1_cauldron-costs_sols_F24.pdf` |
-| Homework E1 (draft, 2026-11-11) | Q1 Cost Structures | `Homework_E1_broomstick-costs_F24` Q1, verbatim; Row 1 of the matrix redrawn as three graphs | written for the guide; not yet checked against the ink key `Homework_E1_broomstick-costs_sols_F24.pdf` |
-| Vignette E2 (draft, 2026-11-11) | Q1 Traditional Toffee Subsidy | `Vignette_E2_toffee-subsidy_F22`, verbatim | written for the guide; not yet checked against the ink key `Vignette_E2_toffee-subsidy_sols_F22.pdf` |
-| Homework E2 (draft, 2026-11-11) | Q1 Subsidizing Bludgers | `Homework_E2_bludgers-snitches_F21` Q1, verbatim | written for the guide; no key in the bank |
+| Exercise E2 | *Corrected 2026-11-12: the current Exercise E2 (Choosing Quantity, Operating or Leaving, A Higher Marginal Cost) no longer contains it, so the Toffee tax is unused again and stays in the bank.* Was: Q2 Traditional Toffee Specific Tax | `Classwork_E2_toffee-tax_F23` (Q1 of the Fall 2023 Classwork E2), verbatim; Q1 Economic Sudoku Sells is new, the E1 table with a market price (2026-11-09) | the story and graphs in the guide follow the ink key `Classwork_E2_toffee-tax_sols.pdf` |
+| Vignette E1 (2026-11-12) | Q1 The Witching Hour’s Workshop, new (Claude’s proposal, E1.1); Q2 Cost Curves and Policies: graph the three firms’ curves, then one policy per firm on the same row of graphs | `Vignette_E1_cauldron-costs_F24` Q1, verbatim, in Taylor’s rewritten story; the policy sentence is Claude’s | agrees with the ink key `Vignette_E1_cauldron-costs_sols_F24.pdf` (checked 2026-11-12) |
+| Vignette E1 Long (2026-11-12; `E1_Costs/Vignette/Vignette_E1_Long`, listed under E1’s extras) | The whole Fall 2024 Vignette E1 with every question separate: Cost Curves, Lump Sum Tax, Per Unit Tax, Per Unit Subsidy, three graphs each. Posted as extra practice, not run in class | `Vignette_E1_cauldron-costs_F24` Q1 and `Vignette_E5_cauldron-costs_F24` Q2 to Q4, verbatim | agrees with the same ink key |
+| Homework E1 (draft, 2026-11-11; Q2 added and the policy questions moved in from Homework E2, 2026-11-12) | Q1 Skyline Custom Brooms and Q2 CloudSweep Brooms are new (began as Claude’s proposal, E1.1); Q3 Cost Structures: the base-case matching (a fill-in on paper) and the three policy questions, on the matrix redrawn in full | `Homework_E1_broomstick-costs_F24` Q1 and `Homework_E5_broomstick-costs_F24` Q2 to Q4, verbatim | Q3 agrees with the ink key `Homework_E1_broomstick-costs_sols_F24.pdf` (checked 2026-11-12) |
+| Vignette E2 (rebuilt 2026-11-12) | Q1 A Higher Marginal Cost: Taylor’s Exercise E2 wording (Q1 b and c, Q3, Q2 a) for a cauldron workshop, TC = 400 + 10q + q², with a 10-coin tax | none from the bank. Earlier versions and the Toffee Subsidy draft are in `../E2_Competition/_archive/2026-11-12_story_change/` | Claude’s own; no ink key |
+| Homework E2 (rebuilt 2026-11-12) | Q1 A Price for Brooms is new (Claude’s proposal, E2.1 and E2.2); Policies and Cost Curves moved to Homework E1 and The History of the Broomstick Market moved to Homework E3 (as its Q2), both on 2026-11-12 ; Q2 Subsidizing Bludgers added 2026-11-12 | `Homework_E2_bludgers-snitches_F21`, verbatim (Q2). The history question (`Vignette_E2_broomstick-history_F24`, verbatim) is in Homework E3. The Subsidizing Bludgers draft of 2026-11-11 is in `../E2_Competition/_archive/2026-11-12_story_change/` | Q2 follows the ink key `Homework_4_sols_F21.pdf` (checked 2026-11-12) |
 | Vignette E3 (draft, 2026-11-11) | Q1 Unicorn Horn | `Vignette_E3_unicorn-horn_F24`, spelling corrected | written for the guide; not yet checked against the ink keys `Vignette_E3_unicorn-horn_sols_F21.pdf` / `_F22.pdf` |
 | Homework E3 (draft, 2026-11-11) | Q1 The Cauldron Consolidation | `Homework_E3_cauldron-consolidation_F24`, spelling corrected | agrees with the ink key `Homework_E3_cauldron-consolidation_sols_F23.pdf` |
 | Vignette E4 (draft, 2026-11-11) | Q1 The Wandmaker's Dilemma | `Vignette_E4_wandmakers-dilemma_F24`, spelling corrected | written for the guide; no key in the bank |
@@ -33,12 +34,12 @@ The working skill list is in `../E_Skillsheet.md` (a draft; the codes below are 
 
 | Skill | Exercise | Vignette | Homework | Reserved for Demo and Checkpoint E |
 |---|---|---|---|---|
-| E1.1 Production Functions | to write (Simulation E's table is the natural source) | to write | to write | **none exist**; all new writing |
-| E1.2 Cost Curves | Economic Sudoku (posted) | Cauldron costs (graph the curves) | Broomstick costs (match the curves) | **none exist**; a cost table with new numbers is the natural stem |
-| E2.1 The Competitive Firm | Exercise E2 Q1 to Q2a | to write | Cauldron Consolidation a, b (in HW E3) | Dwindling Dealers Q1 to Q2 (23F MiniExam, three number sets). **One story only** |
+| E1.1 Production Functions | to write (Simulation E's table is the natural source) | to write | to write | None existed. Four drafted 2026-11-12 (Claude’s proposals): `Stems_2026/_README.md` beside the older stems |
+| E1.2 Cost Curves | Economic Sudoku (posted) | Cauldron costs (graph the curves) | Broomstick costs (match the curves) | None existed. Four drafted 2026-11-12 (Claude’s proposals): `Stems_2026/_README.md` beside the older stems |
+| E2.1 The Competitive Firm | Exercise E2 Q1 to Q2a | to write | Cauldron Consolidation a, b (in HW E3) | Dwindling Dealers Q1 to Q2 (23F MiniExam, three number sets). Three more drafted 2026-11-12 (Claude’s proposals): `Stems_2026/_README.md` |
 | E2.2 Entry, Exit & the Long Run | Exercise E2 Q2b to Q3 | Toffee subsidy | Subsidizing Bludgers | Taxing Cauldrons (`E2.1_cauldron-tax-competitive`); Toffee lump-sum tax (`E2.1_toffee-competitive-policy`); Cauldron Conundrum subsidy (`From_C`); Pumpkin Pasty article, a demand fall (`MiniExam_4`). All four are written stories and need a do-form |
 | E3.1 Monopoly Price & Quantity | to write | Unicorn Horn | Cauldron Consolidation c, d | Golden Snitches A to C (`E3.1_golden-snitch-monopoly`); Wizard's Chess a to c (`E3.1_wizards-chess-monopoly`); Racing Broom Q1 to Q2 (24F MiniExam); Flue merger (`E3.1_flue-network-duopoly`); Breaking Up A Monopoly, monopoly half |
-| E3.2 Market Power & Deadweight Loss | to write | to write | Cauldron Consolidation e | Racing Broom Q3 (24F MiniExam). **One only**; Golden Snitches and Wizard's Chess each need a deadweight-loss part added |
+| E3.2 Market Power & Deadweight Loss | to write | to write | Cauldron Consolidation e | Racing Broom Q3 (24F MiniExam). **One only**; Golden Snitches and Wizard's Chess each need a deadweight-loss part added. Three more drafted 2026-11-12 (Claude’s proposals): `Stems_2026/_README.md` |
 | E4.1 Best Responses in a Duopoly | Big Flue Networks a, b (`Classwork_E4_flue-networks_F24`, P = 200 - Q, MC 10) if used | Wandmaker's Dilemma (matrix; P = 100 - Q, MC 10) | not asked directly in HW E4 | Big Flue merger exam numbers (P = 400 - Q, MC 40; `MiniExam_6`); Parallel Wandmaker, different marginal costs (`E4.1_wandmakers-dilemma`); Breaking Up A Monopoly Q4 (23S, `MiniExam_E2`) |
 | E4.2 Duopoly Equilibrium | Big Flue Networks c to e if used | Wandmaker's Dilemma c | Wandmaker's Dilemma (P = 200 - Q, MC 20) | Big Flue (P = 400 - Q, MC 40); Dwindling Dealers Q4 to Q5 (23F); Racing Broom Q4 to Q5 (24F); three-firm wandmakers (`Tutorial_E4_wandmakers-triopoly_F23`) |
 
@@ -67,7 +68,7 @@ Collisions to keep in mind:
 
 | Files | What's in it |
 |---|---|
-| `Classwork_E2_toffee-tax_F23` and `_F23_source` (+pdf, ink key `Classwork_E2_toffee-tax_sols.pdf`) | **Used** (Exercise E2 Q2). Traditional Toffee Specific Tax: a per-unit tax in a market anyone can enter; tell the story to the long run. The key is a two-question print: Q2, **Traditional Toffee Lump-Sum Tax**, exists only in that PDF. No .md, and it was not transcribed. |
+| `Classwork_E2_toffee-tax_F23` and `_F23_source` (+pdf, ink key `Classwork_E2_toffee-tax_sols.pdf`) | Unused as of 2026-11-12 (it was Exercise E2 Q2 until the Exercise was rewritten). Traditional Toffee Specific Tax: a per-unit tax in a market anyone can enter; tell the story to the long run. The key is a two-question print: Q2, **Traditional Toffee Lump-Sum Tax**, exists only in that PDF. No .md, and it was not transcribed. |
 | `Vignette_E2_toffee-subsidy_F22` (+pdf, ink key `_sols_F22.pdf`) | Traditional Toffee Subsidy, the F22 Vignette E3 (November 8, 2022). |
 | `Vignette_E2_toffee-subsidy_F21` (+pdf) | The same question as Honors Vignette 6, from the "Lecture Map" of November 2, 2021. It says "cauldron manufacturers" where it means toffee makers, struck by hand. The PDF carries in-class ink. |
 | `Vignette_E2_broomstick-history_F24` and `_F24_source` (+pdf; Katie's PDF below) | The History of the Broomstick Market, the 24F Vignette E5. Shooting Star's patent runs out, and many makers produce *identical* brooms; tell the story to the long run. |
@@ -133,12 +134,12 @@ Part D's convention, kept here: **Exercises come from past Classwork, Vignettes 
 | Vignette E3 | Unicorn Horn (F21, F22 keys; reworded F24) |
 | Vignette E4 | The Wandmaker's Dilemma, 2×2 game + Cournot (no key); symmetric wandmakers, 200 − Q (F21) |
 | Vignette E5 | Numbus 2000 (F21, F22 keys); Command of Costs; Cauldron Costs Q2–Q4 (key) |
-| Exercise E2 | Built (2026-11-09). Traditional Toffee Specific Tax is used; its Lump-Sum Tax twin (key PDF only) stays unused, kept for Exercise E5 |
+| Exercise E2 | Built, with new questions. Traditional Toffee Specific Tax is unused again (2026-11-12); its Lump-Sum Tax twin (key PDF only) stays unused, kept for Exercise E5 |
 | Exercise E3 | No past Classwork. The nearest are Golden Snitches or Wizard's Chess (Homework), or Unicorn Horn (Vignette). |
 | Exercise E4 | Big Flue Networks (Classwork E3 F23/F24, key); the 2023 tutorial (duopoly, triopoly) |
 | Exercise E5 | No past Classwork. Toffee Lump-Sum Tax (key PDF only) is the closest. |
 | Homework E1 | Broomstick Costs Q1 (matrix matching, key) |
-| Homework E2 | Subsidizing Bludgers (F21, key); Taxing Cauldrons (F21 demo, key) |
+| Homework E2 | Taxing Cauldrons (F21 demo, key). Subsidizing Bludgers is used (Homework E2 Q2, 2026-11-12). |
 | Homework E3 | Golden Snitches A–D (F21 key); Wizard's Chess A–D (F21 demo key); The Cauldron Consolidation (F23 key) |
 | Homework E4 | Breaking Up A Monopoly; asymmetric Wandmaker's Dilemma (200 − Q, MC 20/30); Parallel Wandmaker (100 − Q, MC 10/5, F21 key); the unused A-and-B wand duopoly |
 | Homework E5 | Broomsticks fixed annual subsidy (F21 key); broomstick history, branded (F21 key); Sherbet Lemons; Broomstick Costs Q2–Q4 (key) |
@@ -162,6 +163,21 @@ Moved in from the Part D bank on 2026-10-23:
 | File | What's in it |
 |---|---|
 | `Homework_unused_wand-duopoly_F21.md` | The last question of an unused 21F homework: two wand sellers A and B, Q = 100 − P, MC 10, given MR; Cournot outputs and price (E4). A different version from the Ollivander and Gregorovitch wand duopoly (200 − Q), formerly in `E4_Duopoly/Practice_Bank/` (now `Homework_E4_wandmaker-asymmetric_F21` and `Vignette_E4_wandmaker-symmetric_F21` here), and from `ECON_0100/Checkpoints/E/E4.1_wandmakers-dilemma.md`. No PDF or key. |
+
+## `_archive/_used/` (used word for word, moved 2026-11-12)
+
+These files hold question text that a Fall 2026 handout now uses word for word, apart from headers, layout and spelling. The tables above still name them; they are in `_archive/_used/`, not in the bank. Ink keys, and prints or images that also cover unused questions, stayed in the bank.
+
+| Used in | Files moved | Stayed in the bank |
+|---|---|---|
+| Exercise E1 | Every Economic Sudoku copy: `Classwork_E1_economic-sudoku_F23`, `_F24` (+pdf); `Vignette_E1_economic-sudoku_F22` (+pdf), `_S23`, `_F23`, `_F24-oldq` (+pdf) | the ink key `Classwork_E1_economic-sudoku_sols.pdf` / `.png` |
+| Vignette E1 and Vignette E1 Long | `Vignette_E1_cauldron-costs_F24.md` (Q1); `Vignette_E5_cauldron-costs_F24`, `_F24_source` (Q2 to Q4), used word for word in Vignette E1 Long | the whole PDF and ink key; Command of Costs; Toffee Subsidy, back in the bank unused |
+| Homework E1 | `Homework_E1_broomstick-costs_F24.md`, `_F24_source.md` (Q1); `Homework_E5_broomstick-costs_F24` (Q2 to Q4, moved here from Homework E2 on 2026-11-12) | its PDF, matrix PNG and ink key |
+| Homework E2 (rebuilt 2026-11-12, broomstick makers) | `Homework_E2_bludgers-snitches_F21`; (moved to Homework E3 with the question:) every identical-brooms copy of The History of the Broomstick Market: `Vignette_E2_broomstick-history_F22` (+pdf), `_S23`, `_F23`, `_F24` (+pdf), `_F24_source`, `_F24-oldq` (+pdf) | the S23 key and the `_katie_` PDF for the broomstick history; the branded-brooms version (E5). Subsidizing Bludgers is Homework E2 Q2 again (2026-11-12); its file is in `_archive/_used/` and its key `Homework_4_sols_F21.pdf` stays in the bank |
+| Vignette E3 | `Vignette_E3_unicorn-horn_F24` (+pdf), `_F24_source` | the F21, F22 and F23 copies (earlier wording), `Vignette_E3_unicorn-broomstick_F24` (its Q2 is unused), both keys |
+| Homework E3 | `Homework_E3_cauldron-consolidation_F24` (+pdf), `_F24_source`, `_F23`, `_F23_source`, `_F24-oldhw` (+pdf). The F23 copies differ from F24 only in the header, the question numbering and two spellings | the ink key `_sols_F23.pdf` |
+| Vignette E4 | `Vignette_E4_wandmakers-dilemma_F24`, `_F23`, `_F24-alt` (+pdf). The same wording; `_F24-alt` sets the table differently | `Unplaced_E4_wandmakers-dilemma_S23` (different text) |
+| Homework E4 | `Vignette_E4_wandmaker-symmetric_F21` (+pdf) | |
 
 ## `_archive/_duplicates/` (identical copies only)
 
