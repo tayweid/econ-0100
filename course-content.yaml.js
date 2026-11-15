@@ -547,13 +547,10 @@ parts:
         reading:
           chapter: 8
           topic: Perfect competition
-        exercise:
-          post: never                 # held off the page while Exercise E2 is revised; delete these three lines to post it again
-          solutions: never
         vignette:
           description: "*Competitive firms practice problems*"
         dates:
-          class: '2026-11-04'
+          class: '2026-11-09'
           recitation: '2026-11-13'
           homework: '2026-11-15'
 
@@ -571,30 +568,41 @@ parts:
         vignette:
           description: "*Monopoly practice problems*"
         dates:
-          class: '2026-11-09'
-          recitation: '2026-11-13'
-          homework: '2026-11-15'
+          class: '2026-11-16'
+          recitation:
+            - '2026-11-19'
+            - '2026-11-20'
+          homework: '2026-11-22'
 
-      - block: E4
+      - block: 'E4'
         folder: Part_E/E4_Duopoly
-        nav: Market Structures
-        title: Market Structures
-        description: Comparing perfect competition, monopolistic competition, oligopoly, and monopoly reveals how market structure determines economic outcomes.
+        nav: Duopoly
+        title: Duopoly
+        description: 'Firms in markets with few sellers make profit maximization decisions in the same way. But because there are only a few others, they need to engage in strategic interaction.'
         episode:
-          video: UIXf362W-rU
-          description: "*Comparing market structures*"
-          links:
-            - label: Notes
-              file: Part_E/E4_Duopoly/04_Handwritten.pdf
+          description: "Two firms strategically interacting"
         reading:
           chapter: 10
           topic: Monopolistic competition and oligopoly
         vignette:
           description: "*Market structures practice problems*"
         dates:
-          class: '2026-11-11'
-          recitation: '2026-11-13'
-          homework: '2026-11-15'
+          class: '2026-11-18'
+          recitation:
+            - '2026-11-19'
+            - '2026-11-20'
+          homework: '2026-11-22'
+
+      - block: 'E5'
+        folder: Part_E/E5_Wrap_Up
+        nav: 'Market Power'
+        title: 'Market Power'
+        description: Competive firms, oligopolistic firms, and monopolies make the same decisions across their different contexts, showing how market power breaks the efficiency of markets.
+        episode:
+          description: 'Three Market Structures'
+          video: UIXf362W-rU
+        vignette:
+          description: ''
 
       - checkpoint:
           reattempt: TBA
