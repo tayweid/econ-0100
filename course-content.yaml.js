@@ -549,6 +549,8 @@ parts:
           topic: Perfect competition
         vignette:
           description: "*Competitive firms practice problems*"
+        homework:
+          due: 'Solutions are posted before the due date to help you out if you get stuck. Use the homework to identify where you get stuck. Only then reference the solutions. Your work is graded on completion, so submitting perfect answers you do not understand isn''t in your interest. '
         dates:
           class: '2026-11-09'
           recitation: '2026-11-13'
@@ -593,25 +595,17 @@ parts:
             - '2026-11-20'
           homework: '2026-11-22'
 
-      - block: 'E5'
-        folder: Part_E/E5_Wrap_Up
-        nav: 'Market Power'
-        title: 'Market Power'
-        description: Competive firms, oligopolistic firms, and monopolies make the same decisions across their different contexts, showing how market power breaks the efficiency of markets.
-        episode:
-          description: 'Three Market Structures'
-          video: UIXf362W-rU
-        vignette:
-          description: ''
-
       - checkpoint:
-          reattempt: TBA
+          reattempt: 'Final Exam Period'
           date: '2026-11-30'
           description: >-
             Checkpoint E covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
             video: UZDvSTNbv0w
           extras:
+            - name: 'Overview E'
+              description: Market PowerThree Market StructuresCompetive firms, oligopolistic firms, and monopolies make the same decisions across their different contexts, showing how market power breaks the efficiency of markets.
+              video: UIXf362W-rU
             - name: Demo E3
               video: jwxiRNAPBLc
               files: E3
