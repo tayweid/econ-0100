@@ -550,7 +550,7 @@ parts:
         vignette:
           description: "*Competitive firms practice problems*"
         homework:
-          due: 'Solutions are posted before the due date to help you out if you get stuck. Use the homework to identify where you get stuck. Only then reference the solutions. Your work is graded on completion, so submitting perfect answers you do not understand isn''t in your interest. '
+          due: 'I''m posting solutions here before the due date to help you out if you get stuck. :) Use the homework to identify where you get stuck. Only then reference the solutions. Your work is graded on completion, so submitting perfect answers you do not understand doesn''t help your grade. '
         dates:
           class: '2026-11-09'
           recitation: '2026-11-13'
