@@ -128,7 +128,7 @@ class EpisodeE1(Scene):
         self.play(FadeIn(note))
         self.pause('1.b')
 
-        # ---- 1.c · The market-structures taxonomy (E4's object), its four cells still empty.
+        # ---- 1.c · The market-structures taxonomy, its five cells still empty.
         self.remove(*[m for m in self.mobjects if isinstance(m, ValueTracker)])   # trackers join the scene when animated
         FadeAll(self)
         self.clear()
@@ -158,9 +158,10 @@ class EpisodeE1(Scene):
         perfect = Tex(r'Perfect\\Competition').scale(0.75).move_to([column_x[0], row_y[0], 0])
         monopolistic = Tex(r'Monopolistic\\Competition').scale(0.75).move_to([column_x[1], row_y[0], 0])
         oligopoly = Tex('Oligopoly').scale(0.75).move_to([column_x[0], row_y[1], 0])
+        differentiated_oligopoly = Tex(r'Differentiated\\Oligopoly').scale(0.75).move_to([column_x[1], row_y[1], 0])
         monopoly = Tex('Monopoly').scale(0.75).move_to([(column_x[0] + column_x[1]) / 2, row_y[2], 0])
         grid = VGroup(taxonomy_rules, column_words, row_words)
-        cells = VGroup(perfect, monopolistic, oligopoly, monopoly)
+        cells = VGroup(perfect, monopolistic, oligopoly, differentiated_oligopoly, monopoly)
         self.play(FadeIn(head), FadeIn(grid))
         self.pause('1.c')
 
@@ -179,10 +180,16 @@ class EpisodeE1(Scene):
                   run_time=0.8, rate_func=smooth)
         self.pause('1.f')
 
-        # ---- 1.g · Complete the matrix with oligopoly, keeping the same frame and title.
+        # ---- 1.g · Reveal oligopoly in the homogeneous column, keeping the same frame and title.
         self.play(FadeIn(oligopoly), Transform(box, SurroundingRectangle(oligopoly, buff=BOX_BUFF, color=NASH)),
                   run_time=0.8, rate_func=smooth)
         self.pause('1.g')
+
+        # ---- 1.g.1 · Complete the matrix: a few sellers can also offer differentiated products.
+        self.play(FadeIn(differentiated_oligopoly),
+                  Transform(box, SurroundingRectangle(differentiated_oligopoly, buff=BOX_BUFF, color=NASH)),
+                  run_time=0.8, rate_func=smooth)
+        self.pause('1.g.1')
 
         # ---- 2.a · The production function on the left: workers across, units up, F(L) in white.
         self.remove(*[m for m in self.mobjects if isinstance(m, ValueTracker)])   # trackers join the scene when animated

@@ -9,10 +9,10 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Minutes | Animation or board work | Purpose |
 | --- | --- | --- |
 | Warmup | Exercise E3 Warmup on the board | Predict what one more sale adds when the price has to fall. |
-| 0–3 | Bumper (`0.a`), then `1.a.last` through `1.c` | One seller; the same costs as E2; downward-sloping demand. |
+| 0–3 | Bumper (`0.a`), then `1.a.last` through `1.c` | One seller; downward-sloping demand; choose a trial quantity and ask its price. |
 | 3–11 | Play through `2.c` | Marginal revenue from two points, then the whole MR curve. |
 | 11–15 | Hide projection; Q1 on board | Compute MR between two other points. |
-| 15–22 | Resume through `3.e` | MR = MC, then price, average total cost, and profit; check 40 and 20. |
+| 15–22 | Resume at `2.d` through `3.e` | Bring in costs, then MR = MC, price, average total cost read from the curve, and profit; check 40 and 20. |
 | 22–27 | Hide projection; Q2 on board | Solve the monopolist’s problem with a different demand. |
 | 27–29 | Resume to `4.a` | A fall in demand. |
 | 29–34 | Resume through `5.a`; Q3 on board | The efficient quantity and deadweight loss. |
@@ -24,10 +24,11 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 <!--
 |   |   |
 | --- | --- |
-| Model | E2’s costs: MC = 2q, ATC = q + 1000/q. Demand P = 120 − Q, so MR = 120 − 2Q. q\* = 30, P\* = 90, ATC\* = 63.33, profit 800, Q_sp = 40. |
+| Model | MC = 2q, with E3 fixed cost 1,200, so ATC = q + 1200/q. Demand P = 120 − Q, so MR = 120 − 2Q. q\* = 30, P\* = 90, ATC\* = 70, profit 600, Q_sp = 40. E1 and E2 retain their existing cost models. |
+| Sequence | Demand and the quantity/price question come first. Keep Monopoly as the title throughout. Use two one-unit TR-to-MR calculations: first 1 to 2 in the close-up, then 25 to 26 on the full graph. Plot the two MR results and connect them before demonstrating a quantity sweep. Keep the TR area visible as quantity, price and their guides move together. Demand and TR stay grey during this derivation, while MR is blue and price/quantity inputs remain red. MC enters after MR; the Maximize Profit panel leads through quantity and price before ATC appears in step 3. Demand and its D/MB label stay grey throughout. Read ATC from its curve without dwelling on its formula. After calculating profit, a separate paired-graph sequence shows green profit against quantity while the monopoly graph follows the same output. Keep the green profit bars and plain white Profit label visible through the comparison. Then show the monopoly graph alone for a smaller demand shift, keeping profit positive; the math panel returns only for policy comparisons. The older prose below still needs reconciliation with this order. |
 | Open | The first paragraph continues a preview that E2 no longer gives. |
 | Open | The prose is still the 2020 dictation. Three strikes mark numbers the new model moved. |
-| Open | No opener, exercise cards or Exercise folder: the warmup and Q1 to Q3 exist only here. |
+| Exercise | Exercise/Exercise_E3.md, its solution guide and Gradescope sheet now contain the warmup and Q1 to Q3. Full-screen exercise cards now hold the prompts for board work: warmup before the bumper, Q1 after the MR sequence, Q2 after the profit comparison, and Q3 after DWL. Cards use E2’s gold heading, muted setup, white lettered questions and opaque graphite ground. Advancing restores the preceding graph; no solutions appear on the cards. The timing table’s older hide-projection directions still need reconciliation. |
 | Open | The timing table is untested, and Taxes and Subsidies is seven holds. |
 | Open | E2’s yellow notes and rounded readouts are not applied here. |
 | Open | The demand pivot and the policy sizes (20, 500, 1,800) are Claude’s picks. |
@@ -40,18 +41,16 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 ## {++ Exercise E3 | Warmup ++}
 
-{++ You sell 20 units at \$100 each. To sell 30 units, you have to lower the price to \$90 on every unit. ++}
+{++ You sell 20 units at \$100 each. To sell 30 units, you must lower the price to \$90 on every unit. ++}
 
-{++ a\) What is revenue at 20 units? At 30 units? ++}
-
-{++ b\) How much revenue did each of the 10 extra units add? ++}
-
-{++ c\) Each extra unit sold for \$90. Why did it add less than \$90? ++}
+{++ a) What is total revenue at 20 units? At 30 units?\
+b\) How much additional revenue do the 10 extra units bring in, on average, per unit?\
+c\) Why is your answer to b less than \$90? ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Warmup | Board only; not in the animation, which answers it at 2.b. Answers: a) \$2,000 and \$2,700; b) \$700 over 10 units, \$70 each; c) the 20 units already sold each lost \$10. |
+| 0.warmup | Show the Exercise E3 warmup card before the bumper, then fade it out. Students work on the board. Answers: a) \$2,000 and \$2,700; b) \$70 per additional unit on average; c) the original 20 units each lose \$10. The animation later illustrates the same idea with one-unit changes. |
 -->
 
 ## Monopoly
@@ -71,7 +70,7 @@ the main idea is that monopolies have a very different mr curve put up the solut
 
 {++ From the Week 11 introduction in the 2022 and 2023 notebooks: ++}
 
-On Thursday we'll continue building our model of Monopoly Firms, firms with no competition. The main idea is that both the demand curve and marginal revenue curves are downward sloping, where for perfectly competitive firms both D and MR were flat lines at the market price. We'll use this model to discuss welfare implications and policy options.
+On Thursday we’ll continue building our model of Monopoly Firms, firms with no competition. The main idea is that both the demand curve and marginal revenue curves are downward sloping, where for perfectly competitive firms both D and MR were flat lines at the market price. We’ll use this model to discuss welfare implications and policy options.
 
 {++ Last time the firm was one of many: one more unit sold at the market price, so marginal revenue was the price. Today the firm is the only seller. ++}
 
@@ -81,7 +80,7 @@ But to get a better handle on the marginal revenue curve, lets consider firms wh
 |   |   |
 | --- | --- |
 | 0.a | Bumper with the thesis line. |
-| 1.a.last | Title Perfect Competition. The market-structures grid, with the red box on Perfect Competition. |
+| 1.a.last | Title Monopoly. Three rows pair Many Sellers with Perfect Competition, Few Sellers with Oligopoly, and One Seller with Monopoly. Only the rows are separated by lines; there is no column heading or vertical rule. The red box is on Perfect Competition. |
 -->
 
 *Show ‘Monopoly’ on screen*
@@ -101,7 +100,7 @@ Like last time with perfectly competitive firms monopolous have a production fun
 <!--
 |   |   |
 | --- | --- |
-| 1.b | The grid fades. Subtitle “One seller, many buyers.”, which stays to 6.d. The graph with E2’s MC and ATC; rows MC = 2q and ATC = q + 1000/q. “As with competitive firms, the production function gives MC and ATC.” |
+| 1.b | The table fades. Subtitle “One seller, many buyers.” Demand and its equation appear together in grey, without a separate D label. The intercept stays at 120 on the vertical axis. Mark 25 on the quantity axis before zooming. “How much should we produce, and at what price?” |
 -->
 
 And similar to competitive firms monopolists also face a marginal private benefit curve or what we often call the demand curve.
@@ -125,7 +124,7 @@ So the MPB satisfies the law of demand.
 <!--
 |   |   |
 | --- | --- |
-| 1.c | Demand, from 120 down to 120 units, named D / MB; row D: P = 120 − Q. “Unlike competitive firms, a monopolist faces downward-sloping demand.” |
+| 1.c | Expand the view to show quantities from zero to 25, carrying the existing 25 tick to the right edge so the scale change is clear. Then mark a trial quantity of one. Trial quantities and prices use bare numbers, with short leaders keeping crowded readouts attached to their actual values. “If we produce one unit, what price lets us sell it?” |
 -->
 
 ## Marginal Revenue
@@ -141,7 +140,7 @@ And the equation for marginal revenue is just the change in revenue over the cha
 <!--
 |   |   |
 | --- | --- |
-| 2.a | Title Marginal Revenue. The panel keeps the demand row and adds MR = ΔTR / ΔQ. “Marginal revenue: the change in revenue over the change in quantity.” |
+| 2.a | Keep the Monopoly title. Trace up from one to demand, then left to the price axis. “Demand tells us: one unit sells for \$119.” No cost curves or MR formula yet. |
 -->
 
 So here we’re going from a quantity of 90 to a quantity of 85. And you can see that the price.
@@ -151,7 +150,9 @@ Here we’re going from a quantity of 20 to a quantity of 30.
 <!--
 |   |   |
 | --- | --- |
-| 2.b.first | The first point, (20, 100), with its guides and its revenue as teal strips. TR₁ = 100 × 20 = 2,000. “Here we’re going from a quantity of 20 to a quantity of 30.” |
+| 2.b.question | Keep the demand equation above its curve. Introduce the Total Revenue calculation panel and the first total to calculate. “Total Revenue is price times quantity: TR = P × Q.” |
+| 2.b.first.inputs | Copy the graph’s price and quantity into TR₁ = 119 × 1. |
+| 2.b.first | Evaluate the first total: 119. Show total revenue with visibly separate vertical bars; keep that treatment as quantity and price move. |
 -->
 
 And you can see the price is going down due to the law of demand.
@@ -163,7 +164,10 @@ So we see the price go down, but the quantity go up.
 <!--
 |   |   |
 | --- | --- |
-| 2.b.second | A second point rides to (30, 90). The price cut on the first 20 units turns red; the 10 new units fill in strong teal. TR₂ = 90 × 30 = 2,700. “So we see the price go down, but the quantity go up.” |
+| 2.b.more | Keep the first calculation and the revenue area visible. “How does Total Revenue change when we increase quantity by one?” |
+| 2.b.price | Increase quantity to two, moving the price, guides and TR area together. Keep the original guides for comparison. “To sell two units, the price falls to \$118 on each unit.” |
+| 2.b.second.inputs | Copy the new price and quantity into TR₂ = 118 × 2 below the first total. |
+| 2.b.second | Evaluate the second total: 236. Keep both totals visible. |
 -->
 
 So these two factors are moving in opposite directions.
@@ -171,7 +175,8 @@ So these two factors are moving in opposite directions.
 <!--
 |   |   |
 | --- | --- |
-| 2.b.split | ΔTR = 10 × 90 − 20 × 10 = 700; the red band flashes. “So these two factors are moving in opposite directions.” |
+| 2.b.definition | Introduce Marginal Revenue by copying the quantity-subscripted TR labels into MR = TR₂ − TR₁. |
+| 2.b.split | Copy the two calculated totals into 236 − 119. Keep both TR rows visible. |
 -->
 
 And this is different than perfectly competitive firms because.
@@ -183,7 +188,8 @@ Where they had very little effect on the market monopolists are the only seller 
 <!--
 |   |   |
 | --- | --- |
-| 2.b | MR = 700 / 10 = 70; a pink dot at (25, 70). “Monopolists are the only seller in the market, so they control the price.” |
+| 2.b | Evaluate marginal revenue: the next unit adds 117. Mark the corresponding MR point. |
+| 2.b.repeat.second | Keep the first MR dot, return to the full graph, and repeat at 25 to 26 units. TR rises from 2,375 to 2,444; MR is 69. Plot this second MR dot. The revenue bars follow the price and quantity. |
 -->
 
 Using this equation gives us the value for the marginal revenue curve and you can sort of see where it’s coming from.
@@ -191,21 +197,31 @@ Using this equation gives us the value for the marginal revenue curve and you ca
 <!--
 |   |   |
 | --- | --- |
-| 2.c.trace | The pair sweeps along demand to 50 and 60 while the pink dot traces MR. “Using this equation gives us the value for the marginal revenue curve.” |
-| 2.c | The whole MR line, from 120 down to 60 units; row MR = 120 − 2Q. “MR starts with demand at 120 and falls twice as fast.” |
+| 2.c | Connect the two calculated MR points and extend the line to the axes. Show MR = 120 − 2Q. “Two points give us the marginal revenue line.” |
+| 2.c.trace | After the two examples and their line, move quantity along demand and show MR moving along the established line. The vertical revenue bars move with quantity and price. “As quantity rises, each additional unit adds less revenue.” |
 -->
 
 ### {++ Whiteboard | Exercise Q1 ++}
 
-{++ > Demand is still $P = 120 - Q$. Find marginal revenue between 40 and 50 units. ++}
+{++ Demand is $P = 120 - Q$, and the firm charges the same price for every unit. ++}
+
+{++ a) Find the price and total revenue at $Q = 40$ and at $Q = 50$. ++}
+
+{++ b) Calculate the change in total revenue, then marginal revenue averaged over these 10 additional units. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Q1 | Board only. Answer: prices 80 and 70; TR goes from 3,200 to 3,500; ΔTR = 10 × 70 − 40 × 10 = 300, so MR = 30. |
+| 2.c.exercise | After 2.c.trace and before costs enter, cover the graph with the Exercise E3 Q1 card. Retain the demand setup and both prompts; restore the graph on advance. Board-work answer: prices 80 and 70; TR goes from 3,200 to 3,500; ΔTR = 10 × 70 − 40 × 10 = 300, so MR = 30. |
 -->
 
 ## The Monopolist’s Problem
+
+<!--
+|   |   |
+| --- | --- |
+| 2.d | Start the Maximize Profit panel, then introduce the objective. Bring in MC alone after the MR curve is established. Keep demand grey; ATC waits until step 3. |
+-->
 
 With these tools in hand, let’s go back and think about the monopolist problem. How they set how a monopolist would set quantity.
 
@@ -218,7 +234,7 @@ This gets this gives us quantity. And using quantity we can then use.
 <!--
 |   |   |
 | --- | --- |
-| 3.a | Title The Monopolist’s Problem. The card’s step 1, MC = MR → q\*; a red dot at (30, 60); 2q = 120 − 2q, so q\* = 30. “To solve any firm’s problem, set marginal cost equal to marginal revenue.” |
+| 3.a | Step 1: how much to produce? Locate MR = MC and drop to q\*. Show the two equations, bring their expressions together, and solve q\* = 30. |
 -->
 
 Using quantity with the demand curve allows us to find price. And similarly with the average total cost curve allows us to find the average total cost.
@@ -226,8 +242,8 @@ Using quantity with the demand curve allows us to find price. And similarly with
 <!--
 |   |   |
 | --- | --- |
-| 3.b | Step 2: up to demand at (30, 90). P\* = 120 − 30 = 90. “Using quantity with the demand curve allows us to find price.” |
-| 3.c | Step 3: across from ATC at (30, 63.33). ATC\* = 30 + 1000/30 = 63.33. “Quantity with the average total cost curve gives the average total cost.” |
+| 3.b | Step 2: find the highest price that sells all 30 units. Go up to demand, substitute q\* into P = 120 − q, then trace left to P\* = 90. |
+| 3.c | Step 3: introduce ATC and read ATC\* = 70 at q\* = 30. Show its point and guide to the axis, without dwelling on the cost formula. |
 -->
 
 Using price average total cost and. Quantity allows us to find the firms profits.
@@ -235,7 +251,7 @@ Using price average total cost and. Quantity allows us to find the firms profits
 <!--
 |   |   |
 | --- | --- |
-| 3.d | Step 4: orange profit strips. π\* = (90 − 63.33) · 30 = 800. “Price, average total cost and quantity give us the firm’s profits.” |
+| 3.d | Step 4: find profit from price, average total cost and quantity. π\* = (90 − 70) · 30 = 600, shown as green vertical profit bars with a plain white Profit label. |
 -->
 
 And here we can verify that marginal cost equally marginal revenue actually solves the firms profit maximization problem.
@@ -245,7 +261,8 @@ If we increase the quantity to ~~60~~ {++ 40 ++}. Their profit goes down.
 <!--
 |   |   |
 | --- | --- |
-| 3.e.more | The quantity rolls from 30 to 40 with a live profit row: π = (80.00 − 65.00) · 40 = 600. “If we increase the quantity to 40, their profit goes down.” |
+| 3.e.setup | After calculating profit, replace the math panel with a graph of profit against quantity and make room beside the monopoly graph. Keep the green profit bars on the monopoly graph and transfer the current result, 30 units and profit 600, to the new graph. “MC = MR solves the firm’s profit maximization problem.” |
+| 3.e.more | Increase quantity to 40: profit falls to 400. The changing profit bars and the point on the new graph move together, tracing the profit curve. “If we increase the quantity to 40, their profit goes down.” |
 -->
 
 And if we lower the quantity to ~~40~~ {++ 20 ++} their profit also goes down.
@@ -253,7 +270,7 @@ And if we lower the quantity to ~~40~~ {++ 20 ++} their profit also goes down.
 <!--
 |   |   |
 | --- | --- |
-| 3.e.less | The quantity rolls to 20: π = (100.00 − 70.00) · 20 = 600. “If we lower the quantity to 20, their profit also goes down.” |
+| 3.e.less | Lower quantity to 20: profit is 400 again. Continue tracing the profit curve while the monopoly graph follows the same quantity. “If we lower the quantity to 20, their profit also goes down.” |
 -->
 
 And this is really coming from the fact that as we increase quantity price also goes down from the law of demand and if we decrease quantity prices going up by the law of demand but not fast enough to compensate for the lower quantity.
@@ -261,17 +278,24 @@ And this is really coming from the fact that as we increase quantity price also 
 <!--
 |   |   |
 | --- | --- |
-| 3.e | Back to 30: π\* = 800. “MC = MR solves the firm’s profit maximization problem.” |
+| 3.e | Return to 30 and the peak of the profit curve, 600. “MC = MR solves the firm’s profit maximization problem.” |
 -->
 
 ### {++ Whiteboard | Exercise Q2 ++}
 
-{++ > Demand rises to $P = 160 - Q$, so $MR = 160 - 2Q$. Costs are unchanged. Find the monopolist’s quantity, price, and profit. ++}
+{++ Suppose demand rises to $P = 160 - Q$, so $MR = 160 - 2Q$. The monopolist’s marginal cost is still $MC = 2Q$, with fixed cost of 1,200. Its cost curves are shown below. ++}
+
+{++ a) Calculate and graph the profit-maximizing quantity. ++}
+
+{++ b) Calculate and graph the price that lets the firm sell that quantity. ++}
+
+{++ c) Calculate and graph the firm’s maximum profit.\
+(*Hint: $ATC$ at the profit-maximizing quantity is 70.*) ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Q2 | Board only. Answer: 160 − 2q = 2q, so q\* = 40; P\* = 120; ATC\* = 65; profit (120 − 65) × 40 = 2,200. |
+| 3.e.exercise | After the profit comparison, show the Exercise E3 Q2 card with the higher-demand setup, all three prompts and the supplied ATC = 70 hint. Students use the handout cost curves. Restore the paired graphs before continuing to the demand shift. Board-work answer: 160 − 2q = 2q, so q\* = 40; P\* = 120; ATC\* = 70; profit (120 − 70) × 40 = 2,000. |
 -->
 
 ## Changes In Demand
@@ -283,7 +307,7 @@ When the demand curve shifts in. Quantity. The firms quantity also shifts in and
 <!--
 |   |   |
 | --- | --- |
-| 4.a | Title Changes In Demand. Demand pivots down to P = 120 − 2Q, a grey ghost marking where it was: q\* 30 → 20, P\* 90 → 80, ATC\* 63.33 → 70, π\* 800 → 200. “When demand shifts down, the firm’s quantity and profit go down.” |
+| 4.a | Return to the monopoly graph alone, with no math sidebar. Demand pivots down to P = 120 − 1.4Q: q\* falls to 25, P\* to 85, ATC\* rises to 73, and profit falls to 300. Keep the smaller green profit area visible. “When demand shifts down, the firm’s quantity and profit go down.” |
 -->
 
 ## Deadweight Loss
@@ -299,18 +323,24 @@ And the great triangle in this model is dead weight loss, which is associated wi
 <!--
 |   |   |
 | --- | --- |
-| 5.a.efficient | Demand rolls back. Title Deadweight Loss. A yellow dot at (40, 80), 40 over Q_sp. “The socially efficient quantity: where the MC and MB curves intersect.” |
+| 5.a.efficient | Demand rolls back. A red dot and dashed guide at (40, 80), with red 40 over Q_sp. “The socially efficient quantity: where the MC and MB curves intersect.” |
 | 5.a | Grey strips from MC up to demand, 30 to 40, named DWL. “Deadweight loss: the quantity not provided where MB exceeds MC.” |
 -->
 
 ### {++ Whiteboard | Exercise Q3 ++}
 
-{++ > At 30 units, buyers will pay about \$90 for the next unit and it costs about \$60 to make. Why doesn’t the monopolist sell it? ++}
+{++ Return to the original demand: $P = 120 - Q$, with $MR = 120 - 2Q$ and $MC = 2Q$. The monopolist chooses $Q = 30$ and $P = 90$. There are no externalities. ++}
+
+{++ a) At $Q = 30$, buyers’ willingness to pay is 90 and marginal cost is 60. Why does the monopolist stop here instead of producing where $P = MC$? ++}
+
+{++ b) Calculate and mark the socially efficient quantity. ++}
+
+{++ c) Calculate and shade the deadweight loss from monopoly. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Q3 | Board only. Answer: selling one more means cutting the price on all 30 units, so it adds about \$60 to revenue (MR = 120 − 60) and about \$60 to cost. |
+| 5.a.exercise | After DWL and before policy, show the Exercise E3 Q3 card. Explicitly return to the original demand, retain the no-externalities assumption, and show all three prompts for board work using the handout graph. Restore the graph on advance. a) At 30, MR = MC = 60; beyond 30, MR is below MC because extra sales require a lower price on all units. b) 120 − Q = 2Q gives the efficient quantity 40. c) DWL = 0.5 × (40 − 30) × (90 − 60) = 150. |
 -->
 
 ## Taxes and Subsidies
@@ -336,7 +366,7 @@ So because we’re applying a tax to every individual unit, we’re just increas
 <!--
 |   |   |
 | --- | --- |
-| 6.a.shift | Title A Per-Unit Tax. The tax rolls from 0 to 20: dashed MC + tax and ATC + tax rise; q\* 30 → 25, P\* 90 → 95, ATC\* 63.33 → 85, π\* 800 → 250; a green band appears and DWL widens. “We shift marginal cost and average total cost up by the tax.” |
+| 6.a.shift | The calculation panel returns for the policy comparison. A per-unit tax of 20 raises MC and ATC. q\* falls to 25, P\* rises to 95, ATC\* to 93, and profit falls to 50. Government revenue appears and DWL widens. |
 | 6.a | The green band is named GOV. “As the tax goes up, quantity goes down and deadweight loss goes up.” |
 -->
 
@@ -359,7 +389,7 @@ So this ship’s only the average total cost.
 <!--
 |   |   |
 | --- | --- |
-| 6.b.shift | The tax rolls off. Title A Lump-Sum Tax. The lump sum rolls from 0 to 500: only the dashed ATC rises; q\* stays 30, ATC\* 63.33 → 80, π\* 800 → 300. “A lump-sum tax shifts only the average total cost.” |
+| 6.b.shift | Remove the per-unit tax and add a lump-sum tax of 500. Only ATC shifts; q\* stays 30, ATC\* becomes 86.67 (rounded), and profit falls from 600 to 100. |
 -->
 
 And what this does is essentially transfer some of the firms profits to the government. So one of the worries.
@@ -383,7 +413,7 @@ Where quantity is equal to the socially efficient quantity giving us zero dead w
 <!--
 |   |   |
 | --- | --- |
-| 6.c.shift | The lump sum rolls off. Title A Per-Unit Subsidy. The subsidy rolls from 0 to 40: dashed MC and ATC fall; q\* 30 → 40 = Q_sp, P\* 90 → 80, ATC\* 63.33 → 25, π\* 800 → 2,200; DWL closes. “Subsidies tend to increase the quantity exchanged in the market.”, then “Quantity reaches the socially efficient quantity: zero deadweight loss.” |
+| 6.c.shift | Remove the lump sum and add a per-unit subsidy of 40. q\* rises to 40 = Q_sp, P\* falls to 80, ATC\* to 30, and profit rises to 2,000. Quantity reaches the socially efficient level: zero deadweight loss. |
 -->
 
 But one of the problems here is that we’re transferring wealth from the government to the firm.
@@ -411,7 +441,7 @@ But we’ve also taken away some of their profits using a lump, sum tax.
 <!--
 |   |   |
 | --- | --- |
-| 6.d | Title A Subsidy And A Lump-Sum Tax. With the subsidy kept, the lump sum rolls from 0 to 1,800: ATC\* 25 → 70, π\* 2,200 → 400; the green band flips above ATC. “No deadweight loss, positive government revenue, and less profit.” |
+| 6.d | Keep the subsidy and add a lump-sum tax of 1,800. ATC\* rises from 30 to 75 and profit falls from 2,000 to 200. “No deadweight loss, positive government revenue, and less profit.” |
 -->
 
 ## Next Video
@@ -425,5 +455,5 @@ But we’ve also taken away some of their profits using a lump, sum tax.
 <!--
 |   |   |
 | --- | --- |
-| 7.a | Everything fades. Title Next Time. The grid returns and the box moves from Monopoly to Oligopoly. “What happens with two sellers?” |
+| 7.a | The graph fades while the Monopoly title stays. The same three-row table returns, and the box moves from Monopoly to Oligopoly. “What happens with two sellers?” |
 -->

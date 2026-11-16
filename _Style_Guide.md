@@ -161,6 +161,14 @@ regions can remain blank. Avoid a screen where the same hue ambiguously means
 both a good and an unrelated curve; do not invent a replacement palette without
 settling that choice with Taylor.
 
+**MR and coordinate conventions (2026-11-16).** Throughout the course, marginal
+revenue uses the same `BLUE` / `DEMAND` as E2, including its curve, label, and
+worked MR result. Prices and selected quantities use `GUIDE` red in both the
+graph and the algebra; their guide lines are red and dashed. This includes the
+socially efficient quantity. Plain axis names and ordinary tick numerals keep
+their roles below. Apply these conventions to E3 today; other episodes can adopt
+them when next edited.
+
 ### 2b. Marks (the six curve colors)
 
 The only colors allowed to persist on the model. Same token, same meaning, every
@@ -170,7 +178,7 @@ but note `BLUE`'s *value* is a deep teal.
 
 | Token | Value | Market (B–E) | Part A | Games | Consumer (F) |
 |---|---|---|---|---|---|
-| `BLUE` | `#128A9B` (deep teal) | `DEMAND` (MB, also MSB when needed); CS fill | `MOLLY` | `COL_PLAYER` (them / Player 2) | `GOOD_A` (x-axis), `INDIFFERENCE` (one color for all indifference curves — F1's three-color set is out of spec); optimum dot is `FOCUS` with `MUTED` dashed drop-lines |
+| `BLUE` | `#128A9B` (deep teal) | `DEMAND` (MB, also MSB when needed); MR; CS fill | `MOLLY` | `COL_PLAYER` (them / Player 2) | `GOOD_A` (x-axis), `INDIFFERENCE` (one color for all indifference curves — F1's three-color set is out of spec); optimum dot is `FOCUS` with `MUTED` dashed drop-lines |
 | `ORANGE` | `#E2803A` | `SUPPLY` (MC, also MSC); PS fill | `CARROTS` | — | — |
 | `GREEN` | `#34B57A` | `GOV` (tax revenue / subsidy cost / "expenditure") | `SPINACH` | `EFFICIENT` cell box | `GOOD_B` (y-axis) |
 | `RED` | `#C63944` | `GUIDE`: dashed P\*/Q\* lines, equilibrium dot, readouts. One accent, always red. | `ANDREW` | `NASH` cell box | `INCOME`, `BUDGET` |
@@ -342,7 +350,7 @@ matching metrics.
 - Curves: `axes.plot` for functions; **polyline (`set_points_as_corners`) inside `always_redraw`** for anything driven by a tracker or data — never `Transform` between two rebuilt plots (the wobble).
 - Labels ride the curve end: short (`D`, `S`, `MB`, `MC`, `ATC`), `INK`, `next_to` the right end. Keep demand labeled `MB` and supply `MC` when externalities enter. In C1, introduce the full-word equation “Marginal social cost = Marginal cost + External cost” beside the graph, then abbreviate it to `MSC = MC + EXT`; `EXT` means external cost per unit. Keep `MB` for benefit when there is no external benefit, as in C1; introduce `MSB` only when external benefits need a separate curve. (These labels are also the palette's safety net — every curve is identified by text, never by color alone.)
 - Put the standing curve equation above the curve in open graph space. Use the separate math area for the worked substitution, not for a second unrelated text stack.
-- Areas use the token's fill opacity. Explicit `Polygon` slices are appropriate for the editable, bar-by-bar sequences below; use axis coordinates for every boundary so bars and curves align.
+- **Economic areas always use vertical bars**, including total revenue, total cost, profit, surplus, deadweight loss, and government revenue or spending. Keep the bars visibly separate with small gaps or thin outlines; do not merge them into a seamless filled region. Preserve the bars as quantities, prices, and curves move. Use the token's fill opacity and axis coordinates for every boundary so bars and curves align. This is a course-wide convention; apply it to E3 now and to other episodes when they are next edited (approved 2026-11-16).
 - Equilibrium: `GUIDE` dot + two dashed `GUIDE` drop-lines (`get_horizontal_line` / `get_vertical_line`, `dashed_ratio 0.85`, opacity 0.3 for the lines, 1.0 for the dot). Use `P^*`, `Q^*` when equilibrium is efficient. When market equilibrium is inefficient, use hats: `\hat{P}`, `\hat{Q}`, never `P_m`, `Q_m`. Keep these market-equilibrium markers distinct from the efficient-quantity marker `Q^*`.
 - Selected-quantity readouts use `Q_d` for demand and `Q_s` for supply, never the generic word “Quantity,” in `GUIDE` red. Keep the symbol and its chosen, unknown, or solved value red on the graph and in the calculation; carry that color through any number moving between them.
 - Say **excess**, never "surplus," for Qs > Qd.
@@ -354,9 +362,13 @@ matching metrics.
 1. Choose and label the input in red on its axis. Follow the notes' price order
    and observed answers; do not replace the scripted elicitation with invented
    class data or a different demonstration.
-2. For a price input, fade in the horizontal dashed guide out to the point,
-   then extend the vertical dashed guide down to quantity. Reveal the quantity
-   label after that trace. Reverse the direction when quantity is the input.
+2. For a price input, draw the red dashed horizontal guide out to the point,
+   then extend the red dashed vertical guide down to quantity. Reveal the
+   quantity label after that trace. For a quantity input, first draw the red
+   dashed vertical guide upward from the quantity axis to the demand curve;
+   then draw the horizontal guide leftward, starting at that point and ending
+   at the price axis. Reveal the price after the trace. Keep this endpoint order
+   in guide updaters too, so the line opens from the point on the curve.
 3. In a worked calculation, keep the output unknown (`?` is useful) until the
    algebra produces it. Do not reveal the answer in a label or an obvious tick
    numeral early. This does not prevent showing an observed answer when the
@@ -472,7 +484,7 @@ available space.
 | Tax | wedge is a vertical segment parked **left of the axes**, slid in from the left until it "gets stuck between the curves"; `p_B` label above-left, `p_S` below-left; incidence stacked off-axis, buyer share `DEMAND`, seller share `SUPPLY` |
 | Externality | built at **one quantity first** (MC segment, EXT on top, label MSC), then swept |
 | Costs | production function **left**, cost graph **right**; FC first as a horizontal line; MC through the minima of ATC and AVC with `FOCUS` dots |
-| Monopoly | four curves `MC ATC MB MR`, each readout dashed in its own curve's color; MR ends at half MB's Q-extent; profit box `Q × (P − ATC)` |
+| Monopoly | demand first, then derive blue MR before introducing MC and ATC; price/quantity readouts and dashed guides are red; retain the original price/quantity guides when comparing TR, without a red difference region; MR ends at half MB's Q-extent; profit box `Q × (P − ATC)` |
 | Payoff matrix | `Table`, row player first in each cell; walk **column headers, then row headers**, then cells in VO order |
 | Consumer | tangency shown as the ratchet (nudge point → bump curve → repeat) |
 

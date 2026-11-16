@@ -107,6 +107,7 @@ This means competitive firms are what we call price takers. Changing quantity do
 |   |   |
 | --- | --- |
 | 1.e | The firm’s quantity changes while the price stays fixed; a blue dot marks q on the line from here on. “This firm changing quantity (q) has no real effect on the price.” |
+| 1.e.tr | Introduce Total Revenue as the full price-times-quantity area, labeled TR. “Total Revenue is price times quantity: TR = P × q.” Hold before considering an additional sale. |
 -->
 
 So what does one more unit add to revenue? It sells for the market price, and we still get the same price for all the other units. That means the additional revenue from selling one more unit is the price. For a competitive firm, marginal revenue equals price.
@@ -114,7 +115,18 @@ So what does one more unit add to revenue? It sells for the market price, and we
 <!--
 |   |   |
 | --- | --- |
-| 1.e.mr | Each unit adds the same revenue; the line is labeled MR. “One more unit sells for the price: Marginal Revenue is the price.” |
+| 1.e.mr.question | Keep both graphs beside a calculation panel. “How does Total Revenue change when we increase quantity by one?” Begin with Total Revenue at the current quantity. |
+| 1.e.mr.tr60.inputs | Use the graph’s price and quantity to calculate Total Revenue at 60 units. |
+| 1.e.mr.tr60 | Evaluate Total Revenue at 60 units: 6,000. |
+| 1.e.mr.tr61.quantity | Increase quantity by one before starting the next Total Revenue calculation. |
+| 1.e.mr.tr61.inputs | Use the same price and the new quantity to calculate Total Revenue at 61 units. |
+| 1.e.mr.tr61 | Evaluate Total Revenue at 61 units: 6,100. Keep both totals for comparison. |
+| 1.e.mr.definition | Introduce Marginal Revenue as the difference between the two Total Revenues just calculated. |
+| 1.e.mr.difference | Substitute the two calculated totals into that difference. |
+| 1.e.mr.first | Evaluate the difference: one additional unit adds 100 to revenue. |
+| 1.e.mr.second | Repeat the calculation for another single-unit increase, using the graph’s inputs and comparing the successive totals. |
+| 1.e.mr.third | A third additional unit also adds 100. Each sale adds the same revenue because the price stays fixed. |
+| 1.e.mr | After the comparisons, label the existing horizontal line MR. “One more unit sells for the price: Marginal Revenue is the price.” |
 -->
 
 ### Whiteboard | Exercise Q1a
@@ -156,7 +168,7 @@ Profit is the difference between these two areas, so we usually just look at the
 <!--
 |   |   |
 | --- | --- |
-| 2.c.area | SHOW THE DIFFERENCE AREA between price and ATC. Profit = TR − TC. “Usually we find profit as the difference between TR and TC on the graph.” |
+| 2.c.area | SHOW THE DIFFERENCE AREA between price and ATC. Profit = TR − TC. “Usually we find profit as the difference between TR and TC on the graph.” Throughout the episode, keep background curves readable as emphasis shifts. |
 | 2.c.revenue | = 2,000 − 1,400. |
 | 2.c.profit | = 600. |
 -->
@@ -418,7 +430,7 @@ Resume to `4.a`: “What happens to Marginal Revenue when demand slopes down?”
 |   |   |
 | --- | --- |
 | Model | The closer adds an illustrative \$30 to each unit: MC = 2q + 30 and ATC = q + 1000/q + 30. Its numbers set the geometry and are not displayed; the labels are P\*, q\* and Q\*. |
-| 4.a | Subtitle: “The spinach market: a higher cost per unit.” It starts at the zero-profit equilibrium, with faint grey copies of the original curves. “Suppose the safety policy raises the cost of each unit.” |
+| 4.a | Subtitle: “The spinach market: a higher cost per unit.” It starts at the zero-profit equilibrium, retaining the original curves for comparison. “Suppose the safety policy raises the cost of each unit.” |
 | 4.b.cost | MC, ATC and market supply shift up by 30: price rises to about 77, the firm’s quantity falls to about 24, and a loss opens. “Higher costs shift MC, ATC, and market supply upward.” |
 | 4.c.loss | “Price rises, but firms still make a loss.” |
 | 4.d.exit | Supply pivots in: price rises to about 93 and each surviving firm returns to about 32. “Losses lead firms to exit; price rises until profit is zero.” |

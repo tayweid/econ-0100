@@ -214,6 +214,13 @@ class EpisodeE2(Scene):
         atc_word = Tex('ATC', color=ATC_COLOR).scale(CURVE_WORD_SCALE).next_to(firm_ax.c2p(ATC_START, ATC_TOP), RIGHT, buff=0.15)
         lowest_atc = Dot(firm_ax.c2p(np.sqrt(FIXED), LONG_RUN_P), radius=0.085, color=MUTED).set_z_index(DOT_LAYER + 1)   # grey, not yellow (Taylor)
         firm = VGroup(firm_ax, firm_words, mc_line, mc_word, atc_curve, atc_word)      # the grey dot joins at short-run break-even
+        # Opaque grey keeps background curves readable on a projector. Re-emphasis restores their semantic colors.
+        # Change only the stroke on open curves, so ATC never acquires a fill.
+        emphasize_mc = lambda active: [mc_line.animate.set_stroke(MC_COLOR if active else MUTED, opacity=1),
+                                      mc_word.animate.set_color(MC_COLOR if active else CAPTION).set_opacity(1)]
+        emphasize_atc = lambda active: [atc_curve.animate.set_stroke(ATC_COLOR if active else MUTED, opacity=1),
+                                       atc_word.animate.set_color(ATC_COLOR if active else CAPTION).set_opacity(1)]
+        emphasize_curves = lambda active: emphasize_mc(active) + emphasize_atc(active)
         self.play(FadeOut(checklist), FadeOut(checklist_divider), run_time=0.5)
         self.play(FadeIn(firm), FadeIn(market_label))
         self.pause('1.c')
@@ -303,9 +310,8 @@ class EpisodeE2(Scene):
         quantity.set_value(60)
         self.pause('1.e')
 
-        # ---- 1.e.mr · Why the price is marginal revenue: the units sold are bars of revenue, each exactly P tall. The bars
-        # fade in at q = 60; the quantity falls to 40 and rises back to 60, a bar leaving or arriving with each unit, each one
-        # worth the price. Name the line MR.
+        # ---- 1.e.tr · First show the whole revenue rectangle: price tall and quantity wide.
+        # The same one-unit bars carry into MR, so additional revenue is an addition to this familiar total.
         mr_bars = VGroup(*[Polygon(firm_ax.c2p(u, 0), firm_ax.c2p(u + 1, 0), firm_ax.c2p(u + 1, FIRM_P), firm_ax.c2p(u, FIRM_P),
                                    color=REVENUE_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY) for u in range(FIRM_Q_MAX)])
         for u, bar in enumerate(mr_bars):                      # bar u is there while the quantity covers unit u + 1
@@ -315,12 +321,151 @@ class EpisodeE2(Scene):
                 .set_fill(REVENUE_COLOR, AREA_OPACITY * float(u + 1 <= quantity.get_value() + 1e-6)))
         for bar in mr_bars:
             bar.update()
+        initial_revenue_word = Tex('TR', color=INK).scale(AREA_WORD_SCALE).set_z_index(DOT_LAYER)
+        initial_revenue_word.move_to(firm_ax.c2p(quantity.get_value() / 2, price.get_value() / 2))
+        self.remove(note)
+        note = teaching(r'Total Revenue is price times quantity: $TR = P \times q$.')
+        self.play(FadeIn(mr_bars), FadeIn(initial_revenue_word), *emphasize_curves(False), FadeIn(note))
+        self.pause('1.e.tr')
+
+        # ---- 1.e.mr.question · Make room for successive revenue totals before naming marginal revenue.
+        # Compress only graph geometry horizontally; the same labels retain their readable size.
+        # Price, quantity, dots, guides, and revenue bars keep following the existing axes.
+        mr_market_geometry = VGroup(market_ax, market_demand)
+        mr_firm_geometry = VGroup(firm_ax, mc_line, atc_curve)
+        mr_layout_words = [*market_words, *firm_words, demand_word, mc_word, atc_word]
+        for geometry, new_x in ((mr_market_geometry, MARKET_X_PAIR), (mr_firm_geometry, -1.7)):
+            geometry.save_state()
+            geometry.generate_target()
+            origin = geometry[0].c2p(0, 0)
+            geometry.target.stretch(0.7, 0, about_point=origin).shift(RIGHT * (new_x - origin[0]))
+        for word in mr_layout_words:
+            word.save_state()
+            word.generate_target()
+        for words, axis, maximum, new_x in ((market_words, market_ax, MARKET_Q_MAX, MARKET_X_PAIR),
+                                             (firm_words, firm_ax, FIRM_Q_MAX, -1.7)):
+            compact_point = lambda q, p: axis.c2p(q, p) * np.array([0.7, 1, 1]) + RIGHT * (new_x - 0.7 * axis.c2p(0, 0)[0])
+            words[0].target.next_to(compact_point(maximum / 2, PRICE_MAX), UP, buff=0.34)
+            words[1].target.next_to(compact_point(0, PRICE_MAX), LEFT, buff=0.25)
+            words[2].target.next_to(words[1].target, RIGHT, buff=0.35)
+            words[3].target.next_to(compact_point(maximum, 0), DOWN, buff=0.35)
+        firm_words[3].target.shift(RIGHT * 0.15)   # clear the moving quantity readout on the narrower axis
+        firm_words[4].target.next_to(firm_words[3].target, RIGHT, buff=0.3)
+        demand_word.target.next_to(mr_market_geometry.target[1].get_end(), RIGHT, buff=0.12)
+        mc_word.target.next_to(mr_firm_geometry.target[1].get_end(), RIGHT, buff=0.15)
+        atc_word.target.next_to(mr_firm_geometry.target[2].get_start(), RIGHT, buff=0.15)
+        initial_revenue_word.add_updater(lambda m: m.move_to(firm_ax.c2p(quantity.get_value() / 2, price.get_value() / 2)))
+        mr_calculation_divider = Line([2.4, -3.0, 0], [2.4, 2.3, 0], color=MUTED, stroke_width=1.5)
+        MR_PANEL_LEFT, MR_MATH_LEFT = 2.75, 3.0
+        mr_calculation_heading = Tex('Total Revenue', color=REVENUE_COLOR).scale(0.8)
+        mr_calculation_heading.set_x(MR_PANEL_LEFT, direction=LEFT).set_y(2.15)
+        mr_difference_heading = Tex('Marginal Revenue', color=REVENUE_COLOR).scale(0.8)
+        mr_difference_heading.set_x(MR_PANEL_LEFT, direction=LEFT).set_y(-0.05)
+        mr_examples = []
+        for before in (60, 61, 62):
+            after = before + 1
+            revenue_rows = VGroup()
+            for q, y in ((before, 1.5), (after, 0.8)):
+                total_text = f'{FIRM_P * q:,}'.replace(',', '{,}')
+                row = VGroup(MathTex(rf'\mathrm{{TR}}_{{{q}}}', color=REVENUE_COLOR), MathTex('=', color=INK),
+                             MathTex(str(FIRM_P), color=GUIDE), MathTex(r'\times', color=INK), MathTex(str(q), color=GUIDE),
+                             MathTex('=', color=INK), MathTex(total_text, color=REVENUE_COLOR))
+                row.arrange(RIGHT, buff=0.10).scale(0.64).set_x(MR_MATH_LEFT, direction=LEFT).set_y(y)
+                revenue_rows.add(row)
+            definition = VGroup(MathTex(r'\mathrm{MR}', color=REVENUE_COLOR), MathTex('=', color=INK),
+                                MathTex(rf'\mathrm{{TR}}_{{{after}}}', color=REVENUE_COLOR), MathTex('-', color=INK),
+                                MathTex(rf'\mathrm{{TR}}_{{{before}}}', color=REVENUE_COLOR))
+            definition.arrange(RIGHT, buff=0.10).scale(0.64).set_x(MR_MATH_LEFT, direction=LEFT).set_y(-0.7)
+            difference = VGroup(MathTex('=', color=INK), revenue_rows[1][6].copy(), MathTex('-', color=INK).scale(0.64),
+                                revenue_rows[0][6].copy())
+            difference[0].scale(0.64)
+            difference.arrange(RIGHT, buff=0.10).set_y(-1.35)
+            difference.shift(RIGHT * (definition[1].get_x() - difference[0].get_x()))
+            result = VGroup(MathTex('=', color=INK), MathTex(str(FIRM_P), color=REVENUE_COLOR))
+            result.arrange(RIGHT, buff=0.10).scale(0.64).set_y(-2.0)
+            result.shift(RIGHT * (definition[1].get_x() - result[0].get_x()))
+            mr_examples.append(VGroup(*revenue_rows, definition, difference, result))
+        mr_example = mr_examples[0]
+        tr_before, tr_after, mr_definition, mr_difference, mr_result = mr_example
+        self.remove(note)
+        note = teaching('How does Total Revenue change when we increase quantity by one?')
+        self.add(note)
+        self.play(MoveToTarget(mr_market_geometry), MoveToTarget(mr_firm_geometry),
+                  *[MoveToTarget(word) for word in mr_layout_words], FadeIn(mr_calculation_divider),
+                  FadeIn(mr_calculation_heading), FadeIn(VGroup(*tr_before[:2])), run_time=1.4, rate_func=smooth)
+        self.pause('1.e.mr.question')
+
+        # ---- 1.e.mr.tr60.inputs · Copy the graph's red price and quantity into the first total.
+        self.play(TransformFromCopy(market_price[1], tr_before[2]), FadeIn(tr_before[3]),
+                  TransformFromCopy(q_number.copy().clear_updaters(), tr_before[4]), run_time=1.2)
+        self.pause('1.e.mr.tr60.inputs')
+
+        # ---- 1.e.mr.tr60 · Evaluate only after the two inputs have arrived.
+        self.play(FadeIn(VGroup(*tr_before[5:])), run_time=0.5)
+        self.add(tr_before)
+        self.pause('1.e.mr.tr60')
+
+        # ---- 1.e.mr.tr61.quantity · Add one unit before calculating its new total revenue.
+        self.play(quantity.animate.set_value(61), run_time=1.2, rate_func=smooth)
+        self.play(FadeIn(VGroup(*tr_after[:2])), run_time=0.4)
+        self.pause('1.e.mr.tr61.quantity')
+
+        # ---- 1.e.mr.tr61.inputs · The price stays 100; the graph now supplies 61 units.
+        self.play(TransformFromCopy(market_price[1], tr_after[2]), FadeIn(tr_after[3]),
+                  TransformFromCopy(q_number.copy().clear_updaters(), tr_after[4]), run_time=1.2)
+        self.pause('1.e.mr.tr61.inputs')
+
+        # ---- 1.e.mr.tr61 · Keep both completed totals visible.
+        self.play(FadeIn(VGroup(*tr_after[5:])), run_time=0.5)
+        self.add(tr_after)
+        self.pause('1.e.mr.tr61')
+
+        # ---- 1.e.mr.definition · Name the difference using copies of the two TR labels.
+        self.play(FadeIn(mr_difference_heading), FadeIn(VGroup(*mr_definition[:2], mr_definition[3])), run_time=0.5)
+        self.play(TransformFromCopy(tr_after[0], mr_definition[2]), TransformFromCopy(tr_before[0], mr_definition[4]), run_time=1.0)
+        self.add(mr_definition)
+        self.pause('1.e.mr.definition')
+
+        # ---- 1.e.mr.difference · Fly the blue totals into the subtraction beneath the definition.
+        self.play(FadeIn(VGroup(mr_difference[0], mr_difference[2])), TransformFromCopy(tr_after[6], mr_difference[1]),
+                  TransformFromCopy(tr_before[6], mr_difference[3]), run_time=1.2)
+        self.add(mr_difference)
+        self.pause('1.e.mr.difference')
+
+        # ---- 1.e.mr.first · The additional revenue is 100.
+        self.play(FadeIn(mr_result), run_time=0.5)
+        self.pause('1.e.mr.first')
+
+        # ---- 1.e.mr.second / third · Carry the previous total up, then repeat the same calculation.
+        for next_q, next_example in zip((62, 63), mr_examples[1:]):
+            self.play(FadeOut(tr_before), ReplacementTransform(tr_after, next_example[0]),
+                      FadeOut(mr_definition), FadeOut(mr_difference), FadeOut(mr_result), run_time=0.7)
+            mr_example = next_example
+            tr_before, tr_after, mr_definition, mr_difference, mr_result = mr_example
+            self.play(quantity.animate.set_value(next_q), run_time=1.2, rate_func=smooth)
+            self.play(FadeIn(VGroup(*tr_after[:2])), run_time=0.4)
+            self.play(TransformFromCopy(market_price[1], tr_after[2]), FadeIn(tr_after[3]),
+                      TransformFromCopy(q_number.copy().clear_updaters(), tr_after[4]), run_time=1.2)
+            self.play(FadeIn(VGroup(*tr_after[5:])), run_time=0.5)
+            self.add(tr_after)
+            self.play(FadeIn(VGroup(*mr_definition[:2], mr_definition[3])),
+                      TransformFromCopy(tr_after[0], mr_definition[2]), TransformFromCopy(tr_before[0], mr_definition[4]), run_time=1.0)
+            self.add(mr_definition)
+            self.play(FadeIn(VGroup(mr_difference[0], mr_difference[2])), TransformFromCopy(tr_after[6], mr_difference[1]),
+                      TransformFromCopy(tr_before[6], mr_difference[3]), run_time=1.2)
+            self.add(mr_difference)
+            self.play(FadeIn(mr_result), run_time=0.5)
+            if next_q == 62:
+                self.pause('1.e.mr.second')
+            else:
+                self.pause('1.e.mr.third')
+
+        # ---- 1.e.mr · Keep the arithmetic visible while naming the existing price line MR.
+        initial_revenue_word.clear_updaters()
         self.remove(note)
         note = teaching('One more unit sells for the price: Marginal Revenue is the price.')
-        self.play(FadeIn(mr_bars), FadeIn(note))
-        self.play(quantity.animate.set_value(40), run_time=ROLL_TIME, rate_func=smooth)
-        self.play(quantity.animate.set_value(60), run_time=ROLL_TIME, rate_func=smooth)
-        self.play(FadeIn(mr_word), run_time=0.5)
+        self.add(note)
+        self.play(FadeOut(initial_revenue_word), FadeIn(mr_word), run_time=0.5)
         price_word = mr_word
         self.pause('1.e.mr')
 
@@ -347,6 +492,11 @@ class EpisodeE2(Scene):
             marker.next_to(question, LEFT, buff=EXERCISE_MARKER_GAP)
         exercise_text = VGroup(exercise_label, exercise_context, exercise_question, exercise_markers).set_z_index(101)
         self.play(FadeIn(exercise_ground), run_time=0.4)
+        # The exercise card covers the reset to the normal two-graph layout.
+        for m in (mr_market_geometry, mr_firm_geometry, *mr_layout_words):
+            m.restore()
+        self.remove(mr_calculation_divider, mr_calculation_heading, mr_difference_heading,
+                    tr_before, tr_after, mr_definition, mr_difference, mr_result)
         self.play(FadeIn(exercise_text), run_time=0.4)
         self.pause('1.f.exercise')
         self.play(FadeOut(exercise_text), run_time=0.3)
@@ -364,7 +514,7 @@ class EpisodeE2(Scene):
         market_picture = VGroup(market_ax, market_words, market_demand, demand_word, market_supply, supply_word)
         for bar in mr_bars:
             bar.clear_updaters()
-        self.play(*[FadeOut(m) for m in market_marks if m is not market_price], FadeOut(mr_bars), run_time=0.5)
+        self.play(*[FadeOut(m) for m in market_marks if m is not market_price], FadeOut(mr_bars), *emphasize_curves(True), run_time=0.5)
         # The Firm label goes dark while the firm is alone (it stays in the group, so it pans with it).
         self.play(FadeOut(market_picture), firm.animate.shift(RIGHT * (FIRM_X_PANEL - FIRM_X_PAIR)), firm_label.animate.set_opacity(0),
                   ReplacementTransform(market_price, price_number), run_time=1.6, rate_func=smooth)
@@ -416,14 +566,9 @@ class EpisodeE2(Scene):
                                        color=ATC_COLOR, stroke_width=BAR_OUTLINE, fill_opacity=AREA_OPACITY)
                                for u in range(START_Q)])
         revenue_word = Tex('TR', color=INK).scale(AREA_WORD_SCALE).move_to(firm_ax.c2p(START_Q / 2, FIRM_P / 2))   # on its region
-        # Curves recede while they are not the subject. Stroke opacity for the curves: set_opacity would also give the open
-        # ATC path a fill.
-        dim_mc = lambda a: [mc_line.animate.set_stroke(opacity=a), mc_word.animate.set_opacity(a)]
-        dim_atc = lambda a: [atc_curve.animate.set_stroke(opacity=a), atc_word.animate.set_opacity(a)]
-        dim_curves = lambda a: dim_mc(a) + dim_atc(a)
         self.remove(note)
         note = teaching('Each unit sells for the market price.')
-        self.play(*dim_curves(0.25))
+        self.play(*emphasize_curves(False))
         self.play(FadeIn(revenue_strips[0]), FadeIn(calculation_divider), FadeIn(revenue_formula), FadeIn(note), run_time=0.6)
         self.pause('2.b.revenue.unit')
 
@@ -466,7 +611,7 @@ class EpisodeE2(Scene):
         cost_formula.shift(RIGHT * (CALC_EQUALS_X - cost_formula[1].get_x())).set_y(CALC_COST_Y)
         self.remove(note)
         note = teaching('Total Cost is Average Total Cost times quantity ($q$).')
-        self.play(revenue_strips.animate.set_fill(opacity=0.08).set_stroke(opacity=0.25), FadeOut(revenue_word), *dim_atc(1),
+        self.play(revenue_strips.animate.set_fill(MUTED).set_stroke(MUTED), FadeOut(revenue_word), *emphasize_atc(True),
                   FadeIn(cost_formula), FadeIn(note))
         self.pause('2.b.cost.formula')
 
@@ -561,7 +706,7 @@ class EpisodeE2(Scene):
         profit_result.shift(RIGHT * (CALC_EQUALS_X - profit_result[0].get_x()))
         self.remove(note)
         note = teaching('Usually we find profit as the difference between TR and TC on the graph.')
-        self.play(FadeOut(revenue_strips), FadeOut(cost_strips), FadeOut(cost_word), *dim_curves(0.25), FadeIn(profit_box), FadeIn(note),
+        self.play(FadeOut(revenue_strips), FadeOut(cost_strips), FadeOut(cost_word), *emphasize_curves(False), FadeIn(profit_box), FadeIn(note),
                   run_time=1.2)
         self.play(FadeIn(profit_name), FadeIn(profit_formula))
         self.add(loss_name)
@@ -579,7 +724,7 @@ class EpisodeE2(Scene):
 
         # ---- 2.c.formula · B2's measurement, laid just outside the axes as E1 lays its interval marks: a yellow line left of the price
         # axis from ATC to P and one under the quantity axis from 0 to q, no labels (the bottom line names them). They ride the trackers and
-        # stay, at half strength, while things move on the graph.
+        # stay grey while things move on the graph.
         MARK_GAP = 0.14
         height_mark = Line(ORIGIN, UP, color=FOCUS, stroke_width=4)
         height_mark.add_updater(lambda m: m.put_start_and_end_on(firm_ax.c2p(0, box_low()) + LEFT * MARK_GAP,
@@ -715,7 +860,7 @@ class EpisodeE2(Scene):
         note = teaching('What does the next unit cost to make?')
         # Only the next unit's two heights matter here: ATC's guide and readout leave and its curve recedes (its point stays
         # on the curve); MC returns.
-        self.play(*[m.animate.set_opacity(0.5) for m in measure_marks], *dim_mc(1), *dim_atc(0.25), FadeOut(atc_guide),
+        self.play(*[m.animate.set_stroke(MUTED) for m in measure_marks], *emphasize_mc(True), *emphasize_atc(False), FadeOut(atc_guide),
                   FadeOut(atc_number), FadeIn(note))
         self.pause('2.d.cost.question')
 
@@ -803,7 +948,7 @@ class EpisodeE2(Scene):
         self.play(firm.animate.shift(RIGHT * (FIRM_X_ALONE - FIRM_X_PANEL)), run_time=1.2, rate_func=smooth)
         for m in (atc_guide, atc_number):
             m.update()
-        self.play(FadeIn(q_star), *dim_atc(1), FadeIn(atc_guide), FadeIn(atc_number))
+        self.play(FadeIn(q_star), *emphasize_atc(True), FadeIn(atc_guide), FadeIn(atc_number))
         self.play(Indicate(firm_dot, color=REVENUE_COLOR, scale_factor=1.6))
         self.pause('2.e')
 
@@ -899,10 +1044,10 @@ class EpisodeE2(Scene):
         self.remove(note, profit_name)       # remove the hidden label with its area; restore both together during the supply trace
         note = teaching('The firm pays the full Fixed Cost even if it shuts down.')
         self.play(FadeOut(profit_box), FadeOut(loss_name), *[FadeOut(m) for m in measure_marks],
-                  FadeOut(price_number), FadeOut(price_guide), price_line.animate.set_stroke(opacity=0.25),
-                  price_word.animate.set_opacity(0.25), firm_dot.animate.set_opacity(0.35),
-                  mc_line.animate.set_stroke(opacity=0.2), atc_curve.animate.set_stroke(opacity=1),
-                  avc_line.animate.set_stroke(opacity=1), run_time=0.5)
+                  FadeOut(price_number), FadeOut(price_guide), price_line.animate.set_stroke(MUTED),
+                  price_word.animate.set_color(CAPTION), firm_dot.animate.set_color(MUTED),
+                  *emphasize_mc(False), *emphasize_atc(True),
+                  avc_line.animate.set_stroke(AVC_COLOR), run_time=0.5)
         self.play(FadeIn(fixed_box), FadeIn(fixed_name), Create(cost_guides), FadeIn(note))
         self.pause('3.e.fc')
 
@@ -934,7 +1079,7 @@ class EpisodeE2(Scene):
         revenue_name.move_to(firm_ax.c2p(q_loss / 2, LOSS_P / 2)).shift(UP * 0.25).set_z_index(DOT_LAYER)
         self.remove(note)
         note = teaching('Revenue covers all Variable Costs and part of the Fixed Cost.')
-        self.play(variable_box.animate.set_fill(opacity=0.08).set_stroke(opacity=0.25),
+        self.play(variable_box.animate.set_fill(MUTED).set_stroke(MUTED),
                   FadeOut(variable_name), FadeOut(fixed_name), FadeIn(revenue_bars),
                   Create(revenue_outline), FadeIn(revenue_name), FadeIn(note), run_time=1.2)
         self.pause('3.e.revenue')
@@ -1016,9 +1161,8 @@ class EpisodeE2(Scene):
                   FadeOut(revenue_bars), FadeOut(revenue_name),
                   FadeOut(revenue_outline), FadeOut(cost_guides), FadeOut(avc_dot),
                   FadeOut(atc_dot),
-                  mc_line.animate.set_stroke(opacity=0.2),
-                  atc_curve.animate.set_stroke(opacity=0.25), atc_word.animate.set_opacity(0.25),
-                  avc_line.animate.set_stroke(opacity=0.25), avc_word.animate.set_opacity(0.25), run_time=0.7)
+                  *emphasize_curves(False),
+                  avc_line.animate.set_stroke(MUTED), avc_word.animate.set_color(CAPTION), run_time=0.7)
         self.play(VGroup(firm, avc_line, avc_word).animate.shift(RIGHT * (FIRM_X_ALONE - SHUTDOWN_FIRM_X)),
                   run_time=1.2, rate_func=smooth)
         # Carry the existing MR line, labels, and selected quantity down to zero before tracing MC upward.
@@ -1027,7 +1171,7 @@ class EpisodeE2(Scene):
             m.update()
         note = teaching('As price rises, the firm chooses quantity where MR = MC.')
         self.play(FadeIn(price_number), FadeIn(price_guide), FadeIn(unit_cost_dot),
-                  firm_dot.animate.set_opacity(1), FadeIn(note))
+                  firm_dot.animate.set_color(REVENUE_COLOR), FadeIn(note))
         self.play(price.animate.set_value(0), quantity.animate.set_value(0), run_time=ROLL_TIME, rate_func=smooth)
         for m in (profit_box, profit_name, loss_name):
             m.update()
@@ -1130,11 +1274,10 @@ class EpisodeE2(Scene):
         alt_atc_word = Tex('ATC', color=ATC_COLOR).scale(CURVE_WORD_SCALE).next_to(alt_atc_curve.get_start(), RIGHT, buff=0.15)
         alt_avc_curve = polyline([alt_ax.c2p(q, alt_avc(q)) for q in np.linspace(0, ALT_Q_MAX, 240)], AVC_COLOR, CURVE_WIDTH)
         alt_avc_word = Tex('AVC', color=AVC_COLOR).scale(CURVE_WORD_SCALE).next_to(alt_avc_curve.get_end(), RIGHT, buff=0.15).shift(DOWN * 0.45)
-        alt_mc_curve.set_stroke(opacity=0.2)
-        for curve in (alt_atc_curve, alt_avc_curve):
-            curve.set_stroke(opacity=0.25)
+        for curve in (alt_mc_curve, alt_atc_curve, alt_avc_curve):
+            curve.set_stroke(MUTED)
         for word in (alt_mc_word, alt_atc_word, alt_avc_word):
-            word.set_opacity(0.25)
+            word.set_color(CAPTION)
         alt_graph = VGroup(alt_ax, alt_words, alt_mc_curve, alt_mc_word, alt_atc_curve, alt_atc_word, alt_avc_curve, alt_avc_word)
         alt_min_atc = Dot(alt_ax.c2p(40, ALT_BREAK_P), radius=0.085, color=MUTED).set_z_index(DOT_LAYER + 1)
         alt_break_guide = DashedLine(alt_ax.c2p(0, ALT_BREAK_P), alt_ax.c2p(40, ALT_BREAK_P), color=MUTED,
@@ -1164,9 +1307,9 @@ class EpisodeE2(Scene):
         self.add(alt_price, alt_quantity)
         alt_show_cost = [True]
         alt_guide_top = lambda: max(alt_price.get_value(), alt_atc(max(alt_quantity.get_value(), 1))) if alt_show_cost[0] else alt_price.get_value()
-        alt_mr = Line(alt_ax.c2p(0, ALT_START_P), alt_ax.c2p(ALT_Q_MAX, ALT_START_P), color=REVENUE_COLOR, stroke_width=CURVE_WIDTH).set_stroke(opacity=0.25)
+        alt_mr = Line(alt_ax.c2p(0, ALT_START_P), alt_ax.c2p(ALT_Q_MAX, ALT_START_P), color=MUTED, stroke_width=CURVE_WIDTH)
         alt_mr.add_updater(lambda m: m.put_start_and_end_on(alt_ax.c2p(0, alt_price.get_value()), alt_ax.c2p(ALT_Q_MAX, alt_price.get_value())))
-        alt_mr_word = Tex('MR', color=REVENUE_COLOR).scale(CURVE_WORD_SCALE).set_opacity(0.25)
+        alt_mr_word = Tex('MR', color=CAPTION).scale(CURVE_WORD_SCALE)
         alt_mr_word.add_updater(lambda m: m.next_to(alt_ax.c2p(ALT_Q_MAX, alt_price.get_value()), RIGHT, buff=0.15))
         alt_price_number = VGroup(MathTex('P=', color=GUIDE), DecimalNumber(ALT_START_P, num_decimal_places=0, color=GUIDE)).scale(READOUT_SCALE)
         alt_price_number.add_updater(lambda m: (m[1].set_value(alt_price.get_value()), m.arrange(RIGHT, buff=0.08),
@@ -1321,8 +1464,8 @@ class EpisodeE2(Scene):
         ).set_z_index(GUIDE_LAYER + 1)
         self.remove(note)
         note = teaching('Shutting down loses only Fixed Cost, so the loss is smaller.')
-        self.play(Create(alt_fixed_outline), alt_variable_loss_box.animate.set_fill(opacity=0.08).set_stroke(opacity=0.25),
-                  alt_variable_loss_name.animate.set_opacity(0.35), FadeIn(note))
+        self.play(Create(alt_fixed_outline), alt_variable_loss_box.animate.set_fill(MUTED).set_stroke(MUTED),
+                  alt_variable_loss_name.animate.set_color(CAPTION), FadeIn(note))
         self.pause('3.g.alt.fixed_only')
 
         # ---- 3.g.alt.shutdown · The choice is zero output; average-cost markers leave before q reaches zero.
@@ -1361,16 +1504,16 @@ class EpisodeE2(Scene):
         # These readouts are still hidden after the supply trace; prepare the market example before revealing them.
         price.set_value(FIRM_P)
         quantity.set_value(FIRM_P / 2)
-        mc_line.set_stroke(opacity=1)
-        atc_curve.set_stroke(opacity=1)
-        atc_word.set_opacity(1)
+        mc_line.set_stroke(MC_COLOR, opacity=1)
+        atc_curve.set_stroke(ATC_COLOR, opacity=1)
+        atc_word.set_color(ATC_COLOR).set_opacity(1)
         mc_word.become(Tex('MC', color=MC_COLOR).scale(CURVE_WORD_SCALE).next_to(mc_line.get_end(), RIGHT, buff=0.15))
         firm_label.next_to(firm_ax.c2p(FIRM_Q_MAX / 2, PRICE_MAX), UP, buff=0.34).set_opacity(1)
         market_label.next_to(market_ax.c2p(MARKET_Q_MAX / 2, PRICE_MAX), UP, buff=0.34)
-        price_line.set_stroke(opacity=1)
+        price_line.set_stroke(REVENUE_COLOR, opacity=1)
         price_word = mr_word
-        price_word.set_opacity(1)
-        firm_dot.set_opacity(1)
+        price_word.set_color(REVENUE_COLOR).set_opacity(1)
+        firm_dot.set_color(REVENUE_COLOR).set_opacity(1)
         atc_dot.set_opacity(1)
         for m in (atc_guide, atc_number, price_number):
             m.clear_updaters()
@@ -1385,8 +1528,8 @@ class EpisodeE2(Scene):
 
         # ---- 3.a.avc · Recall the short-run gap before entry: AVC sits below ATC on this same firm graph.
         avc_line.put_start_and_end_on(firm_ax.c2p(0, 0), firm_ax.c2p(FIRM_Q_MAX, avc(FIRM_Q_MAX)))
-        avc_line.set_stroke(opacity=1)
-        avc_word.next_to(avc_line.get_end(), RIGHT, buff=0.15).set_opacity(1)
+        avc_line.set_stroke(AVC_COLOR, opacity=1)
+        avc_word.next_to(avc_line.get_end(), RIGHT, buff=0.15).set_color(AVC_COLOR).set_opacity(1)
         atc_curve.set_z_index(1)
         atc_word.set_z_index(2)
         self.remove(note)
@@ -1507,7 +1650,7 @@ class EpisodeE2(Scene):
         q_star.update()
         policy_original = VGroup(market_supply.copy(), mc_line.copy(), atc_curve.copy())
         policy_original.clear_updaters()
-        policy_original.set_stroke(MUTED, opacity=0.35).set_z_index(-1)
+        policy_original.set_stroke(MUTED).set_z_index(-1)
         self.add(policy_original)
         # Reuse the curves and readouts; clip the visible endpoints as costs rise within the same axes.
         policy_atc_start = lambda: ((ATC_TOP - policy_cost.get_value()) - np.sqrt(

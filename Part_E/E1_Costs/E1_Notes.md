@@ -101,6 +101,7 @@ To build a solid foundation for seller’s choices we need to set up the costs a
 |   |   |
 | --- | --- |
 | 1.c–1.g | Title “Market Structures”. The matrix fills one cell per hold: Perfect Competition, Monopoly, Monopolistic Competition, Oligopoly, with one selection box moving between them. |
+| 1.g.1 | Complete the matrix with Differentiated Oligopoly in the few-sellers, differentiated-products cell; the selection box moves to it. Oligopoly can involve homogeneous or differentiated products. |
 -->
 
 The first context will be familiar. We’ll look at perfectly competitive firms: firms in markets with many other sellers and many buyers selling homogeneous goods.

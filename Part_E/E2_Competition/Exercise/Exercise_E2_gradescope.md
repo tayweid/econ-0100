@@ -20,7 +20,7 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ## Q1: `Choosing Quantity`
 
 ```
-Use Q1 on the handout. The animation’s competitive firm has cost functions TC = 1000 + q^2 and MC = 2q. The market price is P = 80. Hint: ATC at the profit-maximizing quantity is 65.
+Use Q1 on the handout. The firm’s marginal cost is MC = 2q; use the cost curves on the handout. The market price is P = 80. Hint: ATC at the profit-maximizing quantity is 65.
 ```
 
 ### Q1.1: `a) Total Revenue from selling 20 units:`

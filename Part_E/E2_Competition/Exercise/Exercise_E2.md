@@ -11,7 +11,7 @@ plass:
 
 ## Q1 | Choosing Quantity
 
-The animation’s competitive firm has cost functions: $TC = 1000 + q^2$ and $MC = 2q$.
+The firm’s marginal cost is $MC = 2q$. Its cost curves are shown below.
 
 :::: {.columns gutter=0.5em}
 
