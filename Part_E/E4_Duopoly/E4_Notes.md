@@ -13,14 +13,14 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Warmup | Exercise E4 Warmup on the board | Retrieve the monopolist’s problem on today’s market. |
 | 0–5 | Bumper (`0.a`), then `1.a.last` and `1.a` | From one seller to a few. |
 | 5–10 | Play `1.b` through `1.l` | The two-by-two game: Low 20 or High 24, best responses, both High. |
-| 5–10 | Play `2.a` through `3.d` | The firm’s problem; the monopoly answer to the warmup. |
+| 5–10 | Play `2.a.1` through `3.a` | The firm’s five steps, on a competitive firm and then the monopoly (the warmup’s answer); the monopoly handed to the market graph. |
 | 10–16 | Resume through `4.b` | A second seller: price and marginal revenue depend on the other firm. |
 | 16–20 | Hide projection; Q1 on board | Choose firm A’s quantity for a given quantity from firm B. |
 | 20–29 | Resume through `5.c` | The best-response rule, its graph, and firm B’s by symmetry. |
 | 29–33 | Hide projection; Q2 on board | Use a best response; test whether a pair is an equilibrium. |
-| 33–42 | Resume through `6.c` | Nash equilibrium, then the price beside the monopoly’s. |
+| 33–42 | Resume through `6.b` | Nash equilibrium: 24 each, 48 together. |
 | 42–47 | Hide projection; Q3 on board | Is the duopoly outcome efficient? |
-| 47–50 | Resume to `7.a` | The cartel (`6.d.rule` to `6.e`), where the matrix’s 20 comes from; preview more sellers. |
+| 47–50 | Resume to `7.a` | One, two, many sellers on one demand curve: 30 at 90, 48 at 72, 60 at 60. |
 
 {++ This table is a proposal. It has not been timed against a run-through. ++}
 
@@ -28,10 +28,13 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 |   |   |
 | --- | --- |
 | Model | Demand P = 120 − Q; every firm MC = 2q. Monopoly: 30 units at 90. BR_A: q_A = 30 − ¼q_B. Nash: 24 each, Q = 48, P\* = 72. |
-| Matrix | 1.b to 1.l, added 2026-11-18, in D1’s diamond layout. Low = 20 is each firm’s share of the 40 units a cartel would make; High = 24 is the Nash quantity. Profits use TC = 1000 + q²: 200 each at Low, 152 each at High, 248 and 120 when one goes High. |
+| Matrix | 1.b to 1.l, added 2026-11-18, in D1’s diamond layout. Low = 20 is each firm’s share of the 40 units a cartel would make; High = 24 is the Nash quantity. The profits are given on screen, not derived there; they come from TC = 900 + q²: 300 each at Low, 252 each at High, 348 and 220 when one goes High. |
 | Open | The matrix section has no minutes of its own yet: the rows after it in the timing table have not been moved. |
-| Matrix | Both matrix quantities are derived later: the 24 at 6.b, the 20 in the cartel holds 6.d.rule to 6.e (added 2026-11-18). |
-| Open | The cartel’s 40 units is also E3’s efficient quantity for one firm, by coincidence of the numbers; and the cartel (40 at 80) is not E3’s monopoly (30 at 90), because two firms split the output. |
+| Matrix | Only the 24 is derived later (6.b). The 20 is the cartel share, 120 − 2Q = Q so Q = 40; the holds that derived it were cut on 2026-11-18, so on screen it is simply the low option. |
+| Open | 7.a’s competitive outcome, 60 units at 60, is exactly two firms at 30 each on this market read in units: two price takers would land there, where the two duopolists land at 48 units and 72. The ordering of the points is the lesson; “many” sellers needs the market read in thousands, as E2 does. |
+| Costs | One cost curve for the whole episode since 2026-11-18: TC = 900 + q², so MC = 2q and ATC is lowest at 60, at 30 units. Monopoly: 30 at 90, ATC 60, profit 900. Duopoly: 24 each at 72, profit 252 each. Long-run competition: 30 per firm at 60, profit zero. E1 and E2 were taught with a fixed cost of 1,000 and E3 with 1,200, so the monopoly’s ATC and profit here (60 and 900) are not last class’s (70 and 600). At 1,200 the duopolists would lose money. |
+| Open | In the review ATC is grey and MR pink; E3 itself draws demand grey and MR blue. |
+| Open | MR_A = 120 − 2q_A − q_B is no longer shown in section 4; it first appears in 5.a’s algebra. The line “Your marginal revenue also depends on how much the other firm sells” left with the old 4.b.zero hold. |
 | Open | Taylor’s prose stops at “best response”. From the monopoly recap on, the paragraphs are Claude’s marked additions. |
 | Open | Paragraphs three and four have sellers setting prices; on screen they choose quantities. |
 | Open | The numbers no longer match the handwritten sheet, which still supplies the steps. |
@@ -54,7 +57,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 <!--
 |   |   |
 | --- | --- |
-| Warmup | Board only; this is E3’s problem, and 3.c and 3.d work it again. Answers: a) 2q = 120 − 2q, so q = 30; b) P = 120 − 30 = 90. |
+| Warmup | Board only; this is E3’s problem, and 2.c.q and 2.c.p work it again. Answers: a) 2q = 120 − 2q, so q = 30; b) P = 120 − 30 = 90. |
 -->
 
 ## Oligopoly
@@ -90,34 +93,35 @@ We’ll talk about how we use the demand curve with this type of problem, but be
 
 If I choose a high
 
-{++ Same market as last time, with two firms in it. Each one makes either 20 units or 24. If we both make 20, the price is 80 and we each earn 200. If we both make 24, the price is 72 and we each earn 152. If only one of us makes 24, that firm earns 248 and the other earns 120. ++}
+{++ Same market as last time, with two firms in it. Each one makes either 20 units or 24. If we both make 20, the price is 80 and we each earn 300. If we both make 24, the price is 72 and we each earn 252. If only one of us makes 24, that firm earns 348 and the other earns 220. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 1.b | Title Two Sellers; the market and cost in the subtitle. The empty diamond matrix: firm A and firm B, Low: 20 and High: 24. |
-| 1.c | One cell worked from the market: both Low, price 80, profit 200 each. |
-| 1.d | The other three cells fill in. |
+| 1.b | Title Duopoly; subtitle “Many buyers, two sellers, selling a homogeneous good, with no externalities.” The empty diamond matrix: firm A and firm B, Low: 20 and High: 24. No demand or cost on screen. “How does a firm pick its quantity from these two options?” |
+| 1.c | Both Low: 300 each. |
+| 1.d.a, 1.d.b | Only firm A High, then only firm B High: 348 for the firm that goes High, 220 for the other. |
+| 1.d | Both High: 252 each. Each cell fades in with its own line. |
 -->
 
-{++ Now it’s Part D again. Hold firm B at Low: I’d rather make 24, since 248 beats 200. Hold firm B at High: I’d still rather make 24, since 152 beats 120. Firm B is the same firm, so it reasons the same way. ++}
+{++ Now it’s Part D again. Hold firm B at Low: I’d rather make 24, since 348 beats 300. Hold firm B at High: I’d still rather make 24, since 252 beats 220. Firm B is the same firm, so it reasons the same way. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 1.e, 1.f | Firm B at Low: the question, then firm A’s best response boxed. |
+| 1.e, 1.f | Firm B at Low: the question, then “Firm A’s best response to Low is High”, boxed. |
 | 1.g, 1.h | Firm B at High: the question, then the answer. |
-| 1.i | Firm B’s two best responses, by symmetry. |
+| 1.i | Firm B’s two best responses boxed. “The firms are symmetric.” |
 -->
 
-{++ So both choose High, and that’s the Nash equilibrium. Both would earn more at Low, but neither would stay there. Where do 20 and 24 come from? That’s the rest of today: let each firm choose any quantity. ++}
+{++ So both choose High, and that’s the Nash equilibrium. Both would earn more at Low, but neither would stay there. ~~Where do 20 and 24 come from? That’s the rest of today: let each firm choose any quantity.~~ What if each firm can choose any quantity? That’s the rest of today. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 1.j | Red box on both High: the Nash equilibrium, 152 each. |
-| 1.k | Green box on both Low: 200 each, and each firm would switch. |
-| 1.l | The bridge: “Where do 20 and 24 come from? Let each firm choose any quantity.” |
+| 1.j | Red box on both High: the Nash equilibrium, 252 each. |
+| 1.k | Green box on both Low: 300 each, and each firm would switch. |
+| 1.l | The bridge: “What if each firm can choose any quantity?” |
 -->
 
 Advertising Game
@@ -138,7 +142,7 @@ But neither the competitive seller nor the monopolist are all that common in our
 |   |   |
 | --- | --- |
 | 0.a | Bumper with “When sellers play games with each other”. |
-| 1.a.last | Title Monopoly; subtitle “One seller, many buyers.” The market-structures grid, with the red box on Monopoly. |
+| 1.a.last | Title Monopoly; subtitle “One seller, many buyers.” The three-row market-structures table from E3 (many, few, one seller), with the red box on Monopoly. |
 -->
 
 One type of situation like this, where the seller has some but not complete market power, is what we call oligopoly. A seller cannot charge a price too high because buyers will simply switch to the seller down the road. They also don’t want to sell too low, because even though they would bring in buyers from their competitor down the road, they also don’t want to miss out on selling at nice high prices.
@@ -160,25 +164,23 @@ To get a handle on … lets set up the profits for the oligopolist. Like in ever
 <!--
 |   |   |
 | --- | --- |
-| 2.a | Title The Firm’s Problem. The five-step card, one row per fade. |
-| 3.a | Title Monopoly; subtitle “All firms are similar.” The market graph with D and MC; rows D: P = 120 − Q and MC = 2q. “Costs come from the production function, not the structure of the market.” |
+| 2.a.1 to 2.a | Title The Firm’s Problem; subtitle “Every firm solves the same problem, in the same five steps.” The five steps centred, one hold each, in grey with red for the firm’s choices and green for profit. No yellow line. |
+| 2.b.setup | The steps slide right of centre behind a divider; a competitive firm’s graph beside them, labelled above: a flat MR at the market price with the firm’s demand dashed in teal over it, and MC. |
+| 2.b.q, 2.b.p, 2.b.atc, 2.b.profit | The competitive firm in the long run, one step per hold, the current step lit: 30 units, a price of 60, ATC 60, profit zero. |
+| 2.b | Step 5: it stays; with zero profit no new firms enter. |
+| 2.c.setup | The layout widens: competitive firm, a divider, the monopoly, a divider, the steps. |
+| 2.c.q, 2.c.p, 2.c.atc, 2.c.profit | The monopoly, the same steps from the top: 30 units (the same), a price of 90 (higher), ATC 60 (the same), profit 900. |
+| 2.c | Step 5: it stays; its profit would draw firms in, but no one can enter. |
 -->
 
 {++ Let’s warm up on the case we already know. With one seller, the firm’s demand is the whole market’s demand, so its marginal revenue starts at the same place and falls twice as fast. ++}
-
-<!--
-|   |   |
-| --- | --- |
-| 3.b | MR_A, from 120 down to 60 units; row MR_A = 120 − 2q_A. |
--->
 
 {++ Step one: set marginal cost equal to marginal revenue. That gives 30 units. Step two: take that quantity up to the demand curve to find the price, 90. That’s the monopoly from last time. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 3.c | A red dot where MR_A meets MC. 2q_A = 120 − 2q_A; 4q_A = 120; q_A = 30 = q\*. “1. MC = MR → q\*” |
-| 3.d | Up to demand at (30, 90). P\* = 120 − 30 = 90. “2. q\* → D → P\*” |
+| 3.a | The hand-off: the review’s monopoly becomes the market graph with one thing marked, where MR_A meets MC, at 30 units. Title Monopoly. No price, no algebra. “The monopoly produces where MR meets MC: 30 units.” |
 -->
 
 ## Duopoly
@@ -188,7 +190,7 @@ Since revenue is the product of price and quantity, however, it is very differen
 <!--
 |   |   |
 | --- | --- |
-| 4.a | Title Duopoly. The price marks fade; rows Q = q_A + q_B and P = 120 − (q_A + q_B). “Both of you are trying to sell into the same market.” |
+| 4.a | Title Duopoly, with firm B selling zero. Firm A’s demand, P = 120 − (q_A + 0), sits above a divider and straddles it, with Q bracketed over the sum and the 0 marked q_B. Right of the divider, centred, a short axis named “Firm B’s Quantity” with a grey 0 at its foot, left of the axis and behind the red 0 at the start, and a red tick with “q_B = 0”. The graph becomes firm A’s (q_A, D_A, q_A\*). Firm B is white throughout the episode. “Both of you are trying to sell into the same market.” |
 -->
 
 But because the *price* depends on how much the other firm sells, your *revenue* depends on how much the other firm sells, which means your *marginal revenue* *also* depends on how much the other firm sells.
@@ -196,9 +198,8 @@ But because the *price* depends on how much the other firm sells, your *revenue*
 <!--
 |   |   |
 | --- | --- |
-| 4.b.zero | The graph becomes firm A’s (q_A, D_A, q_A\*), with a grey copy of market demand behind it; rows MR_A = 120 − 2q_A − q_B and q_B = 0. “The price depends on how much the other firm sells.” |
-| 4.b.twenty_four | q_B rolls from 0 to 24: D_A and MR_A slide down (intercept 120 → 96) and q_A\* goes 30 → 24. “Your marginal revenue also depends on how much the other firm sells.” |
-| 4.b | q_B rolls to 48: intercept 72, q_A\* 18. “The more the other firm sells, the less you want to sell.” |
+| 4.b.twenty_four | q_B rolls from 0 to 24: the tick rises, the number in the equation rolls, D_A and MR_A slide down under a grey copy of market demand, and a red line just outside the price axis opens between 120 and 96. q_A\* goes 30 → 24. “The demand for your good depends on how much the other firm sells.” |
+| 4.b | q_B rolls to 48: intercept 72, q_A\* 18. “The more the other firm sells, the less buyers need what you’re selling.” |
 -->
 
 ### {++ Whiteboard | Exercise Q1 ++}
@@ -220,7 +221,7 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 5.a.rule | q_B rolls back to 0. Title Best Responses; subtitle “The strategies are quantities.” Row MR_A = MC_A. “Decide our best response to every decision the other seller might make.” |
+| 5.a.rule | q_B rolls back to 0; the demand math leaves, a second divider appears, and firm B’s axis slides right, leaving three columns: the market graph, the algebra in the middle, firm B’s axis on the right. Title Best Responses; subtitle “The strategies are quantities.” The middle column is headed “1. How much to produce?”, the review’s step 1, over the row MR_A = MC_A, whose two names fly in from the curves’ labels. “Decide our best response to every decision the other seller might make.” |
 -->
 
 {++ Set firm A’s marginal revenue equal to its marginal cost, but leave firm B’s quantity as a letter. Solving for q_A gives a rule: for any quantity firm B might choose, here is firm A’s best quantity. We call that rule firm A’s best response. ++}
@@ -228,9 +229,11 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 5.a.substitute | 120 − 2q_A − q_B = 2q_A. |
-| 5.a.simplify | 120 − q_B = 4q_A. |
-| 5.a | BR_A: q_A = 30 − ¼q_B. |
+| 5.a.substitute | 120 − 2q_A − q_B = 2q_A: each side travels from its own curve on the graph into the row. |
+| 5.a.simplify | 120 − q_B = 4q_A: the terms move down from the row above, the two 2q_A joining on the right as 4q_A. |
+| 5.a.solved | q_A = 30 − ¼q_B, with the terms moving again; no name yet. |
+| 5.a.depends | A yellow box around q_B: the answer depends on the other firm’s quantity. |
+| 5.a | The name arrives: BR_A. |
 -->
 
 {++ A rule like this is easier to see as a picture. Put firm A’s quantity across and firm B’s up. If B sells nothing, A acts like a monopolist and sells 30. As B sells more, A’s best quantity shrinks, until at 120 A wouldn’t sell anything at all. ++}
@@ -238,7 +241,10 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 5.b.trace | The algebra gives way to a best-response graph, q_A across and q_B up. One sweep takes q_B from 0 to 120: firm A’s demand and MR shrink to nothing on the market graph while a point traces BR_A from (30, 0) to (0, 120). |
+| 5.b.graph | The algebra and both dividers leave; firm B’s axis slides into their space and becomes the vertical axis of an empty best-response graph, q_A across and q_B up. |
+| 5.b.zero | The first point: q_B = 0 and firm A’s best response, 30. |
+| 5.b.part | q_B rises to 48: firm A’s demand and MR slide down on the market graph while the point traces BR_A as far as (18, 48). No red line beside the price axis in this section. |
+| 5.b.trace | The rest of the sweep, to q_B = 120: firm A’s demand and MR shrink to nothing and the point reaches (0, 120). |
 -->
 
 {++ That line is firm A’s best response: the strategy that gives A the highest payoff, given what B is doing. It’s the same idea as in Part D, with quantities as the strategies. ++}
@@ -254,7 +260,7 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 5.c | BR_B appears by symmetry, mirrored across a dashed 45° line, with BR_B: q_B = 30 − ¼q_A. |
+| 5.c | BR_B appears by symmetry, mirrored across a dashed 45° line, with BR_B: q_B = 30 − ¼q_A. Firm B’s line and equation are grey. |
 -->
 
 ### {++ Whiteboard | Exercise Q2 ++}
@@ -274,7 +280,7 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 6.a | Title Nash Equilibrium. D1’s definition; a red dot where the lines cross, with question marks on both axes. |
+| 6.a | Title Nash Equilibrium. D1’s definition appears under the best-response definition, which stays; a red dot where the lines cross, with question marks on both axes. |
 -->
 
 {++ To find it, use the symmetry. At the crossing the two quantities are equal, so put q_A in for q_B in firm A’s best response and solve. Each firm sells 24, and together they sell 48. ++}
@@ -282,9 +288,13 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 6.b.substitute | symmetric → q_A\* = q_B\*; q_A\* = 30 − ¼q_A\*. |
-| 6.b.solve | (5/4) q_A\* = 30; q_A\* = 30 · (4/5) = 24 = q_B\*. |
-| 6.b | The 24 is carried to both axes. Q = q_A\* + q_B\* = 48. |
+| 6.b.symmetric | Both definitions leave. The symmetry idea: “symmetric: q_A = q_B”. |
+| 6.b.equation | Firm A’s best-response equation flies in from the graph: q_A = 30 − ¼q_B. |
+| 6.b.swap | Symmetry in use: a q_A from the symmetry row takes q_B’s place, giving q_A = 30 − ¼q_A. |
+| 6.b.collect | The terms move: q_A + ¼q_A = 30, then (5/4)q_A = 30. |
+| 6.b.solve | q_A = 24. |
+| 6.b.both | Symmetry again: q_B = 24, the q_B coming from the symmetry row. |
+| 6.b | The two 24s fly back onto the graph’s axes, replacing the question marks. No Q = 48 row; 48 first appears on the closing graph. |
 -->
 
 {++ Take 48 back to the market’s demand curve and the price is 72. One seller sold 30 at a price of 90. Two sellers sell more, at a lower price. ++}
@@ -292,8 +302,8 @@ What we want to do is find a way to decide our best response to every decision t
 <!--
 |   |   |
 | --- | --- |
-| 6.c.price | Title Duopoly. The market graph returns with the monopoly outcome (30, 90) in grey, then 48 units up to demand at 72. “P = 120 − (24 + 24) = 120 − 48 = 72” |
-| 6.c | “Two sellers: more output, lower price.” |
+| 6.c.monopoly | Title One, Two, Many Sellers. The market graph returns beside the best-response graph, which loses its two equations. First point on demand: Monopoly, with 30 on the quantity axis and 90 on the price axis. “One seller sells 30 units at a price of 90.” |
+| 6.c | Second point: Duopoly, 48 and 72. “Two sellers sell 48 units at a price of 72.” |
 -->
 
 ### {++ Whiteboard | Exercise Q3 ++}
@@ -306,32 +316,27 @@ What we want to do is find a way to decide our best response to every decision t
 | Q3 | Board only. Answer: no. Buyers value the next unit at about \$72 and it costs about \$48, so there is still deadweight loss, less than under monopoly. A third seller adds output and lowers the price. |
 -->
 
-## {++ Cartel ++}
+## {++ ~~Cartel~~ ++}
 
-{++ Back to the matrix from the start of class. We found the 24. Where does the 20 come from? Suppose the two firms act as one seller and split the output evenly. Together they face the whole demand curve, so marginal revenue is 120 − 2Q. Each makes half, so the marginal cost of one more unit is Q. Setting them equal gives 40 units, 20 each, at a price of 80. ++}
+{++ ~~Back to the matrix from the start of class. We found the 24. Where does the 20 come from? Suppose the two firms act as one seller and split the output evenly. Together they face the whole demand curve, so marginal revenue is 120 − 2Q. Each makes half, so the marginal cost of one more unit is Q. Setting them equal gives 40 units, 20 each, at a price of 80.~~ ++}
+
+{++ ~~That’s the cartel, and it’s the Low, Low cell. It doesn’t hold: if the other firm makes 20, my best response is 25, not 20. Each of us wants to sell more, and we end up back at 24.~~ ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 6.d.rule | Title Cartel; subtitle “The two firms act as one seller.” The rule for acting as one: MR = 120 − 2Q and MC = Q. |
-| 6.d | A green point on demand between the monopoly’s and the duopoly’s: 40 units, price 80. “That is Low in the matrix.” |
+| Cut | The cartel holds (6.d.rule, 6.d, 6.e) were removed from the animation on 2026-11-18; the paragraphs above are struck, not deleted. |
 -->
 
-{++ That’s the cartel, and it’s the Low, Low cell. It doesn’t hold: if the other firm makes 20, my best response is 25, not 20. Each of us wants to sell more, and we end up back at 24. ++}
+## {++ Many sellers ++}
+
+{++ ~~Next time: what happens with more sellers?~~ ++}
+
+{++ And we already know what happens with many sellers. Firms enter until profit is zero, so the price falls to the lowest average total cost, 60. On this demand curve that’s 60 units. One seller, ~~a cartel,~~ two sellers, many sellers: each step moves further down the same demand curve, with more output and a lower price. ++}
 
 <!--
 |   |   |
 | --- | --- |
-| 6.e | The best-response rule at 20: 30 − ¼ · 20 = 25. “Each wants to sell more.” |
--->
-
-## {++ Next time ++}
-
-{++ Next time: what happens with more sellers? ++}
-
-<!--
-|   |   |
-| --- | --- |
-| 7.a | Title Next Time. A grey arrow points on down demand from the duopoly dot. “What happens with more sellers?” |
+| 7.a | Third point: Competition, 60 and 60. “Many sellers sell 60 units at a price of 60.” Each point has only its name; the numbers are on the axes. |
 -->
 
