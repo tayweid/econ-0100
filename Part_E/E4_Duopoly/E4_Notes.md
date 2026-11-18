@@ -15,11 +15,11 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | 5–10 | Play `1.b` through `1.l` | The two-by-two game: Low 20 or High 24, best responses, both High. |
 | 5–10 | Play `2.a.1` through `3.a` | The firm’s five steps, on a competitive firm and then the monopoly (the warmup’s answer); the monopoly handed to the market graph. |
 | 10–16 | Resume through `4.b` | A second seller: price and marginal revenue depend on the other firm. |
-| 16–20 | Hide projection; Q1 on board | Choose firm A’s quantity for a given quantity from firm B. |
+| 16–20 | Card `4.b.exercise` (Q1) | Firm A’s best response, and its quantity when the other firm sells 40. |
 | 20–29 | Resume through `5.c` | The best-response rule, its graph, and firm B’s by symmetry. |
-| 29–33 | Hide projection; Q2 on board | Use a best response; test whether a pair is an equilibrium. |
+| 29–33 | Card `6.a.exercise` (Q2) | The Nash equilibrium quantity, the price, and the profit. |
 | 33–42 | Resume through `6.b` | Nash equilibrium: 24 each, 48 together. |
-| 42–47 | Hide projection; Q3 on board | Is the duopoly outcome efficient? |
+| 42–47 | Card `6.c.exercise` (Q3) | Is the duopoly outcome efficient? |
 | 47–50 | Resume to `7.a` | One, two, many sellers on one demand curve: 30 at 90, 48 at 72, 60 at 60. |
 
 {++ This table is a proposal. It has not been timed against a run-through. ++}
@@ -39,7 +39,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Open | Paragraphs three and four have sellers setting prices; on screen they choose quantities. |
 | Open | The numbers no longer match the handwritten sheet, which still supplies the steps. |
 | Open | The title says Oligopoly; the folder and the animation say Duopoly. Only the first thesis line is on the bumper. |
-| Open | The warmup card (0.warmup) uses Exercise E4’s wording. Q1 to Q3 in these notes are the earlier board versions and do not match the handout’s Q1 and Q2; there are no cards for them. The timing table is untested. |
+| Cards | The warmup and Q1 to Q3 are cards in the animation, in Exercise E4’s wording: 0.warmup, 4.b.exercise, 6.a.exercise, 6.c.exercise. The earlier board versions in these notes are struck. The timing table is untested, and its rows are no longer in playback order. |
 | Marked | Everything inside addition marks is Claude’s: the warmup, Q1 to Q3, and the paragraphs for the holds Taylor’s prose does not reach. |
 
 | Past notes | Taylor’s older oligopoly notes are placed at the top of the Oligopoly section, unmarked: the November 15, 2023 outline, the Week 12 introduction, and the older opening on cartels, the high and low quantity game, the advertising game and repeated games. None of that older material is in the animation. |
@@ -57,7 +57,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 <!--
 |   |   |
 | --- | --- |
-| 0.warmup | The warmup card, before the bumper, in the handout’s words (Exercise/Exercise_E4.md, “One Flue Network”): Fast Flue Inc. as the only network with MR = 120 − 2Q; a) how many trips, b) what price per trip. The struck lines above were the earlier board-only version. Answers: a) 2Q = 120 − 2Q, so 30 trips; b) P = 120 − 30 = 90. 2.c.q and 2.c.p work it again. |
+| 0.warmup | The warmup card, before the bumper, in the handout’s words (Exercise/Exercise_E4.md, “One Flue Network”): Fast Flue Inc. as the only network with MR = 120 − 2Q and MC = 2Q (the MC phrase added 2026-11-18, marked in the handout); a) how many trips, b) what price per trip. The struck lines above were the earlier board-only version. Answers: a) 2Q = 120 − 2Q, so 30 trips; b) P = 120 − 30 = 90. 2.c.q and 2.c.p work it again. |
 -->
 
 ## Oligopoly
@@ -202,14 +202,14 @@ But because the *price* depends on how much the other firm sells, your *revenue*
 | 4.b | q_B rolls to 48: intercept 72, q_A\* 18. “The more the other firm sells, the less buyers need what you’re selling.” |
 -->
 
-### {++ Whiteboard | Exercise Q1 ++}
+### {++ Exercise E4 | Q1 ++}
 
-{++ > Firm B sells 40 units, so firm A’s marginal revenue is $MR_A = 80 - 2q_A$. What quantity does firm A choose? ++}
+{++ ~~> Firm B sells 40 units, so firm A’s marginal revenue is $MR_A = 80 - 2q_A$. What quantity does firm A choose?~~ ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Q1 | Board only. Answer: 80 − 2q_A = 2q_A, so q_A = 20, which is 30 − ¼ · 40. |
+| 4.b.exercise | The handout’s Q1 as a card over the lesson, in its words: demand P = 120 − (q_F + q_S), MR_F = 120 − 2q_F − q_S; a) Fast Flue Inc.’s best response, b) its quantity when Soot Net sells 40 trips. The struck line above was the earlier board version. Answers: a) q_F = 30 − ¼q_S; b) 20 trips. |
 -->
 
 ## Best Responses
@@ -263,16 +263,6 @@ What we want to do is find a way to decide our best response to every decision t
 | 5.c | BR_B appears by symmetry, mirrored across a dashed 45° line, with BR_B: q_B = 30 − ¼q_A. Firm B’s line and equation are grey. |
 -->
 
-### {++ Whiteboard | Exercise Q2 ++}
-
-{++ > Suppose firm B sells 40 units. What is firm A’s best response? If firm A sells that quantity, what is firm B’s best response? Is this pair a Nash equilibrium? ++}
-
-<!--
-|   |   |
-| --- | --- |
-| Q2 | Board only. Answer: A’s best response to 40 is 20; B’s best response to 20 is 25, not 40, so (20, 40) is not a Nash equilibrium. |
--->
-
 ## Nash Equilibrium
 
 {++ Where the two lines cross, each firm is choosing its best quantity given what the other is choosing. Neither wants to change. That’s a Nash equilibrium. ++}
@@ -281,6 +271,16 @@ What we want to do is find a way to decide our best response to every decision t
 |   |   |
 | --- | --- |
 | 6.a | Title Nash Equilibrium. D1’s definition appears under the best-response definition, which stays; a red dot where the lines cross, with question marks on both axes. |
+-->
+
+### {++ Exercise E4 | Q2 ++}
+
+{++ ~~> Suppose firm B sells 40 units. What is firm A’s best response? If firm A sells that quantity, what is firm B’s best response? Is this pair a Nash equilibrium?~~ ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 6.a.exercise | The handout’s Q2 as a card over the lesson, in its words: the two best responses, a symmetric market; a) the Nash equilibrium quantity, b) the market price, c) Fast Flue Inc.’s profit. The struck line above was the earlier board version. Answers: a) 24 trips each; b) 72; c) 72 · 24 − (900 + 24²) = 252. |
 -->
 
 {++ To find it, use the symmetry. At the crossing the two quantities are equal, so put q_A in for q_B in firm A’s best response and solve. Each firm sells 24, and together they sell 48. ++}
@@ -306,14 +306,14 @@ What we want to do is find a way to decide our best response to every decision t
 | 6.c | Second point: Duopoly, 48 and 72. “Two sellers sell 48 units at a price of 72.” |
 -->
 
-### {++ Whiteboard | Exercise Q3 ++}
+### {++ Exercise E4 | Q3 ++}
 
-{++ > With two sellers the price is \$72 and each firm’s marginal cost at 24 units is \$48. Is this outcome efficient? Which way would a third seller move it? ++}
+{++ ~~> With two sellers the price is \$72 and each firm’s marginal cost at 24 units is \$48. Is this outcome efficient? Which way would a third seller move it?~~ ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Q3 | Board only. Answer: no. Buyers value the next unit at about \$72 and it costs about \$48, so there is still deadweight loss, less than under monopoly. A third seller adds output and lowers the price. |
+| 6.c.exercise | The handout’s Q3 as a card over the lesson, in its words: the price is 72 galleons and each network’s marginal cost at 24 trips is 48 galleons, with no externalities; is this outcome efficient? The struck line above was the earlier board version. Answers: no: buyers value the next trip at about 72 and it costs about 48, so trades worth making are missing. |
 -->
 
 ## {++ ~~Cartel~~ ++}

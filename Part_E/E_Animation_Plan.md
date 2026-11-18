@@ -8,7 +8,7 @@ This replaces the October 30 build record, which is in this file's git history. 
 | E1 Costs | `E1_Costs/E1_Animation.py`, `EpisodeE1` | 48 | `E1_Notes.md` | the firm only |
 | E2 Competitive Firms | `E2_Competition/E2_Animation.py`, `EpisodeE2` | 85 | `E2_Notes.md` | shared line, read in thousands |
 | E3 Monopoly | `E3_Monopoly/E3_Animation.py`, `EpisodeE3` | 30 | `E3_Notes.md` | shared line, in units |
-| E4 Duopoly | `E4_Duopoly/E4_Animation.py`, `EpisodeE4` | 61 | `E4_Notes.md` | shared line, in units |
+| E4 Duopoly | `E4_Duopoly/E4_Animation.py`, `EpisodeE4` | 64 | `E4_Notes.md` | shared line, in units |
 | E5 Wrap-Up | `E5_Wrap_Up/E5_Animation.py`, `EpisodeE5` | 30 | `E5_Notes.md` | shared line, in units and in thousands |
 
 Open one in the viewer from the repo root, for example:
