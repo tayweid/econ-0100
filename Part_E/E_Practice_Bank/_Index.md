@@ -44,7 +44,7 @@ The working skill list is in `../E_Skillsheet.md` (a draft; the codes below are 
 | E4.2 Duopoly Equilibrium | Big Flue Networks c to e if used | Wandmaker's Dilemma c | Wandmaker's Dilemma (P = 200 - Q, MC 20) | Big Flue (P = 400 - Q, MC 40); Dwindling Dealers Q4 to Q5 (23F); Racing Broom Q4 to Q5 (24F); three-firm wandmakers (`Tutorial_E4_wandmakers-triopoly_F23`) |
 
 Collisions to keep in mind:
-- `E4.1_flue-network-duopoly` uses the Classwork's numbers (P = 200 - Q, MC 10). If Big Flue Networks is Exercise E4, the Checkpoint must use the exam numbers (P = 400 - Q, MC 40) instead.
+- `E4.1_flue-network-duopoly` uses the Classwork's numbers (P = 200 - Q, MC 10). If Big Flue Networks is Exercise E4, the Checkpoint must use the exam numbers (P = 400 - Q, MC 40) instead. *2026-11-18: Exercise E4 now tells the flue story on the animation's numbers (P = 120 - Q, MC = 2q), so the Checkpoint shares its story with the Exercise but neither number set.*
 - Breaking Up A Monopoly (P = 100 - Q, MC 10) shares its numbers with Vignette E4. Its duopoly half is the same problem under another story.
 - Vignette E4 and Homework E4 share a story (Olivander and Gregorovitch) with different numbers.
 - The past MiniExams chain monopoly, duopoly and competition in one question. Under one question per skill each reserved item above is only the named parts, given its own numbers.
@@ -136,7 +136,7 @@ Part D's convention, kept here: **Exercises come from past Classwork, Vignettes 
 | Vignette E5 | Numbus 2000 (F21, F22 keys); Command of Costs; Cauldron Costs Q2–Q4 (key) |
 | Exercise E2 | Built, with new questions. Traditional Toffee Specific Tax is unused again (2026-11-12); its Lump-Sum Tax twin (key PDF only) stays unused, kept for Exercise E5 |
 | Exercise E3 | No past Classwork. The nearest are Golden Snitches or Wizard's Chess (Homework), or Unicorn Horn (Vignette). |
-| Exercise E4 | Big Flue Networks (Classwork E3 F23/F24, key); the 2023 tutorial (duopoly, triopoly) |
+| Exercise E4 | Built 2026-11-18 as the Big Flue Networks story (Fast Flue Inc. and Soot Net, the story sentences and parts c and d word for word) on the E4 animation’s market, P = 120 − Q and MC = 2q, with the notes’ warmup and Q1 to Q3. The Classwork’s own numbers (P = 200 − Q, MC 10), its profit and deadweight-loss parts, and its ink key are unused. The 2023 tutorial (duopoly, triopoly) is unused. *Rewritten by Taylor the same day: a monopoly warmup, Q1 (best response, then the reply to 40), Q2 (Nash quantity, price, profit with TC = 900 + q², efficiency) and Q3 (efficiency on the graph). Displaced parts are held with their solutions in a comment at the end of `Exercise_E4_sols.md`.* |
 | Exercise E5 | No past Classwork. Toffee Lump-Sum Tax (key PDF only) is the closest. |
 | Homework E1 | Broomstick Costs Q1 (matrix matching, key) |
 | Homework E2 | Taxing Cauldrons (F21 demo, key). Subsidizing Bludgers is used (Homework E2 Q2, 2026-11-12). |

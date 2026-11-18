@@ -117,7 +117,7 @@ Students are responsible for all covered materials, announcements, and assignmen
 | B | Sept. 9 – 30 | Ch. 3, 4, 5, 20 | Mon. Oct. 5 |
 | C | Oct. 5 – 14 | Ch. 12 | Mon. Oct. 19 |
 | D | Oct. 19 – 28 | Ch. 10.2, 13, 18 | Mon. Nov. 2 |
-| E | Nov. 2 – 18 | Ch. 7, 8, 9, 10, 11 | Mon. Nov. 30 |
+| E | Nov. 2 – 18 | Ch. 7, 8, 9, 10, 11 | Wed. Dec. 2 |
 | F | Nov. 30 – Dec. 2 | Ch. 6 | Final Exam Period |
 
 :::

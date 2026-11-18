@@ -200,6 +200,22 @@ If we start with a small quantity, we wonder whether we should increase quantity
 | 2.d.ten | MOVE QUANTITY UP, SHIFT THE AREAS: stop at q = 35. |
 -->
 
+<!--
+Note for next time (Claude, 2026-11-17, from the conversation after a colleague sat in). Nothing below is built.
+
+The concern: the Next Unit panel can read as “profit is the area between MR and MC.” The green +60 is the same green as the Profit bars, and nothing on screen says it is a change while the bars are a level. The +60 is correct: it is the change in profit from one more unit, MR minus MC.
+
+Why the +60 is not a 60-tall bar on the graph: the profit bars are drawn from average cost. One more unit adds a new bar and also changes the height of every existing bar. From 20 to 21 units at P = 100, the new bar is about 31 and the twenty existing bars each grow by about 1.4, about 28 in all.
+
+The split is at ATC. Change in profit = P − MC = (P − ATC) + (ATC − MC). The first piece is the new unit’s own profit bar, the same height as the bars on the graph. The second is the lift to the existing bars. So the cap in the panel can be cut at the height of the purple ATC point: at q = 20, from 40 to 70 is “taller bars” and from 70 to 100 is “new bar”, 30 and 30.
+
+Past the bottom of ATC the second piece turns negative: the existing bars shrink. At 35: new bar +36.4, the rest −6.4, change +30. At 50: +30 and −30, change 0. At 60: +23.3 and −43.3, change −20. The 50 line is the answer to “the next bar still looks profitable, so why stop?”: its gain is exactly eaten by the haircut on the fifty bars behind it.
+
+Options, smallest first. (1) Name the cap as a change in profit and give it a different treatment from the Profit bars, so filled green means the total. (2) Show the split once at q = 20, labelled “new bar” and “taller bars”, then merge it before the quantity moves. (3) Carry the split through the roll, green from ATC to P and red from ATC to MC once MC is above ATC, so the 50 hold shows +30 against −30. Leaning toward (1) with (2), and saying the 50 line out loud while the bars on the graph sink.
+
+Open question: whether students should leave knowing that the MR − MC gaps add up to profit plus fixed cost. If yes, the green cap is the start of a true idea and careful labels are enough. If that is further than this class goes, separating the two visually matters more.
+-->
+
 And as I hinted, profit will continue to rise until MR = MC, then it will fall.
 
 {++ At 50 units the next one brings in exactly what it costs. Past 50, every unit costs more to make than it sells for, so each one takes a little profit away. ++}

@@ -98,7 +98,7 @@ class EpisodeE4(Scene):
             r'\begin{minipage}{32em}\sffamily\raggedright '
             r'The history of flue networks started with Fast Flue Inc.\ At one point\\'
             r'they were the only network. They had a marginal revenue of\\'
-            r'$MR = 120 - 2Q$.\end{minipage}', color=CAPTION,
+            r'$MR = 120 - 2Q$ and a marginal cost of $MC = 2Q$.\end{minipage}', color=CAPTION,
         ).scale(EXERCISE_CONTEXT_SCALE)
         warmup_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
         warmup_questions = VGroup(
@@ -114,6 +114,31 @@ class EpisodeE4(Scene):
         self.play(FadeIn(warmup_text), run_time=0.4)
         self.pause('0.warmup')
         self.play(FadeOut(warmup_text), run_time=0.4)
+
+        def exercise_card(hold, name, setup, questions):
+            """Cover the lesson with one of the handout's questions, in its own words, hold, then uncover.
+            `setup` is the muted lead-in; `questions` are the white lines, lettered when there is more than one."""
+            ground = Rectangle(width=config.frame_width, height=config.frame_height,
+                               stroke_width=0, fill_color=BG, fill_opacity=1).set_z_index(100)
+            label = Tex(rf'Exercise E4 \textbar{{}} {name}', color=DEFINITION).scale(EXERCISE_SCALE)
+            label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
+            context = Tex(r'\begin{minipage}{32em}\sffamily\raggedright ' + setup + r'\end{minipage}', color=CAPTION)
+            context.scale(EXERCISE_CONTEXT_SCALE).to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
+            lines = VGroup(*[Tex(r'\begin{minipage}{27em}\raggedright ' + q + r'\end{minipage}', color=INK) for q in questions])
+            lines.scale(EXERCISE_SCALE).arrange(DOWN, buff=EXERCISE_QUESTION_GAP, aligned_edge=LEFT)
+            lettered = len(questions) > 1
+            lines.to_edge(LEFT, buff=EXERCISE_LEFT + (EXERCISE_ITEM_INDENT if lettered else 0)).set_y(
+                context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
+            markers = VGroup(*[Tex(letter, color=INK).scale(EXERCISE_SCALE) for letter in ('a)', 'b)', 'c)')[:len(questions)]]) \
+                if lettered else VGroup()
+            for marker, line in zip(markers, lines):
+                marker.next_to(line, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
+            card = VGroup(label, context, lines, markers).set_z_index(101)
+            self.play(FadeIn(ground), run_time=0.4)
+            self.play(FadeIn(card), run_time=0.4)
+            self.pause(hold)
+            self.play(FadeOut(card), run_time=0.3)
+            self.play(FadeOut(ground), run_time=0.4)
 
         # ---- 0.a · The shared bumper with E4's thesis from the notes header.
         squares = bumper_raster(self)
@@ -609,6 +634,14 @@ class EpisodeE4(Scene):
         self.play(FadeIn(note))
         self.pause('4.b')
 
+        # ---- 4.b.exercise · The handout's Q1, before the best-response algebra answers it.
+        exercise_card('4.b.exercise', 'Q1',
+                      r'Today, after Soot Net joined the market, both networks sell into the same market, '
+                      r'so the demand is $P = 120 - (q_F + q_S)$ and Fast Flue Inc.'"'"r's marginal revenue is '
+                      r'$MR_F = 120 - 2q_F - q_S$.',
+                      [r'What is Fast Flue Inc.'"'"r's Best Response?',
+                       r'If Soot Net sells 40 trips, how many trips does Fast Flue Inc.\ choose to sell?'])
+
         # ---- 5.a.rule · Best responses: back to q_B = 0, then MR_A = MC_A for any q_B.
         self.remove(note)
         self.play(q_b.animate.set_value(0), run_time=1.6, rate_func=smooth)
@@ -808,6 +841,14 @@ class EpisodeE4(Scene):
                   FadeIn(q_b_unknown), FadeIn(q_b_star))
         self.pause('6.a')
 
+        # ---- 6.a.exercise · The handout's Q2, before the solve answers it.
+        exercise_card('6.a.exercise', 'Q2',
+                      r'The best responses of the two networks are below. This market is symmetric.\\[0.7em]'
+                      r'$BR_F: q_F = 30 - \tfrac{1}{4} q_S$\\[0.4em]$BR_S: q_S = 30 - \tfrac{1}{4} q_F$',
+                      ['What is the Nash equilibrium quantity?',
+                       'What is the market price at this equilibrium?',
+                       r'What profit does Fast Flue Inc.\ make in equilibrium?'])
+
         # ---- 6.b.symmetric to 6.b · Solving for the crossing the way it is done by hand, right of the divider. The rows
         # line up on their equals signs; terms are slices of glyphs, and carry() moves copies from one row to the next.
         SOLVE_TOP, SOLVE_STEP = 1.8, 0.74
@@ -912,3 +953,9 @@ class EpisodeE4(Scene):
             note = teaching(text)
             self.play(FadeIn(marks), FadeIn(note))
             self.pause(hold)
+            if hold == '6.c':
+                # ---- 6.c.exercise · The handout's Q3, once the duopoly's price is on the graph.
+                exercise_card('6.c.exercise', 'Q3',
+                              r'With two networks the price of a trip is 72 galleons, and each network'"'"r's marginal '
+                              r'cost at 24 trips is 48 galleons. There are no externalities.',
+                              ['Is this outcome efficient?'])

@@ -496,7 +496,7 @@ parts:
           homework: '2026-11-01'
 
       - checkpoint:
-          reattempt: In Recitation
+          reattempt: Outside recitation, see Canvas
           reattempt_date: ['2026-12-03', '2026-12-04']
           date: '2026-11-02'
           description: >-
@@ -597,7 +597,7 @@ parts:
 
       - checkpoint:
           reattempt: 'Final Exam Period'
-          date: '2026-11-30'
+          date: '2026-12-02'
           description: >-
             Checkpoint E covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
           demo:
