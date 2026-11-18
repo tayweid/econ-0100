@@ -8,7 +8,7 @@ This replaces the October 30 build record, which is in this file's git history. 
 | E1 Costs | `E1_Costs/E1_Animation.py`, `EpisodeE1` | 48 | `E1_Notes.md` | the firm only |
 | E2 Competitive Firms | `E2_Competition/E2_Animation.py`, `EpisodeE2` | 85 | `E2_Notes.md` | shared line, read in thousands |
 | E3 Monopoly | `E3_Monopoly/E3_Animation.py`, `EpisodeE3` | 30 | `E3_Notes.md` | shared line, in units |
-| E4 Duopoly | `E4_Duopoly/E4_Animation.py`, `EpisodeE4` | 26 | `E4_Notes.md` | shared line, in units |
+| E4 Duopoly | `E4_Duopoly/E4_Animation.py`, `EpisodeE4` | 40 | `E4_Notes.md` | shared line, in units |
 | E5 Wrap-Up | `E5_Wrap_Up/E5_Animation.py`, `EpisodeE5` | 30 | `E5_Notes.md` | shared line, in units and in thousands |
 
 Open one in the viewer from the repo root, for example:
@@ -23,7 +23,7 @@ maniml Part_E/E3_Monopoly/E3_Animation.py EpisodeE3
 - **The demand line (E2 to E5):** P = 120 − Q. E2 reads Q in thousands, because many price takers need a large market. E3 and E4 read it in units, because one or two firms with these costs fit a small one. E5 uses both and says so.
 - **E2:** at a price of 100 the firm makes 50 units, ATC 70, profit 1,500. Entry lowers the price to 63.25 and profit to zero. No number E2 displays depends on the slope of demand.
 - **E3:** MR = 120 − 2Q. q\* = 30, P\* = 90, ATC\* = 63.33, profit 800; efficient quantity 40. Policies: tax 20, lump sum 500, subsidy 40, subsidy with a lump sum of 1,800.
-- **E4:** BR_A: q_A = 30 − ¼q_B. Nash equilibrium 24 each, 48 in total, price 72. The monopoly recap is E3's answer.
+- **E4:** opens with the game as a two-by-two matrix (Low 20, the cartel share; High 24, the Nash quantity; profits 200, 152, and 248 against 120). BR_A: q_A = 30 − ¼q_B. Nash equilibrium 24 each, 48 in total, price 72. The cartel holds after it derive the 20: 120 − 2Q = Q, so 40 together at a price of 80. The monopoly recap is E3's answer.
 - **E5:** the same monopoly and duopoly; the competitive section solves E2's example at 100 and rolls to the long run; n sellers give q = 120/(n + 3), shown for n = 1, 2, 3, 7, 17.
 
 ## What is open

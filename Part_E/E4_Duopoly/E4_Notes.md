@@ -12,6 +12,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | --- | --- | --- |
 | Warmup | Exercise E4 Warmup on the board | Retrieve the monopolist’s problem on today’s market. |
 | 0–5 | Bumper (`0.a`), then `1.a.last` and `1.a` | From one seller to a few. |
+| 5–10 | Play `1.b` through `1.l` | The two-by-two game: Low 20 or High 24, best responses, both High. |
 | 5–10 | Play `2.a` through `3.d` | The firm’s problem; the monopoly answer to the warmup. |
 | 10–16 | Resume through `4.b` | A second seller: price and marginal revenue depend on the other firm. |
 | 16–20 | Hide projection; Q1 on board | Choose firm A’s quantity for a given quantity from firm B. |
@@ -19,7 +20,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | 29–33 | Hide projection; Q2 on board | Use a best response; test whether a pair is an equilibrium. |
 | 33–42 | Resume through `6.c` | Nash equilibrium, then the price beside the monopoly’s. |
 | 42–47 | Hide projection; Q3 on board | Is the duopoly outcome efficient? |
-| 47–50 | Resume to `7.a` | Preview more sellers. |
+| 47–50 | Resume to `7.a` | The cartel (`6.d.rule` to `6.e`), where the matrix’s 20 comes from; preview more sellers. |
 
 {++ This table is a proposal. It has not been timed against a run-through. ++}
 
@@ -27,6 +28,10 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 |   |   |
 | --- | --- |
 | Model | Demand P = 120 − Q; every firm MC = 2q. Monopoly: 30 units at 90. BR_A: q_A = 30 − ¼q_B. Nash: 24 each, Q = 48, P\* = 72. |
+| Matrix | 1.b to 1.l, added 2026-11-18, in D1’s diamond layout. Low = 20 is each firm’s share of the 40 units a cartel would make; High = 24 is the Nash quantity. Profits use TC = 1000 + q²: 200 each at Low, 152 each at High, 248 and 120 when one goes High. |
+| Open | The matrix section has no minutes of its own yet: the rows after it in the timing table have not been moved. |
+| Matrix | Both matrix quantities are derived later: the 24 at 6.b, the 20 in the cartel holds 6.d.rule to 6.e (added 2026-11-18). |
+| Open | The cartel’s 40 units is also E3’s efficient quantity for one firm, by coincidence of the numbers; and the cartel (40 at 80) is not E3’s monopoly (30 at 90), because two firms split the output. |
 | Open | Taylor’s prose stops at “best response”. From the monopoly recap on, the paragraphs are Claude’s marked additions. |
 | Open | Paragraphs three and four have sellers setting prices; on screen they choose quantities. |
 | Open | The numbers no longer match the handwritten sheet, which still supplies the steps. |
@@ -84,6 +89,36 @@ And we can see it with Demand. If my competitor is producing very little, I can 
 We’ll talk about how we use the demand curve with this type of problem, but before we do, lets look at a simpler model. Instead of choosing any quantity, we’ll just think about a high and low quantity. And we’ll abstract away from the details of costs and revenue and construct a profit matrix.
 
 If I choose a high
+
+{++ Same market as last time, with two firms in it. Each one makes either 20 units or 24. If we both make 20, the price is 80 and we each earn 200. If we both make 24, the price is 72 and we each earn 152. If only one of us makes 24, that firm earns 248 and the other earns 120. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 1.b | Title Two Sellers; the market and cost in the subtitle. The empty diamond matrix: firm A and firm B, Low: 20 and High: 24. |
+| 1.c | One cell worked from the market: both Low, price 80, profit 200 each. |
+| 1.d | The other three cells fill in. |
+-->
+
+{++ Now it’s Part D again. Hold firm B at Low: I’d rather make 24, since 248 beats 200. Hold firm B at High: I’d still rather make 24, since 152 beats 120. Firm B is the same firm, so it reasons the same way. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 1.e, 1.f | Firm B at Low: the question, then firm A’s best response boxed. |
+| 1.g, 1.h | Firm B at High: the question, then the answer. |
+| 1.i | Firm B’s two best responses, by symmetry. |
+-->
+
+{++ So both choose High, and that’s the Nash equilibrium. Both would earn more at Low, but neither would stay there. Where do 20 and 24 come from? That’s the rest of today: let each firm choose any quantity. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 1.j | Red box on both High: the Nash equilibrium, 152 each. |
+| 1.k | Green box on both Low: 200 each, and each firm would switch. |
+| 1.l | The bridge: “Where do 20 and 24 come from? Let each firm choose any quantity.” |
+-->
 
 Advertising Game
 
@@ -269,6 +304,25 @@ What we want to do is find a way to decide our best response to every decision t
 |   |   |
 | --- | --- |
 | Q3 | Board only. Answer: no. Buyers value the next unit at about \$72 and it costs about \$48, so there is still deadweight loss, less than under monopoly. A third seller adds output and lowers the price. |
+-->
+
+## {++ Cartel ++}
+
+{++ Back to the matrix from the start of class. We found the 24. Where does the 20 come from? Suppose the two firms act as one seller and split the output evenly. Together they face the whole demand curve, so marginal revenue is 120 − 2Q. Each makes half, so the marginal cost of one more unit is Q. Setting them equal gives 40 units, 20 each, at a price of 80. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 6.d.rule | Title Cartel; subtitle “The two firms act as one seller.” The rule for acting as one: MR = 120 − 2Q and MC = Q. |
+| 6.d | A green point on demand between the monopoly’s and the duopoly’s: 40 units, price 80. “That is Low in the matrix.” |
+-->
+
+{++ That’s the cartel, and it’s the Low, Low cell. It doesn’t hold: if the other firm makes 20, my best response is 25, not 20. Each of us wants to sell more, and we end up back at 24. ++}
+
+<!--
+|   |   |
+| --- | --- |
+| 6.e | The best-response rule at 20: 30 − ¼ · 20 = 25. “Each wants to sell more.” |
 -->
 
 ## {++ Next time ++}

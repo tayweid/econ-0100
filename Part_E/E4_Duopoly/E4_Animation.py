@@ -3,6 +3,9 @@
 # Duopoly, following the steps of Taylor's handwritten sheet (E5_Wrap_Up/E5_Handwritten_Three_Markets.pdf) on E2 and E3's market: demand
 # P = 120 - Q, every firm MC = 2q. Monopoly MR = 120 - 2q, q* = 30, P* = 90 (E3's answer); duopoly
 # MR_A = 120 - 2q_A - q_B, BR_A: q_A = 30 - q_B/4, Nash q_A* = q_B* = 24, Q = 48, P* = 72.
+# Section 1.b to 1.l opens with the same game as a two-by-two matrix in D1's diamond layout: each firm makes
+# Low = 20 (its share of the 40 a cartel would make, derived at 6.d) or High = 24 (the Nash quantity), and the profits use the
+# firm's TC = 1000 + q^2: 200 each at Low, 152 each at High, 248 and 120 when only one goes High.
 # (Until 2026-11-11 this used the sheet's own market, P = 200 - Q/2 and MC = 20 + q: 90 and 155, then 72 each and
 # 128. That build is _archive/2026-11-11_consolidation/E4_Animation_handwritten_sheet_market.py.)
 # /// script
@@ -67,6 +70,14 @@ class EpisodeE4(Scene):
         MARKET_Q = 2 * NASH_Q                         # 48
         LAST_Q_B = 120                                # the sweep's end: firm A's best response is 0
         MONOPOLY_P, MARKET_P = demand(MONOPOLY_Q), demand(MARKET_Q)   # 90 and 72, read from demand
+        # The two-by-two game: Low is each firm's share of the cartel's 40 units, High is the Nash quantity.
+        FIXED_COST = 1000
+        LOW_Q, HIGH_Q = 20, NASH_Q
+        profit = lambda q, other: int(demand(q + other) * q - (FIXED_COST + q ** 2))
+        # D1's diamond matrix: square cells turned 45 degrees, text upright. Wider cells for three-digit profits.
+        DIAMOND_ANGLE, CELL_SIDE, CHOICE_FILL_OPACITY = -PI / 4, 1.8, 0.12
+        GAME_CENTER = DOWN * 0.55
+        TABLE_RIGHT, TABLE_UP = (RIGHT + DOWN) / 2 ** 0.5, (RIGHT + UP) / 2 ** 0.5
 
         # The one object factory: the yellow bottom line.
         teaching = lambda text: Tex(text, color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
@@ -124,8 +135,125 @@ class EpisodeE4(Scene):
         self.play(FadeIn(note))
         self.pause('1.a')
 
-        # ---- 2.a · The firm's problem from the sheet, one row per fade.
+        # ---- 1.b · The same market as a two-by-two game: two firms, each makes a low or a high quantity.
         self.play(FadeOut(taxonomy), FadeOut(box), FadeOut(head), FadeOut(note))
+        head = title('Two Sellers')
+        context = subtitle(head, r'Demand: $P = 120 - Q$. Each firm: $TC = 1000 + q^2$.')
+        choices = [LOW_Q, HIGH_Q]
+        payoffs = [[VGroup(Tex(str(profit(a, b)), color=FIRM_A), Tex(r'$|$', color=MUTED).stretch(1.3, 1),
+                           Tex(str(profit(b, a)), color=FIRM_B)).arrange(RIGHT, buff=0.3).scale(0.8)
+                    for b in choices] for a in choices]
+        entries = [cell for row in payoffs for cell in row]
+        matrix = Table(
+            payoffs,
+            h_buff=CELL_SIDE - max(cell.width for cell in entries),
+            v_buff=CELL_SIDE - max(cell.height for cell in entries),
+            include_outer_lines=True,
+            line_config={'color': MUTED, 'stroke_width': 2},
+        ).rotate(DIAMOND_ANGLE).move_to(GAME_CENTER)
+        for cell in entries:
+            cell.rotate(-DIAMOND_ANGLE, about_point=cell.get_center())
+        choice_words = [rf'\textsf{{Low: {LOW_Q}}}', rf'\textsf{{High: {HIGH_Q}}}']
+        row_labels = VGroup(*[Tex(word, color=CAPTION) for word in choice_words]).scale(0.7)
+        col_labels = VGroup(*[Tex(word, color=CAPTION) for word in choice_words]).scale(0.7)
+        for index in range(2):
+            offset = (0.5 - index) * CELL_SIDE
+            row_labels[index].move_to(GAME_CENTER - CELL_SIDE * TABLE_RIGHT + offset * TABLE_UP + LEFT * 0.3, aligned_edge=RIGHT)
+            col_labels[index].move_to(GAME_CENTER - offset * TABLE_RIGHT + CELL_SIDE * TABLE_UP + RIGHT * 0.3, aligned_edge=LEFT)
+        firm_a_word = Tex('Firm A', color=FIRM_A).scale(0.8).move_to([-3.2, 1.75, 0])
+        firm_b_word = Tex('Firm B', color=FIRM_B).scale(0.8).move_to([3.2, 1.75, 0])
+        # Shades and best-response boxes, by the other firm's choice (0 = Low, 1 = High).
+        col_shade = lambda k: Rectangle(width=CELL_SIDE, height=2 * CELL_SIDE, stroke_width=0, fill_color=FIRM_B,
+                                        fill_opacity=CHOICE_FILL_OPACITY).rotate(DIAMOND_ANGLE).move_to(
+            GAME_CENTER + (k - 0.5) * CELL_SIDE * TABLE_RIGHT).set_z_index(-1)
+        row_shade = lambda k: Rectangle(width=2 * CELL_SIDE, height=CELL_SIDE, stroke_width=0, fill_color=FIRM_A,
+                                        fill_opacity=CHOICE_FILL_OPACITY).rotate(DIAMOND_ANGLE).move_to(
+            GAME_CENTER + (0.5 - k) * CELL_SIDE * TABLE_UP).set_z_index(-2)
+        underline = lambda word, color: Underline(word, buff=0.1, stroke_color=color, stroke_width=3, stretch_factor=1)
+        cell_box = lambda cell, color: Rectangle(width=CELL_SIDE - 0.15, height=CELL_SIDE - 0.15, color=color).rotate(
+            DIAMOND_ANGLE).move_to(cell)
+        note = teaching('Instead of any quantity, each firm chooses a low or a high quantity.')
+        self.play(FadeIn(head), FadeIn(context), FadeIn(matrix.get_horizontal_lines()), FadeIn(matrix.get_vertical_lines()))
+        self.play(FadeIn(firm_b_word), FadeIn(col_labels))
+        self.play(FadeIn(firm_a_word), FadeIn(row_labels), FadeIn(note))
+        self.pause('1.b')
+
+        # ---- 1.c · One cell worked from the market: both Low.
+        both_low = LOW_Q + LOW_Q
+        self.remove(note)
+        note = teaching(rf'Both Low: $P = 120 - {both_low} = {demand(both_low)}$, so '
+                        rf'$\pi = {demand(both_low)} \cdot {LOW_Q} - (1000 + {LOW_Q}^2) = {profit(LOW_Q, LOW_Q)}$ each.')
+        self.play(FadeIn(note))
+        self.play(FadeIn(payoffs[0][0]))
+        self.pause('1.c')
+
+        # ---- 1.d · The other three cells, the same way.
+        self.remove(note)
+        note = teaching('Profits: firm A first, firm B second.')
+        self.play(FadeIn(note))
+        for cell in entries[1:]:
+            self.play(FadeIn(cell), run_time=0.4)
+        self.pause('1.d')
+
+        # ---- 1.e · Hold firm B at Low: the question.
+        self.remove(note)
+        note = teaching("If firm B chooses Low, what is firm A's best response?")
+        b_choice, b_shade = underline(col_labels[0], FIRM_B), col_shade(0)
+        self.play(FadeIn(b_choice), FadeIn(b_shade), FadeIn(note))
+        self.pause('1.e')
+
+        # ---- 1.f · The answer.
+        responses = VGroup(SurroundingRectangle(payoffs[1][0][0], buff=0.08, color=FIRM_A))
+        self.remove(note)
+        note = teaching(rf"Firm A's best response is High: ${profit(HIGH_Q, LOW_Q)} > {profit(LOW_Q, LOW_Q)}$.")
+        self.play(FadeIn(responses[0]), FadeIn(note))
+        self.pause('1.f')
+
+        # ---- 1.g · Hold firm B at High: the question.
+        self.remove(note)
+        note = teaching("If firm B chooses High, what is firm A's best response?")
+        self.play(Transform(b_choice, underline(col_labels[1], FIRM_B)), Transform(b_shade, col_shade(1)), FadeIn(note))
+        self.pause('1.g')
+
+        # ---- 1.h · The answer: High again.
+        responses.add(SurroundingRectangle(payoffs[1][1][0], buff=0.08, color=FIRM_A))
+        self.remove(note)
+        note = teaching(rf"Firm A's best response is High again: ${profit(HIGH_Q, HIGH_Q)} > {profit(LOW_Q, HIGH_Q)}$.")
+        self.play(FadeIn(responses[1]), FadeIn(note))
+        self.pause('1.h')
+
+        # ---- 1.i · Firm B, by symmetry: its best response is High in both of firm A's rows.
+        responses.add(SurroundingRectangle(payoffs[0][1][2], buff=0.08, color=FIRM_B),
+                      SurroundingRectangle(payoffs[1][1][2], buff=0.08, color=FIRM_B))
+        self.remove(note)
+        note = teaching("The firms are the same, so firm B's best response is also High.")
+        self.play(FadeOut(b_choice), FadeOut(b_shade), FadeIn(responses[2]), FadeIn(responses[3]), FadeIn(note))
+        self.pause('1.i')
+
+        # ---- 1.j · The Nash equilibrium: both High.
+        nash_cell = cell_box(payoffs[1][1], NASH)
+        self.remove(note)
+        note = teaching(rf'Nash equilibrium: both choose High, and each earns {profit(HIGH_Q, HIGH_Q)}.')
+        self.play(FadeIn(nash_cell), FadeIn(note))
+        self.pause('1.j')
+
+        # ---- 1.k · Both Low pays each firm more, and neither firm stays there.
+        low_cell = cell_box(payoffs[0][0], EFFICIENT)
+        self.remove(note)
+        note = teaching(rf'Both Low pays each {profit(LOW_Q, LOW_Q)}, but each firm would rather switch to High.')
+        self.play(FadeIn(low_cell), FadeIn(note))
+        self.pause('1.k')
+
+        # ---- 1.l · The bridge to the rest of the lesson: any quantity, not two.
+        self.remove(note)
+        note = teaching('Where do 20 and 24 come from? Let each firm choose any quantity.')
+        self.play(FadeIn(note))
+        self.pause('1.l')
+        self.play(*[FadeOut(m) for m in [head, context, matrix.get_horizontal_lines(), matrix.get_vertical_lines(),
+                                         *entries, row_labels, col_labels, firm_a_word, firm_b_word, responses,
+                                         nash_cell, low_cell, note]])
+
+        # ---- 2.a · The firm's problem from the sheet, one row per fade.
         head = title("The Firm's Problem")
         objective = MathTex(r'\max_{q}\ \pi = \mathrm{TR} - \mathrm{TC}')
         step_one = MathTex(r'1.\enspace {{\mathrm{MC}}} = {{\mathrm{MR}}} \rightarrow q^*')
@@ -532,7 +660,39 @@ class EpisodeE4(Scene):
         self.play(FadeIn(note))
         self.pause('6.c')
 
+        # ---- 6.d.rule · The matrix's Low: the two firms acting as one seller, each making half.
+        CARTEL_Q = 2 * LOW_Q                          # 40: 120 - 2Q = Q
+        CARTEL_P = demand(CARTEL_Q)                   # 80
+        self.remove(head, context, note)
+        head = title('Cartel')
+        context = subtitle(head, 'The two firms act as one seller.')
+        note = teaching(r'Acting as one: $\mathrm{MR} = 120 - 2Q$, and with half each, $\mathrm{MC} = 2\cdot\tfrac{Q}{2} = Q$.')
+        self.play(FadeIn(head), FadeIn(context), FadeIn(note))
+        self.pause('6.d.rule')
+
+        # ---- 6.d · 40 units together, 20 each, at a price of 80: between the monopoly's point and the duopoly's.
+        cartel_marks = VGroup(
+            DashedLine(ax.c2p(CARTEL_Q, CARTEL_P), ax.c2p(CARTEL_Q, 0), color=EFFICIENT, stroke_width=GUIDE_WIDTH),
+            DashedLine(ax.c2p(CARTEL_Q, CARTEL_P), ax.c2p(0, CARTEL_P), color=EFFICIENT, stroke_width=GUIDE_WIDTH),
+            Dot(ax.c2p(CARTEL_Q, CARTEL_P), radius=DOT_RADIUS, color=EFFICIENT),
+            # The axes are full here (30 and 48, 90 and 72), so the cartel's numbers ride beside its point.
+            Tex(rf'\textsf{{Cartel: {CARTEL_Q} units, price {CARTEL_P}}}', color=EFFICIENT).scale(0.55).next_to(
+                ax.c2p(CARTEL_Q, CARTEL_P), RIGHT, buff=0.14))
+        cartel_marks.set_z_index(3)
+        self.remove(note)
+        note = teaching(rf'$120 - 2Q = Q$, so $Q = {CARTEL_Q}$: {LOW_Q} each, at a price of {CARTEL_P}. That is Low in the matrix.')
+        self.play(FadeIn(cartel_marks), FadeIn(note))
+        self.pause('6.d')
+
+        # ---- 6.e · Why it does not hold: at 20 each, neither firm is on its best response. (No mark on the
+        # best-response graph: 20 and 24 are too close on its axes to tell apart.)
+        self.remove(note)
+        note = teaching(rf"At {LOW_Q} each, a firm's best response is $30 - \tfrac{{1}}{{4}}\cdot {LOW_Q} = {int(best_a(LOW_Q))}$: each wants to sell more.")
+        self.play(FadeIn(note))
+        self.pause('6.e')
+
         # ---- 7.a · Next time: more sellers, further down the demand curve.
+        self.play(FadeOut(cartel_marks), run_time=0.6)
         self.remove(head, context, note)
         head = title('Next Time')
         along = (ax.c2p(X_END, 0) - ax.c2p(0, TOP_PRICE)) / np.linalg.norm(ax.c2p(X_END, 0) - ax.c2p(0, TOP_PRICE))
