@@ -18,7 +18,7 @@ Flue networks forms a convenient form of communication and transportation for th
 
 ### Warmup | One Flue Network
 
-The history of flue networks started with Fast Flue Inc. At one point they were the only network. They had a marginal revenue of $MR = 120 - 2Q$.
+The history of flue networks started with Fast Flue Inc. At one point they were the only network. They had a marginal revenue of $MR = 120 - 2Q${++ and a marginal cost of $MC = 2Q$++}.
 
 a\) As a monopolist how many trips would Fast Flue Inc. sell?\
 b\) What price would they charge per trip?
