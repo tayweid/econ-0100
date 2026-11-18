@@ -86,6 +86,35 @@ class EpisodeE4(Scene):
         # The one object factory: the yellow bottom line.
         teaching = lambda text: Tex(text, color=DEFINITION).scale(DEFINITION_SCALE).set_x(0).to_edge(DOWN, buff=DEFINITION_BOTTOM)
 
+        # ---- 0.warmup · The handout's warmup (Exercise/Exercise_E4.md, in its words), before the bumper. E3's card:
+        # gold heading, muted setup, white lettered questions.
+        EXERCISE_SCALE, EXERCISE_HEADING_Y, EXERCISE_LEFT = 0.95, 2.95, 1.5
+        EXERCISE_CONTEXT_SCALE, EXERCISE_CONTEXT_TOP = 0.84, 2.25
+        EXERCISE_SETUP_GAP, EXERCISE_ITEM_INDENT = 0.65, 0.8
+        EXERCISE_QUESTION_GAP, EXERCISE_MARKER_GAP = 0.22, 0.18
+        warmup_label = Tex(r'Exercise E4 \textbar{} Warmup', color=DEFINITION).scale(EXERCISE_SCALE)
+        warmup_label.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_HEADING_Y)
+        warmup_context = Tex(
+            r'\begin{minipage}{32em}\sffamily\raggedright '
+            r'The history of flue networks started with Fast Flue Inc.\ At one point\\'
+            r'they were the only network. They had a marginal revenue of\\'
+            r'$MR = 120 - 2Q$.\end{minipage}', color=CAPTION,
+        ).scale(EXERCISE_CONTEXT_SCALE)
+        warmup_context.to_edge(LEFT, buff=EXERCISE_LEFT).set_y(EXERCISE_CONTEXT_TOP, direction=UP)
+        warmup_questions = VGroup(
+            Tex(r'As a monopolist how many trips would Fast Flue Inc.\ sell?', color=INK),
+            Tex('What price would they charge per trip?', color=INK),
+        ).scale(EXERCISE_SCALE).arrange(DOWN, buff=EXERCISE_QUESTION_GAP, aligned_edge=LEFT)
+        warmup_questions.to_edge(LEFT, buff=EXERCISE_LEFT + EXERCISE_ITEM_INDENT).set_y(
+            warmup_context.get_bottom()[1] - EXERCISE_SETUP_GAP, direction=UP)
+        warmup_markers = VGroup(*[Tex(letter, color=INK).scale(EXERCISE_SCALE) for letter in ('a)', 'b)')])
+        for marker, question in zip(warmup_markers, warmup_questions):
+            marker.next_to(question, LEFT, buff=EXERCISE_MARKER_GAP, aligned_edge=UP)
+        warmup_text = VGroup(warmup_label, warmup_context, warmup_questions, warmup_markers)
+        self.play(FadeIn(warmup_text), run_time=0.4)
+        self.pause('0.warmup')
+        self.play(FadeOut(warmup_text), run_time=0.4)
+
         # ---- 0.a · The shared bumper with E4's thesis from the notes header.
         squares = bumper_raster(self)
         flicker(self, squares)

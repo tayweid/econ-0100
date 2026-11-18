@@ -10,7 +10,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 | Minutes | Animation or board work | Purpose |
 | --- | --- | --- |
-| Warmup | Exercise E4 Warmup on the board | Retrieve the monopolist’s problem on today’s market. |
+| Warmup | Card `0.warmup`, from Exercise E4 | Retrieve the monopolist’s problem on today’s market. |
 | 0–5 | Bumper (`0.a`), then `1.a.last` and `1.a` | From one seller to a few. |
 | 5–10 | Play `1.b` through `1.l` | The two-by-two game: Low 20 or High 24, best responses, both High. |
 | 5–10 | Play `2.a.1` through `3.a` | The firm’s five steps, on a competitive firm and then the monopoly (the warmup’s answer); the monopoly handed to the market graph. |
@@ -39,7 +39,7 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 | Open | Paragraphs three and four have sellers setting prices; on screen they choose quantities. |
 | Open | The numbers no longer match the handwritten sheet, which still supplies the steps. |
 | Open | The title says Oligopoly; the folder and the animation say Duopoly. Only the first thesis line is on the bumper. |
-| Open | No opener or exercise cards: the warmup and Q1 to Q3 exist only here. The timing table is untested. |
+| Open | The warmup card (0.warmup) uses Exercise E4’s wording. Q1 to Q3 in these notes are the earlier board versions and do not match the handout’s Q1 and Q2; there are no cards for them. The timing table is untested. |
 | Marked | Everything inside addition marks is Claude’s: the warmup, Q1 to Q3, and the paragraphs for the holds Taylor’s prose does not reach. |
 
 | Past notes | Taylor’s older oligopoly notes are placed at the top of the Oligopoly section, unmarked: the November 15, 2023 outline, the Week 12 introduction, and the older opening on cartels, the high and low quantity game, the advertising game and repeated games. None of that older material is in the animation. |
@@ -48,16 +48,16 @@ margin: {top: 1in, right: 0.5in, bottom: 1in, left: 0.5in}
 
 ## {++ Exercise E4 | Warmup ++}
 
-{++ One seller faces demand $P = 120 - Q$, so $MR = 120 - 2Q$. Marginal cost is $MC = 2q$. ++}
+{++ ~~One seller faces demand $P = 120 - Q$, so $MR = 120 - 2Q$. Marginal cost is $MC = 2q$.~~ ++}
 
-{++ a\) What quantity does the monopolist choose? ++}
+{++ ~~a\) What quantity does the monopolist choose?~~ ++}
 
-{++ b\) What price does it charge? ++}
+{++ ~~b\) What price does it charge?~~ ++}
 
 <!--
 |   |   |
 | --- | --- |
-| Warmup | Board only; this is E3’s problem, and 2.c.q and 2.c.p work it again. Answers: a) 2q = 120 − 2q, so q = 30; b) P = 120 − 30 = 90. |
+| 0.warmup | The warmup card, before the bumper, in the handout’s words (Exercise/Exercise_E4.md, “One Flue Network”): Fast Flue Inc. as the only network with MR = 120 − 2Q; a) how many trips, b) what price per trip. The struck lines above were the earlier board-only version. Answers: a) 2Q = 120 − 2Q, so 30 trips; b) P = 120 − 30 = 90. 2.c.q and 2.c.p work it again. |
 -->
 
 ## Oligopoly
