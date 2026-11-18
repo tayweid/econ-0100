@@ -1,6 +1,6 @@
 # Homework E3 | Gradescope
 
-This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work on paper, taken from the Homework file (the .typ handout).
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work on paper, taken from the Homework file (the Markdown handout).
 
 - Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
@@ -17,27 +17,77 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `The Cauldron Consolidation`
+## Q1: `A Monopoly on Brooms`
 
 ```
 Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.
 
-See Q1 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course page). Enter your answers here.
+See Q1 | A Monopoly on Brooms on the HW E3 handout (the PDF on the course page). Enter your answers here.
 ```
 
-### Q1.1: `a) Price before the consolidation:`
+### Q1.1: `b) Profit-maximizing quantity`
+
+```
+[____](=80+-0)
+```
+
+### Q1.2: `c) Price that sells that quantity`
+
+```
+[____](=37+-0)
+```
+
+### Q1.3: `d) Maximized profit`
+
+```
+[____](=1560+-0)
+```
+
+### Q1.4: `e) Socially efficient quantity`
+
+```
+[____](=120+-0)
+```
+
+### Q1.5: `f) Deadweight loss`
+
+```
+[____](=320+-0)
+```
+
+### Q1.6: `g) SwiftTech does not make the next broom because:`
+
+```
+( ) the broom would cost more to make than any buyer will pay
+(x) selling it means lowering the price on every broom, so it adds less to revenue than to cost
+( ) its average total cost would rise above the price
+```
+
+### Q1.7: `Upload a photo or scan of your two graphs.`
+
+```
+|files|
+```
+
+## Q2: `The Cauldron Consolidation`
+
+```
+See Q2 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course page). Enter your answers here.
+```
+
+### Q2.1: `a) Price before the consolidation:`
 
 ```
 [____](=20+-0)
 ```
 
-### Q1.2: `a) Quantity one firm produces before the consolidation:`
+### Q2.2: `a) Quantity one firm produces before the consolidation:`
 
 ```
 [____](=10+-0)
 ```
 
-### Q1.3: `b) A firm’s profit before the consolidation is:`
+### Q2.3: `b) A firm’s profit before the consolidation is:`
 
 ```
 ( ) Positive
@@ -45,19 +95,19 @@ See Q1 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course 
 ( ) Negative
 ```
 
-### Q1.4: `c) Quantity after the consolidation:`
+### Q2.4: `c) Quantity after the consolidation:`
 
 ```
 [____](=500+-0)
 ```
 
-### Q1.5: `c) Price after the consolidation:`
+### Q2.5: `c) Price after the consolidation:`
 
 ```
 [____](=760+-0)
 ```
 
-### Q1.6: `d) Cauldron Charmers’ profit after the consolidation is:`
+### Q2.6: `d) Cauldron Charmers’ profit after the consolidation is:`
 
 ```
 (x) Positive
@@ -65,27 +115,19 @@ See Q1 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course 
 ( ) Negative
 ```
 
-### Q1.7: `e) Deadweight loss after the consolidation (to the nearest whole number):`
+### Q2.7: `e) Deadweight loss after the consolidation (to the nearest whole number):`
 
 ```
 [____](=20833+-1)
 ```
 
-## Q2: `The History of the Broomstick Market`
+## Q3: `The History of the Broomstick Market`
 
 ```
-See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the selections, then upload your graphs and your story.
+See Q3 | The History of the Broomstick Market on the HW E3 handout. Answer the selections, then upload your graphs and your story.
 ```
 
-### Q2.1: `As other makers begin producing identical brooms, the price of a broom:`
-
-```
-( ) rises
-( ) stays the same
-(x) falls
-```
-
-### Q2.2: `As other makers enter, Shooting Star’s profit:`
+### Q3.1: `As other makers begin producing identical brooms, the price of a broom:`
 
 ```
 ( ) rises
@@ -93,7 +135,15 @@ See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 (x) falls
 ```
 
-### Q2.3: `In the long run, each maker’s economic profit is:`
+### Q3.2: `As other makers enter, Shooting Star’s profit:`
+
+```
+( ) rises
+( ) stays the same
+(x) falls
+```
+
+### Q3.3: `In the long run, each maker’s economic profit is:`
 
 ```
 ( ) positive
@@ -101,7 +151,7 @@ See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 ( ) negative
 ```
 
-### Q2.4: `In the long run, the price equals:`
+### Q3.4: `In the long run, the price equals:`
 
 ```
 ( ) the monopoly price
@@ -109,7 +159,7 @@ See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 ( ) average fixed cost
 ```
 
-### Q2.5: `Upload your graphs and your story.`
+### Q3.5: `Upload your graphs and your story.`
 
 ```
 |files|

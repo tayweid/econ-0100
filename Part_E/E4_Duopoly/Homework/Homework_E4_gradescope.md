@@ -1,6 +1,6 @@
 # Homework E4 | Gradescope
 
-This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work on paper, taken from the Homework file (the .typ handout).
+This is an instructor-facing document to make it easy to enter questions into Gradescope. This sheet is the selection form students submit on Gradescope after completing their work on paper, taken from the Homework file (the Markdown handout).
 
 - Each `## QN` is a parent question. Put its title in the title field and paste its block into the Description box. A parent question can only hold description text; students answer the sub-questions.
 
@@ -17,27 +17,110 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `Wandmaker’s Dilemma`
+## Q1: `Two Broom Makers`
 
 ```
 Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.
 
-See Q1 | Wandmaker’s Dilemma on the HW E4 handout (the PDF on the course page). Enter your answers here.
+See Q1 | Two Broom Makers on the HW E4 handout (the PDF on the course page). Enter your answers here.
 ```
 
-### Q1.1: `a) Nash equilibrium quantity for Olivander:`
+### Q1.1: `a) SwiftTech’s best response:`
+
+```
+( ) $$q_S = 80 - q_C$$
+(x) $$q_S = 80 - \frac{1}{3} q_C$$
+( ) $$q_S = 120 - \frac{1}{2} q_C$$
+( ) $$q_S = 240 - 3 q_C$$
+```
+
+### Q1.2: `b) SwiftTech’s quantity if CloudSweep makes 30 brooms`
+
+```
+[____](=70+-0)
+```
+
+### Q1.3: `d) Nash equilibrium quantity for SwiftTech`
 
 ```
 [____](=60+-0)
 ```
 
-### Q1.2: `b) Nash equilibrium quantity for Gregorovitch:`
+### Q1.4: `d) Nash equilibrium quantity for CloudSweep`
 
 ```
 [____](=60+-0)
 ```
 
-### Q1.3: `c) Nash equilibrium price:`
+### Q1.5: `e) Market price`
+
+```
+[____](=29+-0)
+```
+
+### Q1.6: `f) Each maker’s profit`
+
+```
+[____](=720+-0)
+```
+
+### Q1.7: `g) With two makers the market quantity is:`
+
+```
+(x) larger
+( ) the same
+( ) smaller
+```
+
+### Q1.8: `h) With two makers the price is:`
+
+```
+( ) higher
+( ) the same
+(x) lower
+```
+
+### Q1.9: `i) The two makers’ total profit, compared with SwiftTech’s profit alone, is:`
+
+```
+( ) more
+( ) the same
+(x) less
+```
+
+### Q1.10: `j) The outcome with two makers is:`
+
+```
+( ) efficient, because the price equals marginal cost
+(x) not efficient, because the price is above marginal cost
+( ) not efficient, because the price is below marginal cost
+```
+
+### Q1.11: `c) Upload a photo or scan of your graph of the best responses.`
+
+```
+|files|
+```
+
+## Q2: `Wandmaker’s Dilemma`
+
+```
+See Q2 | Wandmaker’s Dilemma on the HW E4 handout (the PDF on the course page). Enter your answers here.
+```
+
+### Q2.1: `a) Nash equilibrium quantity for Olivander:`
+
+```
+[____](=60+-0)
+```
+
+### Q2.2: `b) Nash equilibrium quantity for Gregorovitch:`
+
+```
+[____](=60+-0)
+```
+
+### Q2.3: `c) Nash equilibrium price:`
 
 ```
 [____](=80+-0)
