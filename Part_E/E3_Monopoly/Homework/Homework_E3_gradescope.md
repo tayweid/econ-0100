@@ -28,19 +28,19 @@ See Q1 | A Monopoly on Brooms on the HW E3 handout (the PDF on the course page).
 ### Q1.1: `b) Profit-maximizing quantity`
 
 ```
-[____](=80+-0)
+[____](=60+-0)
 ```
 
 ### Q1.2: `c) Price that sells that quantity`
 
 ```
-[____](=37+-0)
+[____](=75+-0)
 ```
 
 ### Q1.3: `d) Maximized profit`
 
 ```
-[____](=1560+-0)
+[____](=2600+-0)
 ```
 
 ### Q1.4: `e) Socially efficient quantity`
@@ -52,82 +52,22 @@ See Q1 | A Monopoly on Brooms on the HW E3 handout (the PDF on the course page).
 ### Q1.5: `f) Deadweight loss`
 
 ```
-[____](=320+-0)
+[____](=1800+-0)
 ```
 
-### Q1.6: `g) SwiftTech does not make the next broom because:`
-
-```
-( ) the broom would cost more to make than any buyer will pay
-(x) selling it means lowering the price on every broom, so it adds less to revenue than to cost
-( ) its average total cost would rise above the price
-```
-
-### Q1.7: `Upload a photo or scan of your two graphs.`
+### Q1.6: `Upload a photo or scan of your two graphs.`
 
 ```
 |files|
 ```
 
-## Q2: `The Cauldron Consolidation`
+## Q2: `The History of the Broomstick Market`
 
 ```
-See Q2 | The Cauldron Consolidation on the HW E3 handout (the PDF on the course page). Enter your answers here.
+See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the selections, then upload your graphs and your story.
 ```
 
-### Q2.1: `a) Price before the consolidation:`
-
-```
-[____](=20+-0)
-```
-
-### Q2.2: `a) Quantity one firm produces before the consolidation:`
-
-```
-[____](=10+-0)
-```
-
-### Q2.3: `b) A firm’s profit before the consolidation is:`
-
-```
-( ) Positive
-(x) Zero
-( ) Negative
-```
-
-### Q2.4: `c) Quantity after the consolidation:`
-
-```
-[____](=500+-0)
-```
-
-### Q2.5: `c) Price after the consolidation:`
-
-```
-[____](=760+-0)
-```
-
-### Q2.6: `d) Cauldron Charmers’ profit after the consolidation is:`
-
-```
-(x) Positive
-( ) Zero
-( ) Negative
-```
-
-### Q2.7: `e) Deadweight loss after the consolidation (to the nearest whole number):`
-
-```
-[____](=20833+-1)
-```
-
-## Q3: `The History of the Broomstick Market`
-
-```
-See Q3 | The History of the Broomstick Market on the HW E3 handout. Answer the selections, then upload your graphs and your story.
-```
-
-### Q3.1: `As other makers begin producing identical brooms, the price of a broom:`
+### Q2.1: `As other makers begin producing identical brooms, the price of a broom:`
 
 ```
 ( ) rises
@@ -135,7 +75,7 @@ See Q3 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 (x) falls
 ```
 
-### Q3.2: `As other makers enter, Shooting Star’s profit:`
+### Q2.2: `As other makers enter, CloudSweep’s profit:`
 
 ```
 ( ) rises
@@ -143,7 +83,7 @@ See Q3 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 (x) falls
 ```
 
-### Q3.3: `In the long run, each maker’s economic profit is:`
+### Q2.3: `In the long run, each maker’s economic profit is:`
 
 ```
 ( ) positive
@@ -151,7 +91,7 @@ See Q3 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 ( ) negative
 ```
 
-### Q3.4: `In the long run, the price equals:`
+### Q2.4: `In the long run, the price equals:`
 
 ```
 ( ) the monopoly price
@@ -159,7 +99,7 @@ See Q3 | The History of the Broomstick Market on the HW E3 handout. Answer the s
 ( ) average fixed cost
 ```
 
-### Q3.5: `Upload your graphs and your story.`
+### Q2.5: `Upload your graphs and your story.`
 
 ```
 |files|
