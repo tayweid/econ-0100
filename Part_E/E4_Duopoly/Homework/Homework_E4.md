@@ -18,7 +18,7 @@ $$
 P = 135 - (q_C + q_R)
 $$
 
-where $q_C$ and $q_R$ are the quantities for CloudSweep its rival’s. The marginal revenues for both are:
+where $q_C$ and $q_R$ are the quantities for CloudSweep and its rival. The marginal revenues for both are:
 
 :::: {.columns gutter=0.5em}
 
@@ -56,9 +56,9 @@ d\) Find the Nash equilibrium quantity for each maker.
 The graph shows the market’s demand and marginal cost.
 
 e\) Find and graph the market quantity.\
-d\) Find and graph the market price.\
-f\) Find each maker’s profit.\
-g\) Find and shade the deadweight loss.
+f\) Find and graph the market price.\
+g\) Find each maker’s profit.\
+h\) Find and shade the deadweight loss.
 
 :::
 

@@ -22,7 +22,7 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ```
 Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.
 
-See Q1 | Two Broom Makers on the HW E4 handout (the PDF on the course page). Enter your answers here.
+See Q1 | Two Broom Makers on the Homework E4 handout (the PDF on the course page). Enter your answers here.
 ```
 
 ### Q1.1: `a) CloudSweep’s best response:`
@@ -34,7 +34,7 @@ See Q1 | Two Broom Makers on the HW E4 handout (the PDF on the course page). Ent
 ( ) $$q_C = 40 - \frac{1}{3} q_R$$
 ```
 
-### Q1.2: `b) CloudSweep’s quantity if the rival makes 20 brooms`
+### Q1.2: `b) CloudSweep’s quantity if the rival makes 20`
 
 ```
 [____](=50+-0)
@@ -46,25 +46,31 @@ See Q1 | Two Broom Makers on the HW E4 handout (the PDF on the course page). Ent
 [____](=40+-0)
 ```
 
-### Q1.4: `e) Market price`
+### Q1.4: `e) Market quantity`
+
+```
+[____](=80+-0)
+```
+
+### Q1.5: `f) Market price`
 
 ```
 [____](=55+-0)
 ```
 
-### Q1.5: `f) Each maker’s profit`
+### Q1.6: `g) Each maker’s profit`
 
 ```
 [____](=600+-0)
 ```
 
-### Q1.6: `g) Deadweight loss`
+### Q1.7: `h) Deadweight loss`
 
 ```
 [____](=800+-0)
 ```
 
-### Q1.7: `Upload a photo or scan of your two graphs.`
+### Q1.8: `Upload a photo or scan of your two graphs.`
 
 ```
 |files|

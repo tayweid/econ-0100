@@ -17,12 +17,12 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 - Free response: `|____|` gives a multi-paragraph text box. Any question with one is graded by hand.
 - File uploads: `|files|` lets students upload any file type (a PNG of a figure, a notebook, a PDF). Uploads can be viewed and graded but not annotated.
 
-## Q1: `A Monopoly on Brooms`
+## Q1: `The History of the Broomstick Market`
 
 ```
 Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.
 
-See Q1 | A Monopoly on Brooms on the HW E3 handout (the PDF on the course page). Enter your answers here.
+See Q1 | The History of the Broomstick Market on the Homework E3 handout (the PDF on the course page). Enter your answers here.
 ```
 
 ### Q1.1: `b) Profit-maximizing quantity`
@@ -55,16 +55,16 @@ See Q1 | A Monopoly on Brooms on the HW E3 handout (the PDF on the course page).
 [____](=1800+-0)
 ```
 
-### Q1.6: `Upload a photo or scan of your two graphs.`
+### Q1.6: `Upload a photo or scan of your graph.`
 
 ```
 |files|
 ```
 
-## Q2: `The History of the Broomstick Market`
+## Q2: `A Changing Broomstick Market`
 
 ```
-See Q2 | The History of the Broomstick Market on the HW E3 handout. Answer the selections, then upload your graphs and your story.
+See Q2 | A Changing Broomstick Market on the Homework E3 handout. Answer the selections, then upload your graphs and your story.
 ```
 
 ### Q2.1: `As other makers begin producing identical brooms, the price of a broom:`

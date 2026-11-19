@@ -18,7 +18,7 @@ $$
 D: P = 135 - Q \qquad\qquad MR = 135 - 2Q
 $$
 
-where $Q$ is the number of brooms it makes in a week. Each graph shows demand and marginal cost.
+where $Q$ is the number of brooms it makes in a week. The graph shows demand and marginal cost.
 
 :::: {.columns gutter=0.5em}
 
@@ -45,9 +45,9 @@ f\) Find and shade the deadweight loss.
 
 \newpage
 
-## Q2 | A Monopoly on Brooms
+## Q2 | A Changing Broomstick Market
 
-As technological secrets for manufacturing broomsticks began disseminating among the wizarding world, many broomstick makers began producing broomsticks with identical handling and acceleration characteristics to CouldSweep’s brooms. Today, few if any new broomstick makers had opened.
+As technological secrets for manufacturing broomsticks began disseminating among the wizarding world, many broomstick makers began producing broomsticks with identical handling and acceleration characteristics to CloudSweep’s brooms. Today, few if any new broomstick makers had opened.
 
 Using a few graphs to illustrate your answer, tell the story of the evolution of the broomstick market from it’s inception to the present. Be sure to finish in a long run equilibrium.
 
@@ -80,10 +80,6 @@ Using a few graphs to illustrate your answer, tell the story of the evolution of
 #set page(width: auto, height: auto, margin: 2pt)
 #set text(font: "New Computer Modern", size: 10pt)
 #fig-text.update(1.3)
-#graph(140, 140, w: 250pt, h: 190pt, xlabel: [$Q$], ylabel: [Coins], xticks: (20, 40, 60, 80, 100, 120, 140), yticks: (20, 40, 60, 80, 100, 120, 140),
-  seg(0, 135, 135, 0, color: black, label: [$D$], at: (30, 119)),
-  seg(0, 15, 140, 15, color: black, label: [$M C$], at: (126, 22)))
-#pagebreak()
 #graph(140, 140, w: 250pt, h: 190pt, xlabel: [$Q$], ylabel: [Coins], xticks: (20, 40, 60, 80, 100, 120, 140), yticks: (20, 40, 60, 80, 100, 120, 140),
   seg(0, 135, 135, 0, color: black, label: [$D$], at: (30, 119)),
   seg(0, 15, 140, 15, color: black, label: [$M C$], at: (126, 22)))
