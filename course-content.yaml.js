@@ -603,6 +603,7 @@ parts:
             - name: Overview E
               where: home
               video: UIXf362W-rU
+              links: [{label: Notes, file: Part_E/E5_Wrap_Up/E5_Handwritten_Three_Markets.pdf}]
           demo:
             links: [{label: Demo E, file: Part_E/E_Demo/Demo_E.pdf}, {label: Solutions, file: Part_E/E_Demo/Demo_E_sols.pdf}]
           extras_tiles: true
