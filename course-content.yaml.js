@@ -513,6 +513,7 @@ parts:
     tagline: Market power leads to inefficient markets.
     introduction: >-
       In Part A through Part D we’ve explored why we would want to coordinate and how to make coordination possible. Markets can organize economic activity efficiently in some contexts and fail in other contexts. In Part E build a model of sellers that shows how markets are not efficient when sellers have Market Power, the ability to impact the market for their own gain. 
+    links: [{label: Skillsheet, file: Part_E/E_Skillsheet.pdf}]
     sections:
       - block: E1
         folder: Part_E/E1_Costs
@@ -574,7 +575,7 @@ parts:
           recitation:
             - '2026-11-19'
             - '2026-11-20'
-          homework: '2026-11-22'
+          homework: '2026-11-29'
 
       - block: 'E4'
         folder: Part_E/E4_Duopoly
@@ -593,7 +594,7 @@ parts:
           recitation:
             - '2026-11-19'
             - '2026-11-20'
-          homework: '2026-11-22'
+          homework: '2026-11-29'
 
       - checkpoint:
           reattempt: 'Final Exam Period'
