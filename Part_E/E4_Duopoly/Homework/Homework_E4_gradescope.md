@@ -22,107 +22,107 @@ Gradescope parses the code directly. Every input field must sit on its own line 
 ```
 Treat Homework as a tool to highlight what you don’t yet understand. Grading is by submission, so there’s no additional points for turning in perfect answers you don’t fully understand. Use your areas of confusion to guide your study. Work in a group and ask others for help.
 
-See Q1 | Two Broom Makers on the HW E4 handout (the PDF on the course page). Enter your answers here.
+See Q1 | Two Broom Makers on the Homework E4 handout (the PDF on the course page). Enter your answers here.
 ```
 
-### Q1.1: `a) SwiftTech’s best response:`
+### Q1.1: `a) CloudSweep’s best response:`
 
 ```
-( ) $$q_S = 80 - q_C$$
-(x) $$q_S = 80 - \frac{1}{3} q_C$$
-( ) $$q_S = 120 - \frac{1}{2} q_C$$
-( ) $$q_S = 240 - 3 q_C$$
+( ) $$q_C = 60 - q_R$$
+(x) $$q_C = 60 - \frac{1}{2} q_R$$
+( ) $$q_C = 120 - 2 q_R$$
+( ) $$q_C = 40 - \frac{1}{3} q_R$$
 ```
 
-### Q1.2: `b) SwiftTech’s quantity if CloudSweep makes 30 brooms`
+### Q1.2: `b) CloudSweep’s quantity if the rival makes 20`
 
 ```
-[____](=70+-0)
+[____](=50+-0)
 ```
 
-### Q1.3: `d) Nash equilibrium quantity for SwiftTech`
+### Q1.3: `d) Nash equilibrium quantity for each maker`
 
 ```
-[____](=60+-0)
+[____](=40+-0)
 ```
 
-### Q1.4: `d) Nash equilibrium quantity for CloudSweep`
-
-```
-[____](=60+-0)
-```
-
-### Q1.5: `e) Market price`
-
-```
-[____](=29+-0)
-```
-
-### Q1.6: `f) Each maker’s profit`
-
-```
-[____](=720+-0)
-```
-
-### Q1.7: `g) With two makers the market quantity is:`
-
-```
-(x) larger
-( ) the same
-( ) smaller
-```
-
-### Q1.8: `h) With two makers the price is:`
-
-```
-( ) higher
-( ) the same
-(x) lower
-```
-
-### Q1.9: `i) The two makers’ total profit, compared with SwiftTech’s profit alone, is:`
-
-```
-( ) more
-( ) the same
-(x) less
-```
-
-### Q1.10: `j) The outcome with two makers is:`
-
-```
-( ) efficient, because the price equals marginal cost
-(x) not efficient, because the price is above marginal cost
-( ) not efficient, because the price is below marginal cost
-```
-
-### Q1.11: `c) Upload a photo or scan of your graph of the best responses.`
-
-```
-|files|
-```
-
-## Q2: `Wandmaker’s Dilemma`
-
-```
-See Q2 | Wandmaker’s Dilemma on the HW E4 handout (the PDF on the course page). Enter your answers here.
-```
-
-### Q2.1: `a) Nash equilibrium quantity for Olivander:`
-
-```
-[____](=60+-0)
-```
-
-### Q2.2: `b) Nash equilibrium quantity for Gregorovitch:`
-
-```
-[____](=60+-0)
-```
-
-### Q2.3: `c) Nash equilibrium price:`
+### Q1.4: `e) Market quantity`
 
 ```
 [____](=80+-0)
 ```
 
+### Q1.5: `f) Market price`
+
+```
+[____](=55+-0)
+```
+
+### Q1.6: `g) Each maker’s profit`
+
+```
+[____](=600+-0)
+```
+
+### Q1.7: `h) Deadweight loss`
+
+```
+[____](=800+-0)
+```
+
+### Q1.8: `Upload a photo or scan of your two graphs.`
+
+```
+|files|
+```
+
+## Q2: `Three Market Structures`
+
+```
+See Q2 | Three Market Structures on the Homework E4 handout. Enter the values from your table here. The monopoly row comes from Homework E3.
+```
+
+### Q2.1: `Monopoly: market quantity`
+
+```
+[____](=60+-0)
+```
+
+### Q2.2: `Monopoly: price`
+
+```
+[____](=75+-0)
+```
+
+### Q2.3: `Monopoly: deadweight loss`
+
+```
+[____](=1800+-0)
+```
+
+### Q2.4: `Duopoly: market quantity`
+
+```
+[____](=80+-0)
+```
+
+### Q2.5: `Competition: market quantity`
+
+```
+[____](=120+-0)
+```
+
+### Q2.6: `Competition: price`
+
+```
+[____](=15+-0)
+```
+
+### Q2.7: `As the number of sellers grows:`
+
+```
+( ) quantity, price and deadweight loss all rise
+(x) quantity rises, price falls and deadweight loss falls
+( ) quantity falls, price rises and deadweight loss rises
+( ) quantity rises, price falls and deadweight loss rises
+```
