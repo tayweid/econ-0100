@@ -535,7 +535,7 @@ parts:
         extras:
           - name: Vignette E1 Long
             description: Extra practice. Every cost curve and policy question on its own graph.
-            links: [{label: Vignette E1 Long, file: Part_E/E1_Costs/Vignette/Vignette_E1_Long.pdf}]
+            links: [{label: Vignette E1 Long, file: Part_E/E1_Costs/Vignette/Vignette_E1_Long.pdf}, {label: Solutions, file: Part_E/E1_Costs/Vignette/Vignette_E1_Long_sols.pdf}]
 
       - block: E2
         folder: Part_E/E2_Competition
@@ -550,8 +550,6 @@ parts:
           topic: Perfect competition
         vignette:
           description: "*Competitive firms practice problems*"
-        homework:
-          due: 'I''m posting solutions here before the due date to help you out if you get stuck. :) Use the homework to identify where you get stuck. Only then reference the solutions. Your work is graded on completion, so submitting perfect answers you do not understand doesn''t help your grade. '
         dates:
           class: '2026-11-09'
           recitation: '2026-11-13'
