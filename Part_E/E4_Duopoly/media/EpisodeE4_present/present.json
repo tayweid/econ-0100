@@ -1,0 +1,1898 @@
+{
+ "format": 1,
+ "scene": "EpisodeE4",
+ "fps": 15,
+ "duration": 116.19999999999851,
+ "resolution": [
+  2160,
+  1080
+ ],
+ "source": {
+  "file": "E4_Animation.py",
+  "mtime": 1795020651.505515,
+  "hash": "b7c0b87c3389922ae9e474c5acd3b535"
+ },
+ "pause_anchored": true,
+ "checkpoints": [
+  {
+   "index": 0,
+   "time": 0.0,
+   "line": null,
+   "unit": -1,
+   "chip_unit": -1,
+   "name": null,
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 1,
+   "time": 0.39999999999999997,
+   "line": 114,
+   "unit": 0,
+   "chip_unit": 1,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 2,
+   "time": 0.39999999999999997,
+   "line": 115,
+   "unit": 1,
+   "chip_unit": 1,
+   "name": "0.warmup",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 3,
+   "time": 0.7999999999999999,
+   "line": 116,
+   "unit": 2,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 4,
+   "time": 1.7999999999999998,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 5,
+   "time": 1.9333333333333331,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 6,
+   "time": 2.466666666666667,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 7,
+   "time": 3.000000000000001,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 8,
+   "time": 3.533333333333335,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 9,
+   "time": 4.933333333333332,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 10,
+   "time": 5.066666666666665,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 11,
+   "time": 5.599999999999996,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 12,
+   "time": 6.1333333333333275,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 13,
+   "time": 6.666666666666659,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 14,
+   "time": 8.066666666666654,
+   "line": 149,
+   "unit": 3,
+   "chip_unit": 4,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 15,
+   "time": 8.066666666666654,
+   "line": 150,
+   "unit": 4,
+   "chip_unit": 4,
+   "name": "0.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 16,
+   "time": 9.06666666666665,
+   "line": 151,
+   "unit": 5,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 17,
+   "time": 10.066666666666647,
+   "line": 176,
+   "unit": 6,
+   "chip_unit": 7,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 18,
+   "time": 10.066666666666647,
+   "line": 177,
+   "unit": 7,
+   "chip_unit": 7,
+   "name": "1.a.last",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 19,
+   "time": 10.866666666666644,
+   "line": 183,
+   "unit": 8,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 20,
+   "time": 11.86666666666664,
+   "line": 184,
+   "unit": 9,
+   "chip_unit": 10,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 21,
+   "time": 11.86666666666664,
+   "line": 185,
+   "unit": 10,
+   "chip_unit": 10,
+   "name": "1.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 22,
+   "time": 12.866666666666637,
+   "line": 188,
+   "unit": 11,
+   "chip_unit": 15,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 23,
+   "time": 13.866666666666633,
+   "line": 226,
+   "unit": 12,
+   "chip_unit": 15,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 24,
+   "time": 14.86666666666663,
+   "line": 227,
+   "unit": 13,
+   "chip_unit": 15,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 25,
+   "time": 15.866666666666626,
+   "line": 228,
+   "unit": 14,
+   "chip_unit": 15,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 26,
+   "time": 15.866666666666626,
+   "line": 229,
+   "unit": 15,
+   "chip_unit": 15,
+   "name": "1.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 27,
+   "time": 16.866666666666625,
+   "line": 235,
+   "unit": 16,
+   "chip_unit": 18,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 28,
+   "time": 17.86666666666662,
+   "line": 236,
+   "unit": 17,
+   "chip_unit": 18,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 29,
+   "time": 17.86666666666662,
+   "line": 237,
+   "unit": 18,
+   "chip_unit": 18,
+   "name": "1.c",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 30,
+   "time": 18.866666666666617,
+   "line": 247,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 31,
+   "time": 18.866666666666617,
+   "line": 247,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": "1.d.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 32,
+   "time": 19.866666666666614,
+   "line": 247,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 33,
+   "time": 19.866666666666614,
+   "line": 247,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": "1.d.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 34,
+   "time": 20.86666666666661,
+   "line": 247,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 35,
+   "time": 20.86666666666661,
+   "line": 247,
+   "unit": 19,
+   "chip_unit": 19,
+   "name": "1.d",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 36,
+   "time": 21.866666666666607,
+   "line": 253,
+   "unit": 20,
+   "chip_unit": 21,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 37,
+   "time": 21.866666666666607,
+   "line": 254,
+   "unit": 21,
+   "chip_unit": 21,
+   "name": "1.e",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 38,
+   "time": 22.866666666666603,
+   "line": 260,
+   "unit": 22,
+   "chip_unit": 23,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 39,
+   "time": 22.866666666666603,
+   "line": 261,
+   "unit": 23,
+   "chip_unit": 23,
+   "name": "1.f",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 40,
+   "time": 23.8666666666666,
+   "line": 266,
+   "unit": 24,
+   "chip_unit": 25,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 41,
+   "time": 23.8666666666666,
+   "line": 267,
+   "unit": 25,
+   "chip_unit": 25,
+   "name": "1.g",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 42,
+   "time": 24.866666666666596,
+   "line": 273,
+   "unit": 26,
+   "chip_unit": 27,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 43,
+   "time": 24.866666666666596,
+   "line": 274,
+   "unit": 27,
+   "chip_unit": 27,
+   "name": "1.h",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 44,
+   "time": 25.866666666666593,
+   "line": 281,
+   "unit": 28,
+   "chip_unit": 29,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 45,
+   "time": 25.866666666666593,
+   "line": 282,
+   "unit": 29,
+   "chip_unit": 29,
+   "name": "1.i",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 46,
+   "time": 26.86666666666659,
+   "line": 288,
+   "unit": 30,
+   "chip_unit": 31,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 47,
+   "time": 26.86666666666659,
+   "line": 289,
+   "unit": 31,
+   "chip_unit": 31,
+   "name": "1.j",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 48,
+   "time": 27.866666666666585,
+   "line": 295,
+   "unit": 32,
+   "chip_unit": 33,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 49,
+   "time": 27.866666666666585,
+   "line": 296,
+   "unit": 33,
+   "chip_unit": 33,
+   "name": "1.k",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 50,
+   "time": 28.866666666666582,
+   "line": 301,
+   "unit": 34,
+   "chip_unit": 35,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 51,
+   "time": 28.866666666666582,
+   "line": 302,
+   "unit": 35,
+   "chip_unit": 35,
+   "name": "1.l",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 52,
+   "time": 29.86666666666658,
+   "line": 354,
+   "unit": 36,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 53,
+   "time": 30.866666666666575,
+   "line": 415,
+   "unit": 37,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 54,
+   "time": 31.466666666666573,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 55,
+   "time": 31.466666666666573,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": "2.a.1",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 56,
+   "time": 32.06666666666657,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 57,
+   "time": 32.06666666666657,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": "2.a.2",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 58,
+   "time": 32.6666666666666,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 59,
+   "time": 32.6666666666666,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": "2.a.3",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 60,
+   "time": 33.26666666666663,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 61,
+   "time": 33.26666666666663,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": "2.a.4",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 62,
+   "time": 33.86666666666666,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 63,
+   "time": 33.86666666666666,
+   "line": 418,
+   "unit": 38,
+   "chip_unit": 38,
+   "name": "2.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 64,
+   "time": 34.86666666666671,
+   "line": 426,
+   "unit": 39,
+   "chip_unit": 41,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 65,
+   "time": 35.86666666666676,
+   "line": 427,
+   "unit": 40,
+   "chip_unit": 41,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 66,
+   "time": 35.86666666666676,
+   "line": 428,
+   "unit": 41,
+   "chip_unit": 41,
+   "name": "2.b.setup",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 67,
+   "time": 36.86666666666681,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 68,
+   "time": 37.86666666666686,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 69,
+   "time": 37.86666666666686,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.b.q",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 70,
+   "time": 38.86666666666691,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 71,
+   "time": 39.86666666666696,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 72,
+   "time": 39.86666666666696,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.b.p",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 73,
+   "time": 40.86666666666701,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 74,
+   "time": 41.86666666666706,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 75,
+   "time": 41.86666666666706,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.b.atc",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 76,
+   "time": 42.86666666666711,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 77,
+   "time": 43.86666666666716,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 78,
+   "time": 43.86666666666716,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.b.profit",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 79,
+   "time": 44.86666666666721,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 80,
+   "time": 44.86666666666721,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 81,
+   "time": 45.40000000000057,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 82,
+   "time": 46.40000000000062,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 83,
+   "time": 47.40000000000067,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 84,
+   "time": 47.40000000000067,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.c.setup",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 85,
+   "time": 48.400000000000716,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 86,
+   "time": 49.400000000000766,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 87,
+   "time": 49.400000000000766,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.c.q",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 88,
+   "time": 50.400000000000816,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 89,
+   "time": 51.400000000000865,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 90,
+   "time": 51.400000000000865,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.c.p",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 91,
+   "time": 52.400000000000915,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 92,
+   "time": 53.400000000000965,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 93,
+   "time": 53.400000000000965,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.c.atc",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 94,
+   "time": 54.400000000001015,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 95,
+   "time": 55.400000000001064,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 96,
+   "time": 55.400000000001064,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.c.profit",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 97,
+   "time": 56.400000000001114,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 98,
+   "time": 56.400000000001114,
+   "line": 470,
+   "unit": 42,
+   "chip_unit": 42,
+   "name": "2.c",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 99,
+   "time": 57.400000000001164,
+   "line": 505,
+   "unit": 43,
+   "chip_unit": 45,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 100,
+   "time": 58.400000000001214,
+   "line": 510,
+   "unit": 44,
+   "chip_unit": 45,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 101,
+   "time": 58.400000000001214,
+   "line": 511,
+   "unit": 45,
+   "chip_unit": 45,
+   "name": "3.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 102,
+   "time": 59.40000000000126,
+   "line": 615,
+   "unit": 46,
+   "chip_unit": 48,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 103,
+   "time": 60.40000000000131,
+   "line": 617,
+   "unit": 47,
+   "chip_unit": 48,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 104,
+   "time": 60.40000000000131,
+   "line": 619,
+   "unit": 48,
+   "chip_unit": 48,
+   "name": "4.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 105,
+   "time": 62.800000000001425,
+   "line": 625,
+   "unit": 49,
+   "chip_unit": 51,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 106,
+   "time": 63.800000000001475,
+   "line": 627,
+   "unit": 50,
+   "chip_unit": 51,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 107,
+   "time": 63.800000000001475,
+   "line": 628,
+   "unit": 51,
+   "chip_unit": 51,
+   "name": "4.b.twenty_four",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 108,
+   "time": 66.20000000000135,
+   "line": 632,
+   "unit": 52,
+   "chip_unit": 54,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 109,
+   "time": 67.2000000000013,
+   "line": 634,
+   "unit": 53,
+   "chip_unit": 54,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 110,
+   "time": 67.2000000000013,
+   "line": 635,
+   "unit": 54,
+   "chip_unit": 54,
+   "name": "4.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 111,
+   "time": 67.60000000000127,
+   "line": 647,
+   "unit": 55,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 112,
+   "time": 68.00000000000125,
+   "line": 647,
+   "unit": 55,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 113,
+   "time": 68.00000000000125,
+   "line": 647,
+   "unit": 55,
+   "chip_unit": 59,
+   "name": "4.b.exercise",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 114,
+   "time": 68.33333333333456,
+   "line": 647,
+   "unit": 55,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 115,
+   "time": 68.73333333333454,
+   "line": 647,
+   "unit": 55,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 116,
+   "time": 70.33333333333445,
+   "line": 647,
+   "unit": 55,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 117,
+   "time": 71.3333333333344,
+   "line": 674,
+   "unit": 56,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 118,
+   "time": 72.33333333333434,
+   "line": 698,
+   "unit": 57,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 119,
+   "time": 73.53333333333427,
+   "line": 699,
+   "unit": 58,
+   "chip_unit": 59,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 120,
+   "time": 73.53333333333427,
+   "line": 700,
+   "unit": 59,
+   "chip_unit": 59,
+   "name": "5.a.rule",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 121,
+   "time": 74.93333333333419,
+   "line": 706,
+   "unit": 60,
+   "chip_unit": 61,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 122,
+   "time": 74.93333333333419,
+   "line": 707,
+   "unit": 61,
+   "chip_unit": 61,
+   "name": "5.a.substitute",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 123,
+   "time": 76.13333333333412,
+   "line": 711,
+   "unit": 62,
+   "chip_unit": 62,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 124,
+   "time": 76.13333333333412,
+   "line": 711,
+   "unit": 62,
+   "chip_unit": 62,
+   "name": "5.a.simplify",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 125,
+   "time": 77.33333333333405,
+   "line": 715,
+   "unit": 63,
+   "chip_unit": 63,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 126,
+   "time": 77.33333333333405,
+   "line": 715,
+   "unit": 63,
+   "chip_unit": 63,
+   "name": "5.a.solved",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 127,
+   "time": 78.333333333334,
+   "line": 719,
+   "unit": 64,
+   "chip_unit": 65,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 128,
+   "time": 78.333333333334,
+   "line": 720,
+   "unit": 65,
+   "chip_unit": 65,
+   "name": "5.a.depends",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 129,
+   "time": 78.93333333333396,
+   "line": 723,
+   "unit": 66,
+   "chip_unit": 67,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 130,
+   "time": 78.93333333333396,
+   "line": 724,
+   "unit": 67,
+   "chip_unit": 67,
+   "name": "5.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 131,
+   "time": 80.1333333333339,
+   "line": 753,
+   "unit": 68,
+   "chip_unit": 70,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 132,
+   "time": 80.93333333333385,
+   "line": 756,
+   "unit": 69,
+   "chip_unit": 70,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 133,
+   "time": 80.93333333333385,
+   "line": 757,
+   "unit": 70,
+   "chip_unit": 70,
+   "name": "5.b.graph",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 134,
+   "time": 81.93333333333379,
+   "line": 761,
+   "unit": 71,
+   "chip_unit": 72,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 135,
+   "time": 81.93333333333379,
+   "line": 762,
+   "unit": 72,
+   "chip_unit": 72,
+   "name": "5.b.zero",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 136,
+   "time": 83.93333333333368,
+   "line": 765,
+   "unit": 73,
+   "chip_unit": 74,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 137,
+   "time": 83.93333333333368,
+   "line": 766,
+   "unit": 74,
+   "chip_unit": 74,
+   "name": "5.b.part",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 138,
+   "time": 86.73333333333352,
+   "line": 769,
+   "unit": 75,
+   "chip_unit": 77,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 139,
+   "time": 87.73333333333346,
+   "line": 775,
+   "unit": 76,
+   "chip_unit": 77,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 140,
+   "time": 87.73333333333346,
+   "line": 776,
+   "unit": 77,
+   "chip_unit": 77,
+   "name": "5.b.trace",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 141,
+   "time": 88.33333333333343,
+   "line": 797,
+   "unit": 78,
+   "chip_unit": 81,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 142,
+   "time": 89.33333333333337,
+   "line": 798,
+   "unit": 79,
+   "chip_unit": 81,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 143,
+   "time": 90.33333333333331,
+   "line": 799,
+   "unit": 80,
+   "chip_unit": 81,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 144,
+   "time": 90.33333333333331,
+   "line": 800,
+   "unit": 81,
+   "chip_unit": 81,
+   "name": "5.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 145,
+   "time": 91.33333333333326,
+   "line": 809,
+   "unit": 82,
+   "chip_unit": 85,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 146,
+   "time": 92.73333333333318,
+   "line": 810,
+   "unit": 83,
+   "chip_unit": 85,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 147,
+   "time": 93.73333333333312,
+   "line": 811,
+   "unit": 84,
+   "chip_unit": 85,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 148,
+   "time": 93.73333333333312,
+   "line": 812,
+   "unit": 85,
+   "chip_unit": 85,
+   "name": "5.c",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 149,
+   "time": 94.73333333333306,
+   "line": 838,
+   "unit": 86,
+   "chip_unit": 89,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 150,
+   "time": 95.73333333333301,
+   "line": 839,
+   "unit": 87,
+   "chip_unit": 89,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 151,
+   "time": 96.73333333333295,
+   "line": 841,
+   "unit": 88,
+   "chip_unit": 89,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 152,
+   "time": 96.73333333333295,
+   "line": 842,
+   "unit": 89,
+   "chip_unit": 89,
+   "name": "6.a",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 153,
+   "time": 97.13333333333293,
+   "line": 875,
+   "unit": 90,
+   "chip_unit": 92,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 154,
+   "time": 97.5333333333329,
+   "line": 875,
+   "unit": 90,
+   "chip_unit": 92,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 155,
+   "time": 97.5333333333329,
+   "line": 875,
+   "unit": 90,
+   "chip_unit": 92,
+   "name": "6.a.exercise",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 156,
+   "time": 97.86666666666622,
+   "line": 875,
+   "unit": 90,
+   "chip_unit": 92,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 157,
+   "time": 98.2666666666662,
+   "line": 875,
+   "unit": 90,
+   "chip_unit": 92,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 158,
+   "time": 99.26666666666614,
+   "line": 875,
+   "unit": 90,
+   "chip_unit": 92,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 159,
+   "time": 100.26666666666608,
+   "line": 876,
+   "unit": 91,
+   "chip_unit": 92,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 160,
+   "time": 100.26666666666608,
+   "line": 877,
+   "unit": 92,
+   "chip_unit": 92,
+   "name": "6.b.symmetric",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 161,
+   "time": 101.46666666666601,
+   "line": 880,
+   "unit": 93,
+   "chip_unit": 94,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 162,
+   "time": 101.46666666666601,
+   "line": 881,
+   "unit": 94,
+   "chip_unit": 94,
+   "name": "6.b.equation",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 163,
+   "time": 102.66666666666595,
+   "line": 884,
+   "unit": 95,
+   "chip_unit": 96,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 164,
+   "time": 102.66666666666595,
+   "line": 887,
+   "unit": 96,
+   "chip_unit": 96,
+   "name": "6.b.swap",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 165,
+   "time": 103.86666666666588,
+   "line": 896,
+   "unit": 97,
+   "chip_unit": 97,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 166,
+   "time": 105.06666666666581,
+   "line": 896,
+   "unit": 97,
+   "chip_unit": 97,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 167,
+   "time": 105.06666666666581,
+   "line": 896,
+   "unit": 97,
+   "chip_unit": 97,
+   "name": "6.b.collect",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 168,
+   "time": 106.26666666666574,
+   "line": 901,
+   "unit": 98,
+   "chip_unit": 98,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 169,
+   "time": 106.26666666666574,
+   "line": 901,
+   "unit": 98,
+   "chip_unit": 98,
+   "name": "6.b.solve",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 170,
+   "time": 107.46666666666567,
+   "line": 906,
+   "unit": 99,
+   "chip_unit": 99,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 171,
+   "time": 107.46666666666567,
+   "line": 906,
+   "unit": 99,
+   "chip_unit": 99,
+   "name": "6.b.both",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 172,
+   "time": 108.8666666666656,
+   "line": 910,
+   "unit": 100,
+   "chip_unit": 101,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 173,
+   "time": 108.8666666666656,
+   "line": 911,
+   "unit": 101,
+   "chip_unit": 101,
+   "name": "6.b",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 174,
+   "time": 109.46666666666556,
+   "line": 921,
+   "unit": 102,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 175,
+   "time": 110.66666666666549,
+   "line": 946,
+   "unit": 103,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 176,
+   "time": 111.66666666666544,
+   "line": 948,
+   "unit": 104,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 177,
+   "time": 112.66666666666538,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 178,
+   "time": 112.66666666666538,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": "6.c.monopoly",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 179,
+   "time": 113.66666666666532,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 180,
+   "time": 113.66666666666532,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": "6.c",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 181,
+   "time": 114.0666666666653,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 182,
+   "time": 114.46666666666528,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 183,
+   "time": 114.46666666666528,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": "6.c.exercise",
+   "stop": true,
+   "loop": false
+  },
+  {
+   "index": 184,
+   "time": 114.79999999999859,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 185,
+   "time": 115.19999999999857,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 186,
+   "time": 116.19999999999851,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": null,
+   "stop": false,
+   "loop": false
+  },
+  {
+   "index": 187,
+   "time": 116.19999999999851,
+   "line": 961,
+   "unit": 105,
+   "chip_unit": 105,
+   "name": "7.a",
+   "stop": true,
+   "loop": false
+  }
+ ]
+}
