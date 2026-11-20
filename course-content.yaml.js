@@ -599,15 +599,26 @@ parts:
           date: '2026-12-02'
           description: >-
             Checkpoint E covers everything in Part E. You will begin to learn that if you understand the concepts and do the work in the Vignettes, Homework, and Demo, you're going to be in good shape on the Checkpoint.
-          demo:
-            video: UZDvSTNbv0w
-          extras:
-            - name: 'Overview E'
-              description: Market PowerThree Market StructuresCompetive firms, oligopolistic firms, and monopolies make the same decisions across their different contexts, showing how market power breaks the efficiency of markets.
+          steps:
+            - name: Overview E
+              where: home
               video: UIXf362W-rU
+          demo:
+            links: [{label: Demo E, file: Part_E/E_Demo/Demo_E.pdf}, {label: Solutions, file: Part_E/E_Demo/Demo_E_sols.pdf}]
+          extras_tiles: true
+          extras:
+            - name: Demo E1
+              video: UZDvSTNbv0w
+              links: [{label: Demo E1, file: Part_E/E_Demo/Demo_E1.pdf}, {label: Solutions, file: Part_E/E_Demo/Demo_E1_sols.pdf}]
+            - name: Demo E2
+              video: JpAfyhAxiVE
+              links: [{label: Demo E2, file: Part_E/E_Demo/Demo_E2.pdf}, {label: Solutions, file: Part_E/E_Demo/Demo_E2_sols.pdf}]
             - name: Demo E3
               video: jwxiRNAPBLc
-              files: E3
+              links: [{label: Demo E3, file: Part_E/E_Demo/Demo_E3.pdf}, {label: Solutions, file: Part_E/E_Demo/Demo_E3_sols.pdf}]
+            - name: Demo E4
+              video: SIwcx2GgCFE
+              links: [{label: Demo E4, file: Part_E/E_Demo/Demo_E4.pdf}, {label: Solutions, file: Part_E/E_Demo/Demo_E4_sols.pdf}]
 
 
   F:
